@@ -1,38 +1,29 @@
 ﻿using System;
-using RightToAskClient.Data;
 using RightToAskClient.Models;
 using Xamarin.Forms;
 
 namespace RightToAskClient.Views
 {
-    public partial class TodoItemPage : ContentPage
-    {
-        public TodoItemPage()
-        {
-            InitializeComponent();
-        }
+	public partial class TodoItemPage : ContentPage
+	{
+		bool isNewItem;
 
-        async void OnSaveClicked(object sender, EventArgs e)
-        {
-            var todoItem = (TodoItem)BindingContext;
-            TodoItemDatabase database = await TodoItemDatabase.Instance;
-            await database.SaveItemAsync(todoItem);
-            await Navigation.PopAsync();
-        }
+		public TodoItemPage (bool isNew = false)
+		{
+			InitializeComponent ();
+			isNewItem = isNew;
+		}
 
-        /*
-        async void OnDeleteClicked(object sender, EventArgs e)
-        {
-            var todoItem = (TodoItem)BindingContext;
-            TodoItemDatabase database = await TodoItemDatabase.Instance;
-            await database.DeleteItemAsync(todoItem);
-            await Navigation.PopAsync();
-        }
-        */
+		async void OnSaveButtonClicked (object sender, EventArgs e)
+		{
+			var newRegistration = (Registration)BindingContext;
+			await App.RegItemManager.SaveTaskAsync (newRegistration, isNewItem);
+			await Navigation.PopAsync ();
+		}
 
-        async void OnCancelClicked(object sender, EventArgs e)
-        {
-            await Navigation.PopAsync();
-        }
-    }
+		async void OnCancelButtonClicked (object sender, EventArgs e)
+		{
+			await Navigation.PopAsync ();
+		}
+	}
 }

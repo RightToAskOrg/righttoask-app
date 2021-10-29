@@ -4,11 +4,11 @@ using RightToAskClient.Models;
 
 namespace RightToAskClient.Data
 {
-	public class TodoItemManager
+	public class ItemManager
 	{
 		IRestService restService;
 
-		public TodoItemManager (IRestService service)
+		public ItemManager (IRestService service)
 		{
 			restService = service;
 		}
