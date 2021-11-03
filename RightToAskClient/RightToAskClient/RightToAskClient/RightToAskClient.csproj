@@ -15,6 +15,7 @@
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.1874" />
     <PackageReference Include="sqlite-net-pcl" Version="1.7.335" />
     <PackageReference Include="System.Text.Json" Version="5.0.1" />
+    <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,5 +28,8 @@
     <Folder Include="Data\" />
     <Folder Include="Models\" />
     <Folder Include="Views\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Models\ServerPubKey.cs" />
   </ItemGroup>
 </Project>

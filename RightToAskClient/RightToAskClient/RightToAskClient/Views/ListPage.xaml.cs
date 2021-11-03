@@ -1,4 +1,5 @@
 ﻿using System;
+using RightToAskClient.CryptoUtils;
 using RightToAskClient.Models;
 using Xamarin.Forms;
 
@@ -9,6 +10,28 @@ namespace RightToAskClient.Views
 		public ListPage ()
 		{
 			InitializeComponent ();
+			DoCryptoSigningTest();
+		}
+
+		private void DoCryptoSigningTest()
+		{
+			string message = TestMessage.Text;
+			var sigService = new SignatureService();
+
+			var signature = sigService.SignMessage(message);
+			TestSig.Text = signature.ToString();
+
+			if (sigService.VerifySignature(message, signature, Constants.myPublicKey))
+			//if (sigService.VerifySignature("NotTheMessage", signature, Constants.myPublicKey))
+			{
+
+				SigningTestOutcome.Text = "Successful verification";
+			}
+			else
+			{
+				
+				SigningTestOutcome.Text = "Failed verification";
+			}
 		}
 
 		protected async override void OnAppearing ()

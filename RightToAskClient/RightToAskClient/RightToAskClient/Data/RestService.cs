@@ -71,8 +71,8 @@ namespace RightToAskClient.Data
                 if (response.IsSuccessStatusCode)
                 {
                     string responseContent = await response.Content.ReadAsStringAsync();
-                    Result<string> httpResponse =
-                        JsonSerializer.Deserialize<Result<string>>(responseContent, serializerOptions);
+                    Result<SignedString> httpResponse =
+                        JsonSerializer.Deserialize<Result<SignedString>>(responseContent, serializerOptions);
 
                     if (String.IsNullOrEmpty(httpResponse.Err))
                     {
@@ -91,6 +91,7 @@ namespace RightToAskClient.Data
             catch (Exception ex)
             {
                 Debug.WriteLine(@"\tERROR {0}", ex.Message);
+                Result<string> httpResponse = new Result<string>() { Err = "Couldn't connect to server." };
             }
         }
 

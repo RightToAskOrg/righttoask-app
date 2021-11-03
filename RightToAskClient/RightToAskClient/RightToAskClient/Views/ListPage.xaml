@@ -12,20 +12,27 @@
             </ToolbarItem.IconImageSource>
         </ToolbarItem>
     </ContentPage.ToolbarItems>
-    <ListView x:Name="listView" 
-              Margin="20" 
-              ItemSelected="OnItemSelected">
-        <ListView.ItemTemplate>
-            <DataTemplate>
-                <ViewCell>
-                    <StackLayout Padding="20,0,0,0" 
-                                 HorizontalOptions="StartAndExpand"
-                                 Orientation="Horizontal">
-                        <Label Text="{Binding }" 
-                               VerticalTextAlignment="Center" />
-                    </StackLayout>
-                </ViewCell>
-            </DataTemplate>
-        </ListView.ItemTemplate>
-    </ListView>
+    <StackLayout Orientation="Vertical">
+        <Label Text="Signing Test" />
+        <Label x:Name="TestMessage" Text="This is the test message" />
+        <Label x:Name="TestSig"/>
+        <Label x:Name="SigningTestOutcome" />
+        <ListView x:Name="listView"
+                  Margin="20"
+                  ItemSelected="OnItemSelected">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Padding="20,0,0,0"
+                                     HorizontalOptions="StartAndExpand"
+                                     Orientation="Horizontal">
+                            <Label Text="{Binding }"
+                                   VerticalTextAlignment="Center" />
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        
+    </StackLayout>
 </ContentPage>
