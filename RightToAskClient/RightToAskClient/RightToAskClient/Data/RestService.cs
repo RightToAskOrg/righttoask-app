@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using RightToAskClient.CryptoUtils;
 using RightToAskClient.Models;
 
 namespace RightToAskClient.Data
@@ -48,10 +49,12 @@ namespace RightToAskClient.Data
             return Items;
         }
 
-        public async Task SaveTodoItemAsync(Registration item, bool isNewItem = false)
+        public async Task<Result<bool>> SaveTodoItemAsync(Registration item, bool isNewItem = false)
         {
             Uri uri = new Uri(string.Format(Constants.RegUrl, string.Empty));
-
+            bool verificationTest;
+            Result<bool> successTest;
+            
             try
             {
                 string json = JsonSerializer.Serialize<Registration>(item, serializerOptions);
@@ -77,23 +80,31 @@ namespace RightToAskClient.Data
                     if (String.IsNullOrEmpty(httpResponse.Err))
                     {
                         Debug.WriteLine(@"\tTodoItem successfully saved.");
+                        verificationTest = httpResponse.Ok.verifies(SignatureService.serverPublicKey);
+                        successTest = new Result<bool>{Ok = verificationTest};
                     }
                     else
                     {
                         // TODO: Give the user a sensible message - this is where we'll learn, for example,
                         // if the UID is already taken.
                         Debug.WriteLine(@"\tError saving TodoItem:"+httpResponse.Err);
+                        successTest = new Result<bool> {Err = httpResponse.Err }; 
                     }
                     
                 }
-
+                else
+                {
+                    successTest = new Result<bool> { Err = "Error connecting to server."};
+                }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(@"\tERROR {0}", ex.Message);
+                successTest = new Result<bool> { Err = "Error connecting to server."};
                 Result<string> httpResponse = new Result<string>() { Err = "Couldn't connect to server." };
             }
+            
+            return successTest;
         }
-
     }
 }

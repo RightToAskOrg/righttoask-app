@@ -10,30 +10,10 @@ namespace RightToAskClient.Views
 		public ListPage ()
 		{
 			InitializeComponent ();
-			DoCryptoSigningTest();
+			// DoCryptoSigningTest();
 		}
 
-		private void DoCryptoSigningTest()
-		{
-			string message = TestMessage.Text;
-			var sigService = new SignatureService();
-
-			var signature = sigService.SignMessage(message);
-			TestSig.Text = signature.ToString();
-
-			if (sigService.VerifySignature(message, signature, Constants.myPublicKey))
-			//if (sigService.VerifySignature("NotTheMessage", signature, Constants.myPublicKey))
-			{
-
-				SigningTestOutcome.Text = "Successful verification";
-			}
-			else
-			{
-				
-				SigningTestOutcome.Text = "Failed verification";
-			}
-		}
-
+	
 		protected async override void OnAppearing ()
 		{
 			base.OnAppearing ();
@@ -44,6 +24,7 @@ namespace RightToAskClient.Views
 			} 
 			else if (String.IsNullOrEmpty(httpResponse.Err))
 			{
+				
 				listView.ItemsSource = httpResponse.Ok;
 			}
 			else
@@ -51,6 +32,8 @@ namespace RightToAskClient.Views
 				listView.Header = "Error reaching server: "+httpResponse.Err;
 			}
 		}
+
+	
 
 		async void OnAddItemClicked (object sender, EventArgs e)
 		{
@@ -75,5 +58,27 @@ namespace RightToAskClient.Views
                 BindingContext = reg 
             });
 		}
+		
+		// TODO: Put into a proper unit test
+		/*
+		private void DoCryptoSigningTest()
+		{
+			string message = TestMessage.Text;
+
+			var signature = SignatureService.SignMessage(message);
+			TestSig.Text = signature.ToString();
+
+			if (SignatureService.VerifySignature(message, signature, SignatureService.myPublicKey))
+				// if (sigService.VerifySignature("NotTheMessage", signature, Constants.myPublicKey))
+			{
+				SigningTestOutcome.Text = "Successful verification";
+			}
+			else
+			{
+				SigningTestOutcome.Text = "Failed verification";
+			}
+		}
+		*/
+
 	}
 }

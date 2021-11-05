@@ -16,7 +16,7 @@
 		<Label Text="State" />
 		<Entry Text="{Binding Path=state}"
                Placeholder="Enter state" />
-		<Label Text="Done" />
+		<Label x:Name="reportLabel" Text="Done" />
 		<Button Text="Save" 
                 Clicked="OnSaveButtonClicked" />
 		<Button Text="Cancel" 

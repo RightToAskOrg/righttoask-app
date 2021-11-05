@@ -1,6 +1,8 @@
 using System;
 using System.Security.Cryptography;
 using System.Text;
+using Org.BouncyCastle.Crypto.Parameters;
+using RightToAskClient.CryptoUtils;
 
 namespace RightToAskClient.Models
 {
@@ -11,12 +13,12 @@ namespace RightToAskClient.Models
         public string signature { get; set; }
 
         // TODO Fix this 
-        public bool verifies()
+        public bool verifies(Ed25519PublicKeyParameters pubKey)
         {
             byte[] messagebytes = Encoding.UTF8.GetBytes(message);
             byte[] signaturebytes = Convert.FromBase64String(signature);
 
-            return true;
+            return SignatureService.VerifySignature(message, signaturebytes, pubKey);
             // PUBKEYTBD.VerifyData (messagebytes, signaturebytes, HashAlgorithmName.SHA512);
         }
     }
