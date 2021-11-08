@@ -8,6 +8,6 @@ namespace RightToAskClient.Data
 	{
 		Task<Result<List<string>>> RefreshDataAsync ();
 
-		Task<Result<bool>> SaveTodoItemAsync (Registration item, bool isNewItem);
+		Task<Result<bool>> SaveTodoItemAsync (Registration item);
 	}
 }

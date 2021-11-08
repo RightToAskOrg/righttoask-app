@@ -19,11 +19,12 @@ namespace RightToAskClient.CryptoUtils
         private static AsymmetricCipherKeyPair myKeyPair = MakeMyKey();
         public static Ed25519PublicKeyParameters myPublicKey  = (Ed25519PublicKeyParameters) myKeyPair.Public;
         public static Ed25519Signer mySigner = MakeMySigner();
-        private static string SPKI = "MCowBQYDK2VwAyEAOJ/tBn4rOrOebgbICBi3i2oflO0hqz0D8daItDZ53vI=";
-        private static string SPKIInHex = "389fed067e2b3ab39e6e06c80818b78b6a1f94ed21ab3d03f1d688b43679def2";
+        // private static string SPKI = "MCowBQYDK2VwAyEAOJ/tBn4rOrOebgbICBi3i2oflO0hqz0D8daItDZ53vI=";
+        private static string SPKIRaw = "OJ/tBn4rOrOebgbICBi3i2oflO0hqz0D8daItDZ53vI=";
+        // private static string SPKIInHex = "389fed067e2b3ab39e6e06c80818b78b6a1f94ed21ab3d03f1d688b43679def2";
 
         public static Ed25519PublicKeyParameters serverPublicKey =
-            new Ed25519PublicKeyParameters(Convert.FromBase64String(SPKI));
+            new Ed25519PublicKeyParameters(Convert.FromBase64String(SPKIRaw));
         
         // TODO at the moment, this just generates a new key every time you run the app.
         private static AsymmetricCipherKeyPair MakeMyKey()

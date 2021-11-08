@@ -20,7 +20,7 @@ namespace RightToAskClient.Views
 		{
 			var newRegistration = (Registration)BindingContext;
 			Result<bool> httpResponse;
-			httpResponse = (await App.RegItemManager.SaveTaskAsync (newRegistration, isNewItem));
+			httpResponse = (await App.RegItemManager.SaveTaskAsync (newRegistration));
 			if(String.IsNullOrEmpty(httpResponse.Err))
 			{
 				if (httpResponse.Ok)

@@ -18,9 +18,9 @@ namespace RightToAskClient.Data
 			return restService.RefreshDataAsync ();	
 		}
 
-		public Task<Result<bool>> SaveTaskAsync (Registration item, bool isNewItem = false)
+		public Task<Result<bool>> SaveTaskAsync (Registration item)
 		{
-			return restService.SaveTodoItemAsync (item, isNewItem);
+			return restService.SaveTodoItemAsync (item);
 		}
 	}
 }
