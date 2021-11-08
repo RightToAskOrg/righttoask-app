@@ -15,7 +15,11 @@ namespace RightToAskClient.Data
         HttpClient client;
         JsonSerializerOptions serializerOptions;
 
-        public Result<List<string>> Items { get; private set; }
+        public Result<List<string>> Items 
+        { 
+            get; 
+            private set; 
+        } = new Result<List<string>>();
 
         public RestService()
         {
@@ -29,24 +33,40 @@ namespace RightToAskClient.Data
 
         public async Task<Result<List<string>>> RefreshDataAsync()
         {
-            Items = new Result<List<string>>();
 
-            Uri uri = new Uri(string.Format(Constants.UserListUrl, string.Empty));
+            Uri uri = new Uri(Constants.UserListUrl);
             try
             {
                 HttpResponseMessage response = await client.GetAsync(uri);
-                if (response.IsSuccessStatusCode)
+                
+                if (response is null || !response.IsSuccessStatusCode)
                 {
-                    string content = await response.Content.ReadAsStringAsync();
-                    Items = JsonSerializer.Deserialize<Result<List<string>>>(content, serializerOptions);
+                    return new Result<List<string>>
+                    {
+                        Err = "Error connecting to server."+response?.StatusCode+response?.ReasonPhrase
+                    };
                 }
+                
+                string content = await response.Content.ReadAsStringAsync();
+                var deserialisedResponse = JsonSerializer.Deserialize<Result<List<string>>>(content, serializerOptions);
+
+                if (deserialisedResponse is null)
+                {
+                    return new Result<List<string>>
+                    {
+                        Err = "Error deserialising server response."
+                    };
+                }
+                
+                Items = deserialisedResponse; 
+                return Items;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(@"\tERROR {0}", ex.Message);
+                return new Result<List<string>>()
+                    { Err = "Error connecting to server." + ex.Message };
             }
-
-            return Items;
         }
 
         public async Task<Result<bool>> SaveTodoItemAsync(Registration item)
@@ -55,12 +75,12 @@ namespace RightToAskClient.Data
             
             try
             {
-                string json = JsonSerializer.Serialize<Registration>(item, serializerOptions);
+                string json = JsonSerializer.Serialize(item, serializerOptions);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 HttpResponseMessage response = await client.PostAsync(uri, content);
 
-                if (response == null || !response.IsSuccessStatusCode)
+                if (response is null || !response.IsSuccessStatusCode)
                 {
                     return new Result<bool>
                     {
@@ -69,10 +89,10 @@ namespace RightToAskClient.Data
                 }
                 
                 string responseContent = await response.Content.ReadAsStringAsync();
-                Result<SignedString> httpResponse =
+                Result<SignedString>? httpResponse =
                     JsonSerializer.Deserialize<Result<SignedString>>(responseContent, serializerOptions);
 
-                if (httpResponse==null || !String.IsNullOrEmpty(httpResponse.Err))
+                if (httpResponse is null || !String.IsNullOrEmpty(httpResponse.Err))
                 {
                     Debug.WriteLine(@"\tError saving TodoItem:"+httpResponse?.Err);
                     return new Result<bool> {Err = "Error response from server:"+httpResponse?.Err }; 
@@ -82,13 +102,13 @@ namespace RightToAskClient.Data
                 
                 return new Result<bool>
                 {
-                    Ok = httpResponse.Ok.verifies(SignatureService.serverPublicKey)
+                    Ok = httpResponse.Ok.verifies(SignatureService.ServerPublicKey)
                 };
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(@"\tERROR {0}", ex.Message);
-                return new Result<bool> { Err = "Error connecting to server."};
+                return new Result<bool> { Err = "Error connecting to server."+ex.Message};
             }
         }
     }
