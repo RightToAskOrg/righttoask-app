@@ -1,11 +1,10 @@
 ﻿using System;
-using RightToAskClient.CryptoUtils;
 using RightToAskClient.Models;
 using Xamarin.Forms;
 
 namespace RightToAskClient.Views
 {
-	public partial class ListPage : ContentPage
+	public partial class ListPage
 	{
 		public ListPage ()
 		{
@@ -17,12 +16,12 @@ namespace RightToAskClient.Views
 		protected async override void OnAppearing ()
 		{
 			base.OnAppearing ();
-			var httpResponse = (await App.RegItemManager.GetTasksAsync ());
-			if (httpResponse == null)
-			{
-				listView.Header = "Error reaching server. Check your Internet connection.";
-			} 
-			else if (String.IsNullOrEmpty(httpResponse.Err))
+			var httpResponse = await App.RegItemManager.GetTasksAsync ();
+			// if (httpResponse == null)
+			//{
+			// 	listView.Header = "Error reaching server. Check your Internet connection.";
+			// } 
+			if (String.IsNullOrEmpty(httpResponse.Err))
 			{
 				
 				listView.ItemsSource = httpResponse.Ok;
@@ -37,7 +36,7 @@ namespace RightToAskClient.Views
 
 		async void OnAddItemClicked (object sender, EventArgs e)
 		{
-            await Navigation.PushAsync(new TodoItemPage(true)
+            await Navigation.PushAsync(new TodoItemPage()
             {
                 BindingContext = new Registration() 
                 {
