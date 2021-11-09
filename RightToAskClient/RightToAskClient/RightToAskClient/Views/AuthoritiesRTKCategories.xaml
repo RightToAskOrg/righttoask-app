@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="RightToAskClient.AuthoritiesRTKCategories"
+			 x:Name="TitleBar" >
+	<ContentPage.Content>
+    <StackLayout Orientation="Vertical">
+			<Button StyleClass="NormalButton" Text="Search" Clicked="OnSearchClicked"   />  
+      <Label Text="Federal"/>
+      <TableView x:Name ="FedAuthoritiesTable" />
+      <!--
+      <ul>
+      <li>
+        <a href="/body?tag=agriculture">Agriculture</a>
+      </li>
+      <li>
+        <a href="/body?tag=attorney_general">Attorney-General</a>
+      </li>
+      <li>
+        <a href="/body?tag=communications">Communications</a>
+      </li>
+      <li>
+        <a href="/body?tag=defence">Defence</a>
+      </li>
+      <li>
+        <a href="/body?tag=education_and_training">Education and Training</a>
+      </li>
+      <li>
+        <a href="/body?tag=employment">Employment</a>
+      </li>
+      <li>
+        <a href="/body?tag=environment">Environment</a>
+      </li>
+      <li>
+        <a href="/body?tag=finance">Finance</a>
+      </li>
+      <li>
+        <a href="/body?tag=foreign_affairs_and_trade">Foreign Affairs and Trade</a>
+      </li>
+      <li>
+        <a href="/body?tag=health">Health</a>
+      </li>
+      <li>
+        <a href="/body?tag=immigration_and_border_protection">Immigration &amp; Border Protection</a>
+      </li>
+      <li>
+        <a href="/body?tag=industry_and_science">Industry and Science</a>
+      </li>
+      <li>
+        <a href="/body?tag=infrastructure_and_regional_development">Infrastructure and Regional Development</a>
+      </li>
+      <li>
+        <a href="/body?tag=prime_minister">Prime Minister</a>
+      </li>
+      <li>
+        <a href="/body?tag=social_services">Social Services</a>
+      </li>
+      <li>
+        <a href="/body?tag=treasury">Treasury</a>
+      </li>
+      <li>
+        <a href="/body?tag=veterans_affairs">Veterans&#39; Affairs</a>
+      </li>
+      <li>
+        <a href="/body?tag=federal">All Federal authorities</a>
+      </li>
+        </ul>
+        -->
+      <!--
+      <h3>State and Territory</h3>
+      <ul>
+      <li>
+        <a href="/body?tag=ACT_state">ACT</a>
+      </li>
+      <li>
+        <a href="/body?tag=NSW_state">New South Wales</a>
+      </li>
+      <li>
+        <a href="/body?tag=NT_state">Northern Territory</a>
+      </li>
+      <li>
+        <a href="/body?tag=QLD_state">Queensland</a>
+      </li>
+      <li>
+        <a href="/body?tag=SA_state">South Australia</a>
+      </li>
+      <li>
+        <a href="/body?tag=TAS_state">Tasmania</a>
+      </li>
+      <li>
+        <a href="/body?tag=VIC_state">Victoria</a>
+      </li>
+      <li>
+        <a href="/body?tag=WA_state">Western Australia</a>
+      </li>
+        </ul>	
+        -->
+    </StackLayout>
+	</ContentPage.Content>
+</ContentPage>

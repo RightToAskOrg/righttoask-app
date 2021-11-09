@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Create Account"
+             x:Class="RightToAskClient.RegisterPage1">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="You need to create an account to publish questions or vote." />
+            <!-- The helpful little message about the pseudonym is a perfect thing to put in a little ?-box. -->
+            <Label x:Name="registerNameInstructions" Text="Enter your name. You can choose a pseudonym but your MP is more likely to listen if you use your real name." />
+            <Editor x:Name="registerNameButton" Placeholder="name" Completed="OnRegisterNameFieldCompleted" StyleClass="NormalEditor" HorizontalOptions="Center"/>
+            <Label Text="Enter your email. This optional for standard accounts but is used to verify MP and Organisational accounts." />
+            <Editor x:Name="registerEmailButton" Placeholder="email (optional)" Completed="OnRegisterEmailFieldCompleted" StyleClass="NormalEditor" HorizontalOptions="Center"/>
+			<StackLayout Orientation="Vertical" VerticalOptions="Center">
+				<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+					<Button x:Name="registerCitizenButton" Clicked="OnRegisterCitizenButtonClicked" Text="Complete Account Creation" StyleClass="DoneButton" HorizontalOptions="Center"/>
+				</StackLayout>
+			</StackLayout>
+			<StackLayout Orientation="Horizontal" VerticalOptions="Center">
+				<Button x:Name="registerMPButton" Text="Register MP Account" Clicked="OnRegisterMPButtonClicked"  StyleClass="DoneButton" HorizontalOptions="Center"/>
+				<Button x:Name="registerOrgButton" Text="Register Organisational Account" Clicked="OnRegisterOrgButtonClicked"  StyleClass="DoneButton" HorizontalOptions="Center"/>
+			</StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

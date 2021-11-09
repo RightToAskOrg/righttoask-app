@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:RightToAskClient.Views;assembly=RightToAskClient"
+             xmlns:rightToAskClient="clr-namespace:RightToAskClient;assembly=RightToAskClient"
+             xmlns:controls="clr-namespace:RightToAskClient.Controls;assembly=RightToAskClient"
+             x:Class="RightToAskClient.QuestionDetailPage">
+    <ContentPage.Content>
+		<StackLayout x:Name="WholePage" HorizontalOptions="Center" VerticalOptions="Start">
+			<Label x:Name="QuestionDetailView" Text="{Binding QuestionText}" FontSize="Medium"  x:DataType="rightToAskClient:Question" />
+			<Label x:Name="Suggester" Text="{Binding QuestionSuggester, StringFormat='Written by: {0:F0}'}" x:DataType="rightToAskClient:Question" />
+			<StackLayout  Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+				<Label x:Name="Votes" Text="{Binding UpVotes,StringFormat='UpVotes: {0}'}"  x:DataType="rightToAskClient:Question" />
+				<!--
+				<Button x:Name="UpVoteButton" Text="Upvote" StyleClass="NormalButton" Clicked="UpVoteButton_OnClicked" HorizontalOptions="Center"/>
+				-->
+				<controls:ToggleButton x:Name="UpVoteButton" BindingContext="{Binding}" x:DataType="rightToAskClient:Question" />
+			</StackLayout>
+			<StackLayout x:Name="LinkOrAnswerSegment" Orientation="Vertical">
+				<Label Text="Link or answer" FontSize="Medium" HorizontalOptions="Center" />
+				<Editor Placeholder="Add a link or answer" Completed="Answer_Entered" StyleClass="NormalEditor" AutoSize="TextChanges" FontSize="Medium" FontAttributes="Bold" />
+			</StackLayout >
+			<StackLayout x:Name="BackgroundSegment" Orientation="Vertical">
+				<Label Text="Background" FontSize="Medium" HorizontalOptions="Center" />
+				<Editor Placeholder="Add Background (optional)" Completed="Background_Entered" StyleClass="NormalEditor" AutoSize="TextChanges" FontSize="Medium" FontAttributes="Bold" />
+			</StackLayout >
+			<Button x:Name="SaveAnswerButton" StyleClass="NormalButton" Text="Save Answer" Clicked="SaveAnswerButton_OnClicked" HorizontalOptions="Center"/>
+			<Button x:Name="SaveBackgroundButton" StyleClass="DoneButton" Text="Publish New Question!" Clicked="SubmitNewQuestionButton_OnClicked" HorizontalOptions="Center"/>
+			<Button x:Name="QuestionSuggesterButton" StyleClass="NormalButton" Clicked="QuestionSuggesterButton_OnClicked" HorizontalOptions="Center"/>
+		</StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+			 x:Class="RightToAskClient.SecondPage"
+			 x:Name="TitleBar" >
+	<ContentPage.Content>
+		<StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand"
+		             Padding="30">
+			<StackLayout Orientation="Vertical" x:Name="QuestionDraftingBox">
+				<Label Text="My question is..." FontSize="Medium" HorizontalOptions="Center" />
+				<Editor Completed="Question_Entered" MaxLength="280" 
+				        StyleClass="NormalEditor" AutoSize="TextChanges" FontSize="Medium" FontAttributes="Bold">
+					<Editor.Placeholder>
+						Enter your question (max 280 chars)
+						  
+						  
+						  
+						                                                      ?   	
+					</Editor.Placeholder>
+				</Editor>
+			</StackLayout >
+			<StackLayout Orientation="Horizontal">
+				<Label Text="To be answered by " FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center" />
+				<StackLayout Orientation="Vertical">
+					<Button CornerRadius="20" HeightRequest="40" x:Name="otherPublicAuthorityButton" Text="A public Authority" Clicked="OnOtherPublicAuthorityButtonClicked" BackgroundColor="Turquoise"/>
+					<Button x:Name="myMP" Text="My MP" CornerRadius="20" BackgroundColor="Turquoise" Clicked="OnAnsweredByMPButtonClicked" HorizontalOptions="Center"/>
+					<Button x:Name="otherMP" Text="Another MP" CornerRadius="20" BackgroundColor="Turquoise" Clicked="OnAnswerByOtherMPButtonClicked" HorizontalOptions="Center"/>
+				</StackLayout>
+			</StackLayout>
+			<StackLayout x:Name="questionAsker" Orientation="Vertical">
+				<Label Text="To be raised in Parliament by" FontSize="Medium" HorizontalOptions="Center" />
+				<Button CornerRadius="20" HeightRequest="40" x:Name="findACommitteeButton" Text="A Committee" BackgroundColor="Turquoise" Clicked="OnFindCommitteeButtonClicked" />
+			    <Button CornerRadius="20" HeightRequest="40" x:Name="myMPShouldRaiseItButton" Text="My MP" BackgroundColor="Turquoise" Clicked="OnMyMPRaiseButtonClicked" />
+			    <Button CornerRadius="20" HeightRequest="40" x:Name="anotherMPShouldRaiseItButton" Text = "Another MP" BackgroundColor="Turquoise" Clicked="OnOtherMPRaiseButtonClicked" />
+			
+			</StackLayout>
+			<StackLayout Orientation="Horizontal" HorizontalOptions="End" VerticalOptions="End">
+				<Button x:Name="navigateForwardButton" StyleClass="DoneButton" Clicked="OnNavigateForwardButtonClicked" />
+			</StackLayout>
+		</StackLayout>
+	</ContentPage.Content>
+</ContentPage>

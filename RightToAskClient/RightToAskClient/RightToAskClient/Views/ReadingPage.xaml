@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:controls="clr-namespace:RightToAskClient.Controls;assembly=RightToAskClient"
+			 xmlns:rightToAskClient="clr-namespace:RightToAskClient;assembly=RightToAskClient"
+			 xmlns:models="clr-namespace:RightToAskClient.Models;assembly=RightToAskClient"
+			 x:Class="RightToAskClient.ReadingPage"
+			 x:Name="TitleBar" >
+	<ContentPage.Content>
+		<StackLayout x:Name = "WholePage" HorizontalOptions="Center" VerticalOptions="Start">
+			<Label Text="Upvote good questions, or click for more detail" FontSize="Medium"></Label>
+			<ScrollView>
+			<ListView x:Name="QuestionListView" HasUnevenRows="True" ItemsSource="{Binding ExistingQuestions}" ItemTapped="Question_Selected" x:DataType="rightToAskClient:ReadingContext" >
+				<ListView.ItemTemplate>
+					<DataTemplate>
+						<ViewCell>
+							<StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" Spacing="4">
+								<Label Text="{Binding QuestionText }"  x:DataType="rightToAskClient:Question"/>	
+								<StackLayout Orientation="Horizontal" Padding="0" HorizontalOptions="Start" VerticalOptions="CenterAndExpand">
+									<Label Text="Upvotes " />
+									<Label Text="{Binding UpVotes }"  x:DataType="rightToAskClient:Question"/> 
+									<!--
+									<Button StyleClass="UpVoteButton" Padding="0" Clicked="OnUpVoteButtonClicked" />
+									-->
+									<controls:ToggleButton ToBeIncremented="{Binding}"  x:DataType="rightToAskClient:Question"/>
+								</StackLayout>
+							</StackLayout>			
+						</ViewCell>
+					</DataTemplate>
+				</ListView.ItemTemplate>
+			</ListView>
+			</ScrollView>	
+            <StackLayout Orientation="Horizontal" x:Name="QuestionDraftingBox">
+            	<Editor x:Name = "DraftEditor" Placeholder="Draft Question: " Text="{Binding DraftQuestion}" HorizontalOptions="FillAndExpand" Completed="Question_Entered" AutoSize="TextChanges" FontSize="Medium" FontAttributes="Bold" />
+            </StackLayout>
+			<StackLayout Orientation="Horizontal">
+				<Button x:Name="DiscardButton" StyleClass="NormalButton" Text="Discard Draft (I've found a duplicate)" Clicked="OnDiscardButtonClicked" />
+				<Button x:Name="KeepButton" StyleClass="DoneButton" Text="Keep question: Review for upload" Clicked="OnSaveButtonClicked" />
+			</StackLayout>
+		</StackLayout>
+	</ContentPage.Content>
+</ContentPage>

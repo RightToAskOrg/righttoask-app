@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:rightToAskClient="clr-namespace:RightToAskClient;assembly=RightToAskClient"
+             xmlns:controls="clr-namespace:RightToAskClient.Controls;assembly=RightToAskClient"
+             x:Class="RightToAskClient.QuestionAskerPage">
+    <ContentPage.Content>
+        <StackLayout x:Name = "WholePage">
+            <!-- <controls:AdvancedSearchControl TableSection.Title="{Binding FilterKeyword}" Keyword="{Binding FilterKeyword}" />  
+            <TableView x:Name="ExampleTableView">
+                <TableRoot>
+                    <TableSection Title="{Binding FilterKeyword}" >
+                        <SwitchCell Text="New Mail" On="true" />
+                    </TableSection>
+                </TableRoot>
+            </TableView> 
+            <rightToAskClient:FilterDisplayTableView></rightToAskClient:FilterDisplayTableView> -->
+            <Label Text="This is the hard page where we decide who could ask your question."
+                   VerticalOptions="CenterAndExpand"
+                   HorizontalOptions="CenterAndExpand" />
+			<Button x:Name="navigateForwardButton" StyleClass="DoneButton" Clicked="OnNavigateForwardButtonClicked" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

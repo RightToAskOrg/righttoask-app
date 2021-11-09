@@ -33,5 +33,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Models\ServerPubKey.cs" />
+    <Compile Remove="Views\SecondPage_old.xaml.cs" />
+    <Compile Remove="Views\FindMyMP.xaml.cs" />
+    <Compile Remove="Views\PickerPage.xaml.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="Views\SecondPage_old.xaml" />
+    <EmbeddedResource Remove="Views\FindMyMP.xaml" />
+    <EmbeddedResource Remove="Views\PickerPage.xaml" />
   </ItemGroup>
 </Project>

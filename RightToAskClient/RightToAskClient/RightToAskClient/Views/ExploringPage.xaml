@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RightToAskClient.ExploringPage" Title="Select the ones you want">
+    <ContentPage.Content>
+		<StackLayout x:Name="MainLayout" x:FieldModifier="protected" HorizontalOptions="Center" VerticalOptions="Start">
+			<Label x:Name="introText" />
+			<ScrollView>
+				<ListView x:Name="AuthorityListView" x:FieldModifier="protected" VerticalOptions="FillAndExpand" SelectionMode="None" HasUnevenRows="True" ItemTapped="Authority_Selected"
+					ItemTemplate="{StaticResource SelectableDataTemplate}" > 
+					<!--
+					<ListView.ItemTemplate>
+					<DataTemplate>
+						<ViewCell>
+							<StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand" VerticalOptions="FillAndExpand" Spacing="4">
+								<Label Text="{Binding TagEntity.EntityName }" />	
+								<Label HorizontalOptions="FillAndExpand" />
+								<Switch IsToggled="{Binding Selected}" />
+							</StackLayout>			
+						</ViewCell>
+					</DataTemplate>
+					</ListView.ItemTemplate>
+				-->
+				</ListView>
+			</ScrollView>	
+			<Button StyleClass="SaveButton" Clicked="DoneButton_OnClicked" />
+		</StackLayout>
+    </ContentPage.Content>
+</ContentPage>
