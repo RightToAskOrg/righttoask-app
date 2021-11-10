@@ -1,14 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using RightToAskClient.Models;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
-namespace RightToAskClient
+namespace RightToAskClient.Views
 {
 	/*
 	 * Inputs a list of tags to be displayed in a way that allows the user
@@ -27,7 +23,7 @@ namespace RightToAskClient
 		{
 			InitializeComponent();
 
-			introText.Text = message;
+			IntroText.Text = message;
 
 			this.selectedEntities = selectedEntities;
 			selectableEntities = wrapInTags(allEntities, selectedEntities);

@@ -1,13 +1,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using Xamarin.Forms;
 
 // This class represents a person who uses the
 // system and is not an MP or org representative.
-namespace RightToAskClient
+namespace RightToAskClient.Models
 {
     public class IndividualParticipant : Person 
     {

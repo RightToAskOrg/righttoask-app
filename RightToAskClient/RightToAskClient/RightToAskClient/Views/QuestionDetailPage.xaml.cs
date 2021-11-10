@@ -1,13 +1,9 @@
 using System;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
+using RightToAskClient.Models;
 using Xamarin.Forms;
-using Xamarin.Forms.PlatformConfiguration;
-using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
-using Application = Xamarin.Forms.Application;
 using Button = Xamarin.Forms.Button;
 
-namespace RightToAskClient
+namespace RightToAskClient.Views
 {
     public partial class QuestionDetailPage : ContentPage
     {

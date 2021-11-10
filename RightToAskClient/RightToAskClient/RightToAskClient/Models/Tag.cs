@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace RightToAskClient
+namespace RightToAskClient.Models
 {
     public class Tag : INotifyPropertyChanged 
     {

@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Net.Mime;
-using System.Threading;
-using System.Threading.Tasks;
 using RightToAskClient.Models;
 using Xamarin.Forms;
 
-namespace RightToAskClient
+namespace RightToAskClient.Views
 {
 	public partial class AuthoritiesRTKCategories : ContentPage
 	{

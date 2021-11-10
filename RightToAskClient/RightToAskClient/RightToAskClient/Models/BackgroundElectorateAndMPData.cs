@@ -1,13 +1,11 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using RightToAskClient.Models;
 
-namespace RightToAskClient
+namespace RightToAskClient.Models
 {
     // This class reads in information about electorates, MPs, etc, from static files.
     public static class BackgroundElectorateAndMPData

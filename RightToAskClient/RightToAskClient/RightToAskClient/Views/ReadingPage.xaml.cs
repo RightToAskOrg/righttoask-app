@@ -1,17 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
+using RightToAskClient.Controls;
 using RightToAskClient.Models;
-using RightToAskClient.Views;
 using Xamarin.Forms;
-using Xamarin.Forms.PlatformConfiguration;
-using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
-using Xamarin.Forms.Xaml;
-using Application = Xamarin.Forms.Application;
-using Button = Xamarin.Forms.Button;
 
-namespace RightToAskClient
+namespace RightToAskClient.Views
 {
 	public partial class ReadingPage : ContentPage
 	{

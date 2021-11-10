@@ -1,4 +1,5 @@
 using System;
+using RightToAskClient.Models;
 using Xamarin.Forms;
 
 /* A button intended for upvoting. It can be pressed once,

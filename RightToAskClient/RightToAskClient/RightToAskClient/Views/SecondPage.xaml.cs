@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using System.Net.Mime;
-using System.Threading;
-using System.Threading.Tasks;
+using RightToAskClient.Models;
 using Xamarin.Forms;
 
-namespace RightToAskClient
+namespace RightToAskClient.Views
 {
 	public partial class SecondPage : ContentPage
 	{
@@ -16,15 +13,15 @@ namespace RightToAskClient
 		private bool isReadingOnly;
 		private ReadingContext readingContext;
 
-		public SecondPage(bool IsReadingOnly, ReadingContext readingContext)
+		public SecondPage(bool isReadingOnly, ReadingContext readingContext)
 		{
 			
 			InitializeComponent ();
 			BindingContext = readingContext;
 			this.readingContext = readingContext;
-			isReadingOnly = IsReadingOnly;
+			this.isReadingOnly = isReadingOnly;
 
-			if (IsReadingOnly)
+			if (isReadingOnly)
 			{
 				TitleBar.Title = "Find questions";
 				QuestionDraftingBox.IsVisible = false;

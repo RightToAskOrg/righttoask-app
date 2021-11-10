@@ -1,8 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 
@@ -10,7 +7,7 @@ using Xamarin.Forms;
 // Can be subclassed for a person (add a picture)
 // or an authority or committee.
 // Also, in future, this can include public keys for signing & decryption.
-namespace RightToAskClient
+namespace RightToAskClient.Models
 {
     public class Entity : INotifyPropertyChanged
     {

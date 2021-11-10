@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace RightToAskClient
+namespace RightToAskClient.Models
 {
     public class Question : INotifyPropertyChanged
     {

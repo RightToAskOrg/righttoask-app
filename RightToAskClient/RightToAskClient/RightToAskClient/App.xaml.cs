@@ -14,11 +14,12 @@ namespace RightToAskClient
             InitializeComponent();
             RegItemManager = new ItemManager (new RestService ());
 
-            MainPage = new NavigationPage(new ListPage())
-            {
-                BarTextColor = Color.White,
-                BarBackgroundColor = (Color)App.Current.Resources["primaryGreen"]
-            };
+            MainPage = new NavigationPage(new MainPage());
+            // MainPage = new NavigationPage(new ListPage())
+            //{
+            // BarTextColor = Color.White,
+            // BarBackgroundColor = (Color)App.Current.Resources["primaryGreen"]
+            //};
         }
 
         protected override void OnStart()

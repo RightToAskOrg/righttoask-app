@@ -4,25 +4,25 @@
 			 xmlns:controls="clr-namespace:RightToAskClient.Controls;assembly=RightToAskClient"
 			 xmlns:rightToAskClient="clr-namespace:RightToAskClient;assembly=RightToAskClient"
 			 xmlns:models="clr-namespace:RightToAskClient.Models;assembly=RightToAskClient"
-			 x:Class="RightToAskClient.ReadingPage"
+			 x:Class="RightToAskClient.Views.ReadingPage"
 			 x:Name="TitleBar" >
 	<ContentPage.Content>
 		<StackLayout x:Name = "WholePage" HorizontalOptions="Center" VerticalOptions="Start">
 			<Label Text="Upvote good questions, or click for more detail" FontSize="Medium"></Label>
 			<ScrollView>
-			<ListView x:Name="QuestionListView" HasUnevenRows="True" ItemsSource="{Binding ExistingQuestions}" ItemTapped="Question_Selected" x:DataType="rightToAskClient:ReadingContext" >
+			<ListView x:Name="QuestionListView" HasUnevenRows="True" ItemsSource="{Binding ExistingQuestions}" ItemTapped="Question_Selected" x:DataType="models:ReadingContext" >
 				<ListView.ItemTemplate>
 					<DataTemplate>
 						<ViewCell>
 							<StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" Spacing="4">
-								<Label Text="{Binding QuestionText }"  x:DataType="rightToAskClient:Question"/>	
+								<Label Text="{Binding QuestionText }"  x:DataType="models:Question"/>	
 								<StackLayout Orientation="Horizontal" Padding="0" HorizontalOptions="Start" VerticalOptions="CenterAndExpand">
 									<Label Text="Upvotes " />
-									<Label Text="{Binding UpVotes }"  x:DataType="rightToAskClient:Question"/> 
+									<Label Text="{Binding UpVotes }"  x:DataType="models:Question"/> 
 									<!--
 									<Button StyleClass="UpVoteButton" Padding="0" Clicked="OnUpVoteButtonClicked" />
 									-->
-									<controls:ToggleButton ToBeIncremented="{Binding}"  x:DataType="rightToAskClient:Question"/>
+									<controls:ToggleButton ToBeIncremented="{Binding}"  x:DataType="models:Question"/>
 								</StackLayout>
 							</StackLayout>			
 						</ViewCell>

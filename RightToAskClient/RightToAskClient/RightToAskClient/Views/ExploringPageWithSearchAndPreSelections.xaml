@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<rightToAskClient:ExploringPageWithSearch xmlns="http://xamarin.com/schemas/2014/forms"
+<views:ExploringPageWithSearch xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:rightToAskClient="clr-namespace:RightToAskClient;assembly=RightToAskClient"
-             x:Class="RightToAskClient.ExploringPageWithSearchAndPreSelections">
-</rightToAskClient:ExploringPageWithSearch> 
+             xmlns:views="clr-namespace:RightToAskClient.Views;assembly=RightToAskClient"
+             x:Class="RightToAskClient.Views.ExploringPageWithSearchAndPreSelections">
+</views:ExploringPageWithSearch> 

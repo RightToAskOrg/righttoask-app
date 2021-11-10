@@ -4,7 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:rightToAskClient="clr-namespace:RightToAskClient;assembly=RightToAskClient"
              xmlns:controls="clr-namespace:RightToAskClient.Controls;assembly=RightToAskClient"
-             x:Class="RightToAskClient.QuestionAskerPage">
+             x:Class="RightToAskClient.Views.QuestionAskerPage">
     <ContentPage.Content>
         <StackLayout x:Name = "WholePage">
             <!-- <controls:AdvancedSearchControl TableSection.Title="{Binding FilterKeyword}" Keyword="{Binding FilterKeyword}" />  

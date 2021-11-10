@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Linq;
+using RightToAskClient.Models;
 using Xamarin.Forms;
-using System.Diagnostics.CodeAnalysis;
 
-namespace RightToAskClient
+namespace RightToAskClient.Views
 {
 	public partial class MainPage : ContentPage
 	{
 		private ReadingContext readingContext;
-		public MainPage (string date)
+		public MainPage ()
 		{
 			InitializeComponent();
 

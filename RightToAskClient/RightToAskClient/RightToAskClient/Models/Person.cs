@@ -1,13 +1,8 @@
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using Xamarin.Forms;
+
 
 // This class represents a human, who might be 
 // an MP or a non-MP participant.
-namespace RightToAskClient
+namespace RightToAskClient.Models
 {
     public abstract class Person : Entity
     {

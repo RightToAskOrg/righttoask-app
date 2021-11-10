@@ -1,9 +1,10 @@
 using System;
 using System.Linq;
 using RightToAskClient.Models;
+using RightToAskClient.Views;
 using Xamarin.Forms;
 
-namespace RightToAskClient.Views
+namespace RightToAskClient.Controls
 {
     public class FilterDisplayTableView : TableView
     {
