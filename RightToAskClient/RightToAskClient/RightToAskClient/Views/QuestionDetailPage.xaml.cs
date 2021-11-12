@@ -78,8 +78,8 @@ namespace RightToAskClient.Views
                 
                 if (registerNow)
                 {
-                    var reg = new Registration();
-                    RegisterPage1 registrationPage = new RegisterPage1(reg, readingContext);
+                    // var reg = new Registration();
+                    RegisterPage1 registrationPage = new RegisterPage1(readingContext.ThisParticipant.RegistrationInfo, readingContext);
                     registrationPage.Disappearing += setSuggester;
                     
                     // question.QuestionSuggester = readingContext.ThisParticipant.UserName;
@@ -100,7 +100,7 @@ namespace RightToAskClient.Views
 
         private void setSuggester(object sender, EventArgs e)
         {
-            question.QuestionSuggester = readingContext.ThisParticipant.UserName;
+            question.QuestionSuggester = readingContext.ThisParticipant.RegistrationInfo.display_name;
         }
         private async void SaveQuestion(object sender, EventArgs e)
         {

@@ -8,10 +8,21 @@ namespace RightToAskClient.Models
     {
         public string StateOrTerritory { get; set; }
         
-		protected string userName;
+		// protected string userName;
 		protected string userEmail;
-        
+
+		protected Registration _registrationInfo = new Registration();
         // TODO add attributes for a nice profile, such as a photo.
+        public Registration RegistrationInfo 
+        {
+			get { return _registrationInfo; }
+			set
+			{
+				_registrationInfo = value;
+				OnPropertyChanged("RegistrationInfo");
+			}
+		}
+        /*
         public string UserName
         {
 			get { return userName; }
@@ -21,6 +32,7 @@ namespace RightToAskClient.Models
 				OnPropertyChanged("UserName");
 			}
 		}
+		*/
 
 		public string UserEmail
 		{

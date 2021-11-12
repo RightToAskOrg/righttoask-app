@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+
 namespace RightToAskClient.Models
 {
 	public class Registration
@@ -6,5 +10,27 @@ namespace RightToAskClient.Models
 		public string public_key { get; set; }
 		public string state { get; set; }
 		public string uid { get; set; }
+
+		public Result<bool> IsValid()
+		{
+			List<string> errorFields = new List<string>();
+			
+			foreach(PropertyInfo prop in typeof(Registration).GetProperties())
+			{
+				if (String.IsNullOrWhiteSpace(prop.GetValue(this, null).ToString()))
+				{
+					errorFields.Add(prop.Name);
+				}
+			}
+
+			if (errorFields.IsNullOrEmpty())
+			{
+				return new Result<bool>() { Ok = true };
+			}
+			return new Result<bool>()
+			{
+				Err ="Please complete "+String.Join("and ",errorFields)
+			};
+		}
 	}
 }

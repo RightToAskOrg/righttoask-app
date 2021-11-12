@@ -210,41 +210,6 @@ namespace RightToAskClient.Views
             // noSaveAddressButton.IsVisible = false;
         }
 
-        // At the moment there is no distinction between registering and not registering,
-        // except the flag set differently.
-        
-        private void OnNoRegisterButtonClicked(object sender, EventArgs e)
-        {
-            completeRegistration();
-        }
-
-        // Register both a name and electorates. At the moment, since there is no
-        // public registration, this is identical to the case in which you register
-        // a name and electorates.
-        private void OnRegisterElectoratesButtonClicked(object sender, EventArgs e)
-        {
-            completeRegistration();
-        }
-
-        private void OnRegisterNameButtonClicked(object sender, EventArgs e)
-        {
-        }
-
-        async private void completeRegistration()
-        {
-            if (!string.IsNullOrWhiteSpace(thisParticipant.UserName))
-            {
-                thisParticipant.Is_Registered = true;
-            }
-            
-            // Remove page before this, which should be RegisterPage1 
-            // TODO should check that this is the page we expect it to be before removing it
-            // this.Navigation.RemovePage(this.Navigation.NavigationStack[this.Navigation.NavigationStack.Count - 2]);
-            // This PopAsync will now go to wherever the user started registration from 
-            // this.Navigation.PopAsync ();
-            await Navigation.PopAsync();
-        }
-
         // TODO Think about what should happen if the person has made 
         // some choices, then clicks 'skip'.  At the moment, it retains 
         // the choices they made and pops the page.

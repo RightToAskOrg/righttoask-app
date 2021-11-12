@@ -40,22 +40,42 @@ namespace RightToAskClient.Views
 		async void OnSaveButtonClicked (object sender, EventArgs e)
 		{
 			var newRegistration = (Registration)BindingContext;
-			Result<bool> httpResponse = await App.RegItemManager.SaveTaskAsync (newRegistration);
-			if(String.IsNullOrEmpty(httpResponse.Err))
+			var regTest = newRegistration.IsValid().Err;
+			if (String.IsNullOrEmpty(regTest))
 			{
-				if (httpResponse.Ok)
+				Result<bool> httpResponse = await App.RegItemManager.SaveTaskAsync (newRegistration);
+				var httpValidation = validateHttpResponse(httpResponse);
+				reportLabel.Text = httpValidation.message;
+				if (httpValidation.isValid)
 				{
-					reportLabel.Text = "Server signature successfully verified.";
-				}
-				else
-				{
-					reportLabel.Text = "Server signature verification failed";
+					readingContext.ThisParticipant.RegistrationInfo = newRegistration;
+					readingContext.ThisParticipant.Is_Registered = true;
+					PossiblyPushElectoratesPage();
 				}
 			}
 			else
 			{
-				reportLabel.Text = "Server connection error" + httpResponse.Err;
+				PromptUser(regTest);
 			}
+		}
+
+		private async void PromptUser(string message)
+		{
+			await DisplayAlert("Registration incomplete", message, "OK");
+		}
+		
+
+		private (bool isValid, string message) validateHttpResponse(Result<bool> response)
+		{
+		if(String.IsNullOrEmpty(response.Err))
+			{
+				if (response.Ok)
+				{
+					return (true, "Server signature successfully verified.");
+				}
+				return (false, "Server signature verification failed");
+			}
+			return (false, "Server connection error" + response.Err);
 		}
 		async void OnCancelButtonClicked (object sender, EventArgs e)
 		{
@@ -63,34 +83,22 @@ namespace RightToAskClient.Views
 		}
         async void OnRegisterNameFieldCompleted(object sender, EventArgs e)
         {
-	        readingContext.ThisParticipant.UserName = ((Editor) sender).Text;
         }
         
         // If MPs are not known, show page that allows finding electorates.
         // Whether or not they choose some, let them finish registering.
         // Make sure they've entered a name.
-        async void OnRegisterCitizenButtonClicked(object sender, EventArgs e)
+        async void PossiblyPushElectoratesPage()
         {
-            if (string.IsNullOrEmpty(readingContext.ThisParticipant.UserName))
-            {
-                DisplayAlert("Enter username",
-                    "You need to choose a username in order to make an account",
-                    "OK");
-            }
-            else
-            {
-                readingContext.ThisParticipant.Is_Registered = true;
-                
-                var currentPage = Navigation.NavigationStack.LastOrDefault();
-                
-                if (!readingContext.ThisParticipant.MPsKnown)
-                {
-                    var findElectoratesPage = new RegisterPage2(readingContext.ThisParticipant, true);
-                    await Navigation.PushAsync(findElectoratesPage);
-                }
-                
-                Navigation.RemovePage(currentPage);
-            }
+	        var currentPage = Navigation.NavigationStack.LastOrDefault();
+
+	        if (!readingContext.ThisParticipant.MPsKnown)
+	        {
+		        var findElectoratesPage = new RegisterPage2(readingContext.ThisParticipant, true);
+		        await Navigation.PushAsync(findElectoratesPage);
+	        }
+
+	        Navigation.RemovePage(currentPage);
         }
 
         void OnRegisterMPButtonClicked(object sender, EventArgs e)

@@ -21,16 +21,15 @@
 			<Label x:Name="reportLabel" Text="Done" />
 			<StackLayout Orientation="Vertical" VerticalOptions="Center">
 				<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-					<Button x:Name="registerCitizenButton" Clicked="OnRegisterCitizenButtonClicked" Text="Complete Account Creation" StyleClass="DoneButton" HorizontalOptions="Center"/>
+					<Button x:Name="registerCitizenButton" Clicked="OnSaveButtonClicked" Text="Complete Account Creation" StyleClass="DoneButton" HorizontalOptions="Center"/>
 				</StackLayout>
 			</StackLayout>
 			<StackLayout Orientation="Horizontal" VerticalOptions="Center">
 				<Button x:Name="registerMPButton" Text="Register MP Account" Clicked="OnRegisterMPButtonClicked"  StyleClass="DoneButton" HorizontalOptions="Center"/>
 				<Button x:Name="registerOrgButton" Text="Register Organisational Account" Clicked="OnRegisterOrgButtonClicked"  StyleClass="DoneButton" HorizontalOptions="Center"/>
-			<Button Text="Save"
-			        Clicked="OnSaveButtonClicked" />
 			<Button Text="Cancel"
 			        Clicked="OnCancelButtonClicked" />
+			</StackLayout>
 		</StackLayout>
 	<!--
 	</StackLayout>
@@ -50,6 +49,6 @@
 				<Button x:Name="registerOrgButton" Text="Register Organisational Account" Clicked="OnRegisterOrgButtonClicked"  StyleClass="DoneButton" HorizontalOptions="Center"/>
 			</StackLayout>
         </StackLayout>
-	--></StackLayout>
+	-->
     </ContentPage.Content>
 </ContentPage>
