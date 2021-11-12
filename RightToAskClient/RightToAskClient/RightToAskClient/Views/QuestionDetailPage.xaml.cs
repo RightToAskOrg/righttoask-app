@@ -78,7 +78,8 @@ namespace RightToAskClient.Views
                 
                 if (registerNow)
                 {
-                    RegisterPage1 registrationPage = new RegisterPage1(readingContext);
+                    var reg = new Registration();
+                    RegisterPage1 registrationPage = new RegisterPage1(reg, readingContext);
                     registrationPage.Disappearing += setSuggester;
                     
                     // question.QuestionSuggester = readingContext.ThisParticipant.UserName;

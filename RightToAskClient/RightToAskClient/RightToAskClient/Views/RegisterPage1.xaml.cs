@@ -10,11 +10,11 @@ namespace RightToAskClient.Views
     public partial class RegisterPage1 : ContentPage
     {
         private ReadingContext readingContext;
-        public RegisterPage1(ReadingContext readingContext)
+        public RegisterPage1(Registration reg, ReadingContext readingContext)
         {
             InitializeComponent();
             this.readingContext = readingContext;
-            BindingContext = readingContext;
+            BindingContext = reg;
             if (!readingContext.ThisParticipant.MPsKnown)
             {
                 registerCitizenButton.Text = "Next: Find your electorates";
@@ -23,7 +23,6 @@ namespace RightToAskClient.Views
             if (!readingContext.ThisParticipant.Is_Registered)
             {
                 registerCitizenButton.IsVisible = true;
-                // findElectoratesButton.IsVisible = false;
             }
             else
             {
@@ -35,10 +34,33 @@ namespace RightToAskClient.Views
                         "OK");
                 }
                 registerCitizenButton.IsVisible = false;
-                // findElectoratesButton.IsVisible = true;
             }
         }
 
+		async void OnSaveButtonClicked (object sender, EventArgs e)
+		{
+			var newRegistration = (Registration)BindingContext;
+			Result<bool> httpResponse = await App.RegItemManager.SaveTaskAsync (newRegistration);
+			if(String.IsNullOrEmpty(httpResponse.Err))
+			{
+				if (httpResponse.Ok)
+				{
+					reportLabel.Text = "Server signature successfully verified.";
+				}
+				else
+				{
+					reportLabel.Text = "Server signature verification failed";
+				}
+			}
+			else
+			{
+				reportLabel.Text = "Server connection error" + httpResponse.Err;
+			}
+		}
+		async void OnCancelButtonClicked (object sender, EventArgs e)
+		{
+			await Navigation.PopAsync ();
+		}
         async void OnRegisterNameFieldCompleted(object sender, EventArgs e)
         {
 	        readingContext.ThisParticipant.UserName = ((Editor) sender).Text;
@@ -71,12 +93,6 @@ namespace RightToAskClient.Views
             }
         }
 
-        async void OnFindElectoratesButtonClicked(object sender, EventArgs e)
-        {
-                registerCitizenButton.IsVisible = true;
-                var secondRegisterPage = new RegisterPage2(readingContext.ThisParticipant, true);
-			    await Navigation.PushAsync (secondRegisterPage);
-        }
         void OnRegisterMPButtonClicked(object sender, EventArgs e)
         {
             ((Button) sender).Text = "Registering not implemented yet";

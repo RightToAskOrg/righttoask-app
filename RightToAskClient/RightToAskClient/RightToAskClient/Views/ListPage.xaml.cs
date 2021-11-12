@@ -52,7 +52,7 @@ namespace RightToAskClient.Views
 				uid   = e.SelectedItem as string
 	        };
 	        
-            await Navigation.PushAsync(new TodoItemPage
+            await Navigation.PushAsync(new TodoItemPage()
             {
                 BindingContext = reg 
             });
