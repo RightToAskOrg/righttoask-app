@@ -17,7 +17,8 @@ namespace RightToAskClient.Models
 			
 			foreach(PropertyInfo prop in typeof(Registration).GetProperties())
 			{
-				if (String.IsNullOrWhiteSpace(prop.GetValue(this, null).ToString()))
+				var value = prop.GetValue(this, null);
+				if (value is null || String.IsNullOrWhiteSpace(value.ToString()))
 				{
 					errorFields.Add(prop.Name);
 				}
@@ -29,7 +30,7 @@ namespace RightToAskClient.Models
 			}
 			return new Result<bool>()
 			{
-				Err ="Please complete "+String.Join("and ",errorFields)
+				Err ="Please complete "+String.Join(" and ",errorFields)
 			};
 		}
 	}

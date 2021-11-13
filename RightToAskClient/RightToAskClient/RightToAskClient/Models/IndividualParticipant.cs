@@ -104,5 +104,7 @@ namespace RightToAskClient.Models
 		{
 			chambersRepresentedIn = BackgroundElectorateAndMPData.FindChambers(state);
 		}
+		
+
     }
 } 

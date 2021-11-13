@@ -1,25 +1,23 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Linq;
+using System.Threading.Tasks;
 using RightToAskClient.Models;
 using Xamarin.Forms;
 
 namespace RightToAskClient.Views
 {
-	public partial class SecondPage : ContentPage
+	public partial class SecondPage 
 	{
-		private string question;
-		private ObservableCollection<Tag> SelectableAuthorities;
-		private bool isReadingOnly;
-		private ReadingContext readingContext;
+		private readonly bool _isReadingOnly;
+		private readonly ReadingContext _readingContext;
 
 		public SecondPage(bool isReadingOnly, ReadingContext readingContext)
 		{
 			
 			InitializeComponent ();
 			BindingContext = readingContext;
-			this.readingContext = readingContext;
-			this.isReadingOnly = isReadingOnly;
+			_readingContext = readingContext;
+			_isReadingOnly = isReadingOnly;
 
 			if (isReadingOnly)
 			{
@@ -29,7 +27,6 @@ namespace RightToAskClient.Views
 			else
 			{
 				TitleBar.Title =  "Direct my question";
-				questionAsker.IsVisible = false;
 				navigateForwardButton.Text = "Next";
 			}
 
@@ -37,7 +34,7 @@ namespace RightToAskClient.Views
 		
 		void Question_Entered(object sender, EventArgs e)
 		{
-			readingContext.DraftQuestion = ((Editor) sender).Text;
+			_readingContext.DraftQuestion = ((Editor) sender).Text;
 		}
 		
 		// If in read-only mode, initiate a question-reading page.
@@ -51,29 +48,24 @@ namespace RightToAskClient.Views
 		// At the moment this exclusivity is not enforced.
 		async void OnNavigateForwardButtonClicked (object sender, EventArgs e)
 		{
-			var needToFindAsker = readingContext.Filters.SelectedAnsweringMPs.IsNullOrEmpty();
+			var needToFindAsker = _readingContext.Filters.SelectedAnsweringMPs.IsNullOrEmpty();
 
 			if (needToFindAsker)
 			{
-				var questionAskerPage = new QuestionAskerPage(readingContext);
+				var questionAskerPage = new QuestionAskerPage(_readingContext);
 				await Navigation.PushAsync(questionAskerPage);
 			}
 			else
 			{
-				var readingPage = new ReadingPage(isReadingOnly, readingContext);
+				var readingPage = new ReadingPage(_isReadingOnly, _readingContext);
 				await Navigation.PushAsync (readingPage);
 			} 
 		}
 	
-		async void OnNavigateBackButtonClicked (object sender, EventArgs e)
-		{
-			await Navigation.PopAsync ();
-		}
-
 		async private void OnOtherPublicAuthorityButtonClicked(object sender, EventArgs e)
 		{
 			var exploringPageToSearchAuthorities
-				= new ExploringPageWithSearch(BackgroundElectorateAndMPData.AllAuthorities, readingContext.Filters.SelectedAuthorities,
+				= new ExploringPageWithSearch(BackgroundElectorateAndMPData.AllAuthorities, _readingContext.Filters.SelectedAuthorities,
 				"Choose authorities");
 			await Navigation.PushAsync(exploringPageToSearchAuthorities);
 		}
@@ -86,67 +78,36 @@ namespace RightToAskClient.Views
 		{
             string message = "These are your MPs.  Select the one(s) who should answer the question";
             // TODO (Issue #9) update to use the properly-computed MPs in ThisParticipant.MyMPs
-           	var mpsExploringPage = new ExploringPage(readingContext.TestCurrentMPs, readingContext.Filters.SelectedAnsweringMPsMine, message);
+           	var mpsExploringPage = new ExploringPage(_readingContext.TestCurrentMPs, _readingContext.Filters.SelectedAnsweringMPsMine, message);
             
-            ListMPsFindFirstIfNotAlreadyKnown(mpsExploringPage);
+            await ListMPsFindFirstIfNotAlreadyKnown(mpsExploringPage);
 		}
 
-
-		// TODO: at the moment this doesn't properly select the MPs-  it just lists them and lets
-		// it looks like you've selected them.
-		private void OnMyMPRaiseButtonClicked(object sender, EventArgs e)
+		async Task ListMPsFindFirstIfNotAlreadyKnown(ExploringPage mpsExploringPage)
 		{
-            string message = "These are your MPs.  Select the one(s) who should raise the question in Parliament";
-            
-            // TODO (Issue #9) update to use the properly-computed MPs in ThisParticipant.MyMPs
-           	var mpsExploringPage = new ExploringPage(readingContext.TestCurrentMPs, readingContext.Filters.SelectedAskingMPsMine, message);
+			var thisParticipant = _readingContext.ThisParticipant;
 			
-            ListMPsFindFirstIfNotAlreadyKnown(mpsExploringPage);
-		}
-
-		void ListMPsFindFirstIfNotAlreadyKnown(ExploringPage mpsExploringPage)
-		{
-			var thisParticipant = readingContext.ThisParticipant;
-			
-			if (thisParticipant == null || ! thisParticipant.MPsKnown)
+			if (! thisParticipant.MPsKnown)
 			{
-				var registrationPage = new RegisterPage2(readingContext.ThisParticipant, false, mpsExploringPage);
+				var registrationPage = new RegisterPage2(thisParticipant, false, mpsExploringPage);
 				
-				Navigation.PushAsync(registrationPage);
+				await Navigation.PushAsync(registrationPage);
 			}
 			else
 			{
-				Navigation.PushAsync(mpsExploringPage);
+				await Navigation.PushAsync(mpsExploringPage);
 			}
 		}
-		private void OnFindCommitteeButtonClicked(object sender, EventArgs e)
-		{
-			((Button) sender).Text = $"Finding Committees not implemented yet";	
-		}
 
-		private async void OnOtherMPRaiseButtonClicked(object sender, EventArgs e)
-		{
-			var selectableMPs =
-				new ObservableCollection<Tag>(BackgroundElectorateAndMPData.AllMPs.Select
-				(mp => new Tag
-				{
-					TagEntity = mp, 
-					Selected = false
-				}
-				)
-				);
 
-			var allMPsAsEntities = new ObservableCollection<Entity>(BackgroundElectorateAndMPData.AllMPs); 
-			ExploringPageWithSearch mpsPage 
-				= new ExploringPageWithSearch(allMPsAsEntities, readingContext.Filters.SelectedAskingMPs, "Here is the complete list of MPs");
-			await Navigation.PushAsync(mpsPage);
-		}
+
+
 
 		private async void OnAnswerByOtherMPButtonClicked(object sender, EventArgs e)
 		{
 			var allMPsAsEntities = new ObservableCollection<Entity>(BackgroundElectorateAndMPData.AllMPs); 
 			ExploringPageWithSearch mpsPage 
-				= new ExploringPageWithSearch(allMPsAsEntities, readingContext.Filters.SelectedAnsweringMPs, "Here is the complete list of MPs");
+				= new ExploringPageWithSearch(allMPsAsEntities, _readingContext.Filters.SelectedAnsweringMPs, "Here is the complete list of MPs");
 			await Navigation.PushAsync(mpsPage);
 		}
 	}
