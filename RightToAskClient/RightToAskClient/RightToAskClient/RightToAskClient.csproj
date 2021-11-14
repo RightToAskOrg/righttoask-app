@@ -36,6 +36,7 @@
     <Compile Remove="Views\SecondPage_old.xaml.cs" />
     <Compile Remove="Views\FindMyMP.xaml.cs" />
     <Compile Remove="Views\PickerPage.xaml.cs" />
+    <Compile Remove="Controls\AdvancedSearchControl.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Views\SecondPage_old.xaml" />

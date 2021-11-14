@@ -14,6 +14,7 @@ namespace RightToAskClient.Models
 		private ObservableCollection<Entity> selectedAskingMPsMine;
 		private ObservableCollection<Entity> selectedAuthorities;
 		private ObservableCollection<string> selectedAskingCommittee;
+		private ObservableCollection<Entity> selectedAskingUsers;
 
 		public FilterChoices()
 		{
@@ -23,6 +24,7 @@ namespace RightToAskClient.Models
 			selectedAskingMPsMine = new ObservableCollection<Entity>();
 			selectedAuthorities = new ObservableCollection<Entity>();
 			selectedAskingCommittee = new ObservableCollection<string>();
+			selectedAskingUsers = new ObservableCollection<Entity>();
 			
 		}
 
@@ -97,6 +99,15 @@ namespace RightToAskClient.Models
 			}
 		}
 
+		public ObservableCollection<Entity> SelectedAskingUsers
+		{
+			get { return selectedAskingUsers; }
+			set
+			{
+				selectedAskingUsers = value;
+				OnPropertyChanged("SelectedAskingUsers");
+			}
+		}
 		public event PropertyChangedEventHandler PropertyChanged;
         
         public void OnPropertyChanged([CallerMemberName] string propertyName = "")

@@ -99,10 +99,6 @@ namespace RightToAskClient.Views
 			}
 		}
 
-
-
-
-
 		private async void OnAnswerByOtherMPButtonClicked(object sender, EventArgs e)
 		{
 			var allMPsAsEntities = new ObservableCollection<Entity>(BackgroundElectorateAndMPData.AllMPs); 

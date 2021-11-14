@@ -23,7 +23,6 @@ namespace RightToAskClient.Views
 			// } 
 			if (String.IsNullOrEmpty(httpResponse.Err))
 			{
-				
 				listView.ItemsSource = httpResponse.Ok;
 			}
 			else

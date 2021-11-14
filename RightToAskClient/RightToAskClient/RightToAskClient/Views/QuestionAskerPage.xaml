@@ -24,6 +24,7 @@
 			    <Button CornerRadius="20" HeightRequest="40" x:Name="journoShouldRaiseItButton" Text="Another RightToAsk user" BackgroundColor="Turquoise" Clicked="UserShouldRaiseButtonClicked" />
 				<Label Text="or are you just not sure?" FontSize="Medium" HorizontalOptions="Center" />
 			    <Button CornerRadius="20" HeightRequest="40" x:Name="notSureButton" Text="Not sure" BackgroundColor="Turquoise" Clicked="NotSureWhoShouldRaiseButtonClicked" />
+				<Label x:Name="reportLabel" />
             </StackLayout>
             <Button x:Name="NavigateForwardButton" StyleClass="DoneButton" Clicked="OnNavigateForwardButtonClicked" />
         </StackLayout>

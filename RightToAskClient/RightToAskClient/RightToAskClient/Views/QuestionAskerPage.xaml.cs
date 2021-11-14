@@ -31,7 +31,7 @@ namespace RightToAskClient.Views
             SenateEstimatesSelection.IsVisible = true;
             SenateEstimatesAppearance.Text =
                 String.Join(" ", readingContext.Filters.SelectedAuthorities)
-                    + "is appearing at Senate Estimates tomorrow";
+                    + " is appearing at Senate Estimates tomorrow";
             NavigateForwardButton.IsVisible = true;
         }
         private void OnSelectCommitteeButtonClicked(object sender, EventArgs e)
@@ -82,23 +82,37 @@ namespace RightToAskClient.Views
             NavigateForwardButton.IsVisible = true;
         }
 
-        private void UserShouldRaiseButtonClicked(object sender, EventArgs e)
+        private async void UserShouldRaiseButtonClicked(object sender, EventArgs e)
         {
-            ((Button) sender).Text = $"Not implemented yet";	
+			var httpResponse = await App.RegItemManager.GetTasksAsync ();
+            
+			if (String.IsNullOrEmpty(httpResponse.Err))
+            {
+                var selectedUsers = new ObservableCollection<string>(httpResponse.Ok);
+				// listView.ItemsSource = httpResponse.Ok;
+                
+                var selectableUsers =
+                    new ObservableCollection<Entity>(httpResponse.Ok.Select
+                        (userName => new Entity() 
+                            {
+                                EntityName= userName, 
+                            }
+                        )
+                    );
+                
+			ExploringPageWithSearch usersPage 
+				= new ExploringPageWithSearch(selectableUsers, readingContext.Filters.SelectedAskingUsers, "Here is the complete list of MPs");
+            await Navigation.PushAsync(usersPage);
+            }
+            else
+            {
+                reportLabel.Text = "Error reaching server: " + httpResponse.Err;
+            }
+
             NavigateForwardButton.IsVisible = true;
         }
         private async void OnOtherMPRaiseButtonClicked(object sender, EventArgs e)
         {
-            var selectableMPs =
-                new ObservableCollection<Tag>(BackgroundElectorateAndMPData.AllMPs.Select
-                    (mp => new Tag
-                        {
-                            TagEntity = mp, 
-                            Selected = false
-                        }
-                    )
-                );
-
             var allMPsAsEntities = new ObservableCollection<Entity>(BackgroundElectorateAndMPData.AllMPs); 
             ExploringPageWithSearch mpsPage 
                 = new ExploringPageWithSearch(allMPsAsEntities, readingContext.Filters.SelectedAskingMPs, "Here is the complete list of MPs");
