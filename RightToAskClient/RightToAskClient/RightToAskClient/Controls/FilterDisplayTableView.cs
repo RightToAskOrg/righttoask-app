@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using RightToAskClient.Models;
 using RightToAskClient.Views;
@@ -58,7 +59,9 @@ namespace RightToAskClient.Controls
             {
                 Label = "Who should raise it in Parliament?", 
                 Placeholder = "Not sure",
-                Text = whoShouldAnswerItCommittees+whoShouldAnswerItMPs+whoShouldAnswerItMyMPs 
+                Text = String.Join("\n", new List<string>()
+                { whoShouldAnswerItCommittees,whoShouldAnswerItMPs,whoShouldAnswerItMyMPs }
+                )
             };
             var keywordentry = new EntryCell
             {

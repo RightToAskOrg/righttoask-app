@@ -27,7 +27,7 @@ namespace RightToAskClient.Views
 
         private void OnFindCommitteeButtonClicked(object sender, EventArgs e)
         {
-            ((Button) sender).Text = $"Finding Committees not implemented yet";
+            ((Button) sender).IsVisible = false;
             SenateEstimatesSelection.IsVisible = true;
             SenateEstimatesAppearance.Text =
                 String.Join(" ", readingContext.Filters.SelectedAuthorities)
@@ -37,6 +37,8 @@ namespace RightToAskClient.Views
         private void OnSelectCommitteeButtonClicked(object sender, EventArgs e)
         {
             readingContext.Filters.SelectedAskingCommittee.Add("Senate Estimates tomorrow");
+            ((Button)sender).Text = "Selected!";
+            
         }
 
         // TODO: at the moment this doesn't properly select the MPs-  it just lists them and lets
@@ -85,7 +87,6 @@ namespace RightToAskClient.Views
             ((Button) sender).Text = $"Not implemented yet";	
             NavigateForwardButton.IsVisible = true;
         }
-        /*
         private async void OnOtherMPRaiseButtonClicked(object sender, EventArgs e)
         {
             var selectableMPs =
@@ -102,6 +103,8 @@ namespace RightToAskClient.Views
             ExploringPageWithSearch mpsPage 
                 = new ExploringPageWithSearch(allMPsAsEntities, readingContext.Filters.SelectedAskingMPs, "Here is the complete list of MPs");
             await Navigation.PushAsync(mpsPage);
-        } */
+            
+            NavigateForwardButton.IsVisible = true;
+        } 
     }
 }

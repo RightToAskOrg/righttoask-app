@@ -18,7 +18,8 @@
 				</StackLayout>
 				<Label Text="or by your MP, perhaps in a special session for constituent questions?" FontSize="Medium" HorizontalOptions="Center" />
 			    <Button CornerRadius="20" HeightRequest="40" x:Name="myMPShouldRaiseItButton" Text="My MP" BackgroundColor="Turquoise" Clicked="OnMyMPRaiseButtonClicked" />
-			    <!-- <Button CornerRadius="20" HeightRequest="40" x:Name="anotherMPShouldRaiseItButton" Text = "Another MP" BackgroundColor="Turquoise" Clicked="OnOtherMPRaiseButtonClicked" /> -->
+				<Label Text="or by some other MP?" FontSize="Medium" HorizontalOptions="Center" />
+			    <Button CornerRadius="20" HeightRequest="40" x:Name="anotherMPShouldRaiseItButton" Text = "Another MP" BackgroundColor="Turquoise" Clicked="OnOtherMPRaiseButtonClicked" /> 
 				<Label Text="a journalist or other RightToAsk participant?" FontSize="Medium" HorizontalOptions="Center" />
 			    <Button CornerRadius="20" HeightRequest="40" x:Name="journoShouldRaiseItButton" Text="Another RightToAsk user" BackgroundColor="Turquoise" Clicked="UserShouldRaiseButtonClicked" />
 				<Label Text="or are you just not sure?" FontSize="Medium" HorizontalOptions="Center" />
