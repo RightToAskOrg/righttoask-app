@@ -10,6 +10,7 @@ namespace RightToAskClient.Controls
     public class FilterDisplayTableView : TableView
     {
         private FilterChoices filterContext;
+        private readonly TableSection contents;
         public FilterDisplayTableView(FilterChoices filterContext)
         {
             BindingContext = filterContext;
@@ -18,9 +19,7 @@ namespace RightToAskClient.Controls
             Intent = TableIntent.Settings;
             VerticalOptions = LayoutOptions.Start;
             HeightRequest = Height; 
-            var root = new TableRoot();
-            var section1 = new TableSection() { Title = "Filters - click to edit"};
-            var section2 = new TableSection() { };
+            var root = new TableRoot() { Title = "Filters - tap to edit"};
 
             var authorityList = new Label()
             {
@@ -95,15 +94,36 @@ namespace RightToAskClient.Controls
             };
             keywordentry.Completed += OnKewordEntryCompleted;
             
-            section1.Add(whoShouldAnswerItView);
-            section2.Add(whoShouldAskItView);
-            section2.Add(keywordentry);
+            // var section1 = new TableSection();
+            // var section2 = new TableSection() { };
+            // section1.Add(whoShouldAnswerItView);
+            //section2.Add(whoShouldAskItView);
+            // section2.Add(keywordentry);
             Root = root;
-            root.Add(section1);
-            root.Add(section2);
+            contents = new TableSection()
+            {
+                whoShouldAnswerItView,
+                whoShouldAskItView,
+                keywordentry
+            };
+            contents.Title = "Filters - tap to edit";
+            root.Add(contents);
 
         }
 
+        // TODO Unfortunately this seems to remove the data but not shrink the footprint.
+        public void Shrink()
+        {
+            Root.Title = "Filters - tap to show";
+            // Root.Remove(0);
+            Root.Remove(contents);
+        }
+
+        public void UnShrink()
+        {
+            Root.Title = "Filters - tap to edit";
+            Root.Add(contents);
+        }
         private void OnMoreAskersButtonClicked(object sender, EventArgs e)
         {
         }

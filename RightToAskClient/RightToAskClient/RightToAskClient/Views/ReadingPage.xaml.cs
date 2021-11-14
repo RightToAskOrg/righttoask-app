@@ -10,6 +10,7 @@ namespace RightToAskClient.Views
 	{
 		private string draftQuestion;
 		private readonly ReadingContext readingContext;
+		private FilterDisplayTableView ttestableView;
 
 		public ReadingPage(bool isReadingOnly, ReadingContext readingContext)
 		{
@@ -17,9 +18,16 @@ namespace RightToAskClient.Views
 			this.readingContext = readingContext;
 			BindingContext = readingContext;
 
-            FilterDisplayTableView ttestableView = new FilterDisplayTableView(readingContext.Filters);
-            // ttestableView.VerticalOptions = LayoutOptions.Start;
+            ttestableView = new FilterDisplayTableView(readingContext.Filters);
             WholePage.Children.Insert(1,ttestableView);
+            ttestableView.IsVisible = true;
+            
+			FilterShower.GestureRecognizers.Add(new TapGestureRecognizer
+			{
+				Command = new Command(showFilters)
+			});
+			
+			showFilters();
             
 			if (isReadingOnly)
 			{
@@ -34,6 +42,22 @@ namespace RightToAskClient.Views
 			}
 		}
 
+		private void showFilters()
+		{  
+			ttestableView.IsVisible = true;
+            FilterShower.IsVisible = false;
+		}
+
+		private void hideFilters()
+		{
+			ttestableView.IsVisible = false;
+			FilterShower.IsVisible = true;
+		}
+
+		private void Questions_Scrolled(object sender, ScrolledEventArgs e)
+		{
+			hideFilters();
+		}
 		void Question_Entered(object sender, EventArgs e)
 		{
 			draftQuestion = ((Editor) sender).Text;
