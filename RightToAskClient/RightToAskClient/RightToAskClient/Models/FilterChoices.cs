@@ -1,3 +1,4 @@
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -12,6 +13,7 @@ namespace RightToAskClient.Models
 		private ObservableCollection<Entity> selectedAskingMPs;
 		private ObservableCollection<Entity> selectedAskingMPsMine;
 		private ObservableCollection<Entity> selectedAuthorities;
+		private ObservableCollection<string> selectedAskingCommittee;
 
 		public FilterChoices()
 		{
@@ -20,6 +22,8 @@ namespace RightToAskClient.Models
 			selectedAnsweringMPsMine = new ObservableCollection<Entity>();
 			selectedAskingMPsMine = new ObservableCollection<Entity>();
 			selectedAuthorities = new ObservableCollection<Entity>();
+			selectedAskingCommittee = new ObservableCollection<string>();
+			
 		}
 
 		public ObservableCollection<Entity> SelectedAuthorities
@@ -82,8 +86,18 @@ namespace RightToAskClient.Models
 				OnPropertyChanged("SelectedAnsweringMPs");
 			}
 		}
-		
-        public event PropertyChangedEventHandler PropertyChanged;
+
+		public ObservableCollection<string> SelectedAskingCommittee
+		{
+			get { return selectedAskingCommittee; }
+			set
+			{
+				selectedAskingCommittee = value;
+				OnPropertyChanged("SelectedAskingCommittee");
+			}
+		}
+
+		public event PropertyChangedEventHandler PropertyChanged;
         
         public void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {

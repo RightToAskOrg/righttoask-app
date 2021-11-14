@@ -26,6 +26,10 @@ namespace RightToAskClient.Controls
                 Text = String.Join(",", filterContext.SelectedAuthorities.Select((a => a.ShortestName)))
             };
 
+            var whoShouldAnswerItMPs = String.Join(",", filterContext.SelectedAskingMPs);
+            var whoShouldAnswerItMyMPs = String.Join(",", filterContext.SelectedAskingMPsMine);
+            var whoShouldAnswerItCommittees = String.Join(",", filterContext.SelectedAskingCommittee);
+
             var whoShouldAnswerItView = new ViewCell
             {
                 View = new StackLayout
@@ -50,7 +54,12 @@ namespace RightToAskClient.Controls
             };
             whoShouldAnswerItView.Tapped += OnMoreButtonClicked;
             
-            var entry3 = new EntryCell { Label = "Who should raise it in Parliament?", Placeholder = "Not sure" };
+            var entry3 = new EntryCell
+            {
+                Label = "Who should raise it in Parliament?", 
+                Placeholder = "Not sure",
+                Text = whoShouldAnswerItCommittees+whoShouldAnswerItMPs+whoShouldAnswerItMyMPs 
+            };
             var keywordentry = new EntryCell
             {
                 Label = "Keyword", 

@@ -14,21 +14,29 @@ namespace RightToAskClient.Views
         private ReadingContext readingContext;
         public QuestionAskerPage(ReadingContext readingContext)
         {
-            // TODO: Construct this properly.
-            // FilterContext filters = new FilterContext {FilterKeyword = readingContext.SearchKeyword};
             BindingContext = readingContext;
             this.readingContext = readingContext;
             
-            
             InitializeComponent();
+            
+            NavigateForwardButton.IsVisible = false;
+            SenateEstimatesSelection.IsVisible = false;
+            
 
-            FilterDisplayTableView ttestableView = new FilterDisplayTableView(readingContext.Filters);
-            WholePage.Children.Insert(0,ttestableView);
         }
 
         private void OnFindCommitteeButtonClicked(object sender, EventArgs e)
         {
-            ((Button) sender).Text = $"Finding Committees not implemented yet";	
+            ((Button) sender).Text = $"Finding Committees not implemented yet";
+            SenateEstimatesSelection.IsVisible = true;
+            SenateEstimatesAppearance.Text =
+                String.Join(" ", readingContext.Filters.SelectedAuthorities)
+                    + "is appearing at Senate Estimates tomorrow";
+            NavigateForwardButton.IsVisible = true;
+        }
+        private void OnSelectCommitteeButtonClicked(object sender, EventArgs e)
+        {
+            readingContext.Filters.SelectedAskingCommittee.Add("Senate Estimates tomorrow");
         }
 
         // TODO: at the moment this doesn't properly select the MPs-  it just lists them and lets
@@ -41,6 +49,7 @@ namespace RightToAskClient.Views
             var mpsExploringPage = new ExploringPage(readingContext.TestCurrentMPs, readingContext.Filters.SelectedAskingMPsMine, message);
 			
             ListMPsFindFirstIfNotAlreadyKnown(mpsExploringPage);
+            NavigateForwardButton.IsVisible = true;
         }
         
         // TODO This is a repeat of the code in SecondPage.xaml.cs. Factor out better.
@@ -59,6 +68,24 @@ namespace RightToAskClient.Views
                 Navigation.PushAsync(mpsExploringPage);
             }
         }
+        async void OnNavigateForwardButtonClicked(object sender, EventArgs e)
+        {
+			var readingPage = new ReadingPage(false, readingContext);
+			await Navigation.PushAsync (readingPage);
+        }
+
+        private void NotSureWhoShouldRaiseButtonClicked(object sender, EventArgs e)
+        {
+            ((Button) sender).Text = $"Not implemented yet";	
+            NavigateForwardButton.IsVisible = true;
+        }
+
+        private void UserShouldRaiseButtonClicked(object sender, EventArgs e)
+        {
+            ((Button) sender).Text = $"Not implemented yet";	
+            NavigateForwardButton.IsVisible = true;
+        }
+        /*
         private async void OnOtherMPRaiseButtonClicked(object sender, EventArgs e)
         {
             var selectableMPs =
@@ -75,11 +102,6 @@ namespace RightToAskClient.Views
             ExploringPageWithSearch mpsPage 
                 = new ExploringPageWithSearch(allMPsAsEntities, readingContext.Filters.SelectedAskingMPs, "Here is the complete list of MPs");
             await Navigation.PushAsync(mpsPage);
-        }
-        async void OnNavigateForwardButtonClicked(object sender, EventArgs e)
-        {
-			var readingPage = new ReadingPage(false, readingContext);
-			await Navigation.PushAsync (readingPage);
-        }
+        } */
     }
 }
