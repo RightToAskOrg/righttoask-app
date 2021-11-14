@@ -27,11 +27,6 @@ namespace RightToAskClient.Controls
                 Text = String.Join(",", filterContext.SelectedAuthorities.Select((a => a.ShortestName)))
             };
 
-            var whoShouldAskItMPs = String.Join(",", filterContext.SelectedAskingMPs);
-            var whoShouldAskItMyMPs = String.Join(",", filterContext.SelectedAskingMPsMine);
-            var whoShouldAskItCommittees = String.Join(",", filterContext.SelectedAskingCommittee);
-            var whoShouldAskItUsers = String.Join(",", filterContext.SelectedAskingUsers);
-
             var whoShouldAnswerItView = new ViewCell
             {
                 View = new StackLayout
@@ -56,14 +51,42 @@ namespace RightToAskClient.Controls
             };
             whoShouldAnswerItView.Tapped += OnMoreButtonClicked;
             
-            var entry3 = new EntryCell
+            var whoShouldAskItMPs = String.Join(",", filterContext.SelectedAskingMPs);
+            var whoShouldAskItMyMPs = String.Join(",", filterContext.SelectedAskingMPsMine);
+            var whoShouldAskItCommittees = String.Join(",", filterContext.SelectedAskingCommittee);
+            var whoShouldAskItUsers = String.Join(",", filterContext.SelectedAskingUsers);
+
+            var whoShouldAskItList = new Label()
             {
-                Label = "Who should raise it in Parliament?", 
-                Placeholder = "Not sure",
                 Text = String.Join("\n", new List<string>()
-                { whoShouldAskItCommittees,whoShouldAskItMPs,whoShouldAskItMyMPs,whoShouldAskItUsers }
+                    { whoShouldAskItCommittees, whoShouldAskItMPs, whoShouldAskItMyMPs, whoShouldAskItUsers }
                 )
             };
+
+            var whoShouldAskItView = new ViewCell
+            {
+                View = new StackLayout
+                {
+                    Orientation = StackOrientation.Horizontal,
+                    VerticalOptions = LayoutOptions.Start,
+                    HorizontalOptions = LayoutOptions.FillAndExpand,
+                    Children =
+                    {
+                        new Label { Text = "Who should raise it in Parliament?"},
+                        new StackLayout
+                        {
+                            Orientation = StackOrientation.Horizontal,
+                            VerticalOptions = LayoutOptions.Start,
+                            Children =
+                            {
+                                whoShouldAskItList
+                            }
+                        }
+                    }
+                }
+            };
+            whoShouldAskItView.Tapped += OnMoreAskersButtonClicked;
+            
             var keywordentry = new EntryCell
             {
                 Label = "Keyword", 
@@ -73,12 +96,16 @@ namespace RightToAskClient.Controls
             keywordentry.Completed += OnKewordEntryCompleted;
             
             section1.Add(whoShouldAnswerItView);
-            section2.Add(entry3);
+            section2.Add(whoShouldAskItView);
             section2.Add(keywordentry);
             Root = root;
             root.Add(section1);
             root.Add(section2);
 
+        }
+
+        private void OnMoreAskersButtonClicked(object sender, EventArgs e)
+        {
         }
 
         async void OnMoreButtonClicked(object sender, EventArgs e)
