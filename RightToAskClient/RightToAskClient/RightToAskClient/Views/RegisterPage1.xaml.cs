@@ -114,5 +114,10 @@ namespace RightToAskClient.Views
         {
 	        readingContext.ThisParticipant.UserEmail = ((Editor) sender).Text;
         }
+
+        // TODO Make this put up the electorate-finding page.
+        private void OnElectoratesButtonTapped(object sender, ItemTappedEventArgs e)
+        {
+        }
     }
 }

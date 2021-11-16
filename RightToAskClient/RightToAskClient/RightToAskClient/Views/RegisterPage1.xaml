@@ -2,10 +2,12 @@
 
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:RightToAskClient.Models;assembly=RightToAskClient"
+             xmlns:generic="clr-namespace:System.Collections.Generic;assembly=netstandard"
              Title="Create Account"
              x:Class="RightToAskClient.Views.RegisterPage1">
-	<ContentPage.Content>
-		<StackLayout Margin="20">
+	<ContentPage.Content >
+		<StackLayout Margin="20" x:Datatype="models:Registration">
 			<Label Text="UID" />
 			<Entry Text="{Binding Path=uid}"
 			       Placeholder="Enter UserID" />
@@ -19,8 +21,21 @@
 			<Entry Text="{Binding Path=state}"
 			       Placeholder="Enter state" />
 			<Label Text="Electorates" />
-			<Entry Text="{Binding Path=electorates}"
-			       Placeholder="Enter state" />
+			<ListView ItemsSource="{Binding Path=electorates}" ItemTapped="OnElectoratesButtonTapped" >
+				<ListView.ItemTemplate>
+					<DataTemplate x:DataType="models:ElectorateWithChamber">
+						<ViewCell>
+							<StackLayout HorizontalOptions="StartAndExpand"
+							             Orientation="Horizontal">
+								<Label Text="{Binding chamber }"
+								       VerticalTextAlignment="Center" />
+								<Label Text="{Binding region}"
+								       VerticalTextAlignment="Center" />
+							</StackLayout>
+						</ViewCell>
+					</DataTemplate>
+				</ListView.ItemTemplate>
+			</ListView>
 			<Label x:Name="reportLabel" Text="Done" />
 			<StackLayout Orientation="Vertical" VerticalOptions="Center">
 				<StackLayout Orientation="Horizontal" HorizontalOptions="Center">

@@ -7,11 +7,13 @@ namespace RightToAskClient.Models
 {
 	public class Registration
 	{
-		public string display_name { get; set; }
-		public string public_key { get; set; }
-		public string state { get; set; }
-		public string uid { get; set; }
-		public List<(BackgroundElectorateAndMPData.Chamber chamber, string region)> electorates { get; set; }
+		public string display_name { get; set; } = "";
+		public string public_key { get; set; }= "";
+		public string state { get; set; }= "";
+		public string uid { get; set; }= "";
+
+		public List<ElectorateWithChamber> electorates { get; } =
+			new List<ElectorateWithChamber>();
 
 		public Result<bool> IsValid()
 		{
@@ -39,9 +41,13 @@ namespace RightToAskClient.Models
 		// TODO: Do some validity checking to ensure that you're not adding inconsistent
 		// data, e.g. a second electorate for a given chamber, or a state different from
 		// the expected state.
-		public void AddElectorate(BackgroundElectorateAndMPData.Chamber chamber, string region)
+		public void AddElectorate(BackgroundElectorateAndMPData.Chamber chamberToAdd, string regionToAdd)
 		{
-			
+			electorates.Add(new ElectorateWithChamber()
+			{
+				chamber = chamberToAdd,
+				region = regionToAdd
+			});
 		}
 	}
 }
