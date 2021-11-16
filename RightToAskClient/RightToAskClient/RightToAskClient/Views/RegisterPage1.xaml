@@ -18,6 +18,9 @@
 			<Label Text="State" />
 			<Entry Text="{Binding Path=state}"
 			       Placeholder="Enter state" />
+			<Label Text="Electorates" />
+			<Entry Text="{Binding Path=electorates}"
+			       Placeholder="Enter state" />
 			<Label x:Name="reportLabel" Text="Done" />
 			<StackLayout Orientation="Vertical" VerticalOptions="Center">
 				<StackLayout Orientation="Horizontal" HorizontalOptions="Center">

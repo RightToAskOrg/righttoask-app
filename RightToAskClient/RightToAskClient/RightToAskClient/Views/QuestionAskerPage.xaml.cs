@@ -17,7 +17,7 @@ namespace RightToAskClient.Views
             BindingContext = readingContext;
             this.readingContext = readingContext;
             
-            InitializeComponent();
+             InitializeComponent();
             
             NavigateForwardButton.IsVisible = false;
             SenateEstimatesSelection.IsVisible = false;

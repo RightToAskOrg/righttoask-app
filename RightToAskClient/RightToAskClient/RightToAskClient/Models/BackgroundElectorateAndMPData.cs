@@ -111,8 +111,10 @@ namespace RightToAskClient.Models
 					Salutation = (words[0] == "Senator" ? "Senator" : "Member"),
 					EntityName = words[2] +" "+ words[1],
 					ElectorateRepresenting = words[3],
-					StateOrTerritory = words[4],
-					
+					RegistrationInfo = new Registration()
+					{
+						state = words[4]
+					}	
 				};
 				return newMP;
 			}

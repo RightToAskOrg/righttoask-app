@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace RightToAskClient.Models
@@ -10,6 +11,7 @@ namespace RightToAskClient.Models
 		public string public_key { get; set; }
 		public string state { get; set; }
 		public string uid { get; set; }
+		public List<(BackgroundElectorateAndMPData.Chamber chamber, string region)> electorates { get; set; }
 
 		public Result<bool> IsValid()
 		{
@@ -24,7 +26,7 @@ namespace RightToAskClient.Models
 				}
 			}
 
-			if (errorFields.IsNullOrEmpty())
+			if (errorFields.IsNullOrEmpty() || errorFields.SequenceEqual(new List<string>{"electorates"}))
 			{
 				return new Result<bool>() { Ok = true };
 			}
@@ -32,6 +34,14 @@ namespace RightToAskClient.Models
 			{
 				Err ="Please complete "+String.Join(" and ",errorFields)
 			};
+		}
+
+		// TODO: Do some validity checking to ensure that you're not adding inconsistent
+		// data, e.g. a second electorate for a given chamber, or a state different from
+		// the expected state.
+		public void AddElectorate(BackgroundElectorateAndMPData.Chamber chamber, string region)
+		{
+			
 		}
 	}
 }

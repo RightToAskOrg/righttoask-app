@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using RightToAskClient.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -27,6 +28,9 @@ namespace RightToAskClient.Views
         private string address;
         private IndividualParticipant thisParticipant;
         private Page nextPage;
+
+        private BackgroundElectorateAndMPData.Chamber stateLCChamber=BackgroundElectorateAndMPData.Chamber.Vic_Legislative_Council;
+        private BackgroundElectorateAndMPData.Chamber stateLAChamber=BackgroundElectorateAndMPData.Chamber.Vic_Legislative_Assembly;
 
         private List<string> allFederalElectorates;
         private List<string> allStateLAElectorates;
@@ -55,7 +59,7 @@ namespace RightToAskClient.Views
             if (selectedIndex != -1)
             {
                 string state = (string) picker.SelectedItem;
-                thisParticipant.StateOrTerritory = state; 
+                thisParticipant.RegistrationInfo.state = state; 
                 UpdateElectoratePickerSources(state);
             }
         }
@@ -69,35 +73,46 @@ namespace RightToAskClient.Views
             federalElectoratePicker.ItemsSource = allFederalElectorates;
             
             allStateLAElectorates 
-                = BackgroundElectorateAndMPData.ListElectoratesInChamber(BackgroundElectorateAndMPData.Chamber.Vic_Legislative_Assembly);
+                = BackgroundElectorateAndMPData.ListElectoratesInChamber(stateLAChamber);
             stateLAElectoratePicker.ItemsSource = allStateLAElectorates;
             allStateLCElectorates 
-                = BackgroundElectorateAndMPData.ListElectoratesInChamber(BackgroundElectorateAndMPData.Chamber.Vic_Legislative_Council);
+                = BackgroundElectorateAndMPData.ListElectoratesInChamber(stateLCChamber);
             stateLCElectoratePicker.ItemsSource = allStateLCElectorates;
         }
 
         void OnStateLCElectoratePickerSelectedIndexChanged(object sender, EventArgs e)
         {
             var picker = (Picker) sender;
-            thisParticipant.SelectedLCStateElectorate = ChooseElectorate(picker, allStateLCElectorates);
-            RevealNextStepIfElectoratesKnown();
+            string region = ChooseElectorate(picker, allStateLCElectorates);
+            if (!String.IsNullOrEmpty(region))
+            {
+                thisParticipant.RegistrationInfo.AddElectorate(stateLCChamber, region);
+                RevealNextStepIfElectoratesKnown();
+            }
         }
         void OnStateLAElectoratePickerSelectedIndexChanged(object sender, EventArgs e)
         {
             var picker = (Picker) sender;
-            thisParticipant.SelectedLAStateElectorate = ChooseElectorate(picker, allStateLAElectorates);
-            RevealNextStepIfElectoratesKnown();
+            string region = ChooseElectorate(picker, allStateLAElectorates);
+            if (!String.IsNullOrEmpty(region))
+            {
+                thisParticipant.RegistrationInfo.AddElectorate(stateLAChamber, region);
+                RevealNextStepIfElectoratesKnown();
+            }    
         }
 
         void OnFederalElectoratePickerSelectedIndexChanged(object sender, EventArgs e)
         {
             var picker = (Picker) sender;
-            thisParticipant.SelectedFederalElectorate = ChooseElectorate(picker, allFederalElectorates);
-            RevealNextStepIfElectoratesKnown();
-
+            string region = ChooseElectorate(picker, allFederalElectorates);
+            if (!String.IsNullOrEmpty(region))
+            {
+                thisParticipant.RegistrationInfo.AddElectorate(
+                    BackgroundElectorateAndMPData.Chamber.Australian_House_Of_Representatives, region);
+                RevealNextStepIfElectoratesKnown();
+            }
         }
 
-        // TODO: Deal intelligently with error handling if the array index is out of bounds.
         private string ChooseElectorate(Picker p, List<string> allElectorates)
         {
             int selectedIndex = p.SelectedIndex;
@@ -111,15 +126,13 @@ namespace RightToAskClient.Views
 
         }
         
+        // TODO: Add a check that at least some electorates have been 
+        // chosen, plus a prompt to remind people to fill them all
+        // if only some have been chosen.
         private void RevealNextStepIfElectoratesKnown()
         {
-            if(!String.IsNullOrEmpty(thisParticipant.SelectedLAStateElectorate)
-                && !String.IsNullOrEmpty(thisParticipant.SelectedLCStateElectorate)
-                && !String.IsNullOrEmpty(thisParticipant.SelectedFederalElectorate))
-                {
                     FindMPsButton.IsVisible = true;
                     thisParticipant.MPsKnown = true;
-                }
         }
         
         // If we've been given a nextPage, go there and remove this page,
@@ -155,38 +168,28 @@ namespace RightToAskClient.Views
                 return;
             }
                 
-            if (String.IsNullOrEmpty(thisParticipant.SelectedFederalElectorate))
-            {
-                thisParticipant.SelectedFederalElectorate 
-                    = allFederalElectorates[random.Next(allFederalElectorates.Count)];
-            }
+                thisParticipant.RegistrationInfo.AddElectorate(BackgroundElectorateAndMPData.Chamber.Australian_House_Of_Representatives,  
+                    allFederalElectorates[random.Next(allFederalElectorates.Count)]);
             
-            if(String.IsNullOrEmpty(thisParticipant.SelectedLAStateElectorate))
-            {
                 if (!allStateLAElectorates.IsNullOrEmpty())
                 {
-                    thisParticipant.SelectedLAStateElectorate 
-                    = allStateLAElectorates[random.Next(allStateLAElectorates.Count)];   
+                    thisParticipant.RegistrationInfo.AddElectorate(stateLAChamber,
+                        allStateLAElectorates[random.Next(allStateLAElectorates.Count)]);   
                 }
-            }
 
-            if (String.IsNullOrEmpty(thisParticipant.SelectedLCStateElectorate))
-            {
                 if (!allStateLCElectorates.IsNullOrEmpty())
                 {
-                    thisParticipant.SelectedLCStateElectorate 
-                      = allStateLCElectorates[random.Next(allStateLCElectorates.Count)];
+                    thisParticipant.RegistrationInfo.AddElectorate(stateLCChamber, 
+                        allStateLCElectorates[random.Next(allStateLCElectorates.Count)]);
                 }
-            }
-
             
             thisParticipant.MPsKnown = true;
 
             bool SaveThisAddress = await DisplayAlert("Electorates found!", 
-                "State Assembly Electorate: "+thisParticipant.SelectedLAStateElectorate+"\n"
-                +"State Legislative Council Electorate: "+thisParticipant.SelectedLCStateElectorate+"\n"
-                +"Federal Electorate: "+thisParticipant.SelectedFederalElectorate+"\n"
-                +"Do you want to save your address on this device? Right To Ask will not learn your address.", 
+                // "State Assembly Electorate: "+thisParticipant.SelectedLAStateElectorate+"\n"
+                // +"State Legislative Council Electorate: "+thisParticipant.SelectedLCStateElectorate+"\n"
+                // +"Federal Electorate: "+thisParticipant.SelectedFederalElectorate+"\n"+
+                "Do you want to save your address on this device? Right To Ask will not learn your address.", 
                 "OK - Save address on this device", "No thanks");
             if (SaveThisAddress)
             {
