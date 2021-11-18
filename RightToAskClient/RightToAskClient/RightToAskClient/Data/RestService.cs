@@ -27,8 +27,6 @@ namespace RightToAskClient.Data
             client = new HttpClient();
             serializerOptions = new JsonSerializerOptions
             {
-                // 
-                // Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) },
                 Converters = { new JsonStringEnumConverter() },
                 WriteIndented = false
             };
