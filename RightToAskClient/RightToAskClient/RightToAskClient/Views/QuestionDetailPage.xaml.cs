@@ -48,8 +48,17 @@ namespace RightToAskClient.Views
         // name, not with a separate button.
         private async void QuestionSuggesterButton_OnClicked(object sender, EventArgs e)
         {
-			var personProfilePage = new PersonProfilePage(question.QuestionSuggester, readingContext);
-			await Navigation.PushAsync (personProfilePage);
+			// var personProfilePage = new PersonProfilePage(question.QuestionSuggester, readingContext);
+			// await Navigation.PushAsync (personProfilePage);
+            var testUserReg = new Registration()
+            {
+                uid = "This is a test user",
+                display_name = "testing user",
+                public_key = "123",
+                state = "VIC"
+            };
+            RegisterPage1 otherUserProfilePage = new RegisterPage1(testUserReg, readingContext, true);
+            await Navigation.PushAsync(otherUserProfilePage);
         }
         
         // I'm not actually sure what triggers the 'send' event here, and hence not sure
@@ -79,7 +88,7 @@ namespace RightToAskClient.Views
                 if (registerNow)
                 {
                     // var reg = new Registration();
-                    RegisterPage1 registrationPage = new RegisterPage1(readingContext.ThisParticipant.RegistrationInfo, readingContext);
+                    RegisterPage1 registrationPage = new RegisterPage1(readingContext.ThisParticipant.RegistrationInfo, readingContext, false);
                     registrationPage.Disappearing += setSuggester;
                     
                     // question.QuestionSuggester = readingContext.ThisParticipant.UserName;
@@ -89,7 +98,7 @@ namespace RightToAskClient.Views
                     // with users.
                     // registrationPage.Disappearing += saveQuestion;
                     
-                    Navigation.PushAsync(registrationPage);
+                    await Navigation.PushAsync(registrationPage);
                 }
             }
             else

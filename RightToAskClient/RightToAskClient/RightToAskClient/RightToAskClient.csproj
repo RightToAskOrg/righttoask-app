@@ -37,6 +37,7 @@
     <Compile Remove="Views\FindMyMP.xaml.cs" />
     <Compile Remove="Views\PickerPage.xaml.cs" />
     <Compile Remove="Controls\AdvancedSearchControl.cs" />
+    <Compile Remove="Views\PersonProfilePage.xaml.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Views\SecondPage_old.xaml" />
@@ -52,5 +53,6 @@
     <EmbeddedResource Include="Resources\allsenstate.csv" />
     <None Remove="Resources\all-authorities.csv" />
     <EmbeddedResource Include="Resources\all-authorities.csv" />
+    <EmbeddedResource Remove="Views\PersonProfilePage.xaml" />
   </ItemGroup>
 </Project>

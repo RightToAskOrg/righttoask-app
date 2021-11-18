@@ -10,7 +10,7 @@ namespace RightToAskClient.Views
     public partial class RegisterPage1 : ContentPage
     {
         private ReadingContext readingContext;
-        public RegisterPage1(Registration reg, ReadingContext readingContext)
+        public RegisterPage1(Registration reg, ReadingContext readingContext, bool isReadingOnly)
         {
             InitializeComponent();
             this.readingContext = readingContext;
