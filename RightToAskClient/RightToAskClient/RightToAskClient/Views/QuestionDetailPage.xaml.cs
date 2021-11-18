@@ -48,8 +48,6 @@ namespace RightToAskClient.Views
         // name, not with a separate button.
         private async void QuestionSuggesterButton_OnClicked(object sender, EventArgs e)
         {
-			// var personProfilePage = new PersonProfilePage(question.QuestionSuggester, readingContext);
-			// await Navigation.PushAsync (personProfilePage);
             var testUserReg = new Registration()
             {
                 uid = "This is a test user",

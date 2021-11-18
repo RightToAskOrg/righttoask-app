@@ -20,6 +20,6 @@
 		<Button Text="Save" 
                 Clicked="OnSaveButtonClicked" />
 		<Button Text="Cancel" 
-                Clicked="OnCancelButtonClicked" />
+                 Clicked="OnCancelButtonClicked" />
 	</StackLayout>
 </ContentPage>

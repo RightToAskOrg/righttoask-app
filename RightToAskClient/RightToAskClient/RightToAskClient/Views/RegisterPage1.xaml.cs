@@ -15,28 +15,58 @@ namespace RightToAskClient.Views
             InitializeComponent();
             this.readingContext = readingContext;
             BindingContext = reg;
-            if (!readingContext.ThisParticipant.MPsKnown)
-            {
-                registerCitizenButton.Text = "Next: Find your electorates";
-            }
+
+            Title = isReadingOnly ? "User profile" : "Create Account";
+            ShowTheRightButtons(reg.display_name, isReadingOnly);
             
-            if (!readingContext.ThisParticipant.Is_Registered)
-            {
-                registerCitizenButton.IsVisible = true;
-            }
-            else
-            {
-                if (readingContext.ThisParticipant.MPsKnown)
-                {
-                    
-                    DisplayAlert("Electorates already selected",
-                        "You have already selected your electorates - you can change them if you like",
-                        "OK");
-                }
-                registerCitizenButton.IsVisible = false;
-            }
         }
 
+        // Show and label different buttons according to whether we're registering
+        // as a new user, or viewing someone else's profile.
+        void ShowTheRightButtons(string name, bool isReadingOnly)
+        {
+	        if (isReadingOnly)
+	        {
+		        registerCitizenButton.IsVisible = false;
+		        registerOrgButton.IsVisible = false;
+		        registerMPButton.IsVisible = false;
+		        doneButton.IsVisible = false;
+		        
+		        DMButton.Text = "Send Direct Message to " + name;
+		        SeeQuestionsButton.Text = "Read questions from " + name;
+		        FollowButton.Text = "Follow " + name;
+
+	        }
+	        else
+	        {
+		        DMButton.IsVisible = false;
+		        SeeQuestionsButton.IsVisible = false;
+		        FollowButton.IsVisible = false;
+		        
+		        if (!readingContext.ThisParticipant.MPsKnown)
+		        {
+			        registerCitizenButton.Text = "Next: Find your electorates";
+		        }
+            
+		        if (!readingContext.ThisParticipant.Is_Registered)
+		        {
+			        registerCitizenButton.IsVisible = true;
+					registerOrgButton.IsVisible = true;
+					registerMPButton.IsVisible = true;
+		        }
+		        else
+		        {
+			        if (readingContext.ThisParticipant.MPsKnown)
+			        {
+				        DisplayAlert("Electorates already selected",
+					        "You have already selected your electorates - you can change them if you like",
+					        "OK");
+			        }
+
+			        registerCitizenButton.IsVisible = false;
+		        }
+	        }
+        }
 		async void OnSaveButtonClicked (object sender, EventArgs e)
 		{
 			var newRegistration = (Registration)BindingContext;
@@ -45,7 +75,7 @@ namespace RightToAskClient.Views
 			{
 				Result<bool> httpResponse = await App.RegItemManager.SaveTaskAsync (newRegistration);
 				var httpValidation = validateHttpResponse(httpResponse);
-				reportLabel.Text = httpValidation.message;
+				ReportLabel.Text = httpValidation.message;
 				if (httpValidation.isValid)
 				{
 					readingContext.ThisParticipant.RegistrationInfo = newRegistration;
@@ -81,9 +111,6 @@ namespace RightToAskClient.Views
 		{
 			await Navigation.PopAsync ();
 		}
-        async void OnRegisterNameFieldCompleted(object sender, EventArgs e)
-        {
-        }
         
         // If MPs are not known, show page that allows finding electorates.
         // Whether or not they choose some, let them finish registering.
@@ -119,5 +146,28 @@ namespace RightToAskClient.Views
         private void OnElectoratesButtonTapped(object sender, ItemTappedEventArgs e)
         {
         }
+
+		private void FollowButton_OnClicked(object sender, EventArgs e)
+		{
+			((Xamarin.Forms.Button) sender).Text = "Following not implemented";
+
+		}
+
+		private void DMButton_OnClicked(object sender, EventArgs e)
+		{
+			((Xamarin.Forms.Button) sender).Text = "DMs not implemented";
+		}
+
+		// At the moment, this pushes a brand new question-reading page,
+		// which is meant to have only questions from this person, but
+		// at the moment just has everything.
+		// 
+		// Think a bit harder about how people will navigate or understand this:
+		// Will they expect to be adding a new stack layer, or popping off old ones?
+		private async void SeeQuestionsButton_OnClicked(object sender, EventArgs e)
+		{
+			var readingPage = new ReadingPage(true, readingContext);
+			await Navigation.PushAsync(readingPage);
+		}
     }
 }

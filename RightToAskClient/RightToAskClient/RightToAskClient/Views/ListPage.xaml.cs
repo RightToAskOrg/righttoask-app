@@ -9,7 +9,6 @@ namespace RightToAskClient.Views
 		public ListPage ()
 		{
 			InitializeComponent ();
-			// DoCryptoSigningTest();
 		}
 
 	

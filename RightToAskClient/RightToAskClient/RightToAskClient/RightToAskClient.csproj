@@ -38,6 +38,7 @@
     <Compile Remove="Views\PickerPage.xaml.cs" />
     <Compile Remove="Controls\AdvancedSearchControl.cs" />
     <Compile Remove="Views\PersonProfilePage.xaml.cs" />
+    <Compile Remove="Views\ListPage.xaml.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Views\SecondPage_old.xaml" />
@@ -54,5 +55,6 @@
     <None Remove="Resources\all-authorities.csv" />
     <EmbeddedResource Include="Resources\all-authorities.csv" />
     <EmbeddedResource Remove="Views\PersonProfilePage.xaml" />
+    <EmbeddedResource Remove="Views\ListPage.xaml" />
   </ItemGroup>
 </Project>

@@ -4,7 +4,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:RightToAskClient.Models;assembly=RightToAskClient"
              xmlns:generic="clr-namespace:System.Collections.Generic;assembly=netstandard"
-             Title="Create Account"
              x:Class="RightToAskClient.Views.RegisterPage1">
 	<ContentPage.Content >
 		<StackLayout Margin="20" x:Datatype="models:Registration">
@@ -36,7 +35,7 @@
 					</DataTemplate>
 				</ListView.ItemTemplate>
 			</ListView>
-			<Label x:Name="reportLabel" Text="Done" />
+			<Label x:Name="ReportLabel" />
 			<StackLayout Orientation="Vertical" VerticalOptions="Center">
 				<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
 					<Button x:Name="registerCitizenButton" Clicked="OnSaveButtonClicked" Text="Complete Account Creation" StyleClass="DoneButton" HorizontalOptions="Center"/>
@@ -45,9 +44,12 @@
 			<StackLayout Orientation="Horizontal" VerticalOptions="Center">
 				<Button x:Name="registerMPButton" Text="Register MP Account" Clicked="OnRegisterMPButtonClicked"  StyleClass="DoneButton" HorizontalOptions="Center"/>
 				<Button x:Name="registerOrgButton" Text="Register Organisational Account" Clicked="OnRegisterOrgButtonClicked"  StyleClass="DoneButton" HorizontalOptions="Center"/>
-			<Button Text="Cancel"
+			<Button x:Name = "doneButton" Text="Cancel"
 			        Clicked="OnCancelButtonClicked" />
 			</StackLayout>
+			<Button x:Name="FollowButton" StyleClass="NormalButton" Text="Follow" Clicked="FollowButton_OnClicked" HorizontalOptions="Center"/>
+        	<Button x:Name="SeeQuestionsButton"  StyleClass="NormalButton" Clicked="SeeQuestionsButton_OnClicked" HorizontalOptions="Center"/>
+        	<Button x:Name="DMButton"  StyleClass="NormalButton" Clicked="DMButton_OnClicked" HorizontalOptions="Center"/>
 		</StackLayout>
 	<!--
 	</StackLayout>
