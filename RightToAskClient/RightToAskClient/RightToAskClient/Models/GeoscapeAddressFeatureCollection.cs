@@ -39,10 +39,10 @@ namespace RightToAskClient.Models
        public string StreetName { get; set; }
 
        [JsonPropertyName("streetNumber1")]
-       public long StreetNumber1 { get; set; }
+       public string StreetNumber1 { get; set; }
 
        [JsonPropertyName("streetNumber2")]
-       public long StreetNumber2 { get; set; }
+       public string StreetNumber2 { get; set; }
 
        [JsonPropertyName("complexUnitIdentifier")]
        public string ComplexUnitIdentifier { get; set; }

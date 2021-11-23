@@ -79,7 +79,7 @@ namespace RightToAskClient.Data
             catch (Exception ex)
             {
                 Debug.WriteLine(@"\tERROR {0}", ex.Message);
-                return new Result<T>()
+                return new Result<T>
                     { Err = "Error connecting to server." + ex.Message };
             }
         }
