@@ -36,7 +36,54 @@ namespace RightToAskClient.Data
             };
         }
         
+        
+        // TODO At the moment this is just a copy-paste of the Result version.
+        // Re-unify them into one function.
         public async Task<Result<T>> DoGetRequest<T>(string uriString)
+        {
+            Uri uri = new Uri(uriString);
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync(uri);
+
+                if (response is null || !response.IsSuccessStatusCode)
+                {
+                    return new Result<T>
+                    {
+                        Err = "Error connecting to server." + response?.StatusCode + response?.ReasonPhrase
+                    };
+                }
+
+                string content = await response.Content.ReadAsStringAsync();
+                var deserialisedResponse = JsonSerializer.Deserialize<T>(content, serializerOptions);
+
+                if (deserialisedResponse is null)
+                {
+                    return new Result<T>
+                    {
+                        Err = "Error deserialising server response."
+                    };
+                }
+
+                // TODO - there may need to be specific error handling for each server. For example, 
+                // Geoscape returns a special value "Enumeration yielded no results" in Results.Empty 
+                // when the address didn't match anything.
+
+                // TODO - this is the *only* step that differs depending on whether T is itself
+                // a result type. Can we use type introspection to just check it?
+                return new Result<T>
+                {
+                    Ok = deserialisedResponse
+                };
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(@"\tERROR {0}", ex.Message);
+                return new Result<T>()
+                    { Err = "Error connecting to server." + ex.Message };
+            }
+        }
+        public async Task<Result<T>> DoGetResultRequest<T>(string uriString)
         {
             Uri uri = new Uri(uriString);
             try
@@ -62,6 +109,10 @@ namespace RightToAskClient.Data
                     };
                 }
 
+                // TODO - there may need to be specific error handling for each server. For example, 
+                // Geoscape returns a special value "Enumeration yielded no results" in Results.Empty 
+                // when the address didn't match anything.
+
                 return deserialisedResponse;
             }
             catch (Exception ex)
@@ -72,7 +123,7 @@ namespace RightToAskClient.Data
             }
         }
 
-        public async Task<Result<GeoscapeAddressFeature>> GetGeoscapeAddressData(string address)
+        public async Task<Result<GeoscapeAddressFeatureCollection>> GetGeoscapeAddressData(string address)
         {
             string requestString = GeoscapeAddressRequestBuilder.BuildRequest(address);
 
@@ -83,21 +134,20 @@ namespace RightToAskClient.Data
 
             if (!String.IsNullOrEmpty(GeoscapeAddressRequestBuilder.ApiKey.Err))
             {
-                return new Result<GeoscapeAddressFeature>() { Err = GeoscapeAddressRequestBuilder.ApiKey.Err };
+                return new Result<GeoscapeAddressFeatureCollection>() { Err = GeoscapeAddressRequestBuilder.ApiKey.Err };
             }
             
             client.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue(GeoscapeAddressRequestBuilder.ApiKey.Ok);
             
-            return await DoGetRequest<GeoscapeAddressFeature>(Constants.GeoscapeAPIUrl + requestString);
+            return await DoGetRequest<GeoscapeAddressFeatureCollection>(Constants.GeoscapeAPIUrl + requestString);
         }
 
         public async Task<Result<List<string>>> GetUserList()
         {
             // client.BaseAddress = new Uri(Constants.UserListUrl);
-            return await DoGetRequest<List<string>>(Constants.UserListUrl);
+            return await DoGetResultRequest<List<string>>(Constants.UserListUrl);
         }
-
 
         public async Task<Result<List<string>>> RefreshDataAsync()
         {

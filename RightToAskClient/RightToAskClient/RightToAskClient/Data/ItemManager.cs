@@ -23,7 +23,7 @@ namespace RightToAskClient.Data
 			return restService.SaveTodoItemAsync (item);
 		}
 
-		public Task<Result<GeoscapeAddressFeature>> GetGeoscapeAddressDataAsync(string address)
+		public Task<Result<GeoscapeAddressFeatureCollection>> GetGeoscapeAddressDataAsync(string address)
 		{
 			return restService.GetGeoscapeAddressData(address);
 		}

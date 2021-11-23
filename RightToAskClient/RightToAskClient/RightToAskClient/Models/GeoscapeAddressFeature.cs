@@ -173,8 +173,14 @@ namespace RightToAskClient.Models
 
     public partial class StateElectorate
     {
+        [JsonPropertyName("stateElectoralPid")]
+        public string stateElectoralPid{ get; set; }
+        
         [JsonPropertyName("stateElectoralName")]
         public string StateElectoralName { get; set; }
+        
+        [JsonPropertyName("stateElectoralClassCode")]
+        public string stateElectoralClassCode { get; set; }
 
         [JsonPropertyName("stateElectoralType")]
         public string StateElectoralType { get; set; }

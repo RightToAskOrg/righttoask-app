@@ -161,8 +161,8 @@ namespace RightToAskClient.Views
         // If we know their state but not their Legislative Assembly or Council makeup, we can go on. 
         async void OnSubmitAddressButton_Clicked(object? sender, EventArgs e)
         {
-            GeoscapeAddressFeature addressInfo;
-            Result<GeoscapeAddressFeature> httpResponse;
+            GeoscapeAddressFeatureCollection addressInfo;
+            Result<GeoscapeAddressFeatureCollection> httpResponse;
             (bool isValid, string message) httpValidation;
             
             var random = new Random();
@@ -176,7 +176,7 @@ namespace RightToAskClient.Views
             }
             
             // TODO get real address.
-            httpResponse = await App.RegItemManager.GetGeoscapeAddressDataAsync("test this address");
+            httpResponse = await App.RegItemManager.GetGeoscapeAddressDataAsync("12%20Park%20St%20Alphington%20Vic");
             // if (httpResponse == null)
             //{
             //      listView.Header = "Error reaching server. Check your Internet connection.";
