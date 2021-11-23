@@ -32,10 +32,10 @@ namespace RightToAskClient.Views {
         private global::RightToAskClient.Controls.ToggleButton UpVoteButton;
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "2.0.0.0")]
-        private global::Xamarin.Forms.StackLayout LinkOrAnswerSegment;
+        private global::Xamarin.Forms.StackLayout BackgroundSegment;
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "2.0.0.0")]
-        private global::Xamarin.Forms.StackLayout BackgroundSegment;
+        private global::Xamarin.Forms.StackLayout LinkOrAnswerSegment;
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "2.0.0.0")]
         private global::Xamarin.Forms.Button SaveAnswerButton;
@@ -54,8 +54,8 @@ namespace RightToAskClient.Views {
             Suggester = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Label>(this, "Suggester");
             Votes = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Label>(this, "Votes");
             UpVoteButton = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::RightToAskClient.Controls.ToggleButton>(this, "UpVoteButton");
-            LinkOrAnswerSegment = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.StackLayout>(this, "LinkOrAnswerSegment");
             BackgroundSegment = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.StackLayout>(this, "BackgroundSegment");
+            LinkOrAnswerSegment = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.StackLayout>(this, "LinkOrAnswerSegment");
             SaveAnswerButton = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Button>(this, "SaveAnswerButton");
             SaveBackgroundButton = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Button>(this, "SaveBackgroundButton");
             QuestionSuggesterButton = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Button>(this, "QuestionSuggesterButton");

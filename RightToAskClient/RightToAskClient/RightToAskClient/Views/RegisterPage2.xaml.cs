@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using RightToAskClient.Data;
 using RightToAskClient.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -160,28 +161,49 @@ namespace RightToAskClient.Views
         // If we know their state but not their Legislative Assembly or Council makeup, we can go on. 
         async void OnSubmitAddressButton_Clicked(object? sender, EventArgs e)
         {
+            GeoscapeAddressFeature addressInfo;
+            Result<GeoscapeAddressFeature> httpResponse;
+            (bool isValid, string message) httpValidation;
+            
             var random = new Random();
             
-            if (allFederalElectorates == null)
+            // TODO Fix up the state picker so they all edit the person's registration data.
+            // Update this test accordingly.
+            if (allFederalElectorates is null)
             {
                 DisplayAlert("Please choose a state", "", "OK");
                 return;
             }
-                
-                thisParticipant.RegistrationInfo.AddElectorate(BackgroundElectorateAndMPData.Chamber.Australian_House_Of_Representatives,  
-                    allFederalElectorates[random.Next(allFederalElectorates.Count)]);
             
-                if (!allStateLAElectorates.IsNullOrEmpty())
-                {
-                    thisParticipant.RegistrationInfo.AddElectorate(stateLAChamber,
-                        allStateLAElectorates[random.Next(allStateLAElectorates.Count)]);   
-                }
+            // TODO get real address.
+            httpResponse = await App.RegItemManager.GetGeoscapeAddressDataAsync("test this address");
+            // if (httpResponse == null)
+            //{
+            //      listView.Header = "Error reaching server. Check your Internet connection.";
+            // } 
+            if (String.IsNullOrEmpty(httpResponse.Err))
+            {
+                addressInfo = httpResponse.Ok;
+            } else
+            {
+                addressSavingLabel.Text = "Error reaching server: "+httpResponse.Err;
+                ReportLabel.Text = "Consider looking up your electorates manually";
+            }
+            
+            thisParticipant.RegistrationInfo.AddElectorate(BackgroundElectorateAndMPData.Chamber.Australian_House_Of_Representatives,  
+                allFederalElectorates[random.Next(allFederalElectorates.Count)]);
+            
+            if (!allStateLAElectorates.IsNullOrEmpty())
+            {
+                thisParticipant.RegistrationInfo.AddElectorate(stateLAChamber,
+                    allStateLAElectorates[random.Next(allStateLAElectorates.Count)]);   
+            }
 
-                if (!allStateLCElectorates.IsNullOrEmpty())
-                {
-                    thisParticipant.RegistrationInfo.AddElectorate(stateLCChamber, 
-                        allStateLCElectorates[random.Next(allStateLCElectorates.Count)]);
-                }
+            if (!allStateLCElectorates.IsNullOrEmpty())
+            {
+                thisParticipant.RegistrationInfo.AddElectorate(stateLCChamber, 
+                    allStateLCElectorates[random.Next(allStateLCElectorates.Count)]);
+            }
             
             thisParticipant.MPsKnown = true;
 

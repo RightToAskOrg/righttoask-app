@@ -84,7 +84,7 @@ namespace RightToAskClient.Views
 
         private async void UserShouldRaiseButtonClicked(object sender, EventArgs e)
         {
-			var httpResponse = await App.RegItemManager.GetTasksAsync ();
+			var httpResponse = await App.RegItemManager.GetUsersAsync();
             
 			if (String.IsNullOrEmpty(httpResponse.Err))
             {

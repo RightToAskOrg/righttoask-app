@@ -24,6 +24,7 @@ namespace RightToAskClient
         // public static string RestUrl = DeviceInfo.Platform == DevicePlatform.Android ? "http://10.0.2.2:5000/api/todoitems/{0}" : "http://localhost:5000/api/todoitems/{0}";
         public static string RegUrl = DeviceInfo.Platform == DevicePlatform.Android ? "http://10.0.2.2:8099/new_registration" : "http://localhost:8099/new_registration/{0}";
         public static string UserListUrl = DeviceInfo.Platform == DevicePlatform.Android ? "http://10.0.2.2:8099/get_user_list" : "http://localhost:8099/get_user_list";
+        public static string GeoscapeAPIUrl = "https://api.psma.com.au/beta/v2/addresses/geocoder"; 
        
 
         public const string DatabaseFilename = "TodoSQLite.db3";

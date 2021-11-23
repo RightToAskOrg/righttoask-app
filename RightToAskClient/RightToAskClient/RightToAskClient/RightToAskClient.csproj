@@ -56,5 +56,7 @@
     <EmbeddedResource Include="Resources\all-authorities.csv" />
     <EmbeddedResource Remove="Views\PersonProfilePage.xaml" />
     <EmbeddedResource Remove="Views\ListPage.xaml" />
+    <None Remove="Resources\GeoscapeAPIKey" />
+    <EmbeddedResource Include="Resources\GeoscapeAPIKey" />
   </ItemGroup>
 </Project>

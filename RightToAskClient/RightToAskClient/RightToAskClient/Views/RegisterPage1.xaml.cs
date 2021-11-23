@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using RightToAskClient.Models;
+using RightToAskClient.Data;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -74,7 +75,7 @@ namespace RightToAskClient.Views
 			if (String.IsNullOrEmpty(regTest))
 			{
 				Result<bool> httpResponse = await App.RegItemManager.SaveTaskAsync (newRegistration);
-				var httpValidation = validateHttpResponse(httpResponse);
+				var httpValidation = HttpUtils.validateHttpResponse(httpResponse, "Server Signature Verification");
 				ReportLabel.Text = httpValidation.message;
 				if (httpValidation.isValid)
 				{
@@ -95,18 +96,6 @@ namespace RightToAskClient.Views
 		}
 		
 
-		private (bool isValid, string message) validateHttpResponse(Result<bool> response)
-		{
-		if(String.IsNullOrEmpty(response.Err))
-			{
-				if (response.Ok)
-				{
-					return (true, "Server signature successfully verified.");
-				}
-				return (false, "Server signature verification failed");
-			}
-			return (false, "Server connection error" + response.Err);
-		}
 		async void OnCancelButtonClicked (object sender, EventArgs e)
 		{
 			await Navigation.PopAsync ();

@@ -31,13 +31,14 @@
 					    </Picker>
 				    </StackLayout>
 				</Frame>
-				<Frame CornerRadius="10"  BackgroundColor="NavajoWhite" Padding="0">
+				<Frame x:Name="addressSavingStack" CornerRadius="10"  BackgroundColor="NavajoWhite" Padding="0">
 					<StackLayout Orientation="Vertical">
 					    <StackLayout Orientation="Vertical" HorizontalOptions="Center">
-					        <Label Text="I need to find my electorates"  TextColor="Teal" FontSize="Large" HorizontalOptions="Center" VerticalOptions="Center" />
+					        <Label x:Name="addressSavingLabel" Text="I need to find my electorates"  TextColor="Teal" FontSize="Large" HorizontalOptions="Center" VerticalOptions="Center" />
 					        <Label FontSize="Small" Text="(i) Your address will be sent to direct to your state's electoral commission and not to RightToAsk." />
                             <Entry x:Name="AddressEntry" BackgroundColor="Turquoise" Placeholder="Enter your address" Completed="OnAddressEntered" HorizontalOptions="Center"/>
                             <Button x:Name="submitAddressButton" Text="Find my electorates" HorizontalOptions="Center" CornerRadius="20" BackgroundColor="Turquoise" Clicked="OnSubmitAddressButton_Clicked" />
+							<Label x:Name="ReportLabel" />
 				        </StackLayout>
 						<!--
 			            <StackLayout x:Name="addressSavingStack" Orientation="Vertical" HorizontalOptions="Center">

@@ -13,14 +13,19 @@ namespace RightToAskClient.Data
 			restService = service;
 		}
 
-		public Task<Result<List<string>>> GetTasksAsync ()
+		public Task<Result<List<string>>> GetUsersAsync ()
 		{
-			return restService.RefreshDataAsync ();	
+			return restService.GetUserList();	
 		}
 
 		public Task<Result<bool>> SaveTaskAsync (Registration item)
 		{
 			return restService.SaveTodoItemAsync (item);
+		}
+
+		public Task<Result<GeoscapeAddressFeature>> GetGeoscapeAddressDataAsync(string address)
+		{
+			return restService.GetGeoscapeAddressData(address);
 		}
 	}
 }
