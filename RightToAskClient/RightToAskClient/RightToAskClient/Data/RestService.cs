@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
@@ -12,6 +13,8 @@ using RightToAskClient.Models;
 
 namespace RightToAskClient.Data
 {
+    // TODO*** Refactor this so that the Geoscape services and the RightToAsk services use different clients.
+    // Check whether getAsync is reentrant.
     public class RestService : IRestService
     {
         HttpClient client;
@@ -37,6 +40,52 @@ namespace RightToAskClient.Data
         }
         
         
+        // TODO This is just a copy paste of DoGetRequest, with small changes
+        // for automated JSON serialising
+        public async Task<Result<T>> DoGetJSONRequest<T>(string uriString)
+        {
+            Uri uri = new Uri(uriString);
+            try
+            {
+                T deserialisedResponse = await client.GetFromJsonAsync<T>(uri, serializerOptions);
+
+                if (deserialisedResponse is null)
+                {
+                    return new Result<T>
+                    {
+                        Err = "Error getting json from server."
+                    };
+                }
+
+                // TODO - there may need to be specific error handling for each server. For example, 
+                // Geoscape returns a special value "Enumeration yielded no results" in Results.Empty 
+                // when the address didn't match anything.
+                // Actually this may be better dealt with by whatever receives this info.
+
+                return new Result<T>
+                {
+                    Ok = deserialisedResponse
+                };
+            }
+            catch (HttpRequestException ex)
+            {
+                Debug.WriteLine(@"\tERROR {0}", ex.Message);
+                return new Result<T>
+                    { Err = "Error connecting to server." + ex.Message };
+            }
+            catch (JsonException ex)
+            {
+                Debug.WriteLine(@"\tERROR {0}", ex.Message);
+                return new Result<T>
+                    { Err = "JSON deserialisation error." + ex.Message };
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(@"\tERROR {0}", ex.Message);
+                return new Result<T>
+                    { Err = "Error connecting to server." + ex.Message };
+            }
+        }
         // TODO At the moment this is just a copy-paste of the Result version.
         // Re-unify them into one function.
         public async Task<Result<T>> DoGetRequest<T>(string uriString)
