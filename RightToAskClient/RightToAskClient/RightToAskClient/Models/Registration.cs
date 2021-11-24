@@ -49,5 +49,18 @@ namespace RightToAskClient.Models
 				region = regionToAdd
 			});
 		}
+
+		// TODO this would be a lot easier if electorates was a dictionary instead of a list of pairs
+		public string CommonwealthElectorate()
+		{
+			var houseOfRepsElectoratePair = electorates.Find(chamberPair =>
+				chamberPair.chamber == BackgroundElectorateAndMPData.Chamber.Australian_House_Of_Representatives);
+			if (houseOfRepsElectoratePair is null)
+			{
+				return "";
+			}
+
+			return houseOfRepsElectoratePair.region;
+		}
 	}
 }

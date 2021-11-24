@@ -161,7 +161,7 @@ namespace RightToAskClient.Views
         // If we know their state but not their Legislative Assembly or Council makeup, we can go on. 
         async void OnSubmitAddressButton_Clicked(object? sender, EventArgs e)
         {
-            GeoscapeAddressFeatureCollection addressInfo;
+            GeoscapeAddressFeatureCollection addressList;
             Result<GeoscapeAddressFeatureCollection> httpResponse;
             (bool isValid, string message) httpValidation;
             
@@ -181,36 +181,25 @@ namespace RightToAskClient.Views
             //{
             //      listView.Header = "Error reaching server. Check your Internet connection.";
             // } 
-            if (String.IsNullOrEmpty(httpResponse.Err))
+            // TODO Deal with geoscape-specific errors, possibly in the Geoscape 
+            // model itself, e.g. check for the error in which the list is empty
+            // and tell the person we couldn't find their address.
+            if (!String.IsNullOrEmpty(httpResponse.Err))
             {
-                addressInfo = httpResponse.Ok;
-            } else
-            {
+                
                 addressSavingLabel.Text = "Error reaching server: "+httpResponse.Err;
                 ReportLabel.Text = "Consider looking up your electorates manually";
-            }
+                return;
+                
+            } 
             
-            thisParticipant.RegistrationInfo.AddElectorate(BackgroundElectorateAndMPData.Chamber.Australian_House_Of_Representatives,  
-                allFederalElectorates[random.Next(allFederalElectorates.Count)]);
-            
-            if (!allStateLAElectorates.IsNullOrEmpty())
-            {
-                thisParticipant.RegistrationInfo.AddElectorate(stateLAChamber,
-                    allStateLAElectorates[random.Next(allStateLAElectorates.Count)]);   
-            }
-
-            if (!allStateLCElectorates.IsNullOrEmpty())
-            {
-                thisParticipant.RegistrationInfo.AddElectorate(stateLCChamber, 
-                    allStateLCElectorates[random.Next(allStateLCElectorates.Count)]);
-            }
-            
-            thisParticipant.MPsKnown = true;
+            addressList = httpResponse.Ok;
+            updateElectorates(addressList.AddressDataList);
 
             bool SaveThisAddress = await DisplayAlert("Electorates found!", 
                 // "State Assembly Electorate: "+thisParticipant.SelectedLAStateElectorate+"\n"
                 // +"State Legislative Council Electorate: "+thisParticipant.SelectedLCStateElectorate+"\n"
-                // +"Federal Electorate: "+thisParticipant.SelectedFederalElectorate+"\n"+
+                "Federal Electorate: "+thisParticipant.RegistrationInfo.CommonwealthElectorate()+"\n"+
                 "Do you want to save your address on this device? Right To Ask will not learn your address.", 
                 "OK - Save address on this device", "No thanks");
             if (SaveThisAddress)
@@ -227,7 +216,30 @@ namespace RightToAskClient.Views
             FindMPsButton.IsVisible = true;
             SkipButton.IsVisible = false;
         }
-        
+
+        private void updateElectorates(GeoscapeAddressFeature[] addressListAddressDataList)
+        {
+            if(addressListAddressDataList.Length > 0)
+            {
+            thisParticipant.RegistrationInfo.AddElectorate(BackgroundElectorateAndMPData.Chamber.Australian_House_Of_Representatives,  
+                addressListAddressDataList[0].Properties.CommonwealthElectorate.CommElectoralName);
+            /*
+            if (!allStateLAElectorates.IsNullOrEmpty())
+            {
+                thisParticipant.RegistrationInfo.AddElectorate(stateLAChamber,
+                    allStateLAElectorates[random.Next(allStateLAElectorates.Count)]);   
+            }
+
+            if (!allStateLCElectorates.IsNullOrEmpty())
+            {
+                thisParticipant.RegistrationInfo.AddElectorate(stateLCChamber, 
+                    allStateLCElectorates[random.Next(allStateLCElectorates.Count)]);
+            }
+            */
+            thisParticipant.MPsKnown = true;
+            }
+        }
+
         private void SaveAddress()
         {
             thisParticipant.Address = address;

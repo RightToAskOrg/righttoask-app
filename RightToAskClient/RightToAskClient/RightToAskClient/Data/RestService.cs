@@ -189,7 +189,7 @@ namespace RightToAskClient.Data
             client.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue(GeoscapeAddressRequestBuilder.ApiKey.Ok);
             
-            return await DoGetRequest<GeoscapeAddressFeatureCollection>(Constants.GeoscapeAPIUrl + requestString);
+            return await DoGetJSONRequest<GeoscapeAddressFeatureCollection>(Constants.GeoscapeAPIUrl + requestString);
         }
 
         public async Task<Result<List<string>>> GetUserList()
