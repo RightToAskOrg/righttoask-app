@@ -2,11 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
-using System.Net.Http.Json;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using RightToAskClient.CryptoUtils;
 using RightToAskClient.Models;
@@ -21,9 +20,9 @@ using RightToAskClient.Models;
  * but this seems an acceptable price to pay for simplicity. It does mean that
  * if the DNS settings change, clients will have to be restarted.
  * */
-namespace RightToAskClient.Data
+namespace RightToAskClient.HttpClients
 {
-    public class RTAHttpClient
+    public class GenericHttpClient
     {
         HttpClient client;
         JsonSerializerOptions serializerOptions;
@@ -40,7 +39,7 @@ namespace RightToAskClient.Data
             client.DefaultRequestHeaders.Authorization = authHeader;
         }
 
-        public RTAHttpClient(JsonSerializerOptions serializerOptions)
+        public GenericHttpClient(JsonSerializerOptions serializerOptions)
         {
             client = new HttpClient();
             this.serializerOptions = serializerOptions;
@@ -183,32 +182,6 @@ namespace RightToAskClient.Data
             }
         }
 
-        public async Task<Result<GeoscapeAddressFeatureCollection>> GetGeoscapeAddressData(string address)
-        {
-            string requestString = GeoscapeAddressRequestBuilder.BuildRequest(address);
-
-            // TODO - Possibly we shold be setting client.BaseAddress rather than appending
-            // the request string.
-            // client.BaseAddress = new Uri(Constants.GeoscapeAPIUrl + requestString);
-            // ***TODO Check that there is an OK.
-
-            if (!String.IsNullOrEmpty(GeoscapeAddressRequestBuilder.ApiKey.Err))
-            {
-                return new Result<GeoscapeAddressFeatureCollection>() { Err = GeoscapeAddressRequestBuilder.ApiKey.Err };
-            }
-            
-            client.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue(GeoscapeAddressRequestBuilder.ApiKey.Ok);
-            
-            return await DoGetJSONRequest<GeoscapeAddressFeatureCollection>(Constants.GeoscapeAPIUrl + requestString);
-        }
-
-        public async Task<Result<List<string>>> GetUserList()
-        {
-            // client.BaseAddress = new Uri(Constants.UserListUrl);
-            return await DoGetResultRequest<List<string>>(Constants.UserListUrl);
-        }
-
         // TODO Remove?
         public async Task<Result<List<string>>> RefreshDataAsync()
         {
@@ -248,8 +221,9 @@ namespace RightToAskClient.Data
             }
         }
 
-        // TODO Remove?
-        public async Task<Result<bool>> SaveTodoItemAsync(Registration item)
+        // Tin is the type of the thing we post, which is also the input type of this function.
+        // TResponse is the type of the server's response, which we return.
+        public async Task<Result<TResponse>> PostGenericItemAsync<TResponse, TIn>(TIn item)
         {
             Uri uri = new Uri(Constants.RegUrl);
             
@@ -262,33 +236,34 @@ namespace RightToAskClient.Data
 
                 if (response is null || !response.IsSuccessStatusCode)
                 {
-                    return new Result<bool>
+                    return new Result<TResponse>
                     {
                         Err = "Error connecting to server."+response?.StatusCode+response?.ReasonPhrase
                     };
                 }
                 
                 string responseContent = await response.Content.ReadAsStringAsync();
-                Result<SignedString>? httpResponse =
-                    JsonSerializer.Deserialize<Result<SignedString>>(responseContent, serializerOptions);
+                TResponse httpResponse =
+                    JsonSerializer.Deserialize<TResponse>(responseContent, serializerOptions);
 
-                if (httpResponse is null || !String.IsNullOrEmpty(httpResponse.Err))
+                if (httpResponse is null)
                 {
-                    Debug.WriteLine(@"\tError saving TodoItem:"+httpResponse?.Err);
-                    return new Result<bool> {Err = "Error response from server:"+httpResponse?.Err }; 
+                    Debug.WriteLine(@"\tError saving Item:");
+                    return new Result<TResponse> {Err = "Null response from server:"}; 
                 }
+
+                Debug.WriteLine(@"\tItem successfully saved on server.");
                 
-                Debug.WriteLine(@"\tTodoItem successfully saved.");
-                
-                return new Result<bool>
+                return new Result<TResponse>
                 {
-                    Ok = httpResponse.Ok.verifies(SignatureService.ServerPublicKey)
+                    Ok = httpResponse
                 };
+
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(@"\tERROR {0}", ex.Message);
-                return new Result<bool> { Err = "Error connecting to server."+ex.Message};
+                return new Result<TResponse> { Err = "Error connecting to server."+ex.Message};
             }
         }
 

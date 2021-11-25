@@ -8,9 +8,9 @@ namespace RightToAskClient.Data
 	{
 		Task<Result<List<string>>> RefreshDataAsync ();
 
-		Task<Result<bool>> SaveTodoItemAsync (Registration item);
-		Task<Result<List<string>>> GetUserList();
+		// Task<Result<bool>> SaveTodoItemAsync (Registration item);
+		//Task<Result<List<string>>> GetUserList();
 
-		Task<Result<GeoscapeAddressFeatureCollection>> GetGeoscapeAddressData(string address);
+		// Task<Result<GeoscapeAddressFeatureCollection>> GetGeoscapeAddressData(string address);
 	}
 }

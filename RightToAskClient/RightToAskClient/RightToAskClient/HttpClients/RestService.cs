@@ -172,6 +172,7 @@ namespace RightToAskClient.Data
             }
         }
 
+        /*
         public async Task<Result<GeoscapeAddressFeatureCollection>> GetGeoscapeAddressData(string address)
         {
             string requestString = GeoscapeAddressRequestBuilder.BuildRequest(address);
@@ -191,12 +192,15 @@ namespace RightToAskClient.Data
             
             return await DoGetJSONRequest<GeoscapeAddressFeatureCollection>(Constants.GeoscapeAPIUrl + requestString);
         }
+        */
 
+        /*
         public async Task<Result<List<string>>> GetUserList()
         {
             // client.BaseAddress = new Uri(Constants.UserListUrl);
             return await DoGetResultRequest<List<string>>(Constants.UserListUrl);
         }
+        */
 
         public async Task<Result<List<string>>> RefreshDataAsync()
         {
@@ -237,6 +241,7 @@ namespace RightToAskClient.Data
         }
 
         
+        /*
         public async Task<Result<bool>> SaveTodoItemAsync(Registration item)
         {
             Uri uri = new Uri(Constants.RegUrl);
@@ -279,6 +284,7 @@ namespace RightToAskClient.Data
                 return new Result<bool> { Err = "Error connecting to server."+ex.Message};
             }
         }
+        */
 
     }
 }

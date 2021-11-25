@@ -1,23 +1,16 @@
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Net.Http;
-using System.Net.Http.Json;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using RightToAskClient.CryptoUtils;
 using RightToAskClient.Models;
 
-namespace RightToAskClient.Data
+namespace RightToAskClient.HttpClients
 {
     /* A single static http client, set up to talk to Geoscape.
      */
-    public static class GeoscapeClientService
+    public static class GeoscapeClient
     {
-        
         private static JsonSerializerOptions serializerOptions =
             new JsonSerializerOptions
             {
@@ -27,8 +20,10 @@ namespace RightToAskClient.Data
                 // with possibly absent elements.
                 // DefaultIgnoreCondition = JsonIgnoreCondition.Always
             };
-        private static RTAHttpClient client = new RTAHttpClient(serializerOptions);
         
+        private static GenericHttpClient client = new GenericHttpClient(serializerOptions);
+        
+        // TODO Deal with Geoscape-specific errors, e.g. when it can't find the address.
         public static async Task<Result<GeoscapeAddressFeatureCollection>> GetAddressDataAsync(string address)
         {
             string requestString = GeoscapeAddressRequestBuilder.BuildRequest(address);

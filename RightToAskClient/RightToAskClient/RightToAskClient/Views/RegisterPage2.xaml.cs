@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using RightToAskClient.Data;
+using RightToAskClient.HttpClients;
 using RightToAskClient.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -172,7 +173,7 @@ namespace RightToAskClient.Views
             
             // httpResponse = await App.RegItemManager.GetGeoscapeAddressDataAsync(AddressEntry.Text);
             
-            httpResponse = await GeoscapeClientService.GetAddressDataAsync(AddressEntry.Text);
+            httpResponse = await GeoscapeClient.GetAddressDataAsync(AddressEntry.Text);
             
             // if (httpResponse == null)
             //{

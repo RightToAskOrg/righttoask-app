@@ -2,6 +2,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using RightToAskClient.Controls;
+using RightToAskClient.HttpClients;
 using RightToAskClient.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -84,7 +85,8 @@ namespace RightToAskClient.Views
 
         private async void UserShouldRaiseButtonClicked(object sender, EventArgs e)
         {
-			var httpResponse = await App.RegItemManager.GetUsersAsync();
+			// var httpResponse = await App.RegItemManager.GetUsersAsync();
+            var httpResponse = await RTAClient.GetUserList(); 
             
 			if (String.IsNullOrEmpty(httpResponse.Err))
             {

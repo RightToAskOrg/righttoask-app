@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using RightToAskClient.Models;
 using RightToAskClient.Data;
+using RightToAskClient.HttpClients;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -74,7 +75,8 @@ namespace RightToAskClient.Views
 			var regTest = newRegistration.IsValid().Err;
 			if (String.IsNullOrEmpty(regTest))
 			{
-				Result<bool> httpResponse = await App.RegItemManager.SaveTaskAsync (newRegistration);
+				//Result<bool> httpResponse = await App.RegItemManager.SaveTaskAsync (newRegistration);
+				Result<bool> httpResponse = await RTAClient.RegisterNewUser(newRegistration);
 				var httpValidation = HttpUtils.validateHttpResponse(httpResponse, "Server Signature Verification");
 				ReportLabel.Text = httpValidation.message;
 				if (httpValidation.isValid)

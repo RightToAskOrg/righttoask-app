@@ -1,4 +1,5 @@
 ﻿using System;
+using RightToAskClient.HttpClients;
 using RightToAskClient.Models;
 
 namespace RightToAskClient.Views
@@ -20,7 +21,8 @@ namespace RightToAskClient.Views
 		async void OnSaveButtonClicked (object sender, EventArgs e)
 		{
 			var newRegistration = (Registration)BindingContext;
-			Result<bool> httpResponse = await App.RegItemManager.SaveTaskAsync (newRegistration);
+			Result<bool> httpResponse = await RTAClient.RegisterNewUser(newRegistration);
+			// Result<bool> httpResponse = await App.RegItemManager.SaveTaskAsync (newRegistration);
 			if(String.IsNullOrEmpty(httpResponse.Err))
 			{
 				if (httpResponse.Ok)
