@@ -159,24 +159,21 @@ namespace RightToAskClient.Views
         // TODO: We probably want this to give the person a chance to go back and fix it if wrong.
         // If we don't even know the person's state, we have no idea so they have to go back and pick;
         // If we know their state but not their Legislative Assembly or Council makeup, we can go on. 
-        async void OnSubmitAddressButton_Clicked(object? sender, EventArgs e)
+        async void OnSubmitAddressButton_Clicked(object sender, EventArgs e)
         {
             GeoscapeAddressFeatureCollection addressList;
             Result<GeoscapeAddressFeatureCollection> httpResponse;
-            (bool isValid, string message) httpValidation;
             
-            var random = new Random();
-            
-            // TODO Fix up the state picker so they all edit the person's registration data.
-            // Update this test accordingly.
-            if (allFederalElectorates is null)
+            if (String.IsNullOrEmpty(thisParticipant.RegistrationInfo.state))
             {
                 DisplayAlert("Please choose a state", "", "OK");
                 return;
             }
             
-            // TODO get real address.
-            httpResponse = await App.RegItemManager.GetGeoscapeAddressDataAsync("12%20Park%20St%20Alphington%20Vic");
+            // httpResponse = await App.RegItemManager.GetGeoscapeAddressDataAsync(AddressEntry.Text);
+            
+            httpResponse = await GeoscapeClientService.GetAddressDataAsync(AddressEntry.Text);
+            
             // if (httpResponse == null)
             //{
             //      listView.Header = "Error reaching server. Check your Internet connection.";
@@ -195,11 +192,13 @@ namespace RightToAskClient.Views
             
             addressList = httpResponse.Ok;
             updateElectorates(addressList.AddressDataList);
+            FindMPsButton.IsVisible = true;
 
             bool SaveThisAddress = await DisplayAlert("Electorates found!", 
                 // "State Assembly Electorate: "+thisParticipant.SelectedLAStateElectorate+"\n"
                 // +"State Legislative Council Electorate: "+thisParticipant.SelectedLCStateElectorate+"\n"
-                "Federal Electorate: "+thisParticipant.RegistrationInfo.CommonwealthElectorate()+"\n"+
+                "Federal electorate: "+thisParticipant.RegistrationInfo.CommonwealthElectorate()+"\n"+
+                "State lower house electorate: "+thisParticipant.RegistrationInfo.StateLowerHouseElectorate()+"\n"+
                 "Do you want to save your address on this device? Right To Ask will not learn your address.", 
                 "OK - Save address on this device", "No thanks");
             if (SaveThisAddress)
@@ -207,13 +206,10 @@ namespace RightToAskClient.Views
                 SaveAddress();
             }
             
-            (((Button) sender)!).IsVisible = false; 
             federalElectoratePicker.TextColor = Color.Black;
             stateLAElectoratePicker.TextColor = Color.Black;
             stateLCElectoratePicker.TextColor = Color.Black;
-            ((Button) sender).IsEnabled = false;
 
-            FindMPsButton.IsVisible = true;
             SkipButton.IsVisible = false;
         }
 
@@ -223,6 +219,10 @@ namespace RightToAskClient.Views
             {
             thisParticipant.RegistrationInfo.AddElectorate(BackgroundElectorateAndMPData.Chamber.Australian_House_Of_Representatives,  
                 addressListAddressDataList[0].Properties.CommonwealthElectorate.CommElectoralName);
+
+            // TODO: this is a bit odd because I need to check what Geoscape does for upper and lower house electorates.
+            thisParticipant.RegistrationInfo.AddStateLowerHouseElectorate(thisParticipant.RegistrationInfo.state,
+                addressListAddressDataList[0].Properties.StateElectorate.StateElectoralName);
             /*
             if (!allStateLAElectorates.IsNullOrEmpty())
             {

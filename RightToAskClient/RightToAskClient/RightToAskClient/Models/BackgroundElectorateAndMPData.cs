@@ -57,6 +57,36 @@ namespace RightToAskClient.Models
 
 		public static readonly ObservableCollection<Entity> AllAuthorities = new ObservableCollection<Entity>(readAuthoritiesFromFiles());
 
+		private static List<Chamber> StateLowerHouseChambers = new List<Chamber>
+		{
+			Chamber.ACT_Legislative_Assembly,
+			Chamber.NSW_Legislative_Assembly,
+			Chamber.NT_Legislative_Assembly,
+			Chamber.Qld_Legislative_Assembly,
+			Chamber.SA_Legislative_Assembly,
+			Chamber.Vic_Legislative_Assembly,
+			Chamber.Tas_House_Of_Assembly,
+			Chamber.WA_Legislative_Assembly
+		};
+
+		private static List<Chamber> StateUpperHouseChambers = new List<Chamber>
+		{
+			Chamber.NSW_Legislative_Council,
+			Chamber.SA_Legislative_Council,
+			Chamber.Vic_Legislative_Council,
+			Chamber.Tas_Legislative_Council,
+			Chamber.WA_Legislative_Council
+		};
+		public static bool IsLowerHouseChamber(Chamber chamber)
+		{
+			return StateLowerHouseChambers.Contains(chamber);
+		}
+
+		public static bool IsUpperHouseChamber(Chamber chamber)
+		{
+			return StateUpperHouseChambers.Contains(chamber);
+		}
+
 		private static List<MP> readMPsFromCSV(Chamber chamber, string filename)
 		{
 			var MPs = new List<MP>();

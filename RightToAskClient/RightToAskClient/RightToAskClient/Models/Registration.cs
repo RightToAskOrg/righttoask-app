@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using static RightToAskClient.Models.BackgroundElectorateAndMPData;
 
 namespace RightToAskClient.Models
 {
@@ -41,7 +43,7 @@ namespace RightToAskClient.Models
 		// TODO: Do some validity checking to ensure that you're not adding inconsistent
 		// data, e.g. a second electorate for a given chamber, or a state different from
 		// the expected state.
-		public void AddElectorate(BackgroundElectorateAndMPData.Chamber chamberToAdd, string regionToAdd)
+		public void AddElectorate(Chamber chamberToAdd, string regionToAdd)
 		{
 			electorates.Add(new ElectorateWithChamber()
 			{
@@ -50,17 +52,49 @@ namespace RightToAskClient.Models
 			});
 		}
 
+		// TODO at the moment it just assumes everyone is in Vic.	
+		// TODO: Error/validity checking to make sure it's a valid electorate in that state's lower
+		// House.
+		public void AddStateLowerHouseElectorate(string state, string regionToAdd)
+		{
+			// TODO: Note this is not the most robust way of doing this - it'd be better to structure the data
+			// sensibly so we knew what chambers were in which states.
+			
+			/* Redo error checking. 
+			if (chamberToAdd.Count == 0)
+			{
+				Debug.WriteLine(@"\tERROR {0}", "Couldn't find a lower house chamber for " + state);
+				return;
+			}
+			*/
+
+			AddElectorate(Chamber.Vic_Legislative_Assembly, regionToAdd);
+		}
+		
+
 		// TODO this would be a lot easier if electorates was a dictionary instead of a list of pairs
 		public string CommonwealthElectorate()
 		{
 			var houseOfRepsElectoratePair = electorates.Find(chamberPair =>
-				chamberPair.chamber == BackgroundElectorateAndMPData.Chamber.Australian_House_Of_Representatives);
+				chamberPair.chamber == Chamber.Australian_House_Of_Representatives);
 			if (houseOfRepsElectoratePair is null)
 			{
 				return "";
 			}
 
 			return houseOfRepsElectoratePair.region;
+		}
+
+		public string StateLowerHouseElectorate()
+		{
+			var electoratePair = electorates.Find(chamberPair =>
+				IsLowerHouseChamber(chamberPair.chamber));
+			if (electoratePair is null)
+			{
+				return "";
+			}
+
+			return electoratePair.region;
 		}
 	}
 }

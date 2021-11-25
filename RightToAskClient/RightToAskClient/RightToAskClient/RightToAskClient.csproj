@@ -28,7 +28,7 @@
     <None Remove="sqlite-net-pcl" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Data\" />
+    <Folder Include="HttpClients\" />
     <Folder Include="Models\" />
     <Folder Include="Views\" />
   </ItemGroup>
