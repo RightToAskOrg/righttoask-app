@@ -93,9 +93,7 @@ namespace RightToAskClient.HttpClients
                     { Err = "Error connecting to server." + ex.Message };
             }
         }
-        // TODO At the moment this is just a copy-paste of the Result version.
-        // Re-unify them into one function.
-        
+        // TODO Unused - Remove? 
         public async Task<Result<T>> DoGetRequest<T>(string uriString)
         {
             Uri uri = new Uri(uriString);
@@ -182,7 +180,7 @@ namespace RightToAskClient.HttpClients
             }
         }
 
-        // TODO Remove?
+        // TODO Unused - Remove?
         public async Task<Result<List<string>>> RefreshDataAsync()
         {
 

@@ -13,9 +13,7 @@ using RightToAskClient.Models;
 
 namespace RightToAskClient.Data
 {
-    // TODO*** Refactor this so that the Geoscape services and the RightToAsk services use different clients.
-    // Check whether getAsync is reentrant.
-    public class RestService : IRestService
+    public class RestService 
     {
         HttpClient client;
         JsonSerializerOptions serializerOptions;

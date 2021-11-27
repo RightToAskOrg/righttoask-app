@@ -40,6 +40,10 @@
     <Compile Remove="Controls\AdvancedSearchControl.cs" />
     <Compile Remove="Views\PersonProfilePage.xaml.cs" />
     <Compile Remove="Views\ListPage.xaml.cs" />
+    <Compile Remove="HttpClients\IRestService.cs" />
+    <Compile Remove="HttpClients\ItemManager.cs" />
+    <Compile Remove="HttpClients\RestService.cs" />
+    <Compile Remove="HttpClients\HttpUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Views\SecondPage_old.xaml" />
