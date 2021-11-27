@@ -115,7 +115,7 @@ namespace RightToAskClient.Views
         }
         private async void OnOtherMPRaiseButtonClicked(object sender, EventArgs e)
         {
-            var allMPsAsEntities = new ObservableCollection<Entity>(BackgroundElectorateAndMPData.AllMPs); 
+            var allMPsAsEntities = new ObservableCollection<Entity>(ParliamentData.AllMPs); 
             ExploringPageWithSearch mpsPage 
                 = new ExploringPageWithSearch(allMPsAsEntities, readingContext.Filters.SelectedAskingMPs, "Here is the complete list of MPs");
             await Navigation.PushAsync(mpsPage);

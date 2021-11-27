@@ -17,6 +17,11 @@
 			<Entry Text="{Binding Path=public_key}"
 			       Placeholder="Enter key" />
 			<Label Text="State" />
+			<Picker x:Name="stateOrTerritoryPicker" 
+			        Title="{Binding stateEnum, StringFormat='Select State or Territory {0:F0}'}" 
+			        BackgroundColor="Turquoise"
+			        SelectedIndexChanged="OnStatePickerSelectedIndexChanged">
+			</Picker>
 			<Entry Text="{Binding Path=state}"
 			       Placeholder="Enter state" />
 			<Label Text="Electorates" />

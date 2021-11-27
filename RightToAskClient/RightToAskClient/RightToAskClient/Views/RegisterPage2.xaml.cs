@@ -31,8 +31,8 @@ namespace RightToAskClient.Views
         private IndividualParticipant thisParticipant;
         private Page nextPage;
 
-        private BackgroundElectorateAndMPData.Chamber stateLCChamber=BackgroundElectorateAndMPData.Chamber.Vic_Legislative_Council;
-        private BackgroundElectorateAndMPData.Chamber stateLAChamber=BackgroundElectorateAndMPData.Chamber.Vic_Legislative_Assembly;
+        private ParliamentData.Chamber stateLCChamber=ParliamentData.Chamber.Vic_Legislative_Council;
+        private ParliamentData.Chamber stateLAChamber=ParliamentData.Chamber.Vic_Legislative_Assembly;
 
         private List<string> allFederalElectorates;
         private List<string> allStateLAElectorates;
@@ -43,7 +43,7 @@ namespace RightToAskClient.Views
             BindingContext = thisParticipant;
             this.thisParticipant = thisParticipant;
             this.nextPage = nextPage;
-            stateOrTerritoryPicker.ItemsSource = BackgroundElectorateAndMPData.StatesAndTerritories;
+            stateOrTerritoryPicker.ItemsSource = ParliamentData.StatesAndTerritories;
             
             FindMPsButton.IsVisible = false;
             if (!showSkip)
@@ -71,14 +71,14 @@ namespace RightToAskClient.Views
         // Also clean up repeated code.
         private void UpdateElectoratePickerSources(string state)
         {
-            allFederalElectorates = BackgroundElectorateAndMPData.ListElectoratesInChamber(BackgroundElectorateAndMPData.Chamber.Australian_House_Of_Representatives);
+            allFederalElectorates = ParliamentData.ListElectoratesInChamber(ParliamentData.Chamber.Australian_House_Of_Representatives);
             federalElectoratePicker.ItemsSource = allFederalElectorates;
             
             allStateLAElectorates 
-                = BackgroundElectorateAndMPData.ListElectoratesInChamber(stateLAChamber);
+                = ParliamentData.ListElectoratesInChamber(stateLAChamber);
             stateLAElectoratePicker.ItemsSource = allStateLAElectorates;
             allStateLCElectorates 
-                = BackgroundElectorateAndMPData.ListElectoratesInChamber(stateLCChamber);
+                = ParliamentData.ListElectoratesInChamber(stateLCChamber);
             stateLCElectoratePicker.ItemsSource = allStateLCElectorates;
         }
 
@@ -110,7 +110,7 @@ namespace RightToAskClient.Views
             if (!String.IsNullOrEmpty(region))
             {
                 thisParticipant.RegistrationInfo.AddElectorate(
-                    BackgroundElectorateAndMPData.Chamber.Australian_House_Of_Representatives, region);
+                    ParliamentData.Chamber.Australian_House_Of_Representatives, region);
                 RevealNextStepIfElectoratesKnown();
             }
         }
@@ -218,7 +218,7 @@ namespace RightToAskClient.Views
         {
             if(addressListAddressDataList.Length > 0)
             {
-            thisParticipant.RegistrationInfo.AddElectorate(BackgroundElectorateAndMPData.Chamber.Australian_House_Of_Representatives,  
+            thisParticipant.RegistrationInfo.AddElectorate(ParliamentData.Chamber.Australian_House_Of_Representatives,  
                 addressListAddressDataList[0].Properties.CommonwealthElectorate.CommElectoralName);
 
             // TODO: this is a bit odd because I need to check what Geoscape does for upper and lower house electorates.

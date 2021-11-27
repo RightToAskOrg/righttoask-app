@@ -12,6 +12,7 @@ namespace RightToAskClient.Views
     public partial class RegisterPage1 : ContentPage
     {
         private ReadingContext readingContext;
+        
         public RegisterPage1(Registration reg, ReadingContext readingContext, bool isReadingOnly)
         {
             InitializeComponent();
@@ -21,6 +22,7 @@ namespace RightToAskClient.Views
             Title = isReadingOnly ? "User profile" : "Create Account";
             ShowTheRightButtons(reg.display_name, isReadingOnly);
             
+            stateOrTerritoryPicker.ItemsSource = ParliamentData.StatesAndTerritories;
         }
 
         // Show and label different buttons according to whether we're registering
@@ -68,6 +70,15 @@ namespace RightToAskClient.Views
 			        registerCitizenButton.IsVisible = false;
 		        }
 	        }
+        }
+        void OnStatePickerSelectedIndexChanged(object sender, EventArgs e)
+        {
+            Picker picker = (Picker)sender;
+         
+            if (picker.SelectedIndex != -1)
+            {
+                readingContext.ThisParticipant.RegistrationInfo.stateEnum = (string) picker.SelectedItem; 
+            }
         }
 		async void OnSaveButtonClicked (object sender, EventArgs e)
 		{

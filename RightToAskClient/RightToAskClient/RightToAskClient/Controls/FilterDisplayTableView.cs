@@ -132,7 +132,7 @@ namespace RightToAskClient.Controls
         {
 			string message = "Choose others to add";
 			
-           	var departmentExploringPage = new ExploringPageWithSearchAndPreSelections(BackgroundElectorateAndMPData.AllAuthorities, 
+           	var departmentExploringPage = new ExploringPageWithSearchAndPreSelections(ParliamentData.AllAuthorities, 
                 filterContext.SelectedAuthorities, message);
            	await Navigation.PushAsync (departmentExploringPage);
         }

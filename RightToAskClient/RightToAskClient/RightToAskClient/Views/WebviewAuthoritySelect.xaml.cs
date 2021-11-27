@@ -59,7 +59,7 @@ namespace RightToAskClient.Views
         private void insertOrSelect(string authority)
         {
             var matchingAuthorities 
-                = new ObservableCollection<Entity>(BackgroundElectorateAndMPData.AllAuthorities.
+                = new ObservableCollection<Entity>(ParliamentData.AllAuthorities.
                     Where(w => w.RightToKnowURLSuffix != null && w.RightToKnowURLSuffix  == authority));
             if (matchingAuthorities.Count == 0)
             {
@@ -68,7 +68,7 @@ namespace RightToAskClient.Views
                     EntityName = authority,
                     NickName = authority
                 };
-                BackgroundElectorateAndMPData.AllAuthorities.Add(newAuthority);
+                ParliamentData.AllAuthorities.Add(newAuthority);
 
             } else if (matchingAuthorities.Count == 1)
             {

@@ -15,7 +15,7 @@
   <ItemGroup>
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.1874" />
-    <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
+    <PackageReference Include="System.Net.Http.Json" Version="5.0.0" /> 
     <PackageReference Include="sqlite-net-pcl" Version="1.7.335" />
     <PackageReference Include="System.Text.Json" Version="5.0.1" />
     <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
@@ -28,7 +28,7 @@
     <None Remove="sqlite-net-pcl" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="HttpClients\" />
+    <Folder Include="Data\" />
     <Folder Include="Models\" />
     <Folder Include="Views\" />
   </ItemGroup>
@@ -40,10 +40,6 @@
     <Compile Remove="Controls\AdvancedSearchControl.cs" />
     <Compile Remove="Views\PersonProfilePage.xaml.cs" />
     <Compile Remove="Views\ListPage.xaml.cs" />
-    <Compile Remove="HttpClients\IRestService.cs" />
-    <Compile Remove="HttpClients\ItemManager.cs" />
-    <Compile Remove="HttpClients\RestService.cs" />
-    <Compile Remove="HttpClients\HttpUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Views\SecondPage_old.xaml" />

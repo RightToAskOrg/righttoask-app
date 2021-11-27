@@ -25,12 +25,12 @@ namespace RightToAskClient.Models
         
 		// Initially, when we don't know the state, it's only the Australian
 		// Parliament.
-		protected List<BackgroundElectorateAndMPData.Chamber> chambersRepresentedIn 
-			= BackgroundElectorateAndMPData.FindChambers("");
+		protected List<ParliamentData.Chamber> chambersRepresentedIn 
+			= ParliamentData.FindChambers("");
 
 		public void UpdateChambers(string state)
 		{
-			chambersRepresentedIn = BackgroundElectorateAndMPData.FindChambers(state);
+			chambersRepresentedIn = ParliamentData.FindChambers(state);
 		}
         public Registration RegistrationInfo 
         {
@@ -43,7 +43,7 @@ namespace RightToAskClient.Models
 		}
         
         /*
-        public string UpdateLCStateElectorate(BackgroundElectorateAndMPData.Chamber chamber, string region)
+        public string UpdateLCStateElectorate(ParliamentData.Chamber chamber, string region)
         {
 		        // TODO (Issue #9) when this LC state electorate is
 		        // chosen, add the representative(s) for that electorate to MyMPs.

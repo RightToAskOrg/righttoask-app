@@ -6,7 +6,7 @@ namespace RightToAskClient.Models
 {
     public class MP : Person
     {
-        public BackgroundElectorateAndMPData.Chamber ChamberSeatedIn { get; set; }
+        public ParliamentData.Chamber ChamberSeatedIn { get; set; }
         public string Salutation { get; set; } = "";
         
         public string ElectorateRepresenting { get; set; } = "";

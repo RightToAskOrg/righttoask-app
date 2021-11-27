@@ -71,5 +71,19 @@ namespace RightToAskClient.HttpClients
             Debug.WriteLine(@"\tError reaching server for registering new user:"+httpResponse.Err);
             return new Result<bool>() { Err = httpResponse.Err };
         }
+        public static (bool isValid, string message) validateHttpResponse(Result<bool> response, string messageTopic)
+        {
+            if (String.IsNullOrEmpty(response.Err))
+            {
+                if (response.Ok)
+                {
+                    return (true, messageTopic + ": Success.");
+                }
+
+                return (false, messageTopic + ": Failure.");
+            }
+
+            return (false, "Server connection error" + response.Err);
+        }
     }
 }

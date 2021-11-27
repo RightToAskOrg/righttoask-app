@@ -8,7 +8,7 @@ using System.Reflection;
 namespace RightToAskClient.Models
 {
     // This class reads in information about electorates, MPs, etc, from static files.
-    public static class BackgroundElectorateAndMPData
+    public static class ParliamentData
     {
 	    private static readonly List<MP> FederalMPs 
 		    = readMPsFromCSV(Chamber.Australian_House_Of_Representatives, "StateRepsCSV.csv");
@@ -24,6 +24,7 @@ namespace RightToAskClient.Models
 		    FederalMPs.Concat(Senators).Concat(VicLA_MPs).Concat(VicLC_MPs)
 		    );
 
+	    /*
 	    public static readonly ObservableCollection<string> StatesAndTerritories = new ObservableCollection<string>()
 	    {
 		    "ACT",
@@ -34,6 +35,47 @@ namespace RightToAskClient.Models
 			"TAS",
 			"VIC",
 			"WA"
+	    };
+	    */
+
+	    public static readonly List<string> StatesAndTerritories
+		    = StatesAsStringList(); 
+
+	    private static List<string> StatesAsStringList()
+	    {
+		    var stateList = new List<string>();
+		    FieldInfo[] fields = (typeof(State).GetFields());
+		    
+		    for(int i = 0; i < fields.Length; i++)
+		    {
+			    stateList.Add(fields[i].GetValue(typeof(State)).ToString());
+		    }
+		    
+		    return stateList;
+	    }
+	    
+	    public static class State
+	    {
+		    public const string ACT = "ACT";
+		    public const string NSW = "NSW";
+		    public const string NT = "NT";
+		    public const string QLD = "QLD";
+		    public const string SA = "SA";
+		    public const string TAS = "TAS";
+		    public const string VIC ="VIC";
+		    public const string WA = "WA";
+	    }
+
+	    public static readonly Dictionary<string, List<Chamber>> Parliaments = new Dictionary<string, List<Chamber>>
+	    {
+		    { State.ACT, new List<Chamber> { Chamber.ACT_Legislative_Assembly} },
+		    { State.NSW, new List<Chamber> { Chamber.NSW_Legislative_Assembly, Chamber.NSW_Legislative_Council} },
+		    { State.NT, new List<Chamber> { Chamber.NT_Legislative_Assembly } },
+		    { State.QLD, new List<Chamber> { Chamber.Qld_Legislative_Assembly} },
+		    { State.SA, new List<Chamber> { Chamber.SA_Legislative_Assembly, Chamber.SA_Legislative_Council} },
+		    { State.TAS, new List<Chamber> { Chamber.Tas_House_Of_Assembly, Chamber.Tas_Legislative_Council} },
+		    { State.VIC, new List<Chamber> { Chamber.Vic_Legislative_Assembly, Chamber.Vic_Legislative_Council } },
+		    { State.WA, new List<Chamber> { Chamber.WA_Legislative_Assembly, Chamber.WA_Legislative_Council} },
 	    };
 
 	    public enum Chamber 

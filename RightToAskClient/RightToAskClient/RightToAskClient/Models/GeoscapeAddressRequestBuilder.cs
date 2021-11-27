@@ -26,7 +26,7 @@ namespace RightToAskClient.Models
 	                               "&additionalProperties=commonwealthElectorate,stateElectorate,localGovernmentArea"; 
         }
         
-        // TODO Note this is a bit of a copy of BackgroundElectorateAndMPData:ReadDataFromCSV.
+        // TODO Note this is a bit of a copy of ParliamentData:ReadDataFromCSV.
         // Consider refactoring into an IO Utils file.
         private static Result<string> ReadGeoscapeAPIKey()
         {

@@ -65,7 +65,7 @@ namespace RightToAskClient.Views
 		async private void OnOtherPublicAuthorityButtonClicked(object sender, EventArgs e)
 		{
 			var exploringPageToSearchAuthorities
-				= new ExploringPageWithSearch(BackgroundElectorateAndMPData.AllAuthorities, _readingContext.Filters.SelectedAuthorities,
+				= new ExploringPageWithSearch(ParliamentData.AllAuthorities, _readingContext.Filters.SelectedAuthorities,
 				"Choose authorities");
 			await Navigation.PushAsync(exploringPageToSearchAuthorities);
 		}
@@ -101,7 +101,7 @@ namespace RightToAskClient.Views
 
 		private async void OnAnswerByOtherMPButtonClicked(object sender, EventArgs e)
 		{
-			var allMPsAsEntities = new ObservableCollection<Entity>(BackgroundElectorateAndMPData.AllMPs); 
+			var allMPsAsEntities = new ObservableCollection<Entity>(ParliamentData.AllMPs); 
 			ExploringPageWithSearch mpsPage 
 				= new ExploringPageWithSearch(allMPsAsEntities, _readingContext.Filters.SelectedAnsweringMPs, "Here is the complete list of MPs");
 			await Navigation.PushAsync(mpsPage);

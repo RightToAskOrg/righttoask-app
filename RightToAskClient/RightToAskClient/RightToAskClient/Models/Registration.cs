@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using static RightToAskClient.Models.BackgroundElectorateAndMPData;
+using RightToAskClient.Models;
 
 namespace RightToAskClient.Models
 {
@@ -12,6 +12,7 @@ namespace RightToAskClient.Models
 		public string display_name { get; set; } = "";
 		public string public_key { get; set; }= "";
 		public string state { get; set; }= "";
+		public string stateEnum { get; set; } = "";
 		public string uid { get; set; }= "";
 
 		public List<ElectorateWithChamber> electorates { get; } =
@@ -43,7 +44,7 @@ namespace RightToAskClient.Models
 		// TODO: Do some validity checking to ensure that you're not adding inconsistent
 		// data, e.g. a second electorate for a given chamber, or a state different from
 		// the expected state.
-		public void AddElectorate(Chamber chamberToAdd, string regionToAdd)
+		public void AddElectorate(ParliamentData.Chamber chamberToAdd, string regionToAdd)
 		{
 			electorates.Add(new ElectorateWithChamber()
 			{
@@ -68,7 +69,7 @@ namespace RightToAskClient.Models
 			}
 			*/
 
-			AddElectorate(Chamber.Vic_Legislative_Assembly, regionToAdd);
+			AddElectorate(ParliamentData.Chamber.Vic_Legislative_Assembly, regionToAdd);
 		}
 		
 
@@ -76,7 +77,7 @@ namespace RightToAskClient.Models
 		public string CommonwealthElectorate()
 		{
 			var houseOfRepsElectoratePair = electorates.Find(chamberPair =>
-				chamberPair.chamber == Chamber.Australian_House_Of_Representatives);
+				chamberPair.chamber == ParliamentData.Chamber.Australian_House_Of_Representatives);
 			if (houseOfRepsElectoratePair is null)
 			{
 				return "";
@@ -88,7 +89,7 @@ namespace RightToAskClient.Models
 		public string StateLowerHouseElectorate()
 		{
 			var electoratePair = electorates.Find(chamberPair =>
-				IsLowerHouseChamber(chamberPair.chamber));
+				ParliamentData.IsLowerHouseChamber(chamberPair.chamber));
 			if (electoratePair is null)
 			{
 				return "";
