@@ -6,10 +6,9 @@
              x:Class="RightToAskClient.Views.RegisterPage2"
              Title="Find your MPs">
     <ContentPage.Content>
-        <StackLayout>
-            <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
+	    <ScrollView x:Name="mainScrollView">
+			<StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand"> 
 				<Label Text="Your MPs are defined by where you live" FontSize="Medium" HorizontalOptions="Center" />
-				<Label Text="Enter your electorates below or use your address to find them" FontSize="Medium" HorizontalOptions="Center" />
 				<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
 					<Label Text="I live in " FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center" />
 					<Picker x:Name="stateOrTerritoryPicker"
@@ -17,10 +16,28 @@
 					        SelectedIndexChanged="OnStatePickerSelectedIndexChanged"> 
 					</Picker>
 				</StackLayout>
-				<Frame CornerRadius="10"  BackgroundColor="PaleTurquoise" Padding="0">
+				<StackLayout Orientation="Horizontal">
+					<Frame OutlineColor="Teal">
+						<Label x:Name="knowElectorates" Text="I know my electorates already" HorizontalOptions="Center"
+						       TextColor="Teal" FontSize="Large" VerticalOptions="Center">
+							<Label.GestureRecognizers>
+								<TapGestureRecognizer Tapped="KnowElectorates_Tapped" />
+							</Label.GestureRecognizers>
+						</Label>
+					</Frame>
+					<Label Text="Or" WidthRequest="150" FontSize="Large"
+					       HorizontalOptions="Center" VerticalOptions="Center" />
+					<Frame OutlineColor="Teal">
+						<Label x:Name="addressSavingLabel" Text="I need to look them up" TextColor="Teal" FontSize="Large"
+						       HorizontalOptions="Center" VerticalOptions="Center">
+							<Label.GestureRecognizers>
+								<TapGestureRecognizer Tapped="LookupElectorates_Tapped" />
+							</Label.GestureRecognizers>
+						</Label>
+					</Frame>
+				</StackLayout>
+				<Frame CornerRadius="10" x:Name="KnowElectoratesFrame" BackgroundColor="PaleTurquoise" Padding="0">
 				    <StackLayout Orientation="Vertical">
-					    <Label x:Name="knowElectorates" Text="I know my State/Territory electorates" HorizontalOptions="Center" 
-					           TextColor="Teal" FontSize="Large" VerticalOptions="Center" /> 
 					    <Picker x:Name="stateLAElectoratePicker" Title="{Binding SelectedLAStateElectorate, StringFormat='State Legislative Assembly Electorate: {0:F0}'}" 
 				            SelectedIndexChanged="OnStateLAElectoratePickerSelectedIndexChanged"> 
 					    </Picker>
@@ -32,17 +49,19 @@
 					    </Picker>
 				    </StackLayout>
 				</Frame>
+				
 				<Frame x:Name="addressSavingStack" CornerRadius="10"  BackgroundColor="NavajoWhite" Padding="0">
 					<StackLayout Margin="20" x:Datatype="models:Address">
-					    <Label x:Name="addressSavingLabel" Text="I need to find my electorates"  TextColor="Teal" FontSize="Large" HorizontalOptions="Center" VerticalOptions="Center" />
 						<Label Text="Street number and name" />
-						<Entry Placeholder="Street number and name" TextChanged="OnStreetNumberAndNameChanged" Completed="OnStreetNumberAndNameEntered" />
+						<Entry Placeholder="Street number and name" TextChanged="OnStreetNumberAndNameChanged"
+						       Completed="OnStreetNumberAndNameEntered" />
 						<Label Text="City or suburb" />
-						<Entry Placeholder="City or suburb" TextChanged="OnCityOrSuburbChanged" Completed="OnCityOrSuburbEntered"/>
+						<Entry Placeholder="City or suburb" TextChanged="OnCityOrSuburbChanged" Completed="OnCityOrSuburbEntered" />
 						<Label Text="Postcode" />
-						<Entry Placeholder="Postcode" TextChanged="OnPostcodeChanged" Completed="OnPostcodeEntered"/>
-					    <StackLayout Orientation="Vertical" HorizontalOptions="Center">
-                            <Button x:Name="submitAddressButton" Text="Find my electorates" HorizontalOptions="Center" CornerRadius="20" BackgroundColor="Turquoise" Clicked="OnSubmitAddressButton_Clicked" />
+						<Entry Placeholder="Postcode" TextChanged="OnPostcodeChanged" Completed="OnPostcodeEntered" />
+						<StackLayout Orientation="Vertical" HorizontalOptions="Center">
+							<Button x:Name="submitAddressButton" Text="Find my electorates" HorizontalOptions="Center" CornerRadius="20"
+							        BackgroundColor="Turquoise" Clicked="OnSubmitAddressButton_Clicked" />
 							<Label x:Name="ReportLabel" />
 				        </StackLayout>
 						<!--
@@ -57,6 +76,7 @@
 					<Button x:Name="FindMPsButton" HorizontalOptions="End" StyleClass="DoneButton" Text="Next" Clicked="OnFindMPsButtonClicked" />
 			    </StackLayout>
 			</StackLayout>
-		</StackLayout>
+		<!-- </StackLayout> -->
+		</ScrollView>
     </ContentPage.Content>
 </ContentPage>

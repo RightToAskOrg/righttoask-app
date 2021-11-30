@@ -44,14 +44,18 @@ namespace RightToAskClient.Views
             BindingContext = thisParticipant;
             this.thisParticipant = thisParticipant;
             this.nextPage = nextPage;
-            stateOrTerritoryPicker.ItemsSource = ParliamentData.StatesAndTerritories;
-            stateOrTerritoryPicker.Title = $"Choose State or Territory {thisParticipant.RegistrationInfo.state}"; 
+
+            KnowElectoratesFrame.IsVisible = false;
+            addressSavingStack.IsVisible = false;
             
             FindMPsButton.IsVisible = false;
             if (!showSkip)
             {
                 SkipButton.IsVisible = false;
             }
+            
+            stateOrTerritoryPicker.ItemsSource = ParliamentData.StatesAndTerritories;
+            stateOrTerritoryPicker.Title = $"Choose State or Territory {thisParticipant.RegistrationInfo.state}"; 
         }
         
         void OnStatePickerSelectedIndexChanged(object sender, EventArgs e)
@@ -264,6 +268,7 @@ namespace RightToAskClient.Views
         private void OnStreetNumberAndNameChanged(object sender, TextChangedEventArgs e)
         {
             address.StreetNumberAndName = e.NewTextValue;
+            mainScrollView.ScrollToAsync(addressSavingStack, ScrollToPosition.End, true); 
         }
         private void OnStreetNumberAndNameEntered(object sender, EventArgs e)
         {
@@ -286,6 +291,17 @@ namespace RightToAskClient.Views
         private void OnPostcodeEntered(object sender, EventArgs e)
         {
             address.Postcode =  ((Entry)sender).Text;
+        }
+
+
+        private void KnowElectorates_Tapped(object sender, EventArgs e)
+        {
+            KnowElectoratesFrame.IsVisible = true;
+        }
+
+        private void LookupElectorates_Tapped(object sender, EventArgs e)
+        {
+            addressSavingStack.IsVisible = true;
         }
     }
 }
