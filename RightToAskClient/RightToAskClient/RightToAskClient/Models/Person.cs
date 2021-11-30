@@ -4,13 +4,14 @@
 // an MP or a non-MP participant.
 
 using System.Collections.Generic;
+using System.ComponentModel;
 using Xamarin.Forms.Xaml;
 
 namespace RightToAskClient.Models
 {
     public abstract class Person : Entity
     {
-		protected string address;
+		protected Address address;
         // public string StateOrTerritory { get; set; }
         
 		protected string selectedStateOrTerritory;
@@ -22,8 +23,8 @@ namespace RightToAskClient.Models
 
 		protected Registration registrationInfo = new Registration();
         // TODO add attributes for a nice profile, such as a photo.
-        
-		// Initially, when we don't know the state, it's only the Australian
+
+        // Initially, when we don't know the state, it's only the Australian
 		// Parliament.
 		protected List<ParliamentData.Chamber> chambersRepresentedIn 
 			= ParliamentData.FindChambers("");
@@ -76,7 +77,7 @@ namespace RightToAskClient.Models
         }
 
 */
-        public string Address
+        public Address Address
         {
 	        get { return address; }
 	        set

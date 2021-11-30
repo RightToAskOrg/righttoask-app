@@ -2,6 +2,7 @@
 
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:RightToAskClient.Models;assembly=RightToAskClient"
              x:Class="RightToAskClient.Views.RegisterPage2"
              Title="Find your MPs">
     <ContentPage.Content>
@@ -11,9 +12,9 @@
 				<Label Text="Enter your electorates below or use your address to find them" FontSize="Medium" HorizontalOptions="Center" />
 				<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
 					<Label Text="I live in " FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center" />
-					<Picker x:Name="stateOrTerritoryPicker" Title="{Binding SelectedStateOrTerritory, StringFormat='Select State or Territory {0:F0}'}" 
-					    BackgroundColor="Turquoise" 
-				        SelectedIndexChanged="OnStatePickerSelectedIndexChanged"> 
+					<Picker x:Name="stateOrTerritoryPicker"
+					        BackgroundColor="Turquoise"
+					        SelectedIndexChanged="OnStatePickerSelectedIndexChanged"> 
 					</Picker>
 				</StackLayout>
 				<Frame CornerRadius="10"  BackgroundColor="PaleTurquoise" Padding="0">
@@ -32,25 +33,22 @@
 				    </StackLayout>
 				</Frame>
 				<Frame x:Name="addressSavingStack" CornerRadius="10"  BackgroundColor="NavajoWhite" Padding="0">
-					<StackLayout Orientation="Vertical">
+					<StackLayout Margin="20" x:Datatype="models:Address">
+					    <Label x:Name="addressSavingLabel" Text="I need to find my electorates"  TextColor="Teal" FontSize="Large" HorizontalOptions="Center" VerticalOptions="Center" />
+						<Label Text="Street number and name" />
+						<Entry Placeholder="Street number and name" TextChanged="OnStreetNumberAndNameChanged" Completed="OnStreetNumberAndNameEntered" />
+						<Label Text="City or suburb" />
+						<Entry Placeholder="City or suburb" TextChanged="OnCityOrSuburbChanged" Completed="OnCityOrSuburbEntered"/>
+						<Label Text="Postcode" />
+						<Entry Placeholder="Postcode" TextChanged="OnPostcodeChanged" Completed="OnPostcodeEntered"/>
 					    <StackLayout Orientation="Vertical" HorizontalOptions="Center">
-					        <Label x:Name="addressSavingLabel" Text="I need to find my electorates"  TextColor="Teal" FontSize="Large" HorizontalOptions="Center" VerticalOptions="Center" />
-					        <Label FontSize="Small" Text="(i) Your address will be sent to direct to your state's electoral commission and not to RightToAsk." />
-                            <Entry x:Name="AddressEntry" BackgroundColor="Turquoise" Placeholder="Enter your address" Completed="OnAddressEntered" HorizontalOptions="Center"/>
                             <Button x:Name="submitAddressButton" Text="Find my electorates" HorizontalOptions="Center" CornerRadius="20" BackgroundColor="Turquoise" Clicked="OnSubmitAddressButton_Clicked" />
 							<Label x:Name="ReportLabel" />
 				        </StackLayout>
 						<!--
-			            <StackLayout x:Name="addressSavingStack" Orientation="Vertical" HorizontalOptions="Center">
-				            <Label Text="Save address on this device? " />
 				            <Label FontSize="Small" Text="(i) If you are on the electoral roll,
                              					    your MP is more likely to listen to you if you tell them your address. RightToAsk does not learn 
                              					    your address. Your address will not leave your phone unless you decide to share it with your MP" />
-				            <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-				                <Button x:Name="saveAddressButton" CornerRadius="20" BackgroundColor="Turquoise" Text="Yes, save my address" Clicked="OnSaveAddressButtonClicked" />
-				                <Button x:Name="noSaveAddressButton"  CornerRadius="20" BackgroundColor="Turquoise" Text="No thanks" Clicked="OnNoSaveAddressButtonClicked" />
-				            </StackLayout>
-			            </StackLayout>
 			            -->
 			        </StackLayout>
 				</Frame>

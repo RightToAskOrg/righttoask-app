@@ -22,9 +22,7 @@
 			        BackgroundColor="Turquoise"
 			        SelectedIndexChanged="OnStatePickerSelectedIndexChanged">
 			</Picker>
-			<Entry Text="{Binding Path=state}"
-			       Placeholder="Enter state" />
-			<Label Text="Electorates" />
+			<Label Text="Electorates:" />
 			<ListView ItemsSource="{Binding Path=electorates}" ItemTapped="OnElectoratesButtonTapped" >
 				<ListView.ItemTemplate>
 					<DataTemplate x:DataType="models:ElectorateWithChamber">

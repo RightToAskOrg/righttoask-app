@@ -83,6 +83,7 @@ namespace RightToAskClient.Views
 		async void OnSaveButtonClicked (object sender, EventArgs e)
 		{
 			var newRegistration = (Registration)BindingContext;
+			newRegistration.public_key = Constants.FakePublicKey;
 			var regTest = newRegistration.IsValid().Err;
 			if (String.IsNullOrEmpty(regTest))
 			{

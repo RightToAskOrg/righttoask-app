@@ -27,7 +27,8 @@ namespace RightToAskClient.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RegisterPage2 : ContentPage
     {
-        private string address;
+        private Address address = new Address(); 
+        
         private IndividualParticipant thisParticipant;
         private Page nextPage;
 
@@ -44,6 +45,7 @@ namespace RightToAskClient.Views
             this.thisParticipant = thisParticipant;
             this.nextPage = nextPage;
             stateOrTerritoryPicker.ItemsSource = ParliamentData.StatesAndTerritories;
+            stateOrTerritoryPicker.Title = $"Choose State or Territory {thisParticipant.RegistrationInfo.state}"; 
             
             FindMPsButton.IsVisible = false;
             if (!showSkip)
@@ -151,9 +153,8 @@ namespace RightToAskClient.Views
             Navigation.RemovePage(currentPage); 
         }
                 
-        void OnAddressEntered(object sender, EventArgs e)
+        void OnEntered(object sender, EventArgs e)
         {
-            address = ((Entry) sender).Text;
         }
 
         // At the moment this just chooses random electorates. 
@@ -165,15 +166,22 @@ namespace RightToAskClient.Views
             GeoscapeAddressFeatureCollection addressList;
             Result<GeoscapeAddressFeatureCollection> httpResponse;
             
-            if (String.IsNullOrEmpty(thisParticipant.RegistrationInfo.state))
+            string state = thisParticipant.RegistrationInfo.state;
+            
+            if (String.IsNullOrEmpty(state))
             {
                 DisplayAlert("Please choose a state", "", "OK");
                 return;
             }
+
+            Result<bool> addressValidation = address.seemsValid();
+            if (!String.IsNullOrEmpty(addressValidation.Err))
+            {
+                DisplayAlert(addressValidation.Err, "", "OK");
+                return;
+            }
             
-            // httpResponse = await App.RegItemManager.GetGeoscapeAddressDataAsync(AddressEntry.Text);
-            
-            httpResponse = await GeoscapeClient.GetAddressDataAsync(AddressEntry.Text);
+            httpResponse = await GeoscapeClient.GetAddressDataAsync(address + " " + state);
             
             // if (httpResponse == null)
             //{
@@ -184,11 +192,9 @@ namespace RightToAskClient.Views
             // and tell the person we couldn't find their address.
             if (!String.IsNullOrEmpty(httpResponse.Err))
             {
-                
                 addressSavingLabel.Text = "Error reaching server: "+httpResponse.Err;
                 ReportLabel.Text = "Consider looking up your electorates manually";
                 return;
-                
             } 
             
             addressList = httpResponse.Ok;
@@ -212,6 +218,12 @@ namespace RightToAskClient.Views
             stateLCElectoratePicker.TextColor = Color.Black;
 
             SkipButton.IsVisible = false;
+        }
+
+        // TODO: At the moment, this does nothing, since there's no notion of not 
+        // saving the address.
+        private void SaveAddress()
+        {
         }
 
         private void updateElectorates(GeoscapeAddressFeature[] addressListAddressDataList)
@@ -241,19 +253,39 @@ namespace RightToAskClient.Views
             }
         }
 
-        private void SaveAddress()
-        {
-            thisParticipant.Address = address;
-            // saveAddressButton.Text = "Address saved";
-            // noSaveAddressButton.IsVisible = false;
-        }
-
         // TODO Think about what should happen if the person has made 
         // some choices, then clicks 'skip'.  At the moment, it retains 
         // the choices they made and pops the page.
         private async void OnSkipButtonClicked(object sender, EventArgs e)
         {
             await Navigation.PopAsync();
+        }
+
+        private void OnStreetNumberAndNameChanged(object sender, TextChangedEventArgs e)
+        {
+            address.StreetNumberAndName = e.NewTextValue;
+        }
+        private void OnStreetNumberAndNameEntered(object sender, EventArgs e)
+        {
+            address.StreetNumberAndName = ((Entry)sender).Text;
+        }
+
+        private void OnCityOrSuburbChanged(object sender, TextChangedEventArgs e)
+        {
+            address.CityOrSuburb = e.NewTextValue;
+        }
+        private void OnCityOrSuburbEntered(object sender, EventArgs e)
+        {
+            address.CityOrSuburb =  ((Entry)sender).Text;
+        }
+
+        private void OnPostcodeChanged(object sender, TextChangedEventArgs e)
+        {
+            address.Postcode = e.NewTextValue;
+        }
+        private void OnPostcodeEntered(object sender, EventArgs e)
+        {
+            address.Postcode =  ((Entry)sender).Text;
         }
     }
 }

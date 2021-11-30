@@ -1,13 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using RightToAskClient.Annotations;
 using RightToAskClient.Models;
 
 namespace RightToAskClient.Models
 {
-	public class Registration
+	public class Registration : INotifyPropertyChanged
 	{
 		public string display_name { get; set; } = "";
 		public string public_key { get; set; }= "";
@@ -96,6 +99,14 @@ namespace RightToAskClient.Models
 			}
 
 			return electoratePair.region;
+		}
+
+		public event PropertyChangedEventHandler? PropertyChanged;
+
+		[NotifyPropertyChangedInvocator]
+		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 	}
 }
