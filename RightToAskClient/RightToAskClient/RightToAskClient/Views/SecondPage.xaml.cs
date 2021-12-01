@@ -101,7 +101,7 @@ namespace RightToAskClient.Views
 
 		private async void OnAnswerByOtherMPButtonClicked(object sender, EventArgs e)
 		{
-			var allMPsAsEntities = new ObservableCollection<Entity>(ParliamentData.AllMPs); 
+			var allMPsAsEntities = new ObservableCollection<Entity>(ParliamentData.MPs.AllMPs); 
 			ExploringPageWithSearch mpsPage 
 				= new ExploringPageWithSearch(allMPsAsEntities, _readingContext.Filters.SelectedAnsweringMPs, "Here is the complete list of MPs");
 			await Navigation.PushAsync(mpsPage);

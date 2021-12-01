@@ -1,6 +1,8 @@
 ﻿using Xamarin.Forms;
 using RightToAskClient.Views;
 using RightToAskClient.Data;
+using RightToAskClient.Models;
+using static RightToAskClient.Models.ParliamentData;
 
 namespace RightToAskClient
 {
@@ -12,6 +14,7 @@ namespace RightToAskClient
             setTheStyles();
             InitializeComponent();
 
+            ParliamentData.MPs.TryInit();
             MainPage = new NavigationPage(new MainPage());
         }
 

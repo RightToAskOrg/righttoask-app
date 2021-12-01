@@ -29,6 +29,7 @@ namespace RightToAskClient.Models
 			}
 		}
 
+		// Returns true if initialisation is successful, i.e. no errors.
 		public async Task<bool> TryInit()
 		{
 			Result<bool> success;

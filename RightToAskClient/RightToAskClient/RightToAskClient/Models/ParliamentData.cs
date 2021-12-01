@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Org.BouncyCastle.Crypto.Operators;
 using RightToAskClient.HttpClients;
 using static RightToAskClient.HttpClients.RTAClient;
@@ -22,22 +23,9 @@ namespace RightToAskClient.Models
 		    = readMPsFromCSV(Chamber.Vic_Legislative_Assembly, "VicLegislativeAssemblymembers.csv");
 	    private static readonly List<MP> VicLC_MPs 
 		    =  readMPsFromCSV(Chamber.Vic_Legislative_Council, "VicLegislativeCouncilmembers.csv");
-
-	    private static MPData allMPs = new MPData();
-
-	    public static List<MP> AllMPs
-	    {
-		    get
-		    {
-			    if (allMPs.IsInitialised)
-			    {
-				    return allMPs.AllMPs;
-			    }
-
-			    return new List<MP>();
-		    }
-	    }
 	    
+	    public static readonly MPData MPs = new MPData();
+
 	    /*
 	    public static readonly ObservableCollection<string> StatesAndTerritories = new ObservableCollection<string>()
 	    {
@@ -86,7 +74,7 @@ namespace RightToAskClient.Models
 		    { State.NSW, new List<Chamber> { Chamber.NSW_Legislative_Assembly, Chamber.NSW_Legislative_Council} },
 		    { State.NT, new List<Chamber> { Chamber.NT_Legislative_Assembly } },
 		    { State.QLD, new List<Chamber> { Chamber.Qld_Legislative_Assembly} },
-		    { State.SA, new List<Chamber> { Chamber.SA_Legislative_Assembly, Chamber.SA_Legislative_Council} },
+		    { State.SA, new List<Chamber> { Chamber.SA_House_Of_Assembly, Chamber.SA_Legislative_Council} },
 		    { State.TAS, new List<Chamber> { Chamber.Tas_House_Of_Assembly, Chamber.Tas_Legislative_Council} },
 		    { State.VIC, new List<Chamber> { Chamber.Vic_Legislative_Assembly, Chamber.Vic_Legislative_Council } },
 		    { State.WA, new List<Chamber> { Chamber.WA_Legislative_Assembly, Chamber.WA_Legislative_Council} },
@@ -101,7 +89,7 @@ namespace RightToAskClient.Models
 			NSW_Legislative_Council,
 			NT_Legislative_Assembly,
 		    Qld_Legislative_Assembly, 
-		    SA_Legislative_Assembly, 
+		    SA_House_Of_Assembly,
 			SA_Legislative_Council,
 			Tas_House_Of_Assembly,
 			Tas_Legislative_Council,
@@ -139,7 +127,7 @@ namespace RightToAskClient.Models
 			Chamber.NSW_Legislative_Assembly,
 			Chamber.NT_Legislative_Assembly,
 			Chamber.Qld_Legislative_Assembly,
-			Chamber.SA_Legislative_Assembly,
+			Chamber.SA_House_Of_Assembly,
 			Chamber.Vic_Legislative_Assembly,
 			Chamber.Tas_House_Of_Assembly,
 			Chamber.WA_Legislative_Assembly
@@ -286,7 +274,7 @@ namespace RightToAskClient.Models
 					chambersForTheState.Add(Chamber.Qld_Legislative_Assembly);
 					break;
 				case ("SA"):
-					chambersForTheState.Add(Chamber.SA_Legislative_Assembly);
+					chambersForTheState.Add(Chamber.SA_House_Of_Assembly);
 					chambersForTheState.Add(Chamber.SA_Legislative_Council);
 					break;
 				case ("VIC"):
@@ -308,9 +296,9 @@ namespace RightToAskClient.Models
 
 		public static List<string> ListElectoratesInChamber(Chamber chamber)
 		{
-			if (allMPs.IsInitialised)
+			if (MPs.IsInitialised)
 			{
-				return allMPs.ListElectoratesInChamber(chamber);
+				return MPs.ListElectoratesInChamber(chamber);
 			}
 
 			return new List<string>();

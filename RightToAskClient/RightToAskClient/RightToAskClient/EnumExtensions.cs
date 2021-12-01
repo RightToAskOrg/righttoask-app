@@ -13,6 +13,7 @@ namespace RightToAskClient
 
 			    case ParliamentData.Chamber.Australian_House_Of_Representatives:
 			    case ParliamentData.Chamber.Tas_House_Of_Assembly:
+			    case ParliamentData.Chamber.SA_House_Of_Assembly:
 				    return "MP";
 
 			    case ParliamentData.Chamber.ACT_Legislative_Assembly:
@@ -20,7 +21,6 @@ namespace RightToAskClient
 			    case ParliamentData.Chamber.NT_Legislative_Assembly:
 			    case ParliamentData.Chamber.Qld_Legislative_Assembly:
 			    case ParliamentData.Chamber.Vic_Legislative_Assembly:
-			    case ParliamentData.Chamber.SA_Legislative_Assembly:
 			    case ParliamentData.Chamber.WA_Legislative_Assembly:
 				    return "MLA";
 
