@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Org.BouncyCastle.Crypto.Operators;
+using RightToAskClient.HttpClients;
+using static RightToAskClient.HttpClients.RTAClient;
 
 namespace RightToAskClient.Models
 {
@@ -21,10 +23,21 @@ namespace RightToAskClient.Models
 	    private static readonly List<MP> VicLC_MPs 
 		    =  readMPsFromCSV(Chamber.Vic_Legislative_Council, "VicLegislativeCouncilmembers.csv");
 
-	    public static readonly ObservableCollection<MP> AllMPs = new ObservableCollection<MP>(
-		    FederalMPs.Concat(Senators).Concat(VicLA_MPs).Concat(VicLC_MPs)
-		    );
+	    private static MPData allMPs = new MPData();
 
+	    public static List<MP> AllMPs
+	    {
+		    get
+		    {
+			    if (allMPs.IsInitialised)
+			    {
+				    return allMPs.AllMPs;
+			    }
+
+			    return new List<MP>();
+		    }
+	    }
+	    
 	    /*
 	    public static readonly ObservableCollection<string> StatesAndTerritories = new ObservableCollection<string>()
 	    {
@@ -118,8 +131,6 @@ namespace RightToAskClient.Models
 			public const string WA_Legislative_Council = "WA_Legislative_Council";
 	    } */
 	    
-	    
-	    
 		public static readonly ObservableCollection<Entity> AllAuthorities = new ObservableCollection<Entity>(readAuthoritiesFromFiles());
 
 		private static List<Chamber> StateLowerHouseChambers = new List<Chamber>
@@ -195,6 +206,7 @@ namespace RightToAskClient.Models
 				Console.WriteLine(e.Message);
 			}
 		}
+		
 		private static MP parseCSVLineAsMP(Chamber chamberExpected, string line)
 		{
 			string[] words = line?.Split(',');
@@ -244,10 +256,6 @@ namespace RightToAskClient.Models
 			}
 		}
 
-		public static List<string> ListElectoratesInChamber(Chamber chamber)
-		{
-			return new List<string>(AllMPs.Where(mp => mp.electorate.chamber == chamber).Select(mp => mp.electorate.region));
-		}
 
 		/* Finds all the chambers in which a citizen of this state is represented,
 		 * including the House of Representatives and the Senate.
@@ -296,6 +304,16 @@ namespace RightToAskClient.Models
 			}
 
 			return chambersForTheState;
+		}
+
+		public static List<string> ListElectoratesInChamber(Chamber chamber)
+		{
+			if (allMPs.IsInitialised)
+			{
+				return allMPs.ListElectoratesInChamber(chamber);
+			}
+
+			return new List<string>();
 		}
     }
 }
