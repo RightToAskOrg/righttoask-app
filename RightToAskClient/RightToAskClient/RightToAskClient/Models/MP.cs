@@ -6,18 +6,33 @@ namespace RightToAskClient.Models
 {
     public class MP : Person
     {
-        public ParliamentData.Chamber ChamberSeatedIn { get; set; }
-        public string Salutation { get; set; } = "";
+        public string first_name { get; }
+        // public ParliamentData.Chamber ChamberSeatedIn { get; set; }
+
+        public string surname { get; }
+
+        public ElectorateWithChamber electorate { get; set; }
+
+        // TODO consider making this a specific appropriate type
+        public string email { get; }
         
-        public string ElectorateRepresenting { get; set; } = "";
+        public string role { get; }
+        
+        public string party { get; }
+
+        private string salutation = ""; 
+        
+        // public string ElectorateRepresenting { get; set; } = "";
     
         public override string ToString()
         {
-            var StateIfNeeded = Salutation == "Senator" ? "" : ", " + (registrationInfo.state);
+            ParliamentData.Chamber cham = electorate.chamber;
+            salutation = cham.Salutation(); 
+            var StateIfNeeded = salutation == "Senator" ? "" : ", " + (registrationInfo.state);
             // Could use String.Equals(str1, str2, StringComparison.OrdinalIgnoreCase) to ignore case.
             return base.ToString()
-                   + "\n" + Salutation
-                   + " for " + ElectorateRepresenting 
+                   + "\n" + salutation
+                   + " for " + electorate.region
                    + StateIfNeeded;
         }
 

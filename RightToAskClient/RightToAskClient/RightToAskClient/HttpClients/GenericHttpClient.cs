@@ -264,6 +264,5 @@ namespace RightToAskClient.HttpClients
                 return new Result<TResponse> { Err = "Error connecting to server."+ex.Message};
             }
         }
-
     }
 }

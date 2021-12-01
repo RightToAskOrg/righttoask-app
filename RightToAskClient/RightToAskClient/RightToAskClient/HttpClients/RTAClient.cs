@@ -19,16 +19,16 @@ namespace RightToAskClient.HttpClients
             {
                 Converters = { new JsonStringEnumConverter() },
                 WriteIndented = false
-                // I *think* this is the right thing to use for deserialising addresses
-                // with possibly absent elements.
-                // DefaultIgnoreCondition = JsonIgnoreCondition.Always
             };
         
         private static readonly GenericHttpClient client = new GenericHttpClient(serializerOptions);
         
+        public static async Task<Result<List<MP>>> GetMPsList()
+        {
+            return await client.DoGetJSONRequest<List<MP>>(Constants.MPListUrl);
+        }
         public static async Task<Result<List<string>>> GetUserList()
         {
-            // client.BaseAddress = new Uri(Constants.UserListUrl);
             return await client.DoGetResultRequest<List<string>>(Constants.UserListUrl);
         }
 
