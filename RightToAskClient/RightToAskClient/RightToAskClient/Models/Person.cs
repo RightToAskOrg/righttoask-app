@@ -95,6 +95,11 @@ namespace RightToAskClient.Models
 				OnPropertyChanged("UserEmail");
 			}
 		}
+
+		public override string GetName()
+		{
+			return registrationInfo.display_name;
+		}
     }
 
 }

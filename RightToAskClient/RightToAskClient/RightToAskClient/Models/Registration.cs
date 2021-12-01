@@ -49,11 +49,7 @@ namespace RightToAskClient.Models
 		// the expected state.
 		public void AddElectorate(ParliamentData.Chamber chamberToAdd, string regionToAdd)
 		{
-			electorates.Add(new ElectorateWithChamber()
-			{
-				chamber = chamberToAdd,
-				region = regionToAdd
-			});
+			electorates.Add(new ElectorateWithChamber(chamberToAdd, regionToAdd));
 		}
 
 		// TODO at the moment it just assumes everyone is in Vic.	

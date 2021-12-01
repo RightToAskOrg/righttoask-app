@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using RightToAskClient.HttpClients;
@@ -30,21 +31,19 @@ namespace RightToAskClient.Models
 		}
 
 		// Returns true if initialisation is successful, i.e. no errors.
-		public async Task<bool> TryInit()
+		public async void TryInit()
 		{
-			Result<bool> success;
+			if (isInitialised) return;
 			
-			if (!isInitialised)
+			Result<bool> success = await tryInitialising();
+			if (!String.IsNullOrEmpty(success.Err))
 			{
-				success = await tryInitialising();
-				if (String.IsNullOrEmpty(success.Err))
-				{
-					return true;
-				}
+				Debug.WriteLine(@"\tERROR {0}", success.Err);
 			}
-
-			// If already initialised, return true;
-			return isInitialised;
+			else
+			{
+				isInitialised = true;
+			}
 		}
 		
 

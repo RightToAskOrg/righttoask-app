@@ -10,27 +10,19 @@ namespace RightToAskClient.Models
     {
         private int upVotes;
         private int downVotes;
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
 
-        public string QuestionText { get; set; }
+        public string QuestionText { get; set; } = "";
         
         // The citizen who suggested the question
-        public string QuestionSuggester { get; set; }
+        public string QuestionSuggester { get; set; } = "";
         
         // The Authority, department, MPs, who are meant to answer 
-        public ObservableCollection<Entity> QuestionAnswerers { get; set; }
+        public ObservableCollection<Entity> QuestionAnswerers { get; set; } = new ObservableCollection<Entity>();
         
         // The MPs or committee who are meant to ask the question
-        public string QuestionAsker { get; set; }
+        public string QuestionAsker { get; set; } = "";
 
-        public string LinkOrAnswer { get; set; }
+        public string LinkOrAnswer { get; set; } = "";
 
         public int UpVotes 
         {
@@ -61,8 +53,7 @@ namespace RightToAskClient.Models
         {
             
             List<string> questionAnswerersList 
-                = QuestionAnswerers != null ? QuestionAnswerers.Select(ans => ans.EntityName).ToList()
-                                    : new List<string>();
+                = QuestionAnswerers.Select(ans => ans.GetName()).ToList();
             // view.Select(f => return new { Food = f, Selected = selectedFood.Contains(f)});
             return QuestionText+ "\n" +
                    "Suggested by: " + (QuestionSuggester ?? "") + '\n' +
@@ -74,5 +65,13 @@ namespace RightToAskClient.Models
                    "Link/Answer: " + (LinkOrAnswer ?? "");
         }
         
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
     }
 }

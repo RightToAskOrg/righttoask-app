@@ -95,9 +95,9 @@ namespace RightToAskClient.Views
                 
                 var selectableUsers =
                     new ObservableCollection<Entity>(httpResponse.Ok.Select
-                        (userName => new Entity() 
+                        (userName => new Authority() 
                             {
-                                EntityName= userName, 
+                                AuthorityName = userName, 
                             }
                         )
                     );

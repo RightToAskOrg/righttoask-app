@@ -37,15 +37,17 @@ namespace RightToAskClient.Views
             AuthorityListView.ItemsSource = listToDisplay;
         }
 
-        // Look up whether either the long-form name or nickname/acronym
-        // includes the queryString.
-        // TODO Consider whether this really needs the Entity name or could instead
-        // use ToString and hence make the whole class completely generic.
+        // Look up whether anything in the Entity includes the queryString.
+        // This is a little bit of a cludge because it means, for instance,
+        // that if you look for "Nat" you'll get all the Senators.
+        // TODO If this turns out to be problematic, implement something like
+        // NamesToString, which returns only the separated, concatenated
+        // strings that you'll want to search on.
         private ObservableCollection<Tag> GetSearchResults(string queryString)
         {
             var normalizedQuery = queryString?.ToLower() ?? "";
             return new ObservableCollection<Tag>(selectableEntities.
-                Where(f => (f.TagEntity.EntityName+':'+f.TagEntity.NickName).
+                Where(f => (f.TagEntity.GetName()).
                     ToLowerInvariant().Contains(normalizedQuery)).ToList());
         } 
         

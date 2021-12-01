@@ -7,9 +7,6 @@ namespace RightToAskClient.Models
 {
     public class IndividualParticipant : Person 
     {
-		
-		
-
 		public IndividualParticipant() : base()
 		{
 			MPsKnown = false;
@@ -18,13 +15,7 @@ namespace RightToAskClient.Models
 		}
 		public bool Is_Registered { get; set; }
 		public bool MPsKnown { get; set; }
-		
 		public ObservableCollection<Entity> MyMPs { get; set; }
-
-
-	
-
-		
 
     }
 } 

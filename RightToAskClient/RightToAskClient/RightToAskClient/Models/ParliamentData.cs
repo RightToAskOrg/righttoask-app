@@ -119,7 +119,8 @@ namespace RightToAskClient.Models
 			public const string WA_Legislative_Council = "WA_Legislative_Council";
 	    } */
 	    
-		public static readonly ObservableCollection<Entity> AllAuthorities = new ObservableCollection<Entity>(readAuthoritiesFromFiles());
+		public static readonly ObservableCollection<Authority> AllAuthorities =
+			new ObservableCollection<Authority>(readAuthoritiesFromFiles());
 
 		private static List<Chamber> StateLowerHouseChambers = new List<Chamber>
 		{
@@ -158,9 +159,9 @@ namespace RightToAskClient.Models
 			return MPs;
 		}
 		
-       private static List<Entity> readAuthoritiesFromFiles()
+       private static List<Authority> readAuthoritiesFromFiles()
        {
-		    var AllAuthorities = new List<Entity>();
+		    var AllAuthorities = new List<Authority>();
 		    readDataFromCSV("all-authorities.csv",AllAuthorities,parseCSVLineAsAuthority);
 		    return AllAuthorities;
        }
@@ -200,20 +201,15 @@ namespace RightToAskClient.Models
 			string[] words = line?.Split(',');
 			if (words?.Length >= 5)
 			{
-				MP newMP = new MP
+					var electorate = new ElectorateWithChamber(chamberExpected, words[3]);
+						
+					var first_name = words[2]; 
+					var surname = words[1];
+					
+				MP newMP = new MP(first_name, surname, electorate)
 				{
-					electorate = new ElectorateWithChamber
-					{
-						chamber	= chamberExpected,
-							region = words[3] 
-					},
 					// Salutation = (words[0] == "Senator" ? "Senator" : "Member"),
-					EntityName = words[2] +" "+ words[1],
 					// ElectorateRepresenting = words[3],
-					RegistrationInfo = new Registration()
-					{
-						state = words[4]
-					}	
 				};
 				return newMP;
 			}
@@ -224,15 +220,15 @@ namespace RightToAskClient.Models
 		// This parses a line from Right To Know's CSV file as an Authority.
 		// It is, obviously, very specific to the expected file format.
 		// Ignore any line that doesn't produce at least 3 words.
-		private static Entity parseCSVLineAsAuthority(string line)
+		private static Authority parseCSVLineAsAuthority(string line)
 		{
 			string[] words = line.Split(',');
 			if (words.Length >= 3)
 			{
 				
-				Entity newAuthority = new Entity
+				Authority newAuthority = new Authority()
 				{
-					EntityName = words[0],
+					AuthorityName = words[0],
 					NickName = words[1],
 					RightToKnowURLSuffix = words[2]
 				};

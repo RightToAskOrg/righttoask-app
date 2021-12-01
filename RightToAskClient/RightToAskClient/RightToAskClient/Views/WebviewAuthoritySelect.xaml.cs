@@ -59,13 +59,13 @@ namespace RightToAskClient.Views
         private void insertOrSelect(string authority)
         {
             var matchingAuthorities 
-                = new ObservableCollection<Entity>(ParliamentData.AllAuthorities.
+                = new ObservableCollection<Authority>(ParliamentData.AllAuthorities.
                     Where(w => w.RightToKnowURLSuffix != null && w.RightToKnowURLSuffix  == authority));
             if (matchingAuthorities.Count == 0)
             {
-                Entity newAuthority = new Entity
+                Authority newAuthority = new Authority()
                 {
-                    EntityName = authority,
+                    AuthorityName = authority,
                     NickName = authority
                 };
                 ParliamentData.AllAuthorities.Add(newAuthority);

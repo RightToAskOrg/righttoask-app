@@ -60,38 +60,30 @@ namespace RightToAskClient.Models
 			Filters = new FilterChoices();
 
 			Departments = new ObservableCollection<Tag>();
-			Departments.Add(new Tag { TagEntity = new Entity { EntityName = "Environment" }, Selected = false });
-			Departments.Add(new Tag { TagEntity = new Entity { EntityName = "Home Affairs" }, Selected = false });
-			Departments.Add(new Tag { TagEntity = new Entity { EntityName = "Defence" }, Selected = false });
-			Departments.Add(new Tag { TagEntity = new Entity { EntityName = "Health" }, Selected = false });
-			Departments.Add(new Tag { TagEntity = new Entity { EntityName = "Treasury" }, Selected = false });
-			Departments.Add(new Tag { TagEntity = new Entity { EntityName = "Human Services" }, Selected = false });
+			Departments.Add(new Tag { TagEntity = new Authority { AuthorityName = "Environment" }, Selected = false });
+			Departments.Add(new Tag { TagEntity = new Authority { AuthorityName = "Home Affairs" }, Selected = false });
+			Departments.Add(new Tag { TagEntity = new Authority { AuthorityName = "Defence" }, Selected = false });
+			Departments.Add(new Tag { TagEntity = new Authority { AuthorityName = "Health" }, Selected = false });
+			Departments.Add(new Tag { TagEntity = new Authority { AuthorityName = "Treasury" }, Selected = false });
+			Departments.Add(new Tag { TagEntity = new Authority { AuthorityName = "Human Services" }, Selected = false });
 			Departments.Add(new Tag
-				{ TagEntity = new Entity { EntityName = "Innovation, Industry and Science" }, Selected = false });
-			Departments.Add(new Tag { TagEntity = new Entity { EntityName = "Communications" }, Selected = false });
+				{ TagEntity = new Authority { AuthorityName = "Innovation, Industry and Science" }, Selected = false });
+			Departments.Add(new Tag { TagEntity = new Authority { AuthorityName = "Communications" }, Selected = false });
 
 			/*
 			MyMPs = new ObservableCollection<Tag>();
-			MyMPs.Add(new Tag { TagEntity = new Entity { EntityName = "Janet Rice" }, Selected = false });
-			MyMPs.Add(new Tag { TagEntity = new Entity { EntityName = "Danny O'Brien" }, Selected = false });
-			MyMPs.Add(new Tag { TagEntity = new Entity { EntityName = "Peter Dutton" }, Selected = false });
-			MyMPs.Add(new Tag { TagEntity = new Entity { EntityName = "Penny Wong" }, Selected = false });
-			MyMPs.Add(new Tag { TagEntity = new Entity { EntityName = "Daniel Andrews" }, Selected = false });
-			MyMPs.Add(new Tag { TagEntity = new Entity { EntityName = "Ged Kearney" }, Selected = false });
-			MyMPs.Add(new Tag { TagEntity = new Entity { EntityName = "Michael McCormack" }, Selected = false });
-			MyMPs.Add(new Tag { TagEntity = new Entity { EntityName = "Mark Dreyfus" }, Selected = false });
-			MyMPs.Add(new Tag { TagEntity = new Entity { EntityName = "Michaelia Cash" }, Selected = false });
+			MyMPs.Add(new Tag { TagEntity = new Authority { EntityName = "Janet Rice" }, Selected = false });
+			MyMPs.Add(new Tag { TagEntity = new Authority { EntityName = "Danny O'Brien" }, Selected = false });
+			MyMPs.Add(new Tag { TagEntity = new Authority { EntityName = "Peter Dutton" }, Selected = false });
+			MyMPs.Add(new Tag { TagEntity = new Authority { EntityName = "Penny Wong" }, Selected = false });
+			MyMPs.Add(new Tag { TagEntity = new Authority { EntityName = "Daniel Andrews" }, Selected = false });
+			MyMPs.Add(new Tag { TagEntity = new Authority { EntityName = "Ged Kearney" }, Selected = false });
+			MyMPs.Add(new Tag { TagEntity = new Authority { EntityName = "Michael McCormack" }, Selected = false });
+			MyMPs.Add(new Tag { TagEntity = new Authority { EntityName = "Mark Dreyfus" }, Selected = false });
+			MyMPs.Add(new Tag { TagEntity = new Authority { EntityName = "Michaelia Cash" }, Selected = false });
 			*/
 
 			TestCurrentMPs = new ObservableCollection<Entity>();
-			TestCurrentMPs.Add(new Entity { EntityName = "Janet Rice" });
-			TestCurrentMPs.Add(new Entity { EntityName = "Danny O'Brien" });
-			TestCurrentMPs.Add(new Entity { EntityName = "Peter Dutton" });
-			TestCurrentMPs.Add(new Entity { EntityName = "Penny Wong" });
-			TestCurrentMPs.Add(new Entity { EntityName = "Daniel Andrews" });
-			TestCurrentMPs.Add(new Entity { EntityName = "Ged Kearney" });
-			TestCurrentMPs.Add(new Entity { EntityName = "Michael McCormack" });
-			TestCurrentMPs.Add(new Entity { EntityName = "Mark Dreyfus" });
 			
 			ExistingQuestions = new ObservableCollection<Question>();
 			ExistingQuestions.Add(
@@ -136,94 +128,94 @@ namespace RightToAskClient.Models
 			StateElectorates = new ObservableCollection<Tag>();
 			StateElectorates.Add(new Tag
 			{
-				TagEntity = new Entity { EntityName = "Gembrook"}, 
+				TagEntity = new Authority { AuthorityName = "Gembrook"}, 
 				Selected = false 
 			});
 			StateElectorates.Add(new Tag
 			{
-				TagEntity = new Entity{EntityName = "Nepean"}, 
+				TagEntity = new Authority{AuthorityName = "Nepean"}, 
 				Selected = false
 			});
 			StateElectorates.Add(new Tag
 			{
-				TagEntity = new Entity { EntityName = "Sunbury"}, 
+				TagEntity = new Authority { AuthorityName = "Sunbury"}, 
 				Selected = false 
 			});
 			StateElectorates.Add(new Tag
 			{
-				TagEntity = new Entity{EntityName = "Brighton"}, 
+				TagEntity = new Authority{AuthorityName = "Brighton"}, 
 				Selected = false
 			});
 			StateElectorates.Add(new Tag
 			{
-				TagEntity = new Entity { EntityName = "Eildon"}, 
+				TagEntity = new Authority { AuthorityName = "Eildon"}, 
 				Selected = false 
 			});
 			StateElectorates.Add(new Tag
 			{
-				TagEntity = new Entity{EntityName = "Ovens Valley"}, 
+				TagEntity = new Authority{AuthorityName = "Ovens Valley"}, 
 				Selected = false
 			});
 			StateElectorates.Add(new Tag
 			{
-				TagEntity = new Entity { EntityName = "Malvern"}, 
+				TagEntity = new Authority { AuthorityName = "Malvern"}, 
 				Selected = false
 			});
 			StateElectorates.Add(new Tag
 			{
-				TagEntity = new Entity{EntityName = "Northcote"}, 
+				TagEntity = new Authority{AuthorityName = "Northcote"}, 
 				Selected = false
 			});
 			StateElectorates.Add(new Tag
 			{
-				TagEntity = new Entity { EntityName = "Gippsland South"}, 
+				TagEntity = new Authority { AuthorityName = "Gippsland South"}, 
 				Selected = false
 			});
 
 			FederalElectorates = new ObservableCollection<Tag>();
 			FederalElectorates.Add(new Tag
 			{
-				TagEntity = new Entity { EntityName = "Cooper" },
+				TagEntity = new Authority { AuthorityName = "Cooper" },
 				Selected = false
 			});
 			FederalElectorates.Add( new Tag
 			{
-				TagEntity = new Entity { EntityName = "Higgins" } ,
+				TagEntity = new Authority { AuthorityName = "Higgins" } ,
 				Selected = false
 			});
 			FederalElectorates.Add ( new Tag
 			{
-				TagEntity = new Entity { EntityName = "Flinders" },
+				TagEntity = new Authority { AuthorityName = "Flinders" },
 				Selected = false 
 			});
 			FederalElectorates.Add ( new Tag
 			{
-				TagEntity = new Entity { EntityName = "Isaacs" } ,
+				TagEntity = new Authority { AuthorityName = "Isaacs" } ,
 				Selected = false
 			});
 			FederalElectorates.Add ( new Tag
 			{
-				TagEntity = new Entity { EntityName = "Melbourne" },
+				TagEntity = new Authority { AuthorityName = "Melbourne" },
 				Selected = false
 			});
 			FederalElectorates.Add ( new Tag
 			{
-				TagEntity = new Entity { EntityName = "Mallee"} ,
+				TagEntity = new Authority { AuthorityName = "Mallee"} ,
 				Selected = false
 			});
 			FederalElectorates . Add ( new Tag
 			{
-				TagEntity = new Entity { EntityName = "Indi"} ,
+				TagEntity = new Authority { AuthorityName = "Indi"} ,
 				Selected = false
 			});
 			FederalElectorates . Add ( new Tag
 			{
-				TagEntity = new Entity { EntityName = "Monash"} ,
+				TagEntity = new Authority { AuthorityName = "Monash"} ,
 				Selected = false
 			});
 			FederalElectorates . Add ( new Tag
 			{
-				TagEntity = new Entity { EntityName = "Wills"},
+				TagEntity = new Authority { AuthorityName = "Wills"},
 				Selected = false
 			});
 		}

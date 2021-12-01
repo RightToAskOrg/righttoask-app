@@ -65,7 +65,8 @@ namespace RightToAskClient.Views
 		async private void OnOtherPublicAuthorityButtonClicked(object sender, EventArgs e)
 		{
 			var exploringPageToSearchAuthorities
-				= new ExploringPageWithSearch(ParliamentData.AllAuthorities, _readingContext.Filters.SelectedAuthorities,
+				= new ExploringPageWithSearch(new ObservableCollection<Entity>(ParliamentData.AllAuthorities),
+					new ObservableCollection<Entity>(_readingContext.Filters.SelectedAuthorities),
 				"Choose authorities");
 			await Navigation.PushAsync(exploringPageToSearchAuthorities);
 		}

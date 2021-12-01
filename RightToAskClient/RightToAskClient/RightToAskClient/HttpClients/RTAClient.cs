@@ -18,7 +18,8 @@ namespace RightToAskClient.HttpClients
             new JsonSerializerOptions
             {
                 Converters = { new JsonStringEnumConverter() },
-                WriteIndented = false
+                WriteIndented = false,
+                // DefaultIgnoreCondition = JsonIgnoreCondition.Always
             };
         
         private static readonly GenericHttpClient client = new GenericHttpClient(serializerOptions);

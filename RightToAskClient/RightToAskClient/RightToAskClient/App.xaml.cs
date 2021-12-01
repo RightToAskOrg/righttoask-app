@@ -14,12 +14,17 @@ namespace RightToAskClient
             setTheStyles();
             InitializeComponent();
 
-            ParliamentData.MPs.TryInit();
+            /* MS Docs say static classes are
+             * " is guaranteed to be loaded and to have its fields initialized
+             * and its static constructor called before the class is referenced
+             * for the first time in your program."
+             * */
             MainPage = new NavigationPage(new MainPage());
         }
 
         protected override void OnStart()
         {
+            ParliamentData.MPs.TryInit();
         }
 
         protected override void OnSleep()

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using RightToAskClient.Models;
 using RightToAskClient.Views;
@@ -132,8 +133,10 @@ namespace RightToAskClient.Controls
         {
 			string message = "Choose others to add";
 			
-           	var departmentExploringPage = new ExploringPageWithSearchAndPreSelections(ParliamentData.AllAuthorities, 
-                filterContext.SelectedAuthorities, message);
+           	var departmentExploringPage 
+                = new ExploringPageWithSearchAndPreSelections(
+                    new ObservableCollection<Entity>(ParliamentData.AllAuthorities), 
+                new ObservableCollection<Entity>(filterContext.SelectedAuthorities), message);
            	await Navigation.PushAsync (departmentExploringPage);
         }
 
