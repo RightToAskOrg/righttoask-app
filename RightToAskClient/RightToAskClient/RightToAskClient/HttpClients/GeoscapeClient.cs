@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Linq;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -22,9 +24,28 @@ namespace RightToAskClient.HttpClients
             };
         
         private static GenericHttpClient client = new GenericHttpClient(serializerOptions);
+
+        public static async Task<Result<GeoscapeAddressFeature>> GetFirstAddressData(string address)
+        {
+            var collection = await GetAddressDataAsync(address);
+
+            if (!String.IsNullOrEmpty(collection.Err))
+            {
+                return new Result<GeoscapeAddressFeature> { Err = collection.Err };
+            }
+
+            var addresses = collection.Ok.AddressDataList;
+            // I *think* this should never happen, because there should be a message if the
+            // address list is empty, but better safe than sorry.
+            if(addresses.Length == 0)
+            {
+                return new Result<GeoscapeAddressFeature> { Err = "No addresses found" };
+            }
+
+            return new Result<GeoscapeAddressFeature> { Ok = addresses[0] };
+        }
         
-        // TODO Deal with Geoscape-specific errors, e.g. when it can't find the address.
-        public static async Task<Result<GeoscapeAddressFeatureCollection>> GetAddressDataAsync(string address)
+        private static async Task<Result<GeoscapeAddressFeatureCollection>> GetAddressDataAsync(string address)
         {
             string requestString = GeoscapeAddressRequestBuilder.BuildRequest(address);
 
@@ -41,8 +62,27 @@ namespace RightToAskClient.HttpClients
             client.SetAuthorizationHeaders(
                 new AuthenticationHeaderValue(GeoscapeAddressRequestBuilder.ApiKey.Ok));
             
-            return await client.DoGetJSONRequest<GeoscapeAddressFeatureCollection>(Constants.GeoscapeAPIUrl + requestString);
+            // At this point, we know we got a response, but it may say for example that
+            // the address wasn't found.
+            Result<GeoscapeAddressFeatureCollection> httpResponse = await client.DoGetJSONRequest<GeoscapeAddressFeatureCollection>(Constants.GeoscapeAPIUrl + requestString);
+            return InterpretGeoscapeResponse(httpResponse.Ok);
         }
 
+        // Geoscape-specific response interpretation.
+        // TODO Find out if there's ever >1 message.
+        public static Result<GeoscapeAddressFeatureCollection> InterpretGeoscapeResponse(GeoscapeAddressFeatureCollection httpResponseOk)
+        {
+            if (httpResponseOk.Messages.Length > 0)
+            {
+                if (httpResponseOk.Messages[0] == "No address matched the query.")
+                {
+                    return new Result<GeoscapeAddressFeatureCollection> { Err = "Address not found - try again." };
+                }
+
+                return new Result<GeoscapeAddressFeatureCollection> { Err = httpResponseOk.Messages[0] };
+            }
+
+            return new Result<GeoscapeAddressFeatureCollection> { Ok = httpResponseOk };
+        }
     }
 }

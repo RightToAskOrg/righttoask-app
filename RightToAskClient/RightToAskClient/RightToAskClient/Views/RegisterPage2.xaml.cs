@@ -167,8 +167,8 @@ namespace RightToAskClient.Views
         // If we know their state but not their Legislative Assembly or Council makeup, we can go on. 
         async void OnSubmitAddressButton_Clicked(object sender, EventArgs e)
         {
-            GeoscapeAddressFeatureCollection addressList;
-            Result<GeoscapeAddressFeatureCollection> httpResponse;
+            // GeoscapeAddressFeatureCollection addressList;
+            Result<GeoscapeAddressFeature> httpResponse;
             
             string state = thisParticipant.RegistrationInfo.state;
             
@@ -185,34 +185,28 @@ namespace RightToAskClient.Views
                 return;
             }
             
-            httpResponse = await GeoscapeClient.GetAddressDataAsync(address + " " + state);
+            httpResponse = await GeoscapeClient.GetFirstAddressData(address + " " + state);
             
-            // if (httpResponse == null)
-            //{
-            //      listView.Header = "Error reaching server. Check your Internet connection.";
-            // } 
-            // TODO Deal with geoscape-specific errors, possibly in the Geoscape 
-            // model itself, e.g. check for the error in which the list is empty
-            // and tell the person we couldn't find their address.
             if (!String.IsNullOrEmpty(httpResponse.Err))
             {
-                addressSavingLabel.Text = "Error reaching server: "+httpResponse.Err;
-                ReportLabel.Text = "Consider looking up your electorates manually";
+                ReportLabel.Text = httpResponse.Err;
                 return;
             } 
             
-            addressList = httpResponse.Ok;
-            updateElectorates(addressList.AddressDataList);
+            // Now we know everything is good.
+            var bestAddress = httpResponse.Ok;
+            UpdateElectorates(bestAddress);
             FindMPsButton.IsVisible = true;
+            ReportLabel.Text = "";
 
-            bool SaveThisAddress = await DisplayAlert("Electorates found!", 
+            bool saveThisAddress = await DisplayAlert("Electorates found!", 
                 // "State Assembly Electorate: "+thisParticipant.SelectedLAStateElectorate+"\n"
                 // +"State Legislative Council Electorate: "+thisParticipant.SelectedLCStateElectorate+"\n"
                 "Federal electorate: "+thisParticipant.RegistrationInfo.CommonwealthElectorate()+"\n"+
                 "State lower house electorate: "+thisParticipant.RegistrationInfo.StateLowerHouseElectorate()+"\n"+
                 "Do you want to save your address on this device? Right To Ask will not learn your address.", 
                 "OK - Save address on this device", "No thanks");
-            if (SaveThisAddress)
+            if (saveThisAddress)
             {
                 SaveAddress();
             }
@@ -230,31 +224,15 @@ namespace RightToAskClient.Views
         {
         }
 
-        private void updateElectorates(GeoscapeAddressFeature[] addressListAddressDataList)
+        private void UpdateElectorates(GeoscapeAddressFeature addressData)
         {
-            if(addressListAddressDataList.Length > 0)
-            {
             thisParticipant.RegistrationInfo.AddElectorate(ParliamentData.Chamber.Australian_House_Of_Representatives,  
-                addressListAddressDataList[0].Properties.CommonwealthElectorate.CommElectoralName);
+                addressData.Properties.CommonwealthElectorate.CommElectoralName);
 
             // TODO: this is a bit odd because I need to check what Geoscape does for upper and lower house electorates.
             thisParticipant.RegistrationInfo.AddStateLowerHouseElectorate(thisParticipant.RegistrationInfo.state,
-                addressListAddressDataList[0].Properties.StateElectorate.StateElectoralName);
-            /*
-            if (!allStateLAElectorates.IsNullOrEmpty())
-            {
-                thisParticipant.RegistrationInfo.AddElectorate(stateLAChamber,
-                    allStateLAElectorates[random.Next(allStateLAElectorates.Count)]);   
-            }
-
-            if (!allStateLCElectorates.IsNullOrEmpty())
-            {
-                thisParticipant.RegistrationInfo.AddElectorate(stateLCChamber, 
-                    allStateLCElectorates[random.Next(allStateLCElectorates.Count)]);
-            }
-            */
+                addressData.Properties.StateElectorate.StateElectoralName);
             thisParticipant.MPsKnown = true;
-            }
         }
 
         // TODO Think about what should happen if the person has made 
