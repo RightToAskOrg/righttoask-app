@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -290,14 +291,75 @@ namespace RightToAskClient.Models
 			return chambersForTheState;
 		}
 
-		public static List<string> ListElectoratesInChamber(Chamber chamber)
+		public static List<string> ListElectoratesInHouseOfReps()
 		{
 			if (MPs.IsInitialised)
 			{
-				return MPs.ListElectoratesInChamber(chamber);
+				return MPs.ListElectoratesInChamber(Chamber.Australian_House_Of_Representatives);
 			}
 
 			return new List<string>();
+		}
+
+		public static List<string> ListElectoratesInStateLowerHouse(string state)
+		{
+			Result<Chamber> possibleChamber = GetLowerHouseChamber(state);
+			if (MPs.IsInitialised && possibleChamber.Err.IsNullOrEmpty())
+			{
+				return MPs.ListElectoratesInChamber(possibleChamber.Ok);
+			}
+
+			return new List<string>();
+		}
+
+		public static Result<Chamber> GetLowerHouseChamber(string state)
+		{
+			List<Chamber> chamberList = FindChambers(state).Where(p => IsLowerHouseChamber(p)).ToList();
+			if (chamberList.IsNullOrEmpty() || chamberList.Count() > 1 )
+			{
+				Debug.WriteLine("Error: "+chamberList.Count()+" lower house chambers in "+state);
+				return new Result<Chamber>() { Err = "Can't get lower house chamber." };
+			}
+			return new Result<Chamber>() {Ok = chamberList[0]};
+		}
+		// Not every state has an upper house, so failing to find one is not necessarily an error.
+		// So we return empty but don't log an error. 
+		// After that, it's just like the lower-house lookup.
+		public static List<string> ListElectoratesInStateUpperHouse(string state)
+		{
+			if (!HasUpperHouse(state))
+			{
+				return new List<string>();
+			}
+			
+			Result<Chamber> possibleChamber = GetUpperHouseChamber(state);
+			if (MPs.IsInitialised && possibleChamber.Err.IsNullOrEmpty())
+			{
+				return MPs.ListElectoratesInChamber(possibleChamber.Ok);
+			}
+
+			return new List<string>();
+		}
+
+		public static Result<Chamber> GetUpperHouseChamber(string state)
+		{
+			if (HasUpperHouse(state))
+			{
+				List<Chamber> chamberList = FindChambers(state).Where(c => IsUpperHouseChamber(c)).ToList();
+				if (chamberList.IsNullOrEmpty() || chamberList.Count > 1)
+				{
+					Debug.WriteLine("Error: "+chamberList.Count()+" lower house chambers in "+state);
+					return new Result<Chamber>() {Err = "Error: wrong number of lower houses for "+state };
+				}
+				
+				return new Result<Chamber>() {Ok = chamberList[0]};
+			}
+
+			return new Result<Chamber>() { Err = "This state has no upper house." };
+		}
+		public static bool HasUpperHouse(string state)
+		{
+			return Parliaments[state].Count() == 2;
 		}
     }
 }

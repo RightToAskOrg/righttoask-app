@@ -13,10 +13,6 @@ namespace RightToAskClient.Models
 		private List<MP> allMPs = new List<MP>();
 		private bool isInitialised = false;
 		
-		public MPData()
-		{
-		}
-
 		public List<MP> AllMPs  
 		{
 			get
@@ -30,7 +26,18 @@ namespace RightToAskClient.Models
 			}
 		}
 
+		// Find all the MPs representing a certain electorate.
+		public List<MP> GetMPsRepresentingElectorate(ElectorateWithChamber queryElectorate)
+		{
+			var mps = allMPs.Where(mp => mp.electorate.chamber == queryElectorate.chamber
+			                             && mp.electorate.region.Equals(queryElectorate.region,
+				                             StringComparison.OrdinalIgnoreCase));
+			return new List<MP>(mps);
+		}
+		
 		// Returns true if initialisation is successful, i.e. no errors.
+		// TODO Update this to use stored data if the server is unavailable
+		// or there are no changes since last time.
 		public async void TryInit()
 		{
 			if (isInitialised) return;
@@ -74,6 +81,12 @@ namespace RightToAskClient.Models
 		{
 			return new List<string>(AllMPs.Where(mp => mp.electorate.chamber == chamber)
 				.Select(mp => mp.electorate.region));
+		}
+		
+		public List<ElectorateWithChamber> ListElectoratePairsInChamber(ParliamentData.Chamber chamber)
+		{
+			return new List<ElectorateWithChamber>(AllMPs.Where(mp => mp.electorate.chamber == chamber)
+				.Select(mp => new ElectorateWithChamber(chamber, mp.electorate.region)));
 		}
 	}
 }

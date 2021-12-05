@@ -2,9 +2,12 @@
 
 // This class represents a human, who might be 
 // an MP or a non-MP participant.
-
+// It represents the public information that we might
+// know about other people - use IndividualParticipant for
+// data about the particular person using this app.
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using Xamarin.Forms.Xaml;
 
 namespace RightToAskClient.Models
@@ -14,10 +17,9 @@ namespace RightToAskClient.Models
 		protected Address address;
         // public string StateOrTerritory { get; set; }
         
-		protected string selectedStateOrTerritory;
-		protected string selectedFederalElectorate; 
-		protected string selectedLAStateElectorate;
-		protected string selectedLCStateElectorate;
+		// protected ElectorateWithChamber FederalElectorate; 
+		// protected ElectorateWithChamber LAStateElectorate;
+		// protected ElectorateWithChamber LCStateElectorate;
 		// protected string userName;
 		protected string userEmail;
 
@@ -29,10 +31,13 @@ namespace RightToAskClient.Models
 		protected List<ParliamentData.Chamber> chambersRepresentedIn 
 			= ParliamentData.FindChambers("");
 
+		//protected List<ElectorateWithChamber> electorates = new List<ElectorateWithChamber>();
+
 		public void UpdateChambers(string state)
 		{
 			chambersRepresentedIn = ParliamentData.FindChambers(state);
 		}
+
         public Registration RegistrationInfo 
         {
 			get { return registrationInfo; }
@@ -43,6 +48,33 @@ namespace RightToAskClient.Models
 			}
 		}
         
+		
+
+        // TODO this would be a lot easier if electorates was a dictionary instead of a list of pairs
+        public string CommonwealthElectorate()
+        {
+	        var houseOfRepsElectoratePair = registrationInfo.Electorates.Find(chamberPair =>
+		        chamberPair.chamber == ParliamentData.Chamber.Australian_House_Of_Representatives);
+	        if (houseOfRepsElectoratePair is null)
+	        {
+		        return "";
+	        }
+
+	        return houseOfRepsElectoratePair.region;
+        }
+
+        public string StateLowerHouseElectorate()
+        {
+	        var electoratePair = registrationInfo.Electorates.Find(chamberPair =>
+		        ParliamentData.IsLowerHouseChamber(chamberPair.chamber));
+	        if (electoratePair is null)
+	        {
+		        return "";
+	        }
+
+	        return electoratePair.region;
+        }
+
         /*
         public string UpdateLCStateElectorate(ParliamentData.Chamber chamber, string region)
         {

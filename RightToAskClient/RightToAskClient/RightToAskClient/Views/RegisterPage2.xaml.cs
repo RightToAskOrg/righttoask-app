@@ -30,15 +30,15 @@ namespace RightToAskClient.Views
         private Address address = new Address(); 
         
         private IndividualParticipant thisParticipant;
-        private Page nextPage;
+        private Page? nextPage;
 
-        private ParliamentData.Chamber stateLCChamber=ParliamentData.Chamber.Vic_Legislative_Council;
-        private ParliamentData.Chamber stateLAChamber=ParliamentData.Chamber.Vic_Legislative_Assembly;
+        // private ParliamentData.Chamber stateLCChamber=ParliamentData.Chamber.Vic_Legislative_Council;
+        // private ParliamentData.Chamber stateLAChamber=ParliamentData.Chamber.Vic_Legislative_Assembly;
 
         private List<string> allFederalElectorates;
         private List<string> allStateLAElectorates;
         private List<string> allStateLCElectorates;
-        public RegisterPage2(IndividualParticipant thisParticipant, bool showSkip, Page nextPage = null)
+        public RegisterPage2(IndividualParticipant thisParticipant, bool showSkip, Page? nextPage = null)
         {
             InitializeComponent();
             BindingContext = thisParticipant;
@@ -60,15 +60,19 @@ namespace RightToAskClient.Views
         
         void OnStatePickerSelectedIndexChanged(object sender, EventArgs e)
         {
-            var picker = (Picker)sender;
+            // var picker = (Picker)sender;
                     
-            int selectedIndex = picker.SelectedIndex;
-         
-            if (selectedIndex != -1)
+            var picker = sender as Picker;
+            if (picker != null)
             {
-                string state = (string) picker.SelectedItem;
-                thisParticipant.RegistrationInfo.state = state; 
-                UpdateElectoratePickerSources(state);
+                int selectedIndex = picker.SelectedIndex;
+         
+                if (selectedIndex != -1)
+                {
+                    string state = (string) picker.SelectedItem;
+                    thisParticipant.RegistrationInfo.state = state; 
+                    UpdateElectoratePickerSources(state);
+                }
             }
         }
 
@@ -77,15 +81,24 @@ namespace RightToAskClient.Views
         // Also clean up repeated code.
         private void UpdateElectoratePickerSources(string state)
         {
-            allFederalElectorates = ParliamentData.ListElectoratesInChamber(ParliamentData.Chamber.Australian_House_Of_Representatives);
+            allFederalElectorates = ParliamentData.ListElectoratesInHouseOfReps();
             federalElectoratePicker.ItemsSource = allFederalElectorates;
             
             allStateLAElectorates 
-                = ParliamentData.ListElectoratesInChamber(stateLAChamber);
+                = ParliamentData.ListElectoratesInStateLowerHouse(state);
             stateLAElectoratePicker.ItemsSource = allStateLAElectorates;
-            allStateLCElectorates 
-                = ParliamentData.ListElectoratesInChamber(stateLCChamber);
-            stateLCElectoratePicker.ItemsSource = allStateLCElectorates;
+
+            if (ParliamentData.HasUpperHouse(state))
+            {
+                allStateLCElectorates
+                    = ParliamentData.ListElectoratesInStateUpperHouse(state);
+                stateLCElectoratePicker.ItemsSource = allStateLCElectorates;
+            }
+            else
+            {
+                allStateLCElectorates = new List<string>();
+                stateLCElectoratePicker.Title = state + " has no Upper House";
+            }
         }
 
         void OnStateLCElectoratePickerSelectedIndexChanged(object sender, EventArgs e)
@@ -94,7 +107,8 @@ namespace RightToAskClient.Views
             string region = ChooseElectorate(picker, allStateLCElectorates);
             if (!String.IsNullOrEmpty(region))
             {
-                thisParticipant.RegistrationInfo.AddElectorate(stateLCChamber, region);
+                var state = thisParticipant.RegistrationInfo.state;
+                thisParticipant.AddStateUpperHouseElectorate(state, region);
                 RevealNextStepIfElectoratesKnown();
             }
         }
@@ -104,7 +118,8 @@ namespace RightToAskClient.Views
             string region = ChooseElectorate(picker, allStateLAElectorates);
             if (!String.IsNullOrEmpty(region))
             {
-                thisParticipant.RegistrationInfo.AddElectorate(stateLAChamber, region);
+                var state = thisParticipant.RegistrationInfo.state;
+                thisParticipant.AddStateLowerHouseElectorate(state, region);
                 RevealNextStepIfElectoratesKnown();
             }    
         }
@@ -115,8 +130,7 @@ namespace RightToAskClient.Views
             string region = ChooseElectorate(picker, allFederalElectorates);
             if (!String.IsNullOrEmpty(region))
             {
-                thisParticipant.RegistrationInfo.AddElectorate(
-                    ParliamentData.Chamber.Australian_House_Of_Representatives, region);
+                thisParticipant.AddHouseOfRepsElectorate(region);
                 RevealNextStepIfElectoratesKnown();
             }
         }
@@ -157,10 +171,6 @@ namespace RightToAskClient.Views
             Navigation.RemovePage(currentPage); 
         }
                 
-        void OnEntered(object sender, EventArgs e)
-        {
-        }
-
         // At the moment this just chooses random electorates. 
         // TODO: We probably want this to give the person a chance to go back and fix it if wrong.
         // If we don't even know the person's state, we have no idea so they have to go back and pick;
@@ -195,15 +205,15 @@ namespace RightToAskClient.Views
             
             // Now we know everything is good.
             var bestAddress = httpResponse.Ok;
-            UpdateElectorates(bestAddress);
+            AddElectorates(bestAddress);
             FindMPsButton.IsVisible = true;
             ReportLabel.Text = "";
 
             bool saveThisAddress = await DisplayAlert("Electorates found!", 
                 // "State Assembly Electorate: "+thisParticipant.SelectedLAStateElectorate+"\n"
                 // +"State Legislative Council Electorate: "+thisParticipant.SelectedLCStateElectorate+"\n"
-                "Federal electorate: "+thisParticipant.RegistrationInfo.CommonwealthElectorate()+"\n"+
-                "State lower house electorate: "+thisParticipant.RegistrationInfo.StateLowerHouseElectorate()+"\n"+
+                "Federal electorate: "+thisParticipant.CommonwealthElectorate()+"\n"+
+                "State lower house electorate: "+thisParticipant.StateLowerHouseElectorate()+"\n"+
                 "Do you want to save your address on this device? Right To Ask will not learn your address.", 
                 "OK - Save address on this device", "No thanks");
             if (saveThisAddress)
@@ -224,13 +234,13 @@ namespace RightToAskClient.Views
         {
         }
 
-        private void UpdateElectorates(GeoscapeAddressFeature addressData)
+        private void AddElectorates(GeoscapeAddressFeature addressData)
         {
-            thisParticipant.RegistrationInfo.AddElectorate(ParliamentData.Chamber.Australian_House_Of_Representatives,  
-                addressData.Properties.CommonwealthElectorate.CommElectoralName);
+            thisParticipant.AddHouseOfRepsElectorate(addressData.Properties.CommonwealthElectorate.CommElectoralName);
 
             // TODO: this is a bit odd because I need to check what Geoscape does for upper and lower house electorates.
-            thisParticipant.RegistrationInfo.AddStateLowerHouseElectorate(thisParticipant.RegistrationInfo.state,
+            // thisParticipant.AddStateUpperHouseElectorate
+            thisParticipant.AddStateLowerHouseElectorate(thisParticipant.RegistrationInfo.state,
                 addressData.Properties.StateElectorate.StateElectoralName);
             thisParticipant.MPsKnown = true;
         }
@@ -266,11 +276,11 @@ namespace RightToAskClient.Views
         {
             address.Postcode = e.NewTextValue;
         }
+        
         private void OnPostcodeEntered(object sender, EventArgs e)
         {
             address.Postcode =  ((Entry)sender).Text;
         }
-
 
         private void KnowElectorates_Tapped(object sender, EventArgs e)
         {

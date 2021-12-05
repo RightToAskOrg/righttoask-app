@@ -79,7 +79,7 @@ namespace RightToAskClient.Views
 		{
             string message = "These are your MPs.  Select the one(s) who should answer the question";
             // TODO (Issue #9) update to use the properly-computed MPs in ThisParticipant.MyMPs
-           	var mpsExploringPage = new ExploringPage(_readingContext.TestCurrentMPs, _readingContext.Filters.SelectedAnsweringMPsMine, message);
+           	var mpsExploringPage = new ExploringPage(_readingContext.ThisParticipant.MyMPs, _readingContext.Filters.SelectedAnsweringMPsMine, message);
             
             await ListMPsFindFirstIfNotAlreadyKnown(mpsExploringPage);
 		}

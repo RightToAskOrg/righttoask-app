@@ -1,8 +1,9 @@
 using System;
 using System.IO;
 using System.Reflection;
+using RightToAskClient.Models;
 
-namespace RightToAskClient.Models
+namespace RightToAskClient.HttpClients
 {
 	
     public static class GeoscapeAddressRequestBuilder

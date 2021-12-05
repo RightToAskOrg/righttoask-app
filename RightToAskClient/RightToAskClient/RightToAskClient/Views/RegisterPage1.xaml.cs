@@ -77,7 +77,9 @@ namespace RightToAskClient.Views
          
             if (picker.SelectedIndex != -1)
             {
-                readingContext.ThisParticipant.RegistrationInfo.stateEnum = (string) picker.SelectedItem; 
+	            string state = (string)picker.SelectedItem;
+	            readingContext.ThisParticipant.RegistrationInfo.state = state; 
+                readingContext.ThisParticipant.UpdateChambers(state);
             }
         }
 		async void OnSaveButtonClicked (object sender, EventArgs e)
