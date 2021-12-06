@@ -43,6 +43,11 @@ namespace RightToAskClient.Views
 			AuthorityListView2.ItemsSource = allEntities;
 		}
 
+		async void OnAppearing()
+		{
+			recomputeSelectableLists();
+		} 
+
 		private void recomputeSelectableLists()
 		{
 			selectableEntities = wrapInTags(allEntities, selectedEntities);
@@ -54,15 +59,18 @@ namespace RightToAskClient.Views
 			((Tag) e.Item).Selected = !((Tag) e.Item).Selected;
 		}
 
-		//	private PropertyChangingEventHandler SourceEntitiesChanged;
+		// TODO This doesn't seem to be getting called - it was intended to raise a	
+		// PropertyChanged even for the selectable Entities when the equivalent		
+		// event was raised for the source entities. However, I'm clearly not 
+		// getting the receiving right. I have therefore implemented a hack where 
+		// the MPs are updated, to force update of this view.
 
 		private void OnSourceEntitiesChanged(object sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == nameof(allEntities))
 			{
-				//PropertyChangedEventHandler?.Invoke(this, new PropertyChangedEventArgs(nameof(allEntities)));
-				//PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(selectableEntities)));
 				recomputeSelectableLists();
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(selectableEntities)));
 
 			}
 		}
