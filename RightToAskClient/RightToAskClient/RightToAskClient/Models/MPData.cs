@@ -1,14 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using RightToAskClient.Annotations;
 using RightToAskClient.HttpClients;
 
 namespace RightToAskClient.Models
 {
-	public class MPData
+	public class MPData 
 	{
 		private List<MP> allMPs = new List<MP>();
 		private bool isInitialised = false;

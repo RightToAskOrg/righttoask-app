@@ -17,11 +17,23 @@ namespace RightToAskClient.Models
 		{
 			MPsKnown = false;
 			Is_Registered = false;
-			MyMPs = new ObservableCollection<Entity>();
 		}
 		public bool Is_Registered { get; set; }
 		public bool MPsKnown { get; set; }
-		public ObservableCollection<Entity> MyMPs { get; set; } = new ObservableCollection<Entity>();
+
+		private ObservableCollection<Entity> myMPs = new ObservableCollection<Entity>();
+		public ObservableCollection<Entity> MyMPs
+		{
+			get
+			{
+				return myMPs;
+			}
+			private set
+			{
+				UpdateMPs();
+				OnPropertyChanged(nameof(MyMPs));
+			}
+		}
 
 		// When you're electorate gets updated, we automatically update your MPs.
 		// TODO: Think about whether we need to check that we're not duplicating
@@ -48,7 +60,7 @@ namespace RightToAskClient.Models
 				// mps.Concat(ParliamentData.MPs.GetMPsRepresentingElectorate(knownElectorate));
 			}
 
-			MyMPs = new ObservableCollection<Entity>(mps);
+			myMPs = new ObservableCollection<Entity>(mps);
 		}
 		
         // TODO: Do some validity checking to ensure that you're not adding inconsistent

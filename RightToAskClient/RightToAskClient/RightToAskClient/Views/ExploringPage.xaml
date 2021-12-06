@@ -5,9 +5,13 @@
     <ContentPage.Content>
 		<StackLayout x:Name="MainLayout" x:FieldModifier="protected" HorizontalOptions="Center" VerticalOptions="Start">
 			<Label x:Name="IntroText" />
-			<ScrollView>
+			<ScrollView x:Name="AuthorityScrollView">
 				<ListView x:Name="AuthorityListView" x:FieldModifier="protected" VerticalOptions="FillAndExpand" SelectionMode="None" HasUnevenRows="True" ItemTapped="Authority_Selected"
 					ItemTemplate="{StaticResource SelectableDataTemplate }" > 
+				</ListView>
+			</ScrollView>	
+			<ScrollView x:Name="AuthorityScrollView2">
+				<ListView x:Name="AuthorityListView2" x:FieldModifier="protected" VerticalOptions="FillAndExpand" SelectionMode="None" HasUnevenRows="True">
 				</ListView>
 			</ScrollView>	
 			<Button StyleClass="SaveButton" Clicked="DoneButton_OnClicked" />

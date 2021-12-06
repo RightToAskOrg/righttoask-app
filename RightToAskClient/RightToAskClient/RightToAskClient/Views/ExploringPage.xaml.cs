@@ -1,8 +1,12 @@
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using RightToAskClient.Annotations;
 using RightToAskClient.Models;
 using Xamarin.Forms;
+using PropertyChangingEventHandler = Xamarin.Forms.PropertyChangingEventHandler;
 
 namespace RightToAskClient.Views
 {
@@ -13,8 +17,9 @@ namespace RightToAskClient.Views
 	 * selected Tags, to be updated when the page is popped.
 	 * Optionally inputs a message to display at the top of the page.
 	 */
-	public partial class ExploringPage : ContentPage
+	public partial class ExploringPage : ContentPage, INotifyPropertyChanged
 	{
+		private ObservableCollection<Entity> allEntities;
 		protected ObservableCollection<Tag> selectableEntities;
 		protected ObservableCollection<Entity> selectedEntities;
 
@@ -25,18 +30,44 @@ namespace RightToAskClient.Views
 
 			IntroText.Text = message;
 
+			this.allEntities = allEntities;
 			this.selectedEntities = selectedEntities;
-			selectableEntities = wrapInTags(allEntities, selectedEntities);
+			recomputeSelectableLists();
+				
+			PropertyChanged += OnSourceEntitiesChanged;
 			
-			BindingContext = selectableEntities;
+			AuthorityListView.BindingContext = selectableEntities;
 			AuthorityListView.ItemsSource = selectableEntities;
-		} 
+			
+			AuthorityListView2.BindingContext = allEntities;
+			AuthorityListView2.ItemsSource = allEntities;
+		}
+
+		private void recomputeSelectableLists()
+		{
+			selectableEntities = wrapInTags(allEntities, selectedEntities);
+			OnPropertyChanged(nameof(selectableEntities));
+		}
 
 		private void Authority_Selected(object sender, ItemTappedEventArgs e)
 		{
 			((Tag) e.Item).Selected = !((Tag) e.Item).Selected;
 		}
 
+		//	private PropertyChangingEventHandler SourceEntitiesChanged;
+
+		private void OnSourceEntitiesChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == nameof(allEntities))
+			{
+				//PropertyChangedEventHandler?.Invoke(this, new PropertyChangedEventArgs(nameof(allEntities)));
+				//PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(selectableEntities)));
+				recomputeSelectableLists();
+
+			}
+		}
+		
+		
 		// Note: At the moment, this simply pops the page, i.e. the same
 		// as Back.
 		// Consider whether the semantics of 'back' should be different from
@@ -77,5 +108,18 @@ namespace RightToAskClient.Views
 				)
 			);
 		}
+		public event PropertyChangedEventHandler? PropertyChanged;
+
+		[NotifyPropertyChangedInvocator]
+		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
+		/*
+		protected override void OnPropertyChanged(string propertyName = null)
+		{
+			base.OnPropertyChanged(propertyName);
+		}
+		*/
 	}
 }
