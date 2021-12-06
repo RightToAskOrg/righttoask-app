@@ -62,7 +62,7 @@ namespace RightToAskClient.Views
 			
             if (! thisParticipant.MPsKnown)
             {
-                var registrationPage = new RegisterPage2(thisParticipant, false, mpsExploringPage);
+                var registrationPage = new RegisterPage2(thisParticipant, false, true);
 				
                 Navigation.PushAsync(registrationPage);
             }

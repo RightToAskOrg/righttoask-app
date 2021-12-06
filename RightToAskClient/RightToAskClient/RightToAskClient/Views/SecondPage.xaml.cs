@@ -78,19 +78,22 @@ namespace RightToAskClient.Views
 		async void OnAnsweredByMPButtonClicked(object sender, EventArgs e)
 		{
             string message = "These are your MPs.  Select the one(s) who should answer the question";
-            // TODO (Issue #9) update to use the properly-computed MPs in ThisParticipant.MyMPs
            	var mpsExploringPage = new ExploringPage(_readingContext.ThisParticipant.MyMPs, _readingContext.Filters.SelectedAnsweringMPsMine, message);
             
             await ListMPsFindFirstIfNotAlreadyKnown(mpsExploringPage);
 		}
 
+		/*
+		 * Either push the list of selectable MPs directly, or push a registration page,
+		 * instructed to push the MPs selection page after.
+		 */
 		async Task ListMPsFindFirstIfNotAlreadyKnown(ExploringPage mpsExploringPage)
 		{
 			var thisParticipant = _readingContext.ThisParticipant;
 			
 			if (! thisParticipant.MPsKnown)
 			{
-				var registrationPage = new RegisterPage2(thisParticipant, false, mpsExploringPage);
+				var registrationPage = new RegisterPage2(thisParticipant, false, true);
 				
 				await Navigation.PushAsync(registrationPage);
 			}

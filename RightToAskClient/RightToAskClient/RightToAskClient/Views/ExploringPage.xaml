@@ -10,10 +10,6 @@
 					ItemTemplate="{StaticResource SelectableDataTemplate }" > 
 				</ListView>
 			</ScrollView>	
-			<ScrollView x:Name="AuthorityScrollView2">
-				<ListView x:Name="AuthorityListView2" x:FieldModifier="protected" VerticalOptions="FillAndExpand" SelectionMode="None" HasUnevenRows="True">
-				</ListView>
-			</ScrollView>	
 			<Button StyleClass="SaveButton" Clicked="DoneButton_OnClicked" />
 		</StackLayout>
     </ContentPage.Content>

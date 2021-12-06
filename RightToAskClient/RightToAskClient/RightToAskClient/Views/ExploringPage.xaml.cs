@@ -17,7 +17,7 @@ namespace RightToAskClient.Views
 	 * selected Tags, to be updated when the page is popped.
 	 * Optionally inputs a message to display at the top of the page.
 	 */
-	public partial class ExploringPage : ContentPage, INotifyPropertyChanged
+	public partial class ExploringPage : ContentPage
 	{
 		private ObservableCollection<Entity> allEntities;
 		protected ObservableCollection<Tag> selectableEntities;
@@ -32,26 +32,11 @@ namespace RightToAskClient.Views
 
 			this.allEntities = allEntities;
 			this.selectedEntities = selectedEntities;
-			recomputeSelectableLists();
 				
-			PropertyChanged += OnSourceEntitiesChanged;
+			selectableEntities = wrapInTags(allEntities, selectedEntities);
 			
 			AuthorityListView.BindingContext = selectableEntities;
 			AuthorityListView.ItemsSource = selectableEntities;
-			
-			AuthorityListView2.BindingContext = allEntities;
-			AuthorityListView2.ItemsSource = allEntities;
-		}
-
-		async void OnAppearing()
-		{
-			recomputeSelectableLists();
-		} 
-
-		private void recomputeSelectableLists()
-		{
-			selectableEntities = wrapInTags(allEntities, selectedEntities);
-			OnPropertyChanged(nameof(selectableEntities));
 		}
 
 		private void Authority_Selected(object sender, ItemTappedEventArgs e)
@@ -59,23 +44,6 @@ namespace RightToAskClient.Views
 			((Tag) e.Item).Selected = !((Tag) e.Item).Selected;
 		}
 
-		// TODO This doesn't seem to be getting called - it was intended to raise a	
-		// PropertyChanged even for the selectable Entities when the equivalent		
-		// event was raised for the source entities. However, I'm clearly not 
-		// getting the receiving right. I have therefore implemented a hack where 
-		// the MPs are updated, to force update of this view.
-
-		private void OnSourceEntitiesChanged(object sender, PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName == nameof(allEntities))
-			{
-				recomputeSelectableLists();
-				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(selectableEntities)));
-
-			}
-		}
-		
-		
 		// Note: At the moment, this simply pops the page, i.e. the same
 		// as Back.
 		// Consider whether the semantics of 'back' should be different from
@@ -116,18 +84,5 @@ namespace RightToAskClient.Views
 				)
 			);
 		}
-		public event PropertyChangedEventHandler? PropertyChanged;
-
-		[NotifyPropertyChangedInvocator]
-		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		}
-		/*
-		protected override void OnPropertyChanged(string propertyName = null)
-		{
-			base.OnPropertyChanged(propertyName);
-		}
-		*/
 	}
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using RightToAskClient.Data;
@@ -15,12 +16,13 @@ using Xamarin.Forms.Xaml;
  * This is used in two possible places:
  * (1) if the person clicks on 'My MP' when setting question metadata,
  * we need to know who their MPs are. After this page,
- * there is a list of MPs loaded for them to choose from.
- * This is implemented by inputing a page to go to next.
+ * there will be a list of MPs loaded for them to choose from.
+ * This is indicated by setting LaunchMPsSelectionPageNext to true.
  * 
  * (2) if the person tries to vote or post a question.
  * In this case, they have generated a name via RegisterPage1
- * and can skip this step.  
+ * and can skip this step (so showSkip should be set to true).
+ * And we don't follow with a list of MPs for them to chose from.
  */
 namespace RightToAskClient.Views
 {
@@ -30,7 +32,7 @@ namespace RightToAskClient.Views
         private Address address = new Address(); 
         
         private IndividualParticipant thisParticipant;
-        private Page? nextPage;
+        private bool launchMPsSelectionPageNext;
 
         // private ParliamentData.Chamber stateLCChamber=ParliamentData.Chamber.Vic_Legislative_Council;
         // private ParliamentData.Chamber stateLAChamber=ParliamentData.Chamber.Vic_Legislative_Assembly;
@@ -38,12 +40,12 @@ namespace RightToAskClient.Views
         private List<string> allFederalElectorates;
         private List<string> allStateLAElectorates;
         private List<string> allStateLCElectorates;
-        public RegisterPage2(IndividualParticipant thisParticipant, bool showSkip, Page? nextPage = null)
+        public RegisterPage2(IndividualParticipant thisParticipant, bool showSkip, bool launchMPsSelectionPageNext = false)
         {
             InitializeComponent();
             BindingContext = thisParticipant;
             this.thisParticipant = thisParticipant;
-            this.nextPage = nextPage;
+            this.launchMPsSelectionPageNext = launchMPsSelectionPageNext;
 
             KnowElectoratesFrame.IsVisible = false;
             addressSavingStack.IsVisible = false;
@@ -157,15 +159,18 @@ namespace RightToAskClient.Views
                     thisParticipant.MPsKnown = true;
         }
         
-        // If we've been given a nextPage, go there and remove this page,
-        // otherwise just pop.
+        // If we've been asked to push an MP-selecting page, go there and
+        // remove this page, otherwise just pop. Note that SelectedAnsweringMPs
+        // is empty/new because we didn't know this person's MPs until this page.
         private async void OnFindMPsButtonClicked(object sender, EventArgs e)
         {
             var currentPage = Navigation.NavigationStack.LastOrDefault();
         
-            if (nextPage != null)
+            if (launchMPsSelectionPageNext)
             {
-                await Navigation.PushAsync(nextPage);
+                string message = "These are your MPs.  Select the one(s) who should answer the question";
+           	    var mpsExploringPage = new ExploringPage(thisParticipant.MyMPs, new ObservableCollection<Entity>(), message);
+                await Navigation.PushAsync(mpsExploringPage);
             }
             
             Navigation.RemovePage(currentPage); 
