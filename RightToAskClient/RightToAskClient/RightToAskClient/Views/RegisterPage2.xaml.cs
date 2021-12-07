@@ -49,7 +49,7 @@ namespace RightToAskClient.Views
             InitializeComponent();
             BindingContext = thisParticipant;
             this.thisParticipant = thisParticipant;
-            this.launchMPsSelectionPageNext = ! (alreadySelectedMPs is null);
+            launchMPsSelectionPageNext = ! (alreadySelectedMPs is null);
             // I think the compiler should be clever enough to work out that we never
             // use this if it's null.
             // this.alreadySelectedMPs = alreadySelectedMPs ?? new ObservableCollection<Entity>();
