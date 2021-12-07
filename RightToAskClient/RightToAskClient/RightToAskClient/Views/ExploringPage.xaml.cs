@@ -78,6 +78,8 @@ namespace RightToAskClient.Views
 			AuthorityListView.ItemsSource = groupedMPs;
 		}
 
+		// TODO wrap MPs in selectable tags.
+		/* THis one works.
 		public ExploringPage(IEnumerable<GroupedMPs> groupedMPs, string message)
 		{
 			InitializeComponent();
@@ -87,7 +89,42 @@ namespace RightToAskClient.Views
 			AuthorityListView.BindingContext = groupedMPs;
 			AuthorityListView.GroupDisplayBinding = new Binding("Chamber");
 			AuthorityListView.ItemsSource = groupedMPs;
+		}*/
+		
+		public ExploringPage(IEnumerable<GroupedMPs> groupedMPs, string message)
+		{
+			InitializeComponent();
+			
+			IntroText.Text = message;
+			AuthorityListView.IsGroupingEnabled = true;
+
+			List<TaggedGroupedMPs> groupedMPsWithTags = new List<TaggedGroupedMPs>();
+			foreach(GroupedMPs group in groupedMPs)
+			{
+				// TODO - need to link this to the already-selected MPs.
+				var emptyList = new ObservableCollection<Entity>();
+				groupedMPsWithTags.Add(new TaggedGroupedMPs(
+					group.Chamber,
+					wrapInTags(group, emptyList)
+				// group.Select(mp => 
+				// 		wrapInTags(new ObservableCollection<Entity>(mp), emptyList))
+				));
+			}
+			AuthorityListView.BindingContext = groupedMPsWithTags;
+			AuthorityListView.GroupDisplayBinding = new Binding("Chamber");
+			AuthorityListView.ItemsSource = groupedMPsWithTags;
 		}
+
+		private class TaggedGroupedMPs : ObservableCollection<Tag>
+		{
+			public TaggedGroupedMPs(ParliamentData.Chamber chamber, ObservableCollection<Tag> mpGroup) : base(mpGroup)
+			{
+				Chamber = chamber.ToString();
+			}
+
+			public string Chamber { get; }
+		}
+		
 		/*
 		public ExploringPage(List<(ObservableCollection<Entity> someEntities, ObservableCollection<Entity> selectedOnes , string heading)> entities, string message = null)
 		{
