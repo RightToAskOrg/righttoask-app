@@ -40,6 +40,7 @@ namespace RightToAskClient.Views
 				
 			selectableEntities = wrapInTags(allEntities, selectedEntities);
 			
+			//AuthorityListView.ItemTemplate = (DataTemplate)Application.Current.Resources["SelectableDataTemplate"];
 			AuthorityListView.BindingContext = selectableEntities;
 			AuthorityListView.ItemsSource = selectableEntities;
 		}
@@ -55,6 +56,7 @@ namespace RightToAskClient.Views
 			AuthorityListView.BindingContext = tagWrappedGroups;
 		} */
 
+		/*
 		public ExploringPage(IEnumerable<GroupedMPs> groupedMPs, string message)
 		{
 			InitializeComponent();
@@ -64,15 +66,26 @@ namespace RightToAskClient.Views
 			AuthorityListView.IsGroupingEnabled = true;
 			AuthorityListView.BindingContext = tagWrappedGroups;
 		}
+		*/
 
 		public ExploringPage(IEnumerable<IGrouping<ParliamentData.Chamber, Entity>> groupedMPs, string message)
 		{
 			InitializeComponent();
 			
 			IntroText.Text = message;
-			//var tagWrappedGroups = groupedMPs;
 			AuthorityListView.IsGroupingEnabled = true;
 			AuthorityListView.BindingContext = groupedMPs;
+			AuthorityListView.ItemsSource = groupedMPs;
+		}
+
+		public ExploringPage(IEnumerable<GroupedMPs> groupedMPs, string message)
+		{
+			InitializeComponent();
+			
+			IntroText.Text = message;
+			AuthorityListView.IsGroupingEnabled = true;
+			AuthorityListView.BindingContext = groupedMPs;
+			AuthorityListView.GroupDisplayBinding = new Binding("Chamber");
 			AuthorityListView.ItemsSource = groupedMPs;
 		}
 		/*

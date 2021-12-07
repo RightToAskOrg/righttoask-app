@@ -182,12 +182,20 @@ namespace RightToAskClient.Views
                         // Heading = chamber.ToString()
                     });
                     */
+                /* This version worked but didn't print properly
                 // TODO Possibly there is a safer way of doing this cast.
                 var groupedMPs = thisParticipant.MyMPs.GroupBy(mp => ((MP)mp).electorate.chamber);
-                    
-                
            	    var mpsExploringPage = new ExploringPage(groupedMPs, message);
-           	    // var mpsExploringPage = new ExploringPage(thisParticipant.MyMPs, new ObservableCollection<Entity>(), message);
+           	    */ 
+                  
+                var groupedMPs 
+                    = thisParticipant.MyMPs.GroupBy(
+                        mp => ((MP)mp).electorate.chamber,
+                        mp => mp,
+                        //(chamber, mps) => new GroupedMPs(chamber, new ObservableCollection<Entity>(mps))
+                        (chamber, mps) => new GroupedMPs(chamber, mps)
+                        );
+           	    var mpsExploringPage = new ExploringPage(groupedMPs, message);
                 await Navigation.PushAsync(mpsExploringPage);
             }
             

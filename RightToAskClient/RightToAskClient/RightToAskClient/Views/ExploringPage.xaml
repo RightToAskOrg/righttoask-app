@@ -7,7 +7,7 @@
 			<Label x:Name="IntroText" />
 			<ScrollView x:Name="ParentScrollView">
 				<ListView x:Name="AuthorityListView" x:FieldModifier="protected" VerticalOptions="FillAndExpand" SelectionMode="None" HasUnevenRows="True" ItemTapped="Authority_Selected"
-					ItemTemplate="{StaticResource SelectableDataTemplate }" > 
+					ItemTemplate="{StaticResource SelectableDataTemplate }">
 				</ListView>
 			</ScrollView>	
 			<Button StyleClass="SaveButton" Clicked="DoneButton_OnClicked" />
