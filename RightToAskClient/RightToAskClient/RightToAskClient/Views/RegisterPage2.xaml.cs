@@ -33,6 +33,7 @@ namespace RightToAskClient.Views
         
         private IndividualParticipant thisParticipant;
         private bool launchMPsSelectionPageNext;
+        private ObservableCollection<Entity>? alreadySelectedMPs; 
 
         // private ParliamentData.Chamber stateLCChamber=ParliamentData.Chamber.Vic_Legislative_Council;
         // private ParliamentData.Chamber stateLAChamber=ParliamentData.Chamber.Vic_Legislative_Assembly;
@@ -40,12 +41,19 @@ namespace RightToAskClient.Views
         private List<string> allFederalElectorates;
         private List<string> allStateLAElectorates;
         private List<string> allStateLCElectorates;
-        public RegisterPage2(IndividualParticipant thisParticipant, bool showSkip, bool launchMPsSelectionPageNext = false)
+        // alreadySelectedMPs are passed in if a Selection page is to be launched next.
+        // If they're null/absent, no selection page is launched.
+        public RegisterPage2(IndividualParticipant thisParticipant, bool showSkip, 
+            ObservableCollection<Entity>? alreadySelectedMPs = null)
         {
             InitializeComponent();
             BindingContext = thisParticipant;
             this.thisParticipant = thisParticipant;
-            this.launchMPsSelectionPageNext = launchMPsSelectionPageNext;
+            this.launchMPsSelectionPageNext = ! (alreadySelectedMPs is null);
+            // I think the compiler should be clever enough to work out that we never
+            // use this if it's null.
+            // this.alreadySelectedMPs = alreadySelectedMPs ?? new ObservableCollection<Entity>();
+            this.alreadySelectedMPs = alreadySelectedMPs;
 
             KnowElectoratesFrame.IsVisible = false;
             addressSavingStack.IsVisible = false;
@@ -170,32 +178,14 @@ namespace RightToAskClient.Views
             if (launchMPsSelectionPageNext)
             {
                 string message = "These are your MPs.  Select the one(s) who should answer the question";
-                /*
-                var groupedMPs = thisParticipant.MyMPs.GroupBy(
-                    mp => ((MP)mp).electorate.chamber,
-                    mp => mp,
-                    (chamber, mpsToBeGrouped) => new GroupedMPs
-                    {
-                        Key = chamber,
-                        MPsInGroup = mpsToBeGrouped as ObservableCollection<Entity>,
-                        BlankSelections = new ObservableCollection<Entity>(),
-                        // Heading = chamber.ToString()
-                    });
-                    */
-                /* This version worked but didn't print properly
-                // TODO Possibly there is a safer way of doing this cast.
-                var groupedMPs = thisParticipant.MyMPs.GroupBy(mp => ((MP)mp).electorate.chamber);
-           	    var mpsExploringPage = new ExploringPage(groupedMPs, message);
-           	    */ 
                   
                 var groupedMPs 
                     = thisParticipant.MyMPs.GroupBy(
                         mp => ((MP)mp).electorate.chamber,
                         mp => mp,
-                        //(chamber, mps) => new GroupedMPs(chamber, new ObservableCollection<Entity>(mps))
                         (chamber, mps) => new GroupedMPs(chamber, mps)
                         );
-           	    var mpsExploringPage = new ExploringPage(groupedMPs, message);
+           	    var mpsExploringPage = new ExploringPage(groupedMPs, alreadySelectedMPs , message);
                 await Navigation.PushAsync(mpsExploringPage);
             }
             

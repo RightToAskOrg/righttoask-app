@@ -51,18 +51,19 @@ namespace RightToAskClient.Views
             // TODO (Issue #9) update to use the properly-computed MPs in ThisParticipant.MyMPs
             var mpsExploringPage = new ExploringPage(readingContext.TestCurrentMPs, readingContext.Filters.SelectedAskingMPsMine, message);
 			
-            ListMPsFindFirstIfNotAlreadyKnown(mpsExploringPage);
+            ListMPsFindFirstIfNotAlreadyKnown(mpsExploringPage, readingContext.Filters.SelectedAskingMPs);
             NavigateForwardButton.IsVisible = true;
         }
         
         // TODO This is a repeat of the code in SecondPage.xaml.cs. Factor out better.
-        void ListMPsFindFirstIfNotAlreadyKnown(ExploringPage mpsExploringPage)
+        void ListMPsFindFirstIfNotAlreadyKnown(ExploringPage mpsExploringPage,
+            ObservableCollection<Entity> alreadySelectedMPs)
         {
             var thisParticipant = readingContext.ThisParticipant;
 			
             if (! thisParticipant.MPsKnown)
             {
-                var registrationPage = new RegisterPage2(thisParticipant, false, true);
+                var registrationPage = new RegisterPage2(thisParticipant, false, alreadySelectedMPs);
 				
                 Navigation.PushAsync(registrationPage);
             }

@@ -80,20 +80,21 @@ namespace RightToAskClient.Views
             string message = "These are your MPs.  Select the one(s) who should answer the question";
            	var mpsExploringPage = new ExploringPage(_readingContext.ThisParticipant.MyMPs, _readingContext.Filters.SelectedAnsweringMPsMine, message);
             
-            await ListMPsFindFirstIfNotAlreadyKnown(mpsExploringPage);
+            await ListMPsFindFirstIfNotAlreadyKnown(mpsExploringPage, _readingContext.Filters.SelectedAnsweringMPs);
 		}
 
 		/*
 		 * Either push the list of selectable MPs directly, or push a registration page,
 		 * instructed to push the MPs selection page after.
 		 */
-		async Task ListMPsFindFirstIfNotAlreadyKnown(ExploringPage mpsExploringPage)
+		async Task ListMPsFindFirstIfNotAlreadyKnown(ExploringPage mpsExploringPage,
+			ObservableCollection<Entity> alreadySelectedMPs)
 		{
 			var thisParticipant = _readingContext.ThisParticipant;
 			
 			if (! thisParticipant.MPsKnown)
 			{
-				var registrationPage = new RegisterPage2(thisParticipant, false, true);
+				var registrationPage = new RegisterPage2(thisParticipant, false, alreadySelectedMPs);
 				
 				await Navigation.PushAsync(registrationPage);
 			}
