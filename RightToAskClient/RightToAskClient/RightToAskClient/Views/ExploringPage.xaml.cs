@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -12,13 +13,17 @@ namespace RightToAskClient.Views
 {
 	/*
 	 * Inputs a list of tags to be displayed in a way that allows the user
-	 * to select some.  allEntites is the complete list of possible entities
+	 * to select some.  allEntities is the complete list of possible entities
 	 * for selection. selectedEntities stores the list of
 	 * selected Tags, to be updated when the page is popped.
 	 * Optionally inputs a message to display at the top of the page.
+	 *
+	 * Constructors are either a single unstructured list of entities,
+	 * or a list of lists, each with their own header and selectable set.
 	 */
 	public partial class ExploringPage : ContentPage
 	{
+		private List<(ObservableCollection<Entity> someEntities, ObservableCollection<Entity> selectedOnes , string heading)> entitiesList;
 		private ObservableCollection<Entity> allEntities;
 		protected ObservableCollection<Tag> selectableEntities;
 		protected ObservableCollection<Entity> selectedEntities;
@@ -39,6 +44,70 @@ namespace RightToAskClient.Views
 			AuthorityListView.ItemsSource = selectableEntities;
 		}
 
+		/*
+		public ExploringPage(
+			List<(ObservableCollection<Entity> someEntities, ObservableCollection<Entity> selectedOnes, string heading)>
+				entities, string message = null)
+		{
+			IntroText.Text = message;
+			var tagWrappedGroups = entities.Select(e => wrapInTags(e.someEntities, e.selectedOnes));
+			AuthorityListView.IsGroupingEnabled = true;
+			AuthorityListView.BindingContext = tagWrappedGroups;
+		} */
+
+		public ExploringPage(IEnumerable<GroupedMPs> groupedMPs, string message)
+		{
+			InitializeComponent();
+			
+			IntroText.Text = message;
+			var tagWrappedGroups = groupedMPs.Select(g => wrapInTags(g.MPsInGroup, g.BlankSelections));
+			AuthorityListView.IsGroupingEnabled = true;
+			AuthorityListView.BindingContext = tagWrappedGroups;
+		}
+
+		public ExploringPage(IEnumerable<IGrouping<ParliamentData.Chamber, Entity>> groupedMPs, string message)
+		{
+			InitializeComponent();
+			
+			IntroText.Text = message;
+			//var tagWrappedGroups = groupedMPs;
+			AuthorityListView.IsGroupingEnabled = true;
+			AuthorityListView.BindingContext = groupedMPs;
+			AuthorityListView.ItemsSource = groupedMPs;
+		}
+		/*
+		public ExploringPage(List<(ObservableCollection<Entity> someEntities, ObservableCollection<Entity> selectedOnes , string heading)> entities, string message = null)
+		{
+			
+			InitializeComponent();
+
+			IntroText.Text = message;
+			this.entitiesList = entities;
+
+			if (entities.Count > 0)
+			{
+				this.allEntities = entities[0].someEntities;
+				this.selectedEntities =	entities[0].selectedOnes; 
+
+				selectableEntities = wrapInTags(allEntities, selectedEntities);
+
+				AuthorityListView.Header = entities[0].heading; 
+				AuthorityListView.BindingContext = selectableEntities;
+				AuthorityListView.ItemsSource = selectableEntities;
+			}
+
+			for (int i = 0; i < entities.Count; i++)
+			{
+				var newSelectableEntities = wrapInTags(entities[i].someEntities, entities[i].someEntities);
+				var listView = new ListView()
+				{
+					Header = entities[i].heading,
+					BindingContext = newSelectableEntities,
+					ItemsSource = newSelectableEntities
+				};
+			} 
+		} */
+
 		private void Authority_Selected(object sender, ItemTappedEventArgs e)
 		{
 			((Tag) e.Item).Selected = !((Tag) e.Item).Selected;
@@ -55,6 +124,7 @@ namespace RightToAskClient.Views
 			await Navigation.PopAsync();
 		}
 
+		// TODO*** This will need to be careful about which lists it is.
 		private void UpdateSelectedList()
 		{
 			var toBeIncluded = selectableEntities.Where(w => w.Selected).Select(t => t.TagEntity);	

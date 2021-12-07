@@ -162,6 +162,7 @@ namespace RightToAskClient.Views
         // If we've been asked to push an MP-selecting page, go there and
         // remove this page, otherwise just pop. Note that SelectedAnsweringMPs
         // is empty/new because we didn't know this person's MPs until this page.
+        // TODO Consider whether this cast is safe, and how to check if it isn't.
         private async void OnFindMPsButtonClicked(object sender, EventArgs e)
         {
             var currentPage = Navigation.NavigationStack.LastOrDefault();
@@ -169,7 +170,24 @@ namespace RightToAskClient.Views
             if (launchMPsSelectionPageNext)
             {
                 string message = "These are your MPs.  Select the one(s) who should answer the question";
-           	    var mpsExploringPage = new ExploringPage(thisParticipant.MyMPs, new ObservableCollection<Entity>(), message);
+                /*
+                var groupedMPs = thisParticipant.MyMPs.GroupBy(
+                    mp => ((MP)mp).electorate.chamber,
+                    mp => mp,
+                    (chamber, mpsToBeGrouped) => new GroupedMPs
+                    {
+                        Key = chamber,
+                        MPsInGroup = mpsToBeGrouped as ObservableCollection<Entity>,
+                        BlankSelections = new ObservableCollection<Entity>(),
+                        // Heading = chamber.ToString()
+                    });
+                    */
+                // TODO Possibly there is a safer way of doing this cast.
+                var groupedMPs = thisParticipant.MyMPs.GroupBy(mp => ((MP)mp).electorate.chamber);
+                    
+                
+           	    var mpsExploringPage = new ExploringPage(groupedMPs, message);
+           	    // var mpsExploringPage = new ExploringPage(thisParticipant.MyMPs, new ObservableCollection<Entity>(), message);
                 await Navigation.PushAsync(mpsExploringPage);
             }
             
