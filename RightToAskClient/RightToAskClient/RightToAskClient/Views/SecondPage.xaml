@@ -27,6 +27,7 @@
 					<Button x:Name="otherMP" Text="Another MP" CornerRadius="20" BackgroundColor="Turquoise" Clicked="OnAnswerByOtherMPButtonClicked" HorizontalOptions="Center"/>
 				</StackLayout>
 			</StackLayout>
+			<Label x:Name="reportLabel" IsVisible="False"/>
 			<StackLayout Orientation="Horizontal" HorizontalOptions="End" VerticalOptions="End">
 				<Button x:Name="navigateForwardButton" StyleClass="DoneButton" Clicked="OnNavigateForwardButtonClicked" />
 			</StackLayout>

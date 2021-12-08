@@ -15,7 +15,7 @@ namespace RightToAskClient.Models
 	{
 		private List<MP> allMPs = new List<MP>();
 		private bool isInitialised = false;
-		
+		public string ErrorMessage { get; private set; } = "";
 		public List<MP> AllMPs  
 		{
 			get
@@ -49,13 +49,15 @@ namespace RightToAskClient.Models
 			if (!String.IsNullOrEmpty(success.Err))
 			{
 				Debug.WriteLine(@"\tERROR {0}", success.Err);
+				ErrorMessage = success.Err;
 			}
 			else
 			{
 				isInitialised = true;
 			}
 		}
-		
+
+
 
 		private async Task<Result<bool>> tryInitialising()
 		{

@@ -26,7 +26,19 @@ namespace RightToAskClient.HttpClients
         
         public static async Task<Result<List<MP>>> GetMPsList()
         {
-            return await client.DoGetJSONRequest<List<MP>>(Constants.MPListUrl);
+            var httpResponse =await client.DoGetJSONRequest<List<MP>>(Constants.MPListUrl);
+            if(String.IsNullOrEmpty(httpResponse.Err))
+            {
+                return httpResponse;
+            }
+            
+            Debug.WriteLine("Error downloading MP data: "+httpResponse.Err);
+            return new Result<List<MP>>()
+            {
+                Err = "Could not download MP data. You can still read and submit questions, but we can't find MPs."
+            };
+              
+            
         }
         public static async Task<Result<List<string>>> GetUserList()
         {

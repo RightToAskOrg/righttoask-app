@@ -29,11 +29,11 @@ namespace RightToAskClient.Views
 		protected ObservableCollection<Entity> selectedEntities;
 
 		public ExploringPage(ObservableCollection<Entity> allEntities, 
-			ObservableCollection<Entity> selectedEntities, string message=null)
+			ObservableCollection<Entity> selectedEntities, string? message=null)
 		{
 			InitializeComponent();
 
-			IntroText.Text = message;
+			IntroText.Text = message ?? "";
 
 			this.allEntities = allEntities;
 			this.selectedEntities = selectedEntities;
@@ -167,9 +167,7 @@ namespace RightToAskClient.Views
 			((Tag) e.Item).Selected = !((Tag) e.Item).Selected;
 		}
 
-		// Note: At the moment, this simply pops the page, i.e. the same
-		// as Back.
-		// Consider whether the semantics of 'back' should be different from
+		// TODO Consider whether the semantics of 'back' should be different from
 		// 'done', i.e. whether 'back' should undo.
 		async void DoneButton_OnClicked(object sender, EventArgs e)
 		{

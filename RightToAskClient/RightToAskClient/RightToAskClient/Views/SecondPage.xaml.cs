@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Text;
 using System.Threading.Tasks;
 using RightToAskClient.Models;
 using Xamarin.Forms;
@@ -77,10 +78,21 @@ namespace RightToAskClient.Views
 	    // It will pop back to here.
 		async void OnAnsweredByMPButtonClicked(object sender, EventArgs e)
 		{
-            string message = "These are your MPs.  Select the one(s) who should answer the question";
-           	var mpsExploringPage = new ExploringPage(_readingContext.ThisParticipant.MyMPs, _readingContext.Filters.SelectedAnsweringMPsMine, message);
-            
-            await ListMPsFindFirstIfNotAlreadyKnown(mpsExploringPage, _readingContext.Filters.SelectedAnsweringMPs);
+			if (ParliamentData.MPs.IsInitialised)
+			{
+				string message = "These are your MPs.  Select the one(s) who should answer the question";
+				var mpsExploringPage = new ExploringPage(_readingContext.ThisParticipant.MyMPs,
+					_readingContext.Filters.SelectedAnsweringMPsMine, message);
+
+				await ListMPsFindFirstIfNotAlreadyKnown(mpsExploringPage, _readingContext.Filters.SelectedAnsweringMPs);
+			}
+			else
+			{
+				myMP.IsEnabled = false;
+				otherMP.IsEnabled = false;
+				reportLabel.IsVisible = true;
+				reportLabel.Text = ParliamentData.MPs.ErrorMessage;
+			}
 		}
 
 		/*
@@ -106,10 +118,19 @@ namespace RightToAskClient.Views
 
 		private async void OnAnswerByOtherMPButtonClicked(object sender, EventArgs e)
 		{
-			var allMPsAsEntities = new ObservableCollection<Entity>(ParliamentData.MPs.AllMPs); 
-			ExploringPageWithSearch mpsPage 
-				= new ExploringPageWithSearch(allMPsAsEntities, _readingContext.Filters.SelectedAnsweringMPs, "Here is the complete list of MPs");
-			await Navigation.PushAsync(mpsPage);
+			if(ParliamentData.MPs.IsInitialised)
+			{
+				var allMPsAsEntities = new ObservableCollection<Entity>(ParliamentData.MPs.AllMPs);
+				ExploringPageWithSearch mpsPage
+					= new ExploringPageWithSearch(allMPsAsEntities, _readingContext.Filters.SelectedAnsweringMPs,
+						"Here is the complete list of MPs");
+				await Navigation.PushAsync(mpsPage);
+			}
+			else
+			{
+				reportLabel.IsVisible = true;
+				reportLabel.Text = ParliamentData.MPs.ErrorMessage;
+			}
 		}
 	}
 }
