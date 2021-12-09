@@ -3,11 +3,11 @@ using System.Runtime.CompilerServices;
 
 namespace RightToAskClient.Models
 {
-    public class Tag : INotifyPropertyChanged 
+    public class Tag<T> where T:Entity , INotifyPropertyChanged
     {
         // TODO probably Entity should be readonly.
         // TODO Also make generic.
-        private Entity tagEntity;
+        private T tagEntity;
         private bool selected;
         public event PropertyChangedEventHandler PropertyChanged;
         
@@ -20,7 +20,7 @@ namespace RightToAskClient.Models
             }
         }
 
-        public Entity TagEntity
+        public T TagEntity
         {
             get
             {

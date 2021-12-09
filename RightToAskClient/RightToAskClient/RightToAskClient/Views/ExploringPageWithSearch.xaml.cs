@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using RightToAskClient.Models;
@@ -16,24 +18,30 @@ namespace RightToAskClient.Views
         // When the user rearranges or unselects things, don't rearrange them (possibly consider adding them into
         // the selected list, but maybe not.
         // Also use the BindingContext properly. I think the setting should be in the base, not here.
-		public ExploringPageWithSearch(ObservableCollection<Entity> allEntities, 
-			ObservableCollection<Entity> selectedEntities, string message=null) : base (allEntities, selectedEntities, message)
+		public ExploringPageWithSearch(ObservableCollection<MP> allEntities, 
+			ObservableCollection<MP> selectedEntities, string? message=null) : base (allEntities, selectedEntities, message)
         {
             Label RTKThanks = new Label() { Text = "Using The Australian Authorities List from Right To Know." };
             SearchBar authoritySearch = new SearchBar() 
                 { 
                     Placeholder = "Search",
                 };
-                authoritySearch.TextChanged += OnKeywordChanged;
+                authoritySearch.TextChanged += OnKeywordChanged<MP>;
                 
             MainLayout.Children.Insert(0, RTKThanks);    
             MainLayout.Children.Insert(1, authoritySearch);
         }
 
-        private void OnKeywordChanged(object sender, TextChangedEventArgs e)
+        public ExploringPageWithSearch(ObservableCollection<Authority> filtersSelectedAuthorities, string message) 
+            : base(filtersSelectedAuthorities, message)
+        {
+        }
+
+
+        private void OnKeywordChanged<T>(object sender, TextChangedEventArgs e) where T : Entity
         {
             searchingFor = e.NewTextValue;
-            ObservableCollection <Tag> listToDisplay = GetSearchResults(searchingFor);
+            ObservableCollection <Tag<T>> listToDisplay = GetSearchResults<T>(searchingFor);
             AuthorityListView.ItemsSource = listToDisplay;
         }
 
@@ -43,13 +51,30 @@ namespace RightToAskClient.Views
         // TODO If this turns out to be problematic, implement something like
         // NamesToString, which returns only the separated, concatenated
         // strings that you'll want to search on.
-        private ObservableCollection<Tag> GetSearchResults(string queryString)
+        private ObservableCollection<Tag<T>> GetSearchResults<T>(string queryString) where T : Entity
         {
             var normalizedQuery = queryString?.ToLower() ?? "";
-            return new ObservableCollection<Tag>(selectableEntities.
-                Where(f => (f.TagEntity.GetName()).
-                    ToLowerInvariant().Contains(normalizedQuery)).ToList());
+
+            if (typeof(T) == typeof(Authority))
+            {
+                return new ObservableCollection<Tag<T>>(
+                    (selectableAuthorities.Where(f => matches<Authority>(normalizedQuery, f))).ToList() as IEnumerable<Tag<T>> ?? Array.Empty<Tag<T>>());
+            }
+            
+            if (typeof(T) == typeof(MP))
+            {
+                return new ObservableCollection<Tag<T>>(
+                    (selectableMPs.Where(f => matches<MP>(normalizedQuery, f))).ToList() as IEnumerable<Tag<T>> ?? Array.Empty<Tag<T>>());
+            }
+
+
+            throw new InvalidOperationException("ExploringPageWithSearch initiated with neither Authorities nor MPs");
+        }
+
+        private bool matches<T>(string normalizedQuery, Tag<T> entity) where T : Entity
+        {
+            return entity.TagEntity.GetName().ToLowerInvariant().Contains(normalizedQuery);
         } 
-        
+
     }
 }

@@ -7,6 +7,7 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using RightToAskClient.Annotations;
 using RightToAskClient.CryptoUtils;
 using RightToAskClient.Models;
 
@@ -49,6 +50,7 @@ namespace RightToAskClient.HttpClients
         
         // TODO This is just a copy paste of DoGetRequest, with small changes
         // for automated JSON serialising
+        [ItemNotNull]
         public async Task<Result<T>> DoGetJSONRequest<T>(string uriString)
         {
             Uri uri = new Uri(uriString);

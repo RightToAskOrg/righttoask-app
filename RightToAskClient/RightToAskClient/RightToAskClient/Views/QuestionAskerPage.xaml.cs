@@ -1,6 +1,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using RightToAskClient.Controls;
 using RightToAskClient.HttpClients;
 using RightToAskClient.Models;
@@ -42,36 +43,36 @@ namespace RightToAskClient.Views
             
         }
 
-        // TODO: at the moment this doesn't properly select the MPs-  it just lists them and lets
-        // it looks like you've selected them.
+        // Note that the non-waiting for this asyc method means that the rest of the page can keep
+        // Executing. That shouldn't be a problem, though, because it is invisible and therefore unclickable.
         private void OnMyMPRaiseButtonClicked(object sender, EventArgs e)
         {
             string message = "These are your MPs.  Select the one(s) who should raise the question in Parliament";
             
-            // TODO (Issue #9) update to use the properly-computed MPs in ThisParticipant.MyMPs
-            var mpsExploringPage = new ExploringPage(readingContext.TestCurrentMPs, readingContext.Filters.SelectedAskingMPsMine, message);
-			
-            ListMPsFindFirstIfNotAlreadyKnown(mpsExploringPage, readingContext.Filters.SelectedAskingMPs);
-            NavigateForwardButton.IsVisible = true;
-        }
-        
-        // TODO This is a repeat of the code in SecondPage.xaml.cs. Factor out better.
-        void ListMPsFindFirstIfNotAlreadyKnown(ExploringPage mpsExploringPage,
-            ObservableCollection<Entity> alreadySelectedMPs)
-        {
-            var thisParticipant = readingContext.ThisParticipant;
-			
-            if (! thisParticipant.MPsKnown)
-            {
-                var registrationPage = new RegisterPage2(thisParticipant, false, alreadySelectedMPs);
-				
-                Navigation.PushAsync(registrationPage);
+			if (ParliamentData.MPs.IsInitialised)
+			{
+				var mpsExploringPage = new ExploringPage(readingContext.ThisParticipant.MyMPs,
+					readingContext.Filters.SelectedAskingMPsMine, message);
+
+                launchMPFindingAndSelectingPages(mpsExploringPage);
             }
             else
             {
-                Navigation.PushAsync(mpsExploringPage);
+                myMPShouldRaiseItButton.IsEnabled = false;
+                anotherMPShouldRaiseItButton.IsEnabled = false;
+                reportLabel.IsVisible = true;
+                reportLabel.Text = ParliamentData.MPs.ErrorMessage;
             }
+
+            NavigateForwardButton.IsVisible = true;
         }
+
+        private async void launchMPFindingAndSelectingPages(ExploringPage mpsExploringPage)
+        {
+            var nextPage = await SecondPage.ListMPsFindFirstIfNotAlreadyKnown(readingContext, mpsExploringPage, readingContext.Filters.SelectedAskingMPs);
+            await Navigation.PushAsync(nextPage);
+        }
+
         async void OnNavigateForwardButtonClicked(object sender, EventArgs e)
         {
 			var readingPage = new ReadingPage(false, readingContext);
@@ -84,8 +85,12 @@ namespace RightToAskClient.Views
             NavigateForwardButton.IsVisible = true;
         }
 
+        // TODO: Implement an ExporingPage constructor for people.
         private async void UserShouldRaiseButtonClicked(object sender, EventArgs e)
         {
+            ((Button) sender).Text = $"Not implemented yet";	
+            NavigateForwardButton.IsVisible = true;
+            /*
 			// var httpResponse = await App.RegItemManager.GetUsersAsync();
             var httpResponse = await RTAClient.GetUserList(); 
             
@@ -113,15 +118,28 @@ namespace RightToAskClient.Views
             }
 
             NavigateForwardButton.IsVisible = true;
+            */
         }
         private async void OnOtherMPRaiseButtonClicked(object sender, EventArgs e)
         {
-            var allMPsAsEntities = new ObservableCollection<Entity>(ParliamentData.MPs.AllMPs); 
-            ExploringPageWithSearch mpsPage 
-                = new ExploringPageWithSearch(allMPsAsEntities, readingContext.Filters.SelectedAskingMPs, "Here is the complete list of MPs");
-            await Navigation.PushAsync(mpsPage);
+            string message = "Here is the complete list of MPs";
+            if (ParliamentData.MPs.IsInitialised)
+			{
+				var mpsExploringPage = new ExploringPage(ParliamentData.MPs.AllMPs,
+					readingContext.Filters.SelectedAskingMPs, message);
+
+                var nextPage = await SecondPage.ListMPsFindFirstIfNotAlreadyKnown(readingContext, mpsExploringPage, readingContext.Filters.SelectedAskingMPs);
+                await Navigation.PushAsync(nextPage);
+            }
+            else
+            {
+                myMPShouldRaiseItButton.IsEnabled = false;
+                anotherMPShouldRaiseItButton.IsEnabled = false;
+                reportLabel.IsVisible = true;
+                reportLabel.Text = ParliamentData.MPs.ErrorMessage;
+            }
             
             NavigateForwardButton.IsVisible = true;
-        } 
+        }
     }
 }

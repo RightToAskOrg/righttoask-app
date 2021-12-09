@@ -21,8 +21,8 @@ namespace RightToAskClient.Models
 		public bool Is_Registered { get; set; }
 		public bool MPsKnown { get; set; }
 
-		private ObservableCollection<Entity> myMPs = new ObservableCollection<Entity>();
-		public ObservableCollection<Entity> MyMPs
+		private ObservableCollection<MP> myMPs = new ObservableCollection<MP>();
+		public ObservableCollection<MP> MyMPs
 		{
 			get
 			{
@@ -60,7 +60,7 @@ namespace RightToAskClient.Models
 				// mps.Concat(ParliamentData.MPs.GetMPsRepresentingElectorate(knownElectorate));
 			}
 
-			myMPs = new ObservableCollection<Entity>(mps);
+			myMPs = new ObservableCollection<MP>(mps);
 		}
 		
         // TODO: Do some validity checking to ensure that you're not adding inconsistent

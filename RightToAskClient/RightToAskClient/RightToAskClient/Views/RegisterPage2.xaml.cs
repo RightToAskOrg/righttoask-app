@@ -33,7 +33,7 @@ namespace RightToAskClient.Views
         
         private IndividualParticipant thisParticipant;
         private bool launchMPsSelectionPageNext;
-        private ObservableCollection<Entity>? alreadySelectedMPs; 
+        private ObservableCollection<MP>? alreadySelectedMPs; 
 
         // private ParliamentData.Chamber stateLCChamber=ParliamentData.Chamber.Vic_Legislative_Council;
         // private ParliamentData.Chamber stateLAChamber=ParliamentData.Chamber.Vic_Legislative_Assembly;
@@ -44,7 +44,7 @@ namespace RightToAskClient.Views
         // alreadySelectedMPs are passed in if a Selection page is to be launched next.
         // If they're null/absent, no selection page is launched.
         public RegisterPage2(IndividualParticipant thisParticipant, bool showSkip, 
-            ObservableCollection<Entity>? alreadySelectedMPs = null)
+            ObservableCollection<MP>? alreadySelectedMPs = null)
         {
             InitializeComponent();
             BindingContext = thisParticipant;

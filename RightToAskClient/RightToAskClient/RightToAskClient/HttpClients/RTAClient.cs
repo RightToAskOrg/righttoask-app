@@ -26,7 +26,16 @@ namespace RightToAskClient.HttpClients
         
         public static async Task<Result<List<MP>>> GetMPsList()
         {
-            var httpResponse =await client.DoGetJSONRequest<List<MP>>(Constants.MPListUrl);
+            string errorMessage = "Could not download MP data. You can still read and submit questions, but we can't find MPs.";
+            Result<List<MP>>? httpResponse =await client.DoGetJSONRequest<List<MP>>(Constants.MPListUrl);
+            
+            // Note: the compiler warns this is unnecessary, but an exception is sometimes thrown here without this check.
+            // I am confused about why this is necessary, but empirically it definitely is.
+            if (httpResponse is null)
+            {
+                return new Result<List<MP>>() { Err = errorMessage };
+            }
+
             if(String.IsNullOrEmpty(httpResponse.Err))
             {
                 return httpResponse;
@@ -35,7 +44,7 @@ namespace RightToAskClient.HttpClients
             Debug.WriteLine("Error downloading MP data: "+httpResponse.Err);
             return new Result<List<MP>>()
             {
-                Err = "Could not download MP data. You can still read and submit questions, but we can't find MPs."
+                Err = errorMessage 
             };
               
             

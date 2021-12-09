@@ -66,9 +66,7 @@ namespace RightToAskClient.Views
 		async private void OnOtherPublicAuthorityButtonClicked(object sender, EventArgs e)
 		{
 			var exploringPageToSearchAuthorities
-				= new ExploringPageWithSearch(new ObservableCollection<Entity>(ParliamentData.AllAuthorities),
-					new ObservableCollection<Entity>(_readingContext.Filters.SelectedAuthorities),
-				"Choose authorities");
+				= new ExploringPageWithSearch(_readingContext.Filters.SelectedAuthorities, "Choose authorities");
 			await Navigation.PushAsync(exploringPageToSearchAuthorities);
 		}
 
@@ -84,7 +82,7 @@ namespace RightToAskClient.Views
 				var mpsExploringPage = new ExploringPage(_readingContext.ThisParticipant.MyMPs,
 					_readingContext.Filters.SelectedAnsweringMPsMine, message);
 
-				await ListMPsFindFirstIfNotAlreadyKnown(mpsExploringPage, _readingContext.Filters.SelectedAnsweringMPs);
+				await ListMPsFindFirstIfNotAlreadyKnown(_readingContext, mpsExploringPage, _readingContext.Filters.SelectedAnsweringMPs);
 			}
 			else
 			{
@@ -99,20 +97,22 @@ namespace RightToAskClient.Views
 		 * Either push the list of selectable MPs directly, or push a registration page,
 		 * instructed to push the MPs selection page after.
 		 */
-		async Task ListMPsFindFirstIfNotAlreadyKnown(ExploringPage mpsExploringPage,
-			ObservableCollection<Entity> alreadySelectedMPs)
+		public static async Task<Page> ListMPsFindFirstIfNotAlreadyKnown(ReadingContext readingContext, ExploringPage mpsExploringPage,
+			ObservableCollection<MP> alreadySelectedMPs)
 		{
-			var thisParticipant = _readingContext.ThisParticipant;
+			var thisParticipant = readingContext.ThisParticipant;
 			
 			if (! thisParticipant.MPsKnown)
 			{
 				var registrationPage = new RegisterPage2(thisParticipant, false, alreadySelectedMPs);
+				return registrationPage;
 				
-				await Navigation.PushAsync(registrationPage);
+				// await Navigation.PushAsync(registrationPage);
 			}
 			else
 			{
-				await Navigation.PushAsync(mpsExploringPage);
+				return mpsExploringPage;
+				// await Navigation.PushAsync(mpsExploringPage);
 			}
 		}
 
@@ -120,9 +120,9 @@ namespace RightToAskClient.Views
 		{
 			if(ParliamentData.MPs.IsInitialised)
 			{
-				var allMPsAsEntities = new ObservableCollection<Entity>(ParliamentData.MPs.AllMPs);
+				//var allMPsAsEntities = new ObservableCollection<Entity>(ParliamentData.MPs.AllMPs);
 				ExploringPageWithSearch mpsPage
-					= new ExploringPageWithSearch(allMPsAsEntities, _readingContext.Filters.SelectedAnsweringMPs,
+					= new ExploringPageWithSearch(ParliamentData.MPs.AllMPs, _readingContext.Filters.SelectedAnsweringMPs,
 						"Here is the complete list of MPs");
 				await Navigation.PushAsync(mpsPage);
 			}

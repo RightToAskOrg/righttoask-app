@@ -134,9 +134,7 @@ namespace RightToAskClient.Controls
 			string message = "Choose others to add";
 			
            	var departmentExploringPage 
-                = new ExploringPageWithSearchAndPreSelections(
-                    new ObservableCollection<Entity>(ParliamentData.AllAuthorities), 
-                new ObservableCollection<Entity>(filterContext.SelectedAuthorities), message);
+                = new ExploringPageWithSearchAndPreSelections(filterContext.SelectedAuthorities, message);
            	await Navigation.PushAsync (departmentExploringPage);
         }
 

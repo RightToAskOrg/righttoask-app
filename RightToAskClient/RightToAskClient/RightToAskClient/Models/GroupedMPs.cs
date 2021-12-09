@@ -4,9 +4,9 @@ using System.Collections.ObjectModel;
 
 namespace RightToAskClient.Models
 {
-    public class GroupedMPs : ObservableCollection<Entity>
+    public class GroupedMPs : ObservableCollection<MP>
     {
-        public GroupedMPs(ParliamentData.Chamber chamber, IEnumerable<Entity> mpGroup) : base(mpGroup)
+        public GroupedMPs(ParliamentData.Chamber chamber, IEnumerable<MP> mpGroup) : base(mpGroup)
         {
             Chamber = chamber;
         }

@@ -8,20 +8,20 @@ namespace RightToAskClient.Models
 	public class FilterChoices : INotifyPropertyChanged
 	{
 		private string searchKeyword;
-		private ObservableCollection<Entity> selectedAnsweringMPs;
-		private ObservableCollection<Entity> selectedAnsweringMPsMine;
-		private ObservableCollection<Entity> selectedAskingMPs;
-		private ObservableCollection<Entity> selectedAskingMPsMine;
+		private ObservableCollection<MP> selectedAnsweringMPs;
+		private ObservableCollection<MP> selectedAnsweringMPsMine;
+		private ObservableCollection<MP> selectedAskingMPs;
+		private ObservableCollection<MP> selectedAskingMPsMine;
 		private ObservableCollection<Authority> selectedAuthorities;
 		private ObservableCollection<string> selectedAskingCommittee;
 		private ObservableCollection<Entity> selectedAskingUsers;
 
 		public FilterChoices()
 		{
-			selectedAnsweringMPs = new ObservableCollection<Entity>();
-			selectedAskingMPs = new ObservableCollection<Entity>();
-			selectedAnsweringMPsMine = new ObservableCollection<Entity>();
-			selectedAskingMPsMine = new ObservableCollection<Entity>();
+			selectedAnsweringMPs = new ObservableCollection<MP>();
+			selectedAskingMPs = new ObservableCollection<MP>();
+			selectedAnsweringMPsMine = new ObservableCollection<MP>();
+			selectedAskingMPsMine = new ObservableCollection<MP>();
 			selectedAuthorities = new ObservableCollection<Authority>();
 			selectedAskingCommittee = new ObservableCollection<string>();
 			selectedAskingUsers = new ObservableCollection<Entity>();
@@ -48,7 +48,7 @@ namespace RightToAskClient.Models
 			}
 		}
 
-		public ObservableCollection<Entity> SelectedAskingMPsMine
+		public ObservableCollection<MP> SelectedAskingMPsMine
 		{
 			get { return selectedAskingMPsMine; }
 			set
@@ -58,7 +58,7 @@ namespace RightToAskClient.Models
 			}
 		}
 		
-		public ObservableCollection<Entity> SelectedAskingMPs
+		public ObservableCollection<MP> SelectedAskingMPs
 		{
 			get { return selectedAskingMPs; }
 			set
@@ -70,7 +70,7 @@ namespace RightToAskClient.Models
 
 		
 
-		public ObservableCollection<Entity> SelectedAnsweringMPsMine
+		public ObservableCollection<MP> SelectedAnsweringMPsMine
 		{
 			get { return selectedAnsweringMPsMine; }
 			set
@@ -79,7 +79,7 @@ namespace RightToAskClient.Models
 				OnPropertyChanged("SelectedAnsweringMPsMine");
 			}
 		}
-		public ObservableCollection<Entity> SelectedAnsweringMPs
+		public ObservableCollection<MP> SelectedAnsweringMPs
 		{
 			get { return selectedAnsweringMPs; }
 			set

@@ -43,12 +43,10 @@ namespace RightToAskClient.Models
 
 		public ObservableCollection<Question> ExistingQuestions { get; set; }
 		
-		public ObservableCollection<Tag> Departments { get; set; }
+		//public ObservableCollection<Tag> Departments { get; set; }
 
 		// public ObservableCollection<Tag> SelectableAuthorities { get; set; }
 
-		public ObservableCollection<Tag> StateElectorates { get; set; }
-		public ObservableCollection<Tag> FederalElectorates { get; set; }
 		
 
 
@@ -59,6 +57,7 @@ namespace RightToAskClient.Models
 			ThisParticipant = new IndividualParticipant();
 			Filters = new FilterChoices();
 
+			/*
 			Departments = new ObservableCollection<Tag>();
 			Departments.Add(new Tag { TagEntity = new Authority { AuthorityName = "Environment" }, Selected = false });
 			Departments.Add(new Tag { TagEntity = new Authority { AuthorityName = "Home Affairs" }, Selected = false });
@@ -70,7 +69,6 @@ namespace RightToAskClient.Models
 				{ TagEntity = new Authority { AuthorityName = "Innovation, Industry and Science" }, Selected = false });
 			Departments.Add(new Tag { TagEntity = new Authority { AuthorityName = "Communications" }, Selected = false });
 
-			/*
 			MyMPs = new ObservableCollection<Tag>();
 			MyMPs.Add(new Tag { TagEntity = new Authority { EntityName = "Janet Rice" }, Selected = false });
 			MyMPs.Add(new Tag { TagEntity = new Authority { EntityName = "Danny O'Brien" }, Selected = false });
@@ -84,7 +82,7 @@ namespace RightToAskClient.Models
 			*/
 
 			TestCurrentMPs = new ObservableCollection<Entity>();
-			
+
 			ExistingQuestions = new ObservableCollection<Question>();
 			ExistingQuestions.Add(
 				new Question
@@ -124,101 +122,104 @@ namespace RightToAskClient.Models
 					UpVotes = 2
 				});
 
-			
-			StateElectorates = new ObservableCollection<Tag>();
-			StateElectorates.Add(new Tag
-			{
-				TagEntity = new Authority { AuthorityName = "Gembrook"}, 
-				Selected = false 
-			});
-			StateElectorates.Add(new Tag
-			{
-				TagEntity = new Authority{AuthorityName = "Nepean"}, 
-				Selected = false
-			});
-			StateElectorates.Add(new Tag
-			{
-				TagEntity = new Authority { AuthorityName = "Sunbury"}, 
-				Selected = false 
-			});
-			StateElectorates.Add(new Tag
-			{
-				TagEntity = new Authority{AuthorityName = "Brighton"}, 
-				Selected = false
-			});
-			StateElectorates.Add(new Tag
-			{
-				TagEntity = new Authority { AuthorityName = "Eildon"}, 
-				Selected = false 
-			});
-			StateElectorates.Add(new Tag
-			{
-				TagEntity = new Authority{AuthorityName = "Ovens Valley"}, 
-				Selected = false
-			});
-			StateElectorates.Add(new Tag
-			{
-				TagEntity = new Authority { AuthorityName = "Malvern"}, 
-				Selected = false
-			});
-			StateElectorates.Add(new Tag
-			{
-				TagEntity = new Authority{AuthorityName = "Northcote"}, 
-				Selected = false
-			});
-			StateElectorates.Add(new Tag
-			{
-				TagEntity = new Authority { AuthorityName = "Gippsland South"}, 
-				Selected = false
-			});
 
-			FederalElectorates = new ObservableCollection<Tag>();
-			FederalElectorates.Add(new Tag
-			{
-				TagEntity = new Authority { AuthorityName = "Cooper" },
-				Selected = false
-			});
-			FederalElectorates.Add( new Tag
-			{
-				TagEntity = new Authority { AuthorityName = "Higgins" } ,
-				Selected = false
-			});
-			FederalElectorates.Add ( new Tag
-			{
-				TagEntity = new Authority { AuthorityName = "Flinders" },
-				Selected = false 
-			});
-			FederalElectorates.Add ( new Tag
-			{
-				TagEntity = new Authority { AuthorityName = "Isaacs" } ,
-				Selected = false
-			});
-			FederalElectorates.Add ( new Tag
-			{
-				TagEntity = new Authority { AuthorityName = "Melbourne" },
-				Selected = false
-			});
-			FederalElectorates.Add ( new Tag
-			{
-				TagEntity = new Authority { AuthorityName = "Mallee"} ,
-				Selected = false
-			});
-			FederalElectorates . Add ( new Tag
-			{
-				TagEntity = new Authority { AuthorityName = "Indi"} ,
-				Selected = false
-			});
-			FederalElectorates . Add ( new Tag
-			{
-				TagEntity = new Authority { AuthorityName = "Monash"} ,
-				Selected = false
-			});
-			FederalElectorates . Add ( new Tag
-			{
-				TagEntity = new Authority { AuthorityName = "Wills"},
-				Selected = false
-			});
-		}
+		/*
+		StateElectorates = new ObservableCollection<Tag>();
+		StateElectorates.Add(new Tag
+		{
+			TagEntity = new Authority { AuthorityName = "Gembrook"}, 
+			Selected = false 
+		});
+		StateElectorates.Add(new Tag
+		{
+			TagEntity = new Authority{AuthorityName = "Nepean"}, 
+			Selected = false
+		});
+		StateElectorates.Add(new Tag
+		{
+			TagEntity = new Authority { AuthorityName = "Sunbury"}, 
+			Selected = false 
+		});
+		StateElectorates.Add(new Tag
+		{
+			TagEntity = new Authority{AuthorityName = "Brighton"}, 
+			Selected = false
+		});
+		StateElectorates.Add(new Tag
+		{
+			TagEntity = new Authority { AuthorityName = "Eildon"}, 
+			Selected = false 
+		});
+		StateElectorates.Add(new Tag
+		{
+			TagEntity = new Authority{AuthorityName = "Ovens Valley"}, 
+			Selected = false
+		});
+		StateElectorates.Add(new Tag
+		{
+			TagEntity = new Authority { AuthorityName = "Malvern"}, 
+			Selected = false
+		});
+		StateElectorates.Add(new Tag
+		{
+			TagEntity = new Authority{AuthorityName = "Northcote"}, 
+			Selected = false
+		});
+		StateElectorates.Add(new Tag
+		{
+			TagEntity = new Authority { AuthorityName = "Gippsland South"}, 
+			Selected = false
+		});
+
+		FederalElectorates = new ObservableCollection<Tag>();
+		FederalElectorates.Add(new Tag
+		{
+			TagEntity = new Authority { AuthorityName = "Cooper" },
+			Selected = false
+		});
+		FederalElectorates.Add( new Tag
+		{
+			TagEntity = new Authority { AuthorityName = "Higgins" } ,
+			Selected = false
+		});
+		FederalElectorates.Add ( new Tag
+		{
+			TagEntity = new Authority { AuthorityName = "Flinders" },
+			Selected = false 
+		});
+		FederalElectorates.Add ( new Tag
+		{
+			TagEntity = new Authority { AuthorityName = "Isaacs" } ,
+			Selected = false
+		});
+		FederalElectorates.Add ( new Tag
+		{
+			TagEntity = new Authority { AuthorityName = "Melbourne" },
+			Selected = false
+		});
+		FederalElectorates.Add ( new Tag
+		{
+			TagEntity = new Authority { AuthorityName = "Mallee"} ,
+			Selected = false
+		});
+		FederalElectorates . Add ( new Tag
+		{
+			TagEntity = new Authority { AuthorityName = "Indi"} ,
+			Selected = false
+		});
+		FederalElectorates . Add ( new Tag
+		{
+			TagEntity = new Authority { AuthorityName = "Monash"} ,
+			Selected = false
+		});
+		FederalElectorates . Add ( new Tag
+		{
+			TagEntity = new Authority { AuthorityName = "Wills"},
+			Selected = false
+		});
+	*/
+	}
+
 
 		// TODO This ToString doesn't really properly convey the state of
 		// the ReadingContext, e.g. doesn't reflect registering or knowing your
@@ -231,8 +232,7 @@ namespace RightToAskClient.Models
 			       "TopTen: " + TopTen + '\n' +
 			       "Direct Committee: " + GoDirect_Committee + '\n' +
 			       "Direct MP: " + GoDirect_MP + '\n' +
-			       "Question: " + DraftQuestion + '\n' +
-			       "Departments: " + Departments + '\n' ;
+			       "Question: " + DraftQuestion + '\n' ;
 		}
 
 	}

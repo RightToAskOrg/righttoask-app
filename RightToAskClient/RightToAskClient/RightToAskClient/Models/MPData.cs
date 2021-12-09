@@ -16,16 +16,16 @@ namespace RightToAskClient.Models
 		private List<MP> allMPs = new List<MP>();
 		private bool isInitialised = false;
 		public string ErrorMessage { get; private set; } = "";
-		public List<MP> AllMPs  
+		public ObservableCollection<MP> AllMPs  
 		{
 			get
 			{
 				if (!allMPs.IsNullOrEmpty())
 				{
-					return new List<MP>(allMPs);
+					return new ObservableCollection<MP>(allMPs);
 				}
 
-				return new List<MP>();
+				return new ObservableCollection<MP>();
 			}
 		}
 
@@ -62,6 +62,11 @@ namespace RightToAskClient.Models
 		private async Task<Result<bool>> tryInitialising()
 		{
 			Result<List<MP>> serverMPList = await RTAClient.GetMPsList();
+
+			if (serverMPList is null)
+			{
+				return new Result<bool>() { Err = "Could not reach server."};
+			}
 
 			if (String.IsNullOrEmpty(serverMPList.Err))
 			{
