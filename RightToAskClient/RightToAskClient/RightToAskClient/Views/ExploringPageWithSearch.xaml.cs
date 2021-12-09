@@ -21,15 +21,13 @@ namespace RightToAskClient.Views
 		public ExploringPageWithSearch(ObservableCollection<MP> allEntities, 
 			ObservableCollection<MP> selectedEntities, string? message=null) : base (allEntities, selectedEntities, message)
         {
-            Label RTKThanks = new Label() { Text = "Using The Australian Authorities List from Right To Know." };
             SearchBar authoritySearch = new SearchBar() 
                 { 
                     Placeholder = "Search",
                 };
                 authoritySearch.TextChanged += OnKeywordChanged<MP>;
                 
-            MainLayout.Children.Insert(0, RTKThanks);    
-            MainLayout.Children.Insert(1, authoritySearch);
+            MainLayout.Children.Insert(0, authoritySearch);
         }
 
         public ExploringPageWithSearch(ObservableCollection<Authority> filtersSelectedAuthorities, string message) 
@@ -41,8 +39,11 @@ namespace RightToAskClient.Views
         private void OnKeywordChanged<T>(object sender, TextChangedEventArgs e) where T : Entity
         {
             searchingFor = e.NewTextValue;
-            ObservableCollection <Tag<T>> listToDisplay = GetSearchResults<T>(searchingFor);
-            AuthorityListView.ItemsSource = listToDisplay;
+            if (!String.IsNullOrWhiteSpace(searchingFor))
+            {
+                ObservableCollection<Tag<T>> listToDisplay = GetSearchResults<T>(searchingFor);
+                AuthorityListView.ItemsSource = listToDisplay;
+            }
         }
 
         // Look up whether anything in the Entity includes the queryString.
@@ -51,6 +52,7 @@ namespace RightToAskClient.Views
         // TODO If this turns out to be problematic, implement something like
         // NamesToString, which returns only the separated, concatenated
         // strings that you'll want to search on.
+        // TODO *** Add a Person version, so we can search for other users to tag.
         private ObservableCollection<Tag<T>> GetSearchResults<T>(string queryString) where T : Entity
         {
             var normalizedQuery = queryString?.ToLower() ?? "";
@@ -58,17 +60,19 @@ namespace RightToAskClient.Views
             if (typeof(T) == typeof(Authority))
             {
                 return new ObservableCollection<Tag<T>>(
-                    (selectableAuthorities.Where(f => matches<Authority>(normalizedQuery, f))).ToList() as IEnumerable<Tag<T>> ?? Array.Empty<Tag<T>>());
+                    (IEnumerable<Tag<T>>)(selectableAuthorities.Where(f => matches<Authority>(normalizedQuery, f))).ToList());
             }
             
             if (typeof(T) == typeof(MP))
             {
                 return new ObservableCollection<Tag<T>>(
-                    (selectableMPs.Where(f => matches<MP>(normalizedQuery, f))).ToList() as IEnumerable<Tag<T>> ?? Array.Empty<Tag<T>>());
+                    (IEnumerable<Tag<T>>)selectableMPs.Where(f => matches<MP>(normalizedQuery, f)).ToList());
             }
 
+            return new ObservableCollection<Tag<T>>();
 
-            throw new InvalidOperationException("ExploringPageWithSearch initiated with neither Authorities nor MPs");
+
+            // throw new InvalidOperationException("ExploringPageWithSearch initiated with neither Authorities nor MPs");
         }
 
         private bool matches<T>(string normalizedQuery, Tag<T> entity) where T : Entity

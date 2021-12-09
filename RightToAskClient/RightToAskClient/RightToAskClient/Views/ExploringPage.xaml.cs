@@ -46,14 +46,13 @@ namespace RightToAskClient.Views
 		{
 			InitializeComponent();
 
-			// allTheMPs = allEntities;
 			selectedMPs = selectedEntities;
 				
-			var selectableEntities = wrapInTags<MP>(allEntities, selectedEntities);
+			selectableMPs = wrapInTags<MP>(allEntities, selectedEntities);
 			
 			IntroText.Text = message ?? "";
-			AuthorityListView.BindingContext = selectableEntities;
-			AuthorityListView.ItemsSource = selectableEntities;
+			AuthorityListView.BindingContext = selectableMPs;
+			AuthorityListView.ItemsSource = selectableMPs;
 			typeOfEntities = typeof(MP);
 		}
 		 
