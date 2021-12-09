@@ -82,7 +82,8 @@ namespace RightToAskClient.Views
 				var mpsExploringPage = new ExploringPage(_readingContext.ThisParticipant.MyMPs,
 					_readingContext.Filters.SelectedAnsweringMPsMine, message);
 
-				await ListMPsFindFirstIfNotAlreadyKnown(_readingContext, mpsExploringPage, _readingContext.Filters.SelectedAnsweringMPs);
+				var nextPage = await ListMPsFindFirstIfNotAlreadyKnown(_readingContext, mpsExploringPage, _readingContext.Filters.SelectedAnsweringMPs);
+				await Navigation.PushAsync(nextPage);
 			}
 			else
 			{
