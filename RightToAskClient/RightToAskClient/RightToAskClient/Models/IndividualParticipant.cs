@@ -35,6 +35,18 @@ namespace RightToAskClient.Models
 			}
 		}
 
+		public IEnumerable<GroupedMPs> GroupedMPs
+		{
+			get
+			{
+				return MyMPs.GroupBy(
+                        mp => mp.electorate.chamber,
+                        mp => mp,
+                        (chamber, mps) => new GroupedMPs(chamber, mps)
+                        );
+			}
+		}
+
 		// When your electorate gets updated, we automatically update your MPs.
 		// TODO: Think about whether we need to check that we're not duplicating
 		// inconsistent chambers/electorates.

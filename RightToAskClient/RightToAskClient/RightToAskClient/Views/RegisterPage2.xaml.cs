@@ -33,7 +33,7 @@ namespace RightToAskClient.Views
         
         private IndividualParticipant thisParticipant;
         private bool launchMPsSelectionPageNext;
-        private ObservableCollection<MP>? alreadySelectedMPs; 
+        private ObservableCollection<MP> alreadySelectedMPs; 
 
         // private ParliamentData.Chamber stateLCChamber=ParliamentData.Chamber.Vic_Legislative_Council;
         // private ParliamentData.Chamber stateLAChamber=ParliamentData.Chamber.Vic_Legislative_Assembly;
@@ -43,17 +43,14 @@ namespace RightToAskClient.Views
         private List<string> allStateLCElectorates;
         // alreadySelectedMPs are passed in if a Selection page is to be launched next.
         // If they're null/absent, no selection page is launched.
-        public RegisterPage2(IndividualParticipant thisParticipant, bool showSkip, 
+        public RegisterPage2(IndividualParticipant thisParticipant, bool showSkip, bool launchMPsSelectionPageNext, 
             ObservableCollection<MP>? alreadySelectedMPs = null)
         {
             InitializeComponent();
             BindingContext = thisParticipant;
             this.thisParticipant = thisParticipant;
-            launchMPsSelectionPageNext = ! (alreadySelectedMPs is null);
-            // I think the compiler should be clever enough to work out that we never
-            // use this if it's null.
-            // this.alreadySelectedMPs = alreadySelectedMPs ?? new ObservableCollection<Entity>();
-            this.alreadySelectedMPs = alreadySelectedMPs;
+            this.launchMPsSelectionPageNext = launchMPsSelectionPageNext;
+            this.alreadySelectedMPs = alreadySelectedMPs ?? new ObservableCollection<MP>();
 
             KnowElectoratesFrame.IsVisible = false;
             addressSavingStack.IsVisible = false;
@@ -169,7 +166,6 @@ namespace RightToAskClient.Views
         // If we've been asked to push an MP-selecting page, go there and
         // remove this page, otherwise just pop. Note that SelectedAnsweringMPs
         // is empty/new because we didn't know this person's MPs until this page.
-        // TODO Consider whether this cast is safe, and how to check if it isn't.
         private async void OnFindMPsButtonClicked(object sender, EventArgs e)
         {
             var currentPage = Navigation.NavigationStack.LastOrDefault();
@@ -178,13 +174,7 @@ namespace RightToAskClient.Views
             {
                 string message = "These are your MPs.  Select the one(s) who should answer the question";
                   
-                var groupedMPs 
-                    = thisParticipant.MyMPs.GroupBy(
-                        mp => ((MP)mp).electorate.chamber,
-                        mp => mp,
-                        (chamber, mps) => new GroupedMPs(chamber, mps)
-                        );
-           	    var mpsExploringPage = new ExploringPage(groupedMPs, alreadySelectedMPs , message);
+           	    var mpsExploringPage = new ExploringPage(thisParticipant.GroupedMPs, alreadySelectedMPs , message);
                 await Navigation.PushAsync(mpsExploringPage);
             }
             

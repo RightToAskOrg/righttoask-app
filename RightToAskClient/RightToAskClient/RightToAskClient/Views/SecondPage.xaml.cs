@@ -105,7 +105,7 @@ namespace RightToAskClient.Views
 			
 			if (! thisParticipant.MPsKnown)
 			{
-				var registrationPage = new RegisterPage2(thisParticipant, false, alreadySelectedMPs);
+				var registrationPage = new RegisterPage2(thisParticipant, false, true, alreadySelectedMPs);
 				return registrationPage;
 				
 				// await Navigation.PushAsync(registrationPage);

@@ -126,7 +126,7 @@ namespace RightToAskClient.Views
 
 	        if (!readingContext.ThisParticipant.MPsKnown)
 	        {
-		        var findElectoratesPage = new RegisterPage2(readingContext.ThisParticipant, true);
+		        var findElectoratesPage = new RegisterPage2(readingContext.ThisParticipant, true, false);
 		        await Navigation.PushAsync(findElectoratesPage);
 	        }
 
