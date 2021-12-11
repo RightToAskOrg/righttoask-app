@@ -22,7 +22,7 @@ namespace RightToAskClient.Models
         
 		// Things about this user.
 		// These selections are made at registration, or at 'complete registration.'
-		public IndividualParticipant ThisParticipant { get; set; }
+		public IndividualParticipant ThisParticipant { get; set; } = new IndividualParticipant();
 
 		// Things about the current search, draft question or other action.
 		public FilterChoices Filters { get; set; }
@@ -54,7 +54,7 @@ namespace RightToAskClient.Models
 		// hardcoded set of "existing" questions.
 		private void InitializeDefaultSetup()
 		{
-			ThisParticipant = new IndividualParticipant();
+			// ThisParticipant = new IndividualParticipant();
 			Filters = new FilterChoices();
 
 			/*

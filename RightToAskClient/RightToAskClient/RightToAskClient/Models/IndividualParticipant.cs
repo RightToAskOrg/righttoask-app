@@ -35,7 +35,7 @@ namespace RightToAskClient.Models
 			}
 		}
 
-		// When you're electorate gets updated, we automatically update your MPs.
+		// When your electorate gets updated, we automatically update your MPs.
 		// TODO: Think about whether we need to check that we're not duplicating
 		// inconsistent chambers/electorates.
 		public void UpdateElectorate(ElectorateWithChamber knownElectorate)
@@ -44,7 +44,7 @@ namespace RightToAskClient.Models
 			UpdateMPs();
 		}
 		
-		// This returns a flat list of MPs, not sorted or structured by Electorate.
+		// This stores a flat list of MPs, not sorted or structured by Electorate.
 		// It also refreshes the MPs according to the current list of electorates so,
 		// for example, if an electorate is removed, the MPs representing it will disappear.
 		private void UpdateMPs()

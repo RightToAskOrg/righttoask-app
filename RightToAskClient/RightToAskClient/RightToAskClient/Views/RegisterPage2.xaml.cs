@@ -65,7 +65,9 @@ namespace RightToAskClient.Views
             }
             
             stateOrTerritoryPicker.ItemsSource = ParliamentData.StatesAndTerritories;
-            stateOrTerritoryPicker.Title = $"Choose State or Territory {thisParticipant.RegistrationInfo.state}"; 
+            stateOrTerritoryPicker.Title = $"Choose State or Territory {thisParticipant.RegistrationInfo.State}";
+            // TODO Possibly it's cleaner just to set the binding context like this:
+            // stateOrTerritoryPicker.BindingContext = thisParticipant.RegistrationInfo.State;
         }
         
         void OnStatePickerSelectedIndexChanged(object sender, EventArgs e)
@@ -80,15 +82,12 @@ namespace RightToAskClient.Views
                 if (selectedIndex != -1)
                 {
                     string state = (string) picker.SelectedItem;
-                    thisParticipant.RegistrationInfo.state = state; 
+                    thisParticipant.RegistrationInfo.State = state; 
                     UpdateElectoratePickerSources(state);
                 }
             }
         }
 
-        // TODO This treats everyone as if they're VIC at the moment.
-        // Add specific sources for LC and LA in specific states.
-        // Also clean up repeated code.
         private void UpdateElectoratePickerSources(string state)
         {
             allFederalElectorates = ParliamentData.ListElectoratesInHouseOfReps();
@@ -117,7 +116,7 @@ namespace RightToAskClient.Views
             string region = ChooseElectorate(picker, allStateLCElectorates);
             if (!String.IsNullOrEmpty(region))
             {
-                var state = thisParticipant.RegistrationInfo.state;
+                var state = thisParticipant.RegistrationInfo.State;
                 thisParticipant.AddStateUpperHouseElectorate(state, region);
                 RevealNextStepIfElectoratesKnown();
             }
@@ -128,7 +127,7 @@ namespace RightToAskClient.Views
             string region = ChooseElectorate(picker, allStateLAElectorates);
             if (!String.IsNullOrEmpty(region))
             {
-                var state = thisParticipant.RegistrationInfo.state;
+                var state = thisParticipant.RegistrationInfo.State;
                 thisParticipant.AddStateLowerHouseElectorate(state, region);
                 RevealNextStepIfElectoratesKnown();
             }    
@@ -201,7 +200,7 @@ namespace RightToAskClient.Views
             // GeoscapeAddressFeatureCollection addressList;
             Result<GeoscapeAddressFeature> httpResponse;
             
-            string state = thisParticipant.RegistrationInfo.state;
+            string state = thisParticipant.RegistrationInfo.State;
             
             if (String.IsNullOrEmpty(state))
             {
@@ -261,7 +260,7 @@ namespace RightToAskClient.Views
 
             // TODO: this is a bit odd because I need to check what Geoscape does for upper and lower house electorates.
             // thisParticipant.AddStateUpperHouseElectorate
-            thisParticipant.AddStateLowerHouseElectorate(thisParticipant.RegistrationInfo.state,
+            thisParticipant.AddStateLowerHouseElectorate(thisParticipant.RegistrationInfo.State,
                 addressData.Properties.StateElectorate.StateElectoralName);
             thisParticipant.MPsKnown = true;
         }

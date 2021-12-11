@@ -78,7 +78,7 @@ namespace RightToAskClient.Views
             if (picker.SelectedIndex != -1)
             {
 	            string state = (string)picker.SelectedItem;
-	            readingContext.ThisParticipant.RegistrationInfo.state = state; 
+	            readingContext.ThisParticipant.RegistrationInfo.State = state; 
                 readingContext.ThisParticipant.UpdateChambers(state);
             }
         }
@@ -150,6 +150,7 @@ namespace RightToAskClient.Views
         // TODO Make this put up the electorate-finding page.
         private void OnElectoratesButtonTapped(object sender, ItemTappedEventArgs e)
         {
+	        return;
         }
 
 		private void FollowButton_OnClicked(object sender, EventArgs e)

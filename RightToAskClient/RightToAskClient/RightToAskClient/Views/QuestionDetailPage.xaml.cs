@@ -53,7 +53,7 @@ namespace RightToAskClient.Views
                 uid = "This is a test user",
                 display_name = "testing user",
                 public_key = "123",
-                state = "VIC"
+                State = "VIC"
             };
             RegisterPage1 otherUserProfilePage = new RegisterPage1(testUserReg, readingContext, true);
             await Navigation.PushAsync(otherUserProfilePage);
