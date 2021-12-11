@@ -87,16 +87,22 @@ namespace RightToAskClient.Models
 	        // registrationInfo.Electorates.Add(new ElectorateWithChamber(chamberToAdd, regionToAdd));
         }
 
-        // TODO*** at the moment it just assumes everyone is in Vic.	
-        // TODO: Error/validity checking to make sure it's a valid electorate in that state's lower
-        // House.
-        public void AddStateLowerHouseElectorate(string state, string regionToAdd)
+        // For every state except Tas, the lower house electorate determines the upper house one
+        // (if there is one). For Tas, it's more complicated. So we hand this off to ParliamentData.
+        public void AddStateElectoratesGivenOneRegion(string state, string regionToAdd)
         {
+	        List<ElectorateWithChamber> electorates = ParliamentData.GetStateElectoratesGivenOneRegion(state, regionToAdd);
+	        foreach (var e in electorates)
+	        {
+		       UpdateElectorate(e); 
+	        }
+	        /*
 	        Result<ParliamentData.Chamber> chamber = ParliamentData.GetLowerHouseChamber(state);
 	        if (chamber.Err.IsNullOrEmpty())
 	        {
 				UpdateElectorate( new ElectorateWithChamber(chamber.Ok, regionToAdd) );
 	        }
+	        */
         }
 
         public void AddStateUpperHouseElectorate(string state, string region)
@@ -118,7 +124,7 @@ namespace RightToAskClient.Models
         {
             AddHouseOfRepsElectorate(addressData.Properties.CommonwealthElectorate.CommElectoralName);
 
-            AddStateLowerHouseElectorate(RegistrationInfo.State, addressData.Properties.StateElectorate.StateElectoralName);
+            AddStateElectoratesGivenOneRegion(RegistrationInfo.State, addressData.Properties.StateElectorate.StateElectoralName);
         }
 
         public void AddSenatorsFromState(string state)

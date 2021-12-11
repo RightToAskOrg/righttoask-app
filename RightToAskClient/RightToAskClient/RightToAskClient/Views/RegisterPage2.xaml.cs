@@ -126,7 +126,7 @@ namespace RightToAskClient.Views
             if (!String.IsNullOrEmpty(region))
             {
                 var state = thisParticipant.RegistrationInfo.State;
-                thisParticipant.AddStateLowerHouseElectorate(state, region);
+                thisParticipant.AddStateElectoratesGivenOneRegion(state, region);
                 RevealNextStepIfElectoratesKnown();
             }    
         }

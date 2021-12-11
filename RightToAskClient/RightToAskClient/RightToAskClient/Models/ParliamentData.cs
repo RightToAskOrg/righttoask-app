@@ -257,32 +257,32 @@ namespace RightToAskClient.Models
 
 			switch (state.ToUpper())
 			{
-				case ("ACT"):
+				case (State.ACT):
 					chambersForTheState.Add(Chamber.ACT_Legislative_Assembly);
 					break;
-				case ("NSW"):
+				case (State.NSW):
 					chambersForTheState.Add(Chamber.NSW_Legislative_Assembly);
 					chambersForTheState.Add(Chamber.NSW_Legislative_Council);
 					break;
-				case ("NT"):
+				case (State.NT):
 					chambersForTheState.Add(Chamber.NT_Legislative_Assembly);
 					break;
-				case ("QLD"):
+				case (State.QLD):
 					chambersForTheState.Add(Chamber.Qld_Legislative_Assembly);
 					break;
-				case ("SA"):
+				case (State.SA):
 					chambersForTheState.Add(Chamber.SA_House_Of_Assembly);
 					chambersForTheState.Add(Chamber.SA_Legislative_Council);
 					break;
-				case ("VIC"):
+				case (State.VIC):
 					chambersForTheState.Add(Chamber.Vic_Legislative_Assembly);
 					chambersForTheState.Add(Chamber.Vic_Legislative_Council);
 					break;
-				case ("TAS"):
+				case (State.TAS):
 					chambersForTheState.Add(Chamber.Tas_House_Of_Assembly);
 					chambersForTheState.Add(Chamber.Tas_Legislative_Council);
 					break;
-				case ("WA"):
+				case (State.WA):
 					chambersForTheState.Add(Chamber.WA_Legislative_Assembly);
 					chambersForTheState.Add(Chamber.WA_Legislative_Council);
 					break;
@@ -291,6 +291,18 @@ namespace RightToAskClient.Models
 			return chambersForTheState;
 		}
 
+		// TODO: add logic for inferred other houses.
+		public static List<ElectorateWithChamber> GetStateElectoratesGivenOneRegion(string state, string region)
+		{
+			Result<Chamber> chamber = GetLowerHouseChamber(state);
+			if(!String.IsNullOrEmpty(chamber.Err))
+			{
+				Debug.WriteLine("Error: Couldn't find lower house chamber for "+state);	
+				return new List<ElectorateWithChamber>();
+			}
+
+			return new List<ElectorateWithChamber>(){new ElectorateWithChamber(chamber.Ok, region)};
+		}
 		public static List<string> ListElectoratesInHouseOfReps()
 		{
 			if (MPs.IsInitialised)
