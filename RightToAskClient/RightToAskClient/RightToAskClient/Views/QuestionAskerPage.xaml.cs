@@ -51,7 +51,7 @@ namespace RightToAskClient.Views
             
 			if (ParliamentData.MPs.IsInitialised)
 			{
-				var mpsExploringPage = new ExploringPage(readingContext.ThisParticipant.MyMPs,
+				var mpsExploringPage = new ExploringPage(readingContext.ThisParticipant.GroupedMPs,
 					readingContext.Filters.SelectedAskingMPsMine, message);
 
                 launchMPFindingAndSelectingPages(mpsExploringPage);

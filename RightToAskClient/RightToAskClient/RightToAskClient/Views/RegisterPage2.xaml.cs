@@ -79,7 +79,8 @@ namespace RightToAskClient.Views
                 if (selectedIndex != -1)
                 {
                     string state = (string) picker.SelectedItem;
-                    thisParticipant.RegistrationInfo.State = state; 
+                    thisParticipant.RegistrationInfo.State = state;
+                    thisParticipant.AddSenatorsFromState(state);
                     UpdateElectoratePickerSources(state);
                 }
             }
@@ -187,7 +188,6 @@ namespace RightToAskClient.Views
         // If we know their state but not their Legislative Assembly or Council makeup, we can go on. 
         async void OnSubmitAddressButton_Clicked(object sender, EventArgs e)
         {
-            // GeoscapeAddressFeatureCollection addressList;
             Result<GeoscapeAddressFeature> httpResponse;
             
             string state = thisParticipant.RegistrationInfo.State;
@@ -246,12 +246,7 @@ namespace RightToAskClient.Views
 
         private void AddElectorates(GeoscapeAddressFeature addressData)
         {
-            thisParticipant.AddHouseOfRepsElectorate(addressData.Properties.CommonwealthElectorate.CommElectoralName);
-
-            // TODO: this is a bit odd because I need to check what Geoscape does for upper and lower house electorates.
-            // thisParticipant.AddStateUpperHouseElectorate
-            thisParticipant.AddStateLowerHouseElectorate(thisParticipant.RegistrationInfo.State,
-                addressData.Properties.StateElectorate.StateElectoralName);
+            thisParticipant.AddElectoratesFromGeoscapeAddress(addressData);
             thisParticipant.MPsKnown = true;
         }
 

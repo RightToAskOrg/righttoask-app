@@ -113,5 +113,20 @@ namespace RightToAskClient.Models
 	        }
 	        
         }
+
+        public void AddElectoratesFromGeoscapeAddress(GeoscapeAddressFeature addressData)
+        {
+            AddHouseOfRepsElectorate(addressData.Properties.CommonwealthElectorate.CommElectoralName);
+
+            AddStateLowerHouseElectorate(RegistrationInfo.State, addressData.Properties.StateElectorate.StateElectoralName);
+        }
+
+        public void AddSenatorsFromState(string state)
+        {
+	        if (ParliamentData.StatesAndTerritories.Contains(state))
+	        {
+				UpdateElectorate(new ElectorateWithChamber(ParliamentData.Chamber.Australian_Senate, state));
+	        }
+        }
     }
 } 
