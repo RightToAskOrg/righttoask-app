@@ -74,23 +74,22 @@ namespace RightToAskClient.Views
 			typeOfEntities = typeof(Authority);
 		}
 
-		/* This constructor is called only when the inputs are MPs.
-		 */
-		public ExploringPage(IEnumerable<MPGroupedByChamber> groupedMPs, ObservableCollection<MP> selectedEntities, string message)
+		public ExploringPage(IEnumerable<IGrouping<ParliamentData.Chamber, MP>> groupedMPs, ObservableCollection<MP> selectedMPs, string message)
+		// public ExploringPage(IEnumerable<MPGroupedByChamber> groupedMPs, ObservableCollection<MP> selectedEntities, string message)
 		{
 			InitializeComponent();
 			
 			IntroText.Text = message;
-			selectedMPs = selectedEntities;
+			this.selectedMPs = selectedMPs;
 			
 			AuthorityListView.IsGroupingEnabled = true;
 
 			List<TaggedGroupedMPs> groupedMPsWithTags = new List<TaggedGroupedMPs>();
-			foreach(MPGroupedByChamber group in groupedMPs)
+			foreach(IGrouping<ParliamentData.Chamber, MP> group in groupedMPs)
 			{
 				groupedMPsWithTags.Add(new TaggedGroupedMPs(
-					group.Chamber,
-					wrapInTags<MP>(group, selectedEntities)
+					group.Key,
+					wrapInTags<MP>(new ObservableCollection<MP>(group), selectedMPs)
 				));
 			}
 			AuthorityListView.BindingContext = groupedMPsWithTags;

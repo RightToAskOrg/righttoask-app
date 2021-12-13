@@ -42,6 +42,7 @@
     <Compile Remove="Views\ListPage.xaml.cs" />
     <Compile Remove="Models\PublicAuthority.cs" />
     <Compile Remove="Models\MPsInChamber.cs" />
+    <Compile Remove="Models\MPGroupedByChamber.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Views\SecondPage_old.xaml" />

@@ -35,24 +35,22 @@ namespace RightToAskClient.Models
 			}
 		}
 
-		public IEnumerable<MPGroupedByChamber> GroupedMPs
+		public IEnumerable<IGrouping<ParliamentData.Chamber,MP>> GroupedMPs
 		{
 			get
 			{
-				return MyMPs.GroupBy(
-                        mp => mp.electorate.chamber,
-                        mp => mp,
-                        (chamber, mps) => new MPGroupedByChamber(chamber, mps)
-                        );
+				return MyMPs.GroupBy(mp => mp.electorate.chamber);
 			}
-		}
+		} 
 
 		// When your electorate gets updated, we automatically update your MPs.
 		// TODO: Think about whether we need to check that we're not duplicating
 		// inconsistent chambers/electorates.
+		// Inserting at the beginning rather than adding at the end gives us Senators last, 
+		// preceded by House of reps and, before that, state lower house.
 		public void UpdateElectorate(ElectorateWithChamber knownElectorate)
 		{
-			registrationInfo.electorates.Add(knownElectorate);
+			registrationInfo.AddElectorateRemoveDuplicates(knownElectorate);
 			UpdateMPs();
 		}
 		
@@ -69,7 +67,6 @@ namespace RightToAskClient.Models
 			{
 				mpstoadd = ParliamentData.MPs.GetMPsRepresentingElectorate(knownElectorate);
 				mps.AddRange(mpstoadd);
-				// mps.Concat(ParliamentData.MPs.GetMPsRepresentingElectorate(knownElectorate));
 			}
 
 			myMPs = new ObservableCollection<MP>(mps);

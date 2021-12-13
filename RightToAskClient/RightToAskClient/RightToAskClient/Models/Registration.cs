@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using RightToAskClient.Annotations;
 using RightToAskClient.Models;
+using Xamarin.Forms.Xaml;
 
 namespace RightToAskClient.Models
 {
@@ -17,22 +18,26 @@ namespace RightToAskClient.Models
 		public string public_key { get; set; }= "";
 		private string state { get; set; }= "";
 
-		/* public string StateEnum
-		{
-			get => stateEnum;
-			set => stateEnum = value;
-		} */
-		
 		public string State
 		{
 			get => state;
 			set => state = value;
 		} 
 		
-
 		public string uid { get; set; }= "";
 
-		public List<ElectorateWithChamber> electorates { get; set; } = new List<ElectorateWithChamber>();
+		public List<ElectorateWithChamber> electorates { get; private set; } = new List<ElectorateWithChamber>();
+
+		/* Accept a new electorate and chamber, remove any earlier ones that are inconsistent.
+		 * Note: this assumes that nobody is ever represented in two different regions in the one
+		 * chamber. This is true throughout Aus, but may be untrue elsewhere. Of course, each region
+		 * may have multiple representatives.
+		 */
+		public void AddElectorateRemoveDuplicates(ElectorateWithChamber newElectorate)
+		{
+				electorates.RemoveAll(e => e.chamber == newElectorate.chamber);
+				electorates.Add(newElectorate);
+		}
 
 		public Result<bool> IsValid()
 		{
