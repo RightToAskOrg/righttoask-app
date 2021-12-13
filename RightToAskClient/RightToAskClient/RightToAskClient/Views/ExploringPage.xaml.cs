@@ -31,10 +31,10 @@ namespace RightToAskClient.Views
 		// selected Entities are the ones selected initially. 
 		private ObservableCollection<Authority> allTheAuthorities;
 		// private ObservableCollection<MP> allTheMPs;
-		protected ObservableCollection<Tag<Authority>> selectableAuthorities;
-		protected ObservableCollection<Tag<MP>> selectableMPs;
-		protected ObservableCollection<Authority> selectedAuthorities;
-		protected ObservableCollection<MP> selectedMPs;
+		protected ObservableCollection<Tag<Authority>>? selectableAuthorities;
+		protected ObservableCollection<Tag<MP>>? selectableMPs;
+		protected ObservableCollection<Authority>? selectedAuthorities;
+		protected ObservableCollection<MP>? selectedMPs;
 		protected Type typeOfEntities;
 
 		/* This constructor is called only when the Entities are MPs.
@@ -75,7 +75,6 @@ namespace RightToAskClient.Views
 		}
 
 		public ExploringPage(IEnumerable<IGrouping<ParliamentData.Chamber, MP>> groupedMPs, ObservableCollection<MP> selectedMPs, string message)
-		// public ExploringPage(IEnumerable<MPGroupedByChamber> groupedMPs, ObservableCollection<MP> selectedEntities, string message)
 		{
 			InitializeComponent();
 			
@@ -114,23 +113,7 @@ namespace RightToAskClient.Views
 		// TODO: Check whether this deals properly with derived classes of Entity 
 		private void Authority_Selected(object sender, ItemTappedEventArgs e)
 		{
-				// ((Tag<Entity>) e.Item).Selected = !((Tag<Entity>) e.Item).Selected;
-			if (e.Item is Tag<Entity> t) 
-			{
-				t.Selected = !t.Selected;
-			}
-			if (e.Item is Tag<Authority> t1) 
-			{
-				t1.Selected = !t1.Selected;
-			}
-			if (e.Item is Tag<MP> t2) 
-			{
-				t2.Selected = !t2.Selected;
-			}
-			if(e.Item is Tag<Person> t3)
-			{
-				t3.Selected = !t3.Selected;
-			}
+			((Tag<Entity>) e.Item).Toggle();
 		}
 
 		// TODO Consider whether the semantics of 'back' should be different from

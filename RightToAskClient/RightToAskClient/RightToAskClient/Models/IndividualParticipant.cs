@@ -46,8 +46,6 @@ namespace RightToAskClient.Models
 		// When your electorate gets updated, we automatically update your MPs.
 		// TODO: Think about whether we need to check that we're not duplicating
 		// inconsistent chambers/electorates.
-		// Inserting at the beginning rather than adding at the end gives us Senators last, 
-		// preceded by House of reps and, before that, state lower house.
 		public void UpdateElectorate(ElectorateWithChamber knownElectorate)
 		{
 			registrationInfo.AddElectorateRemoveDuplicates(knownElectorate);
@@ -59,7 +57,6 @@ namespace RightToAskClient.Models
 		// for example, if an electorate is removed, the MPs representing it will disappear.
 		private void UpdateMPs()
 		{
-			// ParliamentData.MPs.GetMPsRepresentingElectorate(FederalElectorate);
 			var mps = new List<MP>();
 			List<MP> mpstoadd;
 
@@ -73,7 +70,7 @@ namespace RightToAskClient.Models
 		}
 		
         // TODO: Do some validity checking to ensure that you're not adding inconsistent
-        // data, e.g. a second electorate for a given chamber, or a state different from
+        // data, e.g. a state different from
         // the expected state.
         public void AddHouseOfRepsElectorate(string regionToAdd)
         {
@@ -81,7 +78,6 @@ namespace RightToAskClient.Models
 		        new ElectorateWithChamber(ParliamentData.Chamber.Australian_House_Of_Representatives,
 			        regionToAdd)
 	        );
-	        // registrationInfo.Electorates.Add(new ElectorateWithChamber(chamberToAdd, regionToAdd));
         }
 
         // For every state except Tas, the lower house electorate determines the upper house one
@@ -93,13 +89,6 @@ namespace RightToAskClient.Models
 	        {
 		       UpdateElectorate(e); 
 	        }
-	        /*
-	        Result<ParliamentData.Chamber> chamber = ParliamentData.GetLowerHouseChamber(state);
-	        if (chamber.Err.IsNullOrEmpty())
-	        {
-				UpdateElectorate( new ElectorateWithChamber(chamber.Ok, regionToAdd) );
-	        }
-	        */
         }
 
         public void AddStateUpperHouseElectorate(string state, string region)
@@ -120,7 +109,6 @@ namespace RightToAskClient.Models
         public void AddElectoratesFromGeoscapeAddress(GeoscapeAddressFeature addressData)
         {
             AddHouseOfRepsElectorate(addressData.Properties.CommonwealthElectorate.CommElectoralName);
-
             AddStateElectoratesGivenOneRegion(RegistrationInfo.State, addressData.Properties.StateElectorate.StateElectoralName);
         }
 

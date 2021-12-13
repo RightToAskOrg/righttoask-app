@@ -32,19 +32,29 @@ namespace RightToAskClient.Models
                 OnPropertyChanged("TagEntity");
             }
         }
-        
-        public bool Selected 
+
+        public bool Selected
         {
-                    get
-                    {
-                        return selected;
-                    }
-                    set
-                    {
-                        selected = value;
-                        OnPropertyChanged("Selected");
-                    }
-                }
+            get { return selected; }
+            set
+            {
+                selected = value;
+                OnPropertyChanged("Selected");
+            }
+        }
+
+        public void Toggle()
+        {
+            selected = !selected;
+            OnPropertyChanged("Selected");
+        }
+
+        public bool NameContains(string query)
+        {
+            var normalizedQuery = query?.ToLower() ?? "";
+            return tagEntity.GetName().ToLowerInvariant().Contains(normalizedQuery);
+        }
+        
         public override string ToString ()
         {
             return TagEntity.ToString() +"\n" + 

@@ -32,11 +32,13 @@ namespace RightToAskClient.Models
 		 * Note: this assumes that nobody is ever represented in two different regions in the one
 		 * chamber. This is true throughout Aus, but may be untrue elsewhere. Of course, each region
 		 * may have multiple representatives.
+		 * Inserting it at the beginning rather than adding at the end is a bit of a hack to
+		 * put the Senators last (they're computed first).
 		 */
 		public void AddElectorateRemoveDuplicates(ElectorateWithChamber newElectorate)
 		{
 				electorates.RemoveAll(e => e.chamber == newElectorate.chamber);
-				electorates.Add(newElectorate);
+				electorates.Insert(0,newElectorate);
 		}
 
 		public Result<bool> IsValid()

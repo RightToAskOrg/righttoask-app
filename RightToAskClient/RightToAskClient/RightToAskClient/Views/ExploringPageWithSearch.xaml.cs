@@ -13,13 +13,19 @@ namespace RightToAskClient.Views
     {
         private string searchingFor;
 
-        // TODO Actually the best way to to this is to put the things that you selected at the beginning,
-        // with the unselected things (or possibly everything) in the huge long list underneath.  
-        // When the user rearranges or unselects things, don't rearrange them (possibly consider adding them into
-        // the selected list, but maybe not.
-        // Also use the BindingContext properly. I think the setting should be in the base, not here.
 		public ExploringPageWithSearch(ObservableCollection<MP> allEntities, 
 			ObservableCollection<MP> selectedEntities, string? message=null) : base (allEntities, selectedEntities, message)
+        {
+            addSearchBar();
+        }
+
+        public ExploringPageWithSearch(ObservableCollection<Authority> filtersSelectedAuthorities, string message) 
+            : base(filtersSelectedAuthorities, message)
+        {
+            addSearchBar();
+        }
+
+        private void addSearchBar()
         {
             SearchBar authoritySearch = new SearchBar() 
                 { 
@@ -28,13 +34,8 @@ namespace RightToAskClient.Views
                 authoritySearch.TextChanged += OnKeywordChanged<MP>;
                 
             MainLayout.Children.Insert(0, authoritySearch);
+            
         }
-
-        public ExploringPageWithSearch(ObservableCollection<Authority> filtersSelectedAuthorities, string message) 
-            : base(filtersSelectedAuthorities, message)
-        {
-        }
-
 
         private void OnKeywordChanged<T>(object sender, TextChangedEventArgs e) where T : Entity
         {
@@ -46,17 +47,30 @@ namespace RightToAskClient.Views
             }
         }
 
-        // Look up whether anything in the Entity includes the queryString.
-        // This is a little bit of a cludge because it means, for instance,
-        // that if you look for "Nat" you'll get all the Senators.
-        // TODO If this turns out to be problematic, implement something like
-        // NamesToString, which returns only the separated, concatenated
-        // strings that you'll want to search on.
-        // TODO *** Add a Person version, so we can search for other users to tag.
+        // TODO: There should be a much more elegant way of choosing the right
+        // selectable List according to its type. At the moment, this uses whichever one
+        // out of selectableAuthorities or SelectableMPs is not null, which is fine but
+        // has the potential to break if they're not set up right.
         private ObservableCollection<Tag<T>> GetSearchResults<T>(string queryString) where T : Entity
         {
-            var normalizedQuery = queryString?.ToLower() ?? "";
+            if (typeof(T) == typeof(Authority))
+            {
+                if (selectableAuthorities != null)
+                    return new ObservableCollection<Tag<T>>(
+                        (IEnumerable<Tag<T>>)selectableAuthorities.Where<Tag<Authority>>(f => f.NameContains(queryString)));
+            }
 
+            if (typeof(T) == typeof(MP))
+            {
+                
+                if (selectableMPs != null)
+                    return new ObservableCollection<Tag<T>>(
+                        (IEnumerable<Tag<T>>)selectableMPs.Where<Tag<MP>>(f => f.NameContains(queryString)));
+            }
+
+            return new ObservableCollection<Tag<T>>();
+
+            /*
             if (typeof(T) == typeof(Authority))
             {
                 return new ObservableCollection<Tag<T>>(
@@ -70,9 +84,7 @@ namespace RightToAskClient.Views
             }
 
             return new ObservableCollection<Tag<T>>();
-
-
-            // throw new InvalidOperationException("ExploringPageWithSearch initiated with neither Authorities nor MPs");
+            */
         }
 
         private bool matches<T>(string normalizedQuery, Tag<T> entity) where T : Entity
