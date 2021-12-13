@@ -35,14 +35,14 @@ namespace RightToAskClient.Models
 			}
 		}
 
-		public IEnumerable<GroupedMPs> GroupedMPs
+		public IEnumerable<MPGroupedByChamber> GroupedMPs
 		{
 			get
 			{
 				return MyMPs.GroupBy(
                         mp => mp.electorate.chamber,
                         mp => mp,
-                        (chamber, mps) => new GroupedMPs(chamber, mps)
+                        (chamber, mps) => new MPGroupedByChamber(chamber, mps)
                         );
 			}
 		}
@@ -52,7 +52,7 @@ namespace RightToAskClient.Models
 		// inconsistent chambers/electorates.
 		public void UpdateElectorate(ElectorateWithChamber knownElectorate)
 		{
-			registrationInfo.Electorates.Add(knownElectorate);
+			registrationInfo.electorates.Add(knownElectorate);
 			UpdateMPs();
 		}
 		
@@ -65,7 +65,7 @@ namespace RightToAskClient.Models
 			var mps = new List<MP>();
 			List<MP> mpstoadd;
 
-			foreach (var knownElectorate in RegistrationInfo.Electorates)
+			foreach (var knownElectorate in RegistrationInfo.electorates)
 			{
 				mpstoadd = ParliamentData.MPs.GetMPsRepresentingElectorate(knownElectorate);
 				mps.AddRange(mpstoadd);

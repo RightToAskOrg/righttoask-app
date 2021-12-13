@@ -48,6 +48,10 @@
               "target": "Package",
               "version": "[1.9.0, )"
             },
+            "System.Net.Http.Json": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
             "System.Text.Json": {
               "target": "Package",
               "version": "[5.0.1, )"

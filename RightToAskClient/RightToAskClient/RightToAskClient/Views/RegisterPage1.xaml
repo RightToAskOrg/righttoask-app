@@ -13,9 +13,6 @@
 			<Label Text="Display name" />
 			<Entry Text="{Binding Path=display_name}" x:DataType="models:Registration"
 			       Placeholder="Enter display name" />
-			<Label Text="Public Key" />
-			<Entry Text="{Binding Path=public_key}" x:DataType="models:Registration"
-			       Placeholder="Enter key" />
 			<Label Text="State" />
 			<Picker x:Name="stateOrTerritoryPicker" 
 			        Title="{Binding State,  StringFormat='{0:F0}'}" 
@@ -23,7 +20,7 @@
 			        SelectedIndexChanged="OnStatePickerSelectedIndexChanged">
 			</Picker>
 			<Label Text="Electorates:" />
-			<ListView ItemsSource="{Binding Path=Electorates}" ItemTapped="OnElectoratesButtonTapped" x:DataType="models:Registration">
+			<ListView ItemsSource="{Binding Path=electorates}" ItemTapped="OnElectoratesButtonTapped" x:DataType="models:Registration">
 				<ListView.ItemTemplate>
 					<DataTemplate x:DataType="models:ElectorateWithChamber">
 						<ViewCell>

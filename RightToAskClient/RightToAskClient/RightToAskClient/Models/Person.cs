@@ -53,7 +53,7 @@ namespace RightToAskClient.Models
         // TODO this would be a lot easier if electorates was a dictionary instead of a list of pairs
         public string CommonwealthElectorate()
         {
-	        var houseOfRepsElectoratePair = registrationInfo.Electorates.Find(chamberPair =>
+	        var houseOfRepsElectoratePair = registrationInfo.electorates.Find(chamberPair =>
 		        chamberPair.chamber == ParliamentData.Chamber.Australian_House_Of_Representatives);
 	        if (houseOfRepsElectoratePair is null)
 	        {
@@ -65,7 +65,7 @@ namespace RightToAskClient.Models
 
         public string StateLowerHouseElectorate()
         {
-	        var electoratePair = registrationInfo.Electorates.Find(chamberPair =>
+	        var electoratePair = registrationInfo.electorates.Find(chamberPair =>
 		        ParliamentData.IsLowerHouseChamber(chamberPair.chamber));
 	        if (electoratePair is null)
 	        {

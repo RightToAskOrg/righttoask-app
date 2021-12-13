@@ -82,6 +82,10 @@ namespace RightToAskClient.Views
                 readingContext.ThisParticipant.UpdateChambers(state);
             }
         }
+	    
+        // TODO: Obviously this fake public key is only for testing.
+        // We'll correct this when we decide exactly where to store the real
+        // keys.
 		async void OnSaveButtonClicked (object sender, EventArgs e)
 		{
 			var newRegistration = (Registration)BindingContext;

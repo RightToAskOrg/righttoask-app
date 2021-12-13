@@ -32,13 +32,7 @@ namespace RightToAskClient.Models
 
 		public string uid { get; set; }= "";
 
-		private List<ElectorateWithChamber> electorates = new List<ElectorateWithChamber>();
-
-		public List<ElectorateWithChamber> Electorates
-		{
-			get => electorates; 
-			set => electorates = value;
-		} 
+		public List<ElectorateWithChamber> electorates { get; set; } = new List<ElectorateWithChamber>();
 
 		public Result<bool> IsValid()
 		{

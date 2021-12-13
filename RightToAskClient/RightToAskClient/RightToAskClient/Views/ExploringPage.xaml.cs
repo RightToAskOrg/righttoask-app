@@ -76,7 +76,7 @@ namespace RightToAskClient.Views
 
 		/* This constructor is called only when the inputs are MPs.
 		 */
-		public ExploringPage(IEnumerable<GroupedMPs> groupedMPs, ObservableCollection<MP> selectedEntities, string message)
+		public ExploringPage(IEnumerable<MPGroupedByChamber> groupedMPs, ObservableCollection<MP> selectedEntities, string message)
 		{
 			InitializeComponent();
 			
@@ -86,7 +86,7 @@ namespace RightToAskClient.Views
 			AuthorityListView.IsGroupingEnabled = true;
 
 			List<TaggedGroupedMPs> groupedMPsWithTags = new List<TaggedGroupedMPs>();
-			foreach(GroupedMPs group in groupedMPs)
+			foreach(MPGroupedByChamber group in groupedMPs)
 			{
 				groupedMPsWithTags.Add(new TaggedGroupedMPs(
 					group.Chamber,
