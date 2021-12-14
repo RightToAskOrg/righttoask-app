@@ -23,41 +23,33 @@ namespace RightToAskClient.Views
 	 */
 	public partial class ExploringPage : ContentPage
 	{
-		private List<(ObservableCollection<Entity> someEntities, ObservableCollection<Entity> selectedOnes , string heading)> entitiesList;
-		// I would like to be able to use the type system to avoid this doubling-up, but 
-		// I can't figure out how to do it. The roles of these three pairs are almost the
-		// same regardless of their type: all entities is the complete available list;
-		// selectableEntities are the same, wrapped in a Tag so they can be selected;
-		// selected Entities are the ones selected initially. 
-		private ObservableCollection<Authority> allTheAuthorities;
-		// private ObservableCollection<MP> allTheMPs;
 		protected readonly ObservableCollection<Entity> allEntities;
 		protected readonly ObservableCollection<Tag<Entity>> selectableEntities;
-		protected ObservableCollection<Tag<Authority>>? selectableAuthorities;
-		protected ObservableCollection<Tag<MP>>? selectableMPs;
-		protected ObservableCollection<Authority>? selectedAuthorities;
-		protected ObservableCollection<MP>? selectedMPs;
+		
+		// TODO: I would like to be able to use the type system to avoid this doubling-up, but 
+		// I can't figure out how to do it. The roles of these three selected-lists are almost the
+		// same regardless of their type (Authority, MP or Person), but they need to be
+		// separate lists, and the code needs to know which one it's got, because we insert 
+		// into them and I can't figure out how to do that elegantly in a consistently generic way.
+		// It only matters for editing the selected elements at return time  - see OnDoneButton_Clicked (*)
+		// below - if we could return a 
+		// generic from this class, it would work easily, but I don't think we can.
+		protected ObservableCollection<Authority> selectedAuthorities = new ObservableCollection<Authority>();
+		protected ObservableCollection<MP> selectedMPs = new ObservableCollection<MP>();
+		protected ObservableCollection<Person> selectedPeople = new ObservableCollection<Person>();
 		protected Type typeOfEntities;
 
-		/* This constructor is called only when the Entities are MPs.
-		 * TODO: check. Also it's possible we won't need it at all if we organise all the MPs.
-		 */
-		
 		public ExploringPage(ObservableCollection<MP> allEntities, 
 			ObservableCollection<MP> selectedEntities, string? message=null)
 		{
 			InitializeComponent();
-
-			this.allEntities = new ObservableCollection<Entity>(allEntities);
 			
+			typeOfEntities = typeof(MP);
 			selectedMPs = selectedEntities;
-			// selectableMPs = wrapInTags<MP>(this.allEntities, selectedEntities);
+			this.allEntities = new ObservableCollection<Entity>(allEntities);
 			selectableEntities = wrapInTags<MP>(this.allEntities, selectedEntities);
 			
-			IntroText.Text = message ?? "";
-			AuthorityListView.BindingContext = selectableEntities;
-			AuthorityListView.ItemsSource = selectableEntities;
-			typeOfEntities = typeof(MP);
+			SetUpSelectableEntitiesAndIntroText(message);
 		}
 		 
 		/* This constructor is only used for Authorities, and hence assumed that the list to be selected from
@@ -67,16 +59,19 @@ namespace RightToAskClient.Views
 		{
 			InitializeComponent();
 
-			this.allEntities = new ObservableCollection<Entity>(ParliamentData.AllAuthorities);
-			// allEntities = ParliamentData.AllAuthorities;
+			typeOfEntities = typeof(Authority);
 			selectedAuthorities = selectedEntities;
-			// selectableAuthorities = wrapInTags<Authority>(ParliamentData.AllAuthorities, selectedEntities);
+			allEntities = new ObservableCollection<Entity>(ParliamentData.AllAuthorities);
 			selectableEntities = wrapInTags<Authority>(allEntities, selectedEntities);
-			
+
+			SetUpSelectableEntitiesAndIntroText(message);	
+		}
+
+		private void SetUpSelectableEntitiesAndIntroText(string message)
+		{
 			IntroText.Text = message ?? "";
 			AuthorityListView.BindingContext = selectableEntities;
 			AuthorityListView.ItemsSource = selectableEntities;
-			typeOfEntities = typeof(Authority);
 		}
 
 		public ExploringPage(IEnumerable<IGrouping<ParliamentData.Chamber, MP>> groupedMPs, ObservableCollection<MP> selectedMPs, string message)
@@ -116,7 +111,7 @@ namespace RightToAskClient.Views
 			public string Chamber { get; }
 		}
 
-		private void Authority_Selected(object sender, ItemTappedEventArgs e)
+		private void OnEntity_Selected(object sender, ItemTappedEventArgs e)
 		{
 			((Tag<Entity>) e.Item).Toggle();
 		}
@@ -125,8 +120,9 @@ namespace RightToAskClient.Views
 		// 'done', i.e. whether 'back' should undo.
 		// Also consider whether this should raise a warning if neither of the types match.
 		// 
-		// The code here is inelegant, because it really does need to know the type of the  '
+		// TODO: (*) The code here is inelegant, because it really does need to know the type of the  '
 		// list it's updating. Can't really see a way round that unfortunately.
+		// Possibly some dynamic type lookup?
 		async void DoneButton_OnClicked(object sender, EventArgs e)
 		{
 			if (typeOfEntities == typeof(MP))
@@ -138,11 +134,15 @@ namespace RightToAskClient.Views
 			{
 				UpdateSelectedList<Authority>(selectableEntities, selectedAuthorities);
 			}
+			
+			if (typeOfEntities == typeof(Person))
+			{
+				UpdateSelectedList<Person>(selectableEntities, selectedPeople);
+			}
 
 			await Navigation.PopAsync();
 		}
 
-		// TODO*** This will need to be careful about which lists it is.
 		private void UpdateSelectedList<T>(ObservableCollection<Tag<Entity>> selectableEntities, ObservableCollection<T> selectedEntities) where T:Entity
 		{
 			var toBeIncluded = selectableEntities.Where(w => w.Selected).Select(t => t.TagEntity);	
