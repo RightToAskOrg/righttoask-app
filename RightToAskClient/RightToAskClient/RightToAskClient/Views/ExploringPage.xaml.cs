@@ -31,6 +31,8 @@ namespace RightToAskClient.Views
 		// selected Entities are the ones selected initially. 
 		private ObservableCollection<Authority> allTheAuthorities;
 		// private ObservableCollection<MP> allTheMPs;
+		protected readonly ObservableCollection<Entity> allEntities;
+		protected readonly ObservableCollection<Tag<Entity>> selectableEntities;
 		protected ObservableCollection<Tag<Authority>>? selectableAuthorities;
 		protected ObservableCollection<Tag<MP>>? selectableMPs;
 		protected ObservableCollection<Authority>? selectedAuthorities;
@@ -46,13 +48,15 @@ namespace RightToAskClient.Views
 		{
 			InitializeComponent();
 
+			this.allEntities = new ObservableCollection<Entity>(allEntities);
+			
 			selectedMPs = selectedEntities;
-				
-			selectableMPs = wrapInTags<MP>(allEntities, selectedEntities);
+			// selectableMPs = wrapInTags<MP>(this.allEntities, selectedEntities);
+			selectableEntities = wrapInTags<MP>(this.allEntities, selectedEntities);
 			
 			IntroText.Text = message ?? "";
-			AuthorityListView.BindingContext = selectableMPs;
-			AuthorityListView.ItemsSource = selectableMPs;
+			AuthorityListView.BindingContext = selectableEntities;
+			AuthorityListView.ItemsSource = selectableEntities;
 			typeOfEntities = typeof(MP);
 		}
 		 
@@ -63,14 +67,15 @@ namespace RightToAskClient.Views
 		{
 			InitializeComponent();
 
-
+			this.allEntities = new ObservableCollection<Entity>(ParliamentData.AllAuthorities);
 			// allEntities = ParliamentData.AllAuthorities;
 			selectedAuthorities = selectedEntities;
-			selectableAuthorities = wrapInTags<Authority>(ParliamentData.AllAuthorities, selectedEntities);
+			// selectableAuthorities = wrapInTags<Authority>(ParliamentData.AllAuthorities, selectedEntities);
+			selectableEntities = wrapInTags<Authority>(allEntities, selectedEntities);
 			
 			IntroText.Text = message ?? "";
-			AuthorityListView.BindingContext = selectableAuthorities;
-			AuthorityListView.ItemsSource = selectableAuthorities;
+			AuthorityListView.BindingContext = selectableEntities;
+			AuthorityListView.ItemsSource = selectableEntities;
 			typeOfEntities = typeof(Authority);
 		}
 
@@ -83,12 +88,12 @@ namespace RightToAskClient.Views
 			
 			AuthorityListView.IsGroupingEnabled = true;
 
-			List<TaggedGroupedMPs> groupedMPsWithTags = new List<TaggedGroupedMPs>();
+			List<TaggedGroupedEntities> groupedMPsWithTags = new List<TaggedGroupedEntities>();
 			foreach(IGrouping<ParliamentData.Chamber, MP> group in groupedMPs)
 			{
-				groupedMPsWithTags.Add(new TaggedGroupedMPs(
+				groupedMPsWithTags.Add(new TaggedGroupedEntities(
 					group.Key,
-					wrapInTags<MP>(new ObservableCollection<MP>(group), selectedMPs)
+					wrapInTags<MP>(new ObservableCollection<Entity>(group), selectedMPs)
 				));
 			}
 			AuthorityListView.BindingContext = groupedMPsWithTags;
@@ -96,13 +101,14 @@ namespace RightToAskClient.Views
 			AuthorityListView.ItemsSource = groupedMPsWithTags;
 			
 			// Flat list for the purposes of updating/saving
-			selectableMPs 
-				= new ObservableCollection<Tag<MP>>(groupedMPsWithTags.SelectMany(x => x).ToList());
+			//selectableMPs 
+			//	= new ObservableCollection<Tag<MP>>(groupedMPsWithTags.SelectMany(x => x).ToList());
+			selectableEntities	= new ObservableCollection<Tag<Entity>>(groupedMPsWithTags.SelectMany(x => x).ToList());
 		}
 
-		private class TaggedGroupedMPs : ObservableCollection<Tag<MP>>
+		private class TaggedGroupedEntities : ObservableCollection<Tag<Entity>>
 		{
-			public TaggedGroupedMPs(ParliamentData.Chamber chamber, ObservableCollection<Tag<MP>> mpGroup) : base(mpGroup)
+			public TaggedGroupedEntities(ParliamentData.Chamber chamber, ObservableCollection<Tag<Entity>> entityGroup) : base(entityGroup)
 			{
 				Chamber = chamber.ToString();
 			}
@@ -110,7 +116,6 @@ namespace RightToAskClient.Views
 			public string Chamber { get; }
 		}
 
-		// TODO: Check whether this deals properly with derived classes of Entity 
 		private void Authority_Selected(object sender, ItemTappedEventArgs e)
 		{
 			((Tag<Entity>) e.Item).Toggle();
@@ -119,23 +124,26 @@ namespace RightToAskClient.Views
 		// TODO Consider whether the semantics of 'back' should be different from
 		// 'done', i.e. whether 'back' should undo.
 		// Also consider whether this should raise a warning if neither of the types match.
+		// 
+		// The code here is inelegant, because it really does need to know the type of the  '
+		// list it's updating. Can't really see a way round that unfortunately.
 		async void DoneButton_OnClicked(object sender, EventArgs e)
 		{
 			if (typeOfEntities == typeof(MP))
 			{
-				UpdateSelectedList<MP>(selectableMPs, selectedMPs);
+				UpdateSelectedList<MP>(selectableEntities, selectedMPs);
 			}
 
 			if (typeOfEntities == typeof(Authority))
 			{
-				UpdateSelectedList<Authority>(selectableAuthorities, selectedAuthorities);
+				UpdateSelectedList<Authority>(selectableEntities, selectedAuthorities);
 			}
 
 			await Navigation.PopAsync();
 		}
 
 		// TODO*** This will need to be careful about which lists it is.
-		private void UpdateSelectedList<T>(ObservableCollection<Tag<T>> selectableEntities, ObservableCollection<T> selectedEntities) where T:Entity
+		private void UpdateSelectedList<T>(ObservableCollection<Tag<Entity>> selectableEntities, ObservableCollection<T> selectedEntities) where T:Entity
 		{
 			var toBeIncluded = selectableEntities.Where(w => w.Selected).Select(t => t.TagEntity);	
 			foreach (T selectedEntity in toBeIncluded)
@@ -153,16 +161,11 @@ namespace RightToAskClient.Views
 			}
 		}
 		
-		protected ObservableCollection<Tag<T>> wrapInTags<T>(ObservableCollection<T>
+		protected ObservableCollection<Tag<Entity>> wrapInTags<T>(ObservableCollection<Entity>
 			entities, ObservableCollection<T> selectedEntities) where T : Entity
 		{
-			return new ObservableCollection<Tag<T>>(entities.Select
-				(authority => new Tag<T>
-					{
-						TagEntity = authority,
-						Selected =  selectedEntities.Contains(authority)
-					}
-				)
+			return new ObservableCollection<Tag<Entity>>(entities.Select
+				(a => a.WrapInTag(selectedEntities.Contains(a)))
 			);
 		}
 	}

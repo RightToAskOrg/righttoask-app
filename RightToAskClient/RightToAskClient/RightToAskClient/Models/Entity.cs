@@ -12,6 +12,14 @@ namespace RightToAskClient.Models
     public abstract class Entity : INotifyPropertyChanged
     {
         public abstract string GetName();
+        public Tag<Entity> WrapInTag(bool selected = false)
+        {
+            return new Tag<Entity>
+            {
+                TagEntity = this,
+                Selected = selected
+            };
+        }
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void OnPropertyChanged([CallerMemberName] string propertyName = "")

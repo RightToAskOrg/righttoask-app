@@ -9,19 +9,23 @@ namespace RightToAskClient.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ExploringPageWithSearchAndPreSelections  : RightToAskClient.Views.ExploringPageWithSearch 
     {
+        /*
         public ExploringPageWithSearchAndPreSelections(ObservableCollection<MP> allEntities, 
             ObservableCollection<MP> selectedEntities, string? message=null) : base (allEntities, selectedEntities, message)
         {
             var selectionsListView = setUpPage();
-            selectionsListView.ItemsSource = wrapInTags<MP>(selectedMPs, selectedMPs);
+            var alreadySelectedEntities = new ObservableCollection<Entity>(selectedMPs);
+            selectionsListView.ItemsSource = wrapInTags<MP>(alreadySelectedEntities, selectedMPs);
         }
+        */
 
         public ExploringPageWithSearchAndPreSelections(ObservableCollection<Authority> filtersSelectedAuthorities,
             string message)
             : base(filtersSelectedAuthorities, message)
         {
             var selectionsListView = setUpPage();
-            selectionsListView.ItemsSource = wrapInTags<Authority>(selectedAuthorities, selectedAuthorities);
+            var alreadySelectedEntities = new ObservableCollection<Entity>(selectedAuthorities);
+            selectionsListView.ItemsSource = wrapInTags<Authority>(alreadySelectedEntities, selectedAuthorities);
             
         }
 

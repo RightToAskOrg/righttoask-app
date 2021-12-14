@@ -56,7 +56,8 @@ namespace RightToAskClient.Models
         {
             return String.IsNullOrEmpty(NickName) ? "" : " (" + NickName + ")";
         }
-        
+
+
         public override string GetName()
         {
             return authorityName + NickNameIfPresent();

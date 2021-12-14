@@ -58,13 +58,18 @@ namespace RightToAskClient.Views
             }
             else
             {
+                redoButtonsForUnreadableMPData();
+            }
+
+            NavigateForwardButton.IsVisible = true;
+        }
+
+        private void redoButtonsForUnreadableMPData()
+        {
                 myMPShouldRaiseItButton.IsEnabled = false;
                 anotherMPShouldRaiseItButton.IsEnabled = false;
                 reportLabel.IsVisible = true;
                 reportLabel.Text = ParliamentData.MPs.ErrorMessage;
-            }
-
-            NavigateForwardButton.IsVisible = true;
         }
 
         private async void launchMPFindingAndSelectingPages(ExploringPage mpsExploringPage)
@@ -90,53 +95,20 @@ namespace RightToAskClient.Views
         {
             ((Button) sender).Text = $"Not implemented yet";	
             NavigateForwardButton.IsVisible = true;
-            /*
-			// var httpResponse = await App.RegItemManager.GetUsersAsync();
-            var httpResponse = await RTAClient.GetUserList(); 
-            
-			if (String.IsNullOrEmpty(httpResponse.Err))
-            {
-                var selectedUsers = new ObservableCollection<string>(httpResponse.Ok);
-				// listView.ItemsSource = httpResponse.Ok;
-                
-                var selectableUsers =
-                    new ObservableCollection<Entity>(httpResponse.Ok.Select
-                        (userName => new Authority() 
-                            {
-                                AuthorityName = userName, 
-                            }
-                        )
-                    );
-                
-			ExploringPageWithSearch usersPage 
-				= new ExploringPageWithSearch(selectableUsers, readingContext.Filters.SelectedAskingUsers, "Here is the complete list of MPs");
-            await Navigation.PushAsync(usersPage);
-            }
-            else
-            {
-                reportLabel.Text = "Error reaching server: " + httpResponse.Err;
-            }
-
-            NavigateForwardButton.IsVisible = true;
-            */
         }
         private async void OnOtherMPRaiseButtonClicked(object sender, EventArgs e)
         {
             string message = "Here is the complete list of MPs";
             if (ParliamentData.MPs.IsInitialised)
 			{
-				var mpsExploringPage = new ExploringPage(ParliamentData.MPs.AllMPs,
+				var mpsExploringPage = new ExploringPageWithSearch(ParliamentData.MPs.AllMPs,
 					readingContext.Filters.SelectedAskingMPs, message);
 
-                var nextPage = await SecondPage.ListMPsFindFirstIfNotAlreadyKnown(readingContext, mpsExploringPage, readingContext.Filters.SelectedAskingMPs);
-                await Navigation.PushAsync(nextPage);
+                await Navigation.PushAsync(mpsExploringPage);
             }
             else
             {
-                myMPShouldRaiseItButton.IsEnabled = false;
-                anotherMPShouldRaiseItButton.IsEnabled = false;
-                reportLabel.IsVisible = true;
-                reportLabel.Text = ParliamentData.MPs.ErrorMessage;
+                redoButtonsForUnreadableMPData();
             }
             
             NavigateForwardButton.IsVisible = true;

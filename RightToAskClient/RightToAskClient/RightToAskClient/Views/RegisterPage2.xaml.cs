@@ -62,9 +62,9 @@ namespace RightToAskClient.Views
             }
             
             stateOrTerritoryPicker.ItemsSource = ParliamentData.StatesAndTerritories;
-            stateOrTerritoryPicker.Title = $"Choose State or Territory {thisParticipant.RegistrationInfo.State}";
-            // TODO Possibly it's cleaner just to set the binding context like this:
-            // stateOrTerritoryPicker.BindingContext = thisParticipant.RegistrationInfo.State;
+            string state = thisParticipant.RegistrationInfo.State;
+            stateOrTerritoryPicker.Title = String.IsNullOrEmpty(state) ? "Choose State or Territory" : state;
+            stateOrTerritoryPicker.BindingContext = thisParticipant.RegistrationInfo.State;
         }
         
         void OnStatePickerSelectedIndexChanged(object sender, EventArgs e)
