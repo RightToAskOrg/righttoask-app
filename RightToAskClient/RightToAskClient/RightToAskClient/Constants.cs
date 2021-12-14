@@ -26,6 +26,7 @@ namespace RightToAskClient
         public static string MPListUrl= DeviceInfo.Platform == DevicePlatform.Android ? "http://10.0.2.2:8099/MPs.json" : "http://localhost:8099/MPs.json";
         public static string UserListUrl = DeviceInfo.Platform == DevicePlatform.Android ? "http://10.0.2.2:8099/get_user_list" : "http://localhost:8099/get_user_list";
         public static string GeoscapeAPIUrl = "https://api.psma.com.au/beta/v2/addresses/geocoder";
+        public static string StoredMPDataFile = "MPs.json";
 
         public static string FakePublicKey = "123";
 

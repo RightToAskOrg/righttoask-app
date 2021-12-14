@@ -43,6 +43,9 @@
     <Compile Remove="Models\PublicAuthority.cs" />
     <Compile Remove="Models\MPsInChamber.cs" />
     <Compile Remove="Models\MPGroupedByChamber.cs" />
+    <Compile Remove="HttpClients\TodoItemDatabase.cs" />
+    <Compile Remove="HttpClients\IRestService.cs" />
+    <Compile Remove="HttpClients\ItemManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Views\SecondPage_old.xaml" />
