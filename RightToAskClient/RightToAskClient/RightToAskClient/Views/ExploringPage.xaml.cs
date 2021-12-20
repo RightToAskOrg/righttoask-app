@@ -48,7 +48,7 @@ namespace RightToAskClient.Views
 			selectedMPs = selectedEntities;
 			this.allEntities = new ObservableCollection<Entity>(allEntities);
 			selectableEntities = wrapInTags<MP>(this.allEntities, selectedEntities);
-			SaveButton.Clicked += DoneMPsButton_OnClicked;
+			DoneButton.Clicked += DoneMPsButton_OnClicked;
 			
 			SetUpSelectableEntitiesAndIntroText(message);
 		}
@@ -64,7 +64,7 @@ namespace RightToAskClient.Views
 			selectedAuthorities = selectedEntities;
 			allEntities = new ObservableCollection<Entity>(ParliamentData.AllAuthorities);
 			selectableEntities = wrapInTags<Authority>(allEntities, selectedEntities);
-			SaveButton.Clicked += DoneAuthoritiesButton_OnClicked;
+			DoneButton.Clicked += DoneAuthoritiesButton_OnClicked;
 
 			SetUpSelectableEntitiesAndIntroText(message);	
 		}
@@ -75,7 +75,7 @@ namespace RightToAskClient.Views
 			
 			IntroText.Text = message;
 			this.selectedMPs = selectedMPs;
-			SaveButton.Clicked += DoneMPsButton_OnClicked;
+			DoneButton.Clicked += DoneMPsButton_OnClicked;
 			
 			AuthorityListView.IsGroupingEnabled = true;
 

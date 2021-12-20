@@ -11,7 +11,7 @@
 				</ListView>
 			</ScrollView>	
 			<!-- <Button x:Name="SaveButton" StyleClass="SaveButton" Clicked="DoneButton_OnClicked" /> -->
-			<Button x:Name="SaveButton" StyleClass="SaveButton" /> 
+			<Button x:Name="DoneButton" StyleClass="SaveButton" /> 
 		</StackLayout>
     </ContentPage.Content>
 </ContentPage>
