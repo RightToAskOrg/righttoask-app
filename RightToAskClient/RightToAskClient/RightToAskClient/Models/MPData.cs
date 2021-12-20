@@ -81,7 +81,15 @@ namespace RightToAskClient.Models
 
 		private Result<bool> TryInitialisingFromStoredData()
 		{
-			return readDataFromStoredJSON(Constants.StoredMPDataFile, serializerOptions);
+			var success = FileIO.readDataFromStoredJSON<List<MP>>(Constants.StoredMPDataFile, serializerOptions);
+			if (!String.IsNullOrEmpty(success.Err))
+			{
+				return new Result<bool>() { Err = success.Err };
+			}
+			
+			allMPs = success.Ok;
+			isInitialised = true;
+			return new Result<bool>() { Ok = true };
 		}
 
 
@@ -125,52 +133,6 @@ namespace RightToAskClient.Models
 				.Select(mp => new ElectorateWithChamber(chamber, mp.electorate.region)));
 		}
 		
-		// TODO: Refactor better into an I/O utils file.
-		private Result<bool> readDataFromStoredJSON(string filename, JsonSerializerOptions jsonSerializerOptions)
-		{
-			List<MP>? MPList;
-			
-			try
-			{
-				var assembly = IntrospectionExtensions.GetTypeInfo(typeof(ReadingContext)).Assembly;
-				Stream stream = assembly.GetManifestResourceStream("RightToAskClient.Resources." + filename);
-				using (var sr = new StreamReader(stream))
-				{
-					string? MPs = sr.ReadToEnd();
-					MPList = JsonSerializer.Deserialize<List<MP>>(MPs, serializerOptions);
-				}
-			}
-			catch (IOException e)
-			{
-				Console.WriteLine("File could not be read: " + filename);
-				Console.WriteLine(e.Message);
-				return new Result<bool>() { Err = e.Message };
-			}
-			catch (JsonException e)
-			{
-				Console.WriteLine("JSON could not be deserialised: " + filename);
-				Console.WriteLine(e.Message);
-				return new Result<bool>() { Err = e.Message };
-			}
-			catch (Exception e)
-			{
-				Console.WriteLine("Error: " + filename);
-				Console.WriteLine(e.Message);
-				return new Result<bool>() { Err = e.Message };
-			}
-
-			if (MPList is null)
-			{
-				string error = "Error: Could not deserialize MP List";
-				Console.WriteLine(error);
-				return new Result<bool>() { Err = error};
-			}
-
-			allMPs = MPList;
-			isInitialised = true;
-			return new Result<bool>() { Ok = true };
-			
-		}
 		
 	}
 }

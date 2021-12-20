@@ -25,22 +25,5 @@ namespace RightToAskClient.Data
 
             return (false, "Server connection error" + response.Err);
         }
-
-        /*
-        public static (bool isValid, string message) validateHttpGetResponse<T>(Result<T> response, string messageTopic)
-        {
-            if (String.IsNullOrEmpty(response.Err))
-            {
-                if (response.Ok)
-                {
-                    return (true, messageTopic + ": Success.");
-                }
-
-                return (false, messageTopic + ": Failure.");
-            }
-            
-            return (false, "Server connection error" + response.Err);
-        }
-        */
     }
 }

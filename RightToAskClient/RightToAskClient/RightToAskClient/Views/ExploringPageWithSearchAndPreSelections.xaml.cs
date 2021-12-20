@@ -9,16 +9,6 @@ namespace RightToAskClient.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ExploringPageWithSearchAndPreSelections  : RightToAskClient.Views.ExploringPageWithSearch 
     {
-        /*
-        public ExploringPageWithSearchAndPreSelections(ObservableCollection<MP> allEntities, 
-            ObservableCollection<MP> selectedEntities, string? message=null) : base (allEntities, selectedEntities, message)
-        {
-            var selectionsListView = setUpPage();
-            var alreadySelectedEntities = new ObservableCollection<Entity>(selectedMPs);
-            selectionsListView.ItemsSource = wrapInTags<MP>(alreadySelectedEntities, selectedMPs);
-        }
-        */
-
         public ExploringPageWithSearchAndPreSelections(ObservableCollection<Authority> filtersSelectedAuthorities,
             string message)
             : base(filtersSelectedAuthorities, message)
@@ -26,7 +16,6 @@ namespace RightToAskClient.Views
             var selectionsListView = setUpPage();
             var alreadySelectedEntities = new ObservableCollection<Entity>(selectedAuthorities);
             selectionsListView.ItemsSource = wrapInTags<Authority>(alreadySelectedEntities, selectedAuthorities);
-            
         }
 
         // Sets up the page, mostly by inserting a list for selected items at the beginning.

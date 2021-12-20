@@ -27,26 +27,9 @@ namespace RightToAskClient
         public static string UserListUrl = DeviceInfo.Platform == DevicePlatform.Android ? "http://10.0.2.2:8099/get_user_list" : "http://localhost:8099/get_user_list";
         public static string GeoscapeAPIUrl = "https://api.psma.com.au/beta/v2/addresses/geocoder";
         public static string StoredMPDataFile = "MPs.json";
+		public static string aPIKeyFileName = "GeoscapeAPIKey";
 
         public static string FakePublicKey = "123";
 
-        public const string DatabaseFilename = "TodoSQLite.db3";
-
-        public const SQLite.SQLiteOpenFlags Flags =
-            // open the database in read/write mode
-            SQLite.SQLiteOpenFlags.ReadWrite |
-            // create the database if it doesn't exist
-            SQLite.SQLiteOpenFlags.Create |
-            // enable multi-threaded database access
-            SQLite.SQLiteOpenFlags.SharedCache;
-
-        public static string DatabasePath
-        {
-            get
-            {
-                var basePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-                return Path.Combine(basePath, DatabaseFilename);
-            }
-        } 
     }
 }

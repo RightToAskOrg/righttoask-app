@@ -48,6 +48,7 @@ namespace RightToAskClient.Views
 			selectedMPs = selectedEntities;
 			this.allEntities = new ObservableCollection<Entity>(allEntities);
 			selectableEntities = wrapInTags<MP>(this.allEntities, selectedEntities);
+			SaveButton.Clicked += DoneMPsButton_OnClicked;
 			
 			SetUpSelectableEntitiesAndIntroText(message);
 		}
@@ -63,15 +64,9 @@ namespace RightToAskClient.Views
 			selectedAuthorities = selectedEntities;
 			allEntities = new ObservableCollection<Entity>(ParliamentData.AllAuthorities);
 			selectableEntities = wrapInTags<Authority>(allEntities, selectedEntities);
+			SaveButton.Clicked += DoneAuthoritiesButton_OnClicked;
 
 			SetUpSelectableEntitiesAndIntroText(message);	
-		}
-
-		private void SetUpSelectableEntitiesAndIntroText(string message)
-		{
-			IntroText.Text = message ?? "";
-			AuthorityListView.BindingContext = selectableEntities;
-			AuthorityListView.ItemsSource = selectableEntities;
 		}
 
 		public ExploringPage(IEnumerable<IGrouping<ParliamentData.Chamber, MP>> groupedMPs, ObservableCollection<MP> selectedMPs, string message)
@@ -80,6 +75,7 @@ namespace RightToAskClient.Views
 			
 			IntroText.Text = message;
 			this.selectedMPs = selectedMPs;
+			SaveButton.Clicked += DoneMPsButton_OnClicked;
 			
 			AuthorityListView.IsGroupingEnabled = true;
 
@@ -101,6 +97,12 @@ namespace RightToAskClient.Views
 			selectableEntities	= new ObservableCollection<Tag<Entity>>(groupedMPsWithTags.SelectMany(x => x).ToList());
 		}
 
+		private void SetUpSelectableEntitiesAndIntroText(string message)
+		{
+			IntroText.Text = message ?? "";
+			AuthorityListView.BindingContext = selectableEntities;
+			AuthorityListView.ItemsSource = selectableEntities;
+		}
 		private class TaggedGroupedEntities : ObservableCollection<Tag<Entity>>
 		{
 			public TaggedGroupedEntities(ParliamentData.Chamber chamber, ObservableCollection<Tag<Entity>> entityGroup) : base(entityGroup)
@@ -123,23 +125,21 @@ namespace RightToAskClient.Views
 		// TODO: (*) The code here is inelegant, because it really does need to know the type of the  '
 		// list it's updating. Can't really see a way round that unfortunately.
 		// Possibly some dynamic type lookup?
-		async void DoneButton_OnClicked(object sender, EventArgs e)
+		async void DoneMPsButton_OnClicked(object sender, EventArgs e)
 		{
-			if (typeOfEntities == typeof(MP))
-			{
-				UpdateSelectedList<MP>(selectableEntities, selectedMPs);
-			}
-
-			if (typeOfEntities == typeof(Authority))
-			{
-				UpdateSelectedList<Authority>(selectableEntities, selectedAuthorities);
-			}
+			UpdateSelectedList<MP>(selectableEntities, selectedMPs);
+			await Navigation.PopAsync();
+		}
+		
+		async void DoneAuthoritiesButton_OnClicked(object sender, EventArgs e)
+		{
+			UpdateSelectedList<Authority>(selectableEntities, selectedAuthorities);
+			await Navigation.PopAsync();
+		}
 			
-			if (typeOfEntities == typeof(Person))
-			{
-				UpdateSelectedList<Person>(selectableEntities, selectedPeople);
-			}
-
+		async void DonePeopleButton_OnClicked(object sender, EventArgs e)
+		{
+			UpdateSelectedList<Person>(selectableEntities, selectedPeople);
 			await Navigation.PopAsync();
 		}
 

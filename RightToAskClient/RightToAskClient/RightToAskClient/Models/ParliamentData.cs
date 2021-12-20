@@ -156,46 +156,17 @@ namespace RightToAskClient.Models
 		private static List<MP> readMPsFromCSV(Chamber chamber, string filename)
 		{
 			var MPs = new List<MP>();
-			readDataFromCSV(filename, MPs, (string line) =>  parseCSVLineAsMP(chamber,line) );
+			FileIO.readDataFromCSV(filename, MPs, (string line) =>  parseCSVLineAsMP(chamber,line) );
 			return MPs;
 		}
 		
        private static List<Authority> readAuthoritiesFromFiles()
        {
 		    var AllAuthorities = new List<Authority>();
-		    readDataFromCSV("all-authorities.csv",AllAuthorities,parseCSVLineAsAuthority);
+		    FileIO.readDataFromCSV("all-authorities.csv",AllAuthorities,parseCSVLineAsAuthority);
 		    return AllAuthorities;
        }
         
-		private static void readDataFromCSV<T>(string filename, List<T> MPCollection, Func<string,T> parseLine)
-		{
-			string line;
-
-			try
-			{
-				T MPToAdd;
-				var assembly = IntrospectionExtensions.GetTypeInfo(typeof(ReadingContext)).Assembly;
-				Stream stream = assembly.GetManifestResourceStream("RightToAskClient.Resources." + filename);
-				using (var sr = new StreamReader(stream))
-				{
-					// Read the first line, which just has headings we can ignore.
-					sr.ReadLine();
-					while ((line = sr.ReadLine()) != null)
-					{
-						MPToAdd = parseLine(line);
-						if (MPToAdd != null)
-						{
-							MPCollection.Add(MPToAdd);
-						}
-					}
-				}
-			}
-			catch (IOException e)
-			{
-				Console.WriteLine("MP file could not be read: " + filename);
-				Console.WriteLine(e.Message);
-			}
-		}
 		
 		private static MP parseCSVLineAsMP(Chamber chamberExpected, string line)
 		{
@@ -206,13 +177,9 @@ namespace RightToAskClient.Models
 						
 					var first_name = words[2]; 
 					var surname = words[1];
-					
-				MP newMP = new MP(first_name, surname, electorate)
-				{
-					// Salutation = (words[0] == "Senator" ? "Senator" : "Member"),
-					// ElectorateRepresenting = words[3],
-				};
-				return newMP;
+
+					MP newMP = new MP(first_name, surname, electorate);
+					return newMP;
 			}
 			
 			return null;

@@ -10,7 +10,8 @@
 					ItemTemplate="{StaticResource SelectableDataTemplate }">
 				</ListView>
 			</ScrollView>	
-			<Button StyleClass="SaveButton" Clicked="DoneButton_OnClicked" />
+			<!-- <Button x:Name="SaveButton" StyleClass="SaveButton" Clicked="DoneButton_OnClicked" /> -->
+			<Button x:Name="SaveButton" StyleClass="SaveButton" /> 
 		</StackLayout>
     </ContentPage.Content>
 </ContentPage>
