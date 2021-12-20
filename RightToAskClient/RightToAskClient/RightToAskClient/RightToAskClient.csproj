@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <Langversion>8.0</Langversion>
     <Nullable>enable</Nullable>
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
@@ -46,6 +46,7 @@
     <Compile Remove="HttpClients\TodoItemDatabase.cs" />
     <Compile Remove="HttpClients\IRestService.cs" />
     <Compile Remove="HttpClients\ItemManager.cs" />
+    <Compile Remove="Views\TodoItemPage.xaml.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Views\SecondPage_old.xaml" />
@@ -67,5 +68,6 @@
     <EmbeddedResource Include="Resources\GeoscapeAPIKey" />
     <None Remove="Resources\MPs.json" />
     <EmbeddedResource Include="Resources\MPs.json" />
+    <EmbeddedResource Remove="Views\TodoItemPage.xaml" />
   </ItemGroup>
 </Project>

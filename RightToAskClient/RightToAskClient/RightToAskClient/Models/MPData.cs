@@ -51,7 +51,6 @@ namespace RightToAskClient.Models
 		}
 		
 		// Returns true if initialisation is successful, i.e. no errors.
-		// TODO Update this to use stored data if the server is unavailable
 		// or there are no changes since last time.
 		public async void TryInit()
 		{
