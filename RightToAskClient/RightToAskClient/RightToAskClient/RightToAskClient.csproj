@@ -48,6 +48,7 @@
     <Compile Remove="HttpClients\ItemManager.cs" />
     <Compile Remove="Views\TodoItemPage.xaml.cs" />
     <Compile Remove="Controls\FramedClickableLabel.cs" />
+    <Compile Remove="Controls\AuthorityDataTemplate.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Views\SecondPage_old.xaml" />

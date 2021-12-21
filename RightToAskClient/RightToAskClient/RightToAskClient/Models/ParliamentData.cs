@@ -170,7 +170,7 @@ namespace RightToAskClient.Models
 		
 		private static MP parseCSVLineAsMP(Chamber chamberExpected, string line)
 		{
-			string[] words = line?.Split(',');
+			string[]? words = line.Split(',');
 			if (words?.Length >= 5)
 			{
 					var electorate = new ElectorateWithChamber(chamberExpected, words[3]);
