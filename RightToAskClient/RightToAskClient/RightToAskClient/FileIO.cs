@@ -15,11 +15,15 @@ namespace RightToAskClient
 
 			try
 			{
-				var assembly = IntrospectionExtensions.GetTypeInfo(typeof(ReadingContext)).Assembly;
-				Stream stream = assembly.GetManifestResourceStream("RightToAskClient.Resources." + filename);
-				using (var sr = new StreamReader(stream))
+				var streamResult = TryToGetFileStream(filename);
+				if (!String.IsNullOrEmpty(streamResult.Err))
 				{
-					string? dataString = sr.ReadToEnd();
+					return new Result<T>() { Err = streamResult.Err };
+				}
+				
+				using (var sr = new StreamReader(streamResult.Ok))
+				{
+					string dataString = sr.ReadToEnd();
 					deserializedData = (T)JsonSerializer.Deserialize<T>(dataString, jsonSerializerOptions);
 				}
 			}
@@ -52,21 +56,33 @@ namespace RightToAskClient
 			return new Result<T>() { Ok = deserializedData };
 		}
 
+		
 		public static Result<string> ReadFirstLineOfFileAsString(string filename)
 		{
 			try
 			{
-				string data;
+				/*
 				var assembly = IntrospectionExtensions.GetTypeInfo(typeof(ReadingContext)).Assembly;
-				Stream stream = assembly.GetManifestResourceStream("RightToAskClient.Resources." + filename);
-				using (var sr = new StreamReader(stream))
+				Stream? stream = assembly.GetManifestResourceStream("RightToAskClient.Resources." + filename);
+				if (stream is null)
 				{
-					data = sr.ReadLine() ?? string.Empty;
+					Console.WriteLine("Could not find file: " + filename);
+					return new Result<string>() { Err = "Could not find file: " + filename};
+				}
+				*/
+				var streamResult = TryToGetFileStream(filename);
+				if (!String.IsNullOrEmpty(streamResult.Err))
+				{
+					return new Result<string>() { Err = streamResult.Err };
+				}
+				
+				using (var sr = new StreamReader(streamResult.Ok))
+				{
+					string data = sr.ReadLine() ?? string.Empty;
 					if (!String.IsNullOrEmpty(data))
 					{
 						return new Result<string>() { Ok = data };
 					}
-
 				}
 
 			}
@@ -81,20 +97,22 @@ namespace RightToAskClient
 
 		public static void readDataFromCSV<T>(string filename, List<T> MPCollection, Func<string, T> parseLine)
 		{
-			string line;
 			try
-
 			{
-				T MPToAdd;
-				var assembly = IntrospectionExtensions.GetTypeInfo(typeof(ReadingContext)).Assembly;
-				Stream stream = assembly.GetManifestResourceStream("RightToAskClient.Resources." + filename);
-				using (var sr = new StreamReader(stream))
+				var streamResult = TryToGetFileStream(filename);
+				if (!String.IsNullOrEmpty(streamResult.Err))
+				{
+					return;
+				}
+				
+				using (var sr = new StreamReader(streamResult.Ok))
 				{
 					// Read the first line, which just has headings we can ignore.
 					sr.ReadLine();
+					string? line;
 					while ((line = sr.ReadLine()) != null)
 					{
-						MPToAdd = parseLine(line);
+						var MPToAdd = parseLine(line);
 						if (MPToAdd != null)
 						{
 							MPCollection.Add(MPToAdd);
@@ -108,6 +126,18 @@ namespace RightToAskClient
 				Console.WriteLine(e.Message);
 			}
 
+		}
+		private static Result<Stream> TryToGetFileStream(string filename)
+		{
+				var assembly = IntrospectionExtensions.GetTypeInfo(typeof(ReadingContext)).Assembly;
+				Stream? stream = assembly.GetManifestResourceStream("RightToAskClient.Resources." + filename);
+				if (stream is null)
+				{
+					Console.WriteLine("Could not find file: " + filename);
+					return new Result<Stream>() { Err = "Could not find file: " + filename};
+				}
+
+				return new Result<Stream> { Ok = stream };
 		}
 	}
 }

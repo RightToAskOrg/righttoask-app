@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using RightToAskClient.Models;
 using RightToAskClient.Views;
@@ -91,7 +90,7 @@ namespace RightToAskClient.Controls
             {
                 Label = "Keyword", 
                 Placeholder = "?", 
-                Text = filterContext.SearchKeyword ?? null,
+                Text = filterContext.SearchKeyword 
             };
             keywordentry.Completed += OnKewordEntryCompleted;
             
