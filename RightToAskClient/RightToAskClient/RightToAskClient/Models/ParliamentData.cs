@@ -270,7 +270,7 @@ namespace RightToAskClient.Models
 
 			return new List<ElectorateWithChamber>(){new ElectorateWithChamber(chamber.Ok, region)};
 		}
-		public static List<string> ListElectoratesInHouseOfReps()
+		public static List<string> ListElectoratesInHouseOfReps(string state)
 		{
 			if (MPs.IsInitialised)
 			{

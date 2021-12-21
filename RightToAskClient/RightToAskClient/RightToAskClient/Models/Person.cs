@@ -1,15 +1,14 @@
-
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using Xamarin.Forms.Xaml;
 
 // This class represents a human, who might be 
 // an MP or a non-MP participant.
 // It represents the public information that we might
 // know about other people - use IndividualParticipant for
 // data about the particular person using this app.
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using Xamarin.Forms.Xaml;
-
 namespace RightToAskClient.Models
 {
     public abstract class Person : Entity
@@ -48,11 +47,25 @@ namespace RightToAskClient.Models
 			}
 		}
         
+        /* Many states don't have an upper house, so this just returns ""
+         */
+        public string StateUpperHouseElectorate
+        {
+	        get
+	        {
+				return findElectorateGivenPredicate(c => ParliamentData.IsUpperHouseChamber(c.chamber));
+	        }
+        }
 		
 
-        // TODO this would be a lot easier if electorates was a dictionary instead of a list of pairs
-        public string CommonwealthElectorate()
+        public string CommonwealthElectorate
         {
+	        get
+	        {
+		        return findElectorateGivenPredicate(chamberPair => chamberPair.chamber == ParliamentData.Chamber.Australian_House_Of_Representatives);
+	        }
+	        
+	        /*
 	        var houseOfRepsElectoratePair = registrationInfo.electorates.Find(chamberPair =>
 		        chamberPair.chamber == ParliamentData.Chamber.Australian_House_Of_Representatives);
 	        if (houseOfRepsElectoratePair is null)
@@ -61,12 +74,31 @@ namespace RightToAskClient.Models
 	        }
 
 	        return houseOfRepsElectoratePair.region;
+	        */
         }
 
-        public string StateLowerHouseElectorate()
+        public string StateLowerHouseElectorate
         {
+	        get
+	        {
+		        return findElectorateGivenPredicate(chamberPair => ParliamentData.IsLowerHouseChamber(chamberPair.chamber)); 
+	        }
+	        /*
 	        var electoratePair = registrationInfo.electorates.Find(chamberPair =>
 		        ParliamentData.IsLowerHouseChamber(chamberPair.chamber));
+	        if (electoratePair is null)
+	        {
+		        return "";
+	        }
+
+	        return electoratePair.region;
+	        */
+        }
+
+
+        private string findElectorateGivenPredicate(Predicate<ElectorateWithChamber> func)
+        {
+	        var electoratePair = registrationInfo.electorates.Find(func);
 	        if (electoratePair is null)
 	        {
 		        return "";

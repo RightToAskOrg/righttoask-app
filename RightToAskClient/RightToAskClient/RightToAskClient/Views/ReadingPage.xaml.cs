@@ -20,14 +20,17 @@ namespace RightToAskClient.Views
 
             ttestableView = new FilterDisplayTableView(readingContext.Filters);
             WholePage.Children.Insert(1,ttestableView);
-            ttestableView.IsVisible = true;
+            // ttestableView.IsVisible = true;
+            hideFilters();
             
+            /*
 			FilterShower.GestureRecognizers.Add(new TapGestureRecognizer
 			{
 				Command = new Command(showFilters)
 			});
 			
 			showFilters();
+			*/
             
 			if (isReadingOnly)
 			{
@@ -42,7 +45,7 @@ namespace RightToAskClient.Views
 			}
 		}
 
-		private void showFilters()
+		private void showFilters(object sender, EventArgs e)
 		{  
 			ttestableView.IsVisible = true;
             FilterShower.IsVisible = false;
@@ -117,28 +120,5 @@ namespace RightToAskClient.Views
 			var questionDetailPage = new QuestionDetailPage(true, newQuestion, readingContext);
 			await Navigation.PushAsync(questionDetailPage);
 		}
-
-		/*
-		private void OnUpVoteButtonClicked(object sender, EventArgs e)
-		{
-			bool upVoteMode;
-			string upVoteMessage = "+1";
-			string undoMessage = "Undo upvote";
-			Question q = (Question)((Button)sender).BindingContext;
-
-			upVoteMode = !((Button)sender).Text.Equals(undoMessage);
-
-			if (upVoteMode)
-			{
-			    q.UpVotes++;
-			    ((Button)sender).Text = undoMessage;
-			}
-			else
-			{
-				q.UpVotes--;
-			    ((Button)sender).Text = upVoteMessage;
-			}
-		}
-		*/
 	}
 }

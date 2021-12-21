@@ -3,6 +3,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:RightToAskClient.Models;assembly=RightToAskClient"
+             xmlns:controls="clr-namespace:RightToAskClient.Controls;assembly=RightToAskClient"
              x:Class="RightToAskClient.Views.RegisterPage2"
              Title="Find your MPs">
     <ContentPage.Content>
@@ -18,33 +19,28 @@
 				</StackLayout>
 				<StackLayout Orientation="Horizontal">
 					<Frame OutlineColor="Teal">
-						<Label x:Name="knowElectorates" Text="I know my electorates already" HorizontalOptions="Center"
-						       TextColor="Teal" FontSize="Large" VerticalOptions="Center">
-							<Label.GestureRecognizers>
-								<TapGestureRecognizer Tapped="KnowElectorates_Tapped" />
-							</Label.GestureRecognizers>
-						</Label>
+						<controls:ClickableLabel x:Name="knowElectorates" Text="I know my electorates already" HorizontalOptions="Center"
+						        Tapped="KnowElectorates_Tapped" VerticalOptions="Center">
+						</controls:ClickableLabel>
 					</Frame>
 					<Label Text="Or" WidthRequest="150" FontSize="Large"
 					       HorizontalOptions="Center" VerticalOptions="Center" />
 					<Frame OutlineColor="Teal">
-						<Label x:Name="addressSavingLabel" Text="I need to look them up" TextColor="Teal" FontSize="Large"
-						       HorizontalOptions="Center" VerticalOptions="Center">
-							<Label.GestureRecognizers>
-								<TapGestureRecognizer Tapped="LookupElectorates_Tapped" />
-							</Label.GestureRecognizers>
-						</Label>
+						<controls:ClickableLabel x:Name="addressSavingLabel" Text="I need to look them up" 
+						       HorizontalOptions="Center" VerticalOptions="Center" Tapped="LookupElectorates_Tapped" >
+						</controls:ClickableLabel>
 					</Frame>
 				</StackLayout>
 				<Frame CornerRadius="10" x:Name="KnowElectoratesFrame" BackgroundColor="PaleTurquoise" Padding="0">
 				    <StackLayout Orientation="Vertical">
-					    <Picker x:Name="stateLAElectoratePicker" Title="{Binding SelectedLAStateElectorate, StringFormat='State Legislative Assembly Electorate: {0:F0}'}" 
+					    <Picker x:Name="stateLAElectoratePicker" x:DataType="models:IndividualParticipant" Title="{Binding StateLowerHouseElectorate, StringFormat='State Legislative Assembly Electorate: {0:F0}'}" 
+					            
 				            SelectedIndexChanged="OnStateLAElectoratePickerSelectedIndexChanged"> 
 					    </Picker>
-					    <Picker x:Name="stateLCElectoratePicker" Title="{Binding SelectedLCStateElectorate, StringFormat='State Legislative Council Electorate: {0:F0}'}" 
+					    <Picker x:Name="stateLCElectoratePicker"  x:DataType="models:IndividualParticipant" Title="{Binding StateUpperHouseElectorate, StringFormat='State Legislative Council Electorate: {0:F0}'}" 
 				            SelectedIndexChanged="OnStateLCElectoratePickerSelectedIndexChanged"> 
 					    </Picker>
-					    <Picker x:Name="federalElectoratePicker" Title="{Binding SelectedFederalElectorate, StringFormat='Federal Electorate: {0:F0}'}" 
+					    <Picker x:Name="federalElectoratePicker"  x:DataType="models:Person" Title="{Binding CommonwealthElectorate, StringFormat='Federal Electorate: {0:F0}'}" 
 				            SelectedIndexChanged="OnFederalElectoratePickerSelectedIndexChanged"> 
 					    </Picker>
 				    </StackLayout>

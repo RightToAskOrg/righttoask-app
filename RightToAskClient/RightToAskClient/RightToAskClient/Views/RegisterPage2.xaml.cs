@@ -69,8 +69,6 @@ namespace RightToAskClient.Views
         
         void OnStatePickerSelectedIndexChanged(object sender, EventArgs e)
         {
-            // var picker = (Picker)sender;
-                    
             var picker = sender as Picker;
             if (picker != null)
             {
@@ -88,7 +86,7 @@ namespace RightToAskClient.Views
 
         private void UpdateElectoratePickerSources(string state)
         {
-            allFederalElectorates = ParliamentData.ListElectoratesInHouseOfReps();
+            allFederalElectorates = ParliamentData.ListElectoratesInHouseOfReps(state);
             federalElectoratePicker.ItemsSource = allFederalElectorates;
             
             allStateLAElectorates 
@@ -222,8 +220,8 @@ namespace RightToAskClient.Views
             bool saveThisAddress = await DisplayAlert("Electorates found!", 
                 // "State Assembly Electorate: "+thisParticipant.SelectedLAStateElectorate+"\n"
                 // +"State Legislative Council Electorate: "+thisParticipant.SelectedLCStateElectorate+"\n"
-                "Federal electorate: "+thisParticipant.CommonwealthElectorate()+"\n"+
-                "State lower house electorate: "+thisParticipant.StateLowerHouseElectorate()+"\n"+
+                "Federal electorate: "+thisParticipant.CommonwealthElectorate+"\n"+
+                "State lower house electorate: "+thisParticipant.StateLowerHouseElectorate+"\n"+
                 "Do you want to save your address on this device? Right To Ask will not learn your address.", 
                 "OK - Save address on this device", "No thanks");
             if (saveThisAddress)
