@@ -62,7 +62,7 @@ namespace RightToAskClient.Models
 
 			foreach (var knownElectorate in RegistrationInfo.electorates)
 			{
-				mpstoadd = ParliamentData.MPs.GetMPsRepresentingElectorate(knownElectorate);
+				mpstoadd = ParliamentData.MPAndOtherData.GetMPsRepresentingElectorate(knownElectorate);
 				mps.AddRange(mpstoadd);
 			}
 

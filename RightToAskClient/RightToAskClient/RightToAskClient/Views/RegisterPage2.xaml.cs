@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using RightToAskClient.Data;
 using RightToAskClient.HttpClients;
 using RightToAskClient.Models;
 using Xamarin.Forms;

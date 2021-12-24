@@ -76,7 +76,7 @@ namespace RightToAskClient.Views
 	    // It will pop back to here.
 		async void OnAnsweredByMPButtonClicked(object sender, EventArgs e)
 		{
-			if (ParliamentData.MPs.IsInitialised)
+			if (ParliamentData.MPAndOtherData.IsInitialised)
 			{
 				string message = "These are your MPs.  Select the one(s) who should answer the question";
 				var mpsExploringPage = new ExploringPage(_readingContext.ThisParticipant.MyMPs,
@@ -90,7 +90,7 @@ namespace RightToAskClient.Views
 				myMP.IsEnabled = false;
 				otherMP.IsEnabled = false;
 				reportLabel.IsVisible = true;
-				reportLabel.Text = ParliamentData.MPs.ErrorMessage;
+				reportLabel.Text = ParliamentData.MPAndOtherData.ErrorMessage;
 			}
 		}
 
@@ -119,18 +119,18 @@ namespace RightToAskClient.Views
 
 		private async void OnAnswerByOtherMPButtonClicked(object sender, EventArgs e)
 		{
-			if(ParliamentData.MPs.IsInitialised)
+			if(ParliamentData.MPAndOtherData.IsInitialised)
 			{
 				//var allMPsAsEntities = new ObservableCollection<Entity>(ParliamentData.MPs.AllMPs);
 				ExploringPageWithSearch mpsPage
-					= new ExploringPageWithSearch(ParliamentData.MPs.AllMPs, _readingContext.Filters.SelectedAnsweringMPs,
+					= new ExploringPageWithSearch(ParliamentData.AllMPs, _readingContext.Filters.SelectedAnsweringMPs,
 						"Here is the complete list of MPs");
 				await Navigation.PushAsync(mpsPage);
 			}
 			else
 			{
 				reportLabel.IsVisible = true;
-				reportLabel.Text = ParliamentData.MPs.ErrorMessage;
+				reportLabel.Text = ParliamentData.MPAndOtherData.ErrorMessage;
 			}
 		}
 	}

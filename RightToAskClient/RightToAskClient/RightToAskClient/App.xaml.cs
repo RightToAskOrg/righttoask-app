@@ -1,8 +1,6 @@
 ﻿using Xamarin.Forms;
 using RightToAskClient.Views;
-using RightToAskClient.Data;
 using RightToAskClient.Models;
-using static RightToAskClient.Models.ParliamentData;
 
 namespace RightToAskClient
 {
@@ -24,7 +22,7 @@ namespace RightToAskClient
 
         protected override void OnStart()
         {
-            ParliamentData.MPs.TryInit();
+            ParliamentData.MPAndOtherData.TryInit();
         }
 
         protected override void OnSleep()

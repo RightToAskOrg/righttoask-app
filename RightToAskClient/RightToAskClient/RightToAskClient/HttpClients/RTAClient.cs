@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -23,6 +22,32 @@ namespace RightToAskClient.HttpClients
         
         private static readonly GenericHttpClient client = new GenericHttpClient(serializerOptions);
         
+        public static async Task<Result<UpdatableParliamentAndMPDataStructure>> GetMPsData()
+        {
+            string errorMessage = "Could not download MP data. You can still read and submit questions, but we can't find MPs.";
+            Result<UpdatableParliamentAndMPDataStructure>? httpResponse =await client.DoGetJSONRequest<UpdatableParliamentAndMPDataStructure>(Constants.MPListUrl);
+            
+            // Note: the compiler warns this is unnecessary, but an exception is sometimes thrown here without this check.
+            // I am confused about why this is necessary, but empirically it definitely is.
+            if (httpResponse is null)
+            {
+                return new Result<UpdatableParliamentAndMPDataStructure>() { Err = errorMessage };
+            }
+
+            if(String.IsNullOrEmpty(httpResponse.Err))
+            {
+                return httpResponse;
+            }
+            
+            Debug.WriteLine("Error downloading MP data: "+httpResponse.Err);
+            return new Result<UpdatableParliamentAndMPDataStructure>()
+            {
+                Err = errorMessage 
+            };
+              
+            
+        }
+        /*
         public static async Task<Result<List<MP>>> GetMPsList()
         {
             string errorMessage = "Could not download MP data. You can still read and submit questions, but we can't find MPs.";
@@ -48,6 +73,8 @@ namespace RightToAskClient.HttpClients
               
             
         }
+        */
+        
         public static async Task<Result<List<string>>> GetUserList()
         {
             return await client.DoGetResultRequest<List<string>>(Constants.UserListUrl);

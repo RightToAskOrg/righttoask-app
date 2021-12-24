@@ -15,9 +15,46 @@ using RightToAskClient.HttpClients;
 
 namespace RightToAskClient.Models
 {
-	public class MPData 
+	/* This class initialises all the data about MPs and Parliamentary structures that we
+	 * get from the server, on the basis that it might change. It also tries initialising from
+	 * a file if the server is unreachable.
+	 * This means the MPs and their information, plus info about electorate names and which
+	 * states or regions they're in.
+	 * Currently, we only bother with Vic sub-regions, because although WA (at the time of
+	 * writing) still has them, they are planning to abolish them.
+	 * */
+	public class UpdatableParliamentAndMPData
 	{
-		private List<MP> allMPs = new List<MP>();
+		private UpdatableParliamentAndMPDataStructure allMPsData = new UpdatableParliamentAndMPDataStructure();
+
+		public List<MP> AllMPs  
+		{
+			get
+			{
+				if (!allMPsData.mps.IsNullOrEmpty())
+				{
+					return new List<MP>(allMPsData.mps);
+				}
+
+				return new List<MP>();
+			}
+		}
+		
+		public List<RegionsContained> FederalElectoratesByState
+		{
+			get
+			{
+				return new List<RegionsContained>(allMPsData.FederalElectoratesByState);
+			}
+		}
+		public List<RegionsContained> VicRegions
+		{
+			get
+			{
+				return allMPsData.VicRegions;
+			}
+		}
+
 		private bool isInitialised = false;
 		
         private JsonSerializerOptions serializerOptions = new JsonSerializerOptions
@@ -28,23 +65,11 @@ namespace RightToAskClient.Models
 		public string ErrorMessage { get; private set; } = "";
 		
 		
-		public ObservableCollection<MP> AllMPs  
-		{
-			get
-			{
-				if (!allMPs.IsNullOrEmpty())
-				{
-					return new ObservableCollection<MP>(allMPs);
-				}
-
-				return new ObservableCollection<MP>();
-			}
-		}
 
 		// Find all the MPs representing a certain electorate.
 		public List<MP> GetMPsRepresentingElectorate(ElectorateWithChamber queryElectorate)
 		{
-			var mps = allMPs.Where(mp => mp.electorate.chamber == queryElectorate.chamber
+			var mps = allMPsData.mps.Where(mp => mp.electorate.chamber == queryElectorate.chamber
 			                             && mp.electorate.region.Equals(queryElectorate.region,
 				                             StringComparison.OrdinalIgnoreCase));
 			return new List<MP>(mps);
@@ -80,13 +105,13 @@ namespace RightToAskClient.Models
 
 		private Result<bool> TryInitialisingFromStoredData()
 		{
-			var success = FileIO.readDataFromStoredJSON<List<MP>>(Constants.StoredMPDataFile, serializerOptions);
+			var success = FileIO.readDataFromStoredJSON<UpdatableParliamentAndMPDataStructure>(Constants.StoredMPDataFile, serializerOptions);
 			if (!String.IsNullOrEmpty(success.Err))
 			{
 				return new Result<bool>() { Err = success.Err };
 			}
 			
-			allMPs = success.Ok;
+			allMPsData = success.Ok;
 			isInitialised = true;
 			return new Result<bool>() { Ok = true };
 		}
@@ -94,7 +119,7 @@ namespace RightToAskClient.Models
 
 		private async Task<Result<bool>> TryInitialisingFromServer()
 		{
-			Result<List<MP>> serverMPList = await RTAClient.GetMPsList();
+			Result<UpdatableParliamentAndMPDataStructure> serverMPList = await RTAClient.GetMPsData();
 
 			if (serverMPList is null)
 			{
@@ -103,7 +128,7 @@ namespace RightToAskClient.Models
 
 			if (String.IsNullOrEmpty(serverMPList.Err))
 			{
-				allMPs = serverMPList.Ok;
+				allMPsData = serverMPList.Ok;
 				isInitialised = true;
 				return new Result<bool>() { Ok = true };
 			}

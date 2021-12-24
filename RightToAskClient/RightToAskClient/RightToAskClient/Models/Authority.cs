@@ -5,10 +5,10 @@ namespace RightToAskClient.Models
 {
     public class Authority : Entity
     {
-        protected string authorityName;
-        protected string nickName;
-        protected UrlWebViewSource url;
-        protected string rightToKnowURLSuffix;
+        protected string authorityName = "";
+        protected string nickName = "";
+        protected UrlWebViewSource url = new UrlWebViewSource();
+        protected string rightToKnowURLSuffix = "";
         public string AuthorityName
         {
             get { return authorityName; }

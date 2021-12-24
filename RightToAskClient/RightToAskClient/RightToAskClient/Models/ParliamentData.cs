@@ -15,31 +15,31 @@ namespace RightToAskClient.Models
     // This class reads in information about electorates, MPs, etc, from static files.
     public static class ParliamentData
     {
-	    private static readonly List<MP> FederalMPs 
-		    = readMPsFromCSV(Chamber.Australian_House_Of_Representatives, "StateRepsCSV.csv");
-	    private static readonly List<MP> Senators 
-		    = readMPsFromCSV(Chamber.Australian_Senate, "allsenstate.csv");
-	    // TODO - at the moment, we only have Vic MPs. Add other states.
-	    private static readonly List<MP> VicLA_MPs 
-		    = readMPsFromCSV(Chamber.Vic_Legislative_Assembly, "VicLegislativeAssemblymembers.csv");
-	    private static readonly List<MP> VicLC_MPs 
-		    =  readMPsFromCSV(Chamber.Vic_Legislative_Council, "VicLegislativeCouncilmembers.csv");
-	    
-	    public static readonly MPData MPs = new MPData();
+	    public static readonly UpdatableParliamentAndMPData MPAndOtherData = new UpdatableParliamentAndMPData();
 
-	    /*
-	    public static readonly ObservableCollection<string> StatesAndTerritories = new ObservableCollection<string>()
+	    public static ObservableCollection<MP> AllMPs {
+		    get
+			{
+				return new ObservableCollection<MP>(MPAndOtherData.AllMPs);
+			}
+	    }
+
+	    public static List<RegionsContained> FederalElectoratesAsStates
 	    {
-		    "ACT",
-			"NSW",
-			"NT",
-			"QLD",
-			"SA",
-			"TAS",
-			"VIC",
-			"WA"
-	    };
-	    */
+		    get
+		    {
+			    return MPAndOtherData.FederalElectoratesByState;
+		    }
+	    }
+
+	    public static List<RegionsContained> VicRegions
+	    {
+		    get
+		    {
+			    return MPAndOtherData.VicRegions;
+		    }
+		    
+	    }
 
 	    public static readonly List<string> StatesAndTerritories
 		    = StatesAsStringList(); 
@@ -152,13 +152,6 @@ namespace RightToAskClient.Models
 		{
 			return StateUpperHouseChambers.Contains(chamber);
 		}
-
-		private static List<MP> readMPsFromCSV(Chamber chamber, string filename)
-		{
-			var MPs = new List<MP>();
-			FileIO.readDataFromCSV(filename, MPs, (string line) =>  parseCSVLineAsMP(chamber,line) );
-			return MPs;
-		}
 		
        private static List<Authority> readAuthoritiesFromFiles()
        {
@@ -166,24 +159,6 @@ namespace RightToAskClient.Models
 		    FileIO.readDataFromCSV("all-authorities.csv",AllAuthorities,parseCSVLineAsAuthority);
 		    return AllAuthorities;
        }
-        
-		
-		private static MP parseCSVLineAsMP(Chamber chamberExpected, string line)
-		{
-			string[]? words = line.Split(',');
-			if (words?.Length >= 5)
-			{
-					var electorate = new ElectorateWithChamber(chamberExpected, words[3]);
-						
-					var first_name = words[2]; 
-					var surname = words[1];
-
-					MP newMP = new MP(first_name, surname, electorate);
-					return newMP;
-			}
-			
-			return null;
-		}	
 		
 		// This parses a line from Right To Know's CSV file as an Authority.
 		// It is, obviously, very specific to the expected file format.
@@ -272,9 +247,9 @@ namespace RightToAskClient.Models
 		}
 		public static List<string> ListElectoratesInHouseOfReps(string state)
 		{
-			if (MPs.IsInitialised)
+			if (MPAndOtherData.IsInitialised)
 			{
-				return MPs.ListElectoratesInChamber(Chamber.Australian_House_Of_Representatives);
+				return MPAndOtherData.ListElectoratesInChamber(Chamber.Australian_House_Of_Representatives);
 			}
 
 			return new List<string>();
@@ -283,9 +258,9 @@ namespace RightToAskClient.Models
 		public static List<string> ListElectoratesInStateLowerHouse(string state)
 		{
 			Result<Chamber> possibleChamber = GetLowerHouseChamber(state);
-			if (MPs.IsInitialised && possibleChamber.Err.IsNullOrEmpty())
+			if (MPAndOtherData.IsInitialised && possibleChamber.Err.IsNullOrEmpty())
 			{
-				return MPs.ListElectoratesInChamber(possibleChamber.Ok);
+				return MPAndOtherData.ListElectoratesInChamber(possibleChamber.Ok);
 			}
 
 			return new List<string>();
@@ -312,9 +287,9 @@ namespace RightToAskClient.Models
 			}
 			
 			Result<Chamber> possibleChamber = GetUpperHouseChamber(state);
-			if (MPs.IsInitialised && possibleChamber.Err.IsNullOrEmpty())
+			if (MPAndOtherData.IsInitialised && possibleChamber.Err.IsNullOrEmpty())
 			{
-				return MPs.ListElectoratesInChamber(possibleChamber.Ok);
+				return MPAndOtherData.ListElectoratesInChamber(possibleChamber.Ok);
 			}
 
 			return new List<string>();

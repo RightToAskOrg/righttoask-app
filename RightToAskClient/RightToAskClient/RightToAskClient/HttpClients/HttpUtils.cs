@@ -1,9 +1,7 @@
 using System;
-using System.Text;
 using RightToAskClient.Models;
-using Xamarin.Essentials;
 
-namespace RightToAskClient.Data
+namespace RightToAskClient.HttpClients
 {
     public static class HttpUtils
     {

@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using RightToAskClient.Models;
-using RightToAskClient.Data;
 using RightToAskClient.HttpClients;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;

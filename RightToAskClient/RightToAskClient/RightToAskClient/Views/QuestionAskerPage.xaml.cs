@@ -49,7 +49,7 @@ namespace RightToAskClient.Views
         {
             string message = "These are your MPs.  Select the one(s) who should raise the question in Parliament";
             
-			if (ParliamentData.MPs.IsInitialised)
+			if (ParliamentData.MPAndOtherData.IsInitialised)
 			{
 				var mpsExploringPage = new ExploringPage(readingContext.ThisParticipant.GroupedMPs,
 					readingContext.Filters.SelectedAskingMPsMine, message);
@@ -69,7 +69,7 @@ namespace RightToAskClient.Views
                 myMPShouldRaiseItButton.IsEnabled = false;
                 anotherMPShouldRaiseItButton.IsEnabled = false;
                 reportLabel.IsVisible = true;
-                reportLabel.Text = ParliamentData.MPs.ErrorMessage;
+                reportLabel.Text = ParliamentData.MPAndOtherData.ErrorMessage;
         }
 
         private async void launchMPFindingAndSelectingPages(ExploringPage mpsExploringPage)
@@ -99,9 +99,9 @@ namespace RightToAskClient.Views
         private async void OnOtherMPRaiseButtonClicked(object sender, EventArgs e)
         {
             string message = "Here is the complete list of MPs";
-            if (ParliamentData.MPs.IsInitialised)
+            if (ParliamentData.MPAndOtherData.IsInitialised)
 			{
-				var mpsExploringPage = new ExploringPageWithSearch(ParliamentData.MPs.AllMPs,
+				var mpsExploringPage = new ExploringPageWithSearch(ParliamentData.AllMPs,
 					readingContext.Filters.SelectedAskingMPs, message);
 
                 await Navigation.PushAsync(mpsExploringPage);
