@@ -10,8 +10,9 @@ using Xamarin.Forms;
 namespace RightToAskClient.Controls
 {
     
-    public class ToggleButton : Button
+    public class ToggleButton : Button 
     {
+		private Question q = new Question();
         private string undoMessage = "Undo upvote";
         private string initialText = "+1";
 		private bool upVoteMode;
@@ -37,11 +38,12 @@ namespace RightToAskClient.Controls
 			}  
 		}  
 		
+		/* This should never be called with a BindingContext that isn't a 
+		** Question, but we fall back to q just in case.
+		 */
         private void IncrementOrDecrement(object sender, EventArgs eventArgs)
 		{
-			Question q;
-			q = BindingContext as Question;
-
+			this.q = BindingContext as Question ?? q;
 			upVoteMode = Text.Equals(initialText);
 
 			if (upVoteMode)
