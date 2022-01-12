@@ -20,12 +20,12 @@ namespace RightToAskClient.HttpClients
                 WriteIndented = false,
             };
         
-        private static readonly GenericHttpClient client = new GenericHttpClient(serializerOptions);
+        private static readonly GenericHttpClient _client = new GenericHttpClient(serializerOptions);
         
         public static async Task<Result<UpdatableParliamentAndMPDataStructure>> GetMPsData()
         {
             string errorMessage = "Could not download MP data. You can still read and submit questions, but we can't find MPs.";
-            Result<UpdatableParliamentAndMPDataStructure>? httpResponse =await client.DoGetJSONRequest<UpdatableParliamentAndMPDataStructure>(Constants.MPListUrl);
+            Result<UpdatableParliamentAndMPDataStructure>? httpResponse =await _client.DoGetJSONRequest<UpdatableParliamentAndMPDataStructure>(Constants.MPListUrl);
             
             // Note: the compiler warns this is unnecessary, but an exception is sometimes thrown here without this check.
             // I am confused about why this is necessary, but empirically it definitely is.
@@ -77,7 +77,7 @@ namespace RightToAskClient.HttpClients
         
         public static async Task<Result<List<string>>> GetUserList()
         {
-            return await client.DoGetResultRequest<List<string>>(Constants.UserListUrl);
+            return await _client.DoGetResultRequest<List<string>>(Constants.UserListUrl);
         }
 
         /*
@@ -91,7 +91,7 @@ namespace RightToAskClient.HttpClients
         public static async Task<Result<bool>> RegisterNewUser(Registration newReg)
         {
             var httpResponse 
-                = await client.PostGenericItemAsync<Result<SignedString>, Registration>(newReg);
+                = await _client.PostGenericItemAsync<Result<SignedString>, Registration>(newReg);
 
             // http errors
             if (String.IsNullOrEmpty(httpResponse.Err))
@@ -119,7 +119,7 @@ namespace RightToAskClient.HttpClients
             Debug.WriteLine(@"\tError reaching server for registering new user:"+httpResponse.Err);
             return new Result<bool>() { Err = httpResponse.Err };
         }
-        public static (bool isValid, string message) validateHttpResponse(Result<bool> response, string messageTopic)
+        public static (bool isValid, string message) ValidateHttpResponse(Result<bool> response, string messageTopic)
         {
             if (String.IsNullOrEmpty(response.Err))
             {

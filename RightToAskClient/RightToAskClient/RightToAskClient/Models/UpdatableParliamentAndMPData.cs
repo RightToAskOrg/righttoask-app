@@ -105,7 +105,7 @@ namespace RightToAskClient.Models
 
 		private Result<bool> TryInitialisingFromStoredData()
 		{
-			var success = FileIO.readDataFromStoredJSON<UpdatableParliamentAndMPDataStructure>(Constants.StoredMPDataFile, serializerOptions);
+			var success = FileIO.ReadDataFromStoredJson<UpdatableParliamentAndMPDataStructure>(Constants.StoredMPDataFile, serializerOptions);
 			if (!String.IsNullOrEmpty(success.Err))
 			{
 				return new Result<bool>() { Err = success.Err };

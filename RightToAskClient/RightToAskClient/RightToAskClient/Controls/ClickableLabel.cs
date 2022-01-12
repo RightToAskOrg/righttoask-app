@@ -1,5 +1,4 @@
 using System;
-using System.Net.Mime;
 using Xamarin.Forms;
 
 namespace RightToAskClient.Controls

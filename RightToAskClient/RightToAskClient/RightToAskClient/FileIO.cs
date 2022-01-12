@@ -9,7 +9,7 @@ namespace RightToAskClient
 {
 	public static class FileIO
 	{
-		public static Result<T> readDataFromStoredJSON<T>(string filename, JsonSerializerOptions jsonSerializerOptions)
+		public static Result<T> ReadDataFromStoredJson<T>(string filename, JsonSerializerOptions jsonSerializerOptions)
 		{
 			T deserializedData;
 
@@ -95,7 +95,7 @@ namespace RightToAskClient
 			return new Result<string>() { Err = "Error reading file: " + filename };
 		}
 
-		public static void readDataFromCSV<T>(string filename, List<T> MPCollection, Func<string, T> parseLine)
+		public static void ReadDataFromCSV<T>(string filename, List<T> MPCollection, Func<string, T> parseLine)
 		{
 			try
 			{

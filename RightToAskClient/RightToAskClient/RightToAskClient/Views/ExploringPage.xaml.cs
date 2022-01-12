@@ -1,13 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using RightToAskClient.Annotations;
 using RightToAskClient.Models;
 using Xamarin.Forms;
-using PropertyChangingEventHandler = Xamarin.Forms.PropertyChangingEventHandler;
 
 namespace RightToAskClient.Views
 {
@@ -21,7 +17,7 @@ namespace RightToAskClient.Views
 	 * Constructors are either a single unstructured list of entities,
 	 * or a list of lists, each with their own header and selectable set.
 	 */
-	public partial class ExploringPage : ContentPage
+	public partial class ExploringPage 
 	{
 		protected readonly ObservableCollection<Entity> allEntities;
 		protected readonly ObservableCollection<Tag<Entity>> selectableEntities;
@@ -37,14 +33,12 @@ namespace RightToAskClient.Views
 		protected ObservableCollection<Authority> selectedAuthorities = new ObservableCollection<Authority>();
 		protected ObservableCollection<MP> selectedMPs = new ObservableCollection<MP>();
 		protected ObservableCollection<Person> selectedPeople = new ObservableCollection<Person>();
-		protected Type typeOfEntities;
 
 		public ExploringPage(ObservableCollection<MP> allEntities, 
 			ObservableCollection<MP> selectedEntities, string? message=null)
 		{
 			InitializeComponent();
 			
-			typeOfEntities = typeof(MP);
 			selectedMPs = selectedEntities;
 			this.allEntities = new ObservableCollection<Entity>(allEntities);
 			selectableEntities = wrapInTags<MP>(this.allEntities, selectedEntities);
@@ -60,7 +54,6 @@ namespace RightToAskClient.Views
 		{
 			InitializeComponent();
 
-			typeOfEntities = typeof(Authority);
 			selectedAuthorities = selectedEntities;
 			allEntities = new ObservableCollection<Entity>(ParliamentData.AllAuthorities);
 			selectableEntities = wrapInTags<Authority>(allEntities, selectedEntities);

@@ -12,10 +12,10 @@ namespace RightToAskClient.Controls
     
     public class ToggleButton : Button 
     {
-		private Question q = new Question();
+		private Question _q = new Question();
         private string undoMessage = "Undo upvote";
         private string initialText = "+1";
-		private bool upVoteMode;
+		private bool _upVoteMode;
 
 		public ToggleButton()
 		{
@@ -43,17 +43,17 @@ namespace RightToAskClient.Controls
 		 */
         private void IncrementOrDecrement(object sender, EventArgs eventArgs)
 		{
-			this.q = BindingContext as Question ?? q;
-			upVoteMode = Text.Equals(initialText);
+			this._q = BindingContext as Question ?? _q;
+			_upVoteMode = Text.Equals(initialText);
 
-			if (upVoteMode)
+			if (_upVoteMode)
 			{
-			    q.UpVotes++;
+			    _q.UpVotes++;
 			    Text = undoMessage;
 			}
 			else
 			{
-				q.UpVotes--;
+				_q.UpVotes--;
 			    Text = initialText;
 			}
 		}

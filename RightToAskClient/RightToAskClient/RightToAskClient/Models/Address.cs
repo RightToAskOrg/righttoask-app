@@ -19,7 +19,7 @@ namespace RightToAskClient.Models
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public Result<bool> seemsValid()
+        public Result<bool> SeemsValid()
         {
             string err = "";
             if (String.IsNullOrWhiteSpace(StreetNumberAndName))

@@ -194,7 +194,7 @@ namespace RightToAskClient.Views
                 return;
             }
 
-            Result<bool> addressValidation = address.seemsValid();
+            Result<bool> addressValidation = address.SeemsValid();
             if (!String.IsNullOrEmpty(addressValidation.Err))
             {
                 DisplayAlert(addressValidation.Err, "", "OK");

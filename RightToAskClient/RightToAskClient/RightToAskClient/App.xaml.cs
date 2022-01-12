@@ -9,7 +9,7 @@ namespace RightToAskClient
 
         public App()
         {
-            setTheStyles();
+            SetTheStyles();
             InitializeComponent();
 
             /* MS Docs say static classes are
@@ -32,7 +32,7 @@ namespace RightToAskClient
         protected override void OnResume()
         {
         }
-        private void setTheStyles()
+        private void SetTheStyles()
         {
             
             var redButton = new Style(typeof(Xamarin.Forms.Button))

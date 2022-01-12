@@ -10,7 +10,7 @@ namespace RightToAskClient.Controls
     public class FilterDisplayTableView : TableView
     {
         private FilterChoices filterContext;
-        private readonly TableSection contents;
+        private readonly TableSection _contents;
         public FilterDisplayTableView(FilterChoices filterContext)
         {
             BindingContext = filterContext;
@@ -100,14 +100,14 @@ namespace RightToAskClient.Controls
             //section2.Add(whoShouldAskItView);
             // section2.Add(keywordentry);
             Root = root;
-            contents = new TableSection()
+            _contents = new TableSection()
             {
                 whoShouldAnswerItView,
                 whoShouldAskItView,
                 keywordentry
             };
-            contents.Title = "Filters - tap to edit";
-            root.Add(contents);
+            _contents.Title = "Filters - tap to edit";
+            root.Add(_contents);
 
         }
 
@@ -116,13 +116,13 @@ namespace RightToAskClient.Controls
         {
             Root.Title = "Filters - tap to show";
             // Root.Remove(0);
-            Root.Remove(contents);
+            Root.Remove(_contents);
         }
 
         public void UnShrink()
         {
             Root.Title = "Filters - tap to edit";
-            Root.Add(contents);
+            Root.Add(_contents);
         }
         private void OnMoreAskersButtonClicked(object sender, EventArgs e)
         {

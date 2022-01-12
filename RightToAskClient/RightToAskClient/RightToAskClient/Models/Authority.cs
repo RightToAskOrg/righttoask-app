@@ -5,16 +5,19 @@ namespace RightToAskClient.Models
 {
     public class Authority : Entity
     {
-        protected string authorityName = "";
-        protected string nickName = "";
-        protected UrlWebViewSource url = new UrlWebViewSource();
-        protected string rightToKnowURLSuffix = "";
+        private string _authorityName = "";
+        private string _nickName = "";
+        private UrlWebViewSource _url = new UrlWebViewSource();
+        private string _rightToKnowURLSuffix = "";
         public string AuthorityName
         {
-            get { return authorityName; }
+            get { return _authorityName; }
             set
             {
-                authorityName = value;
+                _authorityName = value;
+                // Disabled Resharper warning here, because it thinks the argument is
+                // redundant but actually we're raising a property-changed for a different
+                // property name.
                 OnPropertyChanged("EntityName");
             }
         }
@@ -22,33 +25,33 @@ namespace RightToAskClient.Models
         // Return the nickname if there is one, otherwise the long name.
         public string ShortestName
         {
-            get { return nickName != "" ? nickName : authorityName;}
+            get { return _nickName != "" ? _nickName : _authorityName;}
         }
         public string NickName
         {
-            get { return nickName; }
+            get { return _nickName; }
             set
             {
-                nickName = value;
-                OnPropertyChanged("NickName");
+                _nickName = value;
+                OnPropertyChanged();
             }
         }
         public string RightToKnowURLSuffix
         {
-            get { return rightToKnowURLSuffix; }
+            get { return _rightToKnowURLSuffix; }
             set
             {
-                rightToKnowURLSuffix = value;
-                OnPropertyChanged("RightToKnowURLSuffix");
+                _rightToKnowURLSuffix = value;
+                OnPropertyChanged();
             }
         }
         public UrlWebViewSource URL
         {
-            get { return url; }
+            get { return _url; }
             set
             {
-                url = value;
-                OnPropertyChanged("URL");
+                _url = value;
+                OnPropertyChanged();
             }
         }
 
@@ -60,7 +63,7 @@ namespace RightToAskClient.Models
 
         public override string GetName()
         {
-            return authorityName + NickNameIfPresent();
+            return _authorityName + NickNameIfPresent();
         }
 
         public override string ToString()

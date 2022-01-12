@@ -25,7 +25,7 @@ namespace RightToAskClient.HttpClients
         
         private static Result<string> ReadGeoscapeAPIKey()
         {
-	        return FileIO.ReadFirstLineOfFileAsString(Constants.aPIKeyFileName);
+	        return FileIO.ReadFirstLineOfFileAsString(Constants.APIKeyFileName);
 		}
     }
 }

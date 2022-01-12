@@ -1,8 +1,5 @@
-﻿using System;
-
-using Android.App;
+﻿using Android.App;
 using Android.Content.PM;
-using Android.Runtime;
 using Android.OS;
 using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
 
@@ -14,7 +11,7 @@ namespace RightToAskClient.Droid
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
             
             App.Current.On<Xamarin.Forms.PlatformConfiguration.Android>().

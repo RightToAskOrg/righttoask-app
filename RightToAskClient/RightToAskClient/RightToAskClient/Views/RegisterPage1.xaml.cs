@@ -94,7 +94,7 @@ namespace RightToAskClient.Views
 			{
 				//Result<bool> httpResponse = await App.RegItemManager.SaveTaskAsync (newRegistration);
 				Result<bool> httpResponse = await RTAClient.RegisterNewUser(newRegistration);
-				var httpValidation = RTAClient.validateHttpResponse(httpResponse, "Server Signature Verification");
+				var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
 				ReportLabel.Text = httpValidation.message;
 				if (httpValidation.isValid)
 				{

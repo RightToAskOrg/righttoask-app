@@ -1,12 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
-using System.Text.Json;
 using System.Text.Json.Serialization;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
 
 /* Generated from the Geoscape API example at https://docs.geoscape.com.au/docs/beta-geoscape-apis/c2NoOjIyNDc2Mw-address-geo-json
  * using online serlialiser from https://json2csharp.com/. Note the alternative is NewtonSoft, e.g. using this script
@@ -16,73 +9,73 @@ namespace RightToAskClient.Models
     public class GeoscapeAddressFeature
     {
         [JsonPropertyName("type")]
-        public string Type { get; set; }
+        public string? Type { get; set; }
 
         [JsonPropertyName("properties")]
-        public Properties Properties { get; set; }
+        public Properties? Properties { get; set; }
 
         [JsonPropertyName("geometry")]
-        public Geometry Geometry { get; set; }
+        public Geometry? Geometry { get; set; }
 
         [JsonPropertyName("attribution")]
-        public string Attribution { get; set; }
+        public string? Attribution { get; set; }
     }
 
-    public partial class Geometry
+    public class Geometry
     {
         [JsonPropertyName("type")]
-        public string Type { get; set; }
+        public string? Type { get; set; }
 
         [JsonPropertyName("coordinates")]
-        public double[] Coordinates { get; set; }
+        public double[]? Coordinates { get; set; }
     }
 
-    public partial class Properties
+    public class Properties
     {
         [JsonPropertyName("addressId")]
-        public string AddressId { get; set; }
+        public string? AddressId { get; set; }
 
         [JsonPropertyName("jurisdictionId")]
-        public string JurisdictionId { get; set; }
+        public string? JurisdictionId { get; set; }
 
         [JsonPropertyName("addressRecordType")]
-        public string AddressRecordType { get; set; }
+        public string? AddressRecordType { get; set; }
 
         [JsonPropertyName("aliasPrincipal")]
-        public string AliasPrincipal { get; set; }
+        public string? AliasPrincipal { get; set; }
 
         [JsonPropertyName("geoFeature")]
-        public string GeoFeature { get; set; }
+        public string? GeoFeature { get; set; }
 
         [JsonPropertyName("cadastralIdentifier")]
-        public string CadastralIdentifier { get; set; }
+        public string? CadastralIdentifier { get; set; }
 
         [JsonPropertyName("formattedAddress")]
-        public string FormattedAddress { get; set; }
+        public string? FormattedAddress { get; set; }
 
         [JsonPropertyName("localityName")]
-        public string LocalityName { get; set; }
+        public string? LocalityName { get; set; }
 
         [JsonPropertyName("postcode")]
-        public string Postcode { get; set; }
+        public string? Postcode { get; set; }
 
         [JsonPropertyName("stateTerritory")]
-        public string StateTerritory { get; set; }
+        public string? StateTerritory { get; set; }
 
         [JsonPropertyName("streetName")]
-        public string StreetName { get; set; }
+        public string? StreetName { get; set; }
 
         [JsonPropertyName("streetNumber1")]
-        public string StreetNumber1 { get; set; }
+        public string? StreetNumber1 { get; set; }
 
         [JsonPropertyName("streetType")]
-        public string StreetType { get; set; }
+        public string? StreetType { get; set; }
 
         [JsonPropertyName("streetTypeDescription")]
-        public string StreetTypeDescription { get; set; }
+        public string? StreetTypeDescription { get; set; }
 
         [JsonPropertyName("asgsMain")]
-        public Dictionary<string, AsgsMain> AsgsMain { get; set; }
+        public Dictionary<string, AsgsMain>? AsgsMain { get; set; }
 
         /*
         [JsonPropertyName("asgsRemoteness")]
@@ -90,46 +83,46 @@ namespace RightToAskClient.Models
         */
 
         [JsonPropertyName("buildingsRolloutStatus")]
-        public string BuildingsRolloutStatus { get; set; }
+        public string? BuildingsRolloutStatus { get; set; }
 
         [JsonPropertyName("commonwealthElectorate")]
-        public CommonwealthElectorate CommonwealthElectorate { get; set; }
+        public CommonwealthElectorate? CommonwealthElectorate { get; set; }
 
         [JsonPropertyName("localGovernmentArea")]
-        public LocalGovernmentArea LocalGovernmentArea { get; set; }
+        public LocalGovernmentArea? LocalGovernmentArea { get; set; }
 
         [JsonPropertyName("relatedBuildingIds")]
-        public string[] RelatedBuildingIds { get; set; }
+        public string[]? RelatedBuildingIds { get; set; }
 
         [JsonPropertyName("stateElectorate")]
-        public StateElectorate StateElectorate { get; set; }
+        public StateElectorate? StateElectorate { get; set; }
     }
 
-    public partial class AsgsMain
+    public class AsgsMain
     {
         [JsonPropertyName("mbId")]
-        public string MbId { get; set; }
+        public string? MbId { get; set; }
 
         [JsonPropertyName("sa1Id")]
-        public string Sa1Id { get; set; }
+        public string? Sa1Id { get; set; }
 
         [JsonPropertyName("sa2Id")]
-        public string Sa2Id { get; set; }
+        public string? Sa2Id { get; set; }
 
         [JsonPropertyName("sa2Name")]
-        public string Sa2Name { get; set; }
+        public string? Sa2Name { get; set; }
 
         [JsonPropertyName("sa3Id")]
-        public string Sa3Id { get; set; }
+        public string? Sa3Id { get; set; }
 
         [JsonPropertyName("sa3Name")]
-        public string Sa3Name { get; set; }
+        public string? Sa3Name { get; set; }
 
         [JsonPropertyName("sa4Id")]
-        public string Sa4Id { get; set; }
+        public string? Sa4Id { get; set; }
 
         [JsonPropertyName("sa4Name")]
-        public string Sa4Name { get; set; }
+        public string? Sa4Name { get; set; }
     }
 
     // TODO: this seems wrong to me because of not having the nesting for 2011 and 2016.
@@ -150,39 +143,39 @@ namespace RightToAskClient.Models
 
      */
     
-    public partial class CommonwealthElectorate
+    public class CommonwealthElectorate
     {
         [JsonPropertyName("commElectoralName")]
-        public string CommElectoralName { get; set; }
+        public string? CommElectoralName { get; set; }
 
         [JsonPropertyName("commElectoralPid")]
-        public string CommElectoralPid { get; set; }
+        public string? CommElectoralPid { get; set; }
     }
 
-    public partial class LocalGovernmentArea
+    public class LocalGovernmentArea
     {
         [JsonPropertyName("lgaName")]
-        public string LgaName { get; set; }
+        public string? LgaName { get; set; }
 
         [JsonPropertyName("lgaPid")]
-        public string LgaPid { get; set; }
+        public string? LgaPid { get; set; }
 
         [JsonPropertyName("lgaShortName")]
-        public string LgaShortName { get; set; }
+        public string? LgaShortName { get; set; }
     }
 
-    public partial class StateElectorate
+    public class StateElectorate
     {
         [JsonPropertyName("stateElectoralPid")]
-        public string stateElectoralPid{ get; set; }
+        public string? stateElectoralPid{ get; set; }
         
         [JsonPropertyName("stateElectoralName")]
-        public string StateElectoralName { get; set; }
+        public string? StateElectoralName { get; set; }
         
         [JsonPropertyName("stateElectoralClassCode")]
-        public string stateElectoralClassCode { get; set; }
+        public string? stateElectoralClassCode { get; set; }
 
         [JsonPropertyName("stateElectoralType")]
-        public string StateElectoralType { get; set; }
+        public string? StateElectoralType { get; set; }
     }
 }

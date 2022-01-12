@@ -156,7 +156,7 @@ namespace RightToAskClient.Models
        private static List<Authority> readAuthoritiesFromFiles()
        {
 		    var AllAuthorities = new List<Authority>();
-		    FileIO.readDataFromCSV("all-authorities.csv",AllAuthorities,parseCSVLineAsAuthority);
+		    FileIO.ReadDataFromCSV("all-authorities.csv",AllAuthorities,parseCSVLineAsAuthority);
 		    return AllAuthorities;
        }
 		
