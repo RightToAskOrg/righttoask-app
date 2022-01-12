@@ -1,7 +1,6 @@
 using System;
 using Xamarin.Forms;
 
-/* TODO: this doesn't 
 namespace RightToAskClient.Controls
 {
     public class FramedClickableLabel : Frame

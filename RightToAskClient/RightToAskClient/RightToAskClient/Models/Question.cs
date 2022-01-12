@@ -56,8 +56,8 @@ namespace RightToAskClient.Models
                 = QuestionAnswerers.Select(ans => ans.GetName()).ToList();
             // view.Select(f => return new { Food = f, Selected = selectedFood.Contains(f)});
             return QuestionText+ "\n" +
-                   "Suggested by: " + (QuestionSuggester ?? "") + '\n' +
-                   "To be asked by: " + (QuestionAsker ?? "") + '\n' +
+                   "Suggested by: " + QuestionSuggester + '\n' +
+                   "To be asked by: " + QuestionAsker + '\n' +
                    // var readablePhrase = string.Join(" ", words); 
                    "To be answered by: " + string.Join(", ", questionAnswerersList) + '\n' +
                    "UpVotes: " + UpVotes+ '\n' +
@@ -65,13 +65,10 @@ namespace RightToAskClient.Models
                    "Link/Answer: " + (LinkOrAnswer ?? "");
         }
         
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

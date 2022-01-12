@@ -19,7 +19,7 @@ namespace RightToAskClient.Views
 	 */
 	public partial class ExploringPage 
 	{
-		protected readonly ObservableCollection<Entity> allEntities;
+		protected readonly ObservableCollection<Entity> allEntities = new ObservableCollection<Entity>();
 		protected readonly ObservableCollection<Tag<Entity>> selectableEntities;
 		
 		// TODO: I would like to be able to use the type system to avoid this doubling-up, but 
@@ -35,13 +35,13 @@ namespace RightToAskClient.Views
 		protected ObservableCollection<Person> selectedPeople = new ObservableCollection<Person>();
 
 		public ExploringPage(ObservableCollection<MP> allEntities, 
-			ObservableCollection<MP> selectedEntities, string? message=null)
+			ObservableCollection<MP> selectedEntities, string message="")
 		{
 			InitializeComponent();
 			
 			selectedMPs = selectedEntities;
 			this.allEntities = new ObservableCollection<Entity>(allEntities);
-			selectableEntities = wrapInTags<MP>(this.allEntities, selectedEntities);
+			selectableEntities = wrapInTags(this.allEntities, selectedEntities);
 			DoneButton.Clicked += DoneMPsButton_OnClicked;
 			
 			SetUpSelectableEntitiesAndIntroText(message);
@@ -56,7 +56,7 @@ namespace RightToAskClient.Views
 
 			selectedAuthorities = selectedEntities;
 			allEntities = new ObservableCollection<Entity>(ParliamentData.AllAuthorities);
-			selectableEntities = wrapInTags<Authority>(allEntities, selectedEntities);
+			selectableEntities = wrapInTags(allEntities, selectedEntities);
 			DoneButton.Clicked += DoneAuthoritiesButton_OnClicked;
 
 			SetUpSelectableEntitiesAndIntroText(message);	
@@ -77,7 +77,7 @@ namespace RightToAskClient.Views
 			{
 				groupedMPsWithTags.Add(new TaggedGroupedEntities(
 					group.Key,
-					wrapInTags<MP>(new ObservableCollection<Entity>(group), selectedMPs)
+					wrapInTags(new ObservableCollection<Entity>(group), selectedMPs)
 				));
 			}
 			AuthorityListView.BindingContext = groupedMPsWithTags;
@@ -92,7 +92,7 @@ namespace RightToAskClient.Views
 
 		private void SetUpSelectableEntitiesAndIntroText(string message)
 		{
-			IntroText.Text = message ?? "";
+			IntroText.Text = message;
 			AuthorityListView.BindingContext = selectableEntities;
 			AuthorityListView.ItemsSource = selectableEntities;
 		}
@@ -103,7 +103,7 @@ namespace RightToAskClient.Views
 				Chamber = chamber.ToString();
 			}
 
-			public string Chamber { get; }
+			public string Chamber { get;  }
 		}
 
 		private void OnEntity_Selected(object sender, ItemTappedEventArgs e)
@@ -120,42 +120,50 @@ namespace RightToAskClient.Views
 		// Possibly some dynamic type lookup?
 		async void DoneMPsButton_OnClicked(object sender, EventArgs e)
 		{
-			UpdateSelectedList<MP>(selectableEntities, selectedMPs);
+			UpdateSelectedList(selectedMPs);
 			await Navigation.PopAsync();
 		}
 		
 		async void DoneAuthoritiesButton_OnClicked(object sender, EventArgs e)
 		{
-			UpdateSelectedList<Authority>(selectableEntities, selectedAuthorities);
+			UpdateSelectedList(selectedAuthorities);
 			await Navigation.PopAsync();
 		}
 			
+		/*
 		async void DonePeopleButton_OnClicked(object sender, EventArgs e)
 		{
-			UpdateSelectedList<Person>(selectableEntities, selectedPeople);
+			UpdateSelectedList(selectableEntities, selectedPeople);
 			await Navigation.PopAsync();
 		}
+		*/
 
-		private void UpdateSelectedList<T>(ObservableCollection<Tag<Entity>> selectableEntities, ObservableCollection<T> selectedEntities) where T:Entity
+		private void UpdateSelectedList<T>(ObservableCollection<T> selectedEntities) where T:Entity
 		{
 			var toBeIncluded = selectableEntities.Where(w => w.Selected).Select(t => t.TagEntity);	
-			foreach (T selectedEntity in toBeIncluded)
+			foreach (Entity selectedEntity in toBeIncluded)
 			{
 				if (!selectedEntities.Contains(selectedEntity))
 				{
-					selectedEntities.Add(selectedEntity);	
+					if (selectedEntity is T s)
+					{
+						selectedEntities.Add(s);	
+					}
 				}
 			}
 			
 			var toBeRemoved = selectableEntities.Where(w => !w.Selected).Select(t => t.TagEntity);
-			foreach (T notSelectedEntity in toBeRemoved)
+			foreach (Entity notSelectedEntity in toBeRemoved)
 			{
-				selectedEntities.Remove(notSelectedEntity);	
+				if (notSelectedEntity is T s)
+				{
+					selectedEntities.Remove(s);
+				}
 			}
 		}
 		
 		protected ObservableCollection<Tag<Entity>> wrapInTags<T>(ObservableCollection<Entity>
-			entities, ObservableCollection<T> selectedEntities) where T : Entity
+		 	entities, ObservableCollection<T> selectedEntities) where T : Entity
 		{
 			return new ObservableCollection<Tag<Entity>>(entities.Select
 				(a => a.WrapInTag(selectedEntities.Contains(a)))
