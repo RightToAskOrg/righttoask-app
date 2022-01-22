@@ -6,20 +6,20 @@ namespace RightToAskClient.Views
 {
 	public partial class MainPage : ContentPage
 	{
-		private ReadingContext readingContext;
+		private ReadingContext _readingContext;
 		public MainPage ()
 		{
 			InitializeComponent();
 
 			// TODO Possibly this should go in OnStart instead
-			readingContext = new ReadingContext(); 
+			_readingContext = new ReadingContext(); 
 		}
 
 		async void OnTop10NowButtonClicked(object sender, EventArgs e)
 		{
-			readingContext.TopTen = true;
+			_readingContext.TopTen = true;
 
-			var readingPage = new ReadingPage (true, readingContext);
+			var readingPage = new ReadingPage (true, _readingContext);
 			await Navigation.PushAsync (readingPage);
 		}
 		
@@ -34,30 +34,30 @@ namespace RightToAskClient.Views
 		// launch a new page.
 		async void OnReadByKeywordFieldCompleted(object sender, EventArgs e)
 		{
-			readingContext.Filters.SearchKeyword = ((SearchBar)sender).Text;
-			launchKeywordReadingPage();
+			_readingContext.Filters.SearchKeyword = ((SearchBar)sender).Text;
+			OnLaunchKeywordReadingPage();
 		}
 		
 		private void OnKeywordChanged(object sender, TextChangedEventArgs e)
 		{
-			readingContext.Filters.SearchKeyword = e.NewTextValue;
+			_readingContext.Filters.SearchKeyword = e.NewTextValue;
 		}
 
-		async void launchKeywordReadingPage()
+		async void OnLaunchKeywordReadingPage()
 		{
-			var readingPage = new ReadingPage(true, readingContext);
+			var readingPage = new ReadingPage(true, _readingContext);
 			await Navigation.PushAsync(readingPage);
 		}
 		
 		async void OnNavigateButtonClicked (object sender, EventArgs e)
 		{
-			var secondPage = new SecondPage (false, readingContext);
+			var secondPage = new SecondPage (false, _readingContext);
 			await Navigation.PushAsync (secondPage);
 		}
 		
 		async void OnReadButtonClicked(object sender, EventArgs e)
 		{
-			var secondPage = new SecondPage (true, readingContext);
+			var secondPage = new SecondPage (true, _readingContext);
 			await Navigation.PushAsync(secondPage);
 		}
 

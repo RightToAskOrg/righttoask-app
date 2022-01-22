@@ -11,7 +11,7 @@ namespace RightToAskClient.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ExploringPageWithSearch : ExploringPage 
     {
-        private string searchingFor;
+        private string _searchingFor;
 
 		public ExploringPageWithSearch(ObservableCollection<MP> allEntities, 
 			ObservableCollection<MP> selectedEntities, string? message=null) : base (allEntities, selectedEntities, message)
@@ -38,10 +38,10 @@ namespace RightToAskClient.Views
 
         private void OnKeywordChanged(object sender, TextChangedEventArgs e) 
         {
-            searchingFor = e.NewTextValue;
-            if (!String.IsNullOrWhiteSpace(searchingFor))
+            _searchingFor = e.NewTextValue;
+            if (!String.IsNullOrWhiteSpace(_searchingFor))
             {
-                ObservableCollection<Tag<Entity>> listToDisplay = GetSearchResults(searchingFor);
+                ObservableCollection<Tag<Entity>> listToDisplay = GetSearchResults(_searchingFor);
                 AuthorityListView.ItemsSource = listToDisplay;
             }
         }
@@ -49,7 +49,7 @@ namespace RightToAskClient.Views
         private ObservableCollection<Tag<Entity>> GetSearchResults(string queryString) 
         {
             return new ObservableCollection<Tag<Entity>>(
-                        selectableEntities.Where(f => f.NameContains(queryString)));
+                        SelectableEntities.Where(f => f.NameContains(queryString)));
         }
     }
 }

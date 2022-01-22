@@ -11,7 +11,7 @@
 			<Label Text="Upvote good questions, or click for more detail" FontSize="Medium"></Label>
 			<!-- Filters inserted here -->
 			<Frame x:Name="FilterShower" BorderColor="Teal">
-				<controls:ClickableLabel Tapped="showFilters" Text="Click to show Filters"/> 
+				<controls:ClickableLabel Tapped="OnShowFilters" Text="Click to show Filters"/> 
 			</Frame>
 			<ScrollView Scrolled="Questions_Scrolled">
 			<ListView x:Name="QuestionListView" HasUnevenRows="True" ItemsSource="{Binding ExistingQuestions}" 

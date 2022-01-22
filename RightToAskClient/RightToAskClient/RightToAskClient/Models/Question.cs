@@ -8,8 +8,8 @@ namespace RightToAskClient.Models
 {
     public class Question : INotifyPropertyChanged
     {
-        private int upVotes;
-        private int downVotes;
+        private int _upVotes;
+        private int _downVotes;
 
         public string QuestionText { get; set; } = "";
         
@@ -28,24 +28,24 @@ namespace RightToAskClient.Models
         {
             get
             {
-                return upVotes;
+                return _upVotes;
             }
             set
             {
-                upVotes = value;
-                OnPropertyChanged("UpVotes");
+                _upVotes = value;
+                OnPropertyChanged();
             }
         }        
         public int DownVotes 
         {
             get
             {
-                return downVotes;
+                return _downVotes;
             }
             set
             {
-                downVotes = value;
-                OnPropertyChanged("DownVotes");
+                _downVotes = value;
+                OnPropertyChanged();
             }
         }
         
@@ -62,7 +62,7 @@ namespace RightToAskClient.Models
                    "To be answered by: " + string.Join(", ", questionAnswerersList) + '\n' +
                    "UpVotes: " + UpVotes+ '\n' +
                    // "DownVotes: " + DownVotes + '\n' +
-                   "Link/Answer: " + (LinkOrAnswer ?? "");
+                   "Link/Answer: " + LinkOrAnswer;
         }
         
         public event PropertyChangedEventHandler? PropertyChanged;

@@ -19,8 +19,8 @@ namespace RightToAskClient.Views
 	 */
 	public partial class ExploringPage 
 	{
-		protected readonly ObservableCollection<Entity> allEntities = new ObservableCollection<Entity>();
-		protected readonly ObservableCollection<Tag<Entity>> selectableEntities;
+		protected readonly ObservableCollection<Entity> AllEntities = new ObservableCollection<Entity>();
+		protected readonly ObservableCollection<Tag<Entity>> SelectableEntities;
 		
 		// TODO: I would like to be able to use the type system to avoid this doubling-up, but 
 		// I can't figure out how to do it. The roles of these three selected-lists are almost the
@@ -30,18 +30,18 @@ namespace RightToAskClient.Views
 		// It only matters for editing the selected elements at return time  - see OnDoneButton_Clicked (*)
 		// below - if we could return a 
 		// generic from this class, it would work easily, but I don't think we can.
-		protected ObservableCollection<Authority> selectedAuthorities = new ObservableCollection<Authority>();
-		protected ObservableCollection<MP> selectedMPs = new ObservableCollection<MP>();
-		protected ObservableCollection<Person> selectedPeople = new ObservableCollection<Person>();
+		protected ObservableCollection<Authority> SelectedAuthorities = new ObservableCollection<Authority>();
+		protected ObservableCollection<MP> SelectedMPs = new ObservableCollection<MP>();
+		protected ObservableCollection<Person> SelectedPeople = new ObservableCollection<Person>();
 
 		public ExploringPage(ObservableCollection<MP> allEntities, 
 			ObservableCollection<MP> selectedEntities, string message="")
 		{
 			InitializeComponent();
 			
-			selectedMPs = selectedEntities;
-			this.allEntities = new ObservableCollection<Entity>(allEntities);
-			selectableEntities = wrapInTags(this.allEntities, selectedEntities);
+			SelectedMPs = selectedEntities;
+			this.AllEntities = new ObservableCollection<Entity>(allEntities);
+			SelectableEntities = wrapInTags(this.AllEntities, selectedEntities);
 			DoneButton.Clicked += DoneMPsButton_OnClicked;
 			
 			SetUpSelectableEntitiesAndIntroText(message);
@@ -54,9 +54,9 @@ namespace RightToAskClient.Views
 		{
 			InitializeComponent();
 
-			selectedAuthorities = selectedEntities;
-			allEntities = new ObservableCollection<Entity>(ParliamentData.AllAuthorities);
-			selectableEntities = wrapInTags(allEntities, selectedEntities);
+			SelectedAuthorities = selectedEntities;
+			AllEntities = new ObservableCollection<Entity>(ParliamentData.AllAuthorities);
+			SelectableEntities = wrapInTags(AllEntities, selectedEntities);
 			DoneButton.Clicked += DoneAuthoritiesButton_OnClicked;
 
 			SetUpSelectableEntitiesAndIntroText(message);	
@@ -67,7 +67,7 @@ namespace RightToAskClient.Views
 			InitializeComponent();
 			
 			IntroText.Text = message;
-			this.selectedMPs = selectedMPs;
+			this.SelectedMPs = selectedMPs;
 			DoneButton.Clicked += DoneMPsButton_OnClicked;
 			
 			AuthorityListView.IsGroupingEnabled = true;
@@ -87,14 +87,14 @@ namespace RightToAskClient.Views
 			// Flat list for the purposes of updating/saving
 			//selectableMPs 
 			//	= new ObservableCollection<Tag<MP>>(groupedMPsWithTags.SelectMany(x => x).ToList());
-			selectableEntities	= new ObservableCollection<Tag<Entity>>(groupedMPsWithTags.SelectMany(x => x).ToList());
+			SelectableEntities	= new ObservableCollection<Tag<Entity>>(groupedMPsWithTags.SelectMany(x => x).ToList());
 		}
 
 		private void SetUpSelectableEntitiesAndIntroText(string message)
 		{
 			IntroText.Text = message;
-			AuthorityListView.BindingContext = selectableEntities;
-			AuthorityListView.ItemsSource = selectableEntities;
+			AuthorityListView.BindingContext = SelectableEntities;
+			AuthorityListView.ItemsSource = SelectableEntities;
 		}
 		private class TaggedGroupedEntities : ObservableCollection<Tag<Entity>>
 		{
@@ -120,13 +120,13 @@ namespace RightToAskClient.Views
 		// Possibly some dynamic type lookup?
 		async void DoneMPsButton_OnClicked(object sender, EventArgs e)
 		{
-			UpdateSelectedList(selectedMPs);
+			UpdateSelectedList(SelectedMPs);
 			await Navigation.PopAsync();
 		}
 		
 		async void DoneAuthoritiesButton_OnClicked(object sender, EventArgs e)
 		{
-			UpdateSelectedList(selectedAuthorities);
+			UpdateSelectedList(SelectedAuthorities);
 			await Navigation.PopAsync();
 		}
 			
@@ -140,7 +140,7 @@ namespace RightToAskClient.Views
 
 		private void UpdateSelectedList<T>(ObservableCollection<T> selectedEntities) where T:Entity
 		{
-			var toBeIncluded = selectableEntities.Where(w => w.Selected).Select(t => t.TagEntity);	
+			var toBeIncluded = SelectableEntities.Where(w => w.Selected).Select(t => t.TagEntity);	
 			foreach (Entity selectedEntity in toBeIncluded)
 			{
 				if (!selectedEntities.Contains(selectedEntity))
@@ -152,7 +152,7 @@ namespace RightToAskClient.Views
 				}
 			}
 			
-			var toBeRemoved = selectableEntities.Where(w => !w.Selected).Select(t => t.TagEntity);
+			var toBeRemoved = SelectableEntities.Where(w => !w.Selected).Select(t => t.TagEntity);
 			foreach (Entity notSelectedEntity in toBeRemoved)
 			{
 				if (notSelectedEntity is T s)

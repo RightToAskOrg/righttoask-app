@@ -27,16 +27,16 @@ namespace RightToAskClient.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RegisterPage2 : ContentPage
     {
-        private Address address = new Address(); 
+        private Address _address = new Address(); 
         
-        private IndividualParticipant thisParticipant;
-        private bool launchMPsSelectionPageNext;
-        private ObservableCollection<MP> alreadySelectedMPs; 
+        private IndividualParticipant _thisParticipant;
+        private bool _launchMPsSelectionPageNext;
+        private ObservableCollection<MP> _alreadySelectedMPs; 
 
         // private ParliamentData.Chamber stateLCChamber=ParliamentData.Chamber.Vic_Legislative_Council;
         // private ParliamentData.Chamber stateLAChamber=ParliamentData.Chamber.Vic_Legislative_Assembly;
 
-        private List<string> allFederalElectorates;
+        private List<string> _allFederalElectorates;
         private List<string> allStateLAElectorates;
         private List<string> allStateLCElectorates;
         // alreadySelectedMPs are passed in if a Selection page is to be launched next.
@@ -46,9 +46,9 @@ namespace RightToAskClient.Views
         {
             InitializeComponent();
             BindingContext = thisParticipant;
-            this.thisParticipant = thisParticipant;
-            this.launchMPsSelectionPageNext = launchMPsSelectionPageNext;
-            this.alreadySelectedMPs = alreadySelectedMPs ?? new ObservableCollection<MP>();
+            this._thisParticipant = thisParticipant;
+            this._launchMPsSelectionPageNext = launchMPsSelectionPageNext;
+            this._alreadySelectedMPs = alreadySelectedMPs ?? new ObservableCollection<MP>();
 
             KnowElectoratesFrame.IsVisible = false;
             addressSavingStack.IsVisible = false;
@@ -75,8 +75,8 @@ namespace RightToAskClient.Views
                 if (selectedIndex != -1)
                 {
                     string state = (string) picker.SelectedItem;
-                    thisParticipant.RegistrationInfo.State = state;
-                    thisParticipant.AddSenatorsFromState(state);
+                    _thisParticipant.RegistrationInfo.State = state;
+                    _thisParticipant.AddSenatorsFromState(state);
                     UpdateElectoratePickerSources(state);
                 }
             }
@@ -84,8 +84,8 @@ namespace RightToAskClient.Views
 
         private void UpdateElectoratePickerSources(string state)
         {
-            allFederalElectorates = ParliamentData.ListElectoratesInHouseOfReps(state);
-            federalElectoratePicker.ItemsSource = allFederalElectorates;
+            _allFederalElectorates = ParliamentData.ListElectoratesInHouseOfReps(state);
+            federalElectoratePicker.ItemsSource = _allFederalElectorates;
             
             allStateLAElectorates 
                 = ParliamentData.ListElectoratesInStateLowerHouse(state);
@@ -110,8 +110,8 @@ namespace RightToAskClient.Views
             string region = ChooseElectorate(picker, allStateLCElectorates);
             if (!String.IsNullOrEmpty(region))
             {
-                var state = thisParticipant.RegistrationInfo.State;
-                thisParticipant.AddStateUpperHouseElectorate(state, region);
+                var state = _thisParticipant.RegistrationInfo.State;
+                _thisParticipant.AddStateUpperHouseElectorate(state, region);
                 RevealNextStepIfElectoratesKnown();
             }
         }
@@ -121,8 +121,8 @@ namespace RightToAskClient.Views
             string region = ChooseElectorate(picker, allStateLAElectorates);
             if (!String.IsNullOrEmpty(region))
             {
-                var state = thisParticipant.RegistrationInfo.State;
-                thisParticipant.AddStateElectoratesGivenOneRegion(state, region);
+                var state = _thisParticipant.RegistrationInfo.State;
+                _thisParticipant.AddStateElectoratesGivenOneRegion(state, region);
                 RevealNextStepIfElectoratesKnown();
             }    
         }
@@ -130,10 +130,10 @@ namespace RightToAskClient.Views
         void OnFederalElectoratePickerSelectedIndexChanged(object sender, EventArgs e)
         {
             var picker = (Picker) sender;
-            string region = ChooseElectorate(picker, allFederalElectorates);
+            string region = ChooseElectorate(picker, _allFederalElectorates);
             if (!String.IsNullOrEmpty(region))
             {
-                thisParticipant.AddHouseOfRepsElectorate(region);
+                _thisParticipant.AddHouseOfRepsElectorate(region);
                 RevealNextStepIfElectoratesKnown();
             }
         }
@@ -157,7 +157,7 @@ namespace RightToAskClient.Views
         private void RevealNextStepIfElectoratesKnown()
         {
                     FindMPsButton.IsVisible = true;
-                    thisParticipant.MPsKnown = true;
+                    _thisParticipant.MPsKnown = true;
         }
         
         // If we've been asked to push an MP-selecting page, go there and
@@ -167,11 +167,11 @@ namespace RightToAskClient.Views
         {
             var currentPage = Navigation.NavigationStack.LastOrDefault();
         
-            if (launchMPsSelectionPageNext)
+            if (_launchMPsSelectionPageNext)
             {
                 string message = "These are your MPs.  Select the one(s) who should answer the question";
                   
-           	    var mpsExploringPage = new ExploringPage(thisParticipant.GroupedMPs, alreadySelectedMPs , message);
+           	    var mpsExploringPage = new ExploringPage(_thisParticipant.GroupedMPs, _alreadySelectedMPs , message);
                 await Navigation.PushAsync(mpsExploringPage);
             }
             
@@ -186,7 +186,7 @@ namespace RightToAskClient.Views
         {
             Result<GeoscapeAddressFeature> httpResponse;
             
-            string state = thisParticipant.RegistrationInfo.State;
+            string state = _thisParticipant.RegistrationInfo.State;
             
             if (String.IsNullOrEmpty(state))
             {
@@ -194,14 +194,14 @@ namespace RightToAskClient.Views
                 return;
             }
 
-            Result<bool> addressValidation = address.SeemsValid();
+            Result<bool> addressValidation = _address.SeemsValid();
             if (!String.IsNullOrEmpty(addressValidation.Err))
             {
                 DisplayAlert(addressValidation.Err, "", "OK");
                 return;
             }
             
-            httpResponse = await GeoscapeClient.GetFirstAddressData(address + " " + state);
+            httpResponse = await GeoscapeClient.GetFirstAddressData(_address + " " + state);
             
             if (!String.IsNullOrEmpty(httpResponse.Err))
             {
@@ -218,8 +218,8 @@ namespace RightToAskClient.Views
             bool saveThisAddress = await DisplayAlert("Electorates found!", 
                 // "State Assembly Electorate: "+thisParticipant.SelectedLAStateElectorate+"\n"
                 // +"State Legislative Council Electorate: "+thisParticipant.SelectedLCStateElectorate+"\n"
-                "Federal electorate: "+thisParticipant.CommonwealthElectorate+"\n"+
-                "State lower house electorate: "+thisParticipant.StateLowerHouseElectorate+"\n"+
+                "Federal electorate: "+_thisParticipant.CommonwealthElectorate+"\n"+
+                "State lower house electorate: "+_thisParticipant.StateLowerHouseElectorate+"\n"+
                 "Do you want to save your address on this device? Right To Ask will not learn your address.", 
                 "OK - Save address on this device", "No thanks");
             if (saveThisAddress)
@@ -242,8 +242,8 @@ namespace RightToAskClient.Views
 
         private void AddElectorates(GeoscapeAddressFeature addressData)
         {
-            thisParticipant.AddElectoratesFromGeoscapeAddress(addressData);
-            thisParticipant.MPsKnown = true;
+            _thisParticipant.AddElectoratesFromGeoscapeAddress(addressData);
+            _thisParticipant.MPsKnown = true;
         }
 
         // TODO Think about what should happen if the person has made 
@@ -256,31 +256,31 @@ namespace RightToAskClient.Views
 
         private void OnStreetNumberAndNameChanged(object sender, TextChangedEventArgs e)
         {
-            address.StreetNumberAndName = e.NewTextValue;
+            _address.StreetNumberAndName = e.NewTextValue;
             mainScrollView.ScrollToAsync(addressSavingStack, ScrollToPosition.End, true); 
         }
         private void OnStreetNumberAndNameEntered(object sender, EventArgs e)
         {
-            address.StreetNumberAndName = ((Entry)sender).Text;
+            _address.StreetNumberAndName = ((Entry)sender).Text;
         }
 
         private void OnCityOrSuburbChanged(object sender, TextChangedEventArgs e)
         {
-            address.CityOrSuburb = e.NewTextValue;
+            _address.CityOrSuburb = e.NewTextValue;
         }
         private void OnCityOrSuburbEntered(object sender, EventArgs e)
         {
-            address.CityOrSuburb =  ((Entry)sender).Text;
+            _address.CityOrSuburb =  ((Entry)sender).Text;
         }
 
         private void OnPostcodeChanged(object sender, TextChangedEventArgs e)
         {
-            address.Postcode = e.NewTextValue;
+            _address.Postcode = e.NewTextValue;
         }
         
         private void OnPostcodeEntered(object sender, EventArgs e)
         {
-            address.Postcode =  ((Entry)sender).Text;
+            _address.Postcode =  ((Entry)sender).Text;
         }
 
         private void KnowElectorates_Tapped(object sender, EventArgs e)

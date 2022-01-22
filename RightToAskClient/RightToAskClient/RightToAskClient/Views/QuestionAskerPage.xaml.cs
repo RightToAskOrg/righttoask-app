@@ -13,11 +13,11 @@ namespace RightToAskClient.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class QuestionAskerPage : ContentPage
     {
-        private ReadingContext readingContext;
+        private ReadingContext _readingContext;
         public QuestionAskerPage(ReadingContext readingContext)
         {
             BindingContext = readingContext;
-            this.readingContext = readingContext;
+            this._readingContext = readingContext;
             
              InitializeComponent();
             
@@ -32,13 +32,13 @@ namespace RightToAskClient.Views
             ((Button) sender).IsVisible = false;
             SenateEstimatesSelection.IsVisible = true;
             SenateEstimatesAppearance.Text =
-                String.Join(" ", readingContext.Filters.SelectedAuthorities)
+                String.Join(" ", _readingContext.Filters.SelectedAuthorities)
                     + " is appearing at Senate Estimates tomorrow";
             NavigateForwardButton.IsVisible = true;
         }
         private void OnSelectCommitteeButtonClicked(object sender, EventArgs e)
         {
-            readingContext.Filters.SelectedAskingCommittee.Add("Senate Estimates tomorrow");
+            _readingContext.Filters.SelectedAskingCommittee.Add("Senate Estimates tomorrow");
             ((Button)sender).Text = "Selected!";
             
         }
@@ -51,8 +51,8 @@ namespace RightToAskClient.Views
             
 			if (ParliamentData.MPAndOtherData.IsInitialised)
 			{
-				var mpsExploringPage = new ExploringPage(readingContext.ThisParticipant.GroupedMPs,
-					readingContext.Filters.SelectedAskingMPsMine, message);
+				var mpsExploringPage = new ExploringPage(_readingContext.ThisParticipant.GroupedMPs,
+					_readingContext.Filters.SelectedAskingMPsMine, message);
 
                 launchMPFindingAndSelectingPages(mpsExploringPage);
             }
@@ -74,13 +74,13 @@ namespace RightToAskClient.Views
 
         private async void launchMPFindingAndSelectingPages(ExploringPage mpsExploringPage)
         {
-            var nextPage = await SecondPage.ListMPsFindFirstIfNotAlreadyKnown(readingContext, mpsExploringPage, readingContext.Filters.SelectedAskingMPs);
+            var nextPage = await SecondPage.ListMPsFindFirstIfNotAlreadyKnown(_readingContext, mpsExploringPage, _readingContext.Filters.SelectedAskingMPs);
             await Navigation.PushAsync(nextPage);
         }
 
         async void OnNavigateForwardButtonClicked(object sender, EventArgs e)
         {
-			var readingPage = new ReadingPage(false, readingContext);
+			var readingPage = new ReadingPage(false, _readingContext);
 			await Navigation.PushAsync (readingPage);
         }
 
@@ -102,7 +102,7 @@ namespace RightToAskClient.Views
             if (ParliamentData.MPAndOtherData.IsInitialised)
 			{
 				var mpsExploringPage = new ExploringPageWithSearch(ParliamentData.AllMPs,
-					readingContext.Filters.SelectedAskingMPs, message);
+					_readingContext.Filters.SelectedAskingMPs, message);
 
                 await Navigation.PushAsync(mpsExploringPage);
             }

@@ -14,8 +14,8 @@ namespace RightToAskClient.Views
             : base(filtersSelectedAuthorities, message)
         {
             var selectionsListView = setUpPage();
-            var alreadySelectedEntities = new ObservableCollection<Entity>(selectedAuthorities);
-            selectionsListView.ItemsSource = wrapInTags<Authority>(alreadySelectedEntities, selectedAuthorities);
+            var alreadySelectedEntities = new ObservableCollection<Entity>(SelectedAuthorities);
+            selectionsListView.ItemsSource = wrapInTags<Authority>(alreadySelectedEntities, SelectedAuthorities);
         }
 
         // Sets up the page, mostly by inserting a list for selected items at the beginning.

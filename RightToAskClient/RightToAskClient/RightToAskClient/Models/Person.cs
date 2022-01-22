@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using Xamarin.Forms.Xaml;
 
 // This class represents a human, who might be 
 // an MP or a non-MP participant.
@@ -13,36 +10,30 @@ namespace RightToAskClient.Models
 {
     public abstract class Person : Entity
     {
-		protected Address address;
-        // public string StateOrTerritory { get; set; }
-        
-		// protected ElectorateWithChamber FederalElectorate; 
-		// protected ElectorateWithChamber LAStateElectorate;
-		// protected ElectorateWithChamber LCStateElectorate;
-		// protected string userName;
-		protected string userEmail;
+		private Address _address = new Address();
+		private string _userEmail = "";
 
-		protected Registration registrationInfo = new Registration();
+		private Registration _registrationInfo = new Registration();
         // TODO add attributes for a nice profile, such as a photo.
 
         // Initially, when we don't know the state, it's only the Australian
 		// Parliament.
-		protected List<ParliamentData.Chamber> chambersRepresentedIn 
+		protected List<ParliamentData.Chamber> ChambersRepresentedIn 
 			= ParliamentData.FindChambers("");
 
 		//protected List<ElectorateWithChamber> electorates = new List<ElectorateWithChamber>();
 
 		public void UpdateChambers(string state)
 		{
-			chambersRepresentedIn = ParliamentData.FindChambers(state);
+			ChambersRepresentedIn = ParliamentData.FindChambers(state);
 		}
 
         public Registration RegistrationInfo 
         {
-			get { return registrationInfo; }
+			get { return _registrationInfo; }
 			set
 			{
-				registrationInfo = value;
+				_registrationInfo = value;
 				OnPropertyChanged("RegistrationInfo");
 			}
 		}
@@ -98,7 +89,7 @@ namespace RightToAskClient.Models
 
         private string findElectorateGivenPredicate(Predicate<ElectorateWithChamber> func)
         {
-	        var electoratePair = registrationInfo.electorates.Find(func);
+	        var electoratePair = _registrationInfo.electorates.Find(func);
 	        if (electoratePair is null)
 	        {
 		        return "";
@@ -143,26 +134,26 @@ namespace RightToAskClient.Models
 */
         public Address Address
         {
-	        get { return address; }
+	        get { return _address; }
 	        set
 	        {
-		        address = value;
+		        _address = value;
 		        OnPropertyChanged("Address");
 	        }
         }
 		public string UserEmail
 		{
-			get { return userEmail; }
+			get { return _userEmail; }
 			set
 			{
-				userEmail = value;
+				_userEmail = value;
 				OnPropertyChanged("UserEmail");
 			}
 		}
 
 		public override string GetName()
 		{
-			return registrationInfo.display_name;
+			return _registrationInfo.display_name;
 		}
     }
 

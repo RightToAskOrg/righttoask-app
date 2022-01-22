@@ -10,12 +10,12 @@ namespace RightToAskClient.Views
 		//{
 		// 	InitializeComponent ();
 		// }
-		private ReadingContext context;
+		private ReadingContext _context;
 		public TodoItemPage (Registration reg, ReadingContext context)
 		{
 			InitializeComponent ();
 			BindingContext = reg;
-			this.context = context;
+			this._context = context;
 		}
 
 		async void OnSaveButtonClicked (object sender, EventArgs e)

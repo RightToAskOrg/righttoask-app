@@ -9,12 +9,12 @@ namespace RightToAskClient.Controls
 {
     public class FilterDisplayTableView : TableView
     {
-        private FilterChoices filterContext;
+        private FilterChoices _filterContext;
         private readonly TableSection _contents;
         public FilterDisplayTableView(FilterChoices filterContext)
         {
             BindingContext = filterContext;
-            this.filterContext = filterContext;
+            this._filterContext = filterContext;
             BackgroundColor = Color.NavajoWhite;
             Intent = TableIntent.Settings;
             VerticalOptions = LayoutOptions.Start;
@@ -133,13 +133,13 @@ namespace RightToAskClient.Controls
 			string message = "Choose others to add";
 			
            	var departmentExploringPage 
-                = new ExploringPageWithSearchAndPreSelections(filterContext.SelectedAuthorities, message);
+                = new ExploringPageWithSearchAndPreSelections(_filterContext.SelectedAuthorities, message);
            	await Navigation.PushAsync (departmentExploringPage);
         }
 
         private void OnKewordEntryCompleted(object sender, EventArgs e)
         {
-            filterContext.SearchKeyword = ((EntryCell)sender).Text;
+            _filterContext.SearchKeyword = ((EntryCell)sender).Text;
         }
     }
 }

@@ -12,11 +12,7 @@ namespace RightToAskClient.Models
         public abstract string GetName();
         public Tag<Entity> WrapInTag(bool selected = false)
         {
-            return new Tag<Entity>
-            {
-                TagEntity = this,
-                Selected = selected
-            };
+            return new Tag<Entity>(this, selected);
         }
         public event PropertyChangedEventHandler? PropertyChanged;
 

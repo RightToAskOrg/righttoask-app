@@ -7,63 +7,63 @@ namespace RightToAskClient.Models
 {
 	public class FilterChoices : INotifyPropertyChanged
 	{
-		private string searchKeyword;
-		private ObservableCollection<MP> selectedAnsweringMPs;
-		private ObservableCollection<MP> selectedAnsweringMPsMine;
-		private ObservableCollection<MP> selectedAskingMPs;
-		private ObservableCollection<MP> selectedAskingMPsMine;
-		private ObservableCollection<Authority> selectedAuthorities;
-		private ObservableCollection<string> selectedAskingCommittee;
-		private ObservableCollection<Entity> selectedAskingUsers;
+		private string _searchKeyword;
+		private ObservableCollection<MP> _selectedAnsweringMPs;
+		private ObservableCollection<MP> _selectedAnsweringMPsMine;
+		private ObservableCollection<MP> _selectedAskingMPs;
+		private ObservableCollection<MP> _selectedAskingMPsMine;
+		private ObservableCollection<Authority> _selectedAuthorities;
+		private ObservableCollection<string> _selectedAskingCommittee;
+		private ObservableCollection<Entity> _selectedAskingUsers;
 
 		public FilterChoices()
 		{
-			selectedAnsweringMPs = new ObservableCollection<MP>();
-			selectedAskingMPs = new ObservableCollection<MP>();
-			selectedAnsweringMPsMine = new ObservableCollection<MP>();
-			selectedAskingMPsMine = new ObservableCollection<MP>();
-			selectedAuthorities = new ObservableCollection<Authority>();
-			selectedAskingCommittee = new ObservableCollection<string>();
-			selectedAskingUsers = new ObservableCollection<Entity>();
+			_selectedAnsweringMPs = new ObservableCollection<MP>();
+			_selectedAskingMPs = new ObservableCollection<MP>();
+			_selectedAnsweringMPsMine = new ObservableCollection<MP>();
+			_selectedAskingMPsMine = new ObservableCollection<MP>();
+			_selectedAuthorities = new ObservableCollection<Authority>();
+			_selectedAskingCommittee = new ObservableCollection<string>();
+			_selectedAskingUsers = new ObservableCollection<Entity>();
 			
 		}
 
 		public ObservableCollection<Authority> SelectedAuthorities
 		{
-			get { return selectedAuthorities; }
+			get { return _selectedAuthorities; }
 			set
 			{
-				selectedAuthorities = value;
+				_selectedAuthorities = value;
 				OnPropertyChanged("SelectedAuthorities");
 			}
 		}
 
 		public string SearchKeyword
 		{
-			get { return searchKeyword; }
+			get { return _searchKeyword; }
 			set
 			{
-				searchKeyword = value;
+				_searchKeyword = value;
 				OnPropertyChanged("SearchKeyword");
 			}
 		}
 
 		public ObservableCollection<MP> SelectedAskingMPsMine
 		{
-			get { return selectedAskingMPsMine; }
+			get { return _selectedAskingMPsMine; }
 			set
 			{
-				selectedAskingMPsMine = value;
+				_selectedAskingMPsMine = value;
 				OnPropertyChanged("SelectedAskingMPsMine");
 			}
 		}
 		
 		public ObservableCollection<MP> SelectedAskingMPs
 		{
-			get { return selectedAskingMPs; }
+			get { return _selectedAskingMPs; }
 			set
 			{
-				selectedAskingMPs = value;
+				_selectedAskingMPs = value;
 				OnPropertyChanged("SelectedAskingMPs");
 			}
 		}
@@ -72,39 +72,39 @@ namespace RightToAskClient.Models
 
 		public ObservableCollection<MP> SelectedAnsweringMPsMine
 		{
-			get { return selectedAnsweringMPsMine; }
+			get { return _selectedAnsweringMPsMine; }
 			set
 			{
-				selectedAnsweringMPsMine = value;
+				_selectedAnsweringMPsMine = value;
 				OnPropertyChanged("SelectedAnsweringMPsMine");
 			}
 		}
 		public ObservableCollection<MP> SelectedAnsweringMPs
 		{
-			get { return selectedAnsweringMPs; }
+			get { return _selectedAnsweringMPs; }
 			set
 			{
-				selectedAnsweringMPs = value;
+				_selectedAnsweringMPs = value;
 				OnPropertyChanged("SelectedAnsweringMPs");
 			}
 		}
 
 		public ObservableCollection<string> SelectedAskingCommittee
 		{
-			get { return selectedAskingCommittee; }
+			get { return _selectedAskingCommittee; }
 			set
 			{
-				selectedAskingCommittee = value;
+				_selectedAskingCommittee = value;
 				OnPropertyChanged("SelectedAskingCommittee");
 			}
 		}
 
 		public ObservableCollection<Entity> SelectedAskingUsers
 		{
-			get { return selectedAskingUsers; }
+			get { return _selectedAskingUsers; }
 			set
 			{
-				selectedAskingUsers = value;
+				_selectedAskingUsers = value;
 				OnPropertyChanged("SelectedAskingUsers");
 			}
 		}

@@ -7,16 +7,16 @@ namespace RightToAskClient.Views
 {
     public partial class QuestionDetailPage : ContentPage
     {
-        private string linkOrAnswer;
-        private Question question;
-        private ReadingContext readingContext;
+        private string _linkOrAnswer;
+        private Question _question;
+        private ReadingContext _readingContext;
         public QuestionDetailPage (bool isNewQuestion, Question question, ReadingContext readingContext)
         {
             BindingContext = question;
-            this.question = question;
+            this._question = question;
             
             // Note: this is never actually used, except to pass on to the account-editing page.
-            this.readingContext = readingContext;
+            this._readingContext = readingContext;
             
             InitializeComponent ();
             // QuestionDetailView.Text = question.ToString();
@@ -41,7 +41,7 @@ namespace RightToAskClient.Views
         
         private void UpVoteButton_OnClicked(object sender, EventArgs e)
         {
-            question.UpVotes++;
+            _question.UpVotes++;
         }
 
         // TODO: Present the UI more nicely here - this should happen if you click on the person's 
@@ -55,7 +55,7 @@ namespace RightToAskClient.Views
                 public_key = "123",
                 State = "VIC"
             };
-            RegisterPage1 otherUserProfilePage = new RegisterPage1(testUserReg, readingContext, true);
+            RegisterPage1 otherUserProfilePage = new RegisterPage1(testUserReg, _readingContext, true);
             await Navigation.PushAsync(otherUserProfilePage);
         }
         
@@ -63,7 +63,7 @@ namespace RightToAskClient.Views
         // which of these two functions should be doing the saving.
 		void Answer_Entered(object sender, EventArgs e)
 		{
-			question.LinkOrAnswer = ((Editor) sender).Text;
+			_question.LinkOrAnswer = ((Editor) sender).Text;
 		}
 
         private void SaveAnswerButton_OnClicked(object sender, EventArgs e)
@@ -77,7 +77,7 @@ namespace RightToAskClient.Views
         // give you the same options.
         async void SubmitNewQuestionButton_OnClicked(object sender, EventArgs e)
         {
-            if (!readingContext.ThisParticipant.Is_Registered)
+            if (!_readingContext.ThisParticipant.IsRegistered)
             {
                 string message = "You need to make an account to publish or vote on questions";
                 bool registerNow 
@@ -86,7 +86,7 @@ namespace RightToAskClient.Views
                 if (registerNow)
                 {
                     // var reg = new Registration();
-                    RegisterPage1 registrationPage = new RegisterPage1(readingContext.ThisParticipant.RegistrationInfo, readingContext, false);
+                    RegisterPage1 registrationPage = new RegisterPage1(_readingContext.ThisParticipant.RegistrationInfo, _readingContext, false);
                     registrationPage.Disappearing += setSuggester;
                     
                     // question.QuestionSuggester = readingContext.ThisParticipant.UserName;
@@ -107,7 +107,7 @@ namespace RightToAskClient.Views
 
         private void setSuggester(object sender, EventArgs e)
         {
-            question.QuestionSuggester = readingContext.ThisParticipant.RegistrationInfo.display_name;
+            _question.QuestionSuggester = _readingContext.ThisParticipant.RegistrationInfo.display_name;
         }
         private async void SaveQuestion(object sender, EventArgs e)
         {
@@ -115,11 +115,11 @@ namespace RightToAskClient.Views
             // Setting QuestionSuggester may be unnecessary
             // - it may already be set correctly -
             // but is needed if the person has just registered.
-            if (readingContext.ThisParticipant.Is_Registered)
+            if (_readingContext.ThisParticipant.IsRegistered)
             {
                 // question.QuestionSuggester = readingContext.ThisParticipant.UserName;
-	            readingContext.ExistingQuestions.Insert(0, question);
-                readingContext.DraftQuestion = null;
+	            _readingContext.ExistingQuestions.Insert(0, _question);
+                _readingContext.DraftQuestion = null;
                 
             }
             

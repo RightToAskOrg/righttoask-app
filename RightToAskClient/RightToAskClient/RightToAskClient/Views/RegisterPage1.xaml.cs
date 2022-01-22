@@ -10,12 +10,12 @@ namespace RightToAskClient.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RegisterPage1 : ContentPage
     {
-        private ReadingContext readingContext;
+        private ReadingContext _readingContext;
         
         public RegisterPage1(Registration reg, ReadingContext readingContext, bool isReadingOnly)
         {
             InitializeComponent();
-            this.readingContext = readingContext;
+            this._readingContext = readingContext;
             BindingContext = reg;
 
             Title = isReadingOnly ? "User profile" : "Create Account";
@@ -46,12 +46,12 @@ namespace RightToAskClient.Views
 		        SeeQuestionsButton.IsVisible = false;
 		        FollowButton.IsVisible = false;
 		        
-		        if (!readingContext.ThisParticipant.MPsKnown)
+		        if (!_readingContext.ThisParticipant.MPsKnown)
 		        {
 			        registerCitizenButton.Text = "Next: Find your electorates";
 		        }
             
-		        if (!readingContext.ThisParticipant.Is_Registered)
+		        if (!_readingContext.ThisParticipant.IsRegistered)
 		        {
 			        registerCitizenButton.IsVisible = true;
 					registerOrgButton.IsVisible = true;
@@ -59,7 +59,7 @@ namespace RightToAskClient.Views
 		        }
 		        else
 		        {
-			        if (readingContext.ThisParticipant.MPsKnown)
+			        if (_readingContext.ThisParticipant.MPsKnown)
 			        {
 				        DisplayAlert("Electorates already selected",
 					        "You have already selected your electorates - you can change them if you like",
@@ -77,8 +77,8 @@ namespace RightToAskClient.Views
             if (picker.SelectedIndex != -1)
             {
 	            string state = (string)picker.SelectedItem;
-	            readingContext.ThisParticipant.RegistrationInfo.State = state; 
-                readingContext.ThisParticipant.UpdateChambers(state);
+	            _readingContext.ThisParticipant.RegistrationInfo.State = state; 
+                _readingContext.ThisParticipant.UpdateChambers(state);
             }
         }
 	    
@@ -98,8 +98,8 @@ namespace RightToAskClient.Views
 				ReportLabel.Text = httpValidation.message;
 				if (httpValidation.isValid)
 				{
-					readingContext.ThisParticipant.RegistrationInfo = newRegistration;
-					readingContext.ThisParticipant.Is_Registered = true;
+					_readingContext.ThisParticipant.RegistrationInfo = newRegistration;
+					_readingContext.ThisParticipant.IsRegistered = true;
 					PossiblyPushElectoratesPage();
 				}
 			}
@@ -127,9 +127,9 @@ namespace RightToAskClient.Views
         {
 	        var currentPage = Navigation.NavigationStack.LastOrDefault();
 
-	        if (!readingContext.ThisParticipant.MPsKnown)
+	        if (!_readingContext.ThisParticipant.MPsKnown)
 	        {
-		        var findElectoratesPage = new RegisterPage2(readingContext.ThisParticipant, true, false);
+		        var findElectoratesPage = new RegisterPage2(_readingContext.ThisParticipant, true, false);
 		        await Navigation.PushAsync(findElectoratesPage);
 	        }
 
@@ -147,7 +147,7 @@ namespace RightToAskClient.Views
 
         private void OnRegisterEmailFieldCompleted(object sender, EventArgs e)
         {
-	        readingContext.ThisParticipant.UserEmail = ((Editor) sender).Text;
+	        _readingContext.ThisParticipant.UserEmail = ((Editor) sender).Text;
         }
 
         // TODO Make this put up the electorate-finding page.
@@ -175,7 +175,7 @@ namespace RightToAskClient.Views
 		// Will they expect to be adding a new stack layer, or popping off old ones?
 		private async void SeeQuestionsButton_OnClicked(object sender, EventArgs e)
 		{
-			var readingPage = new ReadingPage(true, readingContext);
+			var readingPage = new ReadingPage(true, _readingContext);
 			await Navigation.PushAsync(readingPage);
 		}
     }

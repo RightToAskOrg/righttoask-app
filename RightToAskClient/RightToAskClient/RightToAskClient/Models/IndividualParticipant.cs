@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -13,20 +12,20 @@ namespace RightToAskClient.Models
 	// in addition to the public data in 'Person'
 	public class IndividualParticipant : Person 
     {
-		public IndividualParticipant() : base()
+		public IndividualParticipant() 
 		{
 			MPsKnown = false;
-			Is_Registered = false;
+			IsRegistered = false;
 		}
-		public bool Is_Registered { get; set; }
+		public bool IsRegistered { get; set; }
 		public bool MPsKnown { get; set; }
 
-		private ObservableCollection<MP> myMPs = new ObservableCollection<MP>();
+		private ObservableCollection<MP> _myMPs = new ObservableCollection<MP>();
 		public ObservableCollection<MP> MyMPs
 		{
 			get
 			{
-				return myMPs;
+				return _myMPs;
 			}
 			private set
 			{
@@ -48,7 +47,7 @@ namespace RightToAskClient.Models
 		// inconsistent chambers/electorates.
 		public void UpdateElectorate(ElectorateWithChamber knownElectorate)
 		{
-			registrationInfo.AddElectorateRemoveDuplicates(knownElectorate);
+			RegistrationInfo.AddElectorateRemoveDuplicates(knownElectorate);
 			UpdateMPs();
 		}
 		
@@ -66,7 +65,7 @@ namespace RightToAskClient.Models
 				mps.AddRange(mpstoadd);
 			}
 
-			myMPs = new ObservableCollection<MP>(mps);
+			_myMPs = new ObservableCollection<MP>(mps);
 		}
 		
         // TODO: Do some validity checking to ensure that you're not adding inconsistent
@@ -108,8 +107,18 @@ namespace RightToAskClient.Models
 
         public void AddElectoratesFromGeoscapeAddress(GeoscapeAddressFeature addressData)
         {
-            AddHouseOfRepsElectorate(addressData.Properties.CommonwealthElectorate.CommElectoralName);
-            AddStateElectoratesGivenOneRegion(RegistrationInfo.State, addressData.Properties.StateElectorate.StateElectoralName);
+	        var commElectoralName = addressData.Properties?.CommonwealthElectorate?.CommElectoralName;
+	        var region = addressData.Properties?.StateElectorate?.StateElectoralName;
+	        
+	        if (commElectoralName != null)
+	        {
+				AddHouseOfRepsElectorate(commElectoralName);
+	        }
+
+	        if (region != null)
+	        {
+				AddStateElectoratesGivenOneRegion(RegistrationInfo.State, region);
+	        }
         }
 
         public void AddSenatorsFromState(string state)

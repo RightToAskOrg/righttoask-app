@@ -7,9 +7,16 @@ namespace RightToAskClient.Models
     {
         // TODO probably Entity should be readonly.
         // TODO Also make generic.
-        private T tagEntity;
-        private bool selected;
-        public event PropertyChangedEventHandler PropertyChanged;
+        private T _tagEntity;
+        private bool _selected;
+
+        public Tag(T entity, bool selected)
+        {
+            _tagEntity = entity;
+            _selected = selected;
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
         
         // This function allows for automatic UI updates when these properties change.
         public void OnPropertyChanged([CallerMemberName] string propertyName = "")
@@ -24,35 +31,30 @@ namespace RightToAskClient.Models
         {
             get
             {
-                return tagEntity;
-            }
-            set
-            {
-                tagEntity = value;
-                OnPropertyChanged("TagEntity");
+                return _tagEntity;
             }
         }
 
         public bool Selected
         {
-            get { return selected; }
+            get { return _selected; }
             set
             {
-                selected = value;
+                _selected = value;
                 OnPropertyChanged("Selected");
             }
         }
 
         public void Toggle()
         {
-            selected = !selected;
+            _selected = !_selected;
             OnPropertyChanged("Selected");
         }
 
         public bool NameContains(string query)
         {
             var normalizedQuery = query?.ToLower() ?? "";
-            return tagEntity.GetName().ToLowerInvariant().Contains(normalizedQuery);
+            return _tagEntity.GetName().ToLowerInvariant().Contains(normalizedQuery);
         }
         
         public override string ToString ()

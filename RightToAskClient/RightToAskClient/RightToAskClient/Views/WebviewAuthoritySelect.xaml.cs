@@ -8,11 +8,11 @@ namespace RightToAskClient.Views
 {
     public partial class WebviewAuthoritySelect : ContentPage
     {
-        private ReadingContext context;
+        private ReadingContext _context;
         public WebviewAuthoritySelect (ReadingContext context)
         {
             InitializeComponent ();
-            this.context = context;
+            this._context = context;
             BindingContext = context;
             WebView1.Source = "https://www.righttoknow.org.au/body/list/all";
         }
@@ -73,9 +73,9 @@ namespace RightToAskClient.Views
             } else if (matchingAuthorities.Count == 1)
             {
                 var authorityToBeAdded = matchingAuthorities[0]; 
-                if(!context.Filters.SelectedAuthorities.Contains(authorityToBeAdded))
+                if(!_context.Filters.SelectedAuthorities.Contains(authorityToBeAdded))
                 {
-                    context.Filters.SelectedAuthorities.Add(authorityToBeAdded);        
+                    _context.Filters.SelectedAuthorities.Add(authorityToBeAdded);        
                 }
             }
             else

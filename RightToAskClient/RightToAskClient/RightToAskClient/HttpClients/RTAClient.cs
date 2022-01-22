@@ -13,21 +13,21 @@ namespace RightToAskClient.HttpClients
      */
     public static class RTAClient
     {
-        private static JsonSerializerOptions serializerOptions =
+        private static JsonSerializerOptions _serializerOptions =
             new JsonSerializerOptions
             {
                 Converters = { new JsonStringEnumConverter() },
                 WriteIndented = false,
             };
         
-        private static readonly GenericHttpClient _client = new GenericHttpClient(serializerOptions);
+        private static readonly GenericHttpClient Client = new GenericHttpClient(_serializerOptions);
         
         public static async Task<Result<UpdatableParliamentAndMPDataStructure>> GetMPsData()
         {
             string errorMessage = "Could not download MP data. You can still read and submit questions, but we can't find MPs.";
-            Result<UpdatableParliamentAndMPDataStructure>? httpResponse =await _client.DoGetJSONRequest<UpdatableParliamentAndMPDataStructure>(Constants.MPListUrl);
+            Result<UpdatableParliamentAndMPDataStructure>? httpResponse =await Client.DoGetJSONRequest<UpdatableParliamentAndMPDataStructure>(Constants.MPListUrl);
             
-            // Note: the compiler warns this is unnecessary, but an exception is sometimes thrown here without this check.
+            // Note: the compiler warns this null check is unnecessary, but an exception is sometimes thrown here without this check.
             // I am confused about why this is necessary, but empirically it definitely is.
             if (httpResponse is null)
             {
@@ -77,7 +77,7 @@ namespace RightToAskClient.HttpClients
         
         public static async Task<Result<List<string>>> GetUserList()
         {
-            return await _client.DoGetResultRequest<List<string>>(Constants.UserListUrl);
+            return await Client.DoGetResultRequest<List<string>>(Constants.UserListUrl);
         }
 
         /*
@@ -91,7 +91,7 @@ namespace RightToAskClient.HttpClients
         public static async Task<Result<bool>> RegisterNewUser(Registration newReg)
         {
             var httpResponse 
-                = await _client.PostGenericItemAsync<Result<SignedString>, Registration>(newReg);
+                = await Client.PostGenericItemAsync<Result<SignedString>, Registration>(newReg);
 
             // http errors
             if (String.IsNullOrEmpty(httpResponse.Err))

@@ -28,9 +28,9 @@ namespace RightToAskClient.Models
 		// Whether this is a 'top ten' search.
 		public bool TopTen { get; set; }
 
-		public string GoDirect_Committee { get; set; } = "";
+		public string GoDirectCommittee { get; set; } = "";
 
-		public string GoDirect_MP { get; set; } = "";
+		public string GoDirectMP { get; set; } = "";
 
 		// Existing things about the world.
 		public ObservableCollection<Question> ExistingQuestions { get; set; } = new ObservableCollection<Question>();
@@ -88,8 +88,8 @@ namespace RightToAskClient.Models
 		{
 			return "Keyword: " + Filters.SearchKeyword + '\n' +
 			       "TopTen: " + TopTen + '\n' +
-			       "Direct Committee: " + GoDirect_Committee + '\n' +
-			       "Direct MP: " + GoDirect_MP + '\n' +
+			       "Direct Committee: " + GoDirectCommittee + '\n' +
+			       "Direct MP: " + GoDirectMP + '\n' +
 			       "Question: " + DraftQuestion + '\n' ;
 		}
 

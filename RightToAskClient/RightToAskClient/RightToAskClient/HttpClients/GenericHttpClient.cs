@@ -23,8 +23,8 @@ namespace RightToAskClient.HttpClients
 {
     public class GenericHttpClient
     {
-        HttpClient client;
-        JsonSerializerOptions serializerOptions;
+        HttpClient _client;
+        JsonSerializerOptions _serializerOptions;
 
         public Result<List<string>> Items 
         { 
@@ -35,13 +35,13 @@ namespace RightToAskClient.HttpClients
         // TODO Not sure if this is the right way to do this.
         public void SetAuthorizationHeaders(AuthenticationHeaderValue authHeader)
         {
-            client.DefaultRequestHeaders.Authorization = authHeader;
+            _client.DefaultRequestHeaders.Authorization = authHeader;
         }
 
         public GenericHttpClient(JsonSerializerOptions serializerOptions)
         {
-            client = new HttpClient();
-            this.serializerOptions = serializerOptions;
+            _client = new HttpClient();
+            this._serializerOptions = serializerOptions;
             
         }
         
@@ -53,7 +53,7 @@ namespace RightToAskClient.HttpClients
             Uri uri = new Uri(uriString);
             try
             {
-                T deserialisedResponse = await client.GetFromJsonAsync<T>(uri, serializerOptions);
+                T deserialisedResponse = await _client.GetFromJsonAsync<T>(uri, _serializerOptions);
 
                 if (deserialisedResponse is null)
                 {
@@ -98,7 +98,7 @@ namespace RightToAskClient.HttpClients
             Uri uri = new Uri(uriString);
             try
             {
-                HttpResponseMessage response = await client.GetAsync(uri);
+                HttpResponseMessage response = await _client.GetAsync(uri);
 
                 if (response is null || !response.IsSuccessStatusCode)
                 {
@@ -109,7 +109,7 @@ namespace RightToAskClient.HttpClients
                 }
 
                 string content = await response.Content.ReadAsStringAsync();
-                var deserialisedResponse = JsonSerializer.Deserialize<T>(content, serializerOptions);
+                var deserialisedResponse = JsonSerializer.Deserialize<T>(content, _serializerOptions);
 
                 if (deserialisedResponse is null)
                 {
@@ -144,7 +144,7 @@ namespace RightToAskClient.HttpClients
             Uri uri = new Uri(uriString);
             try
             {
-                HttpResponseMessage response = await client.GetAsync(uri);
+                HttpResponseMessage response = await _client.GetAsync(uri);
 
                 if (response is null || !response.IsSuccessStatusCode)
                 {
@@ -155,7 +155,7 @@ namespace RightToAskClient.HttpClients
                 }
 
                 string content = await response.Content.ReadAsStringAsync();
-                var deserialisedResponse = JsonSerializer.Deserialize<Result<T>>(content, serializerOptions);
+                var deserialisedResponse = JsonSerializer.Deserialize<Result<T>>(content, _serializerOptions);
 
                 if (deserialisedResponse is null)
                 {
@@ -186,7 +186,7 @@ namespace RightToAskClient.HttpClients
             Uri uri = new Uri(Constants.UserListUrl);
             try
             {
-                HttpResponseMessage response = await client.GetAsync(uri);
+                HttpResponseMessage response = await _client.GetAsync(uri);
                 
                 if (response is null || !response.IsSuccessStatusCode)
                 {
@@ -197,7 +197,7 @@ namespace RightToAskClient.HttpClients
                 }
                 
                 string content = await response.Content.ReadAsStringAsync();
-                var deserialisedResponse = JsonSerializer.Deserialize<Result<List<string>>>(content, serializerOptions);
+                var deserialisedResponse = JsonSerializer.Deserialize<Result<List<string>>>(content, _serializerOptions);
 
                 if (deserialisedResponse is null)
                 {
@@ -226,10 +226,10 @@ namespace RightToAskClient.HttpClients
             
             try
             {
-                string json = JsonSerializer.Serialize(item, serializerOptions);
+                string json = JsonSerializer.Serialize(item, _serializerOptions);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await client.PostAsync(uri, content);
+                HttpResponseMessage response = await _client.PostAsync(uri, content);
 
                 if (response is null || !response.IsSuccessStatusCode)
                 {
@@ -241,7 +241,7 @@ namespace RightToAskClient.HttpClients
                 
                 string responseContent = await response.Content.ReadAsStringAsync();
                 TResponse httpResponse =
-                    JsonSerializer.Deserialize<TResponse>(responseContent, serializerOptions);
+                    JsonSerializer.Deserialize<TResponse>(responseContent, _serializerOptions);
 
                 if (httpResponse is null)
                 {
