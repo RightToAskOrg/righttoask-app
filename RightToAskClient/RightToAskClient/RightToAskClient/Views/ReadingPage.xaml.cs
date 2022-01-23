@@ -15,22 +15,12 @@ namespace RightToAskClient.Views
 		public ReadingPage(bool isReadingOnly, ReadingContext readingContext)
 		{
 			InitializeComponent();
-			this._readingContext = readingContext;
+			_readingContext = readingContext;
 			BindingContext = readingContext;
 
             _ttestableView = new FilterDisplayTableView(readingContext.Filters);
             WholePage.Children.Insert(1,_ttestableView);
-            // ttestableView.IsVisible = true;
             OnHideFilters();
-            
-            /*
-			FilterShower.GestureRecognizers.Add(new TapGestureRecognizer
-			{
-				Command = new Command(showFilters)
-			});
-			
-			showFilters();
-			*/
             
 			if (isReadingOnly)
 			{

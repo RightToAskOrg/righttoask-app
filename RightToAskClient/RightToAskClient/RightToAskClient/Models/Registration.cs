@@ -1,13 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using RightToAskClient.Annotations;
-using RightToAskClient.Models;
-using Xamarin.Forms.Xaml;
 
 namespace RightToAskClient.Models
 {
@@ -68,7 +65,7 @@ namespace RightToAskClient.Models
 		public event PropertyChangedEventHandler? PropertyChanged;
 
 		[NotifyPropertyChangedInvocator]
-		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}

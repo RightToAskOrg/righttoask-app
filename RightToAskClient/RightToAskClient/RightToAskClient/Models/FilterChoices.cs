@@ -1,4 +1,3 @@
-using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -7,64 +6,52 @@ namespace RightToAskClient.Models
 {
 	public class FilterChoices : INotifyPropertyChanged
 	{
-		private string _searchKeyword;
-		private ObservableCollection<MP> _selectedAnsweringMPs;
-		private ObservableCollection<MP> _selectedAnsweringMPsMine;
-		private ObservableCollection<MP> _selectedAskingMPs;
-		private ObservableCollection<MP> _selectedAskingMPsMine;
-		private ObservableCollection<Authority> _selectedAuthorities;
-		private ObservableCollection<string> _selectedAskingCommittee;
-		private ObservableCollection<Entity> _selectedAskingUsers;
-
-		public FilterChoices()
-		{
-			_selectedAnsweringMPs = new ObservableCollection<MP>();
-			_selectedAskingMPs = new ObservableCollection<MP>();
-			_selectedAnsweringMPsMine = new ObservableCollection<MP>();
-			_selectedAskingMPsMine = new ObservableCollection<MP>();
-			_selectedAuthorities = new ObservableCollection<Authority>();
-			_selectedAskingCommittee = new ObservableCollection<string>();
-			_selectedAskingUsers = new ObservableCollection<Entity>();
-			
-		}
+		private string _searchKeyword = "";
+		private ObservableCollection<MP> _selectedAnsweringMPs = new ObservableCollection<MP>();
+		private ObservableCollection<MP> _selectedAnsweringMPsMine = new ObservableCollection<MP>();
+		private ObservableCollection<MP> _selectedAskingMPs = new ObservableCollection<MP>();
+		private ObservableCollection<MP> _selectedAskingMPsMine = new ObservableCollection<MP>();
+		private ObservableCollection<Authority> _selectedAuthorities = new ObservableCollection<Authority>();
+		private ObservableCollection<string> _selectedAskingCommittee = new ObservableCollection<string>();
+		private ObservableCollection<Entity> _selectedAskingUsers = new ObservableCollection<Entity>();
 
 		public ObservableCollection<Authority> SelectedAuthorities
 		{
-			get { return _selectedAuthorities; }
-			set
+			get => _selectedAuthorities;
+			private set
 			{
 				_selectedAuthorities = value;
-				OnPropertyChanged("SelectedAuthorities");
+				OnPropertyChanged();
 			}
 		}
 
 		public string SearchKeyword
 		{
-			get { return _searchKeyword; }
+			get => _searchKeyword;
 			set
 			{
 				_searchKeyword = value;
-				OnPropertyChanged("SearchKeyword");
+				OnPropertyChanged();
 			}
 		}
 
 		public ObservableCollection<MP> SelectedAskingMPsMine
 		{
-			get { return _selectedAskingMPsMine; }
+			get => _selectedAskingMPsMine;
 			set
 			{
 				_selectedAskingMPsMine = value;
-				OnPropertyChanged("SelectedAskingMPsMine");
+				OnPropertyChanged();
 			}
 		}
 		
 		public ObservableCollection<MP> SelectedAskingMPs
 		{
-			get { return _selectedAskingMPs; }
+			get => _selectedAskingMPs;
 			set
 			{
 				_selectedAskingMPs = value;
-				OnPropertyChanged("SelectedAskingMPs");
+				OnPropertyChanged();
 			}
 		}
 
@@ -72,43 +59,43 @@ namespace RightToAskClient.Models
 
 		public ObservableCollection<MP> SelectedAnsweringMPsMine
 		{
-			get { return _selectedAnsweringMPsMine; }
+			get => _selectedAnsweringMPsMine;
 			set
 			{
 				_selectedAnsweringMPsMine = value;
-				OnPropertyChanged("SelectedAnsweringMPsMine");
+				OnPropertyChanged();
 			}
 		}
 		public ObservableCollection<MP> SelectedAnsweringMPs
 		{
-			get { return _selectedAnsweringMPs; }
+			get => _selectedAnsweringMPs;
 			set
 			{
 				_selectedAnsweringMPs = value;
-				OnPropertyChanged("SelectedAnsweringMPs");
+				OnPropertyChanged();
 			}
 		}
 
 		public ObservableCollection<string> SelectedAskingCommittee
 		{
-			get { return _selectedAskingCommittee; }
+			get => _selectedAskingCommittee;
 			set
 			{
 				_selectedAskingCommittee = value;
-				OnPropertyChanged("SelectedAskingCommittee");
+				OnPropertyChanged();
 			}
 		}
 
 		public ObservableCollection<Entity> SelectedAskingUsers
 		{
-			get { return _selectedAskingUsers; }
+			get => _selectedAskingUsers;
 			set
 			{
 				_selectedAskingUsers = value;
-				OnPropertyChanged("SelectedAskingUsers");
+				OnPropertyChanged();
 			}
 		}
-		public event PropertyChangedEventHandler PropertyChanged;
+		public event PropertyChangedEventHandler? PropertyChanged;
         
         public void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {

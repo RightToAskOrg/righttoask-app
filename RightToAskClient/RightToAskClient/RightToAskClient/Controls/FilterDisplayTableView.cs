@@ -7,26 +7,35 @@ using Xamarin.Forms;
 
 namespace RightToAskClient.Controls
 {
-    public class FilterDisplayTableView : TableView
+    public class FilterDisplayTableView : Grid
     {
+        private Label _authorityList = new Label();
+        private View _whoShouldAnswerItView;
         private FilterChoices _filterContext;
         private readonly TableSection _contents;
         public FilterDisplayTableView(FilterChoices filterContext)
         {
             BindingContext = filterContext;
-            this._filterContext = filterContext;
+            _filterContext = filterContext;
             BackgroundColor = Color.NavajoWhite;
-            Intent = TableIntent.Settings;
+            // Intent = TableIntent.Settings;
             VerticalOptions = LayoutOptions.Start;
             HeightRequest = Height; 
-            var root = new TableRoot() { Title = "Filters - tap to edit"};
+            // var root = new TableRoot() { Title = "Filters - tap to edit"};
+            
+            //RowDefinitions.Add(new RowDefinition { Height = new GridLength(2, GridUnitType.Star) }) ;
+            RowDefinitions.Add(new RowDefinition());
+            RowDefinitions.Add(new RowDefinition());
+            RowDefinitions.Add(new RowDefinition());
+            //RowDefinitions.Add(new RowDefinition { Height = new GridLength(100) });
+            
+            // Title = "Filters - tap to edit";
+            // _authorityList.Text = String.Join(",", filterContext.SelectedAuthorities.Select(a => a.ShortestName));
 
-            var authorityList = new Label()
-            {
-                Text = String.Join(",", filterContext.SelectedAuthorities.Select((a => a.ShortestName)))
-            };
-
-            var whoShouldAnswerItView = new ViewCell
+            _whoShouldAnswerItView = BuildWhoShouldAnswerItView();
+            
+            /*
+              new ViewCell
             {
                 View = new StackLayout
                 {
@@ -42,13 +51,14 @@ namespace RightToAskClient.Controls
                             VerticalOptions = LayoutOptions.Start,
                             Children =
                             {
-                                authorityList,
+                                _authorityList,
                             }
                         }
                     }
                 }
             };
-            whoShouldAnswerItView.Tapped += OnMoreButtonClicked;
+            _whoShouldAnswerItView.Tapped += OnMoreButtonClicked;
+            */
             
             var whoShouldAskItMPs = String.Join(",", filterContext.SelectedAskingMPs);
             var whoShouldAskItMyMPs = String.Join(",", filterContext.SelectedAskingMPsMine);
@@ -86,44 +96,47 @@ namespace RightToAskClient.Controls
             };
             whoShouldAskItView.Tapped += OnMoreAskersButtonClicked;
             
-            var keywordentry = new EntryCell
+            var keywordentry = new Entry
             {
-                Label = "Keyword", 
+                // Label = "Keyword", 
                 Placeholder = "?", 
                 Text = filterContext.SearchKeyword 
             };
             keywordentry.Completed += OnKewordEntryCompleted;
-            
-            // var section1 = new TableSection();
-            // var section2 = new TableSection() { };
-            // section1.Add(whoShouldAnswerItView);
-            //section2.Add(whoShouldAskItView);
-            // section2.Add(keywordentry);
+
+            View keywordentryView = new StackLayout()
+            {
+                Children =
+                {
+                    new Label(){Text = "Keyword"},
+                    keywordentry
+                }
+            };
+            /*
             Root = root;
             _contents = new TableSection()
             {
-                whoShouldAnswerItView,
+                _whoShouldAnswerItView,
                 whoShouldAskItView,
                 keywordentry
             };
             _contents.Title = "Filters - tap to edit";
             root.Add(_contents);
+            
+            Children =
+            {
+                _whoShouldAnswerItView,
+                whoShouldAskItView,
+                keywordentry
+            }
+            */
+            Children.Add(new Label(){Text = "Filters - Tap to edit"},0,0);
+            Children.Add(_whoShouldAnswerItView,0,1);
+            // Children.Add(whoShouldAskItView);
+            Children.Add(keywordentryView,0,2);
 
         }
 
-        // TODO Unfortunately this seems to remove the data but not shrink the footprint.
-        public void Shrink()
-        {
-            Root.Title = "Filters - tap to show";
-            // Root.Remove(0);
-            Root.Remove(_contents);
-        }
-
-        public void UnShrink()
-        {
-            Root.Title = "Filters - tap to edit";
-            Root.Add(_contents);
-        }
         private void OnMoreAskersButtonClicked(object sender, EventArgs e)
         {
         }
@@ -135,11 +148,61 @@ namespace RightToAskClient.Controls
            	var departmentExploringPage 
                 = new ExploringPageWithSearchAndPreSelections(_filterContext.SelectedAuthorities, message);
            	await Navigation.PushAsync (departmentExploringPage);
+            DealWithUpdate(); 
+        }
+
+        // TODO*** - this is not working.
+        private void DealWithUpdate()
+        {
+            _whoShouldAnswerItView = BuildWhoShouldAnswerItView();
+            // Root.Add(new TableSection(){_whoShouldAnswerItView});
+        }
+
+        private View BuildWhoShouldAnswerItView()
+        {
+            Label authorityList = new Label()
+            {
+                Text = String.Join(",", _filterContext.SelectedAuthorities.Select(a => a.ShortestName))
+            };
+            
+            var tapGestureRecognizer = new TapGestureRecognizer();
+            tapGestureRecognizer.Tapped += OnMoreButtonClicked;
+            
+            // var view = new BoxView()
+            //var viewCell = new ViewCell
+            //    {
+            //        View = new StackLayout
+            var view = new StackLayout()
+                    {
+                    // Orientation = StackOrientation.Horizontal,
+                        VerticalOptions = LayoutOptions.Start,
+                      HorizontalOptions = LayoutOptions.FillAndExpand,
+                    
+                    
+                    Children =
+                    {
+                    new Label { Text = "Who should answer it?" },
+                        new StackLayout
+                        {
+                            Orientation = StackOrientation.Horizontal,
+                            VerticalOptions = LayoutOptions.Start,
+                            Children =
+                            {
+                                authorityList,
+                            }
+                        }
+                    }
+                // }
+            };
+            view.GestureRecognizers.Add(tapGestureRecognizer);
+
+            // viewCell.GestureRecognizers.Add(tapGestureRecognizer);
+            return view;
         }
 
         private void OnKewordEntryCompleted(object sender, EventArgs e)
         {
-            _filterContext.SearchKeyword = ((EntryCell)sender).Text;
+            _filterContext.SearchKeyword = ((Entry)sender).Text;
         }
     }
 }
