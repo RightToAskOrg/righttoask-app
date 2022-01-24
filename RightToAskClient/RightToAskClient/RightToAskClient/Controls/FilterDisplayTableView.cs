@@ -151,11 +151,12 @@ namespace RightToAskClient.Controls
             DealWithUpdate(); 
         }
 
-        // TODO*** - this is not working.
+        // TODO*** - this is not working, in that the view doesn't update (though the data is updated correctly).
+        // Should be done elegantly with data binding.
         private void DealWithUpdate()
         {
             _whoShouldAnswerItView = BuildWhoShouldAnswerItView();
-            // Root.Add(new TableSection(){_whoShouldAnswerItView});
+            Children.Add(_whoShouldAnswerItView,0,1);
         }
 
         private View BuildWhoShouldAnswerItView()
