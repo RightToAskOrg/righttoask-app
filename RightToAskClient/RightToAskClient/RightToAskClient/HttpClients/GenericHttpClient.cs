@@ -92,51 +92,7 @@ namespace RightToAskClient.HttpClients
                     { Err = "Error connecting to server." + ex.Message };
             }
         }
-        // TODO Unused - Remove? 
-        public async Task<Result<T>> DoGetRequest<T>(string uriString)
-        {
-            Uri uri = new Uri(uriString);
-            try
-            {
-                HttpResponseMessage response = await _client.GetAsync(uri);
-
-                if (response is null || !response.IsSuccessStatusCode)
-                {
-                    return new Result<T>
-                    {
-                        Err = "Error connecting to server." + response?.StatusCode + response?.ReasonPhrase
-                    };
-                }
-
-                string content = await response.Content.ReadAsStringAsync();
-                var deserialisedResponse = JsonSerializer.Deserialize<T>(content, _serializerOptions);
-
-                if (deserialisedResponse is null)
-                {
-                    return new Result<T>
-                    {
-                        Err = "Error deserialising server response."
-                    };
-                }
-
-                // TODO - there may need to be specific error handling for each server. For example, 
-                // Geoscape returns a special value "Enumeration yielded no results" in Results.Empty 
-                // when the address didn't match anything.
-
-                // TODO - this is the *only* step that differs depending on whether T is itself
-                // a result type. Can we use type introspection to just check it?
-                return new Result<T>
-                {
-                    Ok = deserialisedResponse
-                };
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(@"\tERROR {0}", ex.Message);
-                return new Result<T>
-                    { Err = "Error connecting to server." + ex.Message };
-            }
-        }
+        
         // Note: This shouldn't be necessary any more - just unify with
         // DoGetJsonRequest
         public async Task<Result<T>> DoGetResultRequest<T>(string uriString)

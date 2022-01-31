@@ -10,6 +10,8 @@ namespace RightToAskClient.Models
     public abstract class Entity : INotifyPropertyChanged
     {
         public abstract string GetName();
+        public abstract string ShortestName { get; }
+        
         public Tag<Entity> WrapInTag(bool selected = false)
         {
             return new Tag<Entity>(this, selected);
@@ -20,5 +22,6 @@ namespace RightToAskClient.Models
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
     }
 }

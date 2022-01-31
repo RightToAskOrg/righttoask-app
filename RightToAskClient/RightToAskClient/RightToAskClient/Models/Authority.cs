@@ -23,7 +23,7 @@ namespace RightToAskClient.Models
         }
 
         // Return the nickname if there is one, otherwise the long name.
-        public string ShortestName
+        public override string ShortestName
         {
             get { return _nickName != "" ? _nickName : _authorityName;}
         }

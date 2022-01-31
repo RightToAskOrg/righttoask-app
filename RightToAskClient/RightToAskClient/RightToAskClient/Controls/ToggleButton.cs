@@ -43,7 +43,7 @@ namespace RightToAskClient.Controls
 		 */
         private void IncrementOrDecrement(object sender, EventArgs eventArgs)
 		{
-			this._q = BindingContext as Question ?? _q;
+			_q = BindingContext as Question ?? _q;
 			_upVoteMode = Text.Equals(_initialText);
 
 			if (_upVoteMode)

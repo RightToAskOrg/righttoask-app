@@ -23,6 +23,11 @@ namespace RightToAskClient.Models
         
         public string party { get; }= "";
 
+        public override string ShortestName
+        {
+            get { return first_name + " " + surname; }
+        }
+
         private string salutation = "";
 
         public MP(string first_name, string surname, ElectorateWithChamber electorate,

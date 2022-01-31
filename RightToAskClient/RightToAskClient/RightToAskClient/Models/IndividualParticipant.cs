@@ -20,6 +20,10 @@ namespace RightToAskClient.Models
 		public bool IsRegistered { get; set; }
 		public bool MPsKnown { get; set; }
 
+        public override string ShortestName
+        {
+            get { return RegistrationInfo.display_name; }
+        }
 		private ObservableCollection<MP> _myMPs = new ObservableCollection<MP>();
 		public ObservableCollection<MP> MyMPs
 		{

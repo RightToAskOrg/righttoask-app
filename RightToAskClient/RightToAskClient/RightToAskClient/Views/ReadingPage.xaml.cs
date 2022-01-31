@@ -11,6 +11,7 @@ namespace RightToAskClient.Views
 		private string _draftQuestion;
 		private readonly ReadingContext _readingContext;
 		private FilterDisplayTableView _ttestableView;
+		private ClickableEntityListView<Authority> _clickableEntityListView;
 
 		public ReadingPage(bool isReadingOnly, ReadingContext readingContext)
 		{
@@ -20,6 +21,15 @@ namespace RightToAskClient.Views
 
             _ttestableView = new FilterDisplayTableView(readingContext.Filters);
             WholePage.Children.Insert(1,_ttestableView);
+            string labelText = "This is another test";
+            //_clickableEntityListView = new ClickableEntityListView() { LabelText = "This is the label text"};
+            _clickableEntityListView = new ClickableEntityListView<Authority>(labelText)
+            {
+	            ClickableListLabel = "What should we do with this list?",
+	            ClickableListContents = _readingContext.Filters.SelectedAuthorities
+            };
+            WholePage.Children.Insert(1,_clickableEntityListView);
+            
             OnHideFilters();
             
 			if (isReadingOnly)
