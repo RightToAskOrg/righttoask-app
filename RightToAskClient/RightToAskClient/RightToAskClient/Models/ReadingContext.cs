@@ -22,7 +22,19 @@ namespace RightToAskClient.Models
 		public IndividualParticipant ThisParticipant { get; set; } = new IndividualParticipant();
 
 		// Things about the current search, draft question or other action.
-		public FilterChoices Filters { get; set; } = new FilterChoices();
+		// TODO: Possibly this needs to use getValue and setValue to that property changes
+		// cause UI updates.
+		private FilterChoices _filters = new FilterChoices();
+
+		public FilterChoices Filters
+		{
+			get => _filters;
+			set
+			{
+				_filters = value;
+				OnPropertyChanged();
+			}
+		} 
 		public string DraftQuestion { get; set; } = "";
 		
 		// Whether this is a 'top ten' search.
