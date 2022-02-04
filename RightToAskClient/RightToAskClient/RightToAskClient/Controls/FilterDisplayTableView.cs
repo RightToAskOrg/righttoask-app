@@ -10,7 +10,7 @@ namespace RightToAskClient.Controls
     public class FilterDisplayTableView : Grid
     {
         private Label _authorityList = new Label();
-        private View _whoShouldAnswerItView;
+        private View _whichAuthorityShouldAnswerItView;
         private FilterChoices _filterContext;
         private readonly TableSection _contents;
         public FilterDisplayTableView(FilterChoices filterContext)
@@ -32,33 +32,15 @@ namespace RightToAskClient.Controls
             // Title = "Filters - tap to edit";
             // _authorityList.Text = String.Join(",", filterContext.SelectedAuthorities.Select(a => a.ShortestName));
 
-            _whoShouldAnswerItView = BuildWhoShouldAnswerItView();
+            //
+            //_whoShouldAnswerItView = BuildWhoShouldAnswerItView();
             
-            /*
-              new ViewCell
+            _whichAuthorityShouldAnswerItView = new ClickableEntityListView<Authority>
             {
-                View = new StackLayout
-                {
-                    Orientation = StackOrientation.Horizontal,
-                    VerticalOptions = LayoutOptions.Start,
-                    HorizontalOptions = LayoutOptions.FillAndExpand,
-                    Children =
-                    {
-                        new Label { Text = "Who should answer it?" },
-                        new StackLayout
-                        {
-                            Orientation = StackOrientation.Horizontal,
-                            VerticalOptions = LayoutOptions.Start,
-                            Children =
-                            {
-                                _authorityList,
-                            }
-                        }
-                    }
-                }
+	            ClickableListLabel = "Authorities who should answer the question",
+	            ClickableListContents = _filterContext.SelectedAuthorities,
+	            UpdateAction = OnEditAuthoritiesButtonClicked
             };
-            _whoShouldAnswerItView.Tapped += OnMoreButtonClicked;
-            */
             
             var whoShouldAskItMPs = String.Join(",", filterContext.SelectedAskingMPs);
             var whoShouldAskItMyMPs = String.Join(",", filterContext.SelectedAskingMPsMine);
@@ -131,7 +113,7 @@ namespace RightToAskClient.Controls
             }
             */
             Children.Add(new Label(){Text = "Filters - Tap to edit"},0,0);
-            Children.Add(_whoShouldAnswerItView,0,1);
+            Children.Add(_whichAuthorityShouldAnswerItView,0,1);
             // Children.Add(whoShouldAskItView);
             Children.Add(keywordentryView,0,2);
 
@@ -141,22 +123,22 @@ namespace RightToAskClient.Controls
         {
         }
 
-        async void OnMoreButtonClicked(object sender, EventArgs e)
+        async void OnEditAuthoritiesButtonClicked(object sender, EventArgs e)
         {
 			string message = "Choose others to add";
 			
            	var departmentExploringPage 
                 = new ExploringPageWithSearchAndPreSelections(_filterContext.SelectedAuthorities, message);
            	await Navigation.PushAsync (departmentExploringPage);
-            DealWithUpdate(); 
+            // DealWithUpdate(); 
         }
 
         // TODO*** - this is not working, in that the view doesn't update (though the data is updated correctly).
         // Should be done elegantly with data binding.
         private void DealWithUpdate()
         {
-            _whoShouldAnswerItView = BuildWhoShouldAnswerItView();
-            Children.Add(_whoShouldAnswerItView,0,1);
+            _whichAuthorityShouldAnswerItView = BuildWhoShouldAnswerItView();
+            Children.Add(_whichAuthorityShouldAnswerItView,0,1);
         }
 
         private View BuildWhoShouldAnswerItView()
@@ -167,7 +149,7 @@ namespace RightToAskClient.Controls
             };
             
             var tapGestureRecognizer = new TapGestureRecognizer();
-            tapGestureRecognizer.Tapped += OnMoreButtonClicked;
+            tapGestureRecognizer.Tapped += OnEditAuthoritiesButtonClicked;
             
             // var view = new BoxView()
             //var viewCell = new ViewCell

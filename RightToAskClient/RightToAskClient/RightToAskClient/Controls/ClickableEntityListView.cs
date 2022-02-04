@@ -32,7 +32,7 @@ namespace RightToAskClient.Controls
             
     tapGestureRecognizer.Tapped += OnMoreButtonClicked;
     */
-        public ClickableEntityListView(string title)
+        public ClickableEntityListView()
         {
             GestureRecognizers.Add(_tapGestureRecognizer);
 
@@ -98,6 +98,10 @@ namespace RightToAskClient.Controls
         */
         
         
+        /* This allows the UI list to update when either the list itself changes (i.e. the object changes)
+         * or its contents changes. I'm not certain that all the redrawing here is necessary, but it 
+         * doesn't hurt to cover all possibilities.
+         */
         private static void OnClickableListContentsPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
             if (bindable is ClickableEntityListView<T> control)

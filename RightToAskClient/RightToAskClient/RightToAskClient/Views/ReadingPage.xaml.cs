@@ -21,15 +21,16 @@ namespace RightToAskClient.Views
 
             _ttestableView = new FilterDisplayTableView(readingContext.Filters);
             WholePage.Children.Insert(1,_ttestableView);
-            string labelText = "This is another test";
-            //_clickableEntityListView = new ClickableEntityListView() { LabelText = "This is the label text"};
-            _clickableEntityListView = new ClickableEntityListView<Authority>(labelText)
+            //
+            /*
+            _clickableEntityListView = new ClickableEntityListView<Authority>
             {
 	            ClickableListLabel = "What should we do with this list?",
 	            ClickableListContents = _readingContext.Filters.SelectedAuthorities,
 	            UpdateAction = OnMoreButtonClicked
             };
             WholePage.Children.Insert(1,_clickableEntityListView);
+            */
             
             OnHideFilters();
             
@@ -44,18 +45,6 @@ namespace RightToAskClient.Views
 			{
 				TitleBar.Title = "Similar questions";
 			}
-		}
-		
-		// TODO** This doesn't really belong here - just seeing if it works for now.
-		async void OnMoreButtonClicked(object sender, EventArgs e)
-		{
-			string message = "Choose others to add";
-
-			var departmentExploringPage 
-					= new ExploringPageWithSearchAndPreSelections(_readingContext.Filters.SelectedAuthorities, message);
-			await Navigation.PushAsync (departmentExploringPage);
-
-			// DealWithUpdate(); 
 		}
 		
 		private void OnShowFilters(object sender, EventArgs e)
