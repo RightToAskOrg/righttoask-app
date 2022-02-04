@@ -19,7 +19,7 @@ namespace RightToAskClient.Views
 			_readingContext = readingContext;
 			BindingContext = readingContext;
 
-            _ttestableView = new FilterDisplayTableView(readingContext.Filters);
+            _ttestableView = new FilterDisplayTableView(readingContext);
             WholePage.Children.Insert(1,_ttestableView);
             //
             /*

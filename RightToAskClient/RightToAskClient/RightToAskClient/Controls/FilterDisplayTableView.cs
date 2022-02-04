@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using RightToAskClient.Models;
 using RightToAskClient.Views;
 using Xamarin.Forms;
@@ -9,119 +7,93 @@ namespace RightToAskClient.Controls
 {
     public class FilterDisplayTableView : Grid
     {
-        private Label _authorityList = new Label();
-        private View _whichAuthorityShouldAnswerItView;
+        private ReadingContext _readingContext;
         private FilterChoices _filterContext;
         private readonly TableSection _contents;
-        public FilterDisplayTableView(FilterChoices filterContext)
+        public FilterDisplayTableView(ReadingContext readingContext)
         {
-            BindingContext = filterContext;
-            _filterContext = filterContext;
+            _readingContext = readingContext;
+            _filterContext = readingContext.Filters;
+            BindingContext = _filterContext;
+            
             BackgroundColor = Color.NavajoWhite;
-            // Intent = TableIntent.Settings;
             VerticalOptions = LayoutOptions.Start;
             HeightRequest = Height; 
-            // var root = new TableRoot() { Title = "Filters - tap to edit"};
             
-            //RowDefinitions.Add(new RowDefinition { Height = new GridLength(2, GridUnitType.Star) }) ;
-            RowDefinitions.Add(new RowDefinition());
-            RowDefinitions.Add(new RowDefinition());
-            RowDefinitions.Add(new RowDefinition());
-            //RowDefinitions.Add(new RowDefinition { Height = new GridLength(100) });
+            RowDefinitions.Add(new RowDefinition { Height = new GridLength(20) });
+            for (var i=0 ; i<6 ; i++)
+            {
+                RowDefinitions.Add(new RowDefinition{ Height = new GridLength(35) });
+            }
             
-            // Title = "Filters - tap to edit";
-            // _authorityList.Text = String.Join(",", filterContext.SelectedAuthorities.Select(a => a.ShortestName));
-
-            //
-            //_whoShouldAnswerItView = BuildWhoShouldAnswerItView();
-            
-            _whichAuthorityShouldAnswerItView = new ClickableEntityListView<Authority>
+            var whichAuthorityShouldAnswerItView = new ClickableEntityListView<Authority>
             {
 	            ClickableListLabel = "Authorities who should answer the question",
 	            ClickableListContents = _filterContext.SelectedAuthorities,
 	            UpdateAction = OnEditAuthoritiesButtonClicked
             };
             
-            var whoShouldAskItMPs = String.Join(",", filterContext.SelectedAskingMPs);
-            var whoShouldAskItMyMPs = String.Join(",", filterContext.SelectedAskingMPsMine);
-            var whoShouldAskItCommittees = String.Join(",", filterContext.SelectedAskingCommittee);
-            var whoShouldAskItUsers = String.Join(",", filterContext.SelectedAskingUsers);
-
-            var whoShouldAskItList = new Label()
+            var whichMyMPShouldAnswerItView = new ClickableEntityListView<MP>
             {
-                Text = String.Join("\n", new List<string>()
-                    { whoShouldAskItCommittees, whoShouldAskItMPs, whoShouldAskItMyMPs, whoShouldAskItUsers }
-                )
+	            ClickableListLabel = "My MPs who should answer the question",
+	            ClickableListContents = _filterContext.SelectedAnsweringMPsMine,
+	            UpdateAction = OnEditSelectedAnsweringMPsMineButtonClicked
             };
-
-            var whoShouldAskItView = new ViewCell
+            
+            var whichMyMPShouldAskItView = new ClickableEntityListView<MP>
             {
-                View = new StackLayout
-                {
-                    Orientation = StackOrientation.Horizontal,
-                    VerticalOptions = LayoutOptions.Start,
-                    HorizontalOptions = LayoutOptions.FillAndExpand,
-                    Children =
-                    {
-                        new Label { Text = "Who should raise it in Parliament?"},
-                        new StackLayout
-                        {
-                            Orientation = StackOrientation.Horizontal,
-                            VerticalOptions = LayoutOptions.Start,
-                            Children =
-                            {
-                                whoShouldAskItList
-                            }
-                        }
-                    }
-                }
+	            ClickableListLabel = "My MPs who should raise the question in Parliament",
+	            ClickableListContents = _filterContext.SelectedAskingMPsMine,
+	            UpdateAction = OnEditSelectedAskingMPsMineButtonClicked
             };
-            whoShouldAskItView.Tapped += OnMoreAskersButtonClicked;
+            
+            var whichMPShouldAnswerItView = new ClickableEntityListView<MP>
+            {
+	            ClickableListLabel = "Other MPs who should answer the question",
+	            ClickableListContents = _filterContext.SelectedAnsweringMPs,
+	            UpdateAction = OnEditSelectedAnsweringMPsButtonClicked
+            };
+            
+            var whichMPShouldAskItView = new ClickableEntityListView<MP>
+            {
+	            ClickableListLabel = "Other MPs who should raise the question in Parliament",
+	            ClickableListContents = _filterContext.SelectedAskingMPs,
+	            UpdateAction = OnEditSelectedAskingMPsButtonClicked
+            };
+            
+            // TODO Add one for committees when they're included.
             
             var keywordentry = new Entry
             {
-                // Label = "Keyword", 
+                WidthRequest = 200,
                 Placeholder = "?", 
-                Text = filterContext.SearchKeyword 
+                Text = _filterContext.SearchKeyword 
             };
             keywordentry.Completed += OnKewordEntryCompleted;
 
             View keywordentryView = new StackLayout()
             {
+                Orientation = StackOrientation.Horizontal,
                 Children =
                 {
                     new Label(){Text = "Keyword"},
                     keywordentry
                 }
             };
-            /*
-            Root = root;
-            _contents = new TableSection()
-            {
-                _whoShouldAnswerItView,
-                whoShouldAskItView,
-                keywordentry
-            };
-            _contents.Title = "Filters - tap to edit";
-            root.Add(_contents);
             
-            Children =
-            {
-                _whoShouldAnswerItView,
-                whoShouldAskItView,
-                keywordentry
-            }
-            */
-            Children.Add(new Label(){Text = "Filters - Tap to edit"},0,0);
-            Children.Add(_whichAuthorityShouldAnswerItView,0,1);
-            // Children.Add(whoShouldAskItView);
-            Children.Add(keywordentryView,0,2);
+            Children.Add(new Label(){
+                HorizontalOptions = LayoutOptions.Center,
+                Text = "Filters - Tap to edit"
+                },0,0);
+            Children.Add(whichAuthorityShouldAnswerItView,0,1);
+            Children.Add(whichMyMPShouldAnswerItView,0,2);
+            Children.Add(whichMyMPShouldAskItView,0,3);
+            Children.Add(whichMPShouldAnswerItView,0,4);
+            Children.Add(whichMPShouldAskItView,0,5);
+            Children.Add(keywordentryView,0,6);
 
         }
 
-        private void OnMoreAskersButtonClicked(object sender, EventArgs e)
-        {
-        }
 
         async void OnEditAuthoritiesButtonClicked(object sender, EventArgs e)
         {
@@ -130,62 +102,44 @@ namespace RightToAskClient.Controls
            	var departmentExploringPage 
                 = new ExploringPageWithSearchAndPreSelections(_filterContext.SelectedAuthorities, message);
            	await Navigation.PushAsync (departmentExploringPage);
-            // DealWithUpdate(); 
         }
 
-        // TODO*** - this is not working, in that the view doesn't update (though the data is updated correctly).
-        // Should be done elegantly with data binding.
-        private void DealWithUpdate()
+        async void OnEditSelectedAnsweringMPsMineButtonClicked(object sender, EventArgs e)
         {
-            _whichAuthorityShouldAnswerItView = BuildWhoShouldAnswerItView();
-            Children.Add(_whichAuthorityShouldAnswerItView,0,1);
-        }
-
-        private View BuildWhoShouldAnswerItView()
-        {
-            Label authorityList = new Label()
+            if (ParliamentData.MPAndOtherData.IsInitialised)
             {
-                Text = String.Join(",", _filterContext.SelectedAuthorities.Select(a => a.ShortestName))
-            };
-            
-            var tapGestureRecognizer = new TapGestureRecognizer();
-            tapGestureRecognizer.Tapped += OnEditAuthoritiesButtonClicked;
-            
-            // var view = new BoxView()
-            //var viewCell = new ViewCell
-            //    {
-            //        View = new StackLayout
-            var view = new StackLayout()
-                    {
-                    // Orientation = StackOrientation.Horizontal,
-                        VerticalOptions = LayoutOptions.Start,
-                      HorizontalOptions = LayoutOptions.FillAndExpand,
-                    
-                    
-                    Children =
-                    {
-                    new Label { Text = "Who should answer it?" },
-                        new StackLayout
-                        {
-                            Orientation = StackOrientation.Horizontal,
-                            VerticalOptions = LayoutOptions.Start,
-                            Children =
-                            {
-                                authorityList,
-                            }
-                        }
-                    }
-                // }
-            };
-            view.GestureRecognizers.Add(tapGestureRecognizer);
-
-            // viewCell.GestureRecognizers.Add(tapGestureRecognizer);
-            return view;
+                NavigationUtils.PushMyAnsweringMPsExploringPage(_readingContext);
+            }
         }
+
+        private void OnEditSelectedAskingMPsMineButtonClicked(object sender, EventArgs e)
+        {
+            if (ParliamentData.MPAndOtherData.IsInitialised)
+            {
+                NavigationUtils.PushMyAskingMPsExploringPage(_readingContext);
+            }
+            
+        }
+        private void OnEditSelectedAnsweringMPsButtonClicked(object sender, EventArgs e)
+        {
+            if (ParliamentData.MPAndOtherData.IsInitialised)
+            {
+                NavigationUtils.PushAnsweringMPsExploringPage(_readingContext);
+            }
+        }
+        private void OnEditSelectedAskingMPsButtonClicked(object sender, EventArgs e)
+        {
+            if (ParliamentData.MPAndOtherData.IsInitialised)
+            {
+                NavigationUtils.PushAskingMPsExploringPage(_readingContext);
+            }
+        }
+
 
         private void OnKewordEntryCompleted(object sender, EventArgs e)
         {
-            _filterContext.SearchKeyword = ((Entry)sender).Text;
+            if (sender is Entry entry)
+            _filterContext.SearchKeyword = entry.Text;
         }
     }
 }

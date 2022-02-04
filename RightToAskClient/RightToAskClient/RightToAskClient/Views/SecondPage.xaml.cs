@@ -78,12 +78,7 @@ namespace RightToAskClient.Views
 		{
 			if (ParliamentData.MPAndOtherData.IsInitialised)
 			{
-				string message = "These are your MPs.  Select the one(s) who should answer the question";
-				var mpsExploringPage = new ExploringPage(_readingContext.ThisParticipant.MyMPs,
-					_readingContext.Filters.SelectedAnsweringMPsMine, message);
-
-				var nextPage = await ListMPsFindFirstIfNotAlreadyKnown(_readingContext, mpsExploringPage, _readingContext.Filters.SelectedAnsweringMPs);
-				await Navigation.PushAsync(nextPage);
+				NavigationUtils.PushMyAnsweringMPsExploringPage(_readingContext);
 			}
 			else
 			{
@@ -94,38 +89,11 @@ namespace RightToAskClient.Views
 			}
 		}
 
-		/*
-		 * Either push the list of selectable MPs directly, or push a registration page,
-		 * instructed to push the MPs selection page after.
-		 */
-		public static async Task<Page> ListMPsFindFirstIfNotAlreadyKnown(ReadingContext readingContext, ExploringPage mpsExploringPage,
-			ObservableCollection<MP> alreadySelectedMPs)
-		{
-			var thisParticipant = readingContext.ThisParticipant;
-			
-			if (! thisParticipant.MPsKnown)
-			{
-				var registrationPage = new RegisterPage2(thisParticipant, false, true, alreadySelectedMPs);
-				return registrationPage;
-				
-				// await Navigation.PushAsync(registrationPage);
-			}
-			else
-			{
-				return mpsExploringPage;
-				// await Navigation.PushAsync(mpsExploringPage);
-			}
-		}
-
 		private async void OnAnswerByOtherMPButtonClicked(object sender, EventArgs e)
 		{
 			if(ParliamentData.MPAndOtherData.IsInitialised)
 			{
-				//var allMPsAsEntities = new ObservableCollection<Entity>(ParliamentData.MPs.AllMPs);
-				ExploringPageWithSearch mpsPage
-					= new ExploringPageWithSearch(ParliamentData.AllMPs, _readingContext.Filters.SelectedAnsweringMPs,
-						"Here is the complete list of MPs");
-				await Navigation.PushAsync(mpsPage);
+				NavigationUtils.PushAnsweringMPsExploringPage(_readingContext);
 			}
 			else
 			{

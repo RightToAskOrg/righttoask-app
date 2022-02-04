@@ -23,8 +23,6 @@ namespace RightToAskClient.Views
             
             NavigateForwardButton.IsVisible = false;
             SenateEstimatesSelection.IsVisible = false;
-            
-
         }
 
         private void OnFindCommitteeButtonClicked(object sender, EventArgs e)
@@ -47,14 +45,10 @@ namespace RightToAskClient.Views
         // Executing. That shouldn't be a problem, though, because it is invisible and therefore unclickable.
         private void OnMyMPRaiseButtonClicked(object sender, EventArgs e)
         {
-            string message = "These are your MPs.  Select the one(s) who should raise the question in Parliament";
             
 			if (ParliamentData.MPAndOtherData.IsInitialised)
 			{
-				var mpsExploringPage = new ExploringPage(_readingContext.ThisParticipant.GroupedMPs,
-					_readingContext.Filters.SelectedAskingMPsMine, message);
-
-                launchMPFindingAndSelectingPages(mpsExploringPage);
+                NavigationUtils.PushMyAskingMPsExploringPage(_readingContext);
             }
             else
             {
@@ -72,12 +66,6 @@ namespace RightToAskClient.Views
                 reportLabel.Text = ParliamentData.MPAndOtherData.ErrorMessage;
         }
 
-        private async void launchMPFindingAndSelectingPages(ExploringPage mpsExploringPage)
-        {
-            var nextPage = await SecondPage.ListMPsFindFirstIfNotAlreadyKnown(_readingContext, mpsExploringPage, _readingContext.Filters.SelectedAskingMPs);
-            await Navigation.PushAsync(nextPage);
-        }
-
         async void OnNavigateForwardButtonClicked(object sender, EventArgs e)
         {
 			var readingPage = new ReadingPage(false, _readingContext);
@@ -93,18 +81,17 @@ namespace RightToAskClient.Views
         // TODO: Implement an ExporingPage constructor for people.
         private async void UserShouldRaiseButtonClicked(object sender, EventArgs e)
         {
-            ((Button) sender).Text = $"Not implemented yet";	
-            NavigateForwardButton.IsVisible = true;
+            if (sender is Button button)
+            {
+                button.Text = $"Not implemented yet";	
+                NavigateForwardButton.IsVisible = true;
+            }
         }
         private async void OnOtherMPRaiseButtonClicked(object sender, EventArgs e)
         {
-            string message = "Here is the complete list of MPs";
             if (ParliamentData.MPAndOtherData.IsInitialised)
 			{
-				var mpsExploringPage = new ExploringPageWithSearch(ParliamentData.AllMPs,
-					_readingContext.Filters.SelectedAskingMPs, message);
-
-                await Navigation.PushAsync(mpsExploringPage);
+                NavigationUtils.PushAskingMPsExploringPage(_readingContext);
             }
             else
             {
