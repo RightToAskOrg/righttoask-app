@@ -47,34 +47,10 @@ namespace RightToAskClient.HttpClients
               
             
         }
-        /*
-        public static async Task<Result<List<MP>>> GetMPsList()
-        {
-            string errorMessage = "Could not download MP data. You can still read and submit questions, but we can't find MPs.";
-            Result<List<MP>>? httpResponse =await client.DoGetJSONRequest<List<MP>>(Constants.MPListUrl);
-            
-            // Note: the compiler warns this is unnecessary, but an exception is sometimes thrown here without this check.
-            // I am confused about why this is necessary, but empirically it definitely is.
-            if (httpResponse is null)
-            {
-                return new Result<List<MP>>() { Err = errorMessage };
-            }
-
-            if(String.IsNullOrEmpty(httpResponse.Err))
-            {
-                return httpResponse;
-            }
-            
-            Debug.WriteLine("Error downloading MP data: "+httpResponse.Err);
-            return new Result<List<MP>>()
-            {
-                Err = errorMessage 
-            };
-              
-            
-        }
-        */
         
+        /* Currently unused, but will be used when we want to get lists of other users
+         * for DMs or following
+         */
         public static async Task<Result<List<string>>> GetUserList()
         {
             return await Client.DoGetResultRequest<List<string>>(Constants.UserListUrl);

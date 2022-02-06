@@ -66,5 +66,7 @@
     <EmbeddedResource Remove="Views\ListPage.xaml" />
     <None Remove="Resources\GeoscapeAPIKey" />
     <EmbeddedResource Include="Resources\GeoscapeAPIKey" />
+    <None Remove="Resources\MPs.json" />
+    <EmbeddedResource Include="Resources\MPs.json" />
   </ItemGroup>
 </Project>

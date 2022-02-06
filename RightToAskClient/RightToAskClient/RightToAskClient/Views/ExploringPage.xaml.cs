@@ -40,8 +40,8 @@ namespace RightToAskClient.Views
 			InitializeComponent();
 			
 			SelectedMPs = selectedEntities;
-			this.AllEntities = new ObservableCollection<Entity>(allEntities);
-			SelectableEntities = wrapInTags(this.AllEntities, selectedEntities);
+			AllEntities = new ObservableCollection<Entity>(allEntities);
+			SelectableEntities = wrapInTags(AllEntities, selectedEntities);
 			DoneButton.Clicked += DoneMPsButton_OnClicked;
 			
 			SetUpSelectableEntitiesAndIntroText(message);
@@ -106,9 +106,12 @@ namespace RightToAskClient.Views
 			public string Chamber { get;  }
 		}
 
-		private void OnEntity_Selected(object sender, ItemTappedEventArgs e)
+		protected void OnEntity_Selected(object sender, ItemTappedEventArgs e)
 		{
-			((Tag<Entity>) e.Item).Toggle();
+			if (e.Item is Tag<Entity> tag)
+			{
+				tag.Toggle();
+			}
 		}
 
 		// TODO Consider whether the semantics of 'back' should be different from
@@ -162,6 +165,9 @@ namespace RightToAskClient.Views
 			}
 		}
 		
+		
+	    // Wrap the entities in tags, with Selected toggled according to whether the entity
+	    // is in the selectedEntities list or not.
 		protected ObservableCollection<Tag<Entity>> wrapInTags<T>(ObservableCollection<Entity>
 		 	entities, ObservableCollection<T> selectedEntities) where T : Entity
 		{
@@ -169,5 +175,13 @@ namespace RightToAskClient.Views
 				(a => a.WrapInTag(selectedEntities.Contains(a)))
 			);
 		}
+		
+	    // Wrap the entities in tags, with Selected toggled according to whether the entity
+	    // is in the selectedEntities list or not.
+	    protected ObservableCollection<Tag<Entity>> wrapInTagsGetSelectedOnly<T>(ObservableCollection<T> selectedEntities) where T : Entity
+	    {
+		    return new ObservableCollection<Tag<Entity>>(selectedEntities.Select (a => a.WrapInTag(true)));
+	    }
+
 	}
 }
