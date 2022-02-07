@@ -4,7 +4,7 @@ namespace RightToAskClient.Controls
 {
     public class AuthorityDataTemplate : DataTemplate
     {
-        public AuthorityDataTemplate() : base()
+        public AuthorityDataTemplate() 
         {
             {
                 var grid = new Grid();
