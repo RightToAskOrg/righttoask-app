@@ -47,6 +47,10 @@
     <Compile Remove="HttpClients\ItemManager.cs" />
     <Compile Remove="HttpClients\IRestService.cs" />
     <Compile Remove="AsyncLazy.cs" />
+    <Compile Remove="Controls\FramedClickableLabel.cs" />
+    <Compile Remove="Models\MPsInChamber.cs" />
+    <Compile Remove="Models\TodoItem.cs" />
+    <Compile Remove="Views\AuthoritiesRTKCategories.xaml.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Views\SecondPage_old.xaml" />
@@ -68,5 +72,6 @@
     <EmbeddedResource Include="Resources\GeoscapeAPIKey" />
     <None Remove="Resources\MPs.json" />
     <EmbeddedResource Include="Resources\MPs.json" />
+    <EmbeddedResource Remove="Views\AuthoritiesRTKCategories.xaml" />
   </ItemGroup>
 </Project>

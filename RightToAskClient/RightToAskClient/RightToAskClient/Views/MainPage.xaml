@@ -13,11 +13,11 @@
 			    	<StackLayout Orientation="Vertical" HorizontalOptions="Center" Padding="20" Spacing="10" >
 			            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
 			    			<Button x:Name="Top10NowButton" Text="Trending now" CornerRadius="20" BackgroundColor="Turquoise" Clicked="OnTop10NowButtonClicked" HorizontalOptions="Center"/>
-			    			<Button x:Name="expiringSoonButton" Text="Expiring soon" CornerRadius="20" BackgroundColor="Turquoise" Clicked="OnExpiringSoonButtonClicked" HorizontalOptions="Center"/>
+			    			<Button x:Name="ExpiringSoonButton" Text="Expiring soon" CornerRadius="20" BackgroundColor="Turquoise" Clicked="OnExpiringSoonButtonClicked" HorizontalOptions="Center"/>
 			            </StackLayout>
 			            <StackLayout Orientation="Horizontal" HorizontalOptions="Start">
-				            <SearchBar x:Name="readByKeywordButton" Placeholder="Search" MinimumWidthRequest="20"  BackgroundColor="Turquoise" SearchButtonPressed="OnReadByKeywordFieldCompleted" TextChanged="OnKeywordChanged" HorizontalOptions="Start"/>
-			    		    <Button x:Name="readButton" Text="Advanced search" Clicked="OnReadButtonClicked" HorizontalOptions="Center" CornerRadius="20" BackgroundColor="Turquoise"/>
+				            <SearchBar x:Name="ReadByKeywordButton" Placeholder="Search" MinimumWidthRequest="20"  BackgroundColor="Turquoise" SearchButtonPressed="OnReadByKeywordFieldCompleted" TextChanged="OnKeywordChanged" HorizontalOptions="Start"/>
+			    		    <Button x:Name="ReadButton" Text="Advanced search" Clicked="OnReadButtonClicked" HorizontalOptions="Center" CornerRadius="20" BackgroundColor="Turquoise"/>
 			            </StackLayout>
 			    	</StackLayout>
 		    	</StackLayout>
@@ -27,7 +27,7 @@
 			    <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand">
 			    	<Label Text="Write a question" TextColor="Teal" FontSize="Large" HorizontalOptions="Center" />
 				    <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-					    <Button x:Name="navigateButton" Text="Start drafting" CornerRadius="20" BackgroundColor="Turquoise" Clicked="OnNavigateButtonClicked" HorizontalOptions="Center"/>
+					    <Button x:Name="NavigateButton" Text="Start drafting" CornerRadius="20" BackgroundColor="Turquoise" Clicked="OnNavigateButtonClicked" HorizontalOptions="Center"/>
 				    </StackLayout>
 			</StackLayout>
 			</Frame>	

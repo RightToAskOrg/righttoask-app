@@ -2,13 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
-using Org.BouncyCastle.Crypto.Operators;
-using RightToAskClient.HttpClients;
-using static RightToAskClient.HttpClients.RTAClient;
 
 namespace RightToAskClient.Models
 {
@@ -155,15 +150,15 @@ namespace RightToAskClient.Models
 		
        private static List<Authority> readAuthoritiesFromFiles()
        {
-		    var AllAuthorities = new List<Authority>();
-		    FileIO.ReadDataFromCSV("all-authorities.csv",AllAuthorities,parseCSVLineAsAuthority);
-		    return AllAuthorities;
+		    var AllAuthoritiesFromFile = new List<Authority>();
+		    FileIO.ReadDataFromCSV("all-authorities.csv",AllAuthoritiesFromFile,parseCSVLineAsAuthority);
+		    return AllAuthoritiesFromFile;
        }
 		
 		// This parses a line from Right To Know's CSV file as an Authority.
 		// It is, obviously, very specific to the expected file format.
 		// Ignore any line that doesn't produce at least 3 words.
-		private static Authority parseCSVLineAsAuthority(string line)
+		private static Authority? parseCSVLineAsAuthority(string line)
 		{
 			string[] words = line.Split(',');
 			if (words.Length >= 3)

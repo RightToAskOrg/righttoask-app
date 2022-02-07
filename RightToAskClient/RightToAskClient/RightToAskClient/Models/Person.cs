@@ -34,7 +34,7 @@ namespace RightToAskClient.Models
 			set
 			{
 				_registrationInfo = value;
-				OnPropertyChanged("RegistrationInfo");
+				OnPropertyChanged();
 			}
 		}
         
@@ -138,7 +138,7 @@ namespace RightToAskClient.Models
 	        set
 	        {
 		        _address = value;
-		        OnPropertyChanged("Address");
+		        OnPropertyChanged();
 	        }
         }
 		public string UserEmail
@@ -147,7 +147,7 @@ namespace RightToAskClient.Models
 			set
 			{
 				_userEmail = value;
-				OnPropertyChanged("UserEmail");
+				OnPropertyChanged();
 			}
 		}
 

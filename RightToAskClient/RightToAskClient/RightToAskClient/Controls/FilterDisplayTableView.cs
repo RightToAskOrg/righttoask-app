@@ -9,7 +9,6 @@ namespace RightToAskClient.Controls
     {
         private ReadingContext _readingContext;
         private FilterChoices _filterContext;
-        private readonly TableSection _contents;
         public FilterDisplayTableView(ReadingContext readingContext)
         {
             _readingContext = readingContext;
@@ -104,7 +103,7 @@ namespace RightToAskClient.Controls
            	await Navigation.PushAsync (departmentExploringPage);
         }
 
-        async void OnEditSelectedAnsweringMPsMineButtonClicked(object sender, EventArgs e)
+        void OnEditSelectedAnsweringMPsMineButtonClicked(object sender, EventArgs e)
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
@@ -139,7 +138,9 @@ namespace RightToAskClient.Controls
         private void OnKewordEntryCompleted(object sender, EventArgs e)
         {
             if (sender is Entry entry)
-            _filterContext.SearchKeyword = entry.Text;
+            {
+                _filterContext.SearchKeyword = entry.Text;
+            }
         }
     }
 }

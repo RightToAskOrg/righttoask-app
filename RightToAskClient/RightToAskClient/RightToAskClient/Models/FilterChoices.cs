@@ -18,11 +18,6 @@ namespace RightToAskClient.Models
 		public ObservableCollection<Authority> SelectedAuthorities
 		{
 			get => _selectedAuthorities;
-			private set
-			{
-				_selectedAuthorities = value;
-				OnPropertyChanged();
-			}
 		}
 
 		public string SearchKeyword

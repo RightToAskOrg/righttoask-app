@@ -4,7 +4,7 @@ using Xamarin.Forms;
 
 namespace RightToAskClient.Views
 {
-	public partial class MainPage : ContentPage
+	public partial class MainPage 
 	{
 		private ReadingContext _readingContext;
 		public MainPage ()
@@ -32,10 +32,10 @@ namespace RightToAskClient.Views
 		// 'search by keyword' button is pressed, launch the reading page.
 		// Otherwise, if only the keyword is changed, update it but don't
 		// launch a new page.
-		async void OnReadByKeywordFieldCompleted(object sender, EventArgs e)
+		void OnReadByKeywordFieldCompleted(object sender, EventArgs e)
 		{
 			_readingContext.Filters.SearchKeyword = ((SearchBar)sender).Text;
-			OnLaunchKeywordReadingPage();
+			LaunchKeywordReadingPage();
 		}
 		
 		private void OnKeywordChanged(object sender, TextChangedEventArgs e)
@@ -43,7 +43,7 @@ namespace RightToAskClient.Views
 			_readingContext.Filters.SearchKeyword = e.NewTextValue;
 		}
 
-		async void OnLaunchKeywordReadingPage()
+		async void LaunchKeywordReadingPage()
 		{
 			var readingPage = new ReadingPage(true, _readingContext);
 			await Navigation.PushAsync(readingPage);

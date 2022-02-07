@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using RightToAskClient.Models;
@@ -11,23 +10,23 @@ namespace RightToAskClient.Views
  */
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ExploringPageWithSearch : ExploringPage 
+    public partial class ExploringPageWithSearch 
     {
-        private string _searchingFor;
+        private string _searchingFor = "";
 
 		public ExploringPageWithSearch(ObservableCollection<MP> allEntities, 
-			ObservableCollection<MP> selectedEntities, string? message=null) : base (allEntities, selectedEntities, message)
+			ObservableCollection<MP> selectedEntities, string message="") : base (allEntities, selectedEntities, message)
         {
-            addSearchBar();
+            AddSearchBar();
         }
 
         public ExploringPageWithSearch(ObservableCollection<Authority> filtersSelectedAuthorities, string message) 
             : base(filtersSelectedAuthorities, message)
         {
-            addSearchBar();
+            AddSearchBar();
         }
 
-        private void addSearchBar()
+        private void AddSearchBar()
         {
             SearchBar entitySearch = new SearchBar() 
                 { 

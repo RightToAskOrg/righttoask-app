@@ -41,25 +41,27 @@ namespace RightToAskClient.Models
             set
             {
                 _selected = value;
-                OnPropertyChanged("Selected");
+                OnPropertyChanged();
             }
         }
 
         public void Toggle()
         {
             _selected = !_selected;
+            // This produces a compiler warning because it thinks the property name
+            // is redundant, but I don't think it is.
             OnPropertyChanged("Selected");
         }
 
         public bool NameContains(string query)
         {
-            var normalizedQuery = query?.ToLower() ?? "";
+            var normalizedQuery = query.ToLower();
             return _tagEntity.GetName().ToLowerInvariant().Contains(normalizedQuery);
         }
         
         public override string ToString ()
         {
-            return TagEntity.ToString() +"\n" + 
+            return TagEntity +"\n" + 
                 (Selected ? "" : "Not ") +
                 "Selected" + "\n";
         }

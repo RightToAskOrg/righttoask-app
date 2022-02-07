@@ -1,8 +1,9 @@
-	using System;
 	using System.Collections.Generic;
 	using System.Text.Json.Serialization;
 	using RightToAskClient.Models;
 
+namespace RightToAskClient.Models
+{
 	public class UpdatableParliamentAndMPDataStructure
 	{
         [JsonPropertyName("mps")]
@@ -14,4 +15,4 @@
         [JsonPropertyName("vic_districts")]
         public List<RegionsContained> VicRegions;
 	}
-	
+}

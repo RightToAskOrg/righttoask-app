@@ -1,16 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using RightToAskClient.Annotations;
 using RightToAskClient.HttpClients;
 
 namespace RightToAskClient.Models
@@ -25,15 +19,16 @@ namespace RightToAskClient.Models
 	 * */
 	public class UpdatableParliamentAndMPData
 	{
-		private UpdatableParliamentAndMPDataStructure allMPsData = new UpdatableParliamentAndMPDataStructure();
+		private UpdatableParliamentAndMPDataStructure _allMPsData = new UpdatableParliamentAndMPDataStructure();
+		private bool _isInitialised;  // Defaults to false.
 
 		public List<MP> AllMPs  
 		{
 			get
 			{
-				if (!allMPsData.mps.IsNullOrEmpty())
+				if (!_allMPsData.mps.IsNullOrEmpty())
 				{
-					return new List<MP>(allMPsData.mps);
+					return new List<MP>(_allMPsData.mps);
 				}
 
 				return new List<MP>();
@@ -44,18 +39,17 @@ namespace RightToAskClient.Models
 		{
 			get
 			{
-				return new List<RegionsContained>(allMPsData.FederalElectoratesByState);
+				return new List<RegionsContained>(_allMPsData.FederalElectoratesByState);
 			}
 		}
 		public List<RegionsContained> VicRegions
 		{
 			get
 			{
-				return allMPsData.VicRegions;
+				return _allMPsData.VicRegions;
 			}
 		}
 
-		private bool isInitialised = false;
 		
         private JsonSerializerOptions serializerOptions = new JsonSerializerOptions
             {
@@ -69,7 +63,7 @@ namespace RightToAskClient.Models
 		// Find all the MPs representing a certain electorate.
 		public List<MP> GetMPsRepresentingElectorate(ElectorateWithChamber queryElectorate)
 		{
-			var mps = allMPsData.mps.Where(mp => mp.electorate.chamber == queryElectorate.chamber
+			var mps = _allMPsData.mps.Where(mp => mp.electorate.chamber == queryElectorate.chamber
 			                             && mp.electorate.region.Equals(queryElectorate.region,
 				                             StringComparison.OrdinalIgnoreCase));
 			return new List<MP>(mps);
@@ -79,23 +73,23 @@ namespace RightToAskClient.Models
 		// or there are no changes since last time.
 		public async void TryInit()
 		{
-			if (isInitialised) return;
+			if (_isInitialised) return;
 			Result<bool> success;
 			
 			success = await TryInitialisingFromServer();
 			if (String.IsNullOrEmpty(success.Err))
 			{
-				isInitialised = true;
+				_isInitialised = true;
 				return;
 			}
 			
-			ErrorMessage = success.Err;
+			ErrorMessage = success.Err ?? "";
 			Debug.WriteLine(@"\tERROR {0}", success.Err);
 
 			success = TryInitialisingFromStoredData();
 			if (String.IsNullOrEmpty(success.Err))
 			{
-				isInitialised = true;
+				_isInitialised = true;
 				return;
 			}
 
@@ -111,8 +105,8 @@ namespace RightToAskClient.Models
 				return new Result<bool>() { Err = success.Err };
 			}
 			
-			allMPsData = success.Ok;
-			isInitialised = true;
+			_allMPsData = success.Ok;
+			_isInitialised = true;
 			return new Result<bool>() { Ok = true };
 		}
 
@@ -128,8 +122,8 @@ namespace RightToAskClient.Models
 
 			if (String.IsNullOrEmpty(serverMPList.Err))
 			{
-				allMPsData = serverMPList.Ok;
-				isInitialised = true;
+				_allMPsData = serverMPList.Ok;
+				_isInitialised = true;
 				return new Result<bool>() { Ok = true };
 			}
 
@@ -141,7 +135,7 @@ namespace RightToAskClient.Models
 		{
 			get
 			{
-				return isInitialised;
+				return _isInitialised;
 			}
 		} 
 
