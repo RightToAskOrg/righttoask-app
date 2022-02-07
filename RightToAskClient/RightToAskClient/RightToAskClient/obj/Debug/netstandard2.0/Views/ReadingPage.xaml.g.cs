@@ -23,7 +23,7 @@ namespace RightToAskClient.Views {
         private global::Xamarin.Forms.StackLayout WholePage;
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "2.0.0.0")]
-        private global::Xamarin.Forms.Label FilterShower;
+        private global::Xamarin.Forms.Frame FilterShower;
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "2.0.0.0")]
         private global::Xamarin.Forms.ListView QuestionListView;
@@ -45,7 +45,7 @@ namespace RightToAskClient.Views {
             global::Xamarin.Forms.Xaml.Extensions.LoadFromXaml(this, typeof(ReadingPage));
             TitleBar = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.ContentPage>(this, "TitleBar");
             WholePage = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.StackLayout>(this, "WholePage");
-            FilterShower = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Label>(this, "FilterShower");
+            FilterShower = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Frame>(this, "FilterShower");
             QuestionListView = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.ListView>(this, "QuestionListView");
             QuestionDraftingBox = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.StackLayout>(this, "QuestionDraftingBox");
             DraftEditor = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Editor>(this, "DraftEditor");

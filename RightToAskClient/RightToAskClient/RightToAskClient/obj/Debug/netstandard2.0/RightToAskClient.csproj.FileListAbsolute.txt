@@ -1,6 +1,5 @@
 /home/vanessa/Documents/RightToAsk/RightToAskOrg/righttoask-app/RightToAskClient/RightToAskClient/RightToAskClient/obj/Debug/netstandard2.0/RightToAskClient.csprojAssemblyReference.cache
 /home/vanessa/Documents/RightToAsk/RightToAskOrg/righttoask-app/RightToAskClient/RightToAskClient/RightToAskClient/obj/Debug/netstandard2.0/App.xaml.g.cs
-/home/vanessa/Documents/RightToAsk/RightToAskOrg/righttoask-app/RightToAskClient/RightToAskClient/RightToAskClient/obj/Debug/netstandard2.0/Views/AuthoritiesRTKCategories.xaml.g.cs
 /home/vanessa/Documents/RightToAsk/RightToAskOrg/righttoask-app/RightToAskClient/RightToAskClient/RightToAskClient/obj/Debug/netstandard2.0/Views/ExploringPage.xaml.g.cs
 /home/vanessa/Documents/RightToAsk/RightToAskOrg/righttoask-app/RightToAskClient/RightToAskClient/RightToAskClient/obj/Debug/netstandard2.0/Views/ExploringPageWithSearch.xaml.g.cs
 /home/vanessa/Documents/RightToAsk/RightToAskOrg/righttoask-app/RightToAskClient/RightToAskClient/RightToAskClient/obj/Debug/netstandard2.0/Views/ExploringPageWithSearchAndPreSelections.xaml.g.cs

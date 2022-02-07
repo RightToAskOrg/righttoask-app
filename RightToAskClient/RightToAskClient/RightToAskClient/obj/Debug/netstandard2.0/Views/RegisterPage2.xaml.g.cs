@@ -23,10 +23,10 @@ namespace RightToAskClient.Views {
         private global::Xamarin.Forms.Picker stateOrTerritoryPicker;
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "2.0.0.0")]
-        private global::Xamarin.Forms.Label knowElectorates;
+        private global::RightToAskClient.Controls.ClickableLabel knowElectorates;
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "2.0.0.0")]
-        private global::Xamarin.Forms.Label addressSavingLabel;
+        private global::RightToAskClient.Controls.ClickableLabel addressSavingLabel;
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "2.0.0.0")]
         private global::Xamarin.Forms.Frame KnowElectoratesFrame;
@@ -60,8 +60,8 @@ namespace RightToAskClient.Views {
             global::Xamarin.Forms.Xaml.Extensions.LoadFromXaml(this, typeof(RegisterPage2));
             mainScrollView = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.ScrollView>(this, "mainScrollView");
             stateOrTerritoryPicker = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Picker>(this, "stateOrTerritoryPicker");
-            knowElectorates = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Label>(this, "knowElectorates");
-            addressSavingLabel = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Label>(this, "addressSavingLabel");
+            knowElectorates = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::RightToAskClient.Controls.ClickableLabel>(this, "knowElectorates");
+            addressSavingLabel = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::RightToAskClient.Controls.ClickableLabel>(this, "addressSavingLabel");
             KnowElectoratesFrame = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Frame>(this, "KnowElectoratesFrame");
             stateLAElectoratePicker = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Picker>(this, "stateLAElectoratePicker");
             stateLCElectoratePicker = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Picker>(this, "stateLCElectoratePicker");
