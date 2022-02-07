@@ -5,18 +5,22 @@ using System.Linq;
 using RightToAskClient.Models;
 using Xamarin.Forms;
 
+/*
+ * Inputs a list of tags to be displayed in a way that allows the user
+ * to select some.
+ * allEntities is the complete list of possible entities for selection.
+ * selectedEntities stores the list of selected Tags, to be updated when the page is popped.
+ * 
+ * Optionally inputs a message to display at the top of the page.
+ *
+ * Constructors are either a single unstructured list of entities,
+ * or a list of lists, each with their own header and selectable set.
+ *
+ * Inherited classes ExploringPageWithSearch and ExploringPageWithPreselections
+ * add a searchbar and a separate list of prior-selected items.
+ */
 namespace RightToAskClient.Views
 {
-	/*
-	 * Inputs a list of tags to be displayed in a way that allows the user
-	 * to select some.  allEntities is the complete list of possible entities
-	 * for selection. selectedEntities stores the list of
-	 * selected Tags, to be updated when the page is popped.
-	 * Optionally inputs a message to display at the top of the page.
-	 *
-	 * Constructors are either a single unstructured list of entities,
-	 * or a list of lists, each with their own header and selectable set.
-	 */
 	public partial class ExploringPage 
 	{
 		protected readonly ObservableCollection<Entity> AllEntities = new ObservableCollection<Entity>();
@@ -84,8 +88,7 @@ namespace RightToAskClient.Views
 			AuthorityListView.GroupDisplayBinding = new Binding("Chamber");
 			AuthorityListView.ItemsSource = groupedMPsWithTags;
 			
-			// Flat list for the purposes of updating/saving
-			//selectableMPs 
+			// Flat list for the purposes of updating/saving selectableMPs 
 			//	= new ObservableCollection<Tag<MP>>(groupedMPsWithTags.SelectMany(x => x).ToList());
 			SelectableEntities	= new ObservableCollection<Tag<Entity>>(groupedMPsWithTags.SelectMany(x => x).ToList());
 		}
@@ -118,9 +121,8 @@ namespace RightToAskClient.Views
 		// 'done', i.e. whether 'back' should undo.
 		// Also consider whether this should raise a warning if neither of the types match.
 		// 
-		// TODO: (*) The code here is inelegant, because it really does need to know the type of the  '
+		// TODO: The code here is inelegant, because it really does need to know the type of the  '
 		// list it's updating. Can't really see a way round that unfortunately.
-		// Possibly some dynamic type lookup?
 		async void DoneMPsButton_OnClicked(object sender, EventArgs e)
 		{
 			UpdateSelectedList(SelectedMPs);
@@ -168,20 +170,12 @@ namespace RightToAskClient.Views
 		
 	    // Wrap the entities in tags, with Selected toggled according to whether the entity
 	    // is in the selectedEntities list or not.
-		protected ObservableCollection<Tag<Entity>> wrapInTags<T>(ObservableCollection<Entity>
+	    private ObservableCollection<Tag<Entity>> wrapInTags<T>(ObservableCollection<Entity>
 		 	entities, ObservableCollection<T> selectedEntities) where T : Entity
 		{
 			return new ObservableCollection<Tag<Entity>>(entities.Select
 				(a => a.WrapInTag(selectedEntities.Contains(a)))
 			);
 		}
-		
-	    // Wrap the entities in tags, with Selected toggled according to whether the entity
-	    // is in the selectedEntities list or not.
-	    protected ObservableCollection<Tag<Entity>> wrapInTagsGetSelectedOnly<T>(ObservableCollection<T> selectedEntities) where T : Entity
-	    {
-		    return new ObservableCollection<Tag<Entity>>(selectedEntities.Select (a => a.WrapInTag(true)));
-	    }
-
 	}
 }

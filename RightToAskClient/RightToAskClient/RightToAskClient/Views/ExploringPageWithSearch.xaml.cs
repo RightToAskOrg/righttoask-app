@@ -7,6 +7,8 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace RightToAskClient.Views
+/* Adds a searchbar to ExploringPage.
+ */
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ExploringPageWithSearch : ExploringPage 
