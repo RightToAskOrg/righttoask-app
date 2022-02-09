@@ -9,14 +9,32 @@ namespace RightToAskClient.Views
     {
         private string _linkOrAnswer;
         private Question _question;
-        private ReadingContext _readingContext;
-        public QuestionDetailPage (bool isNewQuestion, Question question, ReadingContext readingContext)
+
+        public QuestionDetailPage()
+        {
+            InitializeComponent();
+
+            // this is probably where I'd start adding/swapping the implementation to using MVVM
+            /*
+            if (isNewQuestion)
+            {
+                UpVoteButton.IsVisible = false;
+                LinkOrAnswerSegment.IsVisible = false;
+                SaveAnswerButton.IsVisible = false;
+                QuestionSuggesterButton.Text = "Edit your profile";
+            }
+            else
+            {
+                BackgroundSegment.IsVisible = false;
+                SaveBackgroundButton.IsVisible = false;
+                QuestionSuggesterButton.Text = "View " + question.QuestionSuggester + "'s profile";
+            }*/
+        }
+
+        public QuestionDetailPage (bool isNewQuestion, Question question)
         {
             BindingContext = question;
             this._question = question;
-            
-            // Note: this is never actually used, except to pass on to the account-editing page.
-            this._readingContext = readingContext;
             
             InitializeComponent ();
             // QuestionDetailView.Text = question.ToString();
@@ -55,8 +73,9 @@ namespace RightToAskClient.Views
                 public_key = "123",
                 State = "VIC"
             };
-            RegisterPage1 otherUserProfilePage = new RegisterPage1(testUserReg, _readingContext, true);
-            await Navigation.PushAsync(otherUserProfilePage);
+            RegisterPage1 otherUserProfilePage = new RegisterPage1(testUserReg, true);
+            //await Navigation.PushAsync(otherUserProfilePage);
+            await Shell.Current.GoToAsync($"{nameof(RegisterPage1)}");
         }
         
         // I'm not actually sure what triggers the 'send' event here, and hence not sure
@@ -77,7 +96,7 @@ namespace RightToAskClient.Views
         // give you the same options.
         async void SubmitNewQuestionButton_OnClicked(object sender, EventArgs e)
         {
-            if (!_readingContext.ThisParticipant.IsRegistered)
+            if (!App.ReadingContext.ThisParticipant.IsRegistered)
             {
                 string message = "You need to make an account to publish or vote on questions";
                 bool registerNow 
@@ -86,7 +105,7 @@ namespace RightToAskClient.Views
                 if (registerNow)
                 {
                     // var reg = new Registration();
-                    RegisterPage1 registrationPage = new RegisterPage1(_readingContext.ThisParticipant.RegistrationInfo, _readingContext, false);
+                    RegisterPage1 registrationPage = new RegisterPage1(App.ReadingContext.ThisParticipant.RegistrationInfo, false);
                     registrationPage.Disappearing += setSuggester;
                     
                     // question.QuestionSuggester = readingContext.ThisParticipant.UserName;
@@ -96,7 +115,8 @@ namespace RightToAskClient.Views
                     // with users.
                     // registrationPage.Disappearing += saveQuestion;
                     
-                    await Navigation.PushAsync(registrationPage);
+                    //await Navigation.PushAsync(registrationPage);
+                    await Shell.Current.GoToAsync($"{nameof(RegisterPage1)}");
                 }
             }
             else
@@ -107,7 +127,7 @@ namespace RightToAskClient.Views
 
         private void setSuggester(object sender, EventArgs e)
         {
-            _question.QuestionSuggester = _readingContext.ThisParticipant.RegistrationInfo.display_name;
+            _question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.display_name;
         }
         private async void SaveQuestion(object sender, EventArgs e)
         {
@@ -115,24 +135,25 @@ namespace RightToAskClient.Views
             // Setting QuestionSuggester may be unnecessary
             // - it may already be set correctly -
             // but is needed if the person has just registered.
-            if (_readingContext.ThisParticipant.IsRegistered)
+            if (App.ReadingContext.ThisParticipant.IsRegistered)
             {
                 // question.QuestionSuggester = readingContext.ThisParticipant.UserName;
-	            _readingContext.ExistingQuestions.Insert(0, _question);
-                _readingContext.DraftQuestion = null;
-                
+	            App.ReadingContext.ExistingQuestions.Insert(0, _question);
+                App.ReadingContext.DraftQuestion = null;                
             }
             
             bool goHome = await DisplayAlert("Question published!", "", "Home", "Write another one");
                 
             if (goHome)
             {
-                await Navigation.PopToRootAsync();
+                //await Navigation.PopToRootAsync();
+                await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
             }
             else  // Pop back to readingpage. TODO: fix the context so that it doesn't think you're drafting
                 // a question.  Possibly the right thing to do is pop everything and then push a reading page.
             {
-                await Navigation.PopAsync();
+                //await Navigation.PopAsync();
+                await Shell.Current.GoToAsync($"//{nameof(ReadingPage)}");
             }
         }
 

@@ -624,3 +624,5 @@ UpgradeLog*.htm
 FakesAssemblies/
 #
 .vscode/settings.json
+#
+CryptoUtils/SignatureService.cs

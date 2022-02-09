@@ -6,6 +6,18 @@ namespace RightToAskClient.Models
 {
 	public class ReadingContext : INotifyPropertyChanged
 	{
+		private bool _isReadingOnly;
+		public bool IsReadingOnly 
+		{ 
+			get => _isReadingOnly;
+			set
+			{
+				_isReadingOnly = value;
+				OnPropertyChanged();
+			}
+		}
+
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public ReadingContext()

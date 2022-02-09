@@ -9,24 +9,29 @@ namespace RightToAskClient.Views
 	public partial class ReadingPage : ContentPage
 	{
 		private string _draftQuestion;
-		private readonly ReadingContext _readingContext;
 		private FilterDisplayTableView _ttestableView;
 		private ClickableEntityListView<Authority> _clickableEntityListView;
 
-		public ReadingPage(bool isReadingOnly, ReadingContext readingContext)
+		// default constructor required for flyout page item
+		public ReadingPage()
+        {
+			BindingContext = App.ReadingContext;
+			InitializeComponent();
+        }
+
+		public ReadingPage(bool isReadingOnly)
 		{
 			InitializeComponent();
-			_readingContext = readingContext;
-			BindingContext = readingContext;
+			BindingContext = App.ReadingContext;
 
-            _ttestableView = new FilterDisplayTableView(readingContext);
+            _ttestableView = new FilterDisplayTableView();
             WholePage.Children.Insert(1,_ttestableView);
             //
             /*
             _clickableEntityListView = new ClickableEntityListView<Authority>
             {
 	            ClickableListLabel = "What should we do with this list?",
-	            ClickableListContents = _readingContext.Filters.SelectedAuthorities,
+	            ClickableListContents = App.ReadingContext.Filters.SelectedAuthorities,
 	            UpdateAction = OnMoreButtonClicked
             };
             WholePage.Children.Insert(1,_clickableEntityListView);
@@ -73,13 +78,14 @@ namespace RightToAskClient.Views
 		private async void Question_Selected(object sender, ItemTappedEventArgs e)
 		{
 			var questionDetailPage 
-				= new QuestionDetailPage(false, (Question) e.Item, _readingContext);
-			await Navigation.PushAsync(questionDetailPage);
+				= new QuestionDetailPage(false, (Question) e.Item);
+			//await Navigation.PushAsync(questionDetailPage);
+			await Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
 		}
 
 		async void OnDiscardButtonClicked(object sender, EventArgs e)
 		{
-            _readingContext.DraftQuestion = null;
+            App.ReadingContext.DraftQuestion = null;
             DraftEditor.IsVisible = false;
             DiscardButton.IsVisible = false; 
 			KeepButton.IsVisible = false;
@@ -87,8 +93,9 @@ namespace RightToAskClient.Views
             bool goHome = await DisplayAlert("Draft discarded", "Save time and focus support by voting on a similar question", "Home", "Related questions");
             if (goHome)
             {
-                await Navigation.PopToRootAsync();
-            }
+                //await Navigation.PopToRootAsync();
+				await Shell.Current.GoToAsync($"{nameof(MainPage)}");
+			}
 
 		}
 
@@ -98,18 +105,18 @@ namespace RightToAskClient.Views
 			// Tag the new question with the authorities that have been selected.
 			// ObservableCollection<Entity> questionAnswerers;
 			var questionAnswerers =
-				new ObservableCollection<Entity>(_readingContext.Filters.SelectedAuthorities);
+				new ObservableCollection<Entity>(App.ReadingContext.Filters.SelectedAuthorities);
 
-			foreach (var answeringMP in _readingContext.Filters.SelectedAnsweringMPs)
+			foreach (var answeringMP in App.ReadingContext.Filters.SelectedAnsweringMPs)
 			{
 				questionAnswerers.Add(answeringMP);	
 			}
 
-			IndividualParticipant thisParticipant = _readingContext.ThisParticipant;
+			IndividualParticipant thisParticipant = App.ReadingContext.ThisParticipant;
 			
 			Question newQuestion = new Question
 			{
-				QuestionText = _readingContext.DraftQuestion,
+				QuestionText = App.ReadingContext.DraftQuestion,
 				// TODO: Enforce registration before question-suggesting.
 				QuestionSuggester 
 					= (thisParticipant.IsRegistered) ? thisParticipant.RegistrationInfo.display_name : "Anonymous user",
@@ -119,8 +126,9 @@ namespace RightToAskClient.Views
 			};
 
 
-			var questionDetailPage = new QuestionDetailPage(true, newQuestion, _readingContext);
-			await Navigation.PushAsync(questionDetailPage);
+			var questionDetailPage = new QuestionDetailPage(true, newQuestion);
+			//await Navigation.PushAsync(questionDetailPage);
+			await Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
 		}
 	}
 }

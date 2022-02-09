@@ -6,6 +6,7 @@ namespace RightToAskClient
 {
     public partial class App : Application
     {
+        public static ReadingContext ReadingContext;
 
         public App()
         {
@@ -17,12 +18,13 @@ namespace RightToAskClient
              * and its static constructor called before the class is referenced
              * for the first time in your program."
              * */
-            MainPage = new NavigationPage(new MainPage());
+            MainPage = new AppShell();
         }
 
         protected override void OnStart()
         {
             ParliamentData.MPAndOtherData.TryInit();
+            ReadingContext = new ReadingContext();
         }
 
         protected override void OnSleep()

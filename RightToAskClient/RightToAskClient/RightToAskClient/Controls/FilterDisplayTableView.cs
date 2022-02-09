@@ -7,12 +7,10 @@ namespace RightToAskClient.Controls
 {
     public class FilterDisplayTableView : Grid
     {
-        private ReadingContext _readingContext;
         private FilterChoices _filterContext;
-        public FilterDisplayTableView(ReadingContext readingContext)
+        public FilterDisplayTableView()
         {
-            _readingContext = readingContext;
-            _filterContext = readingContext.Filters;
+            _filterContext = App.ReadingContext.Filters;
             BindingContext = _filterContext;
             
             BackgroundColor = Color.NavajoWhite;
@@ -100,14 +98,15 @@ namespace RightToAskClient.Controls
 			
            	var departmentExploringPage 
                 = new ExploringPageWithSearchAndPreSelections(_filterContext.SelectedAuthorities, message);
-           	await Navigation.PushAsync (departmentExploringPage);
+            //await Navigation.PushAsync (departmentExploringPage);
+            await Shell.Current.GoToAsync($"{nameof(ExploringPageWithSearchAndPreSelections)}");
         }
 
         void OnEditSelectedAnsweringMPsMineButtonClicked(object sender, EventArgs e)
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
-                NavigationUtils.PushMyAnsweringMPsExploringPage(_readingContext);
+                NavigationUtils.PushMyAnsweringMPsExploringPage();
             }
         }
 
@@ -115,7 +114,7 @@ namespace RightToAskClient.Controls
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
-                NavigationUtils.PushMyAskingMPsExploringPage(_readingContext);
+                NavigationUtils.PushMyAskingMPsExploringPage();
             }
             
         }
@@ -123,14 +122,14 @@ namespace RightToAskClient.Controls
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
-                NavigationUtils.PushAnsweringMPsExploringPage(_readingContext);
+                NavigationUtils.PushAnsweringMPsExploringPage();
             }
         }
         private void OnEditSelectedAskingMPsButtonClicked(object sender, EventArgs e)
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
-                NavigationUtils.PushAskingMPsExploringPage(_readingContext);
+                NavigationUtils.PushAskingMPsExploringPageAsync();
             }
         }
 

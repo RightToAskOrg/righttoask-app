@@ -17,10 +17,9 @@ namespace RightToAskClient.Views
 
 		async void OnTop10NowButtonClicked(object sender, EventArgs e)
 		{
-			_readingContext.TopTen = true;
-
-			var readingPage = new ReadingPage (true, _readingContext);
-			await Navigation.PushAsync (readingPage);
+			App.ReadingContext.TopTen = true;
+			//await Navigation.PushAsync (readingPage);
+			await Shell.Current.GoToAsync($"//{nameof(ReadingPage)}");
 		}
 		
 		private void OnExpiringSoonButtonClicked(object sender, EventArgs e)
@@ -45,20 +44,23 @@ namespace RightToAskClient.Views
 
 		async void LaunchKeywordReadingPage()
 		{
-			var readingPage = new ReadingPage(true, _readingContext);
-			await Navigation.PushAsync(readingPage);
+			App.ReadingContext.IsReadingOnly = true;
+			//await Navigation.PushAsync(readingPage);
+			await Shell.Current.GoToAsync($"//{nameof(ReadingPage)}");// send true for isReadingOnly
 		}
 		
 		async void OnNavigateButtonClicked (object sender, EventArgs e)
 		{
-			var secondPage = new SecondPage (false, _readingContext);
-			await Navigation.PushAsync (secondPage);
+			App.ReadingContext.IsReadingOnly = false;
+			//await Navigation.PushAsync (secondPage);
+			await Shell.Current.GoToAsync($"{nameof(SecondPage)}"); // send false for isReadingOnly
 		}
 		
 		async void OnReadButtonClicked(object sender, EventArgs e)
 		{
-			var secondPage = new SecondPage (true, _readingContext);
-			await Navigation.PushAsync(secondPage);
+			App.ReadingContext.IsReadingOnly = true;
+			//await Navigation.PushAsync(secondPage);
+			await Shell.Current.GoToAsync($"{nameof(SecondPage)}"); // send true for isReadingOnly
 		}
 
 	}

@@ -10,12 +10,14 @@ namespace RightToAskClient.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RegisterPage1 : ContentPage
     {
-        private ReadingContext _readingContext;
+		public RegisterPage1()
+        {
+			InitializeComponent();
+        }
         
-        public RegisterPage1(Registration reg, ReadingContext readingContext, bool isReadingOnly)
+        public RegisterPage1(Registration reg, bool isReadingOnly)
         {
             InitializeComponent();
-            this._readingContext = readingContext;
             BindingContext = reg;
 
             Title = isReadingOnly ? "User profile" : "Create Account";
@@ -46,12 +48,12 @@ namespace RightToAskClient.Views
 		        SeeQuestionsButton.IsVisible = false;
 		        FollowButton.IsVisible = false;
 		        
-		        if (!_readingContext.ThisParticipant.MPsKnown)
+		        if (!App.ReadingContext.ThisParticipant.MPsKnown)
 		        {
 			        registerCitizenButton.Text = "Next: Find your electorates";
 		        }
             
-		        if (!_readingContext.ThisParticipant.IsRegistered)
+		        if (!App.ReadingContext.ThisParticipant.IsRegistered)
 		        {
 			        registerCitizenButton.IsVisible = true;
 					registerOrgButton.IsVisible = true;
@@ -59,7 +61,7 @@ namespace RightToAskClient.Views
 		        }
 		        else
 		        {
-			        if (_readingContext.ThisParticipant.MPsKnown)
+			        if (App.ReadingContext.ThisParticipant.MPsKnown)
 			        {
 				        DisplayAlert("Electorates already selected",
 					        "You have already selected your electorates - you can change them if you like",
@@ -77,8 +79,8 @@ namespace RightToAskClient.Views
             if (picker.SelectedIndex != -1)
             {
 	            string state = (string)picker.SelectedItem;
-	            _readingContext.ThisParticipant.RegistrationInfo.State = state; 
-                _readingContext.ThisParticipant.UpdateChambers(state);
+	            App.ReadingContext.ThisParticipant.RegistrationInfo.State = state; 
+                App.ReadingContext.ThisParticipant.UpdateChambers(state);
             }
         }
 	    
@@ -98,8 +100,8 @@ namespace RightToAskClient.Views
 				ReportLabel.Text = httpValidation.message;
 				if (httpValidation.isValid)
 				{
-					_readingContext.ThisParticipant.RegistrationInfo = newRegistration;
-					_readingContext.ThisParticipant.IsRegistered = true;
+					App.ReadingContext.ThisParticipant.RegistrationInfo = newRegistration;
+					App.ReadingContext.ThisParticipant.IsRegistered = true;
 					PossiblyPushElectoratesPage();
 				}
 			}
@@ -127,11 +129,12 @@ namespace RightToAskClient.Views
         {
 	        var currentPage = Navigation.NavigationStack.LastOrDefault();
 
-	        if (!_readingContext.ThisParticipant.MPsKnown)
+	        if (!App.ReadingContext.ThisParticipant.MPsKnown)
 	        {
-		        var findElectoratesPage = new RegisterPage2(_readingContext.ThisParticipant, true, false);
-		        await Navigation.PushAsync(findElectoratesPage);
-	        }
+		        var findElectoratesPage = new RegisterPage2(App.ReadingContext.ThisParticipant, true, false);
+		        //await Navigation.PushAsync(findElectoratesPage);
+				await Shell.Current.GoToAsync($"{nameof(RegisterPage2)}");
+			}
 
 	        Navigation.RemovePage(currentPage);
         }
@@ -147,7 +150,7 @@ namespace RightToAskClient.Views
 
         private void OnRegisterEmailFieldCompleted(object sender, EventArgs e)
         {
-	        _readingContext.ThisParticipant.UserEmail = ((Editor) sender).Text;
+	        App.ReadingContext.ThisParticipant.UserEmail = ((Editor) sender).Text;
         }
 
         // TODO Make this put up the electorate-finding page.
@@ -175,8 +178,8 @@ namespace RightToAskClient.Views
 		// Will they expect to be adding a new stack layer, or popping off old ones?
 		private async void SeeQuestionsButton_OnClicked(object sender, EventArgs e)
 		{
-			var readingPage = new ReadingPage(true, _readingContext);
-			await Navigation.PushAsync(readingPage);
+			//await Navigation.PushAsync(readingPage);
+			await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
 		}
     }
 }

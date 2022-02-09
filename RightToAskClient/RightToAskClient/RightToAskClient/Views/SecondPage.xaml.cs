@@ -9,9 +9,27 @@ namespace RightToAskClient.Views
 {
 	public partial class SecondPage 
 	{
-		private readonly bool _isReadingOnly;
-		private readonly ReadingContext _readingContext;
+		public SecondPage()
+        {
+			InitializeComponent();
+			BindingContext = App.ReadingContext;
 
+			if (App.ReadingContext.IsReadingOnly)
+			{
+				Title = "Find questions";
+				QuestionDraftingBox.IsVisible = false;
+			}
+			else
+			{
+				Title = "Direct my question";
+				if(navigateForwardButton != null)
+                {
+					navigateForwardButton.Text = "Next";
+                }
+			}
+		}
+
+		/*
 		public SecondPage(bool isReadingOnly, ReadingContext readingContext)
 		{
 			
@@ -31,11 +49,11 @@ namespace RightToAskClient.Views
 				navigateForwardButton.Text = "Next";
 			}
 
-		}
+		}*/
 		
 		void Question_Entered(object sender, EventArgs e)
 		{
-			_readingContext.DraftQuestion = ((Editor) sender).Text;
+			App.ReadingContext.DraftQuestion = ((Editor) sender).Text;
 		}
 		
 		// If in read-only mode, initiate a question-reading page.
@@ -49,25 +67,28 @@ namespace RightToAskClient.Views
 		// At the moment this exclusivity is not enforced.
 		async void OnNavigateForwardButtonClicked (object sender, EventArgs e)
 		{
-			var needToFindAsker = _readingContext.Filters.SelectedAnsweringMPs.IsNullOrEmpty();
+			var needToFindAsker = App.ReadingContext.Filters.SelectedAnsweringMPs.IsNullOrEmpty();
 
 			if (needToFindAsker)
 			{
-				var questionAskerPage = new QuestionAskerPage(_readingContext);
-				await Navigation.PushAsync(questionAskerPage);
+				var questionAskerPage = new QuestionAskerPage();
+				//await Navigation.PushAsync(questionAskerPage);
+				await Shell.Current.GoToAsync($"{nameof(QuestionAskerPage)}");
 			}
 			else
 			{
-				var readingPage = new ReadingPage(_isReadingOnly, _readingContext);
-				await Navigation.PushAsync (readingPage);
+				//var readingPage = new ReadingPage(_isReadingOnly, _readingContext);
+				//await Navigation.PushAsync (readingPage);
+				await Shell.Current.GoToAsync($"//{nameof(ReadingPage)}"); // _isReadingOnly pass value
 			} 
 		}
 	
 		async private void OnOtherPublicAuthorityButtonClicked(object sender, EventArgs e)
 		{
 			var exploringPageToSearchAuthorities
-				= new ExploringPageWithSearch(_readingContext.Filters.SelectedAuthorities, "Choose authorities");
-			await Navigation.PushAsync(exploringPageToSearchAuthorities);
+				= new ExploringPageWithSearch(App.ReadingContext.Filters.SelectedAuthorities, "Choose authorities");
+			//await Navigation.PushAsync(exploringPageToSearchAuthorities);
+			await Shell.Current.GoToAsync($"{nameof(ExploringPageWithSearch)}");
 		}
 
 		// If we already know the electorates (and hence responsible MPs), go
@@ -78,7 +99,7 @@ namespace RightToAskClient.Views
 		{
 			if (ParliamentData.MPAndOtherData.IsInitialised)
 			{
-				NavigationUtils.PushMyAnsweringMPsExploringPage(_readingContext);
+				NavigationUtils.PushMyAnsweringMPsExploringPage();
 			}
 			else
 			{
@@ -93,7 +114,7 @@ namespace RightToAskClient.Views
 		{
 			if(ParliamentData.MPAndOtherData.IsInitialised)
 			{
-				NavigationUtils.PushAnsweringMPsExploringPage(_readingContext);
+				NavigationUtils.PushAnsweringMPsExploringPage();
 			}
 			else
 			{
