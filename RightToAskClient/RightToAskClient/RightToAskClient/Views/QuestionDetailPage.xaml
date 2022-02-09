@@ -5,11 +5,13 @@
              xmlns:rightToAskClient="clr-namespace:RightToAskClient;assembly=RightToAskClient"
              xmlns:controls="clr-namespace:RightToAskClient.Controls;assembly=RightToAskClient"
              xmlns:models="clr-namespace:RightToAskClient.Models;assembly=RightToAskClient"
-             x:Class="RightToAskClient.Views.QuestionDetailPage">
+             xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
+             x:Class="RightToAskClient.Views.QuestionDetailPage"
+             x:DataType="vm:QuestionViewModel">
     <ContentPage.Content>
-		<StackLayout x:Name="WholePage" Margin="20" x:Datatype="models:Question">
+		<StackLayout x:Name="WholePage" Margin="20">
 			<Label Text="Question:" />
-			<Label x:Name="QuestionDetailView" Text="{Binding QuestionText}" FontSize="Large" FontAttributes="Bold"  x:DataType="models:Question" />
+			<Label x:Name="QuestionDetailView" Text="{Binding Question.QuestionText}" FontSize="Large" FontAttributes="Bold"/>
 			<Label Text="Question writer:" />
 			<Label x:Name="Suggester" Text="{Binding QuestionSuggester, StringFormat='{0:F0}'}" FontSize="Medium" x:DataType="models:Question" />
 			<Label Text="Upvotes:" />

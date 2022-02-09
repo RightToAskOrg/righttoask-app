@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
 using RightToAskClient.Models;
+using RightToAskClient.ViewModels;
 using Xamarin.Forms;
 
 namespace RightToAskClient.Views
@@ -12,7 +13,8 @@ namespace RightToAskClient.Views
 		public SecondPage()
         {
 			InitializeComponent();
-			BindingContext = App.ReadingContext;
+			BindingContext = QuestionViewModel.Instance;
+			//BindingContext = App.ReadingContext;
 
 			if (App.ReadingContext.IsReadingOnly)
 			{

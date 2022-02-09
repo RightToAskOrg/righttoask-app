@@ -2,6 +2,7 @@ using System;
 using System.Collections.ObjectModel;
 using RightToAskClient.Controls;
 using RightToAskClient.Models;
+using RightToAskClient.ViewModels;
 using Xamarin.Forms;
 
 namespace RightToAskClient.Views
@@ -77,8 +78,9 @@ namespace RightToAskClient.Views
 		// Note: it's possible that this would be better with an ItemTapped event instead.
 		private async void Question_Selected(object sender, ItemTappedEventArgs e)
 		{
-			var questionDetailPage 
-				= new QuestionDetailPage(false, (Question) e.Item);
+			//var questionDetailPage 
+			//	= new QuestionDetailPage(false, (Question) e.Item);
+			QuestionViewModel.Instance.Question = (Question)e.Item;
 			//await Navigation.PushAsync(questionDetailPage);
 			await Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
 		}
@@ -126,7 +128,8 @@ namespace RightToAskClient.Views
 			};
 
 
-			var questionDetailPage = new QuestionDetailPage(true, newQuestion);
+			//var questionDetailPage = new QuestionDetailPage(true, newQuestion);
+			QuestionViewModel.Instance.Question = newQuestion;
 			//await Navigation.PushAsync(questionDetailPage);
 			await Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
 		}

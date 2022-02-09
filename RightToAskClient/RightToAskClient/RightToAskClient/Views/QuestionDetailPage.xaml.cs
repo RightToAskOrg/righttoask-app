@@ -1,5 +1,6 @@
 using System;
 using RightToAskClient.Models;
+using RightToAskClient.ViewModels;
 using Xamarin.Forms;
 using Button = Xamarin.Forms.Button;
 
@@ -14,6 +15,8 @@ namespace RightToAskClient.Views
         {
             InitializeComponent();
 
+            BindingContext = QuestionViewModel.Instance;
+            Title = "Question Details";
             // this is probably where I'd start adding/swapping the implementation to using MVVM
             /*
             if (isNewQuestion)
@@ -33,7 +36,7 @@ namespace RightToAskClient.Views
 
         public QuestionDetailPage (bool isNewQuestion, Question question)
         {
-            BindingContext = question;
+            BindingContext = QuestionViewModel.Instance;
             this._question = question;
             
             InitializeComponent ();
@@ -82,7 +85,7 @@ namespace RightToAskClient.Views
         // which of these two functions should be doing the saving.
 		void Answer_Entered(object sender, EventArgs e)
 		{
-			_question.LinkOrAnswer = ((Editor) sender).Text;
+			_question.LinkOrAnswer = ((Editor) sender)?.Text;
 		}
 
         private void SaveAnswerButton_OnClicked(object sender, EventArgs e)

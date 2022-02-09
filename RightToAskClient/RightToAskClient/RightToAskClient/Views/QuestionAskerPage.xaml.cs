@@ -10,9 +10,10 @@ namespace RightToAskClient.Views
     {
         public QuestionAskerPage()
         {
-            BindingContext = App.ReadingContext;
             InitializeComponent();
-
+            BindingContext = App.ReadingContext;
+            Title = "Step 2";
+            NavigateForwardButton.Text = "Next";
             NavigateForwardButton.IsVisible = false;
             SenateEstimatesSelection.IsVisible = false;
         }
