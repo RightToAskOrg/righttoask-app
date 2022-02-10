@@ -18,46 +18,14 @@ namespace RightToAskClient.Views
             BindingContext = QuestionViewModel.Instance;
             Title = "Question Details";
             // this is probably where I'd start adding/swapping the implementation to using MVVM
-            /*
-            if (isNewQuestion)
+            if (QuestionViewModel.Instance.IsNewQuestion)
             {
-                UpVoteButton.IsVisible = false;
-                LinkOrAnswerSegment.IsVisible = false;
-                SaveAnswerButton.IsVisible = false;
                 QuestionSuggesterButton.Text = "Edit your profile";
             }
             else
             {
-                BackgroundSegment.IsVisible = false;
-                SaveBackgroundButton.IsVisible = false;
-                QuestionSuggesterButton.Text = "View " + question.QuestionSuggester + "'s profile";
-            }*/
-        }
-
-        public QuestionDetailPage (bool isNewQuestion, Question question)
-        {
-            BindingContext = QuestionViewModel.Instance;
-            this._question = question;
-            
-            InitializeComponent ();
-            // QuestionDetailView.Text = question.ToString();
-            
-            // Different actions depending on whether it's a new question you're about to submit,
-            // or an existing question you're answering, upvoting or adding links for.
-            if (isNewQuestion)
-            {
-                UpVoteButton.IsVisible = false;
-                LinkOrAnswerSegment.IsVisible = false;
-                SaveAnswerButton.IsVisible = false;
-                QuestionSuggesterButton.Text = "Edit your profile";
+                QuestionSuggesterButton.Text = "View " + QuestionViewModel.Instance.Question.QuestionSuggester + "'s profile";
             }
-            else
-            {
-                BackgroundSegment.IsVisible = false;
-                SaveBackgroundButton.IsVisible = false;
-                QuestionSuggesterButton.Text = "View " + question.QuestionSuggester + "'s profile";
-            }
-            
         }
         
         private void UpVoteButton_OnClicked(object sender, EventArgs e)

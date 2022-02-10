@@ -7,19 +7,37 @@ using Xamarin.Forms;
 
 namespace RightToAskClient.Views
 {
-	public partial class ReadingPage : ContentPage
-	{
-		private string _draftQuestion;
-		private FilterDisplayTableView _ttestableView;
-		private ClickableEntityListView<Authority> _clickableEntityListView;
+    public partial class ReadingPage : ContentPage
+    {
+        private string _draftQuestion;
+        private FilterDisplayTableView _ttestableView;
+        private ClickableEntityListView<Authority> _clickableEntityListView;
 
-		// default constructor required for flyout page item
-		public ReadingPage()
+        // default constructor required for flyout page item
+        public ReadingPage()
         {
-			BindingContext = App.ReadingContext;
-			InitializeComponent();
+            InitializeComponent();
+            BindingContext = App.ReadingContext;
+
+            _ttestableView = new FilterDisplayTableView();
+            WholePage.Children.Insert(1, _ttestableView);
+
+            OnHideFilters();
+
+            if (App.ReadingContext.IsReadingOnly)
+            {
+                TitleBar.Title = "Read Questions";
+                QuestionDraftingBox.IsVisible = false;
+                KeepButton.IsVisible = false;
+                DiscardButton.IsVisible = false;
+            }
+            else
+            {
+                TitleBar.Title = "Similar questions";
+            }
         }
 
+        /*
 		public ReadingPage(bool isReadingOnly)
 		{
 			InitializeComponent();
@@ -28,7 +46,6 @@ namespace RightToAskClient.Views
             _ttestableView = new FilterDisplayTableView();
             WholePage.Children.Insert(1,_ttestableView);
             //
-            /*
             _clickableEntityListView = new ClickableEntityListView<Authority>
             {
 	            ClickableListLabel = "What should we do with this list?",
@@ -36,7 +53,6 @@ namespace RightToAskClient.Views
 	            UpdateAction = OnMoreButtonClicked
             };
             WholePage.Children.Insert(1,_clickableEntityListView);
-            */
             
             OnHideFilters();
             
@@ -51,87 +67,85 @@ namespace RightToAskClient.Views
 			{
 				TitleBar.Title = "Similar questions";
 			}
-		}
-		
-		private void OnShowFilters(object sender, EventArgs e)
-		{  
-			_ttestableView.IsVisible = true;
+		}*/
+
+        private void OnShowFilters(object sender, EventArgs e)
+        {
+            _ttestableView.IsVisible = true;
             FilterShower.IsVisible = false;
-		}
+        }
 
-		private void OnHideFilters()
-		{
-			_ttestableView.IsVisible = false;
-			FilterShower.IsVisible = true;
-		}
+        private void OnHideFilters()
+        {
+            _ttestableView.IsVisible = false;
+            FilterShower.IsVisible = true;
+        }
 
-		private void Questions_Scrolled(object sender, ScrolledEventArgs e)
-		{
-			OnHideFilters();
-		}
-		void Question_Entered(object sender, EventArgs e)
-		{
-			_draftQuestion = ((Editor) sender).Text;
-			((ReadingContext) BindingContext).DraftQuestion = _draftQuestion;
-		}
+        private void Questions_Scrolled(object sender, ScrolledEventArgs e)
+        {
+            OnHideFilters();
+        }
+        void Question_Entered(object sender, EventArgs e)
+        {
+            _draftQuestion = ((Editor)sender).Text;
+            ((ReadingContext)BindingContext).DraftQuestion = _draftQuestion;
+        }
 
-		// Note: it's possible that this would be better with an ItemTapped event instead.
-		private async void Question_Selected(object sender, ItemTappedEventArgs e)
-		{
-			//var questionDetailPage 
-			//	= new QuestionDetailPage(false, (Question) e.Item);
-			QuestionViewModel.Instance.Question = (Question)e.Item;
-			//await Navigation.PushAsync(questionDetailPage);
-			await Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
-		}
+        // Note: it's possible that this would be better with an ItemTapped event instead.
+        private async void Question_Selected(object sender, ItemTappedEventArgs e)
+        {
+            QuestionViewModel.Instance.Question = (Question)e.Item;
+            QuestionViewModel.Instance.IsNewQuestion = false;
+            //await Navigation.PushAsync(questionDetailPage);
+            await Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
+        }
 
-		async void OnDiscardButtonClicked(object sender, EventArgs e)
-		{
+        async void OnDiscardButtonClicked(object sender, EventArgs e)
+        {
             App.ReadingContext.DraftQuestion = null;
             DraftEditor.IsVisible = false;
-            DiscardButton.IsVisible = false; 
-			KeepButton.IsVisible = false;
-			
+            DiscardButton.IsVisible = false;
+            KeepButton.IsVisible = false;
+
             bool goHome = await DisplayAlert("Draft discarded", "Save time and focus support by voting on a similar question", "Home", "Related questions");
             if (goHome)
             {
                 //await Navigation.PopToRootAsync();
-				await Shell.Current.GoToAsync($"{nameof(MainPage)}");
-			}
+                await Shell.Current.GoToAsync($"{nameof(MainPage)}");
+            }
 
-		}
-
-
-		async void OnSaveButtonClicked(object sender, EventArgs e)
-		{
-			// Tag the new question with the authorities that have been selected.
-			// ObservableCollection<Entity> questionAnswerers;
-			var questionAnswerers =
-				new ObservableCollection<Entity>(App.ReadingContext.Filters.SelectedAuthorities);
-
-			foreach (var answeringMP in App.ReadingContext.Filters.SelectedAnsweringMPs)
-			{
-				questionAnswerers.Add(answeringMP);	
-			}
-
-			IndividualParticipant thisParticipant = App.ReadingContext.ThisParticipant;
-			
-			Question newQuestion = new Question
-			{
-				QuestionText = App.ReadingContext.DraftQuestion,
-				// TODO: Enforce registration before question-suggesting.
-				QuestionSuggester 
-					= (thisParticipant.IsRegistered) ? thisParticipant.RegistrationInfo.display_name : "Anonymous user",
-				QuestionAnswerers = questionAnswerers,
-				DownVotes = 0,
-				UpVotes = 0
-			};
+        }
 
 
-			//var questionDetailPage = new QuestionDetailPage(true, newQuestion);
-			QuestionViewModel.Instance.Question = newQuestion;
-			//await Navigation.PushAsync(questionDetailPage);
-			await Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
-		}
-	}
+        async void OnSaveButtonClicked(object sender, EventArgs e)
+        {
+            // Tag the new question with the authorities that have been selected.
+            // ObservableCollection<Entity> questionAnswerers;
+            var questionAnswerers =
+                new ObservableCollection<Entity>(App.ReadingContext.Filters.SelectedAuthorities);
+
+            foreach (var answeringMP in App.ReadingContext.Filters.SelectedAnsweringMPs)
+            {
+                questionAnswerers.Add(answeringMP);
+            }
+
+            IndividualParticipant thisParticipant = App.ReadingContext.ThisParticipant;
+
+            Question newQuestion = new Question
+            {
+                QuestionText = App.ReadingContext.DraftQuestion,
+                // TODO: Enforce registration before question-suggesting.
+                QuestionSuggester
+                    = (thisParticipant.IsRegistered) ? thisParticipant.RegistrationInfo.display_name : "Anonymous user",
+                QuestionAnswerers = questionAnswerers,
+                DownVotes = 0,
+                UpVotes = 0
+            };
+
+            QuestionViewModel.Instance.Question = newQuestion;
+            QuestionViewModel.Instance.IsNewQuestion = true;
+            //await Navigation.PushAsync(questionDetailPage);
+            await Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
+        }
+    }
 }

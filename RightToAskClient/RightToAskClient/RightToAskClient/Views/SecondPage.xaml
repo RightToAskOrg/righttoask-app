@@ -1,15 +1,16 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
-			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
 			 x:Class="RightToAskClient.Views.SecondPage"
-             Title="">
+             x:DataType="vm:QuestionViewModel">
 	<ContentPage.Content>
 		<StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand"
 		             Padding="30">
-			<StackLayout Orientation="Vertical" x:Name="QuestionDraftingBox">
+			<StackLayout Orientation="Vertical" x:Name="QuestionDraftingBox" IsVisible="{Binding IsReadingOnly, Converter={StaticResource Key=cnvInvert}}">
 				<Label Text="My question is..." FontSize="Medium" HorizontalOptions="Center" />
 				<Editor Completed="Question_Entered" MaxLength="280" 
-				        StyleClass="NormalEditor" AutoSize="TextChanges" FontSize="Medium" FontAttributes="Bold">
+				        StyleClass="NormalEditor" AutoSize="TextChanges" FontSize="Medium" FontAttributes="Bold" Text="{Binding Question.QuestionText}">
 					<Editor.Placeholder>
 						Enter your question (max 280 chars)
 						  
@@ -29,7 +30,7 @@
 			</StackLayout>
 			<Label x:Name="reportLabel" IsVisible="False"/>
 			<StackLayout Orientation="Horizontal" HorizontalOptions="End" VerticalOptions="End">
-				<Button x:Name="navigateForwardButton" StyleClass="DoneButton" Clicked="OnNavigateForwardButtonClicked" />
+				<Button x:Name="navigateForwardButton" Text="Next" StyleClass="DoneButton" Clicked="OnNavigateForwardButtonClicked" IsVisible="{Binding IsReadingOnly, Converter={StaticResource Key=cnvInvert}}"/>
 			</StackLayout>
 		</StackLayout>
 	</ContentPage.Content>

@@ -4,16 +4,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:rightToAskClient="clr-namespace:RightToAskClient;assembly=RightToAskClient"
              xmlns:controls="clr-namespace:RightToAskClient.Controls;assembly=RightToAskClient"
-             x:Class="RightToAskClient.Views.QuestionAskerPage">
+             xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
+             x:Class="RightToAskClient.Views.QuestionAskerPage"
+             x:DataType="vm:QuestionViewModel">
     <ContentPage.Content>
         <StackLayout x:Name = "WholePage">
 			<StackLayout x:Name="questionAsker" Orientation="Vertical">
 				<Label Text="Now we'll help you direct your question to where it might get answered" FontSize="Medium" HorizontalOptions="Center" />
 				<Label Text="Should it be raised by... " FontSize="Medium" HorizontalOptions="Center" />
 				<Label Text="a Parliamentary Committee, such as Senate Estimates?" FontSize="Medium" HorizontalOptions="Center" />
-				<Button CornerRadius="20" HeightRequest="40" x:Name="findACommitteeButton" Text="Find a Committee" BackgroundColor="Turquoise" Clicked="OnFindCommitteeButtonClicked" />
-				<StackLayout x:Name="SenateEstimatesSelection" Orientation="Horizontal">
-					<Label x:Name="SenateEstimatesAppearance" FontSize="Medium" HorizontalOptions="Center" />
+				<Button CornerRadius="20" HeightRequest="40" x:Name="findACommitteeButton" Text="Find a Committee" BackgroundColor="Turquoise" Command="{Binding RaisedOptionSelectedCommand}" CommandParameter="0" IsVisible="{Binding DisplayFindCommitteeButton}"/>
+                <StackLayout x:Name="SenateEstimatesSelection" Orientation="Horizontal" IsVisible="{Binding DisplaySenateEstimatesSection}">
+					<Label x:Name="SenateEstimatesAppearance" Text="{Binding SenateEstimatesAppearance}" FontSize="Medium" HorizontalOptions="Center" />
 					<Button CornerRadius="20" HeightRequest="40" x:Name="selectCommitteeButton" Text="Select" BackgroundColor="Turquoise" Clicked="OnSelectCommitteeButtonClicked" />
 				</StackLayout>
 				<Label Text="or by your MP, perhaps in a special session for constituent questions?" FontSize="Medium" HorizontalOptions="Center" />
@@ -26,7 +28,7 @@
 			    <Button CornerRadius="20" HeightRequest="40" x:Name="notSureButton" Text="Not sure" BackgroundColor="Turquoise" Clicked="NotSureWhoShouldRaiseButtonClicked" />
 				<Label x:Name="reportLabel" />
             </StackLayout>
-            <Button x:Name="NavigateForwardButton" StyleClass="DoneButton" Clicked="OnNavigateForwardButtonClicked" />
+            <Button x:Name="NavigateForwardButton" Text="Next" StyleClass="DoneButton" Clicked="OnNavigateForwardButtonClicked" IsVisible="{Binding RaisedByOptionSelected}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

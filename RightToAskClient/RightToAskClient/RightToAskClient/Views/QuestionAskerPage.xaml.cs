@@ -1,5 +1,6 @@
 using System;
 using RightToAskClient.Models;
+using RightToAskClient.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -11,11 +12,9 @@ namespace RightToAskClient.Views
         public QuestionAskerPage()
         {
             InitializeComponent();
-            BindingContext = App.ReadingContext;
+            BindingContext = QuestionViewModel.Instance;
             Title = "Step 2";
-            NavigateForwardButton.Text = "Next";
-            NavigateForwardButton.IsVisible = false;
-            SenateEstimatesSelection.IsVisible = false;
+            QuestionViewModel.Instance.RaisedByOptionSelected = false;
         }
 
         private void OnFindCommitteeButtonClicked(object sender, EventArgs e)
@@ -25,7 +24,7 @@ namespace RightToAskClient.Views
             SenateEstimatesAppearance.Text =
                 String.Join(" ", App.ReadingContext.Filters.SelectedAuthorities)
                     + " is appearing at Senate Estimates tomorrow";
-            NavigateForwardButton.IsVisible = true;
+            QuestionViewModel.Instance.RaisedByOptionSelected = true;
         }
         private void OnSelectCommitteeButtonClicked(object sender, EventArgs e)
         {
@@ -48,7 +47,7 @@ namespace RightToAskClient.Views
                 redoButtonsForUnreadableMPData();
             }
 
-            NavigateForwardButton.IsVisible = true;
+            QuestionViewModel.Instance.RaisedByOptionSelected = true;
         }
 
         private void redoButtonsForUnreadableMPData()
@@ -68,7 +67,7 @@ namespace RightToAskClient.Views
         private void NotSureWhoShouldRaiseButtonClicked(object sender, EventArgs e)
         {
             ((Button)sender).Text = $"Not implemented yet";
-            NavigateForwardButton.IsVisible = true;
+            QuestionViewModel.Instance.RaisedByOptionSelected = true;
         }
 
         // TODO: Implement an ExporingPage constructor for people.
@@ -77,7 +76,7 @@ namespace RightToAskClient.Views
             if (sender is Button button)
             {
                 button.Text = $"Not implemented yet";
-                NavigateForwardButton.IsVisible = true;
+                QuestionViewModel.Instance.RaisedByOptionSelected = true;
             }
         }
         private async void OnOtherMPRaiseButtonClicked(object sender, EventArgs e)
@@ -90,8 +89,7 @@ namespace RightToAskClient.Views
             {
                 redoButtonsForUnreadableMPData();
             }
-
-            NavigateForwardButton.IsVisible = true;
+            QuestionViewModel.Instance.RaisedByOptionSelected = true;
         }
     }
 }
