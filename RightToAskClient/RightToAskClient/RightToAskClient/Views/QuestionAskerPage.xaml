@@ -26,9 +26,9 @@
 					<Button Style="{StaticResource TurquoiseButton}" Text="{Binding SelectButtonText}" Command="{Binding SelectCommitteeButtonCommand}" />
 				</StackLayout>
 				<Label Text="or by your MP, perhaps in a special session for constituent questions?" FontSize="Medium" HorizontalOptions="Center" />
-                <Button Style="{StaticResource TurquoiseButton}" Text="My MP" Command="{Binding RaisedOptionSelectedCommand}" CommandParameter="1"/>
+                <Button Style="{StaticResource TurquoiseButton}" Text="My MP" Command="{Binding RaisedOptionSelectedCommand}" CommandParameter="1" IsEnabled="{Binding MPButtonsEnabled}"/>
 				<Label Text="or by some other MP?" FontSize="Medium" HorizontalOptions="Center" />
-                <Button Style="{StaticResource TurquoiseButton}" Text = "Another MP" Command="{Binding RaisedOptionSelectedCommand}" CommandParameter="2"/> 
+                <Button Style="{StaticResource TurquoiseButton}" Text = "Another MP" Command="{Binding RaisedOptionSelectedCommand}" CommandParameter="2" IsEnabled="{Binding MPButtonsEnabled}"/> 
 				<Label Text="a journalist or other RightToAsk participant?" FontSize="Medium" HorizontalOptions="Center" />
                 <Button Style="{StaticResource TurquoiseButton}" Text="{Binding AnotherUserButtonText}" Command="{Binding RaisedOptionSelectedCommand}" CommandParameter="3"/>
 				<Label Text="or are you just not sure?" FontSize="Medium" HorizontalOptions="Center" />

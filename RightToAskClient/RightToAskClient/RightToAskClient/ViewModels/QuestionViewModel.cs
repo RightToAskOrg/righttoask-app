@@ -112,6 +112,10 @@ namespace RightToAskClient.ViewModels
         }
 
         public bool MPButtonsEnabled => App.MPDataInitialized;
+        public void UpdateMPButtons()
+        {
+            OnPropertyChanged("MPButtonsEnabled");
+        }
         public bool NeedToFindAsker => App.ReadingContext.Filters.SelectedAnsweringMPs.IsNullOrEmpty();
 
         public QuestionViewModel()

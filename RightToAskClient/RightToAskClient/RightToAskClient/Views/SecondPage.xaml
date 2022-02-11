@@ -24,8 +24,8 @@
 				<Label Text="To be answered by " FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center" />
 				<StackLayout Orientation="Vertical">
 					<Button CornerRadius="20" HeightRequest="40" x:Name="otherPublicAuthorityButton" Text="A public Authority" Clicked="OnOtherPublicAuthorityButtonClicked" BackgroundColor="Turquoise"/>
-					<Button x:Name="myMP" Text="My MP" CornerRadius="20" BackgroundColor="Turquoise" Clicked="OnAnsweredByMPButtonClicked" HorizontalOptions="Center"/>
-                    <Button x:Name="otherMP" Text="Another MP" CornerRadius="20" BackgroundColor="Turquoise" Clicked="OnAnswerByOtherMPButtonClicked" HorizontalOptions="Center"/>
+					<Button x:Name="myMP" Text="My MP" CornerRadius="20" BackgroundColor="Turquoise" Clicked="OnAnsweredByMPButtonClicked" HorizontalOptions="Center" IsEnabled="{Binding MPButtonsEnabled}"/>
+                    <Button x:Name="otherMP" Text="Another MP" CornerRadius="20" BackgroundColor="Turquoise" Clicked="OnAnswerByOtherMPButtonClicked" HorizontalOptions="Center" IsEnabled="{Binding MPButtonsEnabled}"/>
 				</StackLayout>
 			</StackLayout>
 			<Label x:Name="reportLabel" IsVisible="False"/>
