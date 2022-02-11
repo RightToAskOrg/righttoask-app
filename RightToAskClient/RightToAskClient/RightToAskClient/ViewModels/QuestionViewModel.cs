@@ -111,6 +111,7 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _selectButtonText, value);
         }
 
+        public bool MPButtonsEnabled => App.MPDataInitialized;
         public bool NeedToFindAsker => App.ReadingContext.Filters.SelectedAnsweringMPs.IsNullOrEmpty();
 
         public QuestionViewModel()
@@ -194,7 +195,6 @@ namespace RightToAskClient.ViewModels
         // Executing. That shouldn't be a problem, though, because it is invisible and therefore unclickable.
         private void OnMyMPRaiseButtonClicked()
         {
-
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
                 NavigationUtils.PushMyAskingMPsExploringPage();

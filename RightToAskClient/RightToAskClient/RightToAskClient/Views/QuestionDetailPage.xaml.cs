@@ -45,8 +45,8 @@ namespace RightToAskClient.Views
                 State = "VIC"
             };
             RegisterPage1 otherUserProfilePage = new RegisterPage1(testUserReg, true);
-            //await Navigation.PushAsync(otherUserProfilePage);
-            await Shell.Current.GoToAsync($"{nameof(RegisterPage1)}");
+            await Navigation.PushAsync(otherUserProfilePage);
+            //await Shell.Current.GoToAsync($"{nameof(RegisterPage1)}");
         }
         
         // I'm not actually sure what triggers the 'send' event here, and hence not sure
@@ -86,8 +86,8 @@ namespace RightToAskClient.Views
                     // with users.
                     // registrationPage.Disappearing += saveQuestion;
                     
-                    //await Navigation.PushAsync(registrationPage);
-                    await Shell.Current.GoToAsync($"{nameof(RegisterPage1)}");
+                    await Navigation.PushAsync(registrationPage);
+                    //await Shell.Current.GoToAsync($"{nameof(RegisterPage1)}");
                 }
             }
             else

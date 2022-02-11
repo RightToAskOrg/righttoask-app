@@ -172,8 +172,8 @@ namespace RightToAskClient.Views
                 string message = "These are your MPs.  Select the one(s) who should answer the question";
                   
            	    var mpsExploringPage = new ExploringPage(_thisParticipant.GroupedMPs, _alreadySelectedMPs , message);
-                //await Navigation.PushAsync(mpsExploringPage);
-                await Shell.Current.GoToAsync($"{nameof(ExploringPage)}");
+                await Navigation.PushAsync(mpsExploringPage);
+                //await Shell.Current.GoToAsync($"{nameof(ExploringPage)}");
             }
             
             Navigation.RemovePage(currentPage); 

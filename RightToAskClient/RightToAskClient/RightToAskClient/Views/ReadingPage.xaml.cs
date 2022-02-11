@@ -110,8 +110,8 @@ namespace RightToAskClient.Views
             bool goHome = await DisplayAlert("Draft discarded", "Save time and focus support by voting on a similar question", "Home", "Related questions");
             if (goHome)
             {
-                //await Navigation.PopToRootAsync();
-                await Shell.Current.GoToAsync($"{nameof(MainPage)}");
+                await Navigation.PopToRootAsync();
+                //await Shell.Current.GoToAsync($"///{nameof(MainPage)}");
             }
 
         }

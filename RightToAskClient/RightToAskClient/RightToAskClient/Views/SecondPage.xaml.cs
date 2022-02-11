@@ -58,7 +58,7 @@ namespace RightToAskClient.Views
                 //var readingPage = new ReadingPage(_isReadingOnly, _readingContext);
                 //await Navigation.PushAsync (readingPage);
                 App.ReadingContext.IsReadingOnly = QuestionViewModel.Instance.IsReadingOnly;
-                await Shell.Current.GoToAsync($"//{nameof(ReadingPage)}"); // _isReadingOnly pass value
+                await Shell.Current.GoToAsync($"//{nameof(ReadingPage)}");
             }
         }
 
@@ -66,8 +66,8 @@ namespace RightToAskClient.Views
         {
             var exploringPageToSearchAuthorities
                 = new ExploringPageWithSearch(App.ReadingContext.Filters.SelectedAuthorities, "Choose authorities");
-            //await Navigation.PushAsync(exploringPageToSearchAuthorities);
-            await Shell.Current.GoToAsync($"{nameof(ExploringPageWithSearch)}");
+            await Navigation.PushAsync(exploringPageToSearchAuthorities);
+            //await Shell.Current.GoToAsync($"{nameof(ExploringPageWithSearch)}");
         }
 
         // If we already know the electorates (and hence responsible MPs), go

@@ -98,8 +98,8 @@ namespace RightToAskClient.Controls
 			
            	var departmentExploringPage 
                 = new ExploringPageWithSearchAndPreSelections(_filterContext.SelectedAuthorities, message);
-            //await Navigation.PushAsync (departmentExploringPage);
-            await Shell.Current.GoToAsync($"{nameof(ExploringPageWithSearchAndPreSelections)}");
+            await Navigation.PushAsync (departmentExploringPage);
+            //await Shell.Current.GoToAsync($"{nameof(ExploringPageWithSearchAndPreSelections)}");
         }
 
         void OnEditSelectedAnsweringMPsMineButtonClicked(object sender, EventArgs e)

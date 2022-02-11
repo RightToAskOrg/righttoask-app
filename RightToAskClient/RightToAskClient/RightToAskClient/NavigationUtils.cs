@@ -20,9 +20,9 @@ namespace RightToAskClient
             var mpsExploringPage = new ExploringPage(App.ReadingContext.ThisParticipant.GroupedMPs,
                 App.ReadingContext.Filters.SelectedAnsweringMPsMine, message);
 
-            var nextPage = await ListMPsFindFirstIfNotAlreadyKnown(App.ReadingContext, mpsExploringPage, App.ReadingContext.Filters.SelectedAnsweringMPs);
-            //App.Current.MainPage.Navigation.PushAsync(nextPage);
-            await Shell.Current.GoToAsync($"{nameof(ExploringPage)}");
+            var nextPage = await ListMPsFindFirstIfNotAlreadyKnown(mpsExploringPage, App.ReadingContext.Filters.SelectedAnsweringMPs);
+            await Application.Current.MainPage.Navigation.PushAsync(nextPage);
+            //await Shell.Current.GoToAsync($"{nameof(ExploringPage)}");
         }
 
         public static async void PushMyAskingMPsExploringPage()
@@ -32,23 +32,23 @@ namespace RightToAskClient
             var mpsExploringPage = new ExploringPage(App.ReadingContext.ThisParticipant.GroupedMPs,
                 App.ReadingContext.Filters.SelectedAskingMPsMine, message);
 
-            launchMPFindingAndSelectingPages(mpsExploringPage, App.ReadingContext);
+            launchMPFindingAndSelectingPages(mpsExploringPage);
         }
 
-        private static async void launchMPFindingAndSelectingPages(ExploringPage mpsExploringPage, ReadingContext readingContext)
+        private static async void launchMPFindingAndSelectingPages(ExploringPage mpsExploringPage)
         {
-            var nextPage = await ListMPsFindFirstIfNotAlreadyKnown(readingContext, mpsExploringPage, readingContext.Filters.SelectedAskingMPs);
-            //await App.Current.MainPage.Navigation.PushAsync(nextPage);
-            await Shell.Current.GoToAsync($"{nameof(ExploringPage)}");
+            var nextPage = await ListMPsFindFirstIfNotAlreadyKnown(mpsExploringPage, App.ReadingContext.Filters.SelectedAskingMPs);
+            await Application.Current.MainPage.Navigation.PushAsync(nextPage);
+            //await Shell.Current.GoToAsync($"{nameof(ExploringPage)}");
         }
         /*
 		 * Either push the list of selectable MPs directly, or push a registration page,
 		 * instructed to push the MPs selection page after.
 		 */
-        public static async Task<Page> ListMPsFindFirstIfNotAlreadyKnown(ReadingContext readingContext, ExploringPage mpsExploringPage,
+        public static async Task<Page> ListMPsFindFirstIfNotAlreadyKnown(ExploringPage mpsExploringPage,
             ObservableCollection<MP> alreadySelectedMPs)
         {
-            var thisParticipant = readingContext.ThisParticipant;
+            var thisParticipant = App.ReadingContext.ThisParticipant;
 
             if (!thisParticipant.MPsKnown)
             {
@@ -67,8 +67,8 @@ namespace RightToAskClient
             string message = "Here is the complete list of MPs - select which one(s) should answer";
             ExploringPageWithSearch mpsPage
                 = new ExploringPageWithSearch(ParliamentData.AllMPs, App.ReadingContext.Filters.SelectedAnsweringMPs, message);
-            //await App.Current.MainPage.Navigation.PushAsync(mpsPage);
-            await Shell.Current.GoToAsync($"{nameof(ExploringPageWithSearch)}");
+            await Application.Current.MainPage.Navigation.PushAsync(mpsPage);
+            //await Shell.Current.GoToAsync($"{nameof(ExploringPageWithSearch)}");
         }
 
         public static async void PushAskingMPsExploringPageAsync()
@@ -77,8 +77,8 @@ namespace RightToAskClient
                 "Here is the complete list of MPs - select which one(s) should raise your question in Parliament";
             ExploringPageWithSearch mpsPage
                 = new ExploringPageWithSearch(ParliamentData.AllMPs, App.ReadingContext.Filters.SelectedAskingMPs, message);
-            //App.Current.MainPage.Navigation.PushAsync(mpsPage);
-            await Shell.Current.GoToAsync($"{nameof(ExploringPageWithSearch)}");
+            await Application.Current.MainPage.Navigation.PushAsync(mpsPage);
+            //await Shell.Current.GoToAsync($"{nameof(ExploringPageWithSearch)}");
         }
     }
 }
