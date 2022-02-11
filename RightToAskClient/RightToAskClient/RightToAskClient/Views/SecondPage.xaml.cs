@@ -13,9 +13,11 @@ namespace RightToAskClient.Views
         public SecondPage()
         {
             InitializeComponent();
-            BindingContext = QuestionViewModel.Instance;
-            //BindingContext = App.ReadingContext;
 
+            // reset the question if navigating back before this page in the stack
+            QuestionViewModel.Instance.ResetInstance();
+
+            BindingContext = QuestionViewModel.Instance;
             if (App.ReadingContext.IsReadingOnly)
             {
                 Title = "Find questions";

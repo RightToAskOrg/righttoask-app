@@ -1,4 +1,5 @@
 ﻿using RightToAskClient.Models;
+using RightToAskClient.Views;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -54,11 +55,60 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _displaySenatesEstimatesSection, value);
         }
 
-        private string _senateEstimatesAppearance;
-        public string SenateEstimatesAppearance
+        private string _senateEstimatesAppearanceText;
+        public string SenateEstimatesAppearanceText
         {
-            get => _senateEstimatesAppearance;
-            set => SetProperty(ref _senateEstimatesAppearance, value);
+            get => _senateEstimatesAppearanceText;
+            set => SetProperty(ref _senateEstimatesAppearanceText, value);
+        }
+
+        private bool _enableMyMPShouldRaiseButton;
+        public bool EnableMyMPShouldRaiseButton
+        {
+            get => _enableMyMPShouldRaiseButton;
+            set => SetProperty(ref _enableMyMPShouldRaiseButton, value);
+        }
+
+        private bool _enableAnotherMPShouldRaiseButton;
+        public bool EnableAnotherMPShouldRaiseButton
+        {
+            get => _enableAnotherMPShouldRaiseButton;
+            set => SetProperty(ref _enableAnotherMPShouldRaiseButton, value);
+        }
+
+        private bool _showReportLabel;
+        public bool ShowReportLabel
+        {
+            get => _showReportLabel;
+            set => SetProperty(ref _showReportLabel, value);
+        }
+
+        private string _reportLabelText;
+        public string ReportLabelText
+        {
+            get => _reportLabelText;
+            set => SetProperty(ref _reportLabelText, value);
+        }
+
+        private string _anotherUserButtonText;
+        public string AnotherUserButtonText
+        {
+            get => _anotherUserButtonText;
+            set => SetProperty(ref _anotherUserButtonText, value);
+        }
+
+        private string _notSureWhoShouldRaiseButtonText;
+        public string NotSureWhoShouldRaiseButtonText
+        {
+            get => _notSureWhoShouldRaiseButtonText;
+            set => SetProperty(ref _notSureWhoShouldRaiseButtonText, value);
+        }
+
+        private string _selectButtonText;
+        public string SelectButtonText
+        {
+            get => _selectButtonText;
+            set => SetProperty(ref _selectButtonText, value);
         }
 
         public bool NeedToFindAsker => App.ReadingContext.Filters.SelectedAnsweringMPs.IsNullOrEmpty();
@@ -66,13 +116,7 @@ namespace RightToAskClient.ViewModels
         public QuestionViewModel()
         {
             // set defaults
-            Question = new Question();
-            IsNewQuestion = false;
-            IsReadingOnly = App.ReadingContext.IsReadingOnly;
-            RaisedByOptionSelected = false;
-            DisplayFindCommitteeButton = true;
-            DisplaySenateEstimatesSection = false;
-            SenateEstimatesAppearance = "";
+            ResetInstance();
 
             // commands
             RaisedOptionSelectedCommand = new Command<string>((string buttonId) => 
@@ -81,9 +125,35 @@ namespace RightToAskClient.ViewModels
                 Int32.TryParse(buttonId, out buttonIdNum);
                 OnButtonPressed(buttonIdNum);
             });
+            NavigateForwardCommand = new AsyncCommand(async() => 
+            {
+                await Shell.Current.GoToAsync($"//{nameof(ReadingPage)}");
+            });
+            SelectCommitteeButtonCommand = new Command(() => 
+            {
+                App.ReadingContext.Filters.SelectedAskingCommittee.Add("Senate Estimates tomorrow");
+                SelectButtonText = "Selected!";
+            });
         }
 
-        public Command<string> RaisedOptionSelectedCommand { get; set; }
+        public Command<string> RaisedOptionSelectedCommand { get; }
+        public IAsyncCommand NavigateForwardCommand { get; }
+        public Command SelectCommitteeButtonCommand { get; }
+
+        public void ResetInstance()
+        {
+            // set defaults
+            Question = new Question();
+            IsNewQuestion = false;
+            IsReadingOnly = App.ReadingContext.IsReadingOnly;
+            RaisedByOptionSelected = false;
+            DisplayFindCommitteeButton = true;
+            DisplaySenateEstimatesSection = false;
+            SenateEstimatesAppearanceText = "";
+            AnotherUserButtonText = "Another RightToAsk User";
+            NotSureWhoShouldRaiseButtonText = "Not Sure";
+            SelectButtonText = "Select";
+        }
 
         public void OnButtonPressed(int buttonId)
         {
@@ -94,14 +164,18 @@ namespace RightToAskClient.ViewModels
                     OnFindCommitteeButtonClicked();
                     break;
                 case 1:
+                    OnMyMPRaiseButtonClicked();
                     break;
                 case 2:
+                    OnOtherMPRaiseButtonClicked();
                     break;
                 case 3:
+                    UserShouldRaiseButtonClicked();
                     break;
                 case 4:
+                    NotSureWhoShouldRaiseButtonClicked();
                     break;
-                case 5:
+                default:
                     break;
             }
         }
@@ -111,21 +185,14 @@ namespace RightToAskClient.ViewModels
         {
             DisplayFindCommitteeButton = false;
             DisplaySenateEstimatesSection = true;
-            SenateEstimatesAppearance =
+            SenateEstimatesAppearanceText =
                 String.Join(" ", App.ReadingContext.Filters.SelectedAuthorities)
                     + " is appearing at Senate Estimates tomorrow";
         }
 
-        private void OnSelectCommitteeButtonClicked(object sender, EventArgs e)
-        {
-            App.ReadingContext.Filters.SelectedAskingCommittee.Add("Senate Estimates tomorrow");
-            ((Button)sender).Text = "Selected!";
-
-        }
-
         // Note that the non-waiting for this asyc method means that the rest of the page can keep
         // Executing. That shouldn't be a problem, though, because it is invisible and therefore unclickable.
-        private void OnMyMPRaiseButtonClicked(object sender, EventArgs e)
+        private void OnMyMPRaiseButtonClicked()
         {
 
             if (ParliamentData.MPAndOtherData.IsInitialised)
@@ -134,43 +201,30 @@ namespace RightToAskClient.ViewModels
             }
             else
             {
-                //redoButtonsForUnreadableMPData();
+                RedoButtonsForUnreadableMPData();
             }
-
-            QuestionViewModel.Instance.RaisedByOptionSelected = true;
         }
 
-        //private void redoButtonsForUnreadableMPData()
-        //{
-        //    myMPShouldRaiseItButton.IsEnabled = false;
-        //    anotherMPShouldRaiseItButton.IsEnabled = false;
-        //    reportLabel.IsVisible = true;
-        //    reportLabel.Text = ParliamentData.MPAndOtherData.ErrorMessage;
-        //}
-
-        //async void OnNavigateForwardButtonClicked(object sender, EventArgs e)
-        //{
-        //    //await Navigation.PushAsync (readingPage);
-        //    await Shell.Current.GoToAsync($"//{nameof(ReadingPage)}");
-        //}
-
-        private void NotSureWhoShouldRaiseButtonClicked(object sender, EventArgs e)
+        private void RedoButtonsForUnreadableMPData()
         {
-            ((Button)sender).Text = $"Not implemented yet";
-            QuestionViewModel.Instance.RaisedByOptionSelected = true;
+            EnableMyMPShouldRaiseButton = false;
+            EnableAnotherMPShouldRaiseButton = false;
+            ShowReportLabel = true;
+            ReportLabelText = ParliamentData.MPAndOtherData.ErrorMessage;
+        }
+
+        private void NotSureWhoShouldRaiseButtonClicked()
+        {
+            NotSureWhoShouldRaiseButtonText = "Not implemented yet";
         }
 
         // TODO: Implement an ExporingPage constructor for people.
-        private async void UserShouldRaiseButtonClicked(object sender, EventArgs e)
+        private async void UserShouldRaiseButtonClicked()
         {
-            if (sender is Button button)
-            {
-                button.Text = $"Not implemented yet";
-                QuestionViewModel.Instance.RaisedByOptionSelected = true;
-            }
+            AnotherUserButtonText = "Not Implemented Yet";
         }
 
-        private async void OnOtherMPRaiseButtonClicked(object sender, EventArgs e)
+        private void OnOtherMPRaiseButtonClicked()
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
@@ -178,9 +232,8 @@ namespace RightToAskClient.ViewModels
             }
             else
             {
-                //redoButtonsForUnreadableMPData();
+                RedoButtonsForUnreadableMPData();
             }
-            QuestionViewModel.Instance.RaisedByOptionSelected = true;
         }
     }
 }
