@@ -17,7 +17,11 @@ namespace RightToAskClient.ViewModels
         public Question Question
         {
             get => _question;
-            set => SetProperty(ref _question, value);
+            set 
+            {
+                SetProperty(ref _question, value);
+                App.ReadingContext.DraftQuestion = Question.QuestionText;
+            }
         }
 
         private bool _isNewQuestion;
@@ -111,10 +115,10 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _selectButtonText, value);
         }
 
-        public bool MPButtonsEnabled => App.MPDataInitialized;
+        public bool MPButtonsEnabled => ParliamentData.MPAndOtherData.IsInitialised;
         public void UpdateMPButtons()
         {
-            OnPropertyChanged("MPButtonsEnabled");
+            OnPropertyChanged("MPButtonsEnabled"); // called by the UpdatableParliamentAndMPData class to update this variable in real time
         }
         public bool NeedToFindAsker => App.ReadingContext.Filters.SelectedAnsweringMPs.IsNullOrEmpty();
 
@@ -130,9 +134,48 @@ namespace RightToAskClient.ViewModels
                 Int32.TryParse(buttonId, out buttonIdNum);
                 OnButtonPressed(buttonIdNum);
             });
-            NavigateForwardCommand = new AsyncCommand(async() => 
+            ProceedToReadingPageCommand = new AsyncCommand(async() => 
             {
                 await Shell.Current.GoToAsync($"//{nameof(ReadingPage)}");
+            });
+            // If in read-only mode, initiate a question-reading page.
+            // Similarly if my MP is answering.
+            // If drafting, load a question-asker page, which will then 
+            // lead to a question-reading page.
+            //
+            // TODO also doesn't do the right thing if you've previously selected
+            // someone other than your MP.  In other words, it should enforce exclusivity -
+            // either your MP(s) answer it, or an authority or other MP answers it.
+            // At the moment this exclusivity is not enforced.
+            NavigateForwardCommand = new AsyncCommand(async () =>
+            {
+                if (NeedToFindAsker)
+                {
+                    await Shell.Current.GoToAsync($"{nameof(QuestionAskerPage)}");
+                }
+                else
+                {
+                    App.ReadingContext.IsReadingOnly = IsReadingOnly;
+                    await Shell.Current.GoToAsync($"//{nameof(ReadingPage)}");
+                }
+            });
+            OtherPublicAuthorityButtonCommand = new AsyncCommand(async () =>
+            {
+                var exploringPageToSearchAuthorities
+                    = new ExploringPageWithSearch(App.ReadingContext.Filters.SelectedAuthorities, "Choose authorities");
+                await Shell.Current.Navigation.PushAsync(exploringPageToSearchAuthorities);
+            });
+            // If we already know the electorates (and hence responsible MPs), go
+            // straight to the Explorer page that lists them.
+            // If we don't, go to the page for entering address and finding them.
+            // It will pop back to here.
+            AnsweredByMyMPCommand = new AsyncCommand(async () =>
+            {
+                NavigationUtils.PushMyAnsweringMPsExploringPage();
+            });
+            AnsweredByOtherMPCommand = new AsyncCommand(async () =>
+            {
+                NavigationUtils.PushAnsweringMPsExploringPage();
             });
             SelectCommitteeButtonCommand = new Command(() => 
             {
@@ -142,7 +185,11 @@ namespace RightToAskClient.ViewModels
         }
 
         public Command<string> RaisedOptionSelectedCommand { get; }
+        public IAsyncCommand ProceedToReadingPageCommand { get; }
         public IAsyncCommand NavigateForwardCommand { get; }
+        public IAsyncCommand OtherPublicAuthorityButtonCommand { get; }
+        public IAsyncCommand AnsweredByMyMPCommand { get; }
+        public IAsyncCommand AnsweredByOtherMPCommand { get; }
         public Command SelectCommitteeButtonCommand { get; }
 
         public void ResetInstance()
@@ -158,6 +205,7 @@ namespace RightToAskClient.ViewModels
             AnotherUserButtonText = "Another RightToAsk User";
             NotSureWhoShouldRaiseButtonText = "Not Sure";
             SelectButtonText = "Select";
+            ReportLabelText = "MP Data is still being initialized.";
         }
 
         public void OnButtonPressed(int buttonId)
@@ -238,6 +286,43 @@ namespace RightToAskClient.ViewModels
             {
                 RedoButtonsForUnreadableMPData();
             }
+        }
+
+        // If we already know the electorates (and hence responsible MPs), go
+        // straight to the Explorer page that lists them.
+        // If we don't, go to the page for entering address and finding them.
+        // It will pop back to here.
+        async void OnAnsweredByMPButtonClicked(object sender, EventArgs e)
+        {
+            NavigationUtils.PushMyAnsweringMPsExploringPage();
+            // this shouldn't be necessary after the enable/disable initialization bind on the buttons that I did.
+           /* if (ParliamentData.MPAndOtherData.IsInitialised)
+            {
+
+            }
+            else
+            {
+                myMP.IsEnabled = false;
+                otherMP.IsEnabled = false;
+                reportLabel.IsVisible = true;
+                reportLabel.Text = ParliamentData.MPAndOtherData.ErrorMessage;
+            }*/
+        }
+
+        private async void OnAnswerByOtherMPButtonClicked(object sender, EventArgs e)
+        {
+            NavigationUtils.PushAnsweringMPsExploringPage();
+            // Same as above
+            /*
+            if (ParliamentData.MPAndOtherData.IsInitialised)
+            {
+
+            }
+            else
+            {
+                reportLabel.IsVisible = true;
+                reportLabel.Text = ParliamentData.MPAndOtherData.ErrorMessage;
+            }*/
         }
     }
 }

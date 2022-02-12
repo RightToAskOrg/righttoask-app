@@ -7,7 +7,7 @@ namespace RightToAskClient
     public partial class App : Application
     {
         public static ReadingContext ReadingContext;
-        public static bool MPDataInitialized;
+        //public static bool MPDataInitialized;
 
         public App()
         {
@@ -24,7 +24,6 @@ namespace RightToAskClient
 
         protected override void OnStart()
         {
-            MPDataInitialized = false;
             ParliamentData.MPAndOtherData.TryInit();
             ReadingContext = new ReadingContext();
         }

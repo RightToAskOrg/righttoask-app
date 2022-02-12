@@ -10,27 +10,13 @@
         </ResourceDictionary>-->
         <ResourceDictionary>
             <!--Converter-->
-            <helpers:InvertConvert x:Key="cnvInvert" />            
+            <helpers:InvertConvert x:Key="cnvInvert" />
             <Color x:Key="Primary">#6FA22E</Color>
-            <Style TargetType="Button">
+            <Style x:Key="TurquoiseButton" TargetType="Button">
                 <Setter Property="TextColor" Value="White"></Setter>
-                <Setter Property="BackgroundColor" Value="Teal"></Setter>
-                <!--<Setter Property="VisualStateManager.VisualStateGroups">
-                    <VisualStateGroupList>
-                        <VisualStateGroup x:Name="CommonStates">
-                            <VisualState x:Name="Normal">
-                                <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
-                                </VisualState.Setters>
-                            </VisualState>
-                            <VisualState x:Name="Disabled">
-                                <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="#332196F3" />
-                                </VisualState.Setters>
-                            </VisualState>
-                        </VisualStateGroup>
-                    </VisualStateGroupList>
-                </Setter>-->
+                <Setter Property="BackgroundColor" Value="Turquoise"></Setter>
+                <Setter Property="CornerRadius" Value="20"></Setter>
+                <Setter Property="HeightRequest" Value="40"></Setter>
             </Style>
         </ResourceDictionary>
     </Application.Resources>

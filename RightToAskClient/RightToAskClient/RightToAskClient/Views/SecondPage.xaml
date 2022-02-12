@@ -9,7 +9,7 @@
 		             Padding="30">
 			<StackLayout Orientation="Vertical" x:Name="QuestionDraftingBox" IsVisible="{Binding IsReadingOnly, Converter={StaticResource Key=cnvInvert}}">
 				<Label Text="My question is..." FontSize="Medium" HorizontalOptions="Center" />
-				<Editor Completed="Question_Entered" MaxLength="280" 
+				<Editor MaxLength="280" 
 				        StyleClass="NormalEditor" AutoSize="TextChanges" FontSize="Medium" FontAttributes="Bold" Text="{Binding Question.QuestionText}">
 					<Editor.Placeholder>
 						Enter your question (max 280 chars)
@@ -23,14 +23,14 @@
 			<StackLayout Orientation="Horizontal">
 				<Label Text="To be answered by " FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center" />
 				<StackLayout Orientation="Vertical">
-					<Button CornerRadius="20" HeightRequest="40" x:Name="otherPublicAuthorityButton" Text="A public Authority" Clicked="OnOtherPublicAuthorityButtonClicked" BackgroundColor="Turquoise"/>
-					<Button x:Name="myMP" Text="My MP" CornerRadius="20" BackgroundColor="Turquoise" Clicked="OnAnsweredByMPButtonClicked" HorizontalOptions="Center" IsEnabled="{Binding MPButtonsEnabled}"/>
-                    <Button x:Name="otherMP" Text="Another MP" CornerRadius="20" BackgroundColor="Turquoise" Clicked="OnAnswerByOtherMPButtonClicked" HorizontalOptions="Center" IsEnabled="{Binding MPButtonsEnabled}"/>
+                    <Button Text="A public Authority" Style="{StaticResource TurquoiseButton}" Command="{Binding OtherPublicAuthorityButtonCommand}"/>
+                    <Button Text="My MP" Style="{StaticResource TurquoiseButton}" Command="{Binding AnsweredByMyMPCommand}"  HorizontalOptions="Center" IsEnabled="{Binding MPButtonsEnabled}"/>
+                    <Button Text="Another MP" Style="{StaticResource TurquoiseButton}" Command="{Binding AnsweredByOtherMPCommand}" HorizontalOptions="Center" IsEnabled="{Binding MPButtonsEnabled}"/>
 				</StackLayout>
 			</StackLayout>
-			<Label x:Name="reportLabel" IsVisible="False"/>
+			<Label Text="{Binding ReportLabelText}" IsVisible="{Binding MPButtonsEnabled, Converter={StaticResource Key=cnvInvert}}"/>
 			<StackLayout Orientation="Horizontal" HorizontalOptions="End" VerticalOptions="End">
-				<Button x:Name="navigateForwardButton" Text="Next" StyleClass="DoneButton" Clicked="OnNavigateForwardButtonClicked" IsVisible="{Binding IsReadingOnly, Converter={StaticResource Key=cnvInvert}}"/>
+				<Button Text="Next" StyleClass="DoneButton" Command="{Binding NavigateForwardCommand}" IsVisible="{Binding IsReadingOnly, Converter={StaticResource Key=cnvInvert}}"/>
 			</StackLayout>
 		</StackLayout>
 	</ContentPage.Content>

@@ -7,13 +7,6 @@
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              x:Class="RightToAskClient.Views.QuestionAskerPage"
              x:DataType="vm:QuestionViewModel">
-    <ContentPage.Resources>
-        <Style x:Key="TurquoiseButton" TargetType="Button">
-            <Setter Property="CornerRadius" Value="20"/>
-            <Setter Property="BackgroundColor" Value="Turquoise"/>
-            <Setter Property="HeightRequest" Value="40"/>
-        </Style>
-    </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout x:Name = "WholePage">
 			<StackLayout x:Name="questionAsker" Orientation="Vertical">
@@ -35,7 +28,7 @@
                 <Button Style="{StaticResource TurquoiseButton}" Text="{Binding NotSureWhoShouldRaiseButtonText}" Command="{Binding RaisedOptionSelectedCommand}" CommandParameter="4" />
 				<Label Text="{Binding ReportLabelText}" IsVisible="{Binding ShowReportLabel}"/>
             </StackLayout>
-            <Button Text="Next" StyleClass="DoneButton" Command="{Binding NavigateForwardCommand}" IsVisible="{Binding RaisedByOptionSelected}"/>
+            <Button Text="Next" StyleClass="DoneButton" Command="{Binding ProceedToReadingPageCommand}" IsVisible="{Binding RaisedByOptionSelected}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

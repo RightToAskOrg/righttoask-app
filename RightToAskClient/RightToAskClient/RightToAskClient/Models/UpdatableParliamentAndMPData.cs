@@ -81,7 +81,6 @@ namespace RightToAskClient.Models
 			if (String.IsNullOrEmpty(success.Err))
 			{
 				_isInitialised = true;
-				App.MPDataInitialized = true;
 				QuestionViewModel.Instance.UpdateMPButtons();
 				return;
 			}
@@ -93,7 +92,6 @@ namespace RightToAskClient.Models
 			if (String.IsNullOrEmpty(success.Err))
 			{
 				_isInitialised = true;
-				App.MPDataInitialized = true;
 				QuestionViewModel.Instance.UpdateMPButtons();
 				return;
 			}
@@ -112,7 +110,6 @@ namespace RightToAskClient.Models
 			
 			_allMPsData = success.Ok;
 			_isInitialised = true;
-			App.MPDataInitialized = true;
 			QuestionViewModel.Instance.UpdateMPButtons();
 			return new Result<bool>() { Ok = true };
 		}
@@ -131,7 +128,6 @@ namespace RightToAskClient.Models
 			{
 				_allMPsData = serverMPList.Ok;
 				_isInitialised = true;
-				App.MPDataInitialized = true;
 				QuestionViewModel.Instance.UpdateMPButtons();
 				return new Result<bool>() { Ok = true };
 			}
