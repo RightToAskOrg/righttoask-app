@@ -17,7 +17,7 @@ namespace RightToAskClient.Views
         {
             App.ReadingContext.TopTen = true;
             //await Navigation.PushAsync (readingPage);
-            await Shell.Current.GoToAsync($"//{nameof(ReadingPage)}");
+            await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
         }
 
         private void OnExpiringSoonButtonClicked(object sender, EventArgs e)
@@ -44,7 +44,7 @@ namespace RightToAskClient.Views
         {
             App.ReadingContext.IsReadingOnly = true;
             //await Navigation.PushAsync(readingPage);
-            await Shell.Current.GoToAsync($"//{nameof(ReadingPage)}");
+            await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
         }
 
         async void OnNavigateButtonClicked(object sender, EventArgs e)

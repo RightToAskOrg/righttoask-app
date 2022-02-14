@@ -17,11 +17,7 @@ namespace RightToAskClient.ViewModels
         public Question Question
         {
             get => _question;
-            set 
-            {
-                SetProperty(ref _question, value);
-                App.ReadingContext.DraftQuestion = Question.QuestionText;
-            }
+            set => SetProperty(ref _question, value);
         }
 
         private bool _isNewQuestion;
@@ -136,7 +132,7 @@ namespace RightToAskClient.ViewModels
             });
             ProceedToReadingPageCommand = new AsyncCommand(async() => 
             {
-                await Shell.Current.GoToAsync($"//{nameof(ReadingPage)}");
+                await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
             });
             // If in read-only mode, initiate a question-reading page.
             // Similarly if my MP is answering.
@@ -156,7 +152,7 @@ namespace RightToAskClient.ViewModels
                 else
                 {
                     App.ReadingContext.IsReadingOnly = IsReadingOnly;
-                    await Shell.Current.GoToAsync($"//{nameof(ReadingPage)}");
+                    await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
                 }
             });
             OtherPublicAuthorityButtonCommand = new AsyncCommand(async () =>
@@ -206,6 +202,7 @@ namespace RightToAskClient.ViewModels
             NotSureWhoShouldRaiseButtonText = "Not Sure";
             SelectButtonText = "Select";
             ReportLabelText = "MP Data is still being initialized.";
+            App.ReadingContext.DraftQuestion = Question.QuestionText;
         }
 
         public void OnButtonPressed(int buttonId)

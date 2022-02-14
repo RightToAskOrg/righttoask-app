@@ -9,7 +9,7 @@
 		             Padding="30">
 			<StackLayout Orientation="Vertical" x:Name="QuestionDraftingBox" IsVisible="{Binding IsReadingOnly, Converter={StaticResource Key=cnvInvert}}">
 				<Label Text="My question is..." FontSize="Medium" HorizontalOptions="Center" />
-				<Editor MaxLength="280" 
+                <Editor Completed="Question_Entered" MaxLength="280" 
 				        StyleClass="NormalEditor" AutoSize="TextChanges" FontSize="Medium" FontAttributes="Bold" Text="{Binding Question.QuestionText}">
 					<Editor.Placeholder>
 						Enter your question (max 280 chars)

@@ -110,7 +110,7 @@ namespace RightToAskClient.Views
             {
                 // question.QuestionSuggester = readingContext.ThisParticipant.UserName;
 	            App.ReadingContext.ExistingQuestions.Insert(0, _question);
-                App.ReadingContext.DraftQuestion = null;                
+                App.ReadingContext.DraftQuestion = "";                
             }
             
             bool goHome = await DisplayAlert("Question published!", "", "Home", "Write another one");
@@ -124,7 +124,7 @@ namespace RightToAskClient.Views
                 // a question.  Possibly the right thing to do is pop everything and then push a reading page.
             {
                 //await Navigation.PopAsync();
-                await Shell.Current.GoToAsync($"//{nameof(ReadingPage)}");
+                await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
             }
         }
 

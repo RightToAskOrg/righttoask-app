@@ -29,6 +29,12 @@ namespace RightToAskClient.Views
                 Title = "Direct my question";
             }
         }
+
+        private void Question_Entered(object sender, EventArgs e)
+        {
+            App.ReadingContext.DraftQuestion = ((Editor)sender).Text;
+            QuestionViewModel.Instance.Question.QuestionText = ((Editor)sender).Text;
+        }
     }
 }
 

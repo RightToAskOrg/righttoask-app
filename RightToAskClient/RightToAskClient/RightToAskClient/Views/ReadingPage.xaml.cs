@@ -102,7 +102,7 @@ namespace RightToAskClient.Views
 
         async void OnDiscardButtonClicked(object sender, EventArgs e)
         {
-            App.ReadingContext.DraftQuestion = null;
+            App.ReadingContext.DraftQuestion = "";
             DraftEditor.IsVisible = false;
             DiscardButton.IsVisible = false;
             KeepButton.IsVisible = false;
@@ -113,7 +113,6 @@ namespace RightToAskClient.Views
                 await Navigation.PopToRootAsync();
                 //await Shell.Current.GoToAsync($"///{nameof(MainPage)}");
             }
-
         }
 
 
