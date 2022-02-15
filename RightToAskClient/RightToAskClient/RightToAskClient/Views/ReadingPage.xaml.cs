@@ -10,7 +10,7 @@ namespace RightToAskClient.Views
     public partial class ReadingPage : ContentPage
     {
         private FilterDisplayTableView _ttestableView;
-        private ClickableEntityListView<Authority> _clickableEntityListView;
+        //private ClickableEntityListView<Authority> _clickableEntityListView;
 
         // default constructor required for flyout page item
         public ReadingPage()
@@ -134,7 +134,7 @@ namespace RightToAskClient.Views
                 QuestionText = App.ReadingContext.DraftQuestion,
                 // TODO: Enforce registration before question-suggesting.
                 QuestionSuggester
-                    = (thisParticipant.IsRegistered) ? thisParticipant.RegistrationInfo.display_name : "Anonymous user",
+                    = (thisParticipant.IsRegistered) ? thisParticipant.RegistrationInfo.Display_name : "Anonymous user",
                 QuestionAnswerers = questionAnswerers,
                 DownVotes = 0,
                 UpVotes = 0

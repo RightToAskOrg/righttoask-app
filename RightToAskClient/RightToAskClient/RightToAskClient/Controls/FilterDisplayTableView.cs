@@ -102,34 +102,34 @@ namespace RightToAskClient.Controls
             //await Shell.Current.GoToAsync($"{nameof(ExploringPageWithSearchAndPreSelections)}");
         }
 
-        void OnEditSelectedAnsweringMPsMineButtonClicked(object sender, EventArgs e)
+        private async void OnEditSelectedAnsweringMPsMineButtonClicked(object sender, EventArgs e)
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
-                NavigationUtils.PushMyAnsweringMPsExploringPage();
+                await NavigationUtils.PushMyAnsweringMPsExploringPage();
             }
         }
 
-        private void OnEditSelectedAskingMPsMineButtonClicked(object sender, EventArgs e)
+        private async void OnEditSelectedAskingMPsMineButtonClicked(object sender, EventArgs e)
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
-                NavigationUtils.PushMyAskingMPsExploringPage();
+                await NavigationUtils.PushMyAskingMPsExploringPage();
             }
             
         }
-        private void OnEditSelectedAnsweringMPsButtonClicked(object sender, EventArgs e)
+        private async void OnEditSelectedAnsweringMPsButtonClicked(object sender, EventArgs e)
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
-                NavigationUtils.PushAnsweringMPsExploringPage();
+                await NavigationUtils .PushAnsweringMPsExploringPage();
             }
         }
-        private void OnEditSelectedAskingMPsButtonClicked(object sender, EventArgs e)
+        private async void OnEditSelectedAskingMPsButtonClicked(object sender, EventArgs e)
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
-                NavigationUtils.PushAskingMPsExploringPageAsync();
+                await NavigationUtils.PushAskingMPsExploringPageAsync();
             }
         }
 

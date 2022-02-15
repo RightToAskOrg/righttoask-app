@@ -116,7 +116,7 @@ namespace RightToAskClient.Models
 	    } */
 	    
 		public static readonly ObservableCollection<Authority> AllAuthorities =
-			new ObservableCollection<Authority>(readAuthoritiesFromFiles());
+			new ObservableCollection<Authority>(ReadAuthoritiesFromFiles());
 
 		private static List<Chamber> StateLowerHouseChambers = new List<Chamber>
 		{
@@ -148,17 +148,17 @@ namespace RightToAskClient.Models
 			return StateUpperHouseChambers.Contains(chamber);
 		}
 		
-       private static List<Authority> readAuthoritiesFromFiles()
+       private static List<Authority> ReadAuthoritiesFromFiles()
        {
 		    var AllAuthoritiesFromFile = new List<Authority>();
-		    FileIO.ReadDataFromCSV("all-authorities.csv",AllAuthoritiesFromFile,parseCSVLineAsAuthority);
+		    FileIO.ReadDataFromCSV("all-authorities.csv",AllAuthoritiesFromFile,ParseCSVLineAsAuthority);
 		    return AllAuthoritiesFromFile;
        }
 		
 		// This parses a line from Right To Know's CSV file as an Authority.
 		// It is, obviously, very specific to the expected file format.
 		// Ignore any line that doesn't produce at least 3 words.
-		private static Authority? parseCSVLineAsAuthority(string line)
+		private static Authority? ParseCSVLineAsAuthority(string line)
 		{
 			string[] words = line.Split(',');
 			if (words.Length >= 3)

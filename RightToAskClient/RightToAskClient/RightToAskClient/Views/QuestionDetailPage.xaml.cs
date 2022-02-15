@@ -24,7 +24,7 @@ namespace RightToAskClient.Views
                 QuestionSuggesterButton.Text = "View " + QuestionViewModel.Instance.Question.QuestionSuggester + "'s profile";
             }
         }
-        
+
         private void UpVoteButton_OnClicked(object sender, EventArgs e)
         {
             QuestionViewModel.Instance.Question.UpVotes++;
@@ -37,25 +37,25 @@ namespace RightToAskClient.Views
             var testUserReg = new Registration()
             {
                 uid = "This is a test user",
-                display_name = "testing user",
-                public_key = "123",
+                Display_name = "testing user",
+                Public_key = "123",
                 State = "VIC"
             };
             RegisterPage1 otherUserProfilePage = new RegisterPage1(testUserReg, true);
             await Navigation.PushAsync(otherUserProfilePage);
             //await Shell.Current.GoToAsync($"{nameof(RegisterPage1)}");
         }
-        
+
         // I'm not actually sure what triggers the 'send' event here, and hence not sure
         // which of these two functions should be doing the saving.
-		void Answer_Entered(object sender, EventArgs e)
-		{
-			QuestionViewModel.Instance.Question.LinkOrAnswer = ((Editor) sender)?.Text;
-		}
+        private void Answer_Entered(object sender, EventArgs e)
+        {
+            QuestionViewModel.Instance.Question.LinkOrAnswer = ((Editor)sender).Text;
+        }
 
         private void SaveAnswerButton_OnClicked(object sender, EventArgs e)
         {
-            ((Button) sender).Text = "Answer saving not implemented";
+            ((Button)sender).Text = "Answer saving not implemented";
         }
 
         // TODO: Re-enable button if you choose to draft another question.
@@ -67,58 +67,58 @@ namespace RightToAskClient.Views
             if (!App.ReadingContext.ThisParticipant.IsRegistered)
             {
                 string message = "You need to make an account to publish or vote on questions";
-                bool registerNow 
+                bool registerNow
                     = await DisplayAlert("Make an account?", message, "OK", "Not now");
-                
+
                 if (registerNow)
                 {
                     // var reg = new Registration();
                     RegisterPage1 registrationPage = new RegisterPage1(App.ReadingContext.ThisParticipant.RegistrationInfo, false);
                     registrationPage.Disappearing += setSuggester;
-                    
+
                     // question.QuestionSuggester = readingContext.ThisParticipant.UserName;
                     // Commenting-out this instruction means that the person has to push
                     // the 'publish question' button again after they've registered 
                     // their account. This seems natural to me, but is worth checking
                     // with users.
                     // registrationPage.Disappearing += saveQuestion;
-                    
+
                     await Navigation.PushAsync(registrationPage);
                     //await Shell.Current.GoToAsync($"{nameof(RegisterPage1)}");
                 }
             }
             else
             {
-                SaveQuestion(null, null);
+                SaveQuestion("", new EventArgs());
             }
         }
 
         private void setSuggester(object sender, EventArgs e)
         {
-            QuestionViewModel.Instance.Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.display_name;
+            QuestionViewModel.Instance.Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.Display_name;
         }
         private async void SaveQuestion(object sender, EventArgs e)
         {
-            
+
             // Setting QuestionSuggester may be unnecessary
             // - it may already be set correctly -
             // but is needed if the person has just registered.
             if (App.ReadingContext.ThisParticipant.IsRegistered)
             {
                 // question.QuestionSuggester = readingContext.ThisParticipant.UserName;
-	            App.ReadingContext.ExistingQuestions.Insert(0, QuestionViewModel.Instance.Question);
-                App.ReadingContext.DraftQuestion = "";                
+                App.ReadingContext.ExistingQuestions.Insert(0, QuestionViewModel.Instance.Question);
+                App.ReadingContext.DraftQuestion = "";
             }
-            
+
             bool goHome = await DisplayAlert("Question published!", "", "Home", "Write another one");
-                
+
             if (goHome)
             {
                 await Navigation.PopToRootAsync();
                 //await Shell.Current.GoToAsync($"///{nameof(MainPage)}");
             }
             else  // Pop back to readingpage. TODO: fix the context so that it doesn't think you're drafting
-                // a question.  Possibly the right thing to do is pop everything and then push a reading page.
+                  // a question.  Possibly the right thing to do is pop everything and then push a reading page.
             {
                 //await Navigation.PopAsync();
                 await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");

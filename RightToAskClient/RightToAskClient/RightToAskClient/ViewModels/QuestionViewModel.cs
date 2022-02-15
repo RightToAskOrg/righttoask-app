@@ -10,10 +10,10 @@ namespace RightToAskClient.ViewModels
 {
     public class QuestionViewModel : BaseViewModel
     {
-        static private QuestionViewModel _instance;
-        static public QuestionViewModel Instance { get => _instance ??= new QuestionViewModel(); }
+        private static QuestionViewModel? _instance;
+        public static QuestionViewModel Instance => _instance ??= new QuestionViewModel();
 
-        private Question _question;
+        private Question _question = new Question();
         public Question Question
         {
             get => _question;
@@ -55,7 +55,7 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _displaySenatesEstimatesSection, value);
         }
 
-        private string _senateEstimatesAppearanceText;
+        private string _senateEstimatesAppearanceText = "";
         public string SenateEstimatesAppearanceText
         {
             get => _senateEstimatesAppearanceText;
@@ -83,28 +83,28 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _showReportLabel, value);
         }
 
-        private string _reportLabelText;
+        private string _reportLabelText = "";
         public string ReportLabelText
         {
             get => _reportLabelText;
             set => SetProperty(ref _reportLabelText, value);
         }
 
-        private string _anotherUserButtonText;
+        private string _anotherUserButtonText = "";
         public string AnotherUserButtonText
         {
             get => _anotherUserButtonText;
             set => SetProperty(ref _anotherUserButtonText, value);
         }
 
-        private string _notSureWhoShouldRaiseButtonText;
+        private string _notSureWhoShouldRaiseButtonText = "";
         public string NotSureWhoShouldRaiseButtonText
         {
             get => _notSureWhoShouldRaiseButtonText;
             set => SetProperty(ref _notSureWhoShouldRaiseButtonText, value);
         }
 
-        private string _selectButtonText;
+        private string _selectButtonText = "";
         public string SelectButtonText
         {
             get => _selectButtonText;
@@ -167,19 +167,11 @@ namespace RightToAskClient.ViewModels
             // It will pop back to here.
             AnsweredByMyMPCommand = new AsyncCommand(async () =>
             {
-                NavigationUtils.PushMyAnsweringMPsExploringPage();
+                await NavigationUtils.PushMyAnsweringMPsExploringPage();
             });
             AnsweredByOtherMPCommand = new AsyncCommand(async () =>
             {
-                NavigationUtils.PushAnsweringMPsExploringPage();
-            });
-            AskedByMyMPCommand = new AsyncCommand(async () =>
-            {
-                NavigationUtils.PushMyAskingMPsExploringPage();
-            });
-            AskedByOtherMPCommand = new AsyncCommand(async () =>
-            {
-                NavigationUtils.PushAskingMPsExploringPageAsync();
+                await NavigationUtils.PushAnsweringMPsExploringPage();
             });
             SelectCommitteeButtonCommand = new Command(() => 
             {
@@ -194,8 +186,6 @@ namespace RightToAskClient.ViewModels
         public IAsyncCommand OtherPublicAuthorityButtonCommand { get; }
         public IAsyncCommand AnsweredByMyMPCommand { get; }
         public IAsyncCommand AnsweredByOtherMPCommand { get; }
-        public IAsyncCommand AskedByMyMPCommand { get; }
-        public IAsyncCommand AskedByOtherMPCommand { get; }
         public Command SelectCommitteeButtonCommand { get; }
 
         public void ResetInstance()
@@ -252,11 +242,11 @@ namespace RightToAskClient.ViewModels
 
         // Note that the non-waiting for this asyc method means that the rest of the page can keep
         // Executing. That shouldn't be a problem, though, because it is invisible and therefore unclickable.
-        private void OnMyMPRaiseButtonClicked()
+        private async void OnMyMPRaiseButtonClicked()
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
-                NavigationUtils.PushMyAskingMPsExploringPage();
+                await NavigationUtils.PushMyAskingMPsExploringPage();
             }
             else
             {
@@ -278,16 +268,16 @@ namespace RightToAskClient.ViewModels
         }
 
         // TODO: Implement an ExporingPage constructor for people.
-        private async void UserShouldRaiseButtonClicked()
+        private void UserShouldRaiseButtonClicked()
         {
             AnotherUserButtonText = "Not Implemented Yet";
         }
 
-        private void OnOtherMPRaiseButtonClicked()
+        private async void OnOtherMPRaiseButtonClicked()
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
-                NavigationUtils.PushAskingMPsExploringPageAsync();
+                await NavigationUtils.PushAskingMPsExploringPageAsync();
             }
             else
             {
@@ -299,37 +289,14 @@ namespace RightToAskClient.ViewModels
         // straight to the Explorer page that lists them.
         // If we don't, go to the page for entering address and finding them.
         // It will pop back to here.
-        async void OnAnsweredByMPButtonClicked(object sender, EventArgs e)
+        private async void OnAnsweredByMPButtonClicked(object sender, EventArgs e)
         {
-            NavigationUtils.PushMyAnsweringMPsExploringPage();
-            // this shouldn't be necessary after the enable/disable initialization bind on the buttons that I did.
-           /* if (ParliamentData.MPAndOtherData.IsInitialised)
-            {
-
-            }
-            else
-            {
-                myMP.IsEnabled = false;
-                otherMP.IsEnabled = false;
-                reportLabel.IsVisible = true;
-                reportLabel.Text = ParliamentData.MPAndOtherData.ErrorMessage;
-            }*/
+            await NavigationUtils.PushMyAnsweringMPsExploringPage();
         }
 
         private async void OnAnswerByOtherMPButtonClicked(object sender, EventArgs e)
         {
-            NavigationUtils.PushAnsweringMPsExploringPage();
-            // Same as above
-            /*
-            if (ParliamentData.MPAndOtherData.IsInitialised)
-            {
-
-            }
-            else
-            {
-                reportLabel.IsVisible = true;
-                reportLabel.Text = ParliamentData.MPAndOtherData.ErrorMessage;
-            }*/
+            await NavigationUtils.PushAnsweringMPsExploringPage();
         }
     }
 }

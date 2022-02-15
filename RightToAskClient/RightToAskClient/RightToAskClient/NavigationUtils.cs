@@ -13,31 +13,31 @@ namespace RightToAskClient
     public static class NavigationUtils
     {
 
-        public static async void PushMyAnsweringMPsExploringPage()
+        public static async Task PushMyAnsweringMPsExploringPage()
         {
             string message = "These are your MPs.  Select the one(s) who should answer the question";
             // var mpsExploringPage = new ExploringPage(readingContext.ThisParticipant.MyMPs,
             var mpsExploringPage = new ExploringPage(App.ReadingContext.ThisParticipant.GroupedMPs,
                 App.ReadingContext.Filters.SelectedAnsweringMPsMine, message);
 
-            var nextPage = await ListMPsFindFirstIfNotAlreadyKnown(mpsExploringPage, App.ReadingContext.Filters.SelectedAnsweringMPs);
+            var nextPage = ListMPsFindFirstIfNotAlreadyKnown(mpsExploringPage, App.ReadingContext.Filters.SelectedAnsweringMPs);
             await Application.Current.MainPage.Navigation.PushAsync(nextPage);
             //await Shell.Current.GoToAsync($"{nameof(ExploringPage)}");
         }
 
-        public static async void PushMyAskingMPsExploringPage()
+        public static async Task PushMyAskingMPsExploringPage()
         {
             string message = "These are your MPs.  Select the one(s) who should raise the question in Parliament";
 
             var mpsExploringPage = new ExploringPage(App.ReadingContext.ThisParticipant.GroupedMPs,
                 App.ReadingContext.Filters.SelectedAskingMPsMine, message);
 
-            launchMPFindingAndSelectingPages(mpsExploringPage);
+            await LaunchMPFindingAndSelectingPages(mpsExploringPage);
         }
 
-        private static async void launchMPFindingAndSelectingPages(ExploringPage mpsExploringPage)
+        private static async Task LaunchMPFindingAndSelectingPages(ExploringPage mpsExploringPage)
         {
-            var nextPage = await ListMPsFindFirstIfNotAlreadyKnown(mpsExploringPage, App.ReadingContext.Filters.SelectedAskingMPs);
+            var nextPage = ListMPsFindFirstIfNotAlreadyKnown(mpsExploringPage, App.ReadingContext.Filters.SelectedAskingMPs);
             await Application.Current.MainPage.Navigation.PushAsync(nextPage);
             //await Shell.Current.GoToAsync($"{nameof(ExploringPage)}");
         }
@@ -45,7 +45,7 @@ namespace RightToAskClient
 		 * Either push the list of selectable MPs directly, or push a registration page,
 		 * instructed to push the MPs selection page after.
 		 */
-        public static async Task<Page> ListMPsFindFirstIfNotAlreadyKnown(ExploringPage mpsExploringPage,
+        public static Page ListMPsFindFirstIfNotAlreadyKnown(ExploringPage mpsExploringPage,
             ObservableCollection<MP> alreadySelectedMPs)
         {
             var thisParticipant = App.ReadingContext.ThisParticipant;
@@ -54,7 +54,6 @@ namespace RightToAskClient
             {
                 var registrationPage = new RegisterPage2(thisParticipant, false, true, alreadySelectedMPs);
                 return registrationPage;
-
             }
             else
             {
@@ -62,7 +61,7 @@ namespace RightToAskClient
             }
         }
 
-        public static async void PushAnsweringMPsExploringPage()
+        public static async Task PushAnsweringMPsExploringPage()
         {
             string message = "Here is the complete list of MPs - select which one(s) should answer";
             ExploringPageWithSearch mpsPage
@@ -71,7 +70,7 @@ namespace RightToAskClient
             //await Shell.Current.GoToAsync($"{nameof(ExploringPageWithSearch)}");
         }
 
-        public static async void PushAskingMPsExploringPageAsync()
+        public static async Task PushAskingMPsExploringPageAsync()
         {
             string message =
                 "Here is the complete list of MPs - select which one(s) should raise your question in Parliament";

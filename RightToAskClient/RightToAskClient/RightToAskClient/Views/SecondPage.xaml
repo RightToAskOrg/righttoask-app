@@ -24,8 +24,8 @@
 				<Label Text="To be answered by " FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center" />
 				<StackLayout Orientation="Vertical">
                     <Button Text="A public Authority" Style="{StaticResource TurquoiseButton}" Command="{Binding OtherPublicAuthorityButtonCommand}"/>
-                    <Button Text="My MP" Style="{StaticResource TurquoiseButton}" Command="{Binding AskedByMyMPCommand}"  HorizontalOptions="Center" IsEnabled="{Binding MPButtonsEnabled}"/>
-                    <Button Text="Another MP" Style="{StaticResource TurquoiseButton}" Command="{Binding AskedByOtherMPCommand}" HorizontalOptions="Center" IsEnabled="{Binding MPButtonsEnabled}"/>
+                    <Button Text="My MP" Style="{StaticResource TurquoiseButton}" Command="{Binding AnsweredByMyMPCommand}"  HorizontalOptions="Center" IsEnabled="{Binding MPButtonsEnabled}"/>
+                    <Button Text="Another MP" Style="{StaticResource TurquoiseButton}" Command="{Binding AnsweredByOtherMPCommand}" HorizontalOptions="Center" IsEnabled="{Binding MPButtonsEnabled}"/>
 				</StackLayout>
 			</StackLayout>
 			<Label Text="{Binding ReportLabelText}" IsVisible="{Binding MPButtonsEnabled, Converter={StaticResource Key=cnvInvert}}"/>

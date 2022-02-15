@@ -5,7 +5,7 @@ namespace RightToAskClient.ViewModels
 {
     public class BaseViewModel : ObservableObject
     {
-        public ContentPage Page { get; set; }
+        public ContentPage Page { get; set; } = new ContentPage();
 
         private bool _isBusy = false;
         public bool IsBusy

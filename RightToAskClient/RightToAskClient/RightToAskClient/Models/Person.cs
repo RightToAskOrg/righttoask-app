@@ -153,7 +153,7 @@ namespace RightToAskClient.Models
 
 		public override string GetName()
 		{
-			return _registrationInfo.display_name;
+			return _registrationInfo.Display_name;
 		}
     }
 

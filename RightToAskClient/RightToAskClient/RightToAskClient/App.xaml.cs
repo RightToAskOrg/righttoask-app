@@ -6,9 +6,7 @@ namespace RightToAskClient
 {
     public partial class App : Application
     {
-        public static ReadingContext ReadingContext;
-        //public static bool MPDataInitialized;
-
+        public static ReadingContext ReadingContext = new ReadingContext();
         public App()
         {
             InitializeComponent();

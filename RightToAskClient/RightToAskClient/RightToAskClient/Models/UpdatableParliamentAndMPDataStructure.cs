@@ -13,6 +13,6 @@ namespace RightToAskClient.Models
         public RegionsContained[] FederalElectoratesByState { get; set; }
 
         [JsonPropertyName("vic_districts")]
-        public List<RegionsContained> VicRegions;
+        public List<RegionsContained> VicRegions = new List<RegionsContained>();
 	}
 }
