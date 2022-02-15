@@ -22,7 +22,7 @@ namespace RightToAskClient.Models
 
         public override string ShortestName
         {
-            get { return RegistrationInfo.Display_name; }
+            get { return RegistrationInfo.display_name; }
         }
 		private ObservableCollection<MP> _myMPs = new ObservableCollection<MP>();
 		public ObservableCollection<MP> MyMPs

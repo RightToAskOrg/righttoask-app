@@ -134,7 +134,7 @@ namespace RightToAskClient.Views
                 QuestionText = App.ReadingContext.DraftQuestion,
                 // TODO: Enforce registration before question-suggesting.
                 QuestionSuggester
-                    = (thisParticipant.IsRegistered) ? thisParticipant.RegistrationInfo.Display_name : "Anonymous user",
+                    = (thisParticipant.IsRegistered) ? thisParticipant.RegistrationInfo.display_name : "Anonymous user",
                 QuestionAnswerers = questionAnswerers,
                 DownVotes = 0,
                 UpVotes = 0

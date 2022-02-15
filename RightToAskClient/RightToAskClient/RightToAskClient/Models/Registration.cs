@@ -11,14 +11,14 @@ namespace RightToAskClient.Models
 	public class Registration : INotifyPropertyChanged
 	{
 		// private string stateEnum = "";
-		public string Display_name { get; set; } = "";
-		public string Public_key { get; set; }= "";
-		private string _state { get; set; }= "";
+		public string display_name { get; set; } = "";
+		public string public_key { get; set; }= "";
+		private string state { get; set; }= "";
 
 		public string State
 		{
-			get => _state;
-			set => _state = value;
+			get => state;
+			set => state = value;
 		} 
 		
 		public string uid { get; set; }= "";

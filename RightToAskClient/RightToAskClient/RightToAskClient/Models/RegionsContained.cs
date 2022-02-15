@@ -4,7 +4,7 @@ namespace RightToAskClient.Models
 {
 	public class RegionsContained
 	{
-		public string Super_region { get; } = "";
-		public string[] Regions { get; }
+		public string super_region { get; } = "";
+		public string[] regions { get; }
 	}
 }

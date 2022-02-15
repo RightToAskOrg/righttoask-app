@@ -37,8 +37,8 @@ namespace RightToAskClient.Views
             var testUserReg = new Registration()
             {
                 uid = "This is a test user",
-                Display_name = "testing user",
-                Public_key = "123",
+                display_name = "testing user",
+                public_key = "123",
                 State = "VIC"
             };
             RegisterPage1 otherUserProfilePage = new RegisterPage1(testUserReg, true);
@@ -95,7 +95,7 @@ namespace RightToAskClient.Views
 
         private void setSuggester(object sender, EventArgs e)
         {
-            QuestionViewModel.Instance.Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.Display_name;
+            QuestionViewModel.Instance.Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.display_name;
         }
         private async void SaveQuestion(object sender, EventArgs e)
         {

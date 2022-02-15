@@ -11,7 +11,7 @@
 			<Entry Text="{Binding Path=uid}" x:DataType="models:Registration"
 			       Placeholder="Enter UserID" />
 			<Label Text="Display name" />
-			<Entry Text="{Binding Path=Display_name}" x:DataType="models:Registration"
+			<Entry Text="{Binding Path=display_name}" x:DataType="models:Registration"
 			       Placeholder="Enter display name" />
 			<Label Text="State" />
 			<Picker x:Name="stateOrTerritoryPicker" x:DataType="models:Registration"

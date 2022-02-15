@@ -21,7 +21,7 @@ namespace RightToAskClient.Views
             BindingContext = reg;
 
             Title = isReadingOnly ? "User profile" : "Create Account";
-            ShowTheRightButtons(reg.Display_name, isReadingOnly);
+            ShowTheRightButtons(reg.display_name, isReadingOnly);
 
             stateOrTerritoryPicker.ItemsSource = ParliamentData.StatesAndTerritories;
         }
@@ -90,7 +90,7 @@ namespace RightToAskClient.Views
         async void OnSaveButtonClicked(object sender, EventArgs e)
         {
             var newRegistration = (Registration)BindingContext;
-            newRegistration.Public_key = Constants.FakePublicKey;
+            newRegistration.public_key = Constants.FakePublicKey;
             var regTest = newRegistration.IsValid().Err;
             if (String.IsNullOrEmpty(regTest))
             {
