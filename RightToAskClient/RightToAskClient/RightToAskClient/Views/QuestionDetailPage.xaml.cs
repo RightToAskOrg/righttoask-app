@@ -8,9 +8,6 @@ namespace RightToAskClient.Views
 {
     public partial class QuestionDetailPage : ContentPage
     {
-        private string _linkOrAnswer;
-        private Question _question;
-
         public QuestionDetailPage()
         {
             InitializeComponent();
@@ -30,7 +27,7 @@ namespace RightToAskClient.Views
         
         private void UpVoteButton_OnClicked(object sender, EventArgs e)
         {
-            _question.UpVotes++;
+            QuestionViewModel.Instance.Question.UpVotes++;
         }
 
         // TODO: Present the UI more nicely here - this should happen if you click on the person's 
@@ -53,7 +50,7 @@ namespace RightToAskClient.Views
         // which of these two functions should be doing the saving.
 		void Answer_Entered(object sender, EventArgs e)
 		{
-			_question.LinkOrAnswer = ((Editor) sender)?.Text;
+			QuestionViewModel.Instance.Question.LinkOrAnswer = ((Editor) sender)?.Text;
 		}
 
         private void SaveAnswerButton_OnClicked(object sender, EventArgs e)
@@ -98,7 +95,7 @@ namespace RightToAskClient.Views
 
         private void setSuggester(object sender, EventArgs e)
         {
-            _question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.display_name;
+            QuestionViewModel.Instance.Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.display_name;
         }
         private async void SaveQuestion(object sender, EventArgs e)
         {
@@ -109,7 +106,7 @@ namespace RightToAskClient.Views
             if (App.ReadingContext.ThisParticipant.IsRegistered)
             {
                 // question.QuestionSuggester = readingContext.ThisParticipant.UserName;
-	            App.ReadingContext.ExistingQuestions.Insert(0, _question);
+	            App.ReadingContext.ExistingQuestions.Insert(0, QuestionViewModel.Instance.Question);
                 App.ReadingContext.DraftQuestion = "";                
             }
             
@@ -117,8 +114,8 @@ namespace RightToAskClient.Views
                 
             if (goHome)
             {
-                //await Navigation.PopToRootAsync();
-                await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
+                await Navigation.PopToRootAsync();
+                //await Shell.Current.GoToAsync($"///{nameof(MainPage)}");
             }
             else  // Pop back to readingpage. TODO: fix the context so that it doesn't think you're drafting
                 // a question.  Possibly the right thing to do is pop everything and then push a reading page.

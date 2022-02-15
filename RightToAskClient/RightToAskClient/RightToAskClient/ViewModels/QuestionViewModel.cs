@@ -173,6 +173,14 @@ namespace RightToAskClient.ViewModels
             {
                 NavigationUtils.PushAnsweringMPsExploringPage();
             });
+            AskedByMyMPCommand = new AsyncCommand(async () =>
+            {
+                NavigationUtils.PushMyAskingMPsExploringPage();
+            });
+            AskedByOtherMPCommand = new AsyncCommand(async () =>
+            {
+                NavigationUtils.PushAskingMPsExploringPageAsync();
+            });
             SelectCommitteeButtonCommand = new Command(() => 
             {
                 App.ReadingContext.Filters.SelectedAskingCommittee.Add("Senate Estimates tomorrow");
@@ -186,6 +194,8 @@ namespace RightToAskClient.ViewModels
         public IAsyncCommand OtherPublicAuthorityButtonCommand { get; }
         public IAsyncCommand AnsweredByMyMPCommand { get; }
         public IAsyncCommand AnsweredByOtherMPCommand { get; }
+        public IAsyncCommand AskedByMyMPCommand { get; }
+        public IAsyncCommand AskedByOtherMPCommand { get; }
         public Command SelectCommitteeButtonCommand { get; }
 
         public void ResetInstance()

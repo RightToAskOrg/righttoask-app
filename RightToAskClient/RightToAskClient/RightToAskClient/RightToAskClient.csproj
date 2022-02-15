@@ -25,6 +25,7 @@
   <ItemGroup>
     <None Remove="Data\" />
     <None Remove="Models\" />
+    <None Remove="Resources\PublicServerKey" />
     <None Remove="Views\" />
     <None Remove="sqlite-net-pcl" />
   </ItemGroup>
@@ -57,6 +58,7 @@
     <EmbeddedResource Remove="Views\FindMyMP.xaml" />
     <EmbeddedResource Remove="Views\PickerPage.xaml" />
     <None Remove="Resources\VicLegislativeAssemblymembers.csv" />
+    <EmbeddedResource Include="Resources\PublicServerKey" />
     <EmbeddedResource Include="Resources\VicLegislativeAssemblymembers.csv" />
     <None Remove="Resources\VicLegislativeCouncilmembers.csv" />
     <EmbeddedResource Include="Resources\VicLegislativeCouncilmembers.csv" />

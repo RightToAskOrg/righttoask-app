@@ -9,7 +9,6 @@ namespace RightToAskClient.Views
 {
     public partial class ReadingPage : ContentPage
     {
-        private string _draftQuestion;
         private FilterDisplayTableView _ttestableView;
         private ClickableEntityListView<Authority> _clickableEntityListView;
 
@@ -87,8 +86,8 @@ namespace RightToAskClient.Views
         }
         void Question_Entered(object sender, EventArgs e)
         {
-            _draftQuestion = ((Editor)sender).Text;
-            ((ReadingContext)BindingContext).DraftQuestion = _draftQuestion;
+            App.ReadingContext.DraftQuestion = ((Editor)sender).Text;
+            QuestionViewModel.Instance.Question.QuestionText = ((Editor)sender).Text;
         }
 
         // Note: it's possible that this would be better with an ItemTapped event instead.

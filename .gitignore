@@ -404,6 +404,7 @@ FodyWeavers.xsd
 # API Keys and other data that shouldn't be on Github
 **/Resources/MPs.json
 **/Resources/*APIKey
+**/Resources/*PublicServerKey
 
 .vs/
 
@@ -624,5 +625,3 @@ UpgradeLog*.htm
 FakesAssemblies/
 #
 .vscode/settings.json
-#
-CryptoUtils/SignatureService.cs

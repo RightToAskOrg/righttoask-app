@@ -5,6 +5,7 @@ using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Crypto.Signers;
 using Org.BouncyCastle.Security;
+using RightToAskClient.Models;
 using Xamarin.Essentials;
 
 namespace RightToAskClient.CryptoUtils
@@ -18,7 +19,7 @@ namespace RightToAskClient.CryptoUtils
         public static Ed25519PublicKeyParameters MyPublicKey { get; } = (Ed25519PublicKeyParameters)MyKeyPair.Public;
         public static readonly Ed25519Signer MySigner = MakeMySigner();
         // private static string SPKI = "MCowBQYDK2VwAyEAOJ/tBn4rOrOebgbICBi3i2oflO0hqz0D8daItDZ53vI=";
-        private static string SPKIRaw = "bbCIMgAUnT++Qjs/iKE7wseD3v+P5iDzMa3HNj5YCwE=";
+        private static string SPKIRaw = ReadPublicServerKey().Ok ?? "";
         // private static string SPKIInHex = "389fed067e2b3ab39e6e06c80818b78b6a1f94ed21ab3d03f1d688b43679def2";
 
         public static readonly Ed25519PublicKeyParameters ServerPublicKey =
@@ -57,6 +58,11 @@ namespace RightToAskClient.CryptoUtils
             validator.BlockUpdate(messageBytes, 0, messageBytes.Length);
 
            return validator.VerifySignature(signature); 
+        }
+
+        private static Result<string> ReadPublicServerKey()
+        {
+            return FileIO.ReadFirstLineOfFileAsString(Constants.PublicServerKeyFileName);
         }
 
     }
