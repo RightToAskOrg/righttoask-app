@@ -7,12 +7,10 @@ namespace RightToAskClient.Controls
 {
     public class FilterDisplayTableView : Grid
     {
-        private ReadingContext _readingContext;
         private FilterChoices _filterContext;
-        public FilterDisplayTableView(ReadingContext readingContext)
+        public FilterDisplayTableView()
         {
-            _readingContext = readingContext;
-            _filterContext = readingContext.Filters;
+            _filterContext = App.ReadingContext.Filters;
             BindingContext = _filterContext;
             
             BackgroundColor = Color.NavajoWhite;
@@ -100,37 +98,38 @@ namespace RightToAskClient.Controls
 			
            	var departmentExploringPage 
                 = new ExploringPageWithSearchAndPreSelections(_filterContext.SelectedAuthorities, message);
-           	await Navigation.PushAsync (departmentExploringPage);
+            await Navigation.PushAsync (departmentExploringPage);
+            //await Shell.Current.GoToAsync($"{nameof(ExploringPageWithSearchAndPreSelections)}");
         }
 
-        void OnEditSelectedAnsweringMPsMineButtonClicked(object sender, EventArgs e)
+        private async void OnEditSelectedAnsweringMPsMineButtonClicked(object sender, EventArgs e)
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
-                NavigationUtils.PushMyAnsweringMPsExploringPage(_readingContext);
+                await NavigationUtils.PushMyAnsweringMPsExploringPage();
             }
         }
 
-        private void OnEditSelectedAskingMPsMineButtonClicked(object sender, EventArgs e)
+        private async void OnEditSelectedAskingMPsMineButtonClicked(object sender, EventArgs e)
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
-                NavigationUtils.PushMyAskingMPsExploringPage(_readingContext);
+                await NavigationUtils.PushMyAskingMPsExploringPage();
             }
             
         }
-        private void OnEditSelectedAnsweringMPsButtonClicked(object sender, EventArgs e)
+        private async void OnEditSelectedAnsweringMPsButtonClicked(object sender, EventArgs e)
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
-                NavigationUtils.PushAnsweringMPsExploringPage(_readingContext);
+                await NavigationUtils .PushAnsweringMPsExploringPage();
             }
         }
-        private void OnEditSelectedAskingMPsButtonClicked(object sender, EventArgs e)
+        private async void OnEditSelectedAskingMPsButtonClicked(object sender, EventArgs e)
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
-                NavigationUtils.PushAskingMPsExploringPage(_readingContext);
+                await NavigationUtils.PushAskingMPsExploringPageAsync();
             }
         }
 

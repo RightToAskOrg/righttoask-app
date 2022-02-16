@@ -10,71 +10,74 @@ using Xamarin.Forms;
  */
 namespace RightToAskClient
 {
-    public static class NavigationUtils 
+    public static class NavigationUtils
     {
 
-		public static async void PushMyAnsweringMPsExploringPage(ReadingContext readingContext)
-		{
-				string message = "These are your MPs.  Select the one(s) who should answer the question";
-				// var mpsExploringPage = new ExploringPage(readingContext.ThisParticipant.MyMPs,
-				var mpsExploringPage = new ExploringPage(readingContext.ThisParticipant.GroupedMPs,
-					readingContext.Filters.SelectedAnsweringMPsMine, message);
-
-				var nextPage = await ListMPsFindFirstIfNotAlreadyKnown(readingContext, mpsExploringPage, readingContext.Filters.SelectedAnsweringMPs);
-				App.Current.MainPage.Navigation.PushAsync(nextPage);
-		}
-
-		public static async void PushMyAskingMPsExploringPage(ReadingContext readingContext)
-		{
-			string message = "These are your MPs.  Select the one(s) who should raise the question in Parliament";
-
-			var mpsExploringPage = new ExploringPage(readingContext.ThisParticipant.GroupedMPs,
-				readingContext.Filters.SelectedAskingMPsMine, message);
-
-			launchMPFindingAndSelectingPages(mpsExploringPage, readingContext);
-		}
-
-        private static async void launchMPFindingAndSelectingPages(ExploringPage mpsExploringPage, ReadingContext readingContext)
+        public static async Task PushMyAnsweringMPsExploringPage()
         {
-            var nextPage = await ListMPsFindFirstIfNotAlreadyKnown(readingContext, mpsExploringPage, readingContext.Filters.SelectedAskingMPs);
-            await App.Current.MainPage.Navigation.PushAsync(nextPage);
+            string message = "These are your MPs.  Select the one(s) who should answer the question";
+            // var mpsExploringPage = new ExploringPage(readingContext.ThisParticipant.MyMPs,
+            var mpsExploringPage = new ExploringPage(App.ReadingContext.ThisParticipant.GroupedMPs,
+                App.ReadingContext.Filters.SelectedAnsweringMPsMine, message);
+
+            var nextPage = ListMPsFindFirstIfNotAlreadyKnown(mpsExploringPage, App.ReadingContext.Filters.SelectedAnsweringMPs);
+            await Application.Current.MainPage.Navigation.PushAsync(nextPage);
+            //await Shell.Current.GoToAsync($"{nameof(ExploringPage)}");
         }
-		/*
+
+        public static async Task PushMyAskingMPsExploringPage()
+        {
+            string message = "These are your MPs.  Select the one(s) who should raise the question in Parliament";
+
+            var mpsExploringPage = new ExploringPage(App.ReadingContext.ThisParticipant.GroupedMPs,
+                App.ReadingContext.Filters.SelectedAskingMPsMine, message);
+
+            await LaunchMPFindingAndSelectingPages(mpsExploringPage);
+        }
+
+        private static async Task LaunchMPFindingAndSelectingPages(ExploringPage mpsExploringPage)
+        {
+            var nextPage = ListMPsFindFirstIfNotAlreadyKnown(mpsExploringPage, App.ReadingContext.Filters.SelectedAskingMPs);
+            await Application.Current.MainPage.Navigation.PushAsync(nextPage);
+            //await Shell.Current.GoToAsync($"{nameof(ExploringPage)}");
+        }
+        /*
 		 * Either push the list of selectable MPs directly, or push a registration page,
 		 * instructed to push the MPs selection page after.
 		 */
-		public static async Task<Page> ListMPsFindFirstIfNotAlreadyKnown(ReadingContext readingContext, ExploringPage mpsExploringPage,
-			ObservableCollection<MP> alreadySelectedMPs)
-		{
-			var thisParticipant = readingContext.ThisParticipant;
-			
-			if (! thisParticipant.MPsKnown)
-			{
-				var registrationPage = new RegisterPage2(thisParticipant, false, true, alreadySelectedMPs);
-				return registrationPage;
-				
-			}
-			else
-			{
-				return mpsExploringPage;
-			}
-		}
+        public static Page ListMPsFindFirstIfNotAlreadyKnown(ExploringPage mpsExploringPage,
+            ObservableCollection<MP> alreadySelectedMPs)
+        {
+            var thisParticipant = App.ReadingContext.ThisParticipant;
 
-		public static async void PushAnsweringMPsExploringPage(ReadingContext readingContext)
-		{
-			string message = "Here is the complete list of MPs - select which one(s) should answer";
-				ExploringPageWithSearch mpsPage
-					= new ExploringPageWithSearch(ParliamentData.AllMPs, readingContext.Filters.SelectedAnsweringMPs, message);
-                await App.Current.MainPage.Navigation.PushAsync(mpsPage);
-		}
+            if (!thisParticipant.MPsKnown)
+            {
+                var registrationPage = new RegisterPage2(thisParticipant, false, true, alreadySelectedMPs);
+                return registrationPage;
+            }
+            else
+            {
+                return mpsExploringPage;
+            }
+        }
 
-		public static void PushAskingMPsExploringPage(ReadingContext readingContext)
-		{
-			string message =
-				"Here is the complete list of MPs - select which one(s) should raise your question in Parliament";
-			ExploringPageWithSearch mpsPage
-				= new ExploringPageWithSearch(ParliamentData.AllMPs, readingContext.Filters.SelectedAskingMPs, message);
-			App.Current.MainPage.Navigation.PushAsync(mpsPage);
-		}
+        public static async Task PushAnsweringMPsExploringPage()
+        {
+            string message = "Here is the complete list of MPs - select which one(s) should answer";
+            ExploringPageWithSearch mpsPage
+                = new ExploringPageWithSearch(ParliamentData.AllMPs, App.ReadingContext.Filters.SelectedAnsweringMPs, message);
+            await Application.Current.MainPage.Navigation.PushAsync(mpsPage);
+            //await Shell.Current.GoToAsync($"{nameof(ExploringPageWithSearch)}");
+        }
+
+        public static async Task PushAskingMPsExploringPageAsync()
+        {
+            string message =
+                "Here is the complete list of MPs - select which one(s) should raise your question in Parliament";
+            ExploringPageWithSearch mpsPage
+                = new ExploringPageWithSearch(ParliamentData.AllMPs, App.ReadingContext.Filters.SelectedAskingMPs, message);
+            await Application.Current.MainPage.Navigation.PushAsync(mpsPage);
+            //await Shell.Current.GoToAsync($"{nameof(ExploringPageWithSearch)}");
+        }
     }
 }

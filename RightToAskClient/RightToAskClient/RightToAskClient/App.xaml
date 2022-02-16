@@ -1,13 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:helpers="clr-namespace:RightToAskClient.Helpers"
              x:Class="RightToAskClient.App">
-    <!--
     <Application.Resources>
-        <ResourceDictionary>
+        <!--<ResourceDictionary>
             <Color x:Key="primaryGreen">#91CA47</Color>
             <Color x:Key="primaryDarkGreen">#6FA22E</Color>
+        </ResourceDictionary>-->
+        <ResourceDictionary>
+            <!--Converter-->
+            <helpers:InvertConvert x:Key="cnvInvert" />
+            <Color x:Key="Primary">#6FA22E</Color>
+            <Style x:Key="TurquoiseButton" TargetType="Button">
+                <Setter Property="TextColor" Value="White"></Setter>
+                <Setter Property="BackgroundColor" Value="Turquoise"></Setter>
+                <Setter Property="CornerRadius" Value="20"></Setter>
+                <Setter Property="HeightRequest" Value="40"></Setter>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
-    -->
 </Application>

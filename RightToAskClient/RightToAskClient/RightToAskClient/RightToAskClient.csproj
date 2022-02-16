@@ -13,8 +13,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.0" />
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.1874" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2337" />
     <PackageReference Include="System.Net.Http.Json" Version="5.0.0" /> 
     <PackageReference Include="sqlite-net-pcl" Version="1.7.335" />
     <PackageReference Include="System.Text.Json" Version="5.0.1" />
@@ -24,13 +25,13 @@
   <ItemGroup>
     <None Remove="Data\" />
     <None Remove="Models\" />
+    <None Remove="Resources\PublicServerKey" />
     <None Remove="Views\" />
     <None Remove="sqlite-net-pcl" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Models\ServerPubKey.cs" />
@@ -57,6 +58,7 @@
     <EmbeddedResource Remove="Views\FindMyMP.xaml" />
     <EmbeddedResource Remove="Views\PickerPage.xaml" />
     <None Remove="Resources\VicLegislativeAssemblymembers.csv" />
+    <EmbeddedResource Include="Resources\PublicServerKey" />
     <EmbeddedResource Include="Resources\VicLegislativeAssemblymembers.csv" />
     <None Remove="Resources\VicLegislativeCouncilmembers.csv" />
     <EmbeddedResource Include="Resources\VicLegislativeCouncilmembers.csv" />
@@ -73,5 +75,16 @@
     <None Remove="Resources\MPs.json" />
     <EmbeddedResource Include="Resources\MPs.json" />
     <EmbeddedResource Remove="Views\AuthoritiesRTKCategories.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Views\AboutPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\AccountPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\AppShell.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

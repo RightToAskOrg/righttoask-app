@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using RightToAskClient.HttpClients;
+using RightToAskClient.ViewModels;
 
 namespace RightToAskClient.Models
 {
@@ -80,6 +81,7 @@ namespace RightToAskClient.Models
 			if (String.IsNullOrEmpty(success.Err))
 			{
 				_isInitialised = true;
+				QuestionViewModel.Instance.UpdateMPButtons();
 				return;
 			}
 			
@@ -90,6 +92,7 @@ namespace RightToAskClient.Models
 			if (String.IsNullOrEmpty(success.Err))
 			{
 				_isInitialised = true;
+				QuestionViewModel.Instance.UpdateMPButtons();
 				return;
 			}
 
@@ -107,6 +110,7 @@ namespace RightToAskClient.Models
 			
 			_allMPsData = success.Ok;
 			_isInitialised = true;
+			QuestionViewModel.Instance.UpdateMPButtons();
 			return new Result<bool>() { Ok = true };
 		}
 
@@ -124,6 +128,7 @@ namespace RightToAskClient.Models
 			{
 				_allMPsData = serverMPList.Ok;
 				_isInitialised = true;
+				QuestionViewModel.Instance.UpdateMPButtons();
 				return new Result<bool>() { Ok = true };
 			}
 

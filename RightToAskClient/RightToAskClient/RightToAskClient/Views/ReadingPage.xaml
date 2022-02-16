@@ -5,7 +5,8 @@
 			 xmlns:rightToAskClient="clr-namespace:RightToAskClient;assembly=RightToAskClient"
 			 xmlns:models="clr-namespace:RightToAskClient.Models;assembly=RightToAskClient"
 			 x:Class="RightToAskClient.Views.ReadingPage"
-			 x:Name="TitleBar" >
+			 x:Name="TitleBar"
+             Title="Recent Questions">
 	<ContentPage.Content>
 		<StackLayout x:Name = "WholePage" HorizontalOptions="Center" VerticalOptions="Start">
 			<Label Text="Upvote good questions, or click for more detail" FontSize="Medium"></Label>

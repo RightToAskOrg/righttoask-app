@@ -36,9 +36,9 @@ namespace RightToAskClient.Views
         // private ParliamentData.Chamber stateLCChamber=ParliamentData.Chamber.Vic_Legislative_Council;
         // private ParliamentData.Chamber stateLAChamber=ParliamentData.Chamber.Vic_Legislative_Assembly;
 
-        private List<string> _allFederalElectorates;
-        private List<string> allStateLAElectorates;
-        private List<string> allStateLCElectorates;
+        private List<string> _allFederalElectorates = new List<string>();
+        private List<string> allStateLAElectorates = new List<string>();
+        private List<string> allStateLCElectorates = new List<string>();
         // alreadySelectedMPs are passed in if a Selection page is to be launched next.
         // If they're null/absent, no selection page is launched.
         public RegisterPage2(IndividualParticipant thisParticipant, bool showSkip, bool launchMPsSelectionPageNext, 
@@ -46,9 +46,9 @@ namespace RightToAskClient.Views
         {
             InitializeComponent();
             BindingContext = thisParticipant;
-            this._thisParticipant = thisParticipant;
-            this._launchMPsSelectionPageNext = launchMPsSelectionPageNext;
-            this._alreadySelectedMPs = alreadySelectedMPs ?? new ObservableCollection<MP>();
+            _thisParticipant = thisParticipant;
+            _launchMPsSelectionPageNext = launchMPsSelectionPageNext;
+            _alreadySelectedMPs = alreadySelectedMPs ?? new ObservableCollection<MP>();
 
             KnowElectoratesFrame.IsVisible = false;
             addressSavingStack.IsVisible = false;
@@ -147,7 +147,7 @@ namespace RightToAskClient.Views
                 return allElectorates[selectedIndex];
             }
 
-            return null;
+            return "";
 
         }
         
@@ -173,6 +173,7 @@ namespace RightToAskClient.Views
                   
            	    var mpsExploringPage = new ExploringPage(_thisParticipant.GroupedMPs, _alreadySelectedMPs , message);
                 await Navigation.PushAsync(mpsExploringPage);
+                //await Shell.Current.GoToAsync($"{nameof(ExploringPage)}");
             }
             
             Navigation.RemovePage(currentPage); 
@@ -182,7 +183,7 @@ namespace RightToAskClient.Views
         // TODO: We probably want this to give the person a chance to go back and fix it if wrong.
         // If we don't even know the person's state, we have no idea so they have to go back and pick;
         // If we know their state but not their Legislative Assembly or Council makeup, we can go on. 
-        async void OnSubmitAddressButton_Clicked(object sender, EventArgs e)
+        private async void OnSubmitAddressButton_Clicked(object sender, EventArgs e)
         {
             Result<GeoscapeAddressFeature> httpResponse;
             
@@ -190,14 +191,14 @@ namespace RightToAskClient.Views
             
             if (String.IsNullOrEmpty(state))
             {
-                DisplayAlert("Please choose a state", "", "OK");
+                await DisplayAlert("Please choose a state", "", "OK");
                 return;
             }
 
             Result<bool> addressValidation = _address.SeemsValid();
             if (!String.IsNullOrEmpty(addressValidation.Err))
             {
-                DisplayAlert(addressValidation.Err, "", "OK");
+                await DisplayAlert(addressValidation.Err, "", "OK");
                 return;
             }
             

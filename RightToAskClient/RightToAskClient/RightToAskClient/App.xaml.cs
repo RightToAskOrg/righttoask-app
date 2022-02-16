@@ -6,23 +6,24 @@ namespace RightToAskClient
 {
     public partial class App : Application
     {
-
+        public static ReadingContext ReadingContext = new ReadingContext();
         public App()
         {
-            SetTheStyles();
             InitializeComponent();
+            SetTheStyles();
 
             /* MS Docs say static classes are
              * " is guaranteed to be loaded and to have its fields initialized
              * and its static constructor called before the class is referenced
              * for the first time in your program."
              * */
-            MainPage = new NavigationPage(new MainPage());
+            MainPage = new AppShell();
         }
 
         protected override void OnStart()
         {
             ParliamentData.MPAndOtherData.TryInit();
+            ReadingContext = new ReadingContext();
         }
 
         protected override void OnSleep()
@@ -214,7 +215,7 @@ namespace RightToAskClient
                 
                 return new Xamarin.Forms.ViewCell { View = grid };
             });
-            Resources.Add("SelectableDataTemplate",selectableDataTemplate);
+            Resources.Add("SelectableDataTemplate", selectableDataTemplate);
         }
     }
 }

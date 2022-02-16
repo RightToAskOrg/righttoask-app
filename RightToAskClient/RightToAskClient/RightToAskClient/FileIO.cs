@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Text.Json;
@@ -29,27 +30,27 @@ namespace RightToAskClient
 			}
 			catch (IOException e)
 			{
-				Console.WriteLine("File could not be read: " + filename);
-				Console.WriteLine(e.Message);
+				Debug.WriteLine("File could not be read: " + filename);
+				Debug.WriteLine(e.Message);
 				return new Result<T>() { Err = e.Message };
 			}
 			catch (JsonException e)
 			{
-				Console.WriteLine("JSON could not be deserialised: " + filename);
-				Console.WriteLine(e.Message);
+				Debug.WriteLine("JSON could not be deserialised: " + filename);
+				Debug.WriteLine(e.Message);
 				return new Result<T>() { Err = e.Message };
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine("Error: " + filename);
-				Console.WriteLine(e.Message);
+				Debug.WriteLine("Error: " + filename);
+				Debug.WriteLine(e.Message);
 				return new Result<T>() { Err = e.Message };
 			}
 
 			if (deserializedData is null)
 			{
 				string error = "Error: Could not deserialize" + filename;
-				Console.WriteLine(error);
+				Debug.WriteLine(error);
 				return new Result<T>() { Err = error };
 			}
 
@@ -88,8 +89,8 @@ namespace RightToAskClient
 			}
 			catch (IOException e)
 			{
-				Console.WriteLine("File could not be read: " + filename);
-				Console.WriteLine(e.Message);
+				Debug.WriteLine("File could not be read: " + filename);
+				Debug.WriteLine(e.Message);
 			}
 
 			return new Result<string>() { Err = "Error reading file: " + filename };
@@ -122,8 +123,8 @@ namespace RightToAskClient
 			}
 			catch (IOException e)
 			{
-				Console.WriteLine("MP file could not be read: " + filename);
-				Console.WriteLine(e.Message);
+				Debug.WriteLine("MP file could not be read: " + filename);
+				Debug.WriteLine(e.Message);
 			}
 
 		}
@@ -133,7 +134,7 @@ namespace RightToAskClient
 				Stream? stream = assembly.GetManifestResourceStream("RightToAskClient.Resources." + filename);
 				if (stream is null)
 				{
-					Console.WriteLine("Could not find file: " + filename);
+					Debug.WriteLine("Could not find file: " + filename);
 					return new Result<Stream>() { Err = "Could not find file: " + filename};
 				}
 
