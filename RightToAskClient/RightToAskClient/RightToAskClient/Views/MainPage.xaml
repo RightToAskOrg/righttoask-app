@@ -6,28 +6,24 @@
 	<ContentPage.Content>
 		<StackLayout VerticalOptions="Start" Spacing="40">
 			<Label HorizontalOptions="Center" Text = "" FontSize="Medium" />
-			<Frame CornerRadius="10"  BackgroundColor="NavajoWhite"
-			       Padding="0">
-			    <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand">
-			    	<Label Text="Read and vote on questions" TextColor="Teal" FontSize="Large" HorizontalOptions="Center" />
-			    	<StackLayout Orientation="Vertical" HorizontalOptions="Center" Padding="20" Spacing="10" >
-			            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-			    			<Button x:Name="Top10NowButton" Text="Trending now" CornerRadius="20" BackgroundColor="Turquoise" Clicked="OnTop10NowButtonClicked" HorizontalOptions="Center"/>
-			    			<Button x:Name="ExpiringSoonButton" Text="Expiring soon" CornerRadius="20" BackgroundColor="Turquoise" Clicked="OnExpiringSoonButtonClicked" HorizontalOptions="Center"/>
-			            </StackLayout>
-			            <StackLayout Orientation="Horizontal" HorizontalOptions="Start">
-				            <SearchBar x:Name="ReadByKeywordButton" Placeholder="Search" MinimumWidthRequest="20"  BackgroundColor="Turquoise" SearchButtonPressed="OnReadByKeywordFieldCompleted" TextChanged="OnKeywordChanged" HorizontalOptions="Start"/>
-			    		    <Button x:Name="ReadButton" Text="Advanced search" Clicked="OnReadButtonClicked" HorizontalOptions="Center" CornerRadius="20" BackgroundColor="Turquoise"/>
-			            </StackLayout>
-			    	</StackLayout>
-		    	</StackLayout>
-			</Frame>	
-			<Frame CornerRadius="10"  BackgroundColor="NavajoWhite"
-			       Padding="0">
-			    <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand">
-			    	<Label Text="Write a question" TextColor="Teal" FontSize="Large" HorizontalOptions="Center" />
+            <Frame Style="{StaticResource NavajoWhiteFrame}">
+			    <StackLayout Style="{StaticResource VertStack}">
+                    <Label Text="Read and vote on questions" Style="{StaticResource Header1}" />
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+			    		<Button x:Name="Top10NowButton" Text="Trending now" Style="{StaticResource TurquoiseButton}" HeightRequest="50" Clicked="OnTop10NowButtonClicked" HorizontalOptions="Center"/>
+                        <Button x:Name="ExpiringSoonButton" Text="Expiring soon" Style="{StaticResource TurquoiseButton}" Clicked="OnExpiringSoonButtonClicked" HorizontalOptions="Center"/>
+			        </StackLayout>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Start">
+                        <SearchBar x:Name="ReadByKeywordButton" Placeholder="Search" MinimumWidthRequest="20"  BackgroundColor="Turquoise" SearchButtonPressed="OnReadByKeywordFieldCompleted" TextChanged="OnKeywordChanged" HorizontalOptions="Start"/>
+                        <Button x:Name="ReadButton" Text="Advanced search" Clicked="OnReadButtonClicked" Style="{StaticResource TurquoiseButton}" HeightRequest="50"/>
+                    </StackLayout>
+                </StackLayout>
+			</Frame>
+            <Frame Style="{StaticResource NavajoWhiteFrame}">
+			    <StackLayout Style="{StaticResource VertStack}">
+			    	<Label Text="Write a question" Style="{StaticResource Header1}" />
 				    <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-					    <Button x:Name="NavigateButton" Text="Start drafting" CornerRadius="20" BackgroundColor="Turquoise" Clicked="OnNavigateButtonClicked" HorizontalOptions="Center"/>
+                        <Button x:Name="NavigateButton" Text="Start drafting" Style="{StaticResource TurquoiseButton}" Clicked="OnNavigateButtonClicked" HorizontalOptions="Center"/>
 				    </StackLayout>
 			</StackLayout>
 			</Frame>	

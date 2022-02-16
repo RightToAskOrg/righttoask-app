@@ -21,15 +21,15 @@
 			</StackLayout>
 			<StackLayout x:Name="BackgroundSegment" Orientation="Vertical" IsVisible="{Binding IsNewQuestion}">
 				<Label Text="Background:" FontSize="Medium" HorizontalOptions="Center" />
-				<Editor Placeholder="Add Background (optional)" Completed="Background_Entered" StyleClass="NormalEditor" AutoSize="TextChanges" FontSize="Medium" FontAttributes="Bold" />
+				<Editor Placeholder="Add Background (optional)" Completed="Background_Entered" Style="{StaticResource NormalEditor}" AutoSize="TextChanges" FontSize="Medium" FontAttributes="Bold" />
 			</StackLayout >
             <StackLayout x:Name="LinkOrAnswerSegment" Orientation="Vertical" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
 				<Label Text="Link or answer:" />
-				<Editor Placeholder="Add an answer or a Hansard link to an answer" Completed="Answer_Entered" StyleClass="NormalEditor" AutoSize="TextChanges" FontSize="Medium" FontAttributes="Bold" />
+				<Editor Placeholder="Add an answer or a Hansard link to an answer" Completed="Answer_Entered" Style="{StaticResource NormalEditor}" AutoSize="TextChanges" FontSize="Medium" FontAttributes="Bold" />
 			</StackLayout >
-            <Button x:Name="SaveAnswerButton" StyleClass="NormalButton" Text="Save Answer" Clicked="SaveAnswerButton_OnClicked" HorizontalOptions="Center" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}"/>
-			<Button x:Name="SaveBackgroundButton" StyleClass="DoneButton" Text="Publish New Question!" Clicked="SubmitNewQuestionButton_OnClicked" HorizontalOptions="Center" IsVisible="{Binding IsNewQuestion}"/>
-			<Button x:Name="QuestionSuggesterButton" StyleClass="NormalButton" Clicked="QuestionSuggesterButton_OnClicked" HorizontalOptions="Center"/>
+            <Button x:Name="SaveAnswerButton" Style="{StaticResource SaveButton}" Text="Save Answer" Clicked="SaveAnswerButton_OnClicked" HorizontalOptions="Center" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}"/>
+			<Button x:Name="SaveBackgroundButton" Style="{StaticResource DoneButton}" Text="Publish New Question!" Clicked="SubmitNewQuestionButton_OnClicked" HorizontalOptions="Center" IsVisible="{Binding IsNewQuestion}"/>
+			<Button x:Name="QuestionSuggesterButton" Style="{StaticResource TurquoiseButton}" Clicked="QuestionSuggesterButton_OnClicked" HorizontalOptions="Center"/>
 		</StackLayout>
     </ContentPage.Content>
 </ContentPage>

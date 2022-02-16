@@ -28,7 +28,7 @@
                 <Button Style="{StaticResource TurquoiseButton}" Text="{Binding NotSureWhoShouldRaiseButtonText}" Command="{Binding RaisedOptionSelectedCommand}" CommandParameter="4" />
 				<Label Text="{Binding ReportLabelText}" IsVisible="{Binding ShowReportLabel}"/>
             </StackLayout>
-            <Button Text="Next" StyleClass="DoneButton" Command="{Binding ProceedToReadingPageCommand}" IsVisible="{Binding RaisedByOptionSelected}"/>
+            <Button Text="Next" Style="{StaticResource DoneButton}" Command="{Binding ProceedToReadingPageCommand}" IsVisible="{Binding RaisedByOptionSelected}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

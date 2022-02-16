@@ -40,8 +40,8 @@
             	<Editor x:Name = "DraftEditor" Placeholder="Draft Question: " Text="{Binding DraftQuestion}" HorizontalOptions="FillAndExpand" Completed="Question_Entered" AutoSize="TextChanges" FontSize="Medium" FontAttributes="Bold" />
             </StackLayout>
 			<StackLayout Orientation="Horizontal">
-				<Button x:Name="DiscardButton" StyleClass="NormalButton" Text="Discard Draft" Clicked="OnDiscardButtonClicked" />
-				<Button x:Name="KeepButton" StyleClass="DoneButton" Text="Keep question: Review for upload" Clicked="OnSaveButtonClicked" />
+				<Button x:Name="DiscardButton" Style="{StaticResource TurquoiseButton}" Text="Discard Draft" Clicked="OnDiscardButtonClicked" />
+				<Button x:Name="KeepButton" Style="{StaticResource DoneButton}" Text="Keep question: Review for upload" Clicked="OnSaveButtonClicked" />
 			</StackLayout>
 		</StackLayout>
 	</ContentPage.Content>

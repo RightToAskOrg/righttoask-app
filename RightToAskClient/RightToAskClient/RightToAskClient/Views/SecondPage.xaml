@@ -8,9 +8,9 @@
 		<StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand"
 		             Padding="30">
 			<StackLayout Orientation="Vertical" x:Name="QuestionDraftingBox" IsVisible="{Binding IsReadingOnly, Converter={StaticResource Key=cnvInvert}}">
-				<Label Text="My question is..." FontSize="Medium" HorizontalOptions="Center" />
+				<Label Text="My question is..." Style="{StaticResource Header2}" />
                 <Editor Completed="Question_Entered" MaxLength="280" 
-				        StyleClass="NormalEditor" AutoSize="TextChanges" FontSize="Medium" FontAttributes="Bold" Text="{Binding Question.QuestionText}">
+				        Style="{StaticResource NormalEditor}" AutoSize="TextChanges" FontSize="Medium" FontAttributes="Bold" Text="{Binding Question.QuestionText}">
 					<Editor.Placeholder>
 						Enter your question (max 280 chars)
 						  
@@ -21,7 +21,7 @@
 				</Editor>
 			</StackLayout >
 			<StackLayout Orientation="Horizontal">
-				<Label Text="To be answered by " FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center" />
+				<Label Text="To be answered by " Style="{StaticResource Header2}" VerticalOptions="Center" />
 				<StackLayout Orientation="Vertical">
                     <Button Text="A public Authority" Style="{StaticResource TurquoiseButton}" Command="{Binding OtherPublicAuthorityButtonCommand}"/>
                     <Button Text="My MP" Style="{StaticResource TurquoiseButton}" Command="{Binding AnsweredByMyMPCommand}"  HorizontalOptions="Center" IsEnabled="{Binding MPButtonsEnabled}"/>
@@ -30,7 +30,7 @@
 			</StackLayout>
 			<Label Text="{Binding ReportLabelText}" IsVisible="{Binding MPButtonsEnabled, Converter={StaticResource Key=cnvInvert}}"/>
 			<StackLayout Orientation="Horizontal" HorizontalOptions="End" VerticalOptions="End">
-				<Button Text="Next" StyleClass="DoneButton" Command="{Binding NavigateForwardCommand}" IsVisible="{Binding IsReadingOnly, Converter={StaticResource Key=cnvInvert}}"/>
+				<Button Style="{StaticResource DoneButton}"  Command="{Binding NavigateForwardCommand}" IsVisible="{Binding IsReadingOnly, Converter={StaticResource Key=cnvInvert}}"/>
 			</StackLayout>
 		</StackLayout>
 	</ContentPage.Content>
