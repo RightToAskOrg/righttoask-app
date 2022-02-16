@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Text;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Generators;
@@ -22,9 +23,23 @@ namespace RightToAskClient.CryptoUtils
         private static string SPKIRaw = ReadPublicServerKey().Ok ?? "OJ/tBn4rOrOebgbICBi3i2oflO0hqz0D8daItDZ53vI=";
         // private static string SPKIInHex = "389fed067e2b3ab39e6e06c80818b78b6a1f94ed21ab3d03f1d688b43679def2";
 
-        public static readonly Ed25519PublicKeyParameters ServerPublicKey =
-            new Ed25519PublicKeyParameters(Convert.FromBase64String(SPKIRaw));
+        public static Ed25519PublicKeyParameters ServerPublicKey = ConvertSPKIRawToBase64String().Ok;
         
+        private static Result<Ed25519PublicKeyParameters> ConvertSPKIRawToBase64String()
+        {
+            try
+            {
+                ServerPublicKey = new Ed25519PublicKeyParameters(Convert.FromBase64String(SPKIRaw));
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine("Error decoding base 64 string. Try removing \" characters from the beginning or end of your PublicServerKey or GeoscapeAPIKey file.");
+                Debug.WriteLine(ex.Message);
+                return new Result<Ed25519PublicKeyParameters>() { Err = "Error decoding base 64 string." + ex.Message };
+            }
+            return new Result<Ed25519PublicKeyParameters>() { Ok = ServerPublicKey }; 
+        }
+
         // TODO at the moment, this just generates a new key every time you run the app.
         private static AsymmetricCipherKeyPair MakeMyKey()
         {
