@@ -19,4 +19,8 @@ There'll be 3 main files to add to the project to get started:
 
 If you don't already have the "GeoscapeAPIKey" file or "MPs.json" you may need to get those files from Vanessa. Add them to the project's "Resources" folder, and set the build action on each to be "Embedded Resource".
 
-On Windows, you'll need to create a "PublicServerKey" file. After running the server by using that project's readme, you should be able to go to localhost:8099 and under the "Info" section click on the 3rd link: "Get the server public key, base64 encoded 32 bytes ED25519". Copy the string key without the quotation marks into the empty "PublicServerKey" file. Place that file into the app's resources folder, next to the "GeoscapeAPIKey" file and "MPs.json". Under properties for that file, set the build action to be "Embedded Resource".
+On Windows, you'll need to create a "PublicServerKey" file. 
+After running the server by using that project's readme, you should be able to go to localhost:8099 and under the "Info" section click on the 3rd link: "Get the server public key, base64 encoded 32 bytes ED25519". 
+Copy the string key without the quotation marks into the empty "PublicServerKey" file. 
+Place that file into the app's resources folder, next to the "GeoscapeAPIKey" file and "MPs.json". 
+Under properties for that file, set the build action to be "Embedded Resource".
