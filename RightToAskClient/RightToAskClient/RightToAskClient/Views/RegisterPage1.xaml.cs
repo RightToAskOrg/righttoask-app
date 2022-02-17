@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using RightToAskClient.CryptoUtils;
 using RightToAskClient.Models;
 using RightToAskClient.HttpClients;
 using Xamarin.Forms;
@@ -84,13 +85,10 @@ namespace RightToAskClient.Views
             }
         }
 
-        // TODO: Obviously this fake public key is only for testing.
-        // We'll correct this when we decide exactly where to store the real
-        // keys.
         async void OnSaveButtonClicked(object sender, EventArgs e)
         {
             var newRegistration = (Registration)BindingContext;
-            newRegistration.public_key = Constants.FakePublicKey;
+			newRegistration.public_key = ClientSignatureGenerationService.MyPublicKey(); 
             var regTest = newRegistration.IsValid().Err;
             if (String.IsNullOrEmpty(regTest))
             {

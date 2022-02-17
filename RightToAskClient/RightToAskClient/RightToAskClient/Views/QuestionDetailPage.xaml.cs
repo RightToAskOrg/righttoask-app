@@ -1,4 +1,7 @@
 using System;
+using RightToAskClient.HttpClients;
+using RightToAskClient.CryptoUtils;
+using RightToAskClient.HttpClients;
 using RightToAskClient.Models;
 using RightToAskClient.ViewModels;
 using Xamarin.Forms;
@@ -17,12 +20,16 @@ namespace RightToAskClient.Views
             // this is probably where I'd start adding/swapping the implementation to using MVVM
             if (QuestionViewModel.Instance.IsNewQuestion)
             {
+                UpVoteButton.IsVisible = false;
+                LinkOrAnswerSegment.IsVisible = false;
+                SaveAnswerButton.IsVisible = false;
                 QuestionSuggesterButton.Text = "Edit your profile";
             }
             else
             {
                 QuestionSuggesterButton.Text = "View " + QuestionViewModel.Instance.Question.QuestionSuggester + "'s profile";
             }
+            
         }
 
         private void UpVoteButton_OnClicked(object sender, EventArgs e)
@@ -107,7 +114,9 @@ namespace RightToAskClient.Views
             {
                 // question.QuestionSuggester = readingContext.ThisParticipant.UserName;
                 App.ReadingContext.ExistingQuestions.Insert(0, QuestionViewModel.Instance.Question);
+                submitQuestionToServer();
                 App.ReadingContext.DraftQuestion = "";
+
             }
 
             bool goHome = await DisplayAlert("Question published!", "", "Home", "Write another one");
@@ -123,6 +132,20 @@ namespace RightToAskClient.Views
                 //await Navigation.PopAsync();
                 await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
             }
+        }
+
+        private async void submitQuestionToServer()
+        {
+            // TODO: Obviously later this uploadable question will have more of the 
+            // other data. Just getting it working for now.
+            NewQuestionCommand uploadableQuestion = new NewQuestionCommand()
+            {
+                question_text = QuestionViewModel.Instance.Question.QuestionText,
+            };
+            
+            ClientSignedUnparsed signedQuestion = ClientSignatureGenerationService.SignMessage(uploadableQuestion,
+                    App.ReadingContext.ThisParticipant.RegistrationInfo.uid);
+            await RTAClient.RegisterNewQuestion(signedQuestion);
         }
 
         private void Background_Entered(object sender, EventArgs e)

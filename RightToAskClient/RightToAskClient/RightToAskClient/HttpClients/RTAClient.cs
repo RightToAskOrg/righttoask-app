@@ -56,6 +56,16 @@ namespace RightToAskClient.HttpClients
             return await Client.DoGetResultRequest<List<string>>(Constants.UserListUrl);
         }
 
+        public static async Task<Result<bool>> RegisterNewUser(Registration newReg)
+        {
+            return await RegisterNewThing<Registration>(newReg, "user");
+        }
+
+        public static async Task<Result<bool>> RegisterNewQuestion(ClientSignedUnparsed newQuestion)
+        {
+            return await RegisterNewThing<ClientSignedUnparsed>(newQuestion, "question");
+        }
+
         /*
          * Errors in the outer layer represent http errors, (e.g. 404).
          * These are logged because they represent a problem with the system.
@@ -64,10 +74,10 @@ namespace RightToAskClient.HttpClients
          * These are returned to the user on the assumption that there's something they
          * can do.
          */
-        public static async Task<Result<bool>> RegisterNewUser(Registration newReg)
+        public static async Task<Result<bool>> RegisterNewThing<T>(T newThing, string typeDescr)
         {
             var httpResponse 
-                = await Client.PostGenericItemAsync<Result<SignedString>, Registration>(newReg);
+                = await Client.PostGenericItemAsync<Result<SignedString>, T>(newThing);
 
             // http errors
             if (String.IsNullOrEmpty(httpResponse.Err))
@@ -75,9 +85,9 @@ namespace RightToAskClient.HttpClients
                 // Error responses from the server
                 if (String.IsNullOrEmpty(httpResponse.Ok.Err))
                 {
-                    if (!httpResponse.Ok.Ok.verifies(SignatureService.ServerPublicKey))
+                    if (!httpResponse.Ok.Ok.verifies(ServerSignatureVerificationService.ServerPublicKey))
                     {
-                        Debug.WriteLine(@"\tError saving Item: Signature verification failed");
+                        Debug.WriteLine(@"\t Error registering new "+typeDescr+": Signature verification failed");
                         return new Result<bool>()
                         {
                             Err = "Server signature verification failed"
@@ -88,13 +98,14 @@ namespace RightToAskClient.HttpClients
 
                 }
                     
-                Debug.WriteLine(@"\tError registering new user:"+httpResponse.Ok.Err);
+                Debug.WriteLine(@"\tError registering new "+typeDescr+": "+httpResponse.Ok.Err);
                 return new Result<bool>() { Err = httpResponse.Ok.Err };
             }
 
-            Debug.WriteLine(@"\tError reaching server for registering new user:"+httpResponse.Err);
+            Debug.WriteLine(@"\tError reaching server for registering new " +typeDescr+": "+httpResponse.Err);
             return new Result<bool>() { Err = httpResponse.Err };
         }
+        
         public static (bool isValid, string message) ValidateHttpResponse(Result<bool> response, string messageTopic)
         {
             if (String.IsNullOrEmpty(response.Err))
