@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Text;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Generators;
@@ -28,18 +29,15 @@ namespace RightToAskClient.CryptoUtils
 
         private static readonly Ed25519Signer MySigner = MakeMySigner();
         
-        private static Result<byte[]> MyPublicKeyAsAByteArray =     
-            _myPublicKey?.GetEncoded() != null ? new Result<byte[]>{Ok = _myPublicKey.GetEncoded()} 
-              : new Result<byte[]>{Err = "Error generating public key"};
-
         public static string MyPublicKey()
         {
-            if (String.IsNullOrEmpty(MyPublicKeyAsAByteArray.Err))
+            if(_myPublicKey?.GetEncoded() != null)
             {
-                return Convert.ToBase64String(MyPublicKeyAsAByteArray.Ok);
+                return Convert.ToBase64String(_myPublicKey.GetEncoded());
             }
             else
             {
+                Debug.WriteLine("Error generating signing key");
                 return "";
             }
         }
