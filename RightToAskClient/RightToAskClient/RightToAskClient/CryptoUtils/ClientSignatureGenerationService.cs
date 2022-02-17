@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Text;
+using System.Text.Json;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Crypto.Parameters;
@@ -18,6 +19,8 @@ using Xamarin.Essentials;
  * Also note I (VT) am not an expert in Xamarin secure storage, and have endeavoured to follow the instructions
  * here: https://docs.microsoft.com/en-us/xamarin/essentials/secure-storage?tabs=android
  * but the code needs a round of expert review before it is used or copied.
+ * TODO: Note that I have not yet done either of the platform-specific setups recommended on that page:
+ * we'll need to ask for iOS entitlements, and we'll need to turn off backup on Android.
  */
 namespace RightToAskClient.CryptoUtils
 {
@@ -59,12 +62,20 @@ namespace RightToAskClient.CryptoUtils
             return signer;
         }
 
-        public static byte[] SignMessage(string message)
+        public static ClientSignedUnparsed SignMessage<T>(T message, string userID)
         {
-            var messageBytes = Encoding.UTF8.GetBytes(message);
+            var serializedMessage = JsonSerializer.Serialize(message, typeof(T));
+            var messageBytes = Encoding.UTF8.GetBytes(serializedMessage);
+            
             MySigner.BlockUpdate(messageBytes, 0, messageBytes.Length);
 
-            return MySigner.GenerateSignature();
+            return new ClientSignedUnparsed()
+            {
+                message = serializedMessage,
+                signature = MySigner.GenerateSignature().ToString(),
+                user = userID
+            };
+
         }
     }
 }

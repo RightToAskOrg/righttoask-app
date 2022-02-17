@@ -1,4 +1,6 @@
 using System;
+using RightToAskClient.CryptoUtils;
+using RightToAskClient.HttpClients;
 using RightToAskClient.Models;
 using Xamarin.Forms;
 using Button = Xamarin.Forms.Button;
@@ -9,6 +11,7 @@ namespace RightToAskClient.Views
     {
         private string _linkOrAnswer;
         private Question _question;
+        // TODO: (VT) looks like this page needs the readingcontext rewired for the centralized static version?
         private ReadingContext _readingContext;
         public QuestionDetailPage (bool isNewQuestion, Question question, ReadingContext readingContext)
         {
@@ -119,8 +122,10 @@ namespace RightToAskClient.Views
             {
                 // question.QuestionSuggester = readingContext.ThisParticipant.UserName;
 	            _readingContext.ExistingQuestions.Insert(0, _question);
-                _readingContext.DraftQuestion = null;
-                
+                _readingContext.DraftQuestion = "";
+
+                submitQuestionToServer();
+
             }
             
             bool goHome = await DisplayAlert("Question published!", "", "Home", "Write another one");
@@ -134,6 +139,20 @@ namespace RightToAskClient.Views
             {
                 await Navigation.PopAsync();
             }
+        }
+
+        private async void submitQuestionToServer()
+        {
+            // TODO: Obviously later this uploadable question will have more of the 
+            // other data. Just getting it working for now.
+            NewQuestionCommand uploadableQuestion = new NewQuestionCommand()
+            {
+                question_text = _question.QuestionText,
+            };
+            
+            ClientSignedUnparsed signedQuestion = ClientSignatureGenerationService.SignMessage(uploadableQuestion,
+                    _readingContext.ThisParticipant.RegistrationInfo.uid);
+            await RTAClient.RegisterNewQuestion(signedQuestion);
         }
 
         private void Background_Entered(object sender, EventArgs e)
