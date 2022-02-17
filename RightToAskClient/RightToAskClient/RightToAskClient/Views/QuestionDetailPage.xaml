@@ -10,22 +10,22 @@
              x:DataType="vm:QuestionViewModel">
     <ContentPage.Content>
 		<StackLayout x:Name="WholePage" Margin="20">
-			<Label Text="Question:" />
-			<Label x:Name="QuestionDetailView" Text="{Binding Question.QuestionText}" FontSize="Large" FontAttributes="Bold"/>
-			<Label Text="Question writer:" />
-			<Label x:Name="Suggester" Text="{Binding Question.QuestionSuggester, StringFormat='{0:F0}'}" FontSize="Medium" />
-			<Label Text="Upvotes:" />
+			<Label Text="Question:" Style="{StaticResource LeftSmall}"/>
+			<Label x:Name="QuestionDetailView" Text="{Binding Question.QuestionText}" Style="{StaticResource LeftLarge}"/>
+            <Label Text="Question writer:" Style="{StaticResource LeftSmall}"/>
+			<Label x:Name="Suggester" Text="{Binding Question.QuestionSuggester, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
+            <Label Text="Upvotes:" Style="{StaticResource LeftSmall}"/>
 			<StackLayout  Orientation="Horizontal" HorizontalOptions="FillAndExpand" >
-				<Label x:Name="Votes" Text="{Binding Question.UpVotes,StringFormat='{0}'}" FontSize="Large" FontAttributes="Bold" />
+				<Label x:Name="Votes" Text="{Binding Question.UpVotes,StringFormat='{0}'}" Style="{StaticResource LeftLarge}" />
 				<controls:ToggleButton x:Name="UpVoteButton" BindingContext="{Binding}" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}"/>
 			</StackLayout>
 			<StackLayout x:Name="BackgroundSegment" Orientation="Vertical" IsVisible="{Binding IsNewQuestion}">
-				<Label Text="Background:" FontSize="Medium" HorizontalOptions="Center" />
-				<Editor Placeholder="Add Background (optional)" Completed="Background_Entered" Style="{StaticResource NormalEditor}" AutoSize="TextChanges" FontSize="Medium" FontAttributes="Bold" />
+				<Label Text="Background:" Style="{StaticResource Header2}" />
+				<Editor Placeholder="Add Background (optional)" Completed="Background_Entered" Style="{StaticResource NormalEditor}" />
 			</StackLayout >
             <StackLayout x:Name="LinkOrAnswerSegment" Orientation="Vertical" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
 				<Label Text="Link or answer:" />
-				<Editor Placeholder="Add an answer or a Hansard link to an answer" Completed="Answer_Entered" Style="{StaticResource NormalEditor}" AutoSize="TextChanges" FontSize="Medium" FontAttributes="Bold" />
+				<Editor Placeholder="Add an answer or a Hansard link to an answer" Completed="Answer_Entered" Style="{StaticResource NormalEditor}" />
 			</StackLayout >
             <Button x:Name="SaveAnswerButton" Style="{StaticResource SaveButton}" Text="Save Answer" Clicked="SaveAnswerButton_OnClicked" HorizontalOptions="Center" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}"/>
 			<Button x:Name="SaveBackgroundButton" Style="{StaticResource DoneButton}" Text="Publish New Question!" Clicked="SubmitNewQuestionButton_OnClicked" HorizontalOptions="Center" IsVisible="{Binding IsNewQuestion}"/>

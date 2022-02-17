@@ -7,35 +7,33 @@
              x:Class="RightToAskClient.Views.RegisterPage1">
 	<ContentPage.Content >
 		<StackLayout Margin="20" x:Datatype="models:Registration">
-			<Label Text="UID" />
+			<Label Text="UID" Style="{StaticResource LeftSmall}"/>
 			<Entry Text="{Binding Path=uid}" x:DataType="models:Registration"
-			       Placeholder="Enter UserID" />
-			<Label Text="Display name" />
+			       Placeholder="Enter UserID" Style="{StaticResource NormalEntry}"/>
+			<Label Text="Display name" Style="{StaticResource LeftSmall}"/>
 			<Entry Text="{Binding Path=display_name}" x:DataType="models:Registration"
-			       Placeholder="Enter display name" />
-			<Label Text="State" />
+			       Placeholder="Enter display name" Style="{StaticResource NormalEntry}"/>
+			<Label Text="State" Style="{StaticResource LeftSmall}"/>
 			<Picker x:Name="stateOrTerritoryPicker" x:DataType="models:Registration"
 			        Title="{Binding Path=State,  StringFormat='{0:F0}'}" 
 			        BackgroundColor="Turquoise"
 			        SelectedIndexChanged="OnStatePickerSelectedIndexChanged">
 			</Picker>
-			<Label Text="Electorates:" />
+			<Label Text="Electorates:" Style="{StaticResource LeftSmall}"/>
 			<ListView ItemsSource="{Binding Path=electorates}" ItemTapped="OnElectoratesButtonTapped" x:DataType="models:Registration">
 				<ListView.ItemTemplate>
 					<DataTemplate x:DataType="models:ElectorateWithChamber">
 						<ViewCell>
 							<StackLayout HorizontalOptions="StartAndExpand"
 							             Orientation="Horizontal">
-								<Label Text="{Binding chamber }"
-								       VerticalTextAlignment="Center" />
-								<Label Text="{Binding region}"
-								       VerticalTextAlignment="Center" />
+                                <Label Text="{Binding chamber }" Style="{StaticResource ListViewTextVertCenter}"/>
+                                <Label Text="{Binding region}" Style="{StaticResource ListViewTextVertCenter}" />
 							</StackLayout>
 						</ViewCell>
 					</DataTemplate>
 				</ListView.ItemTemplate>
 			</ListView>
-			<Label x:Name="ReportLabel" />
+			<Label x:Name="ReportLabel" Style="{StaticResource ReportLabel}"/>
 			<StackLayout Orientation="Vertical" VerticalOptions="Center">
 				<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
 					<Button x:Name="registerCitizenButton" Clicked="OnSaveButtonClicked" Text="Complete Account Creation" Style="{StaticResource DoneButton}" HorizontalOptions="Center"/>

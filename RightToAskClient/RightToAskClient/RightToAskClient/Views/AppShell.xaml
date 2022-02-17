@@ -3,7 +3,8 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:local="clr-namespace:RightToAskClient.Views"
        Title="AppShell"
-       x:Class="RightToAskClient.AppShell">
+       x:Class="RightToAskClient.AppShell"
+       FlyoutBackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}">
 
     <!--
         The overall app visual hierarchy is defined here, along with navigation.

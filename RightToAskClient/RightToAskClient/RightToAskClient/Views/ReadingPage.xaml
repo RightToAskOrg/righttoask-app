@@ -9,9 +9,9 @@
              Title="Recent Questions">
 	<ContentPage.Content>
 		<StackLayout x:Name = "WholePage" HorizontalOptions="Center" VerticalOptions="Start">
-			<Label Text="Upvote good questions, or click for more detail" FontSize="Medium"></Label>
+			<Label Text="Upvote good questions, or click for more detail" Style="{StaticResource Header2}"></Label>
 			<!-- Filters inserted here -->
-			<Frame x:Name="FilterShower" BorderColor="Teal">
+			<Frame x:Name="FilterShower" Style="{StaticResource TealFrame}">
 				<controls:ClickableLabel Tapped="OnShowFilters" Text="Click to show Filters"/> 
 			</Frame>
 			<ScrollView Scrolled="Questions_Scrolled">
@@ -21,10 +21,10 @@
 					<DataTemplate>
 						<ViewCell>
 							<StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" Spacing="4">
-								<Label Text="{Binding QuestionText }"  x:DataType="models:Question"/>	
+								<Label Text="{Binding QuestionText }"  x:DataType="models:Question" Style="{StaticResource ListViewText}"/>	
 								<StackLayout Orientation="Horizontal" Padding="0" HorizontalOptions="Start" VerticalOptions="CenterAndExpand">
-									<Label Text="Upvotes " />
-									<Label Text="{Binding UpVotes }"  x:DataType="models:Question"/> 
+									<Label Text="Upvotes " Style="{StaticResource ListViewTextSmall}"/>
+									<Label Text="{Binding UpVotes }"  x:DataType="models:Question" Style="{StaticResource ListViewTextSmall}"/> 
 									<!--
 									<Button StyleClass="UpVoteButton" Padding="0" Clicked="OnUpVoteButtonClicked" />
 									-->
@@ -37,7 +37,7 @@
 			</ListView>
 			</ScrollView>	
             <StackLayout Orientation="Horizontal" x:Name="QuestionDraftingBox">
-            	<Editor x:Name = "DraftEditor" Placeholder="Draft Question: " Text="{Binding DraftQuestion}" HorizontalOptions="FillAndExpand" Completed="Question_Entered" AutoSize="TextChanges" FontSize="Medium" FontAttributes="Bold" />
+            	<Editor x:Name="DraftEditor" Placeholder="Draft Question: " Text="{Binding DraftQuestion}" HorizontalOptions="FillAndExpand" Completed="Question_Entered" Style="{StaticResource NormalEditor}" />
             </StackLayout>
 			<StackLayout Orientation="Horizontal">
 				<Button x:Name="DiscardButton" Style="{StaticResource TurquoiseButton}" Text="Discard Draft" Clicked="OnDiscardButtonClicked" />

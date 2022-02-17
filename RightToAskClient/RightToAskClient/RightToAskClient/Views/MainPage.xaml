@@ -14,7 +14,7 @@
                         <Button x:Name="ExpiringSoonButton" Text="Expiring soon" Style="{StaticResource TurquoiseButton}" Clicked="OnExpiringSoonButtonClicked" HorizontalOptions="Center"/>
 			        </StackLayout>
                     <StackLayout Orientation="Horizontal" HorizontalOptions="Start">
-                        <SearchBar x:Name="ReadByKeywordButton" Placeholder="Search" MinimumWidthRequest="20"  BackgroundColor="Turquoise" SearchButtonPressed="OnReadByKeywordFieldCompleted" TextChanged="OnKeywordChanged" HorizontalOptions="Start"/>
+                        <SearchBar x:Name="ReadByKeywordButton" Placeholder="Search" Style="{StaticResource TurquoiseSearcbar}" SearchButtonPressed="OnReadByKeywordFieldCompleted" TextChanged="OnKeywordChanged" HorizontalOptions="Start"/>
                         <Button x:Name="ReadButton" Text="Advanced search" Clicked="OnReadButtonClicked" Style="{StaticResource TurquoiseButton}" HeightRequest="50"/>
                     </StackLayout>
                 </StackLayout>
@@ -23,7 +23,7 @@
 			    <StackLayout Style="{StaticResource VertStack}">
 			    	<Label Text="Write a question" Style="{StaticResource Header1}" />
 				    <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                        <Button x:Name="NavigateButton" Text="Start drafting" Style="{StaticResource TurquoiseButton}" Clicked="OnNavigateButtonClicked" HorizontalOptions="Center"/>
+                        <Button x:Name="NavigateButton" Text="Start drafting" Style="{StaticResource TurquoiseButton}" HeightRequest="50" Clicked="OnNavigateButtonClicked" HorizontalOptions="Center"/>
 				    </StackLayout>
 			</StackLayout>
 			</Frame>	
