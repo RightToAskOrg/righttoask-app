@@ -75,7 +75,7 @@ namespace RightToAskClient.HttpClients
                 // Error responses from the server
                 if (String.IsNullOrEmpty(httpResponse.Ok.Err))
                 {
-                    if (!httpResponse.Ok.Ok.verifies(SignatureService.ServerPublicKey))
+                    if (!httpResponse.Ok.Ok.verifies(ServerSignatureVerificationService.ServerPublicKey))
                     {
                         Debug.WriteLine(@"\tError saving Item: Signature verification failed");
                         return new Result<bool>()

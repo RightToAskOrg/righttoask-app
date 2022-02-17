@@ -17,7 +17,7 @@ namespace RightToAskClient.Models
             byte[] messagebytes = Encoding.UTF8.GetBytes(message);
             byte[] signaturebytes = Convert.FromBase64String(signature);
 
-            return SignatureService.VerifySignature(message, signaturebytes, pubKey);
+            return ServerSignatureVerificationService.VerifySignature(message, signaturebytes, pubKey);
             // PUBKEYTBD.VerifyData (messagebytes, signaturebytes, HashAlgorithmName.SHA512);
         }
     }
