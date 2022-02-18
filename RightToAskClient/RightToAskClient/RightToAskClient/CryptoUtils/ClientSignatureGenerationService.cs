@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Crypto.Parameters;
@@ -63,8 +64,16 @@ namespace RightToAskClient.CryptoUtils
         }
 
         public static ClientSignedUnparsed SignMessage<T>(T message, string userID)
-        {
-            var serializedMessage = JsonSerializer.Serialize(message, typeof(T));
+        {   
+            JsonSerializerOptions serializerOptions = new JsonSerializerOptions
+            {
+                Converters = { new JsonStringEnumConverter() },
+                WriteIndented = false,
+            };
+            
+                // StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                
+            string serializedMessage = JsonSerializer.Serialize(message, serializerOptions);
             var messageBytes = Encoding.UTF8.GetBytes(serializedMessage);
             
             MySigner.BlockUpdate(messageBytes, 0, messageBytes.Length);
@@ -72,7 +81,7 @@ namespace RightToAskClient.CryptoUtils
             return new ClientSignedUnparsed()
             {
                 message = serializedMessage,
-                signature = MySigner.GenerateSignature().ToString(),
+                signature = Convert.ToBase64String(MySigner.GenerateSignature()),
                 user = userID
             };
 

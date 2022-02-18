@@ -58,12 +58,12 @@ namespace RightToAskClient.HttpClients
 
         public static async Task<Result<bool>> RegisterNewUser(Registration newReg)
         {
-            return await RegisterNewThing<Registration>(newReg, "user");
+            return await RegisterNewThing<Registration>(newReg, "user", Constants.RegUrl);
         }
 
         public static async Task<Result<bool>> RegisterNewQuestion(ClientSignedUnparsed newQuestion)
         {
-            return await RegisterNewThing<ClientSignedUnparsed>(newQuestion, "question");
+            return await RegisterNewThing<ClientSignedUnparsed>(newQuestion, "question", Constants.QnUrl);
         }
 
         /*
@@ -74,10 +74,10 @@ namespace RightToAskClient.HttpClients
          * These are returned to the user on the assumption that there's something they
          * can do.
          */
-        public static async Task<Result<bool>> RegisterNewThing<T>(T newThing, string typeDescr)
+        public static async Task<Result<bool>> RegisterNewThing<T>(T newThing, string typeDescr, string uri)
         {
             var httpResponse 
-                = await Client.PostGenericItemAsync<Result<SignedString>, T>(newThing);
+                = await Client.PostGenericItemAsync<Result<SignedString>, T>(newThing, uri);
 
             // http errors
             if (String.IsNullOrEmpty(httpResponse.Err))

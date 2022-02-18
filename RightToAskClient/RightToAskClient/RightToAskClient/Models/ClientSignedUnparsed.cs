@@ -1,13 +1,18 @@
 
 
+using System.Text.Json.Serialization;
+
 namespace RightToAskClient.Models
 {
     public class ClientSignedUnparsed
     {
-        public string message;
+        [JsonPropertyName("message")]
+        public string message { get; set; }
 
-        public string signature;
+        [JsonPropertyName("signature")]
+        public string signature { get; set; }
 
-        public string user;
+        [JsonPropertyName("user")]
+        public string user { get; set; }
     }
 }

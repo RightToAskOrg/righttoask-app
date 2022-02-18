@@ -1,8 +1,11 @@
+using System.Text.Json.Serialization;
+
 namespace RightToAskClient.Models
 {
     public class NewQuestionCommand
     {
-        public string question_text;
+        [JsonPropertyName("question_text")]
+        public string question_text { get; set; }
 
         //TODO: Add the QuestionNonDefiningFields here.
     }
