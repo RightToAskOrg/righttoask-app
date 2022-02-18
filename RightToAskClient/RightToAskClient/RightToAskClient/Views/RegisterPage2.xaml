@@ -3,10 +3,15 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:RightToAskClient.Models;assembly=RightToAskClient"
+             xmlns:vm="clr-namespace:RightToAskClient.ViewModels;assembly=RightToAskClient"
              xmlns:controls="clr-namespace:RightToAskClient.Controls;assembly=RightToAskClient"
              x:Class="RightToAskClient.Views.RegisterPage2"
-             Title="Find your MPs">
-    <ContentPage.Content>
+             Title="Find your MPs"
+             x:DataType="vm:FindMPsViewModel">
+    <!--<ContentPage.BindingContext>
+        <vm:FindMPsViewModel/>
+    </ContentPage.BindingContext>-->
+        <ContentPage.Content>
 	    <ScrollView x:Name="mainScrollView">
             <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
                 <Label Text="Your MPs are defined by where you live" FontSize="Medium" HorizontalOptions="Center" />
@@ -56,7 +61,7 @@
                         <Label Text="Postcode" Style="{StaticResource LeftFrameText}"/>
                         <Entry Placeholder="Postcode" TextChanged="OnPostcodeChanged" Completed="OnPostcodeEntered" Style="{StaticResource LeftFrameEntry}"/>
                         <StackLayout Orientation="Vertical" HorizontalOptions="Center">
-                            <Button x:Name="submitAddressButton" Text="Find my electorates" HorizontalOptions="Center" Style="{StaticResource TurquoiseButton}" Clicked="OnSubmitAddressButton_Clicked" />
+                            <Button Text="Find my electorates" HorizontalOptions="Center" Style="{StaticResource TurquoiseButton}" Command="{Binding SubmitAddressButtonCommand}" />
                             <Label x:Name="ReportLabel" Style="{StaticResource ReportLabel}"/>
                         </StackLayout>
                         <!--
@@ -67,8 +72,8 @@
                     </StackLayout>
                 </Frame>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
-                    <Button x:Name="SkipButton" Style="{StaticResource TurquoiseButton}" Text="Skip this step" Clicked="OnSkipButtonClicked" />
-                    <Button x:Name="FindMPsButton" HorizontalOptions="End" Style="{StaticResource DoneButton}" Text="Next" Clicked="OnFindMPsButtonClicked" />
+                    <Button Style="{StaticResource TurquoiseButton}" Text="Skip this step" Command="{Binding SkipButtonCommand}" IsVisible="{Binding ShowSkipButton}"/>
+                    <Button HorizontalOptions="End" Style="{StaticResource DoneButton}" Text="Next" Command="{Binding MPsButtonCommand}" IsVisible="{Binding ShowFindMPsButton}" />
                 </StackLayout>
             </StackLayout>
         </ScrollView>

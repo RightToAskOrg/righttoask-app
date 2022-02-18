@@ -112,13 +112,6 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _followButtonText, value);
         }
 
-        private string _reportLabelText = "";
-        public string ReportLabelText
-        {
-            get => _reportLabelText;
-            set => SetProperty(ref _reportLabelText, value);
-        }
-
         // Might not need these if I can make Registration model class inherit from ObservableObject
         /*
         public string DisplayName => Registration.display_name;
