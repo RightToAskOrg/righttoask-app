@@ -8,71 +8,69 @@
              Title="Find your MPs">
     <ContentPage.Content>
 	    <ScrollView x:Name="mainScrollView">
-			<StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand"> 
-				<Label Text="Your MPs are defined by where you live" FontSize="Medium" HorizontalOptions="Center" />
-				<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-					<Label Text="I live in " FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center" />
-					<Picker x:Name="stateOrTerritoryPicker"
+            <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
+                <Label Text="Your MPs are defined by where you live" FontSize="Medium" HorizontalOptions="Center" />
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                    <Label Text="I live in " FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center" />
+                    <Picker x:Name="stateOrTerritoryPicker"
 					        BackgroundColor="Turquoise"
-					        SelectedIndexChanged="OnStatePickerSelectedIndexChanged"> 
-					</Picker>
-				</StackLayout>
-				<StackLayout Orientation="Horizontal">
-					<Frame OutlineColor="Teal">
-						<controls:ClickableLabel x:Name="knowElectorates" Text="I know my electorates already" HorizontalOptions="Center"
+					        SelectedIndexChanged="OnStatePickerSelectedIndexChanged">
+                    </Picker>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Frame Style="{StaticResource TealFrame}">
+                        <controls:ClickableLabel x:Name="knowElectorates" Text="I know my electorates already" HorizontalOptions="Center"
 						        Tapped="KnowElectorates_Tapped" VerticalOptions="Center">
-						</controls:ClickableLabel>
-					</Frame>
-					<Label Text="Or" WidthRequest="150" FontSize="Large"
+                        </controls:ClickableLabel>
+                    </Frame>
+                    <Label Text="Or" WidthRequest="150" FontSize="Large"
 					       HorizontalOptions="Center" VerticalOptions="Center" />
-					<Frame OutlineColor="Teal">
-						<controls:ClickableLabel x:Name="addressSavingLabel" Text="I need to look them up" 
+                    <Frame Style="{StaticResource TealFrame}">
+                        <controls:ClickableLabel x:Name="addressSavingLabel" Text="I need to look them up" 
 						       HorizontalOptions="Center" VerticalOptions="Center" Tapped="LookupElectorates_Tapped" >
-						</controls:ClickableLabel>
-					</Frame>
-				</StackLayout>
-				<Frame CornerRadius="10" x:Name="KnowElectoratesFrame" BackgroundColor="PaleTurquoise" Padding="0">
-				    <StackLayout Orientation="Vertical">
-					    <Picker x:Name="stateLAElectoratePicker" x:DataType="models:IndividualParticipant" Title="{Binding StateLowerHouseElectorate, StringFormat='State Legislative Assembly Electorate: {0:F0}'}" 
+                        </controls:ClickableLabel>
+                    </Frame>
+                </StackLayout>
+                <Frame x:Name="KnowElectoratesFrame" Style="{StaticResource PaleTurquoiseFrame}">
+                    <StackLayout Orientation="Vertical">
+                        <Picker Style="{StaticResource LeftFramePicker}" x:Name="stateLAElectoratePicker" x:DataType="models:IndividualParticipant" Title="{Binding StateLowerHouseElectorate, StringFormat='State Legislative Assembly Electorate: {0:F0}'}" 
 					            
-				            SelectedIndexChanged="OnStateLAElectoratePickerSelectedIndexChanged"> 
-					    </Picker>
-					    <Picker x:Name="stateLCElectoratePicker"  x:DataType="models:IndividualParticipant" Title="{Binding StateUpperHouseElectorate, StringFormat='State Legislative Council Electorate: {0:F0}'}" 
-				            SelectedIndexChanged="OnStateLCElectoratePickerSelectedIndexChanged"> 
-					    </Picker>
-					    <Picker x:Name="federalElectoratePicker"  x:DataType="models:Person" Title="{Binding CommonwealthElectorate, StringFormat='Federal Electorate: {0:F0}'}" 
-				            SelectedIndexChanged="OnFederalElectoratePickerSelectedIndexChanged"> 
-					    </Picker>
-				    </StackLayout>
-				</Frame>
-				
-				<Frame x:Name="addressSavingStack" CornerRadius="10"  BackgroundColor="NavajoWhite" Padding="0">
-					<StackLayout Margin="20" x:Datatype="models:Address">
-						<Label Text="Street number and name" />
-						<Entry Placeholder="Street number and name" TextChanged="OnStreetNumberAndNameChanged"
-						       Completed="OnStreetNumberAndNameEntered" />
-						<Label Text="City or suburb" />
-						<Entry Placeholder="City or suburb" TextChanged="OnCityOrSuburbChanged" Completed="OnCityOrSuburbEntered" />
-						<Label Text="Postcode" />
-						<Entry Placeholder="Postcode" TextChanged="OnPostcodeChanged" Completed="OnPostcodeEntered" />
-						<StackLayout Orientation="Vertical" HorizontalOptions="Center">
-							<Button x:Name="submitAddressButton" Text="Find my electorates" HorizontalOptions="Center" CornerRadius="20"
-							        BackgroundColor="Turquoise" Clicked="OnSubmitAddressButton_Clicked" />
-							<Label x:Name="ReportLabel" />
-				        </StackLayout>
-						<!--
+				            SelectedIndexChanged="OnStateLAElectoratePickerSelectedIndexChanged">
+                        </Picker>
+                        <Picker Style="{StaticResource LeftFramePicker}" x:Name="stateLCElectoratePicker"  x:DataType="models:IndividualParticipant" Title="{Binding StateUpperHouseElectorate, StringFormat='State Legislative Council Electorate: {0:F0}'}" 
+				            SelectedIndexChanged="OnStateLCElectoratePickerSelectedIndexChanged">
+                        </Picker>
+                        <Picker Style="{StaticResource LeftFramePicker}" x:Name="federalElectoratePicker"  x:DataType="models:Person" Title="{Binding CommonwealthElectorate, StringFormat='Federal Electorate: {0:F0}'}" 
+				            SelectedIndexChanged="OnFederalElectoratePickerSelectedIndexChanged">
+                        </Picker>
+                    </StackLayout>
+                </Frame>
+
+                <Frame x:Name="addressSavingStack" Style="{StaticResource NavajoWhiteFrame}">
+                    <StackLayout Margin="20" x:Datatype="models:Address">
+                        <Label Text="Street number and name" Style="{StaticResource LeftFrameText}"/>
+                        <Entry Placeholder="Street number and name" TextChanged="OnStreetNumberAndNameChanged"
+						       Completed="OnStreetNumberAndNameEntered" Style="{StaticResource LeftFrameEntry}"/>
+                        <Label Text="City or suburb" Style="{StaticResource LeftFrameText}"/>
+                        <Entry Placeholder="City or suburb" TextChanged="OnCityOrSuburbChanged" Completed="OnCityOrSuburbEntered" Style="{StaticResource LeftFrameEntry}"/>
+                        <Label Text="Postcode" Style="{StaticResource LeftFrameText}"/>
+                        <Entry Placeholder="Postcode" TextChanged="OnPostcodeChanged" Completed="OnPostcodeEntered" Style="{StaticResource LeftFrameEntry}"/>
+                        <StackLayout Orientation="Vertical" HorizontalOptions="Center">
+                            <Button x:Name="submitAddressButton" Text="Find my electorates" HorizontalOptions="Center" Style="{StaticResource TurquoiseButton}" Clicked="OnSubmitAddressButton_Clicked" />
+                            <Label x:Name="ReportLabel" Style="{StaticResource ReportLabel}"/>
+                        </StackLayout>
+                        <!--
 				            <Label FontSize="Small" Text="(i) If you are on the electoral roll,
                              					    your MP is more likely to listen to you if you tell them your address. RightToAsk does not learn 
                              					    your address. Your address will not leave your phone unless you decide to share it with your MP" />
 			            -->
-			        </StackLayout>
-				</Frame>
-				<StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
-					<Button x:Name="SkipButton" BackgroundColor="Turquoise" Text="Skip this step" Clicked="OnSkipButtonClicked" />
-					<Button x:Name="FindMPsButton" HorizontalOptions="End" StyleClass="DoneButton" Text="Next" Clicked="OnFindMPsButtonClicked" />
-			    </StackLayout>
-			</StackLayout>
-		<!-- </StackLayout> -->
-		</ScrollView>
+                    </StackLayout>
+                </Frame>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
+                    <Button x:Name="SkipButton" Style="{StaticResource TurquoiseButton}" Text="Skip this step" Clicked="OnSkipButtonClicked" />
+                    <Button x:Name="FindMPsButton" HorizontalOptions="End" Style="{StaticResource DoneButton}" Text="Next" Clicked="OnFindMPsButtonClicked" />
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

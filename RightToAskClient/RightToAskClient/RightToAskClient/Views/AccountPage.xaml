@@ -5,9 +5,7 @@
              Title="Account">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="This page will give information about the user's account details and allow them to edit."
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <Label Text="This page will give information about the user's account details and allow them to edit." Style="{StaticResource Header2}" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

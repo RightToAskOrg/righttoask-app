@@ -5,9 +5,7 @@
              Title="About">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="This page will give information about how to use the application."
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <Label Text="This page will give information about how to use the application." Style="{StaticResource Header2}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
