@@ -41,14 +41,7 @@ namespace RightToAskClient.Views
         // name, not with a separate button.
         private async void QuestionSuggesterButton_OnClicked(object sender, EventArgs e)
         {
-            var testUserReg = new Registration()
-            {
-                uid = "This is a test user",
-                display_name = "testing user",
-                public_key = "123",
-                State = "VIC"
-            };
-            RegisterPage1 otherUserProfilePage = new RegisterPage1(testUserReg, true);
+            RegisterPage1 otherUserProfilePage = new RegisterPage1();
             await Navigation.PushAsync(otherUserProfilePage);
             //await Shell.Current.GoToAsync($"{nameof(RegisterPage1)}");
         }
@@ -80,7 +73,7 @@ namespace RightToAskClient.Views
                 if (registerNow)
                 {
                     // var reg = new Registration();
-                    RegisterPage1 registrationPage = new RegisterPage1(App.ReadingContext.ThisParticipant.RegistrationInfo, false);
+                    RegisterPage1 registrationPage = new RegisterPage1();
                     registrationPage.Disappearing += setSuggester;
 
                     // question.QuestionSuggester = readingContext.ThisParticipant.UserName;

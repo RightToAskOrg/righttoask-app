@@ -14,105 +14,105 @@ namespace RightToAskClient.ViewModels
     public class Registration1ViewModel : BaseViewModel
     {
         #region Properties
-        private Registration _registration;
+        private Registration _registration = new Registration();
         public Registration Registration
         {
             get => _registration;
             set => SetProperty(ref _registration, value);
         }
 
-        private bool _showRegisterCitizenButton;
+        private bool _showRegisterCitizenButton = false;
         public bool ShowRegisterCitizenButton
         {
             get => _showRegisterCitizenButton;
             set => SetProperty(ref _showRegisterCitizenButton, value);
         }
 
-        private string _registerCitizenButtonText;
+        private string _registerCitizenButtonText = "";
         public string RegisterCitizenButtonText
         {
             get => _registerCitizenButtonText;
             set => SetProperty(ref _registerCitizenButtonText, value);
         }
 
-        private bool _showRegisterOrgButton;
+        private bool _showRegisterOrgButton = false;
         public bool ShowRegisterOrgButton
         {
             get => _showRegisterOrgButton;
             set => SetProperty(ref _showRegisterOrgButton, value);
         }
 
-        private string _registerOrgButtonText;
+        private string _registerOrgButtonText = "";
         public string RegisterOrgButtonText
         {
             get => _registerOrgButtonText;
             set => SetProperty(ref _registerOrgButtonText, value);
         }
 
-        private bool _showRegisterMPButton;
+        private bool _showRegisterMPButton = false;
         public bool ShowRegisterMPButton
         {
             get => _showRegisterMPButton;
             set => SetProperty(ref _showRegisterMPButton, value);
         }
 
-        private string _registerMPButtonText;
+        private string _registerMPButtonText = "";
         public string RegisterMPButtonText
         {
             get => _registerMPButtonText;
             set => SetProperty(ref _registerMPButtonText, value);
         }
 
-        private bool _showDoneButton;
+        private bool _showDoneButton = false;
         public bool ShowDoneButton
         {
             get => _showDoneButton;
             set => SetProperty(ref _showDoneButton, value);
         }
 
-        private bool _showDMButton;
+        private bool _showDMButton = false;
         public bool ShowDMButton
         {
             get => _showDMButton;
             set => SetProperty(ref _showDMButton, value);
         }
 
-        private string _dmButtonText;
+        private string _dmButtonText = "";
         public string DMButtonText
         {
             get => _dmButtonText;
             set => SetProperty(ref _dmButtonText, value);
         }
 
-        private bool _showSeeQuestionsButton;
+        private bool _showSeeQuestionsButton = false;
         public bool ShowSeeQuestionsButton
         {
             get => _showSeeQuestionsButton;
             set => SetProperty(ref _showSeeQuestionsButton, value);
         }
 
-        private string _seeQuestionsButtonText;
+        private string _seeQuestionsButtonText = "";
         public string SeeQuestionsButtonText
         {
             get => _seeQuestionsButtonText;
             set => SetProperty(ref _seeQuestionsButtonText, value);
         }
 
-        private bool _showFollowButton;
+        private bool _showFollowButton = false;
         public bool ShowFollowButton
         {
             get => _showFollowButton;
             set => SetProperty(ref _showFollowButton, value);
         }
 
-        private string _followButtonText;
+        private string _followButtonText = "";
         public string FollowButtonText
         {
             get => _followButtonText;
             set => SetProperty(ref _followButtonText, value);
         }
 
-        private string _reportLabelText;
+        private string _reportLabelText = "";
         public string ReportLabelText
         {
             get => _reportLabelText;
@@ -133,7 +133,17 @@ namespace RightToAskClient.ViewModels
         public Registration1ViewModel()
         {
             // initialize defaults
-            Registration = new Registration();
+            Registration = App.ReadingContext.ThisParticipant.RegistrationInfo ?? new Registration()
+            {
+                uid = "This is a test user",
+                display_name = "testing user",
+                public_key = "123",
+                State = "VIC"
+            };
+            ShowTheRightButtonsAsync(Registration.display_name);
+            Title = App.ReadingContext.IsReadingOnly ? "User profile" : "Create Account";
+            RegisterMPButtonText = "Register MP Account";
+            RegisterOrgButtonText = "Register Organisational Account";
 
             // commands
             SaveButtonCommand = new Command(() =>
@@ -216,7 +226,6 @@ namespace RightToAskClient.ViewModels
                 DMButtonText = "Send Direct Message to " + name;
                 SeeQuestionsButtonText = "Read questions from " + name;
                 FollowButtonText = "Follow " + name;
-
             }
             else
             {
@@ -243,7 +252,6 @@ namespace RightToAskClient.ViewModels
                             "You have already selected your electorates - you can change them if you like",
                             "OK");
                     }
-
                     ShowRegisterCitizenButton = false;
                 }
             }
