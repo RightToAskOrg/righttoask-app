@@ -11,15 +11,15 @@ On Linux, follow @eleanor-em's [Xamarin-on-Linux setup instructions](XamarinOnLi
 The app expects a local instance of [the Right To Ask Server](https://github.com/RightToAskOrg/right_to_ask_server). Remote instances should probably also work but have not been tested. If you don't use the server, the app will still load but will not have access to the data it needs about Parliamentary structures etc.
 
 Check that the server is running by visiting
-(http://localhost:8099)[
-http://localhost:8099] via your web browser. You should see a web page headed "Right To Ask API" and some html links.
+[http://localhost:8099](
+http://localhost:8099) via your web browser. You should see a web page headed "Right To Ask API" and some html links.
 
 We'll need 2 files from the Right To Ask server:
 - MPs.json
 - PublicServerKey
 
 With the RightToAsk server running, you can get the MPs.json file from
-(http://localhost:8099/MPs.json)[http://localhost:8099/MPs.json].  Add it to the righttoask-app project's "Resources" folder (righttoask-app/RightToAskClient/RightToAskClient/RightToAskClient/Resources). In your IDE, under properties for that file, set the build action to be "Embedded Resource". 
+[http://localhost:8099/MPs.json](http://localhost:8099/MPs.json).  Add it to the righttoask-app project's "Resources" folder (righttoask-app/RightToAskClient/RightToAskClient/RightToAskClient/Resources). In your IDE, under properties for that file, set the build action to be "Embedded Resource". 
 
 Next you'll need to create a "PublicServerKey" file. 
 After running the Right To Ask server, you should be able to go to localhost:8099 and under the "Info" section click on the 3rd link: "Get the server public key, base64 encoded 32 bytes ED25519". 
