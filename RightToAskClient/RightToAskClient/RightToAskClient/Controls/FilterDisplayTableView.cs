@@ -64,7 +64,9 @@ namespace RightToAskClient.Controls
             {
                 WidthRequest = 200,
                 Placeholder = "?", 
-                Text = _filterContext.SearchKeyword 
+                Text = _filterContext.SearchKeyword,
+                TextColor = Color.Black,
+                PlaceholderColor = Color.Black,
             };
             keywordentry.Completed += OnKewordEntryCompleted;
 
@@ -73,14 +75,15 @@ namespace RightToAskClient.Controls
                 Orientation = StackOrientation.Horizontal,
                 Children =
                 {
-                    new Label(){Text = "Keyword"},
+                    new Label(){Text = "Keyword", TextColor=Color.Black},
                     keywordentry
                 }
             };
             
             Children.Add(new Label(){
                 HorizontalOptions = LayoutOptions.Center,
-                Text = "Filters - Tap to edit"
+                Text = "Filters - Tap to edit",
+                TextColor = Color.Black
                 },0,0);
             Children.Add(whichAuthorityShouldAnswerItView,0,1);
             Children.Add(whichMyMPShouldAnswerItView,0,2);

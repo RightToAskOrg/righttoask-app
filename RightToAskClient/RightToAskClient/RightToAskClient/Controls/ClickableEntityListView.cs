@@ -15,7 +15,6 @@ namespace RightToAskClient.Controls
         public ClickableEntityListView()
         {
             GestureRecognizers.Add(_tapGestureRecognizer);
-
             Children.Add(_title);
             Children.Add(
                 new StackLayout
@@ -25,7 +24,7 @@ namespace RightToAskClient.Controls
                     Children =
                     {
                         _entityList
-                    }
+                    },
                 }
             );
         }
@@ -84,6 +83,8 @@ namespace RightToAskClient.Controls
                     // Writing the list the first time.
                     control._entityList.Text = String.Join(", ", entities.Select(a => a.ShortestName));
                 }
+                control._title.TextColor = Color.Black;
+                control._entityList.TextColor = Color.Black;
             }
         }
 

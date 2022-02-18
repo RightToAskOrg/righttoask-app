@@ -11,12 +11,154 @@
         <ResourceDictionary>
             <!--Converter-->
             <helpers:InvertConvert x:Key="cnvInvert" />
+            <!--Colors-->
             <Color x:Key="Primary">#6FA22E</Color>
+            <Color x:Key="WindowBackgroundColor">#f2f2f7</Color>
+            <Color x:Key="WindowBackgroundColorDark">#424242</Color>
+            <Color x:Key="TextColor">black</Color>
+            <Color x:Key="TextColorGray">gray</Color>
+            <Color x:Key="TextColorDark">#f2f2f7</Color>
+            <Color x:Key="FrameColor">NavajoWhite</Color>
+            <Color x:Key="FrameColorDark">#6e5000</Color>
+            <!--Generic Styles-->
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColorDark}}"></Setter>
+            </Style>
+            <Style TargetType="Entry">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColorGray}, Dark={StaticResource TextColorDark}}"></Setter>
+            </Style>
+            <Style TargetType="SearchBar">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColorDark}}"></Setter>
+                <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource TextColorGray}, Dark={StaticResource TextColorDark}}"></Setter>
+            </Style>
+            <Style TargetType="ContentPage" ApplyToDerivedTypes="True">
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}"></Setter>
+            </Style>
+            <!--Specific Styles-->
             <Style x:Key="TurquoiseButton" TargetType="Button">
                 <Setter Property="TextColor" Value="White"></Setter>
                 <Setter Property="BackgroundColor" Value="Turquoise"></Setter>
                 <Setter Property="CornerRadius" Value="20"></Setter>
                 <Setter Property="HeightRequest" Value="40"></Setter>
+            </Style>
+            <Style x:Key="RedButton" TargetType="Button" ApplyToDerivedTypes="True">
+                <Setter Property="BackgroundColor" Value="Red"></Setter>
+            </Style>
+            <Style x:Key="DoneButton" TargetType="Button" ApplyToDerivedTypes="True">
+                <Setter Property="BackgroundColor" Value="Teal"></Setter>
+                <Setter Property="TextColor" Value="White"></Setter>
+                <Setter Property="Text" Value="Next"></Setter>
+                <Setter Property="HorizontalOptions" Value="End"></Setter>
+            </Style>
+            <Style x:Key="SaveButton" TargetType="Button" ApplyToDerivedTypes="True">
+                <Setter Property="BackgroundColor" Value="Teal"></Setter>
+                <Setter Property="TextColor" Value="White"></Setter>
+                <Setter Property="Text" Value="Save"></Setter>
+                <Setter Property="HorizontalOptions" Value="End"></Setter>
+            </Style>
+            <Style x:Key="UpVoteButton" TargetType="Button" ApplyToDerivedTypes="True">
+                <Setter Property="BackgroundColor" Value="Turquoise"></Setter>
+                <Setter Property="CornerRadius" Value="20"></Setter>
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="Padding" Value="0"></Setter>
+                <Setter Property="Text" Value="+1"></Setter>
+            </Style>
+            <Style x:Key="NormalEditor" TargetType="Editor" ApplyToDerivedTypes="True">
+                <Setter Property="BackgroundColor" Value="Turquoise"></Setter>
+                <Setter Property="AutoSize" Value="TextChanges"></Setter>
+                <Setter Property="FontSize" Value="Medium"></Setter>
+                <Setter Property="FontAttributes" Value="Bold"></Setter>
+            </Style>
+            <Style x:Key="NormalEntry" TargetType="Entry" ApplyToDerivedTypes="True">
+                <Setter Property="BackgroundColor" Value="Turquoise"></Setter>
+                <Setter Property="TextColor" Value="White"></Setter>
+                <Setter Property="PlaceholderColor" Value="White"></Setter>
+            </Style>
+            <Style x:Key="TurquoiseSearcbar" TargetType="SearchBar">
+                <Setter Property="BackgroundColor" Value="Turquoise"></Setter>
+                <Setter Property="MinimumWidthRequest" Value="20"></Setter>
+                <Setter Property="TextColor" Value="White"></Setter>
+                <Setter Property="PlaceholderColor" Value="White"></Setter>
+            </Style>
+            <Style x:Key="TealFrame" TargetType="Frame">
+                <Setter Property="OutlineColor" Value="Teal"></Setter>
+            </Style>
+            <Style x:Key="PaleTurquoiseFrame" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="PaleTurquoise"></Setter>
+                <Setter Property="CornerRadius" Value="10"></Setter>
+                <Setter Property="Padding" Value="0"></Setter>
+            </Style>
+            <Style x:Key="NavajoWhiteFrame" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="NavajoWhite"></Setter>
+                <Setter Property="CornerRadius" Value="10"></Setter>
+                <Setter Property="Padding" Value="0"></Setter>
+            </Style>
+            <Style x:Key="Header1" TargetType="Label">
+                <Setter Property="TextColor" Value="Teal"></Setter>
+                <Setter Property="FontSize" Value="Large"></Setter>
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+            </Style>
+            <Style x:Key="Header2" TargetType="Label">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColorDark}}"></Setter>
+                <Setter Property="FontSize" Value="Medium"></Setter>
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+            </Style>
+            <Style x:Key="LeftSmall" TargetType="Label">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColorDark}}"></Setter>
+                <Setter Property="FontSize" Value="Small"></Setter>
+                <Setter Property="HorizontalOptions" Value="Start"></Setter>
+            </Style>
+            <Style x:Key="LeftMedium" TargetType="Label">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColorDark}}"></Setter>
+                <Setter Property="FontSize" Value="Medium"></Setter>
+                <Setter Property="HorizontalOptions" Value="Start"></Setter>
+            </Style>
+            <Style x:Key="LeftLarge" TargetType="Label">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColorDark}}"></Setter>
+                <Setter Property="FontSize" Value="Large"></Setter>
+                <Setter Property="HorizontalOptions" Value="Start"></Setter>
+                <Setter Property="FontAttributes" Value="Bold"></Setter>
+            </Style>
+            <Style x:Key="LeftFrameText" TargetType="Label">
+                <Setter Property="TextColor" Value="Black"></Setter>
+                <Setter Property="FontSize" Value="Small"></Setter>
+                <Setter Property="HorizontalOptions" Value="Start"></Setter>
+            </Style>
+            <Style x:Key="LeftFrameEntry" TargetType="Entry">
+                <Setter Property="PlaceholderColor" Value="{StaticResource TextColorGray}"></Setter>
+                <Setter Property="FontSize" Value="Medium"></Setter>
+                <Setter Property="HorizontalOptions" Value="Start"></Setter>
+            </Style>
+            <Style x:Key="LeftFramePicker" TargetType="Picker">
+                <Setter Property="TextColor" Value="{StaticResource TextColor}"></Setter>
+                <Setter Property="TitleColor" Value="{StaticResource TextColorGray}"></Setter>
+                <Setter Property="FontSize" Value="Medium"></Setter>
+                <Setter Property="HorizontalOptions" Value="Start"></Setter>
+            </Style>
+            <Style x:Key="ListViewText" TargetType="Label">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColorDark}}"></Setter>
+                <Setter Property="FontSize" Value="Medium"></Setter>
+                <Setter Property="HorizontalOptions" Value="Start"></Setter>
+            </Style>
+            <Style x:Key="ListViewTextSmall" TargetType="Label">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColorDark}}"></Setter>
+                <Setter Property="FontSize" Value="Small"></Setter>
+                <Setter Property="HorizontalOptions" Value="Start"></Setter>
+            </Style>
+            <Style x:Key="ListViewTextVertCenter" TargetType="Label">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColorDark}}"></Setter>
+                <Setter Property="FontSize" Value="Small"></Setter>
+                <Setter Property="VerticalOptions" Value="Center"></Setter>
+            </Style>
+            <Style x:Key="ReportLabel" TargetType="Label">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColorGray}, Dark={StaticResource TextColorDark}}"></Setter>
+                <Setter Property="FontSize" Value="Small"></Setter>
+            </Style>
+            <Style x:Key="VertStack" TargetType="StackLayout">
+                <Setter Property="Orientation" Value="Vertical"></Setter>
+                <Setter Property="VerticalOptions" Value="CenterAndExpand"></Setter>
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="Padding" Value="10"></Setter>
             </Style>
         </ResourceDictionary>
     </Application.Resources>
