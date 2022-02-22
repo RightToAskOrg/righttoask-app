@@ -64,24 +64,36 @@ namespace RightToAskClient.CryptoUtils
         }
 
         public static ClientSignedUnparsed SignMessage<T>(T message, string userID)
-        {   
-            JsonSerializerOptions serializerOptions = new JsonSerializerOptions
+        {
+            string serializedMessage = "";
+            byte[] messageBytes;
+            string sig = "";
+            
+            try
             {
-                Converters = { new JsonStringEnumConverter() },
-                WriteIndented = false,
-            };
-            
-                // StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                serializedMessage = JsonSerializer.Serialize(message);
+                messageBytes = Encoding.UTF8.GetBytes(serializedMessage);
                 
-            string serializedMessage = JsonSerializer.Serialize(message, serializerOptions);
-            var messageBytes = Encoding.UTF8.GetBytes(serializedMessage);
-            
-            MySigner.BlockUpdate(messageBytes, 0, messageBytes.Length);
-
+                MySigner.BlockUpdate(messageBytes, 0, messageBytes.Length);
+                sig = Convert.ToBase64String(MySigner.GenerateSignature());
+            }
+            catch (JsonException e)
+            {
+                // TODO Deal with Json serialisation problem
+            }
+            catch (InvalidOperationException e)
+            {
+                // TODO Something went wrong with signing
+            }
+            catch (Exception e)
+            {
+                // TODO Something else went wrong
+            }
+                
             return new ClientSignedUnparsed()
             {
                 message = serializedMessage,
-                signature = Convert.ToBase64String(MySigner.GenerateSignature()),
+                signature = sig, 
                 user = userID
             };
 

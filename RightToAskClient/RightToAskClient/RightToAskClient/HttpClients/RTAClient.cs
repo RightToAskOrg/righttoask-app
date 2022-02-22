@@ -106,6 +106,9 @@ namespace RightToAskClient.HttpClients
             return new Result<bool>() { Err = httpResponse.Err };
         }
         
+        // At the moment, this simply passes the information back to the user. We might perhaps want
+        // to triage errors more carefully, or explain them to users better, or distinguish user-upload
+        // errors from question-upload errors.
         public static (bool isValid, string message) ValidateHttpResponse(Result<bool> response, string messageTopic)
         {
             if (String.IsNullOrEmpty(response.Err))
@@ -118,7 +121,7 @@ namespace RightToAskClient.HttpClients
                 return (false, messageTopic + ": Failure.");
             }
 
-            return (false, "Server connection error" + response.Err);
+            return (false, "Server error" + response.Err);
         }
     }
 }

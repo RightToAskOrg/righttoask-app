@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using RightToAskClient.HttpClients;
 using RightToAskClient.CryptoUtils;
 using RightToAskClient.HttpClients;
@@ -104,9 +105,9 @@ namespace RightToAskClient.Views
         {
             QuestionViewModel.Instance.Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.display_name;
         }
+
         private async void SaveQuestion(object sender, EventArgs e)
         {
-
             // Setting QuestionSuggester may be unnecessary
             // - it may already be set correctly -
             // but is needed if the person has just registered.
@@ -114,27 +115,32 @@ namespace RightToAskClient.Views
             {
                 // question.QuestionSuggester = readingContext.ThisParticipant.UserName;
                 App.ReadingContext.ExistingQuestions.Insert(0, QuestionViewModel.Instance.Question);
-                submitQuestionToServer();
+                (bool isValid, string errorMessage) successfulSubmission = await submitQuestionToServer();
                 App.ReadingContext.DraftQuestion = "";
 
-            }
+                if (!successfulSubmission.isValid)
+                {
+                    await DisplayAlert("Error", successfulSubmission.errorMessage, "", "OK");
+                    return;
+                }
 
-            bool goHome = await DisplayAlert("Question published!", "", "Home", "Write another one");
+                bool goHome = await DisplayAlert("Question published!", "", "Home", "Write another one");
 
-            if (goHome)
-            {
-                await Navigation.PopToRootAsync();
-                //await Shell.Current.GoToAsync($"///{nameof(MainPage)}");
-            }
-            else  // Pop back to readingpage. TODO: fix the context so that it doesn't think you're drafting
-                  // a question.  Possibly the right thing to do is pop everything and then push a reading page.
-            {
-                //await Navigation.PopAsync();
-                await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
+                if (goHome)
+                {
+                    await Navigation.PopToRootAsync();
+                    //await Shell.Current.GoToAsync($"///{nameof(MainPage)}");
+                }
+                else // Pop back to readingpage. TODO: fix the context so that it doesn't think you're drafting
+                    // a question.  Possibly the right thing to do is pop everything and then push a reading page.
+                {
+                    //await Navigation.PopAsync();
+                    await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
+                }
             }
         }
 
-        private async void submitQuestionToServer()
+        private async Task<(bool isValid, string message)> submitQuestionToServer()
         {
             // TODO: Obviously later this uploadable question will have more of the 
             // other data. Just getting it working for now.
@@ -143,9 +149,12 @@ namespace RightToAskClient.Views
                 question_text = QuestionViewModel.Instance.Question.QuestionText,
             };
             
+            // TODO Check for serialisation errors.
             ClientSignedUnparsed signedQuestion = ClientSignatureGenerationService.SignMessage(uploadableQuestion,
                     App.ReadingContext.ThisParticipant.RegistrationInfo.uid);
-            await RTAClient.RegisterNewQuestion(signedQuestion);
+            
+                Result<bool> httpResponse = await RTAClient.RegisterNewQuestion(signedQuestion);
+                return RTAClient.ValidateHttpResponse(httpResponse, "Question Upload");
         }
 
         private void Background_Entered(object sender, EventArgs e)
