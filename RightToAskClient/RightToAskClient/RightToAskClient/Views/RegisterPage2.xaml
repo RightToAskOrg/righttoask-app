@@ -8,18 +8,17 @@
              x:Class="RightToAskClient.Views.RegisterPage2"
              Title="Find your MPs"
              x:DataType="vm:FindMPsViewModel">
-    <!--<ContentPage.BindingContext>
+    <ContentPage.BindingContext>
         <vm:FindMPsViewModel/>
-    </ContentPage.BindingContext>-->
+    </ContentPage.BindingContext>
         <ContentPage.Content>
 	    <ScrollView x:Name="mainScrollView">
             <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
                 <Label Text="Your MPs are defined by where you live" FontSize="Medium" HorizontalOptions="Center" />
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
                     <Label Text="I live in " FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center" />
-                    <Picker x:Name="stateOrTerritoryPicker"
-					        BackgroundColor="Turquoise"
-					        SelectedIndexChanged="OnStatePickerSelectedIndexChanged">
+                    <Picker Title="{Binding StatePickerTitle}" ItemsSource="{Binding StatePicker}" BackgroundColor="Turquoise"
+					        SelectedIndex="{Binding SelectedState}">
                     </Picker>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal">
@@ -38,28 +37,26 @@
                 </StackLayout>
                 <Frame x:Name="KnowElectoratesFrame" Style="{StaticResource PaleTurquoiseFrame}">
                     <StackLayout Orientation="Vertical">
-                        <Picker Style="{StaticResource LeftFramePicker}" x:Name="stateLAElectoratePicker" x:DataType="models:IndividualParticipant" Title="{Binding StateLowerHouseElectorate, StringFormat='State Legislative Assembly Electorate: {0:F0}'}" 
-					            
-				            SelectedIndexChanged="OnStateLAElectoratePickerSelectedIndexChanged">
+                        <Picker Style="{StaticResource LeftFramePicker}" Title="{Binding StateLAElectoratePickerTitle}" ItemsSource="{Binding AllStateLAElectorates}"
+                                SelectedIndex="{Binding SelectedStateLAElectorate}" MinimumWidthRequest="200">
                         </Picker>
-                        <Picker Style="{StaticResource LeftFramePicker}" x:Name="stateLCElectoratePicker"  x:DataType="models:IndividualParticipant" Title="{Binding StateUpperHouseElectorate, StringFormat='State Legislative Council Electorate: {0:F0}'}" 
-				            SelectedIndexChanged="OnStateLCElectoratePickerSelectedIndexChanged">
+                        <Picker Style="{StaticResource LeftFramePicker}" Title="{Binding StateLCElectoratePickerTitle}" ItemsSource="{Binding AllStateLCElectorates}"
+				            SelectedIndex ="{Binding SelectedStateLCElectorate}" MinimumWidthRequest="200">
                         </Picker>
-                        <Picker Style="{StaticResource LeftFramePicker}" x:Name="federalElectoratePicker"  x:DataType="models:Person" Title="{Binding CommonwealthElectorate, StringFormat='Federal Electorate: {0:F0}'}" 
-				            SelectedIndexChanged="OnFederalElectoratePickerSelectedIndexChanged">
+                        <Picker Style="{StaticResource LeftFramePicker}" Title="{Binding FederalElectoratePickerTitle}" ItemsSource="{Binding AllFederalElectorates}"
+                                SelectedIndex="{Binding SelectedFederalElectorate}" MinimumWidthRequest="200">
                         </Picker>
                     </StackLayout>
                 </Frame>
 
                 <Frame x:Name="addressSavingStack" Style="{StaticResource NavajoWhiteFrame}">
-                    <StackLayout Margin="20" x:Datatype="models:Address">
+                    <StackLayout Margin="20">
                         <Label Text="Street number and name" Style="{StaticResource LeftFrameText}"/>
-                        <Entry Placeholder="Street number and name" TextChanged="OnStreetNumberAndNameChanged"
-						       Completed="OnStreetNumberAndNameEntered" Style="{StaticResource LeftFrameEntry}"/>
+                        <Entry Placeholder="Street number and name" Text="{Binding Address.StreetNumberAndName}" Style="{StaticResource LeftFrameEntry}"/>
                         <Label Text="City or suburb" Style="{StaticResource LeftFrameText}"/>
-                        <Entry Placeholder="City or suburb" TextChanged="OnCityOrSuburbChanged" Completed="OnCityOrSuburbEntered" Style="{StaticResource LeftFrameEntry}"/>
+                        <Entry Placeholder="City or suburb" Text="{Binding Address.CityOrSuburb}" Style="{StaticResource LeftFrameEntry}"/>
                         <Label Text="Postcode" Style="{StaticResource LeftFrameText}"/>
-                        <Entry Placeholder="Postcode" TextChanged="OnPostcodeChanged" Completed="OnPostcodeEntered" Style="{StaticResource LeftFrameEntry}"/>
+                        <Entry Placeholder="Postcode" Text="{Binding Address.Postcode}" Style="{StaticResource LeftFrameEntry}"/>
                         <StackLayout Orientation="Vertical" HorizontalOptions="Center">
                             <Button Text="Find my electorates" HorizontalOptions="Center" Style="{StaticResource TurquoiseButton}" Command="{Binding SubmitAddressButtonCommand}" />
                             <Label x:Name="ReportLabel" Style="{StaticResource ReportLabel}"/>

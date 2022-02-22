@@ -13,6 +13,12 @@ namespace RightToAskClient.ViewModels
     public class FindMPsViewModel : BaseViewModel
     {
         #region Properties
+        private Address _address = new Address();
+        public Address Address
+        {
+            get => _address;
+            set => SetProperty(ref _address, value);
+        }
         private bool _showFindMPsButton = false;
         public bool ShowFindMPsButton
         {
@@ -25,9 +31,96 @@ namespace RightToAskClient.ViewModels
             get => _showSkipButton;
             set => SetProperty(ref _showSkipButton, value);
         }
-
-        private Address _address = new Address();
-
+        public List<string> StatePicker => ParliamentData.StatesAndTerritories;
+        private string _statePickerTitle = String.IsNullOrEmpty(App.ReadingContext.ThisParticipant.RegistrationInfo.State) ? "Choose State or Territory" : App.ReadingContext.ThisParticipant.RegistrationInfo.State;
+        public string StatePickerTitle
+        {
+            get => _statePickerTitle;
+            set => SetProperty(ref _statePickerTitle, value);
+        }
+        private int _selectedState = -1;
+        public int SelectedState
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.RegistrationInfo.State))
+                {
+                    UpdateElectoratePickerSources(App.ReadingContext.ThisParticipant.RegistrationInfo.State);
+                }
+                return _selectedState;
+            }
+            set
+            {
+                SetProperty(ref _selectedState, value);
+                OnStatePickerSelectedIndexChanged();
+            }
+        }
+        private int _selectedStateLAElectorate = -1;
+        public int SelectedStateLAElectorate
+        {
+            get => _selectedStateLAElectorate;
+            set
+            {
+                SetProperty(ref _selectedStateLAElectorate, value);
+                OnStateLAElectoratePickerSelectedIndexChanged();
+            }
+        }
+        private int _selectedStateLCElectorate = -1;
+        public int SelectedStateLCElectorate
+        {
+            get => _selectedStateLCElectorate;
+            set
+            {
+                SetProperty(ref _selectedStateLCElectorate, value);
+                OnStateLCElectoratePickerSelectedIndexChanged();
+            }
+        }
+        private int _selectedFederalElectorate = -1;
+        public int SelectedFederalElectorate
+        {
+            get => _selectedFederalElectorate;
+            set
+            {
+                SetProperty(ref _selectedFederalElectorate, value);
+                OnFederalElectoratePickerSelectedIndexChanged();
+            }
+        }
+        private List<string> _allFederalElectorates = new List<string>();
+        public List<string> AllFederalElectorates
+        {
+            get => _allFederalElectorates;
+            set => SetProperty(ref _allFederalElectorates, value);
+        }
+        private List<string> _allStateLAElectorates = new List<string>();
+        public List<string> AllStateLAElectorates
+        {
+            get => _allStateLAElectorates;
+            set => SetProperty(ref _allStateLAElectorates, value);
+        }
+        private List<string> _allStateLCElectorates = new List<string>();
+        public List<string> AllStateLCElectorates
+        {
+            get => _allStateLCElectorates;
+            set => SetProperty(ref _allStateLCElectorates, value);
+        }
+        private string _stateLAElectoratePickerTitle = string.Format("State Legislative Assembly Electorate: {0:F0}", App.ReadingContext.ThisParticipant.StateLowerHouseElectorate);
+        public string StateLAElectoratePickerTitle
+        {
+            get => _stateLAElectoratePickerTitle;
+            set => SetProperty(ref _stateLAElectoratePickerTitle, value);
+        }
+        private string _stateLCElectoratePickerTitle = string.Format("State Legislative Council Electorate: {0:F0}", App.ReadingContext.ThisParticipant.StateUpperHouseElectorate);
+        public string StateLCElectoratePickerTitle
+        {
+            get => _stateLCElectoratePickerTitle;
+            set => SetProperty(ref _stateLCElectoratePickerTitle, value);
+        }
+        private string _federalElectoratePickerTitle = string.Format("Federal Electorate: {0:F0}", App.ReadingContext.ThisParticipant.CommonwealthElectorate);
+        public string FederalElectoratePickerTitle
+        {
+            get => _federalElectoratePickerTitle;
+            set => SetProperty(ref _federalElectoratePickerTitle, value);
+        }
         private bool _launchMPsSelectionPageNext;
         #endregion
 
@@ -62,6 +155,11 @@ namespace RightToAskClient.ViewModels
             {
                 await Shell.Current.GoToAsync("..");
             });
+            // set the pickers to update their content lists here if state was already indicated elsewhere in the application
+            if(SelectedState != -1 && !string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.RegistrationInfo.State))
+            {
+                UpdateElectoratePickerSources(App.ReadingContext.ThisParticipant.RegistrationInfo.State);
+            }
         }
 
         // commands
@@ -133,6 +231,67 @@ namespace RightToAskClient.ViewModels
         // saving the address.
         private void SaveAddress()
         {
+        }
+
+        private void OnStateLCElectoratePickerSelectedIndexChanged()
+        {
+            if (!String.IsNullOrEmpty(AllStateLCElectorates[SelectedStateLCElectorate]))
+            {
+                var state = App.ReadingContext.ThisParticipant.RegistrationInfo.State;
+                App.ReadingContext.ThisParticipant.AddStateUpperHouseElectorate(state, AllStateLCElectorates[SelectedStateLCElectorate]);
+                RevealNextStepIfElectoratesKnown();
+            }
+        }
+
+        private void OnStateLAElectoratePickerSelectedIndexChanged()
+        {
+            if (!String.IsNullOrEmpty(AllStateLAElectorates[SelectedStateLAElectorate]))
+            {
+                var state = App.ReadingContext.ThisParticipant.RegistrationInfo.State;
+                App.ReadingContext.ThisParticipant.AddStateElectoratesGivenOneRegion(state, AllStateLAElectorates[SelectedStateLAElectorate]);
+                RevealNextStepIfElectoratesKnown();
+            }
+        }
+
+        private void OnFederalElectoratePickerSelectedIndexChanged()
+        {
+            if (!String.IsNullOrEmpty(AllFederalElectorates[SelectedFederalElectorate]))
+            {
+                App.ReadingContext.ThisParticipant.AddHouseOfRepsElectorate(AllFederalElectorates[SelectedFederalElectorate]);
+                RevealNextStepIfElectoratesKnown();
+            }
+        }
+
+        private void RevealNextStepIfElectoratesKnown()
+        {
+            ShowFindMPsButton = true;
+            App.ReadingContext.ThisParticipant.MPsKnown = true;
+        }
+
+        private void UpdateElectoratePickerSources(string state)
+        {
+            AllFederalElectorates = ParliamentData.ListElectoratesInHouseOfReps(state);
+            AllStateLAElectorates = ParliamentData.ListElectoratesInStateLowerHouse(state);
+
+            if (ParliamentData.HasUpperHouse(state))
+            {
+                AllStateLCElectorates = ParliamentData.ListElectoratesInStateUpperHouse(state);
+            }
+            else
+            {
+                AllStateLCElectorates = new List<string>();
+                StateLCElectoratePickerTitle = state + " has no Upper House";
+            }
+        }
+
+        void OnStatePickerSelectedIndexChanged()
+        {
+            if (SelectedState != -1)
+            {
+                App.ReadingContext.ThisParticipant.RegistrationInfo.State = ParliamentData.StatesAndTerritories[SelectedState];
+                App.ReadingContext.ThisParticipant.AddSenatorsFromState(App.ReadingContext.ThisParticipant.RegistrationInfo.State);
+                UpdateElectoratePickerSources(App.ReadingContext.ThisParticipant.RegistrationInfo.State);
+            }
         }
         #endregion
     }

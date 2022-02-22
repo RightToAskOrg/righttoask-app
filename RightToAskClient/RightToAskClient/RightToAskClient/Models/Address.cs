@@ -2,21 +2,29 @@ using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using RightToAskClient.Annotations;
+using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace RightToAskClient.Models
 {
-    public class Address : INotifyPropertyChanged
+    public class Address : ObservableObject
     {
-        public string StreetNumberAndName { get; set; } = "";
-        public string CityOrSuburb { get; set; } = "";
-        public string Postcode { get; set; } = "";
-        
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        private string _streetNumberAndName = "";
+        public string StreetNumberAndName
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            get => _streetNumberAndName;
+            set => SetProperty(ref _streetNumberAndName, value);
+        }
+        private string _cityOrSuburb = "";
+        public string CityOrSuburb
+        {
+            get => _cityOrSuburb;
+            set => SetProperty(ref _cityOrSuburb, value);
+        }
+        private string _postCode = "";
+        public string Postcode
+        {
+            get => _postCode;
+            set => SetProperty(ref _postCode, value);
         }
 
         public Result<bool> SeemsValid()
@@ -49,6 +57,6 @@ namespace RightToAskClient.Models
                                        + CityOrSuburb + " "
                                        + Postcode;
 
-        }  
+        }
     }
-    }
+}
