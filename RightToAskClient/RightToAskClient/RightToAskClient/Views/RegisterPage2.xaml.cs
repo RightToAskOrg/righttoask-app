@@ -35,19 +35,6 @@ namespace RightToAskClient.Views
         public RegisterPage2()
         {
             InitializeComponent();
-
-            KnowElectoratesFrame.IsVisible = false;
-            addressSavingStack.IsVisible = false;
-        }
-
-        private void KnowElectorates_Tapped(object sender, EventArgs e)
-        {
-            KnowElectoratesFrame.IsVisible = true;
-        }
-
-        private void LookupElectorates_Tapped(object sender, EventArgs e)
-        {
-            addressSavingStack.IsVisible = true;
         }
     }
 }

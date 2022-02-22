@@ -31,6 +31,18 @@ namespace RightToAskClient.ViewModels
             get => _showSkipButton;
             set => SetProperty(ref _showSkipButton, value);
         }
+        private bool _showKnowElectoratesFrame = false;
+        public bool ShowKnowElectoratesFrame
+        {
+            get => _showKnowElectoratesFrame;
+            set => SetProperty(ref _showKnowElectoratesFrame, value);
+        }
+        private bool _showAddressStack = false;
+        public bool ShowAddressStack
+        {
+            get => _showAddressStack;
+            set => SetProperty(ref _showAddressStack, value);
+        }
         public List<string> StatePicker => ParliamentData.StatesAndTerritories;
         private string _statePickerTitle = String.IsNullOrEmpty(App.ReadingContext.ThisParticipant.RegistrationInfo.State) ? "Choose State or Territory" : App.ReadingContext.ThisParticipant.RegistrationInfo.State;
         public string StatePickerTitle
@@ -128,6 +140,8 @@ namespace RightToAskClient.ViewModels
         public FindMPsViewModel()
         {
             ShowSkipButton = false;
+            ShowAddressStack = false;
+            ShowKnowElectoratesFrame = false;
             _launchMPsSelectionPageNext = true;
 
             // commands
@@ -155,8 +169,19 @@ namespace RightToAskClient.ViewModels
             {
                 await Shell.Current.GoToAsync("..");
             });
+            LookupElectoratesCommand = new Command(() =>
+            {
+                ShowAddressStack = true;
+                ShowKnowElectoratesFrame = false;
+            });
+            KnowElectoratesCommand = new Command(() =>
+            {
+                ShowKnowElectoratesFrame = true;
+                ShowAddressStack = false;
+            });
+
             // set the pickers to update their content lists here if state was already indicated elsewhere in the application
-            if(SelectedState != -1 && !string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.RegistrationInfo.State))
+            if (SelectedState != -1 && !string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.RegistrationInfo.State))
             {
                 UpdateElectoratePickerSources(App.ReadingContext.ThisParticipant.RegistrationInfo.State);
             }
@@ -166,7 +191,8 @@ namespace RightToAskClient.ViewModels
         public IAsyncCommand MPsButtonCommand { get; }
         public IAsyncCommand SubmitAddressButtonCommand { get; }
         public IAsyncCommand SkipButtonCommand { get; }
-
+        public Command LookupElectoratesCommand { get; }
+        public Command KnowElectoratesCommand { get; }
 
         // methods
         #region Methods
