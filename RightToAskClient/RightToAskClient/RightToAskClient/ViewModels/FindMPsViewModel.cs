@@ -147,16 +147,17 @@ namespace RightToAskClient.ViewModels
             // commands
             MPsButtonCommand = new AsyncCommand(async () =>
             {
-                //var currentPage = Navigation.NavigationStack.LastOrDefault();
                 if (_launchMPsSelectionPageNext)
                 {
                     string message = "These are your MPs.  Select the one(s) who should answer the question";
-
                     var mpsExploringPage = new ExploringPage(App.ReadingContext.ThisParticipant.GroupedMPs, App.ReadingContext.Filters.SelectedAskingMPs, message);
                     await App.Current.MainPage.Navigation.PushAsync(mpsExploringPage);
-                    //await Shell.Current.GoToAsync($"{nameof(ExploringPage)}");
+                    _launchMPsSelectionPageNext = false;
                 }
-                //Navigation.RemovePage(currentPage);
+                else
+                {
+                    await App.Current.MainPage.Navigation.PopAsync();
+                }
             });
             SubmitAddressButtonCommand = new AsyncCommand(async () =>
             {
