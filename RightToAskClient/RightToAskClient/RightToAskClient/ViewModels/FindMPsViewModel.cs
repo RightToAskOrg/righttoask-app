@@ -133,6 +133,12 @@ namespace RightToAskClient.ViewModels
             get => _federalElectoratePickerTitle;
             set => SetProperty(ref _federalElectoratePickerTitle, value);
         }
+        private string _doneButtonText = "Next";
+        public string DoneButtonText
+        {
+            get => _doneButtonText;
+            set => SetProperty(ref _doneButtonText, value);
+        }
         private bool _launchMPsSelectionPageNext;
         #endregion
 
@@ -153,6 +159,7 @@ namespace RightToAskClient.ViewModels
                     var mpsExploringPage = new ExploringPage(App.ReadingContext.ThisParticipant.GroupedMPs, App.ReadingContext.Filters.SelectedAskingMPs, message);
                     await App.Current.MainPage.Navigation.PushAsync(mpsExploringPage);
                     _launchMPsSelectionPageNext = false;
+                    DoneButtonText = "Done";
                 }
                 else
                 {
@@ -291,7 +298,10 @@ namespace RightToAskClient.ViewModels
 
         private void RevealNextStepIfElectoratesKnown()
         {
-            ShowFindMPsButton = true;
+            if (SelectedStateLAElectorate != -1 && SelectedFederalElectorate != -1)
+            {
+                ShowFindMPsButton = true;
+            }
             App.ReadingContext.ThisParticipant.MPsKnown = true;
         }
 

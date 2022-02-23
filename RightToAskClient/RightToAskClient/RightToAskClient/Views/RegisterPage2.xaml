@@ -74,7 +74,7 @@
                 </Frame>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
                     <Button Style="{StaticResource TurquoiseButton}" Text="Skip this step" Command="{Binding SkipButtonCommand}" IsVisible="{Binding ShowSkipButton}"/>
-                    <Button HorizontalOptions="End" Style="{StaticResource DoneButton}" Text="Next" Command="{Binding MPsButtonCommand}" IsVisible="{Binding ShowFindMPsButton}" />
+                    <Button HorizontalOptions="End" Style="{StaticResource DoneButton}" Text="{Binding DoneButtonText}" Command="{Binding MPsButtonCommand}" IsVisible="{Binding ShowFindMPsButton}" />
                 </StackLayout>
             </StackLayout>
         </ScrollView>
