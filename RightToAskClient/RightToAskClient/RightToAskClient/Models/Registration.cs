@@ -5,10 +5,11 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using RightToAskClient.Annotations;
+using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace RightToAskClient.Models
 {
-	public class Registration : INotifyPropertyChanged
+	public class Registration : ObservableObject
 	{
 		// private string stateEnum = "";
 		public string display_name { get; set; } = "";
@@ -59,15 +60,6 @@ namespace RightToAskClient.Models
 			{
 				Err ="Please complete "+String.Join(" and ",errorFields)
 			};
-		}
-
-		
-		public event PropertyChangedEventHandler? PropertyChanged;
-
-		[NotifyPropertyChangedInvocator]
-		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 	}
 }

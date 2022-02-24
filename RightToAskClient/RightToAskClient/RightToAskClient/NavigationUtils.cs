@@ -20,7 +20,7 @@ namespace RightToAskClient
             var mpsExploringPage = new ExploringPage(App.ReadingContext.ThisParticipant.GroupedMPs,
                 App.ReadingContext.Filters.SelectedAnsweringMPsMine, message);
 
-            var nextPage = ListMPsFindFirstIfNotAlreadyKnown(mpsExploringPage, App.ReadingContext.Filters.SelectedAnsweringMPs);
+            var nextPage = ListMPsFindFirstIfNotAlreadyKnown(mpsExploringPage);
             await Application.Current.MainPage.Navigation.PushAsync(nextPage);
             //await Shell.Current.GoToAsync($"{nameof(ExploringPage)}");
         }
@@ -37,7 +37,7 @@ namespace RightToAskClient
 
         private static async Task LaunchMPFindingAndSelectingPages(ExploringPage mpsExploringPage)
         {
-            var nextPage = ListMPsFindFirstIfNotAlreadyKnown(mpsExploringPage, App.ReadingContext.Filters.SelectedAskingMPs);
+            var nextPage = ListMPsFindFirstIfNotAlreadyKnown(mpsExploringPage);
             await Application.Current.MainPage.Navigation.PushAsync(nextPage);
             //await Shell.Current.GoToAsync($"{nameof(ExploringPage)}");
         }
@@ -45,14 +45,13 @@ namespace RightToAskClient
 		 * Either push the list of selectable MPs directly, or push a registration page,
 		 * instructed to push the MPs selection page after.
 		 */
-        public static Page ListMPsFindFirstIfNotAlreadyKnown(ExploringPage mpsExploringPage,
-            ObservableCollection<MP> alreadySelectedMPs)
+        public static Page ListMPsFindFirstIfNotAlreadyKnown(ExploringPage mpsExploringPage)
         {
             var thisParticipant = App.ReadingContext.ThisParticipant;
 
             if (!thisParticipant.MPsKnown)
             {
-                var registrationPage = new RegisterPage2(thisParticipant, false, true, alreadySelectedMPs);
+                var registrationPage = new RegisterPage2();
                 return registrationPage;
             }
             else
