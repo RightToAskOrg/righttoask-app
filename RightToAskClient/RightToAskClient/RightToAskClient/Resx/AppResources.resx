@@ -138,8 +138,20 @@
   <data name="BackgroundHeaderText" xml:space="preserve">
     <value>Background:</value>
   </data>
+  <data name="CancelButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CitySuburbHeaderText" xml:space="preserve">
+    <value>City or suburb</value>
+  </data>
   <data name="ClickForFiltersText" xml:space="preserve">
     <value>Click to show Filters</value>
+  </data>
+  <data name="CompleteAccountCreationButtonText" xml:space="preserve">
+    <value>Complete Account Creation</value>
+  </data>
+  <data name="CreateAccountTitle" xml:space="preserve">
+    <value>Create Account</value>
   </data>
   <data name="DirectMyQuestionTitle" xml:space="preserve">
     <value>Direct my question</value>
@@ -153,6 +165,9 @@
   <data name="DisplayNamePlaceholderText" xml:space="preserve">
     <value>Enter display name</value>
   </data>
+  <data name="DMButtonText" xml:space="preserve">
+    <value>Send Direct Message to {0}</value>
+  </data>
   <data name="DoneButtonText" xml:space="preserve">
     <value>Done</value>
   </data>
@@ -165,6 +180,9 @@
   <data name="ElectoratesHeaderText" xml:space="preserve">
     <value>Electorates:</value>
   </data>
+  <data name="ElectoratesKnownHeaderText" xml:space="preserve">
+    <value>I know my electorates already</value>
+  </data>
   <data name="ExpiringSoonButtonText" xml:space="preserve">
     <value>Expiring Soon</value>
   </data>
@@ -174,8 +192,14 @@
   <data name="FindElectoratesButtonText" xml:space="preserve">
     <value>Next: Find Your Electorates</value>
   </data>
+  <data name="FindMyElectoratesButtonText" xml:space="preserve">
+    <value>Find My Electorates</value>
+  </data>
   <data name="FindQuestionsTitle" xml:space="preserve">
     <value>Find Questions</value>
+  </data>
+  <data name="FollowButtonText" xml:space="preserve">
+    <value>Follow {0}</value>
   </data>
   <data name="KeepQuestionButtonText" xml:space="preserve">
     <value>Keep Question: Review for Upload</value>
@@ -188,6 +212,9 @@
   </data>
   <data name="LinkAnswerPlaceholderText" xml:space="preserve">
     <value>Add an answer or a Hansard link to an answer</value>
+  </data>
+  <data name="LookupElectoratesHeaderText" xml:space="preserve">
+    <value>I need to look them up</value>
   </data>
   <data name="MainPageHeader2Text" xml:space="preserve">
     <value>Write a question</value>
@@ -203,6 +230,12 @@
   </data>
   <data name="MPRaiseFilterLabelText" xml:space="preserve">
     <value>My MPs who should raise the question in Parliament</value>
+  </data>
+  <data name="MPsHeaderText1" xml:space="preserve">
+    <value>Your MPs are defined by where you live</value>
+  </data>
+  <data name="MPsHeaderText2" xml:space="preserve">
+    <value>I live in </value>
   </data>
   <data name="MyMPButtonText" xml:space="preserve">
     <value>My MP</value>
@@ -223,11 +256,20 @@
   <data name="NotSureButtonText" xml:space="preserve">
     <value>Not Sure</value>
   </data>
+  <data name="NoUpperHousePickerTitle" xml:space="preserve">
+    <value>{0} has no Upper House</value>
+  </data>
+  <data name="OrHeaderText" xml:space="preserve">
+    <value>Or</value>
+  </data>
   <data name="OtherMPAnswerFilterLabelText" xml:space="preserve">
     <value>Other MPs who should answer the question</value>
   </data>
   <data name="OtherMPRaiseFilterLabelText" xml:space="preserve">
     <value>Other MPs who should raise the question in Parliament</value>
+  </data>
+  <data name="PostcodeHeaderText" xml:space="preserve">
+    <value>Postcode</value>
   </data>
   <data name="PublicAuthorityButtonText" xml:space="preserve">
     <value>A Public Authority</value>
@@ -265,14 +307,23 @@
   <data name="SearchBarPlaceholderText" xml:space="preserve">
     <value>Search</value>
   </data>
+  <data name="SeeQuestionsButtonText" xml:space="preserve">
+    <value>Read questions from {0}</value>
+  </data>
   <data name="SelectButtonText" xml:space="preserve">
     <value>Select</value>
   </data>
   <data name="SelectedButtonText" xml:space="preserve">
     <value>Selected!</value>
   </data>
+  <data name="SelectStateWarningText" xml:space="preserve">
+    <value>Please choose a state</value>
+  </data>
   <data name="SimilarQuestionsTitle" xml:space="preserve">
     <value>Similar Questions</value>
+  </data>
+  <data name="SkipStepButton" xml:space="preserve">
+    <value>Skip this step</value>
   </data>
   <data name="StartDraftingButtonText" xml:space="preserve">
     <value>Start Drafting</value>
@@ -304,6 +355,9 @@
   <data name="Step2Title" xml:space="preserve">
     <value>Step 2</value>
   </data>
+  <data name="StreetHeaderText" xml:space="preserve">
+    <value>Street number and name</value>
+  </data>
   <data name="TapToEditFiltersText" xml:space="preserve">
     <value>Filters - Tap to edit</value>
   </data>
@@ -321,6 +375,9 @@
   </data>
   <data name="UpvotesHeaderText" xml:space="preserve">
     <value>Upvotes: </value>
+  </data>
+  <data name="UserProfileTitle" xml:space="preserve">
+    <value>User Profile</value>
   </data>
   <data name="ViewOtherUserProfile" xml:space="preserve">
     <value>View {0}'s profile</value>

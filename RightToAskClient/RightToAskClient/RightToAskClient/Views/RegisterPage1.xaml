@@ -5,6 +5,7 @@
              xmlns:models="clr-namespace:RightToAskClient.Models;assembly=RightToAskClient"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels;assembly=RightToAskClient"
              xmlns:generic="clr-namespace:System.Collections.Generic;assembly=netstandard"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              x:Class="RightToAskClient.Views.RegisterPage1"
              x:DataType="vm:Registration1ViewModel"
              Title="{Binding Title}">
@@ -13,16 +14,16 @@
     </ContentPage.BindingContext>
 	<ContentPage.Content >
 		<StackLayout Margin="20">
-			<Label Text="UID" Style="{StaticResource LeftSmall}"/>
+            <Label Text="{xct:Translate UIDHeaderText}" Style="{StaticResource LeftSmall}"/>
 			<Entry Text="{Binding Registration.uid}" Placeholder="Enter UserID" Style="{StaticResource NormalEntry}"/>
-			<Label Text="Display name" Style="{StaticResource LeftSmall}"/>
+            <Label Text="{xct:Translate DisplayNameHeaderText}" Style="{StaticResource LeftSmall}"/>
 			<Entry Text="{Binding Registration.display_name}" Placeholder="Enter display name" Style="{StaticResource NormalEntry}"/>
-			<Label Text="State" Style="{StaticResource LeftSmall}"/>
+            <Label Text="{xct:Translate StateHeaderText}" Style="{StaticResource LeftSmall}"/>
 			<Picker x:Name="stateOrTerritoryPicker" Title="{Binding Registration.State,  StringFormat='{0:F0}'}" 
 			        BackgroundColor="Turquoise"
 			        SelectedIndexChanged="OnStatePickerSelectedIndexChanged">
 			</Picker>
-			<Label Text="Electorates:" Style="{StaticResource LeftSmall}"/>
+            <Label Text="{xct:Translate ElectoratesHeaderText}" Style="{StaticResource LeftSmall}"/>
 			<CollectionView ItemsSource="{Binding Registration.electorates}" SelectionMode="Single" SelectedItem="{Binding ElectoratesButtonCommand}">
 				<CollectionView.ItemTemplate>
 					<DataTemplate x:DataType="models:ElectorateWithChamber">
@@ -39,17 +40,17 @@
 			<Label x:Name="ReportLabel" Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}"/>
 			<StackLayout Orientation="Vertical" VerticalOptions="Center">
 				<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-					<Button Command="{Binding SaveButtonCommand}" Text="Complete Account Creation" Style="{StaticResource DoneButton}" HorizontalOptions="Center"/>
+                    <Button Text="{xct:Translate CompleteAccountCreationButtonText}" Style="{StaticResource DoneButton}" Command="{Binding SaveButtonCommand}" HorizontalOptions="Center"/>
 				</StackLayout>
 			</StackLayout>
 			<StackLayout Orientation="Horizontal" VerticalOptions="Center">
                 <Button Text="{Binding RegisterMPButtonText}" Command="{Binding RegisterMPButtonCommand}" IsVisible="{Binding ShowRegisterMPButton}" Style="{StaticResource DoneButton}" HorizontalOptions="Center"/>
                 <Button Text="{Binding RegisterOrgButtonText}" Command="{Binding RegisterOrgButtonCommand}" IsVisible="{Binding ShowRegisterOrgButton}" Style="{StaticResource DoneButton}" HorizontalOptions="Center"/>
-			<Button Text="Cancel" Command="{Binding CancelButtonCommand}" IsVisible="{Binding ShowDoneButton}"/>
+                <Button Text="{xct:Translate CancelButtonText}" Command="{Binding CancelButtonCommand}" IsVisible="{Binding ShowDoneButton}"/>
 			</StackLayout>
-            <Button Style="{StaticResource TurquoiseButton}" Text="Follow" Command="{Binding FollowButtonCommand}" IsVisible="{Binding ShowFollowButton}" HorizontalOptions="Center"/>
-            <Button Style="{StaticResource TurquoiseButton}" Text="{Binding SeeQuestionsButtonText}" IsVisible="{Binding ShowSeeQuestionsButton}" Command="{Binding SeeQuestionsButtonCommand}" HorizontalOptions="Center"/>
-            <Button Style="{StaticResource TurquoiseButton}" Text="{Binding DMButtonText}" IsVisible="{Binding ShowDMButton}" Command="{Binding DMButtonCommand}" HorizontalOptions="Center"/>
+            <Button Text="{Binding FollowButtonText}" Style="{StaticResource TurquoiseButton}" Command="{Binding FollowButtonCommand}" IsVisible="{Binding ShowFollowButton}" HorizontalOptions="Center"/>
+            <Button Text="{Binding SeeQuestionsButtonText}" Style="{StaticResource TurquoiseButton}"  IsVisible="{Binding ShowSeeQuestionsButton}" Command="{Binding SeeQuestionsButtonCommand}" HorizontalOptions="Center"/>
+            <Button Text="{Binding DMButtonText}" Style="{StaticResource TurquoiseButton}" IsVisible="{Binding ShowDMButton}" Command="{Binding DMButtonCommand}" HorizontalOptions="Center"/>
 		</StackLayout>
 	<!--
 	</StackLayout>
