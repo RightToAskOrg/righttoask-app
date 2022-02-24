@@ -176,9 +176,9 @@ namespace RightToAskClient.HttpClients
 
         // Tin is the type of the thing we post, which is also the input type of this function.
         // TResponse is the type of the server's response, which we return.
-        public async Task<Result<TResponse>> PostGenericItemAsync<TResponse, TIn>(TIn item)
+        public async Task<Result<TResponse>> PostGenericItemAsync<TResponse, TIn>(TIn item, string requesteduri)
         {
-            Uri uri = new Uri(Constants.RegUrl);
+            Uri uri = new Uri(requesteduri);
             
             try
             {
