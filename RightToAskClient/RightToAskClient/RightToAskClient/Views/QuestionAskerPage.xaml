@@ -15,7 +15,7 @@
                 <Label Text="{xct:Translate Step2BodyText1}" Style="{StaticResource Header2}" />
                 <Label Text="{xct:Translate Step2BodyText2}" Style="{StaticResource Header2}" />
                 <Label Text="{xct:Translate Step2BodyText3}" Style="{StaticResource Header2}" />
-                <Button Text="{xct:Translate Step2FindCommitteeButtonText}" Style="{StaticResource TurquoiseButton}" Command="{Binding RaisedOptionSelectedCommand}" CommandParameter="0" IsVisible="{Binding DisplayFindCommitteeButton}"/>
+                <Button Text="{xct:Translate FindCommitteeButtonText}" Style="{StaticResource TurquoiseButton}" Command="{Binding RaisedOptionSelectedCommand}" CommandParameter="0" IsVisible="{Binding DisplayFindCommitteeButton}"/>
                 <StackLayout Orientation="Horizontal" IsVisible="{Binding DisplaySenateEstimatesSection}">
                     <Label Text="{Binding SenateEstimatesAppearanceText}" Style="{StaticResource Header2}" />
 					<Button Style="{StaticResource TurquoiseButton}" Text="{Binding SelectButtonText}" Command="{Binding SelectCommitteeButtonCommand}" />

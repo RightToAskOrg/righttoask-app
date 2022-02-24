@@ -97,6 +97,24 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Authorities who should answer the question.
+        /// </summary>
+        internal static string AuthorityFilterLabelText {
+            get {
+                return ResourceManager.GetString("AuthorityFilterLabelText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click to show Filters.
+        /// </summary>
+        internal static string ClickForFiltersText {
+            get {
+                return ResourceManager.GetString("ClickForFiltersText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Direct my question.
         /// </summary>
         internal static string DirectMyQuestionTitle {
@@ -120,6 +138,15 @@ namespace RightToAskClient.Resx {
         internal static string DoneButtonText {
             get {
                 return ResourceManager.GetString("DoneButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Draft Question: .
+        /// </summary>
+        internal static string DraftQuestionPlaceholderText {
+            get {
+                return ResourceManager.GetString("DraftQuestionPlaceholderText", resourceCulture);
             }
         }
         
@@ -151,6 +178,24 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Keep Question: Review for Upload.
+        /// </summary>
+        internal static string KeepQuestionButtonText {
+            get {
+                return ResourceManager.GetString("KeepQuestionButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Keyword.
+        /// </summary>
+        internal static string KeywordEntryPlaceholderText {
+            get {
+                return ResourceManager.GetString("KeywordEntryPlaceholderText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Write a question.
         /// </summary>
         internal static string MainPageHeader2Text {
@@ -169,11 +214,29 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to My MPs who should answer the question.
+        /// </summary>
+        internal static string MPAnswerFilterLabelText {
+            get {
+                return ResourceManager.GetString("MPAnswerFilterLabelText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MP Data is still being initialized..
         /// </summary>
         internal static string MPDataStillInitializing {
             get {
                 return ResourceManager.GetString("MPDataStillInitializing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My MPs who should raise the question in Parliament.
+        /// </summary>
+        internal static string MPRaiseFilterLabelText {
+            get {
+                return ResourceManager.GetString("MPRaiseFilterLabelText", resourceCulture);
             }
         }
         
@@ -227,11 +290,56 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Other MPs who should answer the question.
+        /// </summary>
+        internal static string OtherMPAnswerFilterLabelText {
+            get {
+                return ResourceManager.GetString("OtherMPAnswerFilterLabelText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Other MPs who should raise the question in Parliament.
+        /// </summary>
+        internal static string OtherMPRaiseFilterLabelText {
+            get {
+                return ResourceManager.GetString("OtherMPRaiseFilterLabelText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A Public Authority.
         /// </summary>
         internal static string PublicAuthorityButtonText {
             get {
                 return ResourceManager.GetString("PublicAuthorityButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upvote good questions, or click for more detail.
+        /// </summary>
+        internal static string ReadingPageHeader1 {
+            get {
+                return ResourceManager.GetString("ReadingPageHeader1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Read Questions.
+        /// </summary>
+        internal static string ReadQuestionsTitle {
+            get {
+                return ResourceManager.GetString("ReadQuestionsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recent Questions.
+        /// </summary>
+        internal static string RecentQuestionsTitle {
+            get {
+                return ResourceManager.GetString("RecentQuestionsTitle", resourceCulture);
             }
         }
         
@@ -259,6 +367,15 @@ namespace RightToAskClient.Resx {
         internal static string SelectedButtonText {
             get {
                 return ResourceManager.GetString("SelectedButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Similar Questions.
+        /// </summary>
+        internal static string SimilarQuestionsTitle {
+            get {
+                return ResourceManager.GetString("SimilarQuestionsTitle", resourceCulture);
             }
         }
         
@@ -340,6 +457,15 @@ namespace RightToAskClient.Resx {
         internal static string Step2Title {
             get {
                 return ResourceManager.GetString("Step2Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filters - Tap to edit.
+        /// </summary>
+        internal static string TapToEditFiltersText {
+            get {
+                return ResourceManager.GetString("TapToEditFiltersText", resourceCulture);
             }
         }
         

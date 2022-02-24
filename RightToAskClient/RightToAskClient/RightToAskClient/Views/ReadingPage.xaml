@@ -3,16 +3,17 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 			 xmlns:controls="clr-namespace:RightToAskClient.Controls;assembly=RightToAskClient"
 			 xmlns:rightToAskClient="clr-namespace:RightToAskClient;assembly=RightToAskClient"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
 			 xmlns:models="clr-namespace:RightToAskClient.Models;assembly=RightToAskClient"
 			 x:Class="RightToAskClient.Views.ReadingPage"
 			 x:Name="TitleBar"
-             Title="Recent Questions">
+             Title="{xct:Translate RecentQuestionsTitle}">
 	<ContentPage.Content>
 		<StackLayout x:Name = "WholePage" HorizontalOptions="Center" VerticalOptions="Start">
-			<Label Text="Upvote good questions, or click for more detail" Style="{StaticResource Header2}"></Label>
+            <Label Text="{xct:Translate ReadingPageHeader1}" Style="{StaticResource Header2}"></Label>
 			<!-- Filters inserted here -->
 			<Frame x:Name="FilterShower" Style="{StaticResource TealFrame}">
-				<controls:ClickableLabel Tapped="OnShowFilters" Text="Click to show Filters"/> 
+                <controls:ClickableLabel Tapped="OnShowFilters" Text="{xct:Translate ClickForFiltersText}"/> 
 			</Frame>
 			<ScrollView Scrolled="Questions_Scrolled">
 			<ListView x:Name="QuestionListView" HasUnevenRows="True" ItemsSource="{Binding ExistingQuestions}" 
@@ -37,11 +38,11 @@
 			</ListView>
 			</ScrollView>	
             <StackLayout Orientation="Horizontal" x:Name="QuestionDraftingBox">
-            	<Editor x:Name="DraftEditor" Placeholder="Draft Question: " Text="{Binding DraftQuestion}" HorizontalOptions="FillAndExpand" Completed="Question_Entered" Style="{StaticResource NormalEditor}" />
+                <Editor x:Name="DraftEditor" Placeholder="{xct:Translate DraftQuestionPlaceholderText}" Text="{Binding DraftQuestion}" HorizontalOptions="FillAndExpand" Completed="Question_Entered" Style="{StaticResource NormalEditor}" />
             </StackLayout>
 			<StackLayout Orientation="Horizontal">
-				<Button x:Name="DiscardButton" Style="{StaticResource TurquoiseButton}" Text="Discard Draft" Clicked="OnDiscardButtonClicked" />
-				<Button x:Name="KeepButton" Style="{StaticResource DoneButton}" Text="Keep question: Review for upload" Clicked="OnSaveButtonClicked" />
+                <Button x:Name="DiscardButton" Style="{StaticResource TurquoiseButton}" Text="{xct:Translate DiscardDraftButtonText}" Clicked="OnDiscardButtonClicked" />
+				<Button x:Name="KeepButton" Style="{StaticResource DoneButton}" Text="{xct:Translate KeepQuestionButtonText}" Clicked="OnSaveButtonClicked" />
 			</StackLayout>
 		</StackLayout>
 	</ContentPage.Content>

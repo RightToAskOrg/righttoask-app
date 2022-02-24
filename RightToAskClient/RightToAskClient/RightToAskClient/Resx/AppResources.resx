@@ -129,6 +129,12 @@
   <data name="ApplicationTitle" xml:space="preserve">
     <value>Right To Ask</value>
   </data>
+  <data name="AuthorityFilterLabelText" xml:space="preserve">
+    <value>Authorities who should answer the question</value>
+  </data>
+  <data name="ClickForFiltersText" xml:space="preserve">
+    <value>Click to show Filters</value>
+  </data>
   <data name="DirectMyQuestionTitle" xml:space="preserve">
     <value>Direct my question</value>
   </data>
@@ -137,6 +143,9 @@
   </data>
   <data name="DoneButtonText" xml:space="preserve">
     <value>Done</value>
+  </data>
+  <data name="DraftQuestionPlaceholderText" xml:space="preserve">
+    <value>Draft Question: </value>
   </data>
   <data name="ExpiringSoonButtonText" xml:space="preserve">
     <value>Expiring Soon</value>
@@ -147,14 +156,26 @@
   <data name="FindQuestionsTitle" xml:space="preserve">
     <value>Find Questions</value>
   </data>
+  <data name="KeepQuestionButtonText" xml:space="preserve">
+    <value>Keep Question: Review for Upload</value>
+  </data>
+  <data name="KeywordEntryPlaceholderText" xml:space="preserve">
+    <value>Keyword</value>
+  </data>
   <data name="MainPageHeader2Text" xml:space="preserve">
     <value>Write a question</value>
   </data>
   <data name="MainPageHeaderText" xml:space="preserve">
     <value>Read and vote on questions</value>
   </data>
+  <data name="MPAnswerFilterLabelText" xml:space="preserve">
+    <value>My MPs who should answer the question</value>
+  </data>
   <data name="MPDataStillInitializing" xml:space="preserve">
     <value>MP Data is still being initialized.</value>
+  </data>
+  <data name="MPRaiseFilterLabelText" xml:space="preserve">
+    <value>My MPs who should raise the question in Parliament</value>
   </data>
   <data name="MyMPButtonText" xml:space="preserve">
     <value>My MP</value>
@@ -175,8 +196,23 @@
   <data name="NotSureButtonText" xml:space="preserve">
     <value>Not Sure</value>
   </data>
+  <data name="OtherMPAnswerFilterLabelText" xml:space="preserve">
+    <value>Other MPs who should answer the question</value>
+  </data>
+  <data name="OtherMPRaiseFilterLabelText" xml:space="preserve">
+    <value>Other MPs who should raise the question in Parliament</value>
+  </data>
   <data name="PublicAuthorityButtonText" xml:space="preserve">
     <value>A Public Authority</value>
+  </data>
+  <data name="ReadingPageHeader1" xml:space="preserve">
+    <value>Upvote good questions, or click for more detail</value>
+  </data>
+  <data name="ReadQuestionsTitle" xml:space="preserve">
+    <value>Read Questions</value>
+  </data>
+  <data name="RecentQuestionsTitle" xml:space="preserve">
+    <value>Recent Questions</value>
   </data>
   <data name="SearchBarPlaceholderText" xml:space="preserve">
     <value>Search</value>
@@ -186,6 +222,9 @@
   </data>
   <data name="SelectedButtonText" xml:space="preserve">
     <value>Selected!</value>
+  </data>
+  <data name="SimilarQuestionsTitle" xml:space="preserve">
+    <value>Similar Questions</value>
   </data>
   <data name="StartDraftingButtonText" xml:space="preserve">
     <value>Start Drafting</value>
@@ -213,6 +252,9 @@
   </data>
   <data name="Step2Title" xml:space="preserve">
     <value>Step 2</value>
+  </data>
+  <data name="TapToEditFiltersText" xml:space="preserve">
+    <value>Filters - Tap to edit</value>
   </data>
   <data name="ToBeAnsweredByText" xml:space="preserve">
     <value>To be answered by</value>

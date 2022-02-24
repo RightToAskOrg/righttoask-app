@@ -1,5 +1,6 @@
 using System;
 using RightToAskClient.Models;
+using RightToAskClient.Resx;
 using RightToAskClient.Views;
 using Xamarin.Forms;
 
@@ -25,35 +26,35 @@ namespace RightToAskClient.Controls
             
             var whichAuthorityShouldAnswerItView = new ClickableEntityListView<Authority>
             {
-	            ClickableListLabel = "Authorities who should answer the question",
+	            ClickableListLabel = AppResources.AuthorityFilterLabelText,
 	            ClickableListContents = _filterContext.SelectedAuthorities,
 	            UpdateAction = OnEditAuthoritiesButtonClicked
             };
             
             var whichMyMPShouldAnswerItView = new ClickableEntityListView<MP>
             {
-	            ClickableListLabel = "My MPs who should answer the question",
+	            ClickableListLabel = AppResources.MPAnswerFilterLabelText,
 	            ClickableListContents = _filterContext.SelectedAnsweringMPsMine,
 	            UpdateAction = OnEditSelectedAnsweringMPsMineButtonClicked
             };
             
             var whichMyMPShouldAskItView = new ClickableEntityListView<MP>
             {
-	            ClickableListLabel = "My MPs who should raise the question in Parliament",
+	            ClickableListLabel = AppResources.MPRaiseFilterLabelText,
 	            ClickableListContents = _filterContext.SelectedAskingMPsMine,
 	            UpdateAction = OnEditSelectedAskingMPsMineButtonClicked
             };
             
             var whichMPShouldAnswerItView = new ClickableEntityListView<MP>
             {
-	            ClickableListLabel = "Other MPs who should answer the question",
+	            ClickableListLabel = AppResources.OtherMPAnswerFilterLabelText,
 	            ClickableListContents = _filterContext.SelectedAnsweringMPs,
 	            UpdateAction = OnEditSelectedAnsweringMPsButtonClicked
             };
             
             var whichMPShouldAskItView = new ClickableEntityListView<MP>
             {
-	            ClickableListLabel = "Other MPs who should raise the question in Parliament",
+	            ClickableListLabel = AppResources.OtherMPRaiseFilterLabelText,
 	            ClickableListContents = _filterContext.SelectedAskingMPs,
 	            UpdateAction = OnEditSelectedAskingMPsButtonClicked
             };
@@ -75,14 +76,14 @@ namespace RightToAskClient.Controls
                 Orientation = StackOrientation.Horizontal,
                 Children =
                 {
-                    new Label(){Text = "Keyword", TextColor=Color.Black},
+                    new Label(){Text = AppResources.KeywordEntryPlaceholderText, TextColor=Color.Black},
                     keywordentry
                 }
             };
             
             Children.Add(new Label(){
                 HorizontalOptions = LayoutOptions.Center,
-                Text = "Filters - Tap to edit",
+                Text = AppResources.TapToEditFiltersText,
                 TextColor = Color.Black
                 },0,0);
             Children.Add(whichAuthorityShouldAnswerItView,0,1);
