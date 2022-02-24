@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddBackgroundPlaceholderText" xml:space="preserve">
+    <value>Add Background (optional)</value>
+  </data>
   <data name="AdvancedSearchButtonText" xml:space="preserve">
     <value>Advanced Search</value>
   </data>
@@ -132,6 +135,9 @@
   <data name="AuthorityFilterLabelText" xml:space="preserve">
     <value>Authorities who should answer the question</value>
   </data>
+  <data name="BackgroundHeaderText" xml:space="preserve">
+    <value>Background:</value>
+  </data>
   <data name="ClickForFiltersText" xml:space="preserve">
     <value>Click to show Filters</value>
   </data>
@@ -141,17 +147,32 @@
   <data name="DiscardDraftButtonText" xml:space="preserve">
     <value>Discard Draft</value>
   </data>
+  <data name="DisplayNameHeaderText" xml:space="preserve">
+    <value>Display Name</value>
+  </data>
+  <data name="DisplayNamePlaceholderText" xml:space="preserve">
+    <value>Enter display name</value>
+  </data>
   <data name="DoneButtonText" xml:space="preserve">
     <value>Done</value>
   </data>
   <data name="DraftQuestionPlaceholderText" xml:space="preserve">
     <value>Draft Question: </value>
   </data>
+  <data name="EditProfileButtonText" xml:space="preserve">
+    <value>Edit Your Profile</value>
+  </data>
+  <data name="ElectoratesHeaderText" xml:space="preserve">
+    <value>Electorates:</value>
+  </data>
   <data name="ExpiringSoonButtonText" xml:space="preserve">
     <value>Expiring Soon</value>
   </data>
   <data name="FindCommitteeButtonText" xml:space="preserve">
     <value>Find a Committee</value>
+  </data>
+  <data name="FindElectoratesButtonText" xml:space="preserve">
+    <value>Next: Find Your Electorates</value>
   </data>
   <data name="FindQuestionsTitle" xml:space="preserve">
     <value>Find Questions</value>
@@ -161,6 +182,12 @@
   </data>
   <data name="KeywordEntryPlaceholderText" xml:space="preserve">
     <value>Keyword</value>
+  </data>
+  <data name="LinkAnswerHeaderText" xml:space="preserve">
+    <value>Link or Answer:</value>
+  </data>
+  <data name="LinkAnswerPlaceholderText" xml:space="preserve">
+    <value>Add an answer or a Hansard link to an answer</value>
   </data>
   <data name="MainPageHeader2Text" xml:space="preserve">
     <value>Write a question</value>
@@ -205,6 +232,18 @@
   <data name="PublicAuthorityButtonText" xml:space="preserve">
     <value>A Public Authority</value>
   </data>
+  <data name="PublishQuestionButtonText" xml:space="preserve">
+    <value>Publish New Question!</value>
+  </data>
+  <data name="QuestionDetailsTitle" xml:space="preserve">
+    <value>Question Details</value>
+  </data>
+  <data name="QuestionHeaderText" xml:space="preserve">
+    <value>Question: </value>
+  </data>
+  <data name="QuestionWriterHeaderText" xml:space="preserve">
+    <value>Question Writer:</value>
+  </data>
   <data name="ReadingPageHeader1" xml:space="preserve">
     <value>Upvote good questions, or click for more detail</value>
   </data>
@@ -213,6 +252,15 @@
   </data>
   <data name="RecentQuestionsTitle" xml:space="preserve">
     <value>Recent Questions</value>
+  </data>
+  <data name="RegisterMPAccountButtonText" xml:space="preserve">
+    <value>Register MP Account</value>
+  </data>
+  <data name="RegisterOrganisationAccountButtonText" xml:space="preserve">
+    <value>Register Organisation Account</value>
+  </data>
+  <data name="SaveAnswerButtonText" xml:space="preserve">
+    <value>Save Answer</value>
   </data>
   <data name="SearchBarPlaceholderText" xml:space="preserve">
     <value>Search</value>
@@ -228,6 +276,9 @@
   </data>
   <data name="StartDraftingButtonText" xml:space="preserve">
     <value>Start Drafting</value>
+  </data>
+  <data name="StateHeaderText" xml:space="preserve">
+    <value>State</value>
   </data>
   <data name="Step2BodyText1" xml:space="preserve">
     <value>Now we'll help you direct your question to where it might get answered</value>
@@ -261,5 +312,17 @@
   </data>
   <data name="TrendingNowButtonText" xml:space="preserve">
     <value>Trending Now</value>
+  </data>
+  <data name="UIDHeaderText" xml:space="preserve">
+    <value>UID</value>
+  </data>
+  <data name="UIDPlaceholderText" xml:space="preserve">
+    <value>Enter UserID</value>
+  </data>
+  <data name="UpvotesHeaderText" xml:space="preserve">
+    <value>Upvotes: </value>
+  </data>
+  <data name="ViewOtherUserProfile" xml:space="preserve">
+    <value>View {0}'s profile</value>
   </data>
 </root>

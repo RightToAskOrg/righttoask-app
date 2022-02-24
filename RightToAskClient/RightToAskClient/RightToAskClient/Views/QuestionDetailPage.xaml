@@ -4,31 +4,33 @@
              xmlns:views="clr-namespace:RightToAskClient.Views;assembly=RightToAskClient"
              xmlns:rightToAskClient="clr-namespace:RightToAskClient;assembly=RightToAskClient"
              xmlns:controls="clr-namespace:RightToAskClient.Controls;assembly=RightToAskClient"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:models="clr-namespace:RightToAskClient.Models;assembly=RightToAskClient"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              x:Class="RightToAskClient.Views.QuestionDetailPage"
-             x:DataType="vm:QuestionViewModel">
+             x:DataType="vm:QuestionViewModel"
+             Title="{xct:Translate QuestionDetailsTitle}">
     <ContentPage.Content>
 		<StackLayout x:Name="WholePage" Margin="20">
-			<Label Text="Question:" Style="{StaticResource LeftSmall}"/>
+            <Label Text="{xct:Translate QuestionHeaderText}" Style="{StaticResource LeftSmall}"/>
 			<Label x:Name="QuestionDetailView" Text="{Binding Question.QuestionText}" Style="{StaticResource LeftLarge}"/>
-            <Label Text="Question writer:" Style="{StaticResource LeftSmall}"/>
+            <Label Text="{xct:Translate QuestionWriterHeaderText}" Style="{StaticResource LeftSmall}"/>
 			<Label x:Name="Suggester" Text="{Binding Question.QuestionSuggester, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
-            <Label Text="Upvotes:" Style="{StaticResource LeftSmall}"/>
+            <Label Text="{xct:Translate UpvotesHeaderText}" Style="{StaticResource LeftSmall}"/>
 			<StackLayout  Orientation="Horizontal" HorizontalOptions="FillAndExpand" >
 				<Label x:Name="Votes" Text="{Binding Question.UpVotes,StringFormat='{0}'}" Style="{StaticResource LeftLarge}" />
 				<controls:ToggleButton x:Name="UpVoteButton" BindingContext="{Binding}" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}"/>
 			</StackLayout>
 			<StackLayout x:Name="BackgroundSegment" Orientation="Vertical" IsVisible="{Binding IsNewQuestion}">
-				<Label Text="Background:" Style="{StaticResource Header2}" />
-				<Editor Placeholder="Add Background (optional)" Completed="Background_Entered" Style="{StaticResource NormalEditor}" />
+                <Label Text="{xct:Translate BackgroundHeaderText}" Style="{StaticResource Header2}" />
+                <Editor Placeholder="{xct:Translate AddBackgroundPlaceholderText}" Completed="Background_Entered" Style="{StaticResource NormalEditor}" />
 			</StackLayout >
             <StackLayout x:Name="LinkOrAnswerSegment" Orientation="Vertical" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
-				<Label Text="Link or answer:" />
-				<Editor Placeholder="Add an answer or a Hansard link to an answer" Completed="Answer_Entered" Style="{StaticResource NormalEditor}" />
+                <Label Text="{xct:Translate LinkAnswerHeaderText}" />
+                <Editor Placeholder="{xct:Translate LinkAnswerPlaceholderText}" Completed="Answer_Entered" Style="{StaticResource NormalEditor}" />
 			</StackLayout >
-            <Button x:Name="SaveAnswerButton" Style="{StaticResource SaveButton}" Text="Save Answer" Clicked="SaveAnswerButton_OnClicked" HorizontalOptions="Center" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}"/>
-			<Button x:Name="SaveBackgroundButton" Style="{StaticResource DoneButton}" Text="Publish New Question!" Clicked="SubmitNewQuestionButton_OnClicked" HorizontalOptions="Center" IsVisible="{Binding IsNewQuestion}"/>
+            <Button x:Name="SaveAnswerButton" Style="{StaticResource SaveButton}" Text="{xct:Translate SaveAnswerButtonText}" Clicked="SaveAnswerButton_OnClicked" HorizontalOptions="Center" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}"/>
+			<Button x:Name="SaveBackgroundButton" Style="{StaticResource DoneButton}" Text="{xct:Translate PublishQuestionButtonText}" Clicked="SubmitNewQuestionButton_OnClicked" HorizontalOptions="Center" IsVisible="{Binding IsNewQuestion}"/>
 			<Button x:Name="QuestionSuggesterButton" Style="{StaticResource TurquoiseButton}" Clicked="QuestionSuggesterButton_OnClicked" HorizontalOptions="Center"/>
 		</StackLayout>
     </ContentPage.Content>
