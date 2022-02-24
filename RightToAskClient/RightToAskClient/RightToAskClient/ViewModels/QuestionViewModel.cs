@@ -84,13 +84,6 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _showReportLabel, value);
         }
 
-        private string _reportLabelText = "";
-        public string ReportLabelText
-        {
-            get => _reportLabelText;
-            set => SetProperty(ref _reportLabelText, value);
-        }
-
         private string _anotherUserButtonText = "";
         public string AnotherUserButtonText
         {

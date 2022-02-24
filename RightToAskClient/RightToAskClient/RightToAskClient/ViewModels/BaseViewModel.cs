@@ -20,5 +20,12 @@ namespace RightToAskClient.ViewModels
             get => title;
             set => SetProperty(ref title, value);
         }
+
+        private string _reportLabelText = "";
+        public string ReportLabelText
+        {
+            get => _reportLabelText;
+            set => SetProperty(ref _reportLabelText, value);
+        }
     }
 }

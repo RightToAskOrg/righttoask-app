@@ -58,12 +58,12 @@ namespace RightToAskClient.HttpClients
 
         public static async Task<Result<bool>> RegisterNewUser(Registration newReg)
         {
-            return await RegisterNewThing<Registration>(newReg, "user");
+            return await RegisterNewThing<Registration>(newReg, "user", Constants.RegUrl);
         }
 
         public static async Task<Result<bool>> RegisterNewQuestion(ClientSignedUnparsed newQuestion)
         {
-            return await RegisterNewThing<ClientSignedUnparsed>(newQuestion, "question");
+            return await RegisterNewThing<ClientSignedUnparsed>(newQuestion, "question", Constants.QnUrl);
         }
 
         /*
@@ -74,10 +74,10 @@ namespace RightToAskClient.HttpClients
          * These are returned to the user on the assumption that there's something they
          * can do.
          */
-        public static async Task<Result<bool>> RegisterNewThing<T>(T newThing, string typeDescr)
+        public static async Task<Result<bool>> RegisterNewThing<T>(T newThing, string typeDescr, string uri)
         {
             var httpResponse 
-                = await Client.PostGenericItemAsync<Result<SignedString>, T>(newThing);
+                = await Client.PostGenericItemAsync<Result<SignedString>, T>(newThing, uri);
 
             // http errors
             if (String.IsNullOrEmpty(httpResponse.Err))
@@ -106,6 +106,9 @@ namespace RightToAskClient.HttpClients
             return new Result<bool>() { Err = httpResponse.Err };
         }
         
+        // At the moment, this simply passes the information back to the user. We might perhaps want
+        // to triage errors more carefully, or explain them to users better, or distinguish user-upload
+        // errors from question-upload errors.
         public static (bool isValid, string message) ValidateHttpResponse(Result<bool> response, string messageTopic)
         {
             if (String.IsNullOrEmpty(response.Err))
@@ -118,7 +121,7 @@ namespace RightToAskClient.HttpClients
                 return (false, messageTopic + ": Failure.");
             }
 
-            return (false, "Server connection error" + response.Err);
+            return (false, "Server error" + response.Err);
         }
     }
 }
