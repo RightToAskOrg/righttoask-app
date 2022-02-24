@@ -1,4 +1,5 @@
 ﻿using RightToAskClient.Models;
+using RightToAskClient.Resx;
 using RightToAskClient.Views;
 using System;
 using System.Collections.Generic;
@@ -176,7 +177,7 @@ namespace RightToAskClient.ViewModels
             SelectCommitteeButtonCommand = new Command(() => 
             {
                 App.ReadingContext.Filters.SelectedAskingCommittee.Add("Senate Estimates tomorrow");
-                SelectButtonText = "Selected!";
+                SelectButtonText = AppResources.SelectedButtonText;
             });
         }
 
@@ -198,10 +199,10 @@ namespace RightToAskClient.ViewModels
             DisplayFindCommitteeButton = true;
             DisplaySenateEstimatesSection = false;
             SenateEstimatesAppearanceText = "";
-            AnotherUserButtonText = "Another RightToAsk User";
-            NotSureWhoShouldRaiseButtonText = "Not Sure";
-            SelectButtonText = "Select";
-            ReportLabelText = "MP Data is still being initialized.";
+            AnotherUserButtonText = AppResources.AnotherUserButtonText;
+            NotSureWhoShouldRaiseButtonText = AppResources.NotSureButtonText;
+            SelectButtonText = AppResources.SelectButtonText;
+            ReportLabelText = AppResources.MPDataStillInitializing;
             App.ReadingContext.DraftQuestion = Question.QuestionText;
         }
 

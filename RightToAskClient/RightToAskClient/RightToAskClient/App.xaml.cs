@@ -1,6 +1,8 @@
 ﻿using Xamarin.Forms;
 using RightToAskClient.Views;
 using RightToAskClient.Models;
+using Xamarin.CommunityToolkit.Helpers;
+using RightToAskClient.Resx;
 
 namespace RightToAskClient
 {
@@ -9,6 +11,9 @@ namespace RightToAskClient
         public static ReadingContext ReadingContext = new ReadingContext();
         public App()
         {
+            LocalizationResourceManager.Current.PropertyChanged += (temp, temp2) => AppResources.Culture = LocalizationResourceManager.Current.CurrentCulture;
+            LocalizationResourceManager.Current.Init(AppResources.ResourceManager);
+
             InitializeComponent();
             SetTheStyles();
 

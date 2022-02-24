@@ -13,7 +13,6 @@ namespace RightToAskClient.Views
         {
             InitializeComponent();
             BindingContext = QuestionViewModel.Instance;
-            Title = "Step 2";
         }
     }
 }
