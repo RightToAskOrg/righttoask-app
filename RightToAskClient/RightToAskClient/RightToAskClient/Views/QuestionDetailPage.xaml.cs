@@ -21,7 +21,6 @@ namespace RightToAskClient.Views
             // this is probably where I'd start adding/swapping the implementation to using MVVM
             if (QuestionViewModel.Instance.IsNewQuestion)
             {
-                UpVoteButton.IsVisible = false;
                 LinkOrAnswerSegment.IsVisible = false;
                 SaveAnswerButton.IsVisible = false;
                 QuestionSuggesterButton.Text = AppResources.EditProfileButtonText;

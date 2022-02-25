@@ -105,6 +105,13 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _selectButtonText, value);
         }
 
+        private string _upvoteButtonText = AppResources.UpvoteButtonText;
+        public string UpvoteButtonText
+        {
+            get => _upvoteButtonText;
+            set => SetProperty(ref _upvoteButtonText, value);
+        }
+
         public bool MPButtonsEnabled => ParliamentData.MPAndOtherData.IsInitialised;
         public void UpdateMPButtons()
         {
@@ -172,6 +179,21 @@ namespace RightToAskClient.ViewModels
                 App.ReadingContext.Filters.SelectedAskingCommittee.Add("Senate Estimates tomorrow");
                 SelectButtonText = AppResources.SelectedButtonText;
             });
+            UpvoteCommand = new Command(() =>
+            {
+                if (Question.AlreadyUpvoted)
+                {
+                    Question.UpVotes--;
+                    Question.AlreadyUpvoted = false;
+                    UpvoteButtonText = AppResources.UpvoteButtonText;
+                }
+                else
+                {
+                    Question.UpVotes++;
+                    Question.AlreadyUpvoted = true;
+                    UpvoteButtonText = AppResources.UpvotedButtonText;
+                }
+            });
         }
 
         public Command<string> RaisedOptionSelectedCommand { get; }
@@ -181,6 +203,7 @@ namespace RightToAskClient.ViewModels
         public IAsyncCommand AnsweredByMyMPCommand { get; }
         public IAsyncCommand AnsweredByOtherMPCommand { get; }
         public Command SelectCommitteeButtonCommand { get; }
+        public Command UpvoteCommand { get; }
 
         public void ResetInstance()
         {

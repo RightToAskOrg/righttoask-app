@@ -821,6 +821,24 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Upvote.
+        /// </summary>
+        internal static string UpvoteButtonText {
+            get {
+                return ResourceManager.GetString("UpvoteButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to +1.
+        /// </summary>
+        internal static string UpvotedButtonText {
+            get {
+                return ResourceManager.GetString("UpvotedButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Upvotes: .
         /// </summary>
         internal static string UpvotesHeaderText {

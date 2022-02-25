@@ -49,6 +49,8 @@ namespace RightToAskClient.Models
             }
         }
         
+        public bool AlreadyUpvoted { get; set; }
+
         public override string ToString ()
         {
             

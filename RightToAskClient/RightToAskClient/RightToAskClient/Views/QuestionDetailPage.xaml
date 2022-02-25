@@ -19,7 +19,7 @@
             <Label Text="{xct:Translate UpvotesHeaderText}" Style="{StaticResource LeftSmall}"/>
 			<StackLayout  Orientation="Horizontal" HorizontalOptions="FillAndExpand" >
 				<Label x:Name="Votes" Text="{Binding Question.UpVotes,StringFormat='{0}'}" Style="{StaticResource LeftLarge}" />
-				<controls:ToggleButton x:Name="UpVoteButton" BindingContext="{Binding}" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}"/>
+				<Button Text="{Binding UpvoteButtonText}" Command="{Binding UpvoteCommand}" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}"/>
 			</StackLayout>
 			<StackLayout x:Name="BackgroundSegment" Orientation="Vertical" IsVisible="{Binding IsNewQuestion}">
                 <Label Text="{xct:Translate BackgroundHeaderText}" Style="{StaticResource Header2}" />
