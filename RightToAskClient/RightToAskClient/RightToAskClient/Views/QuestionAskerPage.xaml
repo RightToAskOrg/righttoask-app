@@ -4,31 +4,33 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:rightToAskClient="clr-namespace:RightToAskClient;assembly=RightToAskClient"
              xmlns:controls="clr-namespace:RightToAskClient.Controls;assembly=RightToAskClient"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              x:Class="RightToAskClient.Views.QuestionAskerPage"
+             Title="{xct:Translate Step2Title}"
              x:DataType="vm:QuestionViewModel">
     <ContentPage.Content>
         <StackLayout x:Name = "WholePage">
 			<StackLayout x:Name="questionAsker" Style="{StaticResource VertStack}">
-                <Label Text="Now we'll help you direct your question to where it might get answered" Style="{StaticResource Header2}" />
-				<Label Text="Should it be raised by... " Style="{StaticResource Header2}" />
-                <Label Text="a Parliamentary Committee, such as Senate Estimates?" Style="{StaticResource Header2}" />
-                <Button Style="{StaticResource TurquoiseButton}" Text="Find a Committee" Command="{Binding RaisedOptionSelectedCommand}" CommandParameter="0" IsVisible="{Binding DisplayFindCommitteeButton}"/>
+                <Label Text="{xct:Translate Step2BodyText1}" Style="{StaticResource Header2}" />
+                <Label Text="{xct:Translate Step2BodyText2}" Style="{StaticResource Header2}" />
+                <Label Text="{xct:Translate Step2BodyText3}" Style="{StaticResource Header2}" />
+                <Button Text="{xct:Translate FindCommitteeButtonText}" Style="{StaticResource TurquoiseButton}" Command="{Binding RaisedOptionSelectedCommand}" CommandParameter="0" IsVisible="{Binding DisplayFindCommitteeButton}"/>
                 <StackLayout Orientation="Horizontal" IsVisible="{Binding DisplaySenateEstimatesSection}">
                     <Label Text="{Binding SenateEstimatesAppearanceText}" Style="{StaticResource Header2}" />
 					<Button Style="{StaticResource TurquoiseButton}" Text="{Binding SelectButtonText}" Command="{Binding SelectCommitteeButtonCommand}" />
 				</StackLayout>
-                <Label Text="or by your MP, perhaps in a special session for constituent questions?" Style="{StaticResource Header2}" />
-                <Button Style="{StaticResource TurquoiseButton}" Text="My MP" Command="{Binding RaisedOptionSelectedCommand}" CommandParameter="1" IsEnabled="{Binding MPButtonsEnabled}"/>
-                <Label Text="or by some other MP?" Style="{StaticResource Header2}" />
-                <Button Style="{StaticResource TurquoiseButton}" Text = "Another MP" Command="{Binding RaisedOptionSelectedCommand}" CommandParameter="2" IsEnabled="{Binding MPButtonsEnabled}"/>
-                <Label Text="a journalist or other RightToAsk participant?" Style="{StaticResource Header2}" />
-                <Button Style="{StaticResource TurquoiseButton}" Text="{Binding AnotherUserButtonText}" Command="{Binding RaisedOptionSelectedCommand}" CommandParameter="3"/>
-                <Label Text="or are you just not sure?" Style="{StaticResource Header2}" />
-                <Button Style="{StaticResource TurquoiseButton}" Text="{Binding NotSureWhoShouldRaiseButtonText}" Command="{Binding RaisedOptionSelectedCommand}" CommandParameter="4" />
+                <Label Text="{xct:Translate Step2BodyText4}" Style="{StaticResource Header2}" />
+                <Button Text="{xct:Translate MyMPButtonText}" Style="{StaticResource TurquoiseButton}" Command="{Binding RaisedOptionSelectedCommand}" CommandParameter="1" IsEnabled="{Binding MPButtonsEnabled}"/>
+                <Label Text="{xct:Translate Step2BodyText5}" Style="{StaticResource Header2}" />
+                <Button Text="{xct:Translate AnotherMPButtonText}" Style="{StaticResource TurquoiseButton}" Command="{Binding RaisedOptionSelectedCommand}" CommandParameter="2" IsEnabled="{Binding MPButtonsEnabled}"/>
+                <Label Text="{xct:Translate Step2BodyText6}" Style="{StaticResource Header2}" />
+                <Button Text="{Binding AnotherUserButtonText}" Style="{StaticResource TurquoiseButton}" Command="{Binding RaisedOptionSelectedCommand}" CommandParameter="3"/>
+                <Label Text="{xct:Translate Step2BodyText7}" Style="{StaticResource Header2}" />
+                <Button Text="{Binding NotSureWhoShouldRaiseButtonText}" Style="{StaticResource TurquoiseButton}" Command="{Binding RaisedOptionSelectedCommand}" CommandParameter="4" />
 				<Label Text="{Binding ReportLabelText}" IsVisible="{Binding ShowReportLabel}"/>
             </StackLayout>
-            <Button Text="Next" Style="{StaticResource DoneButton}" Command="{Binding ProceedToReadingPageCommand}" IsVisible="{Binding RaisedByOptionSelected}"/>
+            <Button Text="{xct:Translate NextButtonText}" Style="{StaticResource DoneButton}" Command="{Binding ProceedToReadingPageCommand}" IsVisible="{Binding RaisedByOptionSelected}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

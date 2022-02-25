@@ -1,5 +1,6 @@
 ﻿using RightToAskClient.HttpClients;
 using RightToAskClient.Models;
+using RightToAskClient.Resx;
 using RightToAskClient.Views;
 using System;
 using System.Collections.Generic;
@@ -133,7 +134,7 @@ namespace RightToAskClient.ViewModels
             get => _federalElectoratePickerTitle;
             set => SetProperty(ref _federalElectoratePickerTitle, value);
         }
-        private string _doneButtonText = "Next";
+        private string _doneButtonText = AppResources.NextButtonText;
         public string DoneButtonText
         {
             get => _doneButtonText;
@@ -159,7 +160,7 @@ namespace RightToAskClient.ViewModels
                     var mpsExploringPage = new ExploringPage(App.ReadingContext.ThisParticipant.GroupedMPs, App.ReadingContext.Filters.SelectedAskingMPs, message);
                     await App.Current.MainPage.Navigation.PushAsync(mpsExploringPage);
                     _launchMPsSelectionPageNext = false;
-                    DoneButtonText = "Done";
+                    DoneButtonText = AppResources.DoneButtonText;
                 }
                 else
                 {
@@ -216,7 +217,7 @@ namespace RightToAskClient.ViewModels
 
             if (String.IsNullOrEmpty(state))
             {
-                await App.Current.MainPage.DisplayAlert("Please choose a state", "", "OK");
+                await App.Current.MainPage.DisplayAlert(AppResources.SelectStateWarningText, "", "OK");
                 return;
             }
 
@@ -317,7 +318,7 @@ namespace RightToAskClient.ViewModels
             else
             {
                 AllStateLCElectorates = new List<string>();
-                StateLCElectoratePickerTitle = state + " has no Upper House";
+                StateLCElectoratePickerTitle = string.Format(AppResources.NoUpperHousePickerTitle, state);
             }
         }
 

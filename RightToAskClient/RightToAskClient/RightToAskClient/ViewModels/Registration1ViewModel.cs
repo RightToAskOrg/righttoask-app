@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using RightToAskClient.CryptoUtils;
 using RightToAskClient.HttpClients;
 using RightToAskClient.Models;
+using RightToAskClient.Resx;
 using RightToAskClient.Views;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
@@ -134,9 +135,9 @@ namespace RightToAskClient.ViewModels
                 State = "VIC"
             };
             ShowTheRightButtonsAsync(Registration.display_name);
-            Title = App.ReadingContext.IsReadingOnly ? "User profile" : "Create Account";
-            RegisterMPButtonText = "Register MP Account";
-            RegisterOrgButtonText = "Register Organisational Account";
+            Title = App.ReadingContext.IsReadingOnly ? AppResources.UserProfileTitle : AppResources.CreateAccountTitle;
+            RegisterMPButtonText = AppResources.RegisterMPAccountButtonText;
+            RegisterOrgButtonText = AppResources.RegisterOrganisationAccountButtonText;
 
             // commands
             SaveButtonCommand = new Command(() =>
@@ -216,9 +217,9 @@ namespace RightToAskClient.ViewModels
                 ShowRegisterMPButton = false;
                 ShowDoneButton = false;
 
-                DMButtonText = "Send Direct Message to " + name;
-                SeeQuestionsButtonText = "Read questions from " + name;
-                FollowButtonText = "Follow " + name;
+                DMButtonText = string.Format(AppResources.DMButtonText, name);
+                SeeQuestionsButtonText = string.Format(AppResources.SeeQuestionsButtonText, name);
+                FollowButtonText = string.Format(AppResources.FollowButtonText, name);
             }
             else
             {

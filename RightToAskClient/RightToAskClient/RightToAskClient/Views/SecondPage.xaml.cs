@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
 using RightToAskClient.Models;
+using RightToAskClient.Resx;
 using RightToAskClient.ViewModels;
 using Xamarin.Forms;
 
@@ -20,13 +21,13 @@ namespace RightToAskClient.Views
             BindingContext = QuestionViewModel.Instance;
             if (App.ReadingContext.IsReadingOnly)
             {
-                Title = "Find questions";
+                Title = AppResources.FindQuestionsTitle;
                 QuestionViewModel.Instance.IsReadingOnly = true;
             }
             else
             {
                 QuestionViewModel.Instance.IsReadingOnly = false;
-                Title = "Direct my question";
+                Title = AppResources.DirectMyQuestionTitle;
             }
         }
 

@@ -7,6 +7,7 @@ using RightToAskClient.Models;
 using RightToAskClient.ViewModels;
 using Xamarin.Forms;
 using Button = Xamarin.Forms.Button;
+using RightToAskClient.Resx;
 
 namespace RightToAskClient.Views
 {
@@ -17,18 +18,17 @@ namespace RightToAskClient.Views
             InitializeComponent();
 
             BindingContext = QuestionViewModel.Instance;
-            Title = "Question Details";
             // this is probably where I'd start adding/swapping the implementation to using MVVM
             if (QuestionViewModel.Instance.IsNewQuestion)
             {
                 UpVoteButton.IsVisible = false;
                 LinkOrAnswerSegment.IsVisible = false;
                 SaveAnswerButton.IsVisible = false;
-                QuestionSuggesterButton.Text = "Edit your profile";
+                QuestionSuggesterButton.Text = AppResources.EditProfileButtonText;
             }
             else
             {
-                QuestionSuggesterButton.Text = "View " + QuestionViewModel.Instance.Question.QuestionSuggester + "'s profile";
+                QuestionSuggesterButton.Text = String.Format(AppResources.ViewOtherUserProfile, QuestionViewModel.Instance.Question.QuestionSuggester);
             }
             
         }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.ObjectModel;
 using RightToAskClient.Controls;
 using RightToAskClient.Models;
+using RightToAskClient.Resx;
 using RightToAskClient.ViewModels;
 using Xamarin.Forms;
 
@@ -25,14 +26,14 @@ namespace RightToAskClient.Views
 
             if (App.ReadingContext.IsReadingOnly)
             {
-                TitleBar.Title = "Read Questions";
+                TitleBar.Title = AppResources.ReadQuestionsTitle;
                 QuestionDraftingBox.IsVisible = false;
                 KeepButton.IsVisible = false;
                 DiscardButton.IsVisible = false;
             }
             else
             {
-                TitleBar.Title = "Similar questions";
+                TitleBar.Title = AppResources.SimilarQuestionsTitle;
             }
         }
 

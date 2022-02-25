@@ -3,6 +3,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:RightToAskClient.Models;assembly=RightToAskClient"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels;assembly=RightToAskClient"
              xmlns:controls="clr-namespace:RightToAskClient.Controls;assembly=RightToAskClient"
              x:Class="RightToAskClient.Views.RegisterPage2"
@@ -14,16 +15,16 @@
         <ContentPage.Content>
 	    <ScrollView>
             <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
-                <Label Text="Your MPs are defined by where you live" FontSize="Medium" HorizontalOptions="Center" />
+                <Label Text="{xct:Translate MPsHeaderText1}" FontSize="Medium" HorizontalOptions="Center" />
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                    <Label Text="I live in " FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center" />
+                    <Label Text="{xct:Translate MPsHeaderText2}" FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center" />
                     <Picker Title="{Binding StatePickerTitle}" ItemsSource="{Binding StatePicker}" BackgroundColor="Turquoise"
 					        SelectedIndex="{Binding SelectedState}">
                     </Picker>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal">
                     <Frame Style="{StaticResource TealFrame}">
-                        <Label Text="I know my electorates already" Style="{StaticResource Header1}" HorizontalOptions="Center" VerticalOptions="Center">
+                        <Label Text="{xct:Translate ElectoratesKnownHeaderText}" Style="{StaticResource Header1}" VerticalOptions="Center">
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding KnowElectoratesCommand}"/>
                             </Label.GestureRecognizers>
@@ -32,7 +33,7 @@
                     <Label Text="Or" WidthRequest="150" FontSize="Large"
 					       HorizontalOptions="Center" VerticalOptions="Center" />
                     <Frame Style="{StaticResource TealFrame}">
-                        <Label Text="I need to look them up" Style="{StaticResource Header1}" HorizontalOptions="Center" VerticalOptions="Center">
+                        <Label Text="{xct:Translate LookupElectoratesHeaderText}" Style="{StaticResource Header1}" VerticalOptions="Center">
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding LookupElectoratesCommand}"/>
                             </Label.GestureRecognizers>
@@ -55,14 +56,14 @@
 
                 <Frame Style="{StaticResource NavajoWhiteFrame}" IsVisible="{Binding ShowAddressStack}">
                     <StackLayout Margin="20">
-                        <Label Text="Street number and name" Style="{StaticResource LeftFrameText}"/>
-                        <Entry Placeholder="Street number and name" Text="{Binding Address.StreetNumberAndName}" Style="{StaticResource LeftFrameEntry}"/>
-                        <Label Text="City or suburb" Style="{StaticResource LeftFrameText}"/>
-                        <Entry Placeholder="City or suburb" Text="{Binding Address.CityOrSuburb}" Style="{StaticResource LeftFrameEntry}"/>
-                        <Label Text="Postcode" Style="{StaticResource LeftFrameText}"/>
-                        <Entry Placeholder="Postcode" Text="{Binding Address.Postcode}" Style="{StaticResource LeftFrameEntry}"/>
+                        <Label Text="{xct:Translate StreetHeaderText}" Style="{StaticResource LeftFrameText}"/>
+                        <Entry Placeholder="{xct:Translate StreetHeaderText}" Text="{Binding Address.StreetNumberAndName}" Style="{StaticResource LeftFrameEntry}"/>
+                        <Label Text="{xct:Translate CitySuburbHeaderText}" Style="{StaticResource LeftFrameText}"/>
+                        <Entry Placeholder="{xct:Translate CitySuburbHeaderText}" Text="{Binding Address.CityOrSuburb}" Style="{StaticResource LeftFrameEntry}"/>
+                        <Label Text="{xct:Translate PostcodeHeaderText}" Style="{StaticResource LeftFrameText}"/>
+                        <Entry Placeholder="{xct:Translate PostcodeHeaderText}" Text="{Binding Address.Postcode}" Style="{StaticResource LeftFrameEntry}"/>
                         <StackLayout Orientation="Vertical" HorizontalOptions="Center">
-                            <Button Text="Find my electorates" HorizontalOptions="Center" Style="{StaticResource TurquoiseButton}" Command="{Binding SubmitAddressButtonCommand}" />
+                            <Button Text="{xct:Translate FindMyElectoratesButtonText}" HorizontalOptions="Center" Style="{StaticResource TurquoiseButton}" Command="{Binding SubmitAddressButtonCommand}" />
                             <Label x:Name="ReportLabel" Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}"/>
                         </StackLayout>
                         <!--
@@ -73,7 +74,7 @@
                     </StackLayout>
                 </Frame>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
-                    <Button Style="{StaticResource TurquoiseButton}" Text="Skip this step" Command="{Binding SkipButtonCommand}" IsVisible="{Binding ShowSkipButton}"/>
+                    <Button Style="{StaticResource TurquoiseButton}" Text="{xct:Translate SkipStepButton}" Command="{Binding SkipButtonCommand}" IsVisible="{Binding ShowSkipButton}"/>
                     <Button HorizontalOptions="End" Style="{StaticResource DoneButton}" Text="{Binding DoneButtonText}" Command="{Binding MPsButtonCommand}" IsVisible="{Binding ShowFindMPsButton}" />
                 </StackLayout>
             </StackLayout>
