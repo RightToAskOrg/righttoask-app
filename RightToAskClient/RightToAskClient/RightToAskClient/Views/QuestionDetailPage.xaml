@@ -13,25 +13,25 @@
     <ContentPage.Content>
 		<StackLayout x:Name="WholePage" Margin="20">
             <Label Text="{xct:Translate QuestionHeaderText}" Style="{StaticResource LeftSmall}"/>
-			<Label x:Name="QuestionDetailView" Text="{Binding Question.QuestionText}" Style="{StaticResource LeftLarge}"/>
+			<Label Text="{Binding Question.QuestionText}" Style="{StaticResource LeftLarge}"/>
             <Label Text="{xct:Translate QuestionWriterHeaderText}" Style="{StaticResource LeftSmall}"/>
-			<Label x:Name="Suggester" Text="{Binding Question.QuestionSuggester, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
+			<Label Text="{Binding Question.QuestionSuggester, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
             <Label Text="{xct:Translate UpvotesHeaderText}" Style="{StaticResource LeftSmall}"/>
 			<StackLayout  Orientation="Horizontal" HorizontalOptions="FillAndExpand" >
-				<Label x:Name="Votes" Text="{Binding Question.UpVotes,StringFormat='{0}'}" Style="{StaticResource LeftLarge}" />
+				<Label Text="{Binding Question.UpVotes,StringFormat='{0}'}" Style="{StaticResource LeftLarge}" />
 				<Button Text="{Binding UpvoteButtonText}" Command="{Binding UpvoteCommand}" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}"/>
 			</StackLayout>
-			<StackLayout x:Name="BackgroundSegment" Orientation="Vertical" IsVisible="{Binding IsNewQuestion}">
+			<StackLayout Orientation="Vertical" IsVisible="{Binding IsNewQuestion}">
                 <Label Text="{xct:Translate BackgroundHeaderText}" Style="{StaticResource Header2}" />
                 <Editor Placeholder="{xct:Translate AddBackgroundPlaceholderText}" Completed="Background_Entered" Style="{StaticResource NormalEditor}" />
 			</StackLayout >
-            <StackLayout x:Name="LinkOrAnswerSegment" Orientation="Vertical" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
+            <StackLayout Orientation="Vertical" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
                 <Label Text="{xct:Translate LinkAnswerHeaderText}" />
                 <Editor Placeholder="{xct:Translate LinkAnswerPlaceholderText}" Completed="Answer_Entered" Style="{StaticResource NormalEditor}" />
 			</StackLayout >
-            <Button x:Name="SaveAnswerButton" Style="{StaticResource SaveButton}" Text="{xct:Translate SaveAnswerButtonText}" Clicked="SaveAnswerButton_OnClicked" HorizontalOptions="Center" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}"/>
-			<Button x:Name="SaveBackgroundButton" Style="{StaticResource DoneButton}" Text="{xct:Translate PublishQuestionButtonText}" Clicked="SubmitNewQuestionButton_OnClicked" HorizontalOptions="Center" IsVisible="{Binding IsNewQuestion}"/>
-			<Button x:Name="QuestionSuggesterButton" Style="{StaticResource TurquoiseButton}" Clicked="QuestionSuggesterButton_OnClicked" HorizontalOptions="Center"/>
+            <Button Text="{Binding SaveButtonText}" Style="{StaticResource SaveButton}" Command="{Binding SaveAnswerCommand}" HorizontalOptions="Center" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}"/>
+            <Button Text="{xct:Translate PublishQuestionButtonText}" Style="{StaticResource DoneButton}" Command="{Binding SaveQuestionCommand}" HorizontalOptions="Center" IsVisible="{Binding IsNewQuestion}"/>
+            <Button Text="{Binding QuestionSuggesterButtonText}" Style="{StaticResource TurquoiseButton}" Command="{Binding QuestionSuggesterCommand}" HorizontalOptions="Center" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}"/>
 		</StackLayout>
     </ContentPage.Content>
 </ContentPage>

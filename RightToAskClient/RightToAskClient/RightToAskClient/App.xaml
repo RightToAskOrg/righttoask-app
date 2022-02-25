@@ -61,7 +61,7 @@
                 <Setter Property="CornerRadius" Value="20"></Setter>
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
                 <Setter Property="Padding" Value="0"></Setter>
-                <Setter Property="Text" Value="+1"></Setter>
+                <!--<Setter Property="Text" Value="+1"></Setter>-->
             </Style>
             <Style x:Key="NormalEditor" TargetType="Editor" ApplyToDerivedTypes="True">
                 <Setter Property="BackgroundColor" Value="Turquoise"></Setter>

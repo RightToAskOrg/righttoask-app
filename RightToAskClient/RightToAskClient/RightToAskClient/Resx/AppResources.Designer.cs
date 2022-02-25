@@ -821,7 +821,7 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Upvote.
+        ///   Looks up a localized string similar to +1.
         /// </summary>
         internal static string UpvoteButtonText {
             get {
@@ -830,7 +830,7 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to +1.
+        ///   Looks up a localized string similar to Undo Upvote.
         /// </summary>
         internal static string UpvotedButtonText {
             get {
