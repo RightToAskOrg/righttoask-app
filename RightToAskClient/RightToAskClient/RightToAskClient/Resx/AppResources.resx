@@ -373,6 +373,12 @@
   <data name="UIDPlaceholderText" xml:space="preserve">
     <value>Enter UserID</value>
   </data>
+  <data name="UpvoteButtonText" xml:space="preserve">
+    <value>+1</value>
+  </data>
+  <data name="UpvotedButtonText" xml:space="preserve">
+    <value>Undo Upvote</value>
+  </data>
   <data name="UpvotesHeaderText" xml:space="preserve">
     <value>Upvotes: </value>
   </data>

@@ -1,9 +1,12 @@
-﻿using RightToAskClient.Models;
+﻿using RightToAskClient.CryptoUtils;
+using RightToAskClient.HttpClients;
+using RightToAskClient.Models;
 using RightToAskClient.Resx;
 using RightToAskClient.Views;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
@@ -105,6 +108,22 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _selectButtonText, value);
         }
 
+        private string _upvoteButtonText = AppResources.UpvoteButtonText;
+        public string UpvoteButtonText
+        {
+            get => _upvoteButtonText;
+            set => SetProperty(ref _upvoteButtonText, value);
+        }
+
+        private string _saveButtonText = AppResources.SaveAnswerButtonText;
+        public string SaveButtonText
+        {
+            get => _saveButtonText;
+            set => SetProperty(ref _saveButtonText, value);
+        }
+
+        public string QuestionSuggesterButtonText => QuestionViewModel.Instance.IsNewQuestion ? AppResources.EditProfileButtonText : String.Format(AppResources.ViewOtherUserProfile, QuestionViewModel.Instance.Question.QuestionSuggester);
+
         public bool MPButtonsEnabled => ParliamentData.MPAndOtherData.IsInitialised;
         public void UpdateMPButtons()
         {
@@ -172,6 +191,34 @@ namespace RightToAskClient.ViewModels
                 App.ReadingContext.Filters.SelectedAskingCommittee.Add("Senate Estimates tomorrow");
                 SelectButtonText = AppResources.SelectedButtonText;
             });
+            UpvoteCommand = new Command(() =>
+            {
+                if (Question.AlreadyUpvoted)
+                {
+                    Question.UpVotes--;
+                    Question.AlreadyUpvoted = false;
+                    UpvoteButtonText = AppResources.UpvoteButtonText;
+                }
+                else
+                {
+                    Question.UpVotes++;
+                    Question.AlreadyUpvoted = true;
+                    UpvoteButtonText = AppResources.UpvotedButtonText;
+                }
+            });
+            SaveAnswerCommand = new Command(() =>
+            {
+                SaveButtonText = "Answer saving not implemented";
+            });
+            SaveQuestionCommand = new Command(() =>
+            {
+                SubmitNewQuestionButton_OnClicked();
+            });
+            QuestionSuggesterCommand = new AsyncCommand(async () =>
+            {
+                RegisterPage1 otherUserProfilePage = new RegisterPage1();
+                await App.Current.MainPage.Navigation.PushAsync(otherUserProfilePage);
+            });
         }
 
         public Command<string> RaisedOptionSelectedCommand { get; }
@@ -180,7 +227,11 @@ namespace RightToAskClient.ViewModels
         public IAsyncCommand OtherPublicAuthorityButtonCommand { get; }
         public IAsyncCommand AnsweredByMyMPCommand { get; }
         public IAsyncCommand AnsweredByOtherMPCommand { get; }
+        public IAsyncCommand QuestionSuggesterCommand { get; }
+        public Command SaveQuestionCommand { get; }
         public Command SelectCommitteeButtonCommand { get; }
+        public Command UpvoteCommand { get; }
+        public Command SaveAnswerCommand { get; }
 
         public void ResetInstance()
         {
@@ -291,6 +342,93 @@ namespace RightToAskClient.ViewModels
         private async void OnAnswerByOtherMPButtonClicked(object sender, EventArgs e)
         {
             await NavigationUtils.PushAnsweringMPsExploringPage();
+        }
+
+        async void SubmitNewQuestionButton_OnClicked()
+        {
+            if (!App.ReadingContext.ThisParticipant.IsRegistered)
+            {
+                string message = "You need to make an account to publish or vote on questions";
+                bool registerNow
+                    = await App.Current.MainPage.DisplayAlert("Make an account?", message, "OK", "Not now");
+
+                if (registerNow)
+                {
+                    // var reg = new Registration();
+                    RegisterPage1 registrationPage = new RegisterPage1();
+                    registrationPage.Disappearing += setSuggester;
+
+                    // question.QuestionSuggester = readingContext.ThisParticipant.UserName;
+                    // Commenting-out this instruction means that the person has to push
+                    // the 'publish question' button again after they've registered 
+                    // their account. This seems natural to me, but is worth checking
+                    // with users.
+                    // registrationPage.Disappearing += saveQuestion;
+
+                    await App.Current.MainPage.Navigation.PushAsync(registrationPage);
+                    //await Shell.Current.GoToAsync($"{nameof(RegisterPage1)}");
+                }
+            }
+            else
+            {
+                SaveQuestion();
+            }
+        }
+
+        private void setSuggester(object sender, EventArgs e)
+        {
+            QuestionViewModel.Instance.Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.display_name;
+        }
+
+        private async void SaveQuestion()
+        {
+            // Setting QuestionSuggester may be unnecessary
+            // - it may already be set correctly -
+            // but is needed if the person has just registered.
+            if (App.ReadingContext.ThisParticipant.IsRegistered)
+            {
+                // question.QuestionSuggester = readingContext.ThisParticipant.UserName;
+                App.ReadingContext.ExistingQuestions.Insert(0, Question);
+                (bool isValid, string errorMessage) successfulSubmission = await SubmitQuestionToServer();
+                App.ReadingContext.DraftQuestion = "";
+
+                if (!successfulSubmission.isValid)
+                {
+                    await App.Current.MainPage.DisplayAlert("Error", successfulSubmission.errorMessage, "", "OK");
+                    return;
+                }
+
+                bool goHome = await App.Current.MainPage.DisplayAlert("Question published!", "", "Home", "Write another one");
+
+                if (goHome)
+                {
+                    await App.Current.MainPage.Navigation.PopToRootAsync();
+                    //await Shell.Current.GoToAsync($"///{nameof(MainPage)}");
+                }
+                else // Pop back to readingpage. TODO: fix the context so that it doesn't think you're drafting
+                     // a question.  Possibly the right thing to do is pop everything and then push a reading page.
+                {
+                    //await Navigation.PopAsync();
+                    await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
+                }
+            }
+        }
+
+        private async Task<(bool isValid, string message)> SubmitQuestionToServer()
+        {
+            // TODO: Obviously later this uploadable question will have more of the 
+            // other data. Just getting it working for now.
+            NewQuestionCommand uploadableQuestion = new NewQuestionCommand()
+            {
+                question_text = Question.QuestionText,
+            };
+
+            // TODO Check for serialisation errors.
+            ClientSignedUnparsed signedQuestion = ClientSignatureGenerationService.SignMessage(uploadableQuestion,
+                    App.ReadingContext.ThisParticipant.RegistrationInfo.uid);
+
+            Result<bool> httpResponse = await RTAClient.RegisterNewQuestion(signedQuestion);
+            return RTAClient.ValidateHttpResponse(httpResponse, "Question Upload");
         }
     }
 }
