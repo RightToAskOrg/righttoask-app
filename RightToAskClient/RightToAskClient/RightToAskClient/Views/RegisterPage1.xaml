@@ -13,37 +13,34 @@
         <vm:Registration1ViewModel />
     </ContentPage.BindingContext>
 	<ContentPage.Content >
-		<StackLayout Margin="20">
+        <StackLayout Margin="20">
             <Label Text="{xct:Translate UIDHeaderText}" Style="{StaticResource LeftSmall}"/>
-			<Entry Text="{Binding Registration.uid}" Placeholder="Enter UserID" Style="{StaticResource NormalEntry}"/>
+            <Entry Text="{Binding Registration.uid}" Placeholder="{xct:Translate UIDPlaceholderText}" Style="{StaticResource NormalEntry}"/>
             <Label Text="{xct:Translate DisplayNameHeaderText}" Style="{StaticResource LeftSmall}"/>
-			<Entry Text="{Binding Registration.display_name}" Placeholder="Enter display name" Style="{StaticResource NormalEntry}"/>
+            <Entry Text="{Binding Registration.display_name}" Placeholder="{xct:Translate DisplayNamePlaceholderText}" Style="{StaticResource NormalEntry}"/>
             <Label Text="{xct:Translate StateHeaderText}" Style="{StaticResource LeftSmall}"/>
 			<Picker x:Name="stateOrTerritoryPicker" Title="{Binding Registration.State,  StringFormat='{0:F0}'}" 
 			        BackgroundColor="Turquoise"
 			        SelectedIndexChanged="OnStatePickerSelectedIndexChanged">
 			</Picker>
             <Label Text="{xct:Translate ElectoratesHeaderText}" Style="{StaticResource LeftSmall}"/>
-			<CollectionView ItemsSource="{Binding Registration.electorates}" SelectionMode="Single" SelectedItem="{Binding ElectoratesButtonCommand}">
+			<CollectionView ItemsSource="{Binding Registration.electorates}" SelectionMode="Single" SelectedItem="{Binding SelectedElectorateWithChamber}">
 				<CollectionView.ItemTemplate>
 					<DataTemplate x:DataType="models:ElectorateWithChamber">
-						<ViewCell>
-							<StackLayout HorizontalOptions="StartAndExpand"
-							             Orientation="Horizontal">
-                                <Label Text="{Binding chamber }" Style="{StaticResource ListViewTextVertCenter}"/>
-                                <Label Text="{Binding region}" Style="{StaticResource ListViewTextVertCenter}" />
-							</StackLayout>
-						</ViewCell>
-					</DataTemplate>
+                        <StackLayout HorizontalOptions="StartAndExpand" Orientation="Horizontal">
+                            <Label Text="{Binding chamber}" Style="{StaticResource ListViewTextVertCenter}"/>
+                            <Label Text="{Binding region}" Style="{StaticResource ListViewTextVertCenter}" />
+                        </StackLayout>
+                    </DataTemplate>
 				</CollectionView.ItemTemplate>
 			</CollectionView>
-			<Label x:Name="ReportLabel" Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}"/>
-			<StackLayout Orientation="Vertical" VerticalOptions="Center">
-				<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+            <Label x:Name="ReportLabel" Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}"/>
+            <StackLayout Orientation="Vertical" VerticalOptions="Center">
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
                     <Button Text="{xct:Translate CompleteAccountCreationButtonText}" Style="{StaticResource DoneButton}" Command="{Binding SaveButtonCommand}" HorizontalOptions="Center"/>
-				</StackLayout>
-			</StackLayout>
-			<StackLayout Orientation="Horizontal" VerticalOptions="Center">
+                </StackLayout>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" VerticalOptions="Center">
                 <Button Text="{Binding RegisterMPButtonText}" Command="{Binding RegisterMPButtonCommand}" IsVisible="{Binding ShowRegisterMPButton}" Style="{StaticResource DoneButton}" HorizontalOptions="Center"/>
                 <Button Text="{Binding RegisterOrgButtonText}" Command="{Binding RegisterOrgButtonCommand}" IsVisible="{Binding ShowRegisterOrgButton}" Style="{StaticResource DoneButton}" HorizontalOptions="Center"/>
                 <Button Text="{xct:Translate CancelButtonText}" Command="{Binding CancelButtonCommand}" IsVisible="{Binding ShowDoneButton}"/>
@@ -51,7 +48,7 @@
             <Button Text="{Binding FollowButtonText}" Style="{StaticResource TurquoiseButton}" Command="{Binding FollowButtonCommand}" IsVisible="{Binding ShowFollowButton}" HorizontalOptions="Center"/>
             <Button Text="{Binding SeeQuestionsButtonText}" Style="{StaticResource TurquoiseButton}"  IsVisible="{Binding ShowSeeQuestionsButton}" Command="{Binding SeeQuestionsButtonCommand}" HorizontalOptions="Center"/>
             <Button Text="{Binding DMButtonText}" Style="{StaticResource TurquoiseButton}" IsVisible="{Binding ShowDMButton}" Command="{Binding DMButtonCommand}" HorizontalOptions="Center"/>
-		</StackLayout>
+        </StackLayout>
 	<!--
 	</StackLayout>
         <StackLayout>

@@ -113,15 +113,20 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _followButtonText, value);
         }
 
-        // Might not need these if I can make Registration model class inherit from ObservableObject
-        /*
-        public string DisplayName => Registration.display_name;
-        public string PublicKey => Registration.public_key;
-        public string State => Registration.State;
-        public string UID => Registration.uid;
+        private ElectorateWithChamber _selectedElectorateWithChamber;
+        public ElectorateWithChamber SelectedElectorateWithChamber
+        {
+            get => _selectedElectorateWithChamber;
+            set
+            {
+                _ = SetProperty(ref _selectedElectorateWithChamber, value);
+                if (_selectedElectorateWithChamber != null)
+                {
+                    ElectorateSelected();
+                }
+            }
+        }
 
-        public List<ElectorateWithChamber> Electorates => Registration.electorates;
-        */
         #endregion
         // constructor
         public Registration1ViewModel()
@@ -175,11 +180,6 @@ namespace RightToAskClient.ViewModels
             {
                 await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
             });
-            // TODO Make this put up the electorate-finding page.
-            ElectoratesButtonCommand = new AsyncCommand(async () =>
-            {
-                await Shell.Current.GoToAsync($"{nameof(RegisterPage2)}");
-            });
         }
 
         // commands
@@ -190,7 +190,6 @@ namespace RightToAskClient.ViewModels
         public Command DMButtonCommand { get; }
         public IAsyncCommand CancelButtonCommand { get; }
         public IAsyncCommand SeeQuestionsButtonCommand { get; }
-        public IAsyncCommand ElectoratesButtonCommand { get; }
 
         #region Methods
         /*
@@ -205,6 +204,12 @@ namespace RightToAskClient.ViewModels
                 App.ReadingContext.ThisParticipant.UpdateChambers(state);
             }
         }*/
+
+        // TODO Make this put up the electorate-finding page.
+        public async void ElectorateSelected()
+        {
+            await Shell.Current.GoToAsync($"{nameof(RegisterPage2)}");
+        }
 
         // Show and label different buttons according to whether we're registering
         // as a new user, or viewing someone else's profile.
