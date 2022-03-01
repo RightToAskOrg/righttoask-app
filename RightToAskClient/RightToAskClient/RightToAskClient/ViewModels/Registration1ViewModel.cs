@@ -263,15 +263,23 @@ namespace RightToAskClient.ViewModels
             var regTest = newRegistration.IsValid().Err;
             if (String.IsNullOrEmpty(regTest))
             {
-                //Result<bool> httpResponse = await App.RegItemManager.SaveTaskAsync (newRegistration);
-                Result<bool> httpResponse = await RTAClient.RegisterNewUser(newRegistration);
-                var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
-                ReportLabelText = httpValidation.message;
-                if (httpValidation.isValid)
+                // see if we need to push the electorates page or if we push the server account things
+                if (!App.ReadingContext.ThisParticipant.MPsKnown)
                 {
-                    App.ReadingContext.ThisParticipant.RegistrationInfo = newRegistration;
-                    App.ReadingContext.ThisParticipant.IsRegistered = true;
-                    PossiblyPushElectoratesPage();
+                    await Shell.Current.GoToAsync($"{nameof(RegisterPage2)}");
+                }
+                //if (App.ReadingContext.ThisParticipant.MPsKnown)
+                else
+                {
+                    //Result<bool> httpResponse = await App.RegItemManager.SaveTaskAsync (newRegistration);
+                    Result<bool> httpResponse = await RTAClient.RegisterNewUser(newRegistration);
+                    var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
+                    ReportLabelText = httpValidation.message;
+                    if (httpValidation.isValid)
+                    {
+                        App.ReadingContext.ThisParticipant.RegistrationInfo = newRegistration;
+                        App.ReadingContext.ThisParticipant.IsRegistered = true;
+                    }
                 }
             }
             else
@@ -286,17 +294,6 @@ namespace RightToAskClient.ViewModels
         private async void PromptUser(string message)
         {
             await App.Current.MainPage.DisplayAlert("Registration incomplete", message, "OK");
-        }
-
-        // If MPs are not known, show page that allows finding electorates.
-        // Whether or not they choose some, let them finish registering.
-        // Make sure they've entered a name.
-        private async void PossiblyPushElectoratesPage()
-        {
-            if (!App.ReadingContext.ThisParticipant.MPsKnown)
-            {
-                await Shell.Current.GoToAsync($"{nameof(RegisterPage2)}");
-            }
         }
         #endregion
     }
