@@ -75,6 +75,8 @@
     <None Remove="Resources\MPs.json" />
     <EmbeddedResource Include="Resources\MPs.json" />
     <EmbeddedResource Remove="Views\AuthoritiesRTKCategories.xaml" />
+    <None Remove="Resources\server.config" />
+    <EmbeddedResource Include="Resources\server.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Resx\AppResources.Designer.cs">
