@@ -21,7 +21,7 @@
             <Label Text="{xct:Translate StateHeaderText}" Style="{StaticResource LeftSmall}"/>
 			<Picker x:Name="stateOrTerritoryPicker" Title="{Binding Registration.State,  StringFormat='{0:F0}'}" 
 			        BackgroundColor="Turquoise"
-			        SelectedIndexChanged="OnStatePickerSelectedIndexChanged">
+			        SelectedIndex="{Binding SelectedState}">
 			</Picker>
             <Label Text="{xct:Translate ElectoratesHeaderText}" Style="{StaticResource LeftSmall}"/>
 			<CollectionView ItemsSource="{Binding Registration.electorates}" SelectionMode="Single" SelectedItem="{Binding ElectoratesButtonCommand}">

@@ -8,6 +8,7 @@ using RightToAskClient.Models;
 using RightToAskClient.Resx;
 using RightToAskClient.Views;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace RightToAskClient.ViewModels
@@ -113,6 +114,23 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _followButtonText, value);
         }
 
+        private int _selectedState = -1;
+        public int SelectedState
+        {
+            get => _selectedState;
+            set
+            {
+                SetProperty(ref _selectedState, value);
+                if (SelectedState != -1)
+                {
+                    Registration.State = ParliamentData.StatesAndTerritories[SelectedState];
+                    App.ReadingContext.ThisParticipant.RegistrationInfo.State = Registration.State;
+                    App.ReadingContext.ThisParticipant.UpdateChambers(Registration.State);
+                }
+            }
+        }
+
+
         // Might not need these if I can make Registration model class inherit from ObservableObject
         /*
         public string DisplayName => Registration.display_name;
@@ -138,6 +156,11 @@ namespace RightToAskClient.ViewModels
             Title = App.ReadingContext.IsReadingOnly ? AppResources.UserProfileTitle : AppResources.CreateAccountTitle;
             RegisterMPButtonText = AppResources.RegisterMPAccountButtonText;
             RegisterOrgButtonText = AppResources.RegisterOrganisationAccountButtonText;
+
+            // get account info from preferences
+            Registration.display_name =  Preferences.Get("DisplayName", Registration.display_name);
+            Registration.uid = Preferences.Get("UID", Registration.uid);
+            SelectedState = Preferences.Get("State", -1);
 
             // commands
             SaveButtonCommand = new Command(() =>
@@ -258,6 +281,10 @@ namespace RightToAskClient.ViewModels
             var regTest = newRegistration.IsValid().Err;
             if (String.IsNullOrEmpty(regTest))
             {
+                // save to preferences
+                Preferences.Set("DisplayName", Registration.display_name);
+                Preferences.Set("UID", Registration.uid);
+                Preferences.Set("State", SelectedState); // stored as an int as used for the other page(s) state pickers
                 //Result<bool> httpResponse = await App.RegItemManager.SaveTaskAsync (newRegistration);
                 Result<bool> httpResponse = await RTAClient.RegisterNewUser(newRegistration);
                 var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");

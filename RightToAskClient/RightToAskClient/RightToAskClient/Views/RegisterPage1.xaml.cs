@@ -5,6 +5,7 @@ using RightToAskClient.Models;
 using RightToAskClient.HttpClients;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Xamarin.Essentials;
 
 namespace RightToAskClient.Views
 {
@@ -16,6 +17,7 @@ namespace RightToAskClient.Views
             InitializeComponent();
 
             stateOrTerritoryPicker.ItemsSource = ParliamentData.StatesAndTerritories;
+            //stateOrTerritoryPicker.SelectedIndex = Preferences.Get("State", -1);
         }
 
         void OnStatePickerSelectedIndexChanged(object sender, EventArgs e)
