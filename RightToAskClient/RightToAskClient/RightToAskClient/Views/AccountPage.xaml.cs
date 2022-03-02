@@ -17,7 +17,7 @@ namespace RightToAskClient.Views
             InitializeComponent();
         }
 
-        protected override bool OnBackButtonPressedAsync()
+        protected override bool OnBackButtonPressed()
         {
             //App.Current.MainPage.Navigation.PopToRootAsync();
             //_ = Shell.Current.GoToAsync(nameof(MainPage));
