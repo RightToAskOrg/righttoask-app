@@ -19,14 +19,7 @@ namespace RightToAskClient.Views
 
         protected override bool OnBackButtonPressed()
         {
-            //App.Current.MainPage.Navigation.PopToRootAsync();
-            //_ = Shell.Current.GoToAsync(nameof(MainPage));
-            Task<string>? result = Shell.Current.DisplayActionSheet("Are you sure you want to exit?", "Cancel", "Yes");
-            if (result.ToString() == "Yes")
-            {
-                return false; // close the application
-            }
-            return true; // otherwise do nothing
+            return true;
         }
     }
 }

@@ -61,16 +61,5 @@ namespace RightToAskClient.Views
             //await Navigation.PushAsync(secondPage);
             await Shell.Current.GoToAsync($"{nameof(SecondPage)}");
         }
-
-        protected override bool OnBackButtonPressed()
-        {
-            return true;
-            //string? result = await Shell.Current.DisplayActionSheet("Are you sure you want to exit?", "Cancel", "Yes");
-            //if (result == "Yes")
-            //{
-            //    return false; // close the application
-            //}
-            //return true; // otherwise do nothing
-        }
     }
 }
