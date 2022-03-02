@@ -114,6 +114,19 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _followButtonText, value);
         }
 
+        private ElectorateWithChamber? _selectedElectorateWithChamber = null;
+        public ElectorateWithChamber? SelectedElectorateWithChamber
+        {
+            get => _selectedElectorateWithChamber;
+            set
+            {
+                _ = SetProperty(ref _selectedElectorateWithChamber, value);
+                if (_selectedElectorateWithChamber != null)
+                {
+                    ElectorateSelected();
+                }
+            }
+        }
         private int _selectedState = -1;
         public int SelectedState
         {
@@ -138,8 +151,6 @@ namespace RightToAskClient.ViewModels
         public string State => Registration.State;
         public string UID => Registration.uid;
 
-        public List<ElectorateWithChamber> Electorates => Registration.electorates;
-        */
         #endregion
         // constructor
         public Registration1ViewModel()
@@ -198,11 +209,6 @@ namespace RightToAskClient.ViewModels
             {
                 await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
             });
-            // TODO Make this put up the electorate-finding page.
-            ElectoratesButtonCommand = new AsyncCommand(async () =>
-            {
-                await Shell.Current.GoToAsync($"{nameof(RegisterPage2)}");
-            });
         }
 
         // commands
@@ -213,7 +219,6 @@ namespace RightToAskClient.ViewModels
         public Command DMButtonCommand { get; }
         public IAsyncCommand CancelButtonCommand { get; }
         public IAsyncCommand SeeQuestionsButtonCommand { get; }
-        public IAsyncCommand ElectoratesButtonCommand { get; }
 
         #region Methods
         /*
@@ -228,6 +233,12 @@ namespace RightToAskClient.ViewModels
                 App.ReadingContext.ThisParticipant.UpdateChambers(state);
             }
         }*/
+
+        // TODO Make this put up the electorate-finding page.
+        public async void ElectorateSelected()
+        {
+            await Shell.Current.GoToAsync($"{nameof(RegisterPage2)}");
+        }
 
         // Show and label different buttons according to whether we're registering
         // as a new user, or viewing someone else's profile.
@@ -281,19 +292,28 @@ namespace RightToAskClient.ViewModels
             var regTest = newRegistration.IsValid().Err;
             if (String.IsNullOrEmpty(regTest))
             {
-                // save to preferences
-                Preferences.Set("DisplayName", Registration.display_name);
-                Preferences.Set("UID", Registration.uid);
-                Preferences.Set("State", SelectedState); // stored as an int as used for the other page(s) state pickers
-                //Result<bool> httpResponse = await App.RegItemManager.SaveTaskAsync (newRegistration);
-                Result<bool> httpResponse = await RTAClient.RegisterNewUser(newRegistration);
-                var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
-                ReportLabelText = httpValidation.message;
-                if (httpValidation.isValid)
+                // see if we need to push the electorates page or if we push the server account things
+                if (!App.ReadingContext.ThisParticipant.MPsKnown)
                 {
-                    App.ReadingContext.ThisParticipant.RegistrationInfo = newRegistration;
-                    App.ReadingContext.ThisParticipant.IsRegistered = true;
-                    PossiblyPushElectoratesPage();
+                    await Shell.Current.GoToAsync($"{nameof(RegisterPage2)}");
+                }
+                //if (App.ReadingContext.ThisParticipant.MPsKnown)
+                else
+                {
+                    // save to preferences
+                    Preferences.Set("DisplayName", Registration.display_name);
+                    Preferences.Set("UID", Registration.uid);
+                    Preferences.Set("State", SelectedState); // stored as an int as used for the other page(s) state pickers
+                    //Result<bool> httpResponse = await App.RegItemManager.SaveTaskAsync (newRegistration);
+                    Result<bool> httpResponse = await RTAClient.RegisterNewUser(newRegistration);
+                    var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
+                    ReportLabelText = httpValidation.message;
+                    if (httpValidation.isValid)
+                    {
+                        App.ReadingContext.ThisParticipant.RegistrationInfo = newRegistration;
+                        App.ReadingContext.ThisParticipant.IsRegistered = true;
+                        PossiblyPushElectoratesPage();
+                    }
                 }
             }
             else
@@ -308,17 +328,6 @@ namespace RightToAskClient.ViewModels
         private async void PromptUser(string message)
         {
             await App.Current.MainPage.DisplayAlert("Registration incomplete", message, "OK");
-        }
-
-        // If MPs are not known, show page that allows finding electorates.
-        // Whether or not they choose some, let them finish registering.
-        // Make sure they've entered a name.
-        private async void PossiblyPushElectoratesPage()
-        {
-            if (!App.ReadingContext.ThisParticipant.MPsKnown)
-            {
-                await Shell.Current.GoToAsync($"{nameof(RegisterPage2)}");
-            }
         }
         #endregion
     }
