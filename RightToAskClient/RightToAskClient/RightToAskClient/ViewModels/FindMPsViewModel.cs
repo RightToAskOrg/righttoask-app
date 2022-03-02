@@ -5,7 +5,9 @@ using RightToAskClient.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
@@ -169,7 +171,7 @@ namespace RightToAskClient.ViewModels
             });
             SubmitAddressButtonCommand = new AsyncCommand(async () =>
             {
-                OnSubmitAddressButton_Clicked();
+                await OnSubmitAddressButton_Clicked();
             });
             // TODO Think about what should happen if the person has made 
             // some choices, then clicks 'skip'.  At the moment, it retains 
@@ -209,7 +211,7 @@ namespace RightToAskClient.ViewModels
         // TODO: We probably want this to give the person a chance to go back and fix it if wrong.
         // If we don't even know the person's state, we have no idea so they have to go back and pick;
         // If we know their state but not their Legislative Assembly or Council makeup, we can go on. 
-        private async void OnSubmitAddressButton_Clicked()
+        private async Task OnSubmitAddressButton_Clicked()
         {
             Result<GeoscapeAddressFeature> httpResponse;
 
@@ -230,30 +232,33 @@ namespace RightToAskClient.ViewModels
 
             httpResponse = await GeoscapeClient.GetFirstAddressData(_address + " " + state);
 
-            if (!String.IsNullOrEmpty(httpResponse.Err))
+            if (httpResponse != null)
             {
-                ReportLabelText = httpResponse.Err;
-                return;
-            }
+                if (httpResponse.Err != null)
+                {
+                    ReportLabelText = httpResponse.Err;
+                    return;
+                }
 
-            // Now we know everything is good.
-            var bestAddress = httpResponse.Ok;
-            AddElectorates(bestAddress);
-            ShowFindMPsButton = true;
-            ReportLabelText = "";
+                // Now we know everything is good.
+                var bestAddress = httpResponse.Ok;
+                AddElectorates(bestAddress);
+                ShowFindMPsButton = true;
+                ReportLabelText = "";
 
-            bool saveThisAddress = await App.Current.MainPage.DisplayAlert("Electorates found!",
-                // "State Assembly Electorate: "+thisParticipant.SelectedLAStateElectorate+"\n"
-                // +"State Legislative Council Electorate: "+thisParticipant.SelectedLCStateElectorate+"\n"
-                "Federal electorate: " + App.ReadingContext.ThisParticipant.CommonwealthElectorate + "\n" +
-                "State lower house electorate: " + App.ReadingContext.ThisParticipant.StateLowerHouseElectorate + "\n" +
-                "Do you want to save your address on this device? Right To Ask will not learn your address.",
-                "OK - Save address on this device", "No thanks");
-            if (saveThisAddress)
-            {
-                SaveAddress();
+                bool saveThisAddress = await App.Current.MainPage.DisplayAlert("Electorates found!",
+                    // "State Assembly Electorate: "+thisParticipant.SelectedLAStateElectorate+"\n"
+                    // +"State Legislative Council Electorate: "+thisParticipant.SelectedLCStateElectorate+"\n"
+                    "Federal electorate: " + App.ReadingContext.ThisParticipant.CommonwealthElectorate + "\n" +
+                    "State lower house electorate: " + App.ReadingContext.ThisParticipant.StateLowerHouseElectorate + "\n" +
+                    "Do you want to save your address on this device? Right To Ask will not learn your address.",
+                    "OK - Save address on this device", "No thanks");
+                if (saveThisAddress)
+                {
+                    SaveAddress();
+                }
+                ShowSkipButton = false;
             }
-            ShowSkipButton = false;
         }
 
         private void AddElectorates(GeoscapeAddressFeature addressData)

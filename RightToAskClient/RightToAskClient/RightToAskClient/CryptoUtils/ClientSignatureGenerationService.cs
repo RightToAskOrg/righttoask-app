@@ -80,14 +80,17 @@ namespace RightToAskClient.CryptoUtils
             catch (JsonException e)
             {
                 // TODO Deal with Json serialisation problem
+                Debug.WriteLine("Json Exception: " + e.Message);
             }
             catch (InvalidOperationException e)
             {
                 // TODO Something went wrong with signing
+                Debug.WriteLine("Invalid Operation Exception: " + e.Message);
             }
             catch (Exception e)
             {
                 // TODO Something else went wrong
+                Debug.WriteLine("Generic Exception: " + e.Message);
             }
                 
             return new ClientSignedUnparsed()

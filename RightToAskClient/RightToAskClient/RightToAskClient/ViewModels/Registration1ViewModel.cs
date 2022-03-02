@@ -113,8 +113,8 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _followButtonText, value);
         }
 
-        private ElectorateWithChamber _selectedElectorateWithChamber;
-        public ElectorateWithChamber SelectedElectorateWithChamber
+        private ElectorateWithChamber? _selectedElectorateWithChamber = null;
+        public ElectorateWithChamber? SelectedElectorateWithChamber
         {
             get => _selectedElectorateWithChamber;
             set
