@@ -18,6 +18,7 @@ namespace RightToAskClient.Droid
                 UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
         }
 
+        /*
         private int counter = 0;
         public override void OnBackPressed()
         {
@@ -27,6 +28,6 @@ namespace RightToAskClient.Droid
                 base.OnBackPressed(); // removing this call will prevent the user from being able to leave the app by pressing the back button
                 counter = 0;
             }
-        }
+        }*/
     }
 }

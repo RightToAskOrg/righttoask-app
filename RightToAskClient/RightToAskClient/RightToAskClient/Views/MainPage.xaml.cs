@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using RightToAskClient.Models;
 using Xamarin.Forms;
 
@@ -61,5 +62,14 @@ namespace RightToAskClient.Views
             await Shell.Current.GoToAsync($"{nameof(SecondPage)}");
         }
 
+        protected override async Task<bool> OnBackButtonPressedAsync()
+        {
+            string? result = await Shell.Current.DisplayActionSheet("Are you sure you want to exit?", "Cancel", "Yes");
+            if (result == "Yes")
+            {
+                return false; // close the application
+            }
+            return true; // otherwise do nothing
+        }
     }
 }

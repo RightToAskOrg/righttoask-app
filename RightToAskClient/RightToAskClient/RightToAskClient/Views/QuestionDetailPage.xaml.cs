@@ -27,5 +27,12 @@ namespace RightToAskClient.Views
         {
             // Do nothing.
         }
+
+        protected override bool OnBackButtonPressedAsync()
+        {
+            App.Current.MainPage.Navigation.PopToRootAsync();
+            //_ = Shell.Current.GoToAsync(nameof(MainPage));
+            return true;
+        }
     }
 }

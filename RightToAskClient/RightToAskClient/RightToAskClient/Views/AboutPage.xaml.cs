@@ -16,5 +16,15 @@ namespace RightToAskClient.Views
         {
             InitializeComponent();
         }
+
+        protected override bool OnBackButtonPressedAsync()
+        {
+            Task<string>? result = Shell.Current.DisplayActionSheet("Are you sure you want to exit?", "Cancel", "Yes");
+            if (result.ToString() == "Yes")
+            {
+                return false; // close the application
+            }
+            return true; // otherwise do nothing
+        }
     }
 }
