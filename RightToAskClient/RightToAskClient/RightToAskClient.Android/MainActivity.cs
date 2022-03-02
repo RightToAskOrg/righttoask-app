@@ -17,5 +17,16 @@ namespace RightToAskClient.Droid
             App.Current.On<Xamarin.Forms.PlatformConfiguration.Android>().
                 UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
         }
+
+        private int counter = 0;
+        public override void OnBackPressed()
+        {
+            counter++;
+            if (counter >= 2)
+            {
+                base.OnBackPressed(); // removing this call will prevent the user from being able to leave the app by pressing the back button
+                counter = 0;
+            }
+        }
     }
 }
