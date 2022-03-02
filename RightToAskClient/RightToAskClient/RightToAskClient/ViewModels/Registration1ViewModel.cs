@@ -142,16 +142,8 @@ namespace RightToAskClient.ViewModels
                 }
             }
         }
-
-
-        // Might not need these if I can make Registration model class inherit from ObservableObject
-        /*
-        public string DisplayName => Registration.display_name;
-        public string PublicKey => Registration.public_key;
-        public string State => Registration.State;
-        public string UID => Registration.uid;
-
         #endregion
+
         // constructor
         public Registration1ViewModel()
         {
@@ -290,21 +282,19 @@ namespace RightToAskClient.ViewModels
             var newRegistration = Registration;
             newRegistration.public_key = ClientSignatureGenerationService.MyPublicKey();
             var regTest = newRegistration.IsValid().Err;
-            if (String.IsNullOrEmpty(regTest))
+            if (string.IsNullOrEmpty(regTest))
             {
                 // see if we need to push the electorates page or if we push the server account things
                 if (!App.ReadingContext.ThisParticipant.MPsKnown)
                 {
-                    await Shell.Current.GoToAsync($"{nameof(RegisterPage2)}");
+                    await Shell.Current.GoToAsync($"{nameof(RegisterPage2)}"); // crashing here
                 }
-                //if (App.ReadingContext.ThisParticipant.MPsKnown)
                 else
                 {
                     // save to preferences
                     Preferences.Set("DisplayName", Registration.display_name);
                     Preferences.Set("UID", Registration.uid);
                     Preferences.Set("State", SelectedState); // stored as an int as used for the other page(s) state pickers
-                    //Result<bool> httpResponse = await App.RegItemManager.SaveTaskAsync (newRegistration);
                     Result<bool> httpResponse = await RTAClient.RegisterNewUser(newRegistration);
                     var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
                     ReportLabelText = httpValidation.message;
@@ -312,7 +302,6 @@ namespace RightToAskClient.ViewModels
                     {
                         App.ReadingContext.ThisParticipant.RegistrationInfo = newRegistration;
                         App.ReadingContext.ThisParticipant.IsRegistered = true;
-                        PossiblyPushElectoratesPage();
                     }
                 }
             }
@@ -321,7 +310,7 @@ namespace RightToAskClient.ViewModels
                 if(regTest != null)
                 {
                     PromptUser(regTest);
-                }                
+                }
             }
         }
 
