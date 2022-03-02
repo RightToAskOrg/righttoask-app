@@ -76,7 +76,16 @@ namespace RightToAskClient.Models
 		{
 			if (_isInitialised) return;
 			Result<bool> success;
-			
+
+			// get data from local first
+			success = TryInitialisingFromStoredData();
+			if (String.IsNullOrEmpty(success.Err))
+			{
+				_isInitialised = true;
+				QuestionViewModel.Instance.UpdateMPButtons();
+				//return;
+			}
+
 			success = await TryInitialisingFromServer();
 			if (String.IsNullOrEmpty(success.Err))
 			{
