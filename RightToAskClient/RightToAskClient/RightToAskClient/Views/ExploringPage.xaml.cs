@@ -126,13 +126,15 @@ namespace RightToAskClient.Views
 		async void DoneMPsButton_OnClicked(object sender, EventArgs e)
 		{
 			UpdateSelectedList(SelectedMPs);
-			await Navigation.PopAsync();
+			await Shell.Current.GoToAsync("../..");
+			//await Navigation.PopAsync();
 		}
 		
 		async void DoneAuthoritiesButton_OnClicked(object sender, EventArgs e)
 		{
 			UpdateSelectedList(SelectedAuthorities);
-			await Navigation.PopAsync();
+			//await Navigation.PopAsync();
+			await Shell.Current.GoToAsync("../..");
 		}
 			
 		/*
