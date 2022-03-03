@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using RightToAskClient.Models;
 using Xamarin.Forms;
 
@@ -60,6 +61,5 @@ namespace RightToAskClient.Views
             //await Navigation.PushAsync(secondPage);
             await Shell.Current.GoToAsync($"{nameof(SecondPage)}");
         }
-
     }
 }

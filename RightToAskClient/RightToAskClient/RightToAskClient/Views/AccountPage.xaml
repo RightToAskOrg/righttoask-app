@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RightToAskClient.Views.AccountPage"
-             Title="Account">
+             Title="Account"
+             Shell.FlyoutBehavior="Flyout">
     <ContentPage.Content>
         <StackLayout>
             <Label Text="This page will give information about the user's account details and allow them to edit." Style="{StaticResource Header2}" />

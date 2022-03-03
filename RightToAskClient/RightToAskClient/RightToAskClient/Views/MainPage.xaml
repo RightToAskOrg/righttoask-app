@@ -4,7 +4,8 @@
              xmlns:resx="clr-namespace:RightToAskClient.Resx"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
 			 x:Class="RightToAskClient.Views.MainPage"
-			 Title="{xct:Translate ApplicationTitle}">
+			 Title="{xct:Translate ApplicationTitle}"
+             Shell.FlyoutBehavior="Flyout">
 	<ContentPage.Content>
         <StackLayout VerticalOptions="CenterAndExpand" Spacing="40">
             <Frame Style="{StaticResource NavajoWhiteFrame}">
