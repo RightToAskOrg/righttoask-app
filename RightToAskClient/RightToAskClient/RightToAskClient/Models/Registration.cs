@@ -9,57 +9,67 @@ using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace RightToAskClient.Models
 {
-	public class Registration : ObservableObject
-	{
-		// private string stateEnum = "";
-		public string display_name { get; set; } = "";
-		public string public_key { get; set; }= "";
-		private string state { get; set; }= "";
+    public class Registration : ObservableObject
+    {
+        // private string stateEnum = "";
+        public string display_name { get; set; } = "";
+        public string public_key { get; set; } = "";
+        private string state { get; set; } = "";
 
-		public string State
-		{
-			get => state;
-			set => state = value;
-		} 
-		
-		public string uid { get; set; }= "";
+        public string State
+        {
+            get => state;
+            set => state = value;
+        }
 
-		public List<ElectorateWithChamber> electorates { get; private set; } = new List<ElectorateWithChamber>();
+        public string uid { get; set; } = "";
 
-		/* Accept a new electorate and chamber, remove any earlier ones that are inconsistent.
+        private List<ElectorateWithChamber> _electorates = new List<ElectorateWithChamber>();
+        public List<ElectorateWithChamber> electorates
+        {
+            get => _electorates;
+            set
+            {
+                _electorates = value;
+                OnPropertyChanged("electorates");
+            }
+        }
+
+        /* Accept a new electorate and chamber, remove any earlier ones that are inconsistent.
 		 * Note: this assumes that nobody is ever represented in two different regions in the one
 		 * chamber. This is true throughout Aus, but may be untrue elsewhere. Of course, each region
 		 * may have multiple representatives.
 		 * Inserting it at the beginning rather than adding at the end is a bit of a hack to
 		 * put the Senators last (they're computed first).
 		 */
-		public void AddElectorateRemoveDuplicates(ElectorateWithChamber newElectorate)
-		{
-				electorates.RemoveAll(e => e.chamber == newElectorate.chamber);
-				electorates.Insert(0,newElectorate);
-		}
+        public void AddElectorateRemoveDuplicates(ElectorateWithChamber newElectorate)
+        {
+            electorates.RemoveAll(e => e.chamber == newElectorate.chamber);
+            electorates.Insert(0, newElectorate);
+            OnPropertyChanged("electorates");
+        }
 
-		public Result<bool> IsValid()
-		{
-			List<string> errorFields = new List<string>();
-			
-			foreach(PropertyInfo prop in typeof(Registration).GetProperties())
-			{
-				var value = prop.GetValue(this, null);
-				if (value is null || String.IsNullOrWhiteSpace(value.ToString()))
-				{
-					errorFields.Add(prop.Name);
-				}
-			}
+        public Result<bool> IsValid()
+        {
+            List<string> errorFields = new List<string>();
 
-			if (errorFields.IsNullOrEmpty() || errorFields.SequenceEqual(new List<string>{"electorates"}))
-			{
-				return new Result<bool>() { Ok = true };
-			}
-			return new Result<bool>()
-			{
-				Err ="Please complete "+String.Join(" and ",errorFields)
-			};
-		}
-	}
+            foreach (PropertyInfo prop in typeof(Registration).GetProperties())
+            {
+                var value = prop.GetValue(this, null);
+                if (value is null || String.IsNullOrWhiteSpace(value.ToString()))
+                {
+                    errorFields.Add(prop.Name);
+                }
+            }
+
+            if (errorFields.IsNullOrEmpty() || errorFields.SequenceEqual(new List<string> { "electorates" }))
+            {
+                return new Result<bool>() { Ok = true };
+            }
+            return new Result<bool>()
+            {
+                Err = "Please complete " + String.Join(" and ", errorFields)
+            };
+        }
+    }
 }

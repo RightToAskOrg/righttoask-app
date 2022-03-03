@@ -163,6 +163,7 @@ namespace RightToAskClient.ViewModels
                     await App.Current.MainPage.Navigation.PushAsync(mpsExploringPage);
                     _launchMPsSelectionPageNext = false;
                     DoneButtonText = AppResources.DoneButtonText;
+                    MessagingCenter.Send<FindMPsViewModel, bool>(this, "PreviousPage", true);
                 }
                 else
                 {
