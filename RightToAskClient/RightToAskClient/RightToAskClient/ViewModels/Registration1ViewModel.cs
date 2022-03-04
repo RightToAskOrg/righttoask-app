@@ -144,15 +144,6 @@ namespace RightToAskClient.ViewModels
             RegisterMPButtonText = AppResources.RegisterMPAccountButtonText;
             RegisterOrgButtonText = AppResources.RegisterOrganisationAccountButtonText;
 
-            MessagingCenter.Subscribe<ExploringPage, bool>(this, "UpdateElectorates", (sender, arg) =>
-            {
-                if (arg)
-                {
-                    OnPropertyChanged(nameof(Registration.electorates));
-                }
-                MessagingCenter.Unsubscribe<ExploringPage, bool>(this, "UpdateElectorates");
-            });
-
             // commands
             SaveButtonCommand = new Command(() =>
             {
@@ -217,7 +208,11 @@ namespace RightToAskClient.ViewModels
         // TODO Make this put up the electorate-finding page.
         public async void ElectorateSelected()
         {
-            await Shell.Current.GoToAsync($"{nameof(RegisterPage2)}");
+            await Shell.Current.GoToAsync($"{nameof(RegisterPage2)}").ContinueWith((_) =>
+            {
+                MessagingCenter.Send(this, "FromReg1"); // sending Registration1ViewModel
+            });
+            //await Shell.Current.GoToAsync($"{nameof(RegisterPage2)}");
         }
 
         // Show and label different buttons according to whether we're registering
@@ -275,9 +270,11 @@ namespace RightToAskClient.ViewModels
                 // see if we need to push the electorates page or if we push the server account things
                 if (!App.ReadingContext.ThisParticipant.MPsKnown)
                 {
-                    await Shell.Current.GoToAsync($"{nameof(RegisterPage2)}");
+                    await Shell.Current.GoToAsync($"{nameof(RegisterPage2)}").ContinueWith((_) => 
+                    {
+                        MessagingCenter.Send(this, "FromReg1"); // sending Registration1ViewModel
+                    });
                 }
-                //if (App.ReadingContext.ThisParticipant.MPsKnown)
                 else
                 {
                     //Result<bool> httpResponse = await App.RegItemManager.SaveTaskAsync (newRegistration);
@@ -288,6 +285,8 @@ namespace RightToAskClient.ViewModels
                     {
                         App.ReadingContext.ThisParticipant.RegistrationInfo = newRegistration;
                         App.ReadingContext.ThisParticipant.IsRegistered = true;
+                        // pop back to the QuestionDetailsPage after the account is created
+                        await App.Current.MainPage.Navigation.PopAsync();
                     }
                 }
             }
