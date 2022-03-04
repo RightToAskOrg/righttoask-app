@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
@@ -25,14 +26,13 @@ namespace RightToAskClient.Models
         public string uid { get; set; } = "";
 
         private List<ElectorateWithChamber> _electorates = new List<ElectorateWithChamber>();
-        public List<ElectorateWithChamber> electorates
+        public ObservableCollection<ElectorateWithChamber> electorates 
         {
-            get => _electorates;
-            set
+            get { return new ObservableCollection<ElectorateWithChamber>(_electorates); }
+            set 
             {
-                _electorates = value;
-                OnPropertyChanged("electorates");
-            }
+                SetProperty(ref _electorates, value.ToList());
+            } 
         }
 
         /* Accept a new electorate and chamber, remove any earlier ones that are inconsistent.
@@ -44,9 +44,26 @@ namespace RightToAskClient.Models
 		 */
         public void AddElectorateRemoveDuplicates(ElectorateWithChamber newElectorate)
         {
-            electorates.RemoveAll(e => e.chamber == newElectorate.chamber);
-            electorates.Insert(0, newElectorate);
+            // potentially remove any duplicates
+            _electorates.RemoveAll(e => e.chamber == newElectorate.chamber);
+            _electorates.Insert(0, newElectorate);
             OnPropertyChanged("electorates");
+        }
+
+        private void Electorates_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string findElectorateGivenPredicate(Predicate<ElectorateWithChamber> func)
+        {
+            var electoratePair = _electorates.Find(func);
+            if (electoratePair is null)
+            {
+                return "";
+            }
+
+            return electoratePair.region;
         }
 
         public Result<bool> IsValid()

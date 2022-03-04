@@ -44,7 +44,7 @@ namespace RightToAskClient.Models
         {
 	        get
 	        {
-				return findElectorateGivenPredicate(c => ParliamentData.IsUpperHouseChamber(c.chamber));
+				return RegistrationInfo.findElectorateGivenPredicate(c => ParliamentData.IsUpperHouseChamber(c.chamber));
 	        }
         }
 		
@@ -53,7 +53,7 @@ namespace RightToAskClient.Models
         {
 	        get
 	        {
-		        return findElectorateGivenPredicate(chamberPair => chamberPair.chamber == ParliamentData.Chamber.Australian_House_Of_Representatives);
+		        return RegistrationInfo.findElectorateGivenPredicate(chamberPair => chamberPair.chamber == ParliamentData.Chamber.Australian_House_Of_Representatives);
 	        }
 	        
 	        /*
@@ -72,7 +72,7 @@ namespace RightToAskClient.Models
         {
 	        get
 	        {
-		        return findElectorateGivenPredicate(chamberPair => ParliamentData.IsLowerHouseChamber(chamberPair.chamber)); 
+		        return RegistrationInfo.findElectorateGivenPredicate(chamberPair => ParliamentData.IsLowerHouseChamber(chamberPair.chamber)); 
 	        }
 	        /*
 	        var electoratePair = registrationInfo.electorates.Find(chamberPair =>
@@ -84,18 +84,6 @@ namespace RightToAskClient.Models
 
 	        return electoratePair.region;
 	        */
-        }
-
-
-        private string findElectorateGivenPredicate(Predicate<ElectorateWithChamber> func)
-        {
-	        var electoratePair = _registrationInfo.electorates.Find(func);
-	        if (electoratePair is null)
-	        {
-		        return "";
-	        }
-
-	        return electoratePair.region;
         }
 
         /*

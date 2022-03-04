@@ -313,6 +313,15 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Home.
+        /// </summary>
+        internal static string HomeButtonText {
+            get {
+                return ResourceManager.GetString("HomeButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Keep Question: Review for Upload.
         /// </summary>
         internal static string KeepQuestionButtonText {

@@ -9,6 +9,9 @@
              x:Class="RightToAskClient.Views.QuestionAskerPage"
              Title="{xct:Translate Step2Title}"
              x:DataType="vm:QuestionViewModel">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout x:Name = "WholePage">
 			<StackLayout x:Name="questionAsker" Style="{StaticResource VertStack}">
