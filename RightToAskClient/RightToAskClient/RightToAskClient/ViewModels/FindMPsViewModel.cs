@@ -156,16 +156,7 @@ namespace RightToAskClient.ViewModels
             MessagingCenter.Subscribe<Registration1ViewModel>(this, "FromReg1", (sender) =>
             {
                 _launchMPsSelectionPageNext = false;
-                //MessagingCenter.Unsubscribe<Registration1ViewModel, bool>(this, "FromReg1");
             });
-
-            /*
-            MessagingCenter.Subscribe<DeckSummaryViewModel, Deck>(this, "SelectedDeck", (sender, arg) =>
-            {
-                _deck = arg;
-                MessagingCenter.Unsubscribe<DeckSummaryViewModel, Deck>(this, "SelectedDeck");
-            });
-            */
 
             // commands
             MPsButtonCommand = new AsyncCommand(async () =>

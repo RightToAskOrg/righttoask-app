@@ -192,19 +192,6 @@ namespace RightToAskClient.ViewModels
         public IAsyncCommand SeeQuestionsButtonCommand { get; }
 
         #region Methods
-        /*
-        void OnStatePickerSelectedIndexChanged(object sender, EventArgs e)
-        {
-            Picker picker = (Picker)sender;
-
-            if (picker.SelectedIndex != -1)
-            {
-                string state = (string)picker.SelectedItem;
-                App.ReadingContext.ThisParticipant.RegistrationInfo.State = state;
-                App.ReadingContext.ThisParticipant.UpdateChambers(state);
-            }
-        }*/
-
         // TODO Make this put up the electorate-finding page.
         public async void ElectorateSelected()
         {
@@ -212,7 +199,6 @@ namespace RightToAskClient.ViewModels
             {
                 MessagingCenter.Send(this, "FromReg1"); // sending Registration1ViewModel
             });
-            //await Shell.Current.GoToAsync($"{nameof(RegisterPage2)}");
         }
 
         // Show and label different buttons according to whether we're registering
