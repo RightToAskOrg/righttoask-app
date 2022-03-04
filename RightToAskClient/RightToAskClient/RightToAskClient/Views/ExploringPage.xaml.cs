@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using RightToAskClient.Models;
+using RightToAskClient.ViewModels;
 using Xamarin.Forms;
 
 /*
@@ -38,6 +39,8 @@ namespace RightToAskClient.Views
 		protected ObservableCollection<MP> SelectedMPs = new ObservableCollection<MP>();
 		protected ObservableCollection<Person> SelectedPeople = new ObservableCollection<Person>();
 
+		public bool CameFromReg2Page = false;
+
 		public ExploringPage(ObservableCollection<MP> allEntities, 
 			ObservableCollection<MP> selectedEntities, string message="")
 		{
@@ -50,6 +53,15 @@ namespace RightToAskClient.Views
             HomeButton.Clicked += HomeButton_Clicked;
 			
 			SetUpSelectableEntitiesAndIntroText(message);
+
+			MessagingCenter.Subscribe<FindMPsViewModel, bool>(this, "PreviousPage", (sender, arg) =>
+			{
+				if (arg)
+                {
+					CameFromReg2Page = true;
+				}
+				MessagingCenter.Unsubscribe<FindMPsViewModel, View>(this, "PreviousPage");
+			});
 		}
 
         /* This constructor is only used for Authorities, and hence assumed that the list to be selected from
@@ -65,7 +77,16 @@ namespace RightToAskClient.Views
 			DoneButton.Clicked += DoneAuthoritiesButton_OnClicked;
 			HomeButton.Clicked += HomeButton_Clicked;
 
-			SetUpSelectableEntitiesAndIntroText(message);	
+			SetUpSelectableEntitiesAndIntroText(message);
+
+			MessagingCenter.Subscribe<FindMPsViewModel, bool>(this, "PreviousPage", (sender, arg) =>
+			{
+				if (arg)
+				{
+					CameFromReg2Page = true;
+				}
+				MessagingCenter.Unsubscribe<FindMPsViewModel, View>(this, "PreviousPage");
+			});
 		}
 
 		public ExploringPage(IEnumerable<IGrouping<ParliamentData.Chamber, MP>> groupedMPs, ObservableCollection<MP> selectedMPs, string message)
@@ -94,6 +115,15 @@ namespace RightToAskClient.Views
 			// Flat list for the purposes of updating/saving selectableMPs 
 			//	= new ObservableCollection<Tag<MP>>(groupedMPsWithTags.SelectMany(x => x).ToList());
 			SelectableEntities	= new ObservableCollection<Tag<Entity>>(groupedMPsWithTags.SelectMany(x => x).ToList());
+
+			MessagingCenter.Subscribe<FindMPsViewModel, bool>(this, "PreviousPage", (sender, arg) =>
+			{
+				if (arg)
+				{
+					CameFromReg2Page = true;
+				}
+				MessagingCenter.Unsubscribe<FindMPsViewModel, View>(this, "PreviousPage");
+			});
 		}
 
 		private async void HomeButton_Clicked(object sender, EventArgs e)
@@ -137,13 +167,22 @@ namespace RightToAskClient.Views
 		async void DoneMPsButton_OnClicked(object sender, EventArgs e)
 		{
 			UpdateSelectedList(SelectedMPs);
-			await Navigation.PopAsync();
+            if (CameFromReg2Page)
+            {
+				CameFromReg2Page = false;
+				await Shell.Current.GoToAsync("../.."); // double pop
+			}
+            else
+            {
+				await Navigation.PopAsync(); // single pop
+			}			
 		}
 		
 		async void DoneAuthoritiesButton_OnClicked(object sender, EventArgs e)
 		{
 			UpdateSelectedList(SelectedAuthorities);
 			await Navigation.PopAsync();
+			//await Shell.Current.GoToAsync("../..");
 		}
 			
 		/*
@@ -163,7 +202,11 @@ namespace RightToAskClient.Views
 				{
 					if (selectedEntity is T s)
 					{
-						selectedEntities.Add(s);	
+						selectedEntities.Add(s);
+                        OnPropertyChanged("SelectedAuthorities");
+                        OnPropertyChanged("SelectedMPs");
+						OnPropertyChanged("SelectedPeople");
+						MessagingCenter.Send<ExploringPage, bool>(this, "UpdateElectorates", true);
 					}
 				}
 			}
@@ -174,6 +217,10 @@ namespace RightToAskClient.Views
 				if (notSelectedEntity is T s)
 				{
 					selectedEntities.Remove(s);
+					OnPropertyChanged("SelectedAuthorities");
+					OnPropertyChanged("SelectedMPs");
+					OnPropertyChanged("SelectedPeople");
+					MessagingCenter.Send<ExploringPage, bool>(this, "UpdateElectorates", true);
 				}
 			}
 		}

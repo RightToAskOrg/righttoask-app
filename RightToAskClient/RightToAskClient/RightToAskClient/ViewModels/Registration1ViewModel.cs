@@ -144,6 +144,15 @@ namespace RightToAskClient.ViewModels
             RegisterMPButtonText = AppResources.RegisterMPAccountButtonText;
             RegisterOrgButtonText = AppResources.RegisterOrganisationAccountButtonText;
 
+            MessagingCenter.Subscribe<ExploringPage, bool>(this, "UpdateElectorates", (sender, arg) =>
+            {
+                if (arg)
+                {
+                    OnPropertyChanged(nameof(Registration.electorates));
+                }
+                MessagingCenter.Unsubscribe<ExploringPage, bool>(this, "UpdateElectorates");
+            });
+
             // commands
             SaveButtonCommand = new Command(() =>
             {
