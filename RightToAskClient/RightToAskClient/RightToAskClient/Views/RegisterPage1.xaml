@@ -9,6 +9,9 @@
              x:Class="RightToAskClient.Views.RegisterPage1"
              x:DataType="vm:Registration1ViewModel"
              Title="{Binding Title}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.BindingContext>
         <vm:Registration1ViewModel />
     </ContentPage.BindingContext>

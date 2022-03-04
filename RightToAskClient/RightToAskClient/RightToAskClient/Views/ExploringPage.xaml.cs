@@ -47,14 +47,15 @@ namespace RightToAskClient.Views
 			AllEntities = new ObservableCollection<Entity>(allEntities);
 			SelectableEntities = wrapInTags(AllEntities, selectedEntities);
 			DoneButton.Clicked += DoneMPsButton_OnClicked;
+            HomeButton.Clicked += HomeButton_Clicked;
 			
 			SetUpSelectableEntitiesAndIntroText(message);
 		}
-		 
-		/* This constructor is only used for Authorities, and hence assumed that the list to be selected from
+
+        /* This constructor is only used for Authorities, and hence assumed that the list to be selected from
 		 * consists of the complete list of authorities.
 		 */
-		public ExploringPage(ObservableCollection<Authority> selectedEntities, string message) 
+        public ExploringPage(ObservableCollection<Authority> selectedEntities, string message) 
 		{
 			InitializeComponent();
 
@@ -62,6 +63,7 @@ namespace RightToAskClient.Views
 			AllEntities = new ObservableCollection<Entity>(ParliamentData.AllAuthorities);
 			SelectableEntities = wrapInTags(AllEntities, selectedEntities);
 			DoneButton.Clicked += DoneAuthoritiesButton_OnClicked;
+			HomeButton.Clicked += HomeButton_Clicked;
 
 			SetUpSelectableEntitiesAndIntroText(message);	
 		}
@@ -73,7 +75,8 @@ namespace RightToAskClient.Views
 			IntroText.Text = message;
 			this.SelectedMPs = selectedMPs;
 			DoneButton.Clicked += DoneMPsButton_OnClicked;
-			
+			HomeButton.Clicked += HomeButton_Clicked;
+
 			AuthorityListView.IsGroupingEnabled = true;
 
 			List<TaggedGroupedEntities> groupedMPsWithTags = new List<TaggedGroupedEntities>();
@@ -93,6 +96,14 @@ namespace RightToAskClient.Views
 			SelectableEntities	= new ObservableCollection<Tag<Entity>>(groupedMPsWithTags.SelectMany(x => x).ToList());
 		}
 
+		private async void HomeButton_Clicked(object sender, EventArgs e)
+		{
+			string? result = await Shell.Current.DisplayActionSheet("Are you sure you want to go home? You will lose any unsaved questions.", "Cancel", "Yes, I'm sure.");
+			if (result == "Yes, I'm sure.")
+			{
+				await App.Current.MainPage.Navigation.PopToRootAsync();
+			}
+		}
 		private void SetUpSelectableEntitiesAndIntroText(string message)
 		{
 			IntroText.Text = message;

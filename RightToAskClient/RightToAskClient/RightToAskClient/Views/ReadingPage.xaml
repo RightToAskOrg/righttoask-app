@@ -8,7 +8,10 @@
 			 x:Class="RightToAskClient.Views.ReadingPage"
 			 x:Name="TitleBar"
              Title="{xct:Translate RecentQuestionsTitle}">
-	<ContentPage.Content>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="HomeButton" Text="{xct:Translate HomeButtonText}"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
 		<StackLayout x:Name = "WholePage" HorizontalOptions="Center" VerticalOptions="Start">
             <Label Text="{xct:Translate ReadingPageHeader1}" Style="{StaticResource Header2}"></Label>
 			<!-- Filters inserted here -->

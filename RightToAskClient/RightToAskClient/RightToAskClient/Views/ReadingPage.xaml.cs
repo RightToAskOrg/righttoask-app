@@ -18,6 +18,7 @@ namespace RightToAskClient.Views
         {
             InitializeComponent();
             BindingContext = App.ReadingContext;
+            HomeButton.Clicked += HomeButton_Clicked;
 
             _ttestableView = new FilterDisplayTableView();
             WholePage.Children.Insert(1, _ttestableView);
@@ -68,6 +69,15 @@ namespace RightToAskClient.Views
 				TitleBar.Title = "Similar questions";
 			}
 		}*/
+
+        private async void HomeButton_Clicked(object sender, EventArgs e)
+        {
+            string? result = await Shell.Current.DisplayActionSheet("Are you sure you want to go home? You will lose any unsaved questions.", "Cancel", "Yes, I'm sure.");
+            if (result == "Yes, I'm sure.")
+            {
+                await App.Current.MainPage.Navigation.PopToRootAsync();
+            }
+        }
 
         private void OnShowFilters(object sender, EventArgs e)
         {

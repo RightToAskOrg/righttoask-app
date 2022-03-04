@@ -9,6 +9,9 @@
              x:Class="RightToAskClient.Views.RegisterPage2"
              Title="Find your MPs"
              x:DataType="vm:FindMPsViewModel">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.BindingContext>
         <vm:FindMPsViewModel/>
     </ContentPage.BindingContext>

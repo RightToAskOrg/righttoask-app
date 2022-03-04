@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="RightToAskClient.Views.ExploringPage" Title="Select the ones you want">
+             xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="RightToAskClient.Views.ExploringPage" 
+             Title="Select the ones you want">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="HomeButton" Text="{xct:Translate HomeButtonText}"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
 		<StackLayout x:Name="MainLayout" x:FieldModifier="protected" HorizontalOptions="Center" VerticalOptions="Start">
 			<Label x:Name="IntroText" />

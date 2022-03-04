@@ -5,6 +5,9 @@
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
 			 x:Class="RightToAskClient.Views.SecondPage"
              x:DataType="vm:QuestionViewModel">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"/>
+    </ContentPage.ToolbarItems>
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding BackCommand}"
                             IconOverride="back.png" />
