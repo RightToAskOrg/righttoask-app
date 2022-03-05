@@ -3,6 +3,7 @@ using RightToAskClient.Views;
 using RightToAskClient.Models;
 using Xamarin.CommunityToolkit.Helpers;
 using RightToAskClient.Resx;
+using Xamarin.Essentials;
 
 namespace RightToAskClient
 {
@@ -29,6 +30,8 @@ namespace RightToAskClient
         {
             ParliamentData.MPAndOtherData.TryInit();
             ReadingContext = new ReadingContext();
+            // get the registration info from preferences or default to not registered
+            App.ReadingContext.ThisParticipant.IsRegistered = Preferences.Get("IsRegistered", false);
         }
 
         protected override void OnSleep()
