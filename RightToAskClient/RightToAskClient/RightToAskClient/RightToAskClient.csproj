@@ -58,7 +58,6 @@
     <EmbeddedResource Remove="Views\FindMyMP.xaml" />
     <EmbeddedResource Remove="Views\PickerPage.xaml" />
     <None Remove="Resources\VicLegislativeAssemblymembers.csv" />
-    <EmbeddedResource Include="Resources\PublicServerKey" />
     <EmbeddedResource Include="Resources\VicLegislativeAssemblymembers.csv" />
     <None Remove="Resources\VicLegislativeCouncilmembers.csv" />
     <EmbeddedResource Include="Resources\VicLegislativeCouncilmembers.csv" />

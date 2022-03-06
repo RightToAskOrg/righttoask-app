@@ -13,11 +13,5 @@ namespace RightToAskClient
         public static string GeoscapeAPIUrl = "https://api.psma.com.au/beta/v2/addresses/geocoder";
         public static string StoredMPDataFile = "MPs.json";
         public static string APIKeyFileName = "GeoscapeAPIKey";
-        public static string LocalServerPublicKeyFileName = "PublicServerKey";
-
-
-
-
-
     }
 }

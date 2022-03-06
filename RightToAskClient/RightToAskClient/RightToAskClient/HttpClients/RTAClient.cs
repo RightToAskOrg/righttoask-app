@@ -190,17 +190,5 @@ namespace RightToAskClient.HttpClients
             ServerConfigValidInit = true;
             return url;
         }
-        private static string ReadLocalServerPublicKey()
-        {
-            var result = FileIO.ReadFirstLineOfFileAsString(Constants.LocalServerPublicKeyFileName);
-
-            if (!result.Err.IsNullOrEmpty())
-            {
-                Debug.WriteLine("Error reading local server public key.");
-                return "";
-            }
-
-            return result.Ok;
-        }
     }
 }
