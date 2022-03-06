@@ -6,9 +6,15 @@ namespace RightToAskClient.Models
     {
 
         [JsonPropertyName("remoteServerUse")] 
-        public string remoteServerUse { get; set; } = "";
+        public bool remoteServerUse { get; set; } = false;
 
         [JsonPropertyName("url")]
         public string url { get; set; } = "";
+        
+        [JsonPropertyName("remoteServerPublicKey")]
+        public string remoteServerPublicKey { get; set; } = "";
+        
+        [JsonPropertyName("localServerPublicKey")]
+        public string localServerPublicKey { get; set; } = "";
     }
 }
