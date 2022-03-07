@@ -5,7 +5,14 @@
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
 			 x:Class="RightToAskClient.Views.SecondPage"
              x:DataType="vm:QuestionViewModel">
-	<ContentPage.Content>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"/>
+    </ContentPage.ToolbarItems>
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding BackCommand}"
+                            IconOverride="back.png" />
+    </Shell.BackButtonBehavior>
+    <ContentPage.Content>
 		<StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand"
 		             Padding="30">
 			<StackLayout Orientation="Vertical" x:Name="QuestionDraftingBox" IsVisible="{Binding IsReadingOnly, Converter={StaticResource Key=cnvInvert}}">

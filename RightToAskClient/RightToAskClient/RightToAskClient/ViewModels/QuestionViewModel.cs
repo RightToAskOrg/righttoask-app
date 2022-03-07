@@ -220,6 +220,14 @@ namespace RightToAskClient.ViewModels
                 RegisterPage1 otherUserProfilePage = new RegisterPage1();
                 await App.Current.MainPage.Navigation.PushAsync(otherUserProfilePage);
             });
+            BackCommand = new AsyncCommand(async () =>
+            {
+                string? result = await Shell.Current.DisplayActionSheet("Are you sure you want to go back? You will lose any unsaved questions.", "Cancel", "Yes, I'm sure.");
+                if (result == "Yes, I'm sure.")
+                {
+                    _ = await Shell.Current.Navigation.PopAsync();
+                }
+            });
         }
 
         public Command<string> RaisedOptionSelectedCommand { get; }
@@ -229,6 +237,7 @@ namespace RightToAskClient.ViewModels
         public IAsyncCommand AnsweredByMyMPCommand { get; }
         public IAsyncCommand AnsweredByOtherMPCommand { get; }
         public IAsyncCommand QuestionSuggesterCommand { get; }
+        public IAsyncCommand BackCommand { get; }
         public Command SaveQuestionCommand { get; }
         public Command SelectCommitteeButtonCommand { get; }
         public Command UpvoteCommand { get; }

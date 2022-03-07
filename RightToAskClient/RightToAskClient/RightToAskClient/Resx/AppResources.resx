@@ -201,6 +201,9 @@
   <data name="FollowButtonText" xml:space="preserve">
     <value>Follow {0}</value>
   </data>
+  <data name="HomeButtonText" xml:space="preserve">
+    <value>Home</value>
+  </data>
   <data name="KeepQuestionButtonText" xml:space="preserve">
     <value>Keep Question: Review for Upload</value>
   </data>

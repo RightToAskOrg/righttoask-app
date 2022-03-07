@@ -16,5 +16,10 @@ namespace RightToAskClient.Views
         {
             InitializeComponent();
         }
+
+        protected override bool OnBackButtonPressed()
+        {
+            return true;
+        }
     }
 }

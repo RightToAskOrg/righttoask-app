@@ -155,6 +155,11 @@ namespace RightToAskClient.ViewModels
             _launchMPsSelectionPageNext = true;
             SelectedState = Preferences.Get("State", SelectedState);
 
+            MessagingCenter.Subscribe<Registration1ViewModel>(this, "FromReg1", (sender) =>
+            {
+                _launchMPsSelectionPageNext = false;
+            });
+
             // commands
             MPsButtonCommand = new AsyncCommand(async () =>
             {
@@ -165,6 +170,7 @@ namespace RightToAskClient.ViewModels
                     await App.Current.MainPage.Navigation.PushAsync(mpsExploringPage);
                     _launchMPsSelectionPageNext = false;
                     DoneButtonText = AppResources.DoneButtonText;
+                    MessagingCenter.Send<FindMPsViewModel, bool>(this, "PreviousPage", true);
                 }
                 else
                 {

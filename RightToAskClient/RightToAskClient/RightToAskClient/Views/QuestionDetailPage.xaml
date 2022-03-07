@@ -10,6 +10,9 @@
              x:Class="RightToAskClient.Views.QuestionDetailPage"
              x:DataType="vm:QuestionViewModel"
              Title="{xct:Translate QuestionDetailsTitle}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
 		<StackLayout x:Name="WholePage" Margin="20">
             <Label Text="{xct:Translate QuestionHeaderText}" Style="{StaticResource LeftSmall}"/>

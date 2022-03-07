@@ -213,23 +213,13 @@ namespace RightToAskClient.ViewModels
         public IAsyncCommand SeeQuestionsButtonCommand { get; }
 
         #region Methods
-        /*
-        void OnStatePickerSelectedIndexChanged(object sender, EventArgs e)
-        {
-            Picker picker = (Picker)sender;
-
-            if (picker.SelectedIndex != -1)
-            {
-                string state = (string)picker.SelectedItem;
-                App.ReadingContext.ThisParticipant.RegistrationInfo.State = state;
-                App.ReadingContext.ThisParticipant.UpdateChambers(state);
-            }
-        }*/
-
         // TODO Make this put up the electorate-finding page.
         public async void ElectorateSelected()
         {
-            await Shell.Current.GoToAsync($"{nameof(RegisterPage2)}");
+            await Shell.Current.GoToAsync($"{nameof(RegisterPage2)}").ContinueWith((_) =>
+            {
+                MessagingCenter.Send(this, "FromReg1"); // sending Registration1ViewModel
+            });
         }
 
         // Show and label different buttons according to whether we're registering
@@ -287,7 +277,10 @@ namespace RightToAskClient.ViewModels
                 // see if we need to push the electorates page or if we push the server account things
                 if (!App.ReadingContext.ThisParticipant.MPsKnown)
                 {
-                    await Shell.Current.GoToAsync($"{nameof(RegisterPage2)}"); // crashing here
+                    await Shell.Current.GoToAsync($"{nameof(RegisterPage2)}").ContinueWith((_) => 
+                    {
+                        MessagingCenter.Send(this, "FromReg1"); // sending Registration1ViewModel
+                    });
                 }
                 else
                 {
@@ -302,7 +295,8 @@ namespace RightToAskClient.ViewModels
                     {
                         App.ReadingContext.ThisParticipant.RegistrationInfo = newRegistration;
                         App.ReadingContext.ThisParticipant.IsRegistered = true;
-                        Preferences.Set("IsRegistered", App.ReadingContext.ThisParticipant.IsRegistered); // save the registration to preferences
+                        // pop back to the QuestionDetailsPage after the account is created
+                        await App.Current.MainPage.Navigation.PopAsync();
                     }
                 }
             }

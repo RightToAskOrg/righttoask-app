@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using RightToAskClient.Models;
+using RightToAskClient.ViewModels;
 using Xamarin.Forms;
 
 /*
@@ -38,6 +39,8 @@ namespace RightToAskClient.Views
 		protected ObservableCollection<MP> SelectedMPs = new ObservableCollection<MP>();
 		protected ObservableCollection<Person> SelectedPeople = new ObservableCollection<Person>();
 
+		public bool CameFromReg2Page = false;
+
 		public ExploringPage(ObservableCollection<MP> allEntities, 
 			ObservableCollection<MP> selectedEntities, string message="")
 		{
@@ -47,14 +50,24 @@ namespace RightToAskClient.Views
 			AllEntities = new ObservableCollection<Entity>(allEntities);
 			SelectableEntities = wrapInTags(AllEntities, selectedEntities);
 			DoneButton.Clicked += DoneMPsButton_OnClicked;
+            HomeButton.Clicked += HomeButton_Clicked;
 			
 			SetUpSelectableEntitiesAndIntroText(message);
+
+			MessagingCenter.Subscribe<FindMPsViewModel, bool>(this, "PreviousPage", (sender, arg) =>
+			{
+				if (arg)
+                {
+					CameFromReg2Page = true;
+				}
+				MessagingCenter.Unsubscribe<FindMPsViewModel, bool>(this, "PreviousPage");
+			});
 		}
-		 
-		/* This constructor is only used for Authorities, and hence assumed that the list to be selected from
+
+        /* This constructor is only used for Authorities, and hence assumed that the list to be selected from
 		 * consists of the complete list of authorities.
 		 */
-		public ExploringPage(ObservableCollection<Authority> selectedEntities, string message) 
+        public ExploringPage(ObservableCollection<Authority> selectedEntities, string message) 
 		{
 			InitializeComponent();
 
@@ -62,8 +75,18 @@ namespace RightToAskClient.Views
 			AllEntities = new ObservableCollection<Entity>(ParliamentData.AllAuthorities);
 			SelectableEntities = wrapInTags(AllEntities, selectedEntities);
 			DoneButton.Clicked += DoneAuthoritiesButton_OnClicked;
+			HomeButton.Clicked += HomeButton_Clicked;
 
-			SetUpSelectableEntitiesAndIntroText(message);	
+			SetUpSelectableEntitiesAndIntroText(message);
+
+			MessagingCenter.Subscribe<FindMPsViewModel, bool>(this, "PreviousPage", (sender, arg) =>
+			{
+				if (arg)
+				{
+					CameFromReg2Page = true;
+				}
+				MessagingCenter.Unsubscribe<FindMPsViewModel, bool>(this, "PreviousPage");
+			});
 		}
 
 		public ExploringPage(IEnumerable<IGrouping<ParliamentData.Chamber, MP>> groupedMPs, ObservableCollection<MP> selectedMPs, string message)
@@ -73,7 +96,8 @@ namespace RightToAskClient.Views
 			IntroText.Text = message;
 			this.SelectedMPs = selectedMPs;
 			DoneButton.Clicked += DoneMPsButton_OnClicked;
-			
+			HomeButton.Clicked += HomeButton_Clicked;
+
 			AuthorityListView.IsGroupingEnabled = true;
 
 			List<TaggedGroupedEntities> groupedMPsWithTags = new List<TaggedGroupedEntities>();
@@ -91,8 +115,25 @@ namespace RightToAskClient.Views
 			// Flat list for the purposes of updating/saving selectableMPs 
 			//	= new ObservableCollection<Tag<MP>>(groupedMPsWithTags.SelectMany(x => x).ToList());
 			SelectableEntities	= new ObservableCollection<Tag<Entity>>(groupedMPsWithTags.SelectMany(x => x).ToList());
+
+			MessagingCenter.Subscribe<FindMPsViewModel, bool>(this, "PreviousPage", (sender, arg) =>
+			{
+				if (arg)
+				{
+					CameFromReg2Page = true;
+				}
+				MessagingCenter.Unsubscribe<FindMPsViewModel, bool>(this, "PreviousPage");
+			});
 		}
 
+		private async void HomeButton_Clicked(object sender, EventArgs e)
+		{
+			string? result = await Shell.Current.DisplayActionSheet("Are you sure you want to go home? You will lose any unsaved questions.", "Cancel", "Yes, I'm sure.");
+			if (result == "Yes, I'm sure.")
+			{
+				await App.Current.MainPage.Navigation.PopToRootAsync();
+			}
+		}
 		private void SetUpSelectableEntitiesAndIntroText(string message)
 		{
 			IntroText.Text = message;
@@ -126,13 +167,22 @@ namespace RightToAskClient.Views
 		async void DoneMPsButton_OnClicked(object sender, EventArgs e)
 		{
 			UpdateSelectedList(SelectedMPs);
-			await Navigation.PopAsync();
+            if (CameFromReg2Page)
+            {
+				CameFromReg2Page = false;
+				await Shell.Current.GoToAsync("../.."); // double pop
+			}
+            else
+            {
+				await Navigation.PopAsync(); // single pop
+			}			
 		}
 		
 		async void DoneAuthoritiesButton_OnClicked(object sender, EventArgs e)
 		{
 			UpdateSelectedList(SelectedAuthorities);
 			await Navigation.PopAsync();
+			//await Shell.Current.GoToAsync("../..");
 		}
 			
 		/*
@@ -152,7 +202,10 @@ namespace RightToAskClient.Views
 				{
 					if (selectedEntity is T s)
 					{
-						selectedEntities.Add(s);	
+						selectedEntities.Add(s);
+                        OnPropertyChanged("SelectedAuthorities");
+                        OnPropertyChanged("SelectedMPs");
+						OnPropertyChanged("SelectedPeople");
 					}
 				}
 			}
@@ -163,6 +216,9 @@ namespace RightToAskClient.Views
 				if (notSelectedEntity is T s)
 				{
 					selectedEntities.Remove(s);
+					OnPropertyChanged("SelectedAuthorities");
+					OnPropertyChanged("SelectedMPs");
+					OnPropertyChanged("SelectedPeople");
 				}
 			}
 		}
