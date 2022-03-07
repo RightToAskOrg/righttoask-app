@@ -8,6 +8,7 @@ using RightToAskClient.Models;
 using RightToAskClient.Resx;
 using RightToAskClient.Views;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace RightToAskClient.ViewModels
@@ -126,8 +127,23 @@ namespace RightToAskClient.ViewModels
                 }
             }
         }
-
+        private int _selectedState = -1;
+        public int SelectedState
+        {
+            get => _selectedState;
+            set
+            {
+                SetProperty(ref _selectedState, value);
+                if (SelectedState != -1)
+                {
+                    Registration.State = ParliamentData.StatesAndTerritories[SelectedState];
+                    App.ReadingContext.ThisParticipant.RegistrationInfo.State = Registration.State;
+                    App.ReadingContext.ThisParticipant.UpdateChambers(Registration.State);
+                }
+            }
+        }
         #endregion
+
         // constructor
         public Registration1ViewModel()
         {
@@ -143,6 +159,11 @@ namespace RightToAskClient.ViewModels
             Title = App.ReadingContext.IsReadingOnly ? AppResources.UserProfileTitle : AppResources.CreateAccountTitle;
             RegisterMPButtonText = AppResources.RegisterMPAccountButtonText;
             RegisterOrgButtonText = AppResources.RegisterOrganisationAccountButtonText;
+
+            // get account info from preferences
+            Registration.display_name =  Preferences.Get("DisplayName", Registration.display_name);
+            Registration.uid = Preferences.Get("UID", Registration.uid);
+            SelectedState = Preferences.Get("State", -1);
 
             // commands
             SaveButtonCommand = new Command(() =>
@@ -251,7 +272,7 @@ namespace RightToAskClient.ViewModels
             var newRegistration = Registration;
             newRegistration.public_key = ClientSignatureGenerationService.MyPublicKey();
             var regTest = newRegistration.IsValid().Err;
-            if (String.IsNullOrEmpty(regTest))
+            if (string.IsNullOrEmpty(regTest))
             {
                 // see if we need to push the electorates page or if we push the server account things
                 if (!App.ReadingContext.ThisParticipant.MPsKnown)
@@ -263,7 +284,10 @@ namespace RightToAskClient.ViewModels
                 }
                 else
                 {
-                    //Result<bool> httpResponse = await App.RegItemManager.SaveTaskAsync (newRegistration);
+                    // save to preferences
+                    Preferences.Set("DisplayName", Registration.display_name);
+                    Preferences.Set("UID", Registration.uid);
+                    Preferences.Set("State", SelectedState); // stored as an int as used for the other page(s) state pickers
                     Result<bool> httpResponse = await RTAClient.RegisterNewUser(newRegistration);
                     var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
                     ReportLabelText = httpValidation.message;
@@ -281,7 +305,7 @@ namespace RightToAskClient.ViewModels
                 if(regTest != null)
                 {
                     PromptUser(regTest);
-                }                
+                }
             }
         }
 

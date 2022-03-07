@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace RightToAskClient.ViewModels
@@ -257,6 +258,7 @@ namespace RightToAskClient.ViewModels
             SelectButtonText = AppResources.SelectButtonText;
             ReportLabelText = AppResources.MPDataStillInitializing;
             App.ReadingContext.DraftQuestion = Question.QuestionText;
+            Question.QuestionSuggester = Preferences.Get("DisplayName", "");
         }
 
         public void OnButtonPressed(int buttonId)
