@@ -153,6 +153,11 @@ namespace RightToAskClient.ViewModels
             ShowKnowElectoratesFrame = false;
             _launchMPsSelectionPageNext = true;
 
+            MessagingCenter.Subscribe<Registration1ViewModel>(this, "FromReg1", (sender) =>
+            {
+                _launchMPsSelectionPageNext = false;
+            });
+
             // commands
             MPsButtonCommand = new AsyncCommand(async () =>
             {

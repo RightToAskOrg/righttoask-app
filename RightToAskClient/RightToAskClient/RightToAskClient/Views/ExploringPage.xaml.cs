@@ -60,7 +60,7 @@ namespace RightToAskClient.Views
                 {
 					CameFromReg2Page = true;
 				}
-				MessagingCenter.Unsubscribe<FindMPsViewModel, View>(this, "PreviousPage");
+				MessagingCenter.Unsubscribe<FindMPsViewModel, bool>(this, "PreviousPage");
 			});
 		}
 
@@ -85,7 +85,7 @@ namespace RightToAskClient.Views
 				{
 					CameFromReg2Page = true;
 				}
-				MessagingCenter.Unsubscribe<FindMPsViewModel, View>(this, "PreviousPage");
+				MessagingCenter.Unsubscribe<FindMPsViewModel, bool>(this, "PreviousPage");
 			});
 		}
 
@@ -122,7 +122,7 @@ namespace RightToAskClient.Views
 				{
 					CameFromReg2Page = true;
 				}
-				MessagingCenter.Unsubscribe<FindMPsViewModel, View>(this, "PreviousPage");
+				MessagingCenter.Unsubscribe<FindMPsViewModel, bool>(this, "PreviousPage");
 			});
 		}
 
@@ -206,7 +206,6 @@ namespace RightToAskClient.Views
                         OnPropertyChanged("SelectedAuthorities");
                         OnPropertyChanged("SelectedMPs");
 						OnPropertyChanged("SelectedPeople");
-						MessagingCenter.Send<ExploringPage, bool>(this, "UpdateElectorates", true);
 					}
 				}
 			}
@@ -220,7 +219,6 @@ namespace RightToAskClient.Views
 					OnPropertyChanged("SelectedAuthorities");
 					OnPropertyChanged("SelectedMPs");
 					OnPropertyChanged("SelectedPeople");
-					MessagingCenter.Send<ExploringPage, bool>(this, "UpdateElectorates", true);
 				}
 			}
 		}
