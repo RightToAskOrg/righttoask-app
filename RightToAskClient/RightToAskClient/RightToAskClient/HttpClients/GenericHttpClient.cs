@@ -135,45 +135,6 @@ namespace RightToAskClient.HttpClients
             }
         }
 
-        // TODO Unused - Remove?
-        public async Task<Result<List<string>>> RefreshDataAsync()
-        {
-
-            Uri uri = new Uri(Constants.UserListUrl);
-            try
-            {
-                HttpResponseMessage response = await _client.GetAsync(uri);
-                
-                if (response is null || !response.IsSuccessStatusCode)
-                {
-                    return new Result<List<string>>
-                    {
-                        Err = "Error connecting to server."+response?.StatusCode+response?.ReasonPhrase
-                    };
-                }
-                
-                string content = await response.Content.ReadAsStringAsync();
-                var deserialisedResponse = JsonSerializer.Deserialize<Result<List<string>>>(content, _serializerOptions);
-
-                if (deserialisedResponse is null)
-                {
-                    return new Result<List<string>>
-                    {
-                        Err = "Error deserialising server response."
-                    };
-                }
-                
-                Items = deserialisedResponse; 
-                return Items;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(@"\tERROR {0}", ex.Message);
-                return new Result<List<string>>()
-                    { Err = "Error connecting to server." + ex.Message };
-            }
-        }
-
         // Tin is the type of the thing we post, which is also the input type of this function.
         // TResponse is the type of the server's response, which we return.
         public async Task<Result<TResponse>> PostGenericItemAsync<TResponse, TIn>(TIn item, string requesteduri)

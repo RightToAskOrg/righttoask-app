@@ -6,6 +6,7 @@ using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Crypto.Signers;
 using Org.BouncyCastle.Security;
+using RightToAskClient.HttpClients;
 using RightToAskClient.Models;
 using Xamarin.Essentials;
 
@@ -13,11 +14,9 @@ namespace RightToAskClient.CryptoUtils
 {
     public static class ServerSignatureVerificationService
     {
-        public static string ServerPubKeyUrl = DeviceInfo.Platform == DevicePlatform.Android ? "http://10.0.2.2:8099/get_server_public_key_spki" : "http://localhost:8099/get_server_public_key_spki"; 
 
         //public static ECDsa signingService = makeSigningService();
         // private static string SPKI = "MCowBQYDK2VwAyEAOJ/tBn4rOrOebgbICBi3i2oflO0hqz0D8daItDZ53vI=";
-        private static string SPKIRaw = ReadPublicServerKey().Ok ?? "OJ/tBn4rOrOebgbICBi3i2oflO0hqz0D8daItDZ53vI=";
         // private static string SPKIInHex = "389fed067e2b3ab39e6e06c80818b78b6a1f94ed21ab3d03f1d688b43679def2";
 
         public static Ed25519PublicKeyParameters ServerPublicKey = ConvertSPKIRawToBase64String().Ok;
@@ -26,7 +25,7 @@ namespace RightToAskClient.CryptoUtils
         {
             try
             {
-                ServerPublicKey = new Ed25519PublicKeyParameters(Convert.FromBase64String(SPKIRaw));
+                ServerPublicKey = new Ed25519PublicKeyParameters(Convert.FromBase64String(RTAClient.ServerPublicKey));
             }
             catch(Exception ex)
             {
@@ -48,9 +47,5 @@ namespace RightToAskClient.CryptoUtils
            return validator.VerifySignature(signature); 
         }
 
-        private static Result<string> ReadPublicServerKey()
-        {
-            return FileIO.ReadFirstLineOfFileAsString(Constants.PublicServerKeyFileName);
-        }
     }
 }

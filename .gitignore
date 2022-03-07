@@ -405,6 +405,7 @@ FodyWeavers.xsd
 **/Resources/MPs.json
 **/Resources/*APIKey
 **/Resources/*PublicServerKey
+**/Resources/server.config
 
 .vs/
 
