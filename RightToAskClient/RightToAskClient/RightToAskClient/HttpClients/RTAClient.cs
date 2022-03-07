@@ -10,17 +10,15 @@ using Xamarin.Essentials;
 
 namespace RightToAskClient.HttpClients
 {
-    /* A single static http client, set up to talk to our RightToAsk server.
+    /* A single static http client, set up to talk to the RightToAsk server.
      */
     public static class RTAClient
     {
         
         private static string BaseUrl = SetUpServerConfig();
 
-        // TODO Not quite sure whether the /{0} is needed on iPhones - test.
-        private static string MacExtra = DeviceInfo.Platform == DevicePlatform.Android ? "" : "/{0}";
-        private static string RegUrl = BaseUrl + "/new_registration" + MacExtra;
-        private static string QnUrl = BaseUrl + "/new_question" + MacExtra;
+        private static string RegUrl = BaseUrl + "/new_registration";
+        private static string QnUrl = BaseUrl + "/new_question";
         private static string MPListUrl = BaseUrl + "/MPs.json";
         private static string UserListUrl = BaseUrl + "/get_user_list";
         // TODO At the moment, this is not used, because we don't have a cert chain for the server Public Key.
