@@ -369,7 +369,7 @@ namespace RightToAskClient.ViewModels
                     RegisterPage1 registrationPage = new RegisterPage1();
                     registrationPage.Disappearing += setSuggester;
 
-                    // question.QuestionSuggester = readingContext.ThisParticipant.UserName;
+                    Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.display_name;
                     // Commenting-out this instruction means that the person has to push
                     // the 'publish question' button again after they've registered 
                     // their account. This seems natural to me, but is worth checking
@@ -398,7 +398,7 @@ namespace RightToAskClient.ViewModels
             // but is needed if the person has just registered.
             if (App.ReadingContext.ThisParticipant.IsRegistered)
             {
-                // question.QuestionSuggester = readingContext.ThisParticipant.UserName;
+                Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.display_name;
                 App.ReadingContext.ExistingQuestions.Insert(0, Question);
                 (bool isValid, string errorMessage) successfulSubmission = await SubmitQuestionToServer();
                 App.ReadingContext.DraftQuestion = "";

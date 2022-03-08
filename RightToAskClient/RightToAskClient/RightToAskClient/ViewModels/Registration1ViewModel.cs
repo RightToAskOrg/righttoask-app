@@ -295,6 +295,7 @@ namespace RightToAskClient.ViewModels
                     {
                         App.ReadingContext.ThisParticipant.RegistrationInfo = newRegistration;
                         App.ReadingContext.ThisParticipant.IsRegistered = true;
+                        Preferences.Set("IsRegistered", App.ReadingContext.ThisParticipant.IsRegistered); // save the registration to preferences
                         // pop back to the QuestionDetailsPage after the account is created
                         await App.Current.MainPage.Navigation.PopAsync();
                     }

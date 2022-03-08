@@ -31,7 +31,7 @@ namespace RightToAskClient
             ParliamentData.MPAndOtherData.TryInit();
             ReadingContext = new ReadingContext();
             // get the registration info from preferences or default to not registered
-            App.ReadingContext.ThisParticipant.IsRegistered = Preferences.Get("IsRegistered", false);
+            ReadingContext.ThisParticipant.IsRegistered = Preferences.Get("IsRegistered", false);
         }
 
         protected override void OnSleep()
