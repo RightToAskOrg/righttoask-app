@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -24,22 +25,40 @@ using Xamarin.Essentials;
  * but the code needs a round of expert review before it is used or copied.
  * TODO: Note that I have not yet done either of the platform-specific setups recommended on that page:
  * we'll need to ask for iOS entitlements, and we'll need to turn off backup on Android.
+ *
+ * Use of private initialiser to deal with asynchrony is based on suggestion here:
+ * https://endjin.com/blog/2020/08/fully-initialize-types-in-constructor-csharp-nullable-async-factory-pattern
  */
 namespace RightToAskClient.CryptoUtils
 {
-    public static class ClientSignatureGenerationService
+    public class ClientSignatureGenerationService
     {
         // private static readonly AsymmetricCipherKeyPair MyKeyPair = await MakeMyKey();
 
         // private static Ed25519PublicKeyParameters? _myPublicKey  = MyKeyPair.Public as Ed25519PublicKeyParameters;
 
-        private static readonly Ed25519PrivateKeyParameters MyKeyPair = await MakeMyKey();
+        //private static Ed25519PrivateKeyParameters MyKeyPair; // = await MakeMyKey();
+        
+        private Ed25519PrivateKeyParameters MyKeyPair; // = await MakeMyKey();
 
-        private static readonly Ed25519PublicKeyParameters _myPublicKey = MyKeyPair.GeneratePublicKey();
+        private Ed25519PublicKeyParameters _myPublicKey;
         
-        private static readonly Ed25519Signer MySigner = MakeMySigner();
+        private static Ed25519Signer MySigner;
+
+        private ClientSignatureGenerationService(Ed25519PrivateKeyParameters myKey)
+        {
+            MyKeyPair = myKey;
+            _myPublicKey = myKey.GeneratePublicKey();
+            MySigner = MakeMySigner();
+        }
+
+        public static async Task<ClientSignatureGenerationService> CreateClientSignatureGenerationService()
+        {
+            Ed25519PrivateKeyParameters myKeyPair = await MakeMyKey();
+            return new ClientSignatureGenerationService(myKeyPair);
+        }
         
-        public static string MyPublicKey()
+        public string MyPublicKey()
         {
             if(_myPublicKey.GetEncoded() != null)
             {
@@ -52,9 +71,7 @@ namespace RightToAskClient.CryptoUtils
             }
         }
 
-        // TODO at the moment, this just generates a new key every time you run the app.
-        // private static AsymmetricCipherKeyPair MakeMyKey()
-        private static async Task<Ed25519PrivateKeyParameters> MakeMyKey()
+        private static async  Task<Ed25519PrivateKeyParameters> MakeMyKey()
         {
             // First see if there's already a stored key. If so, use that.
             try
@@ -93,7 +110,7 @@ namespace RightToAskClient.CryptoUtils
             return signingKey;
         }
 
-        private static Ed25519Signer MakeMySigner()
+        private Ed25519Signer MakeMySigner()
         {
             var signer = new Ed25519Signer();
             signer.Init(true, MyKeyPair);

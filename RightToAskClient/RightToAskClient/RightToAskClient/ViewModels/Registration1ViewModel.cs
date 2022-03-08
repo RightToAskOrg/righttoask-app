@@ -269,8 +269,9 @@ namespace RightToAskClient.ViewModels
 
         private async void OnSaveButtonClicked()
         {
+            var clientSigGenerationService = await ClientSignatureGenerationService.CreateClientSignatureGenerationService();
             var newRegistration = Registration;
-            newRegistration.public_key = ClientSignatureGenerationService.MyPublicKey();
+            newRegistration.public_key = clientSigGenerationService.MyPublicKey();
             var regTest = newRegistration.IsValid().Err;
             if (string.IsNullOrEmpty(regTest))
             {
