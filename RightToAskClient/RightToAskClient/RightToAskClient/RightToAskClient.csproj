@@ -75,6 +75,8 @@
     <EmbeddedResource Include="Resources\MPs.json" />
     <EmbeddedResource Remove="Views\AuthoritiesRTKCategories.xaml" />
     <None Remove="Resources\server.config" />
+    <None Remove="Resources\serverconfig.json" />
+    <EmbeddedResource Include="Resources\serverconfig.json" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Essentials">

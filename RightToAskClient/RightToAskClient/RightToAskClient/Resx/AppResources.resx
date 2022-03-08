@@ -322,6 +322,12 @@
   <data name="SelectStateWarningText" xml:space="preserve">
     <value>Please choose a state</value>
   </data>
+  <data name="ServerConfigErrorRecommendation" xml:space="preserve">
+    <value>Check your serverconfig.json file.</value>
+  </data>
+  <data name="ServerConfigErrorText" xml:space="preserve">
+    <value>Server configuration error.</value>
+  </data>
   <data name="SimilarQuestionsTitle" xml:space="preserve">
     <value>Similar Questions</value>
   </data>
