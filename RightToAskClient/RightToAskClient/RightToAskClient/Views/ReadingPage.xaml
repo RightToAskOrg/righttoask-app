@@ -23,29 +23,27 @@
                 <controls:ClickableLabel Tapped="OnShowFilters" Text="{xct:Translate ClickForFiltersText}"/> 
 			</Frame>
 			<ScrollView Scrolled="Questions_Scrolled">
-			<ListView x:Name="QuestionListView" HasUnevenRows="True" ItemsSource="{Binding ExistingQuestions}" 
-			          ItemTapped="Question_Selected" x:DataType="models:ReadingContext" >
-				<ListView.ItemTemplate>
-					<DataTemplate>
-						<ViewCell>
-							<StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" Spacing="4">
-								<Label Text="{Binding QuestionText }"  x:DataType="models:Question" Style="{StaticResource ListViewText}"/>	
-								<StackLayout Orientation="Horizontal" Padding="0" HorizontalOptions="Start" VerticalOptions="CenterAndExpand">
-									<Label Text="Upvotes " Style="{StaticResource ListViewTextSmall}"/>
-									<Label Text="{Binding UpVotes }"  x:DataType="models:Question" Style="{StaticResource ListViewTextSmall}"/> 
-									<!--
-									<Button StyleClass="UpVoteButton" Padding="0" Clicked="OnUpVoteButtonClicked" />
-									-->
-									<controls:ToggleButton ToBeIncremented="{Binding}"  x:DataType="models:Question"/>
-								</StackLayout>
-							</StackLayout>			
-						</ViewCell>
-					</DataTemplate>
-				</ListView.ItemTemplate>
-			</ListView>
+			<CollectionView x:Name="QuestionList" ItemsSource="{Binding ExistingQuestions}" SelectionMode="Single" SelectedItem="{Binding SelectedQuestion}">
+                    <!--HasUnevenRows="True" ItemTapped="Question_Selected"-->
+				<CollectionView.ItemTemplate>
+					<DataTemplate x:DataType="models:Question">
+                        <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" Spacing="4">
+                            <Label Text="{Binding QuestionText}" Style="{StaticResource ListViewText}"/>
+                            <StackLayout Orientation="Horizontal" Padding="0" HorizontalOptions="Start" VerticalOptions="CenterAndExpand">
+                                <Label Text="Upvotes " Style="{StaticResource ListViewTextSmall}"/>
+                                <Label Text="{Binding UpVotes}" Style="{StaticResource ListViewTextSmall}"/>
+                                <!--
+								<Button StyleClass="UpVoteButton" Padding="0" Clicked="OnUpVoteButtonClicked" />
+								-->
+                                <controls:ToggleButton ToBeIncremented="{Binding}"/>
+                            </StackLayout>
+                        </StackLayout>
+                    </DataTemplate>
+				</CollectionView.ItemTemplate>
+			</CollectionView>
 			</ScrollView>	
-            <StackLayout Orientation="Horizontal" x:Name="QuestionDraftingBox">
-                <Editor x:Name="DraftEditor" Placeholder="{xct:Translate DraftQuestionPlaceholderText}" Text="{Binding DraftQuestion}" 
+            <StackLayout Orientation="Horizontal">
+                <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}" Text="{Binding DraftQuestion}" 
                         HorizontalOptions="FillAndExpand" Style="{StaticResource NormalEditor}"
                         IsVisible="{Binding ShowDraftEditor}"/>
                 <!--Completed="Question_Entered"-->

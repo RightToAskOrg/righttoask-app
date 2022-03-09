@@ -48,10 +48,36 @@ namespace RightToAskClient.ViewModels
             }
         }
 
+        private Question? _selectedQuestion = null;
+        public Question? SelectedQuestion
+        {
+            get => _selectedQuestion;
+            set
+            {
+                _ = SetProperty(ref _selectedQuestion, value);
+                if (_selectedQuestion != null)
+                {
+                    QuestionViewModel.Instance.Question = _selectedQuestion;
+                    QuestionViewModel.Instance.IsNewQuestion = false;
+                    _ = Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
+                }
+            }
+        }
+
         public ObservableCollection<Question> ExistingQuestions => App.ReadingContext.ExistingQuestions;
 
         public ReadingPageViewModel()
         {
+            // main page view model doesn't exist yet -- changes haven't been merged to main branch
+            //MessagingCenter.Subscribe<MainPageViewModel, bool>(this, "DraftingQuestion", (sender, arg) =>
+            //{
+            //    if (arg)
+            //    {
+            //        App.ReadingContext.IsReadingOnly = true;
+            //    }
+            //    MessagingCenter.Unsubscribe<MainPageViewModel, bool>(this, "DraftingQuestion");
+            //});
+
             if (!string.IsNullOrEmpty(App.ReadingContext.DraftQuestion))
             {
                 DraftQuestion = App.ReadingContext.DraftQuestion;
@@ -63,10 +89,14 @@ namespace RightToAskClient.ViewModels
                 Title = AppResources.ReadQuestionsTitle;
                 ShowDraftEditor = false;
                 ShowDiscardButton = false;
+                ShowContinueButton = false;
             }
             else
             {
                 Title = AppResources.SimilarQuestionsTitle;
+                ShowDraftEditor = true;
+                ShowDiscardButton = true;
+                ShowContinueButton = true;
             }
 
             KeepQuestionButtonCommand = new AsyncCommand(async () =>
