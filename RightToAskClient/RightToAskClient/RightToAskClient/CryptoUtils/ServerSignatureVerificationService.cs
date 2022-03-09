@@ -14,11 +14,6 @@ namespace RightToAskClient.CryptoUtils
 {
     public static class ServerSignatureVerificationService
     {
-
-        //public static ECDsa signingService = makeSigningService();
-        // private static string SPKI = "MCowBQYDK2VwAyEAOJ/tBn4rOrOebgbICBi3i2oflO0hqz0D8daItDZ53vI=";
-        // private static string SPKIInHex = "389fed067e2b3ab39e6e06c80818b78b6a1f94ed21ab3d03f1d688b43679def2";
-
         public static Ed25519PublicKeyParameters ServerPublicKey = ConvertSPKIRawToBase64String().Ok;
         
         private static Result<Ed25519PublicKeyParameters> ConvertSPKIRawToBase64String()

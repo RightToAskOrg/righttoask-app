@@ -3,19 +3,25 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace RightToAskClient.Models
 {
-    public class Question : INotifyPropertyChanged
+    public class Question : ObservableObject
     {
         private int _upVotes;
         private int _downVotes;
 
         public string QuestionText { get; set; } = "";
-        
+
         // The citizen who suggested the question
-        public string QuestionSuggester { get; set; } = "";
-        
+        private string _questionSuggester = "";
+        public string QuestionSuggester 
+        { 
+            get => _questionSuggester; 
+            set => SetProperty(ref _questionSuggester, value); 
+        }
+
         // The Authority, department, MPs, who are meant to answer 
         public ObservableCollection<Entity> QuestionAnswerers { get; set; } = new ObservableCollection<Entity>();
         
