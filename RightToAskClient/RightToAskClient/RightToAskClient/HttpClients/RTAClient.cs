@@ -32,7 +32,7 @@ namespace RightToAskClient.HttpClients
             };
         
         private static readonly GenericHttpClient Client = new GenericHttpClient(_serializerOptions);
-        public static string ServerPublicKey
+        public static string? ServerPublicKey
         {
             get;
             private set;
@@ -42,7 +42,7 @@ namespace RightToAskClient.HttpClients
         // a non-null public key and (if remote server was selected) a non-null remote url.
         // TODO (Issue #18) if we can't read server config (or possibly also if we can't reach the server), it's better to deactivate the buttons that require it 
         // (Just like we do for MPs when we can't access them.)
-        public static bool ServerConfigValidInit { get; private set; } = false;
+        // public static bool ServerConfigValidInit { get; private set; } = false;
 
         public static async Task<Result<UpdatableParliamentAndMPDataStructure>> GetMPsData()
         {
@@ -179,13 +179,13 @@ namespace RightToAskClient.HttpClients
             // Something went wrong. Leave ServerInit false and write to debug.
             if (url.IsNullOrEmpty() || key.IsNullOrEmpty())
             {
-                Debug.WriteLine("Server config error.");
+                Debug.WriteLine("Server config error. Check your serverconfig.json file. "+"url = "+url+". Public key = "+key);
                 return "";
             }
 
             // Success.
             ServerPublicKey = key;
-            ServerConfigValidInit = true;
+            // ServerConfigValidInit = true;
             return url;
         }
     }

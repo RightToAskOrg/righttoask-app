@@ -269,8 +269,9 @@ namespace RightToAskClient.ViewModels
 
         private async void OnSaveButtonClicked()
         {
+            var clientSigGenerationService = await ClientSignatureGenerationService.CreateClientSignatureGenerationService();
             var newRegistration = Registration;
-            newRegistration.public_key = ClientSignatureGenerationService.MyPublicKey();
+            newRegistration.public_key = clientSigGenerationService.MyPublicKey();
             var regTest = newRegistration.IsValid().Err;
             if (string.IsNullOrEmpty(regTest))
             {
@@ -295,6 +296,7 @@ namespace RightToAskClient.ViewModels
                     {
                         App.ReadingContext.ThisParticipant.RegistrationInfo = newRegistration;
                         App.ReadingContext.ThisParticipant.IsRegistered = true;
+                        Preferences.Set("IsRegistered", App.ReadingContext.ThisParticipant.IsRegistered); // save the registration to preferences
                         // pop back to the QuestionDetailsPage after the account is created
                         await App.Current.MainPage.Navigation.PopAsync();
                     }
