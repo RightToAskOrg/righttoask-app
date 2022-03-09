@@ -5,12 +5,16 @@
 			 xmlns:rightToAskClient="clr-namespace:RightToAskClient;assembly=RightToAskClient"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
 			 xmlns:models="clr-namespace:RightToAskClient.Models;assembly=RightToAskClient"
+             xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
 			 x:Class="RightToAskClient.Views.ReadingPage"
 			 x:Name="TitleBar"
              Title="{xct:Translate RecentQuestionsTitle}">
     <ContentPage.ToolbarItems>
         <ToolbarItem x:Name="HomeButton" Text="{xct:Translate HomeButtonText}"/>
     </ContentPage.ToolbarItems>
+    <ContentPage.BindingContext>
+        <vm:ReadingPageViewModel/>
+    </ContentPage.BindingContext>
     <ContentPage.Content>
 		<StackLayout x:Name = "WholePage" HorizontalOptions="Center" VerticalOptions="Start">
             <Label Text="{xct:Translate ReadingPageHeader1}" Style="{StaticResource Header2}"></Label>
@@ -41,11 +45,16 @@
 			</ListView>
 			</ScrollView>	
             <StackLayout Orientation="Horizontal" x:Name="QuestionDraftingBox">
-                <Editor x:Name="DraftEditor" Placeholder="{xct:Translate DraftQuestionPlaceholderText}" Text="{Binding DraftQuestion}" HorizontalOptions="FillAndExpand" Completed="Question_Entered" Style="{StaticResource NormalEditor}" />
+                <Editor x:Name="DraftEditor" Placeholder="{xct:Translate DraftQuestionPlaceholderText}" Text="{Binding DraftQuestion}" 
+                        HorizontalOptions="FillAndExpand" Style="{StaticResource NormalEditor}"
+                        IsVisible="{Binding ShowDraftEditor}"/>
+                <!--Completed="Question_Entered"-->
             </StackLayout>
 			<StackLayout Orientation="Horizontal">
-                <Button x:Name="DiscardButton" Style="{StaticResource TurquoiseButton}" Text="{xct:Translate DiscardDraftButtonText}" Clicked="OnDiscardButtonClicked" />
-				<Button x:Name="KeepButton" Style="{StaticResource DoneButton}" Text="{xct:Translate KeepQuestionButtonText}" Clicked="OnSaveButtonClicked" />
+                <Button Text="{xct:Translate DiscardDraftButtonText}" Style="{StaticResource TurquoiseButton}" 
+                        Command="{Binding DiscardButtonCommand}" IsVisible="{Binding ShowDiscardButton}"/>
+                <Button Text="{xct:Translate KeepQuestionButtonText}" Style="{StaticResource DoneButton}" 
+                        Command="{Binding KeepQuestionButtonCommand}" IsVisible="{Binding ShowContinueButton}" />
 			</StackLayout>
 		</StackLayout>
 	</ContentPage.Content>

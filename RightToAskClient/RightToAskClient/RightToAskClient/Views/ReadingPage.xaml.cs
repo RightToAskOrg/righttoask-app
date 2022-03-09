@@ -17,7 +17,6 @@ namespace RightToAskClient.Views
         public ReadingPage()
         {
             InitializeComponent();
-            BindingContext = App.ReadingContext;
             HomeButton.Clicked += HomeButton_Clicked;
 
             _ttestableView = new FilterDisplayTableView();
@@ -25,17 +24,16 @@ namespace RightToAskClient.Views
 
             OnHideFilters();
 
-            if (App.ReadingContext.IsReadingOnly)
-            {
-                TitleBar.Title = AppResources.ReadQuestionsTitle;
-                QuestionDraftingBox.IsVisible = false;
-                KeepButton.IsVisible = false;
-                DiscardButton.IsVisible = false;
-            }
-            else
-            {
-                TitleBar.Title = AppResources.SimilarQuestionsTitle;
-            }
+            //if (App.ReadingContext.IsReadingOnly)
+            //{
+            //    TitleBar.Title = AppResources.ReadQuestionsTitle;
+            //    QuestionDraftingBox.IsVisible = false;
+            //    DiscardButton.IsVisible = false;
+            //}
+            //else
+            //{
+            //    TitleBar.Title = AppResources.SimilarQuestionsTitle;
+            //}
         }
 
         /*
@@ -95,11 +93,12 @@ namespace RightToAskClient.Views
         {
             OnHideFilters();
         }
-        void Question_Entered(object sender, EventArgs e)
-        {
-            App.ReadingContext.DraftQuestion = ((Editor)sender).Text;
-            QuestionViewModel.Instance.Question.QuestionText = ((Editor)sender).Text;
-        }
+
+        //void Question_Entered(object sender, EventArgs e)
+        //{
+        //    App.ReadingContext.DraftQuestion = ((Editor)sender).Text;
+        //    QuestionViewModel.Instance.Question.QuestionText = ((Editor)sender).Text;
+        //}
 
         // Note: it's possible that this would be better with an ItemTapped event instead.
         private async void Question_Selected(object sender, ItemTappedEventArgs e)
@@ -110,12 +109,12 @@ namespace RightToAskClient.Views
             await Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
         }
 
+        /*
         async void OnDiscardButtonClicked(object sender, EventArgs e)
         {
             App.ReadingContext.DraftQuestion = "";
             DraftEditor.IsVisible = false;
             DiscardButton.IsVisible = false;
-            KeepButton.IsVisible = false;
 
             bool goHome = await DisplayAlert("Draft discarded", "Save time and focus support by voting on a similar question", "Home", "Related questions");
             if (goHome)
@@ -155,6 +154,6 @@ namespace RightToAskClient.Views
             QuestionViewModel.Instance.IsNewQuestion = true;
             //await Navigation.PushAsync(questionDetailPage);
             await Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
-        }
+        }*/
     }
 }
