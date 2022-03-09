@@ -258,7 +258,7 @@ namespace RightToAskClient.ViewModels
             SelectButtonText = AppResources.SelectButtonText;
             ReportLabelText = AppResources.MPDataStillInitializing;
             App.ReadingContext.DraftQuestion = Question.QuestionText;
-            Question.QuestionSuggester = Preferences.Get("DisplayName", "");
+            Question.QuestionSuggester = Preferences.Get("DisplayName", "Could not find User's Name");
         }
 
         public void OnButtonPressed(int buttonId)
@@ -388,17 +388,14 @@ namespace RightToAskClient.ViewModels
 
         private void setSuggester(object sender, EventArgs e)
         {
-            QuestionViewModel.Instance.Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.display_name;
+            QuestionViewModel.Instance.Question.QuestionSuggester = Preferences.Get("DisplayName", "Anonymous user");
         }
 
         private async void SaveQuestion()
         {
-            // Setting QuestionSuggester may be unnecessary
-            // - it may already be set correctly -
-            // but is needed if the person has just registered.
+            // I have confirmed that we no longer need to set the QuestionSuggester here, as we have it being done on the details page.
             if (App.ReadingContext.ThisParticipant.IsRegistered)
             {
-                Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.display_name;
                 App.ReadingContext.ExistingQuestions.Insert(0, Question);
                 (bool isValid, string errorMessage) successfulSubmission = await SubmitQuestionToServer();
                 App.ReadingContext.DraftQuestion = "";

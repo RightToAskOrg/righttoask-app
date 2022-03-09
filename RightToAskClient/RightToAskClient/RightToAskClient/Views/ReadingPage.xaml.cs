@@ -4,6 +4,7 @@ using RightToAskClient.Controls;
 using RightToAskClient.Models;
 using RightToAskClient.Resx;
 using RightToAskClient.ViewModels;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace RightToAskClient.Views
@@ -144,7 +145,7 @@ namespace RightToAskClient.Views
             {
                 QuestionText = App.ReadingContext.DraftQuestion,
                 // TODO: Enforce registration before question-suggesting.
-                QuestionSuggester = App.ReadingContext.ThisParticipant.IsRegistered ? App.ReadingContext.ThisParticipant.RegistrationInfo.display_name : "Anonymous user",
+                QuestionSuggester = Preferences.Get("DisplayName", "Anonymous user"),
                 QuestionAnswerers = questionAnswerers,
                 DownVotes = 0,
                 UpVotes = 0
