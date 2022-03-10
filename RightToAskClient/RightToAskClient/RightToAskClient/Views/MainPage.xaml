@@ -3,21 +3,29 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:resx="clr-namespace:RightToAskClient.Resx"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
 			 x:Class="RightToAskClient.Views.MainPage"
 			 Title="{xct:Translate ApplicationTitle}"
              Shell.FlyoutBehavior="Flyout">
-	<ContentPage.Content>
+    <ContentPage.BindingContext>
+        <vm:MainPageViewModel/>
+    </ContentPage.BindingContext>
+        <ContentPage.Content>
         <StackLayout VerticalOptions="CenterAndExpand" Spacing="40">
             <Frame Style="{StaticResource NavajoWhiteFrame}">
 			    <StackLayout Style="{StaticResource VertStack}">
                     <Label Text="{xct:Translate MainPageHeaderText}" Style="{StaticResource Header1}" />
                     <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                        <Button x:Name="Top10NowButton" Text="{xct:Translate TrendingNowButtonText}" Style="{StaticResource TurquoiseButton}" HeightRequest="50" Clicked="OnTop10NowButtonClicked" HorizontalOptions="Center"/>
-                        <Button x:Name="ExpiringSoonButton" Text="{xct:Translate ExpiringSoonButtonText}" Style="{StaticResource TurquoiseButton}" Clicked="OnExpiringSoonButtonClicked" HorizontalOptions="Center"/>
+                        <Button Text="{xct:Translate TrendingNowButtonText}" Style="{StaticResource TurquoiseButton}" HeightRequest="50" 
+                                Command="{Binding Top10ButtonCommand}" HorizontalOptions="Center"/>
+                        <Button Text="{xct:Translate ExpiringSoonButtonText}" Style="{StaticResource TurquoiseButton}" 
+                                Command="{Binding ExpiringSoonButtonCommand}" HorizontalOptions="Center"/>
 			        </StackLayout>
                     <StackLayout Orientation="Horizontal" HorizontalOptions="Start">
-                        <SearchBar x:Name="ReadByKeywordButton" Placeholder="{xct:Translate SearchBarPlaceholderText}" Style="{StaticResource TurquoiseSearcbar}" SearchButtonPressed="OnReadByKeywordFieldCompleted" TextChanged="OnKeywordChanged" HorizontalOptions="Start"/>
-                        <Button x:Name="ReadButton" Text="{xct:Translate AdvancedSearchButtonText}" Clicked="OnReadButtonClicked" Style="{StaticResource TurquoiseButton}" HeightRequest="50"/>
+                        <SearchBar Placeholder="{xct:Translate SearchBarPlaceholderText}" Style="{StaticResource TurquoiseSearcbar}" 
+                                   Text="{Binding SearchText}" HorizontalOptions="Start" SearchCommand="{Binding ExpiringSoonButtonCommand}"/>
+                        <Button Text="{xct:Translate AdvancedSearchButtonText}" Command="{Binding AdvancedSearchButtonCommand}" 
+                                Style="{StaticResource TurquoiseButton}" HeightRequest="50"/>
                     </StackLayout>
                 </StackLayout>
 			</Frame>
@@ -25,7 +33,8 @@
 			    <StackLayout Style="{StaticResource VertStack}">
                     <Label Text="{xct:Translate MainPageHeader2Text}" Style="{StaticResource Header1}" />
 				    <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                        <Button x:Name="NavigateButton" Text="{xct:Translate StartDraftingButtonText}" Style="{StaticResource TurquoiseButton}" HeightRequest="50" Clicked="OnNavigateButtonClicked" HorizontalOptions="Center"/>
+                        <Button x:Name="NavigateButton" Text="{xct:Translate StartDraftingButtonText}" Style="{StaticResource TurquoiseButton}" HeightRequest="50" 
+                                Command="{Binding DraftingButtonCommand}" HorizontalOptions="Center"/>
 				    </StackLayout>
 			</StackLayout>
 			</Frame>	
