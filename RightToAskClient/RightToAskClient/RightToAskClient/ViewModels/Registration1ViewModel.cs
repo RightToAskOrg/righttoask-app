@@ -160,8 +160,9 @@ namespace RightToAskClient.ViewModels
             RegisterMPButtonText = AppResources.RegisterMPAccountButtonText;
             RegisterOrgButtonText = AppResources.RegisterOrganisationAccountButtonText;
 
-            // get account info from preferences
-            Registration.display_name =  Preferences.Get("DisplayName", Registration.display_name);
+            // get account info from preferences -- I can probably remove these
+            // now that it's being done at the app level but keeping them shouldn't hurt
+            Registration.display_name = Preferences.Get("DisplayName", Registration.display_name);
             Registration.uid = Preferences.Get("UID", Registration.uid);
             SelectedState = Preferences.Get("State", -1);
 
@@ -269,9 +270,9 @@ namespace RightToAskClient.ViewModels
 
         private async void OnSaveButtonClicked()
         {
-            var clientSigGenerationService = await ClientSignatureGenerationService.CreateClientSignatureGenerationService();
+            // var clientSigGenerationService = await ClientSignatureGenerationService.CreateClientSignatureGenerationService();
             var newRegistration = Registration;
-            newRegistration.public_key = clientSigGenerationService.MyPublicKey();
+            newRegistration.public_key = App.ReadingContext.ThisParticipant.MyPublicKey();
             var regTest = newRegistration.IsValid().Err;
             if (string.IsNullOrEmpty(regTest))
             {

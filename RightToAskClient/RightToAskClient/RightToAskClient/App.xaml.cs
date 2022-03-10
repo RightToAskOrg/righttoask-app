@@ -33,6 +33,17 @@ namespace RightToAskClient
             ReadingContext = new ReadingContext();
             // get the registration info from preferences or default to not registered
             ReadingContext.ThisParticipant.IsRegistered = Preferences.Get("IsRegistered", false);
+            if (ReadingContext.ThisParticipant.IsRegistered)
+            {
+                // get account info from preferences
+                ReadingContext.ThisParticipant.RegistrationInfo.display_name = Preferences.Get("DisplayName", "Display name not found");
+                ReadingContext.ThisParticipant.RegistrationInfo.uid = Preferences.Get("UID", "User ID not found");
+                int stateID = Preferences.Get("State", -1);
+                if(stateID >= 0)
+                {
+                    ReadingContext.ThisParticipant.RegistrationInfo.State = ParliamentData.StatesAndTerritories[stateID];
+                }
+            }
         }
 
         protected override void OnSleep()

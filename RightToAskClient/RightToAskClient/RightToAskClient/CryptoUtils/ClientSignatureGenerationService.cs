@@ -77,10 +77,18 @@ namespace RightToAskClient.CryptoUtils
             try
             {
                 var signingKeyAsString = await SecureStorage.GetAsync("signing_key");
-                var privateKey = new Ed25519PrivateKeyParameters(Convert.FromBase64String(signingKeyAsString));
-                
-                return privateKey;
+
+                // If there's an existing key, return it.
+                if (!String.IsNullOrEmpty(signingKeyAsString))
+                {
+                    var privateKey = new Ed25519PrivateKeyParameters(Convert.FromBase64String(signingKeyAsString));
+                    return privateKey;
+                }
             }
+            // If there's an exception, write a debug message and continue through generating a new one.
+            // TODO Note it's not 100% clear that this is the right thing to do if there was an exception
+            // attempting to retrieve one. It's possible we want a more careful examination of whether we
+            // expect a key to be there.
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
@@ -117,7 +125,7 @@ namespace RightToAskClient.CryptoUtils
             return signer;
         }
 
-        public static ClientSignedUnparsed SignMessage<T>(T message, string userID)
+        public ClientSignedUnparsed SignMessage<T>(T message, string userID)
         {
             string serializedMessage = "";
             byte[] messageBytes;

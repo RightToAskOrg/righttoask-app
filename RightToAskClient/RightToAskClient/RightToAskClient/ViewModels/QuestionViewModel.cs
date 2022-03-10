@@ -432,8 +432,8 @@ namespace RightToAskClient.ViewModels
             };
 
             // TODO Check for serialisation errors.
-            ClientSignedUnparsed signedQuestion = ClientSignatureGenerationService.SignMessage(uploadableQuestion,
-                    App.ReadingContext.ThisParticipant.RegistrationInfo.uid);
+            ClientSignedUnparsed signedQuestion 
+                = App.ReadingContext.ThisParticipant.SignMessage(uploadableQuestion);
 
             Result<bool> httpResponse = await RTAClient.RegisterNewQuestion(signedQuestion);
             return RTAClient.ValidateHttpResponse(httpResponse, "Question Upload");
