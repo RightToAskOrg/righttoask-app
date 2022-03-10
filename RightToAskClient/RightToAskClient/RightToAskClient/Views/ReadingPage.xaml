@@ -8,7 +8,8 @@
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
 			 x:Class="RightToAskClient.Views.ReadingPage"
 			 x:Name="TitleBar"
-             Title="{xct:Translate RecentQuestionsTitle}">
+             Title="{Binding Title}"
+             x:DataType="vm:ReadingPageViewModel">
     <ContentPage.ToolbarItems>
         <ToolbarItem x:Name="HomeButton" Text="{xct:Translate HomeButtonText}"/>
     </ContentPage.ToolbarItems>
@@ -17,36 +18,30 @@
     </ContentPage.BindingContext>
     <ContentPage.Content>
 		<StackLayout x:Name = "WholePage" HorizontalOptions="Center" VerticalOptions="Start">
-            <Label Text="{xct:Translate ReadingPageHeader1}" Style="{StaticResource Header2}"></Label>
-			<!-- Filters inserted here -->
+            <Label Text="{xct:Translate ReadingPageHeader1}" Style="{StaticResource Header2}"/>
+            <!-- Filters inserted here -->
 			<Frame x:Name="FilterShower" Style="{StaticResource TealFrame}">
                 <controls:ClickableLabel Tapped="OnShowFilters" Text="{xct:Translate ClickForFiltersText}"/> 
 			</Frame>
 			<ScrollView Scrolled="Questions_Scrolled">
-			<CollectionView x:Name="QuestionList" ItemsSource="{Binding ExistingQuestions}" SelectionMode="Single" SelectedItem="{Binding SelectedQuestion}">
-                    <!--HasUnevenRows="True" ItemTapped="Question_Selected"-->
-				<CollectionView.ItemTemplate>
-					<DataTemplate x:DataType="models:Question">
-                        <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" Spacing="4">
-                            <Label Text="{Binding QuestionText}" Style="{StaticResource ListViewText}"/>
-                            <StackLayout Orientation="Horizontal" Padding="0" HorizontalOptions="Start" VerticalOptions="CenterAndExpand">
-                                <Label Text="Upvotes " Style="{StaticResource ListViewTextSmall}"/>
-                                <Label Text="{Binding UpVotes}" Style="{StaticResource ListViewTextSmall}"/>
-                                <!--
-								<Button StyleClass="UpVoteButton" Padding="0" Clicked="OnUpVoteButtonClicked" />
-								-->
-                                <controls:ToggleButton ToBeIncremented="{Binding}"/>
+			    <CollectionView x:Name="QuestionList" ItemsSource="{Binding ExistingQuestions}" SelectionMode="Single" SelectedItem="{Binding SelectedQuestion}">
+				    <CollectionView.ItemTemplate>
+					    <DataTemplate x:DataType="models:Question">
+                            <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" Spacing="4">
+                                <Label Text="{Binding QuestionText}" Style="{StaticResource ListViewText}"/>
+                                <StackLayout Orientation="Horizontal" Padding="0" HorizontalOptions="Start" VerticalOptions="CenterAndExpand">
+                                    <Label Text="Upvotes " Style="{StaticResource ListViewTextSmall}"/>
+                                    <Label Text="{Binding UpVotes}" Style="{StaticResource ListViewTextSmall}"/>
+                                    <controls:ToggleButton ToBeIncremented="{Binding}"/>
+                                </StackLayout>
                             </StackLayout>
-                        </StackLayout>
-                    </DataTemplate>
-				</CollectionView.ItemTemplate>
-			</CollectionView>
+                        </DataTemplate>
+				    </CollectionView.ItemTemplate>
+			    </CollectionView>
 			</ScrollView>	
             <StackLayout Orientation="Horizontal">
                 <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}" Text="{Binding DraftQuestion}" 
-                        HorizontalOptions="FillAndExpand" Style="{StaticResource NormalEditor}"
-                        IsVisible="{Binding ShowDraftEditor}"/>
-                <!--Completed="Question_Entered"-->
+                        HorizontalOptions="FillAndExpand" Style="{StaticResource NormalEditor}" IsVisible="{Binding ShowDraftEditor}"/>
             </StackLayout>
 			<StackLayout Orientation="Horizontal">
                 <Button Text="{xct:Translate DiscardDraftButtonText}" Style="{StaticResource TurquoiseButton}" 

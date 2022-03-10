@@ -76,10 +76,17 @@ namespace RightToAskClient.ViewModels
 
             if (App.ReadingContext.IsReadingOnly)
             {
-                Title = AppResources.ReadQuestionsTitle;
                 ShowDraftEditor = false;
                 ShowDiscardButton = false;
                 ShowContinueButton = false;
+                if (App.ReadingContext.TopTen)
+                {
+                    Title = AppResources.RecentQuestionsTitle;
+                }
+                else
+                {
+                    Title = AppResources.ReadQuestionsTitle;
+                }
             }
             else
             {
