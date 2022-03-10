@@ -27,11 +27,13 @@ namespace RightToAskClient.ViewModels
             Top10ButtonCommand = new AsyncCommand(async () =>
             {
                 App.ReadingContext.TopTen = true;
+                App.ReadingContext.IsReadingOnly = true;
                 await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
             });
             ExpiringSoonButtonCommand = new AsyncCommand(async () =>
             {
                 App.ReadingContext.TopTen = true;
+                App.ReadingContext.IsReadingOnly = true;
                 await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
             });
             DraftingButtonCommand = new AsyncCommand(async () =>

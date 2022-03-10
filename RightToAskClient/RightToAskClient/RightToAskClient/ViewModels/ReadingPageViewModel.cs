@@ -68,16 +68,6 @@ namespace RightToAskClient.ViewModels
 
         public ReadingPageViewModel()
         {
-            // main page view model doesn't exist yet -- changes haven't been merged to main branch
-            //MessagingCenter.Subscribe<MainPageViewModel, bool>(this, "DraftingQuestion", (sender, arg) =>
-            //{
-            //    if (arg)
-            //    {
-            //        App.ReadingContext.IsReadingOnly = true;
-            //    }
-            //    MessagingCenter.Unsubscribe<MainPageViewModel, bool>(this, "DraftingQuestion");
-            //});
-
             if (!string.IsNullOrEmpty(App.ReadingContext.DraftQuestion))
             {
                 DraftQuestion = App.ReadingContext.DraftQuestion;
