@@ -4,6 +4,7 @@ using RightToAskClient.Controls;
 using RightToAskClient.Models;
 using RightToAskClient.Resx;
 using RightToAskClient.ViewModels;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace RightToAskClient.Views
@@ -66,5 +67,6 @@ namespace RightToAskClient.Views
             //await Navigation.PushAsync(questionDetailPage);
             await Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
         }
+
     }
 }

@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using RightToAskClient.CryptoUtils;
 
 // This class represents a person who uses the
 // system and is not an MP or org representative.
@@ -12,10 +14,14 @@ namespace RightToAskClient.Models
 	// in addition to the public data in 'Person'
 	public class IndividualParticipant : Person 
     {
+	    private ClientSignatureGenerationService _signatureService;
+            // = await ClientSignatureGenerationService.CreateClientSignatureGenerationService();
 		public IndividualParticipant() 
 		{
 			MPsKnown = false;
 			IsRegistered = false;
+			initializeCryptographicKeys();
+			// _signatureService = await ClientSignatureGenerationService.CreateClientSignatureGenerationService();
 		}
 		public bool IsRegistered { get; set; }
 		public bool MPsKnown { get; set; }
@@ -54,7 +60,23 @@ namespace RightToAskClient.Models
 			RegistrationInfo.AddElectorateRemoveDuplicates(knownElectorate);
 			UpdateMPs();
 		}
-		
+
+		public ClientSignedUnparsed SignMessage<T>(T message)
+		{
+			return _signatureService.SignMessage(message, RegistrationInfo.uid );
+		}
+
+		public string MyPublicKey()
+		{
+			return RegistrationInfo.public_key;
+		}
+
+		private async void initializeCryptographicKeys()
+		{
+			_signatureService = await ClientSignatureGenerationService.CreateClientSignatureGenerationService();
+			RegistrationInfo.public_key = _signatureService.MyPublicKey();
+		}
+
 		// This stores a flat list of MPs, not sorted or structured by Electorate.
 		// It also refreshes the MPs according to the current list of electorates so,
 		// for example, if an electorate is removed, the MPs representing it will disappear.

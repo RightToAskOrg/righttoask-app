@@ -28,10 +28,22 @@ namespace RightToAskClient
 
         protected override void OnStart()
         {
+            //Preferences.Clear(); // Toggle this line in and out as needed instead of resetting the emulator every time
             ParliamentData.MPAndOtherData.TryInit();
             ReadingContext = new ReadingContext();
             // get the registration info from preferences or default to not registered
-            App.ReadingContext.ThisParticipant.IsRegistered = Preferences.Get("IsRegistered", false);
+            ReadingContext.ThisParticipant.IsRegistered = Preferences.Get("IsRegistered", false);
+            if (ReadingContext.ThisParticipant.IsRegistered)
+            {
+                // get account info from preferences
+                ReadingContext.ThisParticipant.RegistrationInfo.display_name = Preferences.Get("DisplayName", "Display name not found");
+                ReadingContext.ThisParticipant.RegistrationInfo.uid = Preferences.Get("UID", "User ID not found");
+                int stateID = Preferences.Get("State", -1);
+                if(stateID >= 0)
+                {
+                    ReadingContext.ThisParticipant.RegistrationInfo.State = ParliamentData.StatesAndTerritories[stateID];
+                }
+            }
         }
 
         protected override void OnSleep()

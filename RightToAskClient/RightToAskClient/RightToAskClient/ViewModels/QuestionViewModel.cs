@@ -258,7 +258,7 @@ namespace RightToAskClient.ViewModels
             SelectButtonText = AppResources.SelectButtonText;
             ReportLabelText = AppResources.MPDataStillInitializing;
             App.ReadingContext.DraftQuestion = Question.QuestionText;
-            Question.QuestionSuggester = Preferences.Get("DisplayName", "");
+            Question.QuestionSuggester = Preferences.Get("DisplayName", "Could not find User's Name");
         }
 
         public void OnButtonPressed(int buttonId)
@@ -369,7 +369,7 @@ namespace RightToAskClient.ViewModels
                     RegisterPage1 registrationPage = new RegisterPage1();
                     registrationPage.Disappearing += setSuggester;
 
-                    // question.QuestionSuggester = readingContext.ThisParticipant.UserName;
+                    Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.display_name;
                     // Commenting-out this instruction means that the person has to push
                     // the 'publish question' button again after they've registered 
                     // their account. This seems natural to me, but is worth checking
@@ -388,17 +388,14 @@ namespace RightToAskClient.ViewModels
 
         private void setSuggester(object sender, EventArgs e)
         {
-            QuestionViewModel.Instance.Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.display_name;
+            QuestionViewModel.Instance.Question.QuestionSuggester = Preferences.Get("DisplayName", "Anonymous user");
         }
 
         private async void SaveQuestion()
         {
-            // Setting QuestionSuggester may be unnecessary
-            // - it may already be set correctly -
-            // but is needed if the person has just registered.
+            // I have confirmed that we no longer need to set the QuestionSuggester here, as we have it being done on the details page.
             if (App.ReadingContext.ThisParticipant.IsRegistered)
             {
-                // question.QuestionSuggester = readingContext.ThisParticipant.UserName;
                 App.ReadingContext.ExistingQuestions.Insert(0, Question);
                 (bool isValid, string errorMessage) successfulSubmission = await SubmitQuestionToServer();
                 App.ReadingContext.DraftQuestion = "";
@@ -435,8 +432,8 @@ namespace RightToAskClient.ViewModels
             };
 
             // TODO Check for serialisation errors.
-            ClientSignedUnparsed signedQuestion = ClientSignatureGenerationService.SignMessage(uploadableQuestion,
-                    App.ReadingContext.ThisParticipant.RegistrationInfo.uid);
+            ClientSignedUnparsed signedQuestion 
+                = App.ReadingContext.ThisParticipant.SignMessage(uploadableQuestion);
 
             Result<bool> httpResponse = await RTAClient.RegisterNewQuestion(signedQuestion);
             return RTAClient.ValidateHttpResponse(httpResponse, "Question Upload");
