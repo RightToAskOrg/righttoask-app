@@ -6,7 +6,8 @@
              Shell.FlyoutBehavior="Flyout">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="This page will give information about how to use the application." Style="{StaticResource Header2}"/>
+            <WebView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Source="https://righttoask.democracydevelopers.org.au/what-it-does/">
+            </WebView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
