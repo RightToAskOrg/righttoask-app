@@ -11,6 +11,19 @@
         <ResourceDictionary>
             <!--Converter-->
             <helpers:InvertConvert x:Key="cnvInvert" />
+            <!-- Website colors -->
+            <!--
+            light green: #649b49
+            yellow: #efd242 
+            site background: #ffffff
+            light grey background: #ededed
+            dark blue background: #2f4858
+            text colour (v dark blue): #14171c
+            text colour (dark background) #ffffff
+            mid blue (generally not used): #006d72
+            red (highlight): #9a4119
+            
+            -->
             <!--Colors-->
             <Color x:Key="Primary">#6FA22E</Color>
             <Color x:Key="WindowBackgroundColor">#f2f2f7</Color>
