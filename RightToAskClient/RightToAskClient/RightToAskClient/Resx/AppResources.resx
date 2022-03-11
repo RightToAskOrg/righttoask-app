@@ -186,6 +186,9 @@
   <data name="ElectoratesKnownHeaderText" xml:space="preserve">
     <value>I know my electorates already</value>
   </data>
+  <data name="EmailTitle" xml:space="preserve">
+    <value>Email</value>
+  </data>
   <data name="ExpiringSoonButtonText" xml:space="preserve">
     <value>Expiring Soon</value>
   </data>
@@ -276,6 +279,9 @@
   </data>
   <data name="OtherMPRaiseFilterLabelText" xml:space="preserve">
     <value>Other MPs who should raise the question in Parliament</value>
+  </data>
+  <data name="OtherUserProfileTitle" xml:space="preserve">
+    <value>{0}'s Profile</value>
   </data>
   <data name="PostcodeHeaderText" xml:space="preserve">
     <value>Postcode</value>

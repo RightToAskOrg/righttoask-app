@@ -268,6 +268,15 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Email.
+        /// </summary>
+        internal static string EmailTitle {
+            get {
+                return ResourceManager.GetString("EmailTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Expiring Soon.
         /// </summary>
         internal static string ExpiringSoonButtonText {
@@ -529,6 +538,15 @@ namespace RightToAskClient.Resx {
         internal static string OtherMPRaiseFilterLabelText {
             get {
                 return ResourceManager.GetString("OtherMPRaiseFilterLabelText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}&apos;s Profile.
+        /// </summary>
+        internal static string OtherUserProfileTitle {
+            get {
+                return ResourceManager.GetString("OtherUserProfileTitle", resourceCulture);
             }
         }
         
