@@ -177,6 +177,9 @@
   <data name="EditProfileButtonText" xml:space="preserve">
     <value>Edit Your Profile</value>
   </data>
+  <data name="EditYourAccountTitle" xml:space="preserve">
+    <value>Edit Your Account</value>
+  </data>
   <data name="ElectoratesHeaderText" xml:space="preserve">
     <value>Electorates:</value>
   </data>
@@ -185,6 +188,9 @@
   </data>
   <data name="ExpiringSoonButtonText" xml:space="preserve">
     <value>Expiring Soon</value>
+  </data>
+  <data name="FailedToUpdateAccountText" xml:space="preserve">
+    <value>Server Error: Your account details could not be changed at this time.</value>
   </data>
   <data name="FindCommitteeButtonText" xml:space="preserve">
     <value>Find a Committee</value>
@@ -367,6 +373,9 @@
   <data name="StreetHeaderText" xml:space="preserve">
     <value>Street number and name</value>
   </data>
+  <data name="SuccessfullyUpdatedAccountText" xml:space="preserve">
+    <value>Your account details were successfully updated.</value>
+  </data>
   <data name="TapToEditFiltersText" xml:space="preserve">
     <value>Filters - Tap to edit</value>
   </data>
@@ -381,6 +390,9 @@
   </data>
   <data name="UIDPlaceholderText" xml:space="preserve">
     <value>Enter UserID</value>
+  </data>
+  <data name="UpdateAccountButtonText" xml:space="preserve">
+    <value>Update Account</value>
   </data>
   <data name="UpvoteButtonText" xml:space="preserve">
     <value>+1</value>

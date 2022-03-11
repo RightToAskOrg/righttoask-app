@@ -114,6 +114,8 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _followButtonText, value);
         }
 
+        public List<string> StateList => ParliamentData.StatesAndTerritories;
+
         private ElectorateWithChamber? _selectedElectorateWithChamber = null;
         public ElectorateWithChamber? SelectedElectorateWithChamber
         {
@@ -148,6 +150,7 @@ namespace RightToAskClient.ViewModels
         public Registration1ViewModel()
         {
             // initialize defaults
+            ReportLabelText = "";
             Registration = App.ReadingContext.ThisParticipant.RegistrationInfo ?? new Registration()
             {
                 uid = "This is a test user",
@@ -160,16 +163,21 @@ namespace RightToAskClient.ViewModels
             RegisterMPButtonText = AppResources.RegisterMPAccountButtonText;
             RegisterOrgButtonText = AppResources.RegisterOrganisationAccountButtonText;
 
-            // get account info from preferences -- I can probably remove these
-            // now that it's being done at the app level but keeping them shouldn't hurt
-            Registration.display_name = Preferences.Get("DisplayName", Registration.display_name);
-            Registration.uid = Preferences.Get("UID", Registration.uid);
-            SelectedState = Preferences.Get("State", -1);
+            if (!App.ReadingContext.IsReadingOnly)
+            {
+                Registration.display_name = Preferences.Get("DisplayName", Registration.display_name);
+                Registration.uid = Preferences.Get("UID", Registration.uid);
+                SelectedState = Preferences.Get("State", -1);
+            }
 
             // commands
             SaveButtonCommand = new Command(() =>
             {
                 OnSaveButtonClicked();
+            });
+            UpdateAccountButtonCommand = new Command(() =>
+            {
+                SaveToPreferences();
             });
             RegisterMPButtonCommand = new Command(() =>
             {
@@ -206,6 +214,7 @@ namespace RightToAskClient.ViewModels
 
         // commands
         public Command SaveButtonCommand { get; }
+        public Command UpdateAccountButtonCommand { get; }
         public Command RegisterMPButtonCommand { get; }
         public Command RegisterOrgButtonCommand { get; }
         public Command FollowButtonCommand { get; }
@@ -310,6 +319,25 @@ namespace RightToAskClient.ViewModels
                     PromptUser(regTest);
                 }
             }
+        }
+
+        private async void SaveToPreferences()
+        {
+            // save to preferences
+            Preferences.Set("DisplayName", Registration.display_name);
+            Preferences.Set("UID", Registration.uid);
+            Preferences.Set("State", SelectedState); // stored as an int as used for the other page(s) state pickers
+            ReportLabelText = "Not Implemented yet";
+            //Result<bool> httpResponse = await RTAClient.RegisterNewUser(newRegistration);
+            //var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
+            //if (httpValidation.isValid)
+            //{
+            //    ReportLabelText = AppResources.SuccessfullyUpdatedAccountText;
+            //}
+            //else
+            //{
+            //    ReportLabelText = AppResources.FailedToUpdateAccountText;
+            //}
         }
 
         private async void PromptUser(string message)
