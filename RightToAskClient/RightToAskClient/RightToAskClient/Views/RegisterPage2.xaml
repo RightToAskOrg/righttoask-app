@@ -26,7 +26,7 @@
                     </Picker>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal">
-                    <Frame Style="{StaticResource TealFrame}">
+                    <Frame Style="{StaticResource GreenFrame}">
                         <Label Text="{xct:Translate ElectoratesKnownHeaderText}" Style="{StaticResource Header1}" VerticalOptions="Center">
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding KnowElectoratesCommand}"/>
@@ -35,7 +35,7 @@
                     </Frame>
                     <Label Text="Or" WidthRequest="150" FontSize="Large"
 					       HorizontalOptions="Center" VerticalOptions="Center" />
-                    <Frame Style="{StaticResource TealFrame}">
+                    <Frame Style="{StaticResource GreenFrame}">
                         <Label Text="{xct:Translate LookupElectoratesHeaderText}" Style="{StaticResource Header1}" VerticalOptions="Center">
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding LookupElectoratesCommand}"/>
@@ -43,7 +43,7 @@
                         </Label>
                     </Frame>
                 </StackLayout>
-                <Frame Style="{StaticResource PaleTurquoiseFrame}" IsVisible="{Binding ShowKnowElectoratesFrame}">
+                <Frame Style="{StaticResource SubtleFrame}" IsVisible="{Binding ShowKnowElectoratesFrame}">
                     <StackLayout Orientation="Vertical">
                         <Picker Style="{StaticResource LeftFramePicker}" Title="{Binding StateLAElectoratePickerTitle}" ItemsSource="{Binding AllStateLAElectorates}"
                                 SelectedIndex="{Binding SelectedStateLAElectorate}" MinimumWidthRequest="200">

@@ -15,7 +15,7 @@
 		<StackLayout x:Name = "WholePage" HorizontalOptions="Center" VerticalOptions="Start">
             <Label Text="{xct:Translate ReadingPageHeader1}" Style="{StaticResource Header2}"></Label>
 			<!-- Filters inserted here -->
-			<Frame x:Name="FilterShower" Style="{StaticResource TealFrame}">
+			<Frame x:Name="FilterShower" Style="{StaticResource GreenFrame}">
                 <controls:ClickableLabel Tapped="OnShowFilters" Text="{xct:Translate ClickForFiltersText}"/> 
 			</Frame>
 			<ScrollView Scrolled="Questions_Scrolled">
@@ -32,7 +32,7 @@
 									<!--
 									<Button StyleClass="UpVoteButton" Padding="0" Clicked="OnUpVoteButtonClicked" />
 									-->
-									<controls:ToggleButton ToBeIncremented="{Binding}"  x:DataType="models:Question"/>
+									<controls:ToggleButton Style="{StaticResource GreenButton}" ToBeIncremented="{Binding}"  x:DataType="models:Question"/>
 								</StackLayout>
 							</StackLayout>			
 						</ViewCell>

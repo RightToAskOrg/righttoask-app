@@ -1,6 +1,8 @@
 using System;
 using RightToAskClient.Models;
+using RightToAskClient.Resx;
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 /* A button intended for upvoting. It can be pressed once,
 ** at which point it shows the 'UndoText'.  If clicked again,
@@ -21,7 +23,6 @@ namespace RightToAskClient.Controls
 		{
 			Text = _initialText;
 			Clicked += IncrementOrDecrement;
-			BackgroundColor = Color.Turquoise;
 		}
 		
 		public static readonly BindableProperty ToBeIncrementedProperty 

@@ -40,6 +40,7 @@
             <Color x:Key="TextColorGray">gray</Color>
             <Color x:Key="TextColorDark">#f2f2f7</Color>
             <Color x:Key="FrameColor">#c1dfac</Color> 
+            <Color x:Key="FrameOutlineColor">#36642f</Color>
             <!-- <Color x:Key="FrameColor">#666972</Color> -->
             <Color x:Key="FrameColorDark">#6e5000</Color>
             <Color x:Key="DarkButtonColor">#36642f</Color>
@@ -102,7 +103,7 @@
                 <Setter Property="HorizontalOptions" Value="End"></Setter>
             </Style>
             <Style x:Key="SaveButton" TargetType="Button" ApplyToDerivedTypes="True">
-                <Setter Property="BackgroundColor" Value="Teal"></Setter>
+                <Setter Property="BackgroundColor" Value="{StaticResource DarkButtonColor}"></Setter>
                 <Setter Property="TextColor" Value="White"></Setter>
                 <Setter Property="Text" Value="Save"></Setter>
                 <Setter Property="HorizontalOptions" Value="End"></Setter>
@@ -125,19 +126,14 @@
                 <Setter Property="TextColor" Value="White"></Setter>
                 <Setter Property="PlaceholderColor" Value="White"></Setter>
             </Style>
-            <Style x:Key="TurquoiseSearchbar" TargetType="SearchBar">
+            <Style x:Key="GreenSearchBar" TargetType="SearchBar">
                 <Setter Property="BackgroundColor" Value="{StaticResource ButtonColor}"></Setter>
-                <Setter Property="MinimumWidthRequest" Value="20"></Setter>
+                <Setter Property="MinimumWidthRequest" Value="200"></Setter>
                 <Setter Property="TextColor" Value="White"></Setter>
                 <Setter Property="PlaceholderColor" Value="White"></Setter>
             </Style>
-            <Style x:Key="TealFrame" TargetType="Frame">
-                <Setter Property="OutlineColor" Value="Teal"></Setter>
-            </Style>
-            <Style x:Key="PaleTurquoiseFrame" TargetType="Frame">
-                <Setter Property="BackgroundColor" Value="PaleTurquoise"></Setter>
-                <Setter Property="CornerRadius" Value="10"></Setter>
-                <Setter Property="Padding" Value="0"></Setter>
+            <Style x:Key="GreenFrame" TargetType="Frame">
+                <Setter Property="OutlineColor" Value="{StaticResource FrameOutlineColor}"></Setter>
             </Style>
             <Style x:Key="SubtleFrame" TargetType="Frame">
                 <Setter Property="BackgroundColor" Value="{StaticResource FrameColor}"></Setter> 

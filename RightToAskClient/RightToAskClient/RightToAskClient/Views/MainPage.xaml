@@ -16,7 +16,7 @@
                         <Button x:Name="ExpiringSoonButton" Text="{xct:Translate ExpiringSoonButtonText}" Style="{StaticResource GreenButton}" Clicked="OnExpiringSoonButtonClicked" HorizontalOptions="Center"/>
 			        </StackLayout>
                     <StackLayout Orientation="Horizontal" HorizontalOptions="Start">
-                        <SearchBar x:Name="ReadByKeywordButton" Placeholder="{xct:Translate SearchBarPlaceholderText}" Style="{StaticResource TurquoiseSearchbar}" SearchButtonPressed="OnReadByKeywordFieldCompleted" TextChanged="OnKeywordChanged" HorizontalOptions="Start"/>
+                        <SearchBar x:Name="ReadByKeywordButton" Placeholder="{xct:Translate SearchBarPlaceholderText}" Style="{StaticResource GreenSearchBar}" SearchButtonPressed="OnReadByKeywordFieldCompleted" TextChanged="OnKeywordChanged" HorizontalOptions="Start"/>
                         <Button x:Name="ReadButton" Text="{xct:Translate AdvancedSearchButtonText}" Clicked="OnReadButtonClicked" Style="{StaticResource GreenButton}" HeightRequest="50"/>
                     </StackLayout>
                 </StackLayout>
