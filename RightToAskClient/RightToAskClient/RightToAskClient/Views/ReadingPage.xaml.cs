@@ -18,58 +18,20 @@ namespace RightToAskClient.Views
         public ReadingPage()
         {
             InitializeComponent();
-            BindingContext = App.ReadingContext;
             HomeButton.Clicked += HomeButton_Clicked;
 
             _ttestableView = new FilterDisplayTableView();
             WholePage.Children.Insert(1, _ttestableView);
 
             OnHideFilters();
-
-            if (App.ReadingContext.IsReadingOnly)
-            {
-                TitleBar.Title = AppResources.ReadQuestionsTitle;
-                QuestionDraftingBox.IsVisible = false;
-                KeepButton.IsVisible = false;
-                DiscardButton.IsVisible = false;
-            }
-            else
-            {
-                TitleBar.Title = AppResources.SimilarQuestionsTitle;
-            }
         }
 
-        /*
-		public ReadingPage(bool isReadingOnly)
-		{
-			InitializeComponent();
-			BindingContext = App.ReadingContext;
-
-            _ttestableView = new FilterDisplayTableView();
-            WholePage.Children.Insert(1,_ttestableView);
-            //
-            _clickableEntityListView = new ClickableEntityListView<Authority>
-            {
-	            ClickableListLabel = "What should we do with this list?",
-	            ClickableListContents = App.ReadingContext.Filters.SelectedAuthorities,
-	            UpdateAction = OnMoreButtonClicked
-            };
-            WholePage.Children.Insert(1,_clickableEntityListView);
-            
-            OnHideFilters();
-            
-			if (isReadingOnly)
-			{
-				TitleBar.Title = "Read Questions";
-				QuestionDraftingBox.IsVisible = false;
-				KeepButton.IsVisible = false;
-				DiscardButton.IsVisible = false;
-			}
-			else
-			{
-				TitleBar.Title = "Similar questions";
-			}
-		}*/
+        protected override void OnDisappearing()
+        {
+            // clear the selected item
+            QuestionList.SelectedItem = null;
+            base.OnDisappearing();
+        }
 
         private async void HomeButton_Clicked(object sender, EventArgs e)
         {
@@ -96,11 +58,6 @@ namespace RightToAskClient.Views
         {
             OnHideFilters();
         }
-        void Question_Entered(object sender, EventArgs e)
-        {
-            App.ReadingContext.DraftQuestion = ((Editor)sender).Text;
-            QuestionViewModel.Instance.Question.QuestionText = ((Editor)sender).Text;
-        }
 
         // Note: it's possible that this would be better with an ItemTapped event instead.
         private async void Question_Selected(object sender, ItemTappedEventArgs e)
@@ -111,50 +68,5 @@ namespace RightToAskClient.Views
             await Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
         }
 
-        async void OnDiscardButtonClicked(object sender, EventArgs e)
-        {
-            App.ReadingContext.DraftQuestion = "";
-            DraftEditor.IsVisible = false;
-            DiscardButton.IsVisible = false;
-            KeepButton.IsVisible = false;
-
-            bool goHome = await DisplayAlert("Draft discarded", "Save time and focus support by voting on a similar question", "Home", "Related questions");
-            if (goHome)
-            {
-                await Navigation.PopToRootAsync();
-                //await Shell.Current.GoToAsync($"///{nameof(MainPage)}");
-            }
-        }
-
-
-        async void OnSaveButtonClicked(object sender, EventArgs e)
-        {
-            // Tag the new question with the authorities that have been selected.
-            // ObservableCollection<Entity> questionAnswerers;
-            var questionAnswerers =
-                new ObservableCollection<Entity>(App.ReadingContext.Filters.SelectedAuthorities);
-
-            foreach (var answeringMP in App.ReadingContext.Filters.SelectedAnsweringMPs)
-            {
-                questionAnswerers.Add(answeringMP);
-            }
-
-            IndividualParticipant thisParticipant = App.ReadingContext.ThisParticipant;
-
-            Question newQuestion = new Question
-            {
-                QuestionText = App.ReadingContext.DraftQuestion,
-                // TODO: Enforce registration before question-suggesting.
-                QuestionSuggester = Preferences.Get("DisplayName", "Anonymous user"),
-                QuestionAnswerers = questionAnswerers,
-                DownVotes = 0,
-                UpVotes = 0
-            };
-
-            QuestionViewModel.Instance.Question = newQuestion;
-            QuestionViewModel.Instance.IsNewQuestion = true;
-            //await Navigation.PushAsync(questionDetailPage);
-            await Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
-        }
     }
 }

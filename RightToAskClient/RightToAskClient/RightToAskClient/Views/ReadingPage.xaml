@@ -5,47 +5,49 @@
 			 xmlns:rightToAskClient="clr-namespace:RightToAskClient;assembly=RightToAskClient"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
 			 xmlns:models="clr-namespace:RightToAskClient.Models;assembly=RightToAskClient"
+             xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
 			 x:Class="RightToAskClient.Views.ReadingPage"
 			 x:Name="TitleBar"
-             Title="{xct:Translate RecentQuestionsTitle}">
+             Title="{Binding Title}"
+             x:DataType="vm:ReadingPageViewModel">
     <ContentPage.ToolbarItems>
         <ToolbarItem x:Name="HomeButton" Text="{xct:Translate HomeButtonText}"/>
     </ContentPage.ToolbarItems>
+    <ContentPage.BindingContext>
+        <vm:ReadingPageViewModel/>
+    </ContentPage.BindingContext>
     <ContentPage.Content>
 		<StackLayout x:Name = "WholePage" HorizontalOptions="Center" VerticalOptions="Start">
-            <Label Text="{xct:Translate ReadingPageHeader1}" Style="{StaticResource Header2}"></Label>
-			<!-- Filters inserted here -->
+            <Label Text="{xct:Translate ReadingPageHeader1}" Style="{StaticResource Header2}"/>
+            <!-- Filters inserted here -->
 			<Frame x:Name="FilterShower" Style="{StaticResource GreenFrame}">
                 <controls:ClickableLabel Tapped="OnShowFilters" Text="{xct:Translate ClickForFiltersText}"/> 
 			</Frame>
 			<ScrollView Scrolled="Questions_Scrolled">
-			<ListView x:Name="QuestionListView" HasUnevenRows="True" ItemsSource="{Binding ExistingQuestions}" 
-			          ItemTapped="Question_Selected" x:DataType="models:ReadingContext" >
-				<ListView.ItemTemplate>
-					<DataTemplate>
-						<ViewCell>
-							<StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" Spacing="4">
-								<Label Text="{Binding QuestionText }"  x:DataType="models:Question" Style="{StaticResource ListViewText}"/>	
-								<StackLayout Orientation="Horizontal" Padding="0" HorizontalOptions="Start" VerticalOptions="CenterAndExpand">
-									<Label Text="Upvotes " Style="{StaticResource ListViewTextSmall}"/>
-									<Label Text="{Binding UpVotes }"  x:DataType="models:Question" Style="{StaticResource ListViewTextSmall}"/> 
-									<!--
-									<Button StyleClass="UpVoteButton" Padding="0" Clicked="OnUpVoteButtonClicked" />
-									-->
-									<controls:ToggleButton Style="{StaticResource GreenButton}" ToBeIncremented="{Binding}"  x:DataType="models:Question"/>
-								</StackLayout>
-							</StackLayout>			
-						</ViewCell>
-					</DataTemplate>
-				</ListView.ItemTemplate>
-			</ListView>
+			    <CollectionView x:Name="QuestionList" ItemsSource="{Binding ExistingQuestions}" SelectionMode="Single" SelectedItem="{Binding SelectedQuestion}">
+				    <CollectionView.ItemTemplate>
+					    <DataTemplate x:DataType="models:Question">
+                            <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" Spacing="4">
+                                <Label Text="{Binding QuestionText}" Style="{StaticResource ListViewText}"/>
+                                <StackLayout Orientation="Horizontal" Padding="0" HorizontalOptions="Start" VerticalOptions="CenterAndExpand">
+                                    <Label Text="Upvotes " Style="{StaticResource ListViewTextSmall}"/>
+                                    <Label Text="{Binding UpVotes}" Style="{StaticResource ListViewTextSmall}"/>
+                                    <controls:ToggleButton Style="{StaticResource GreenButton}" ToBeIncremented="{Binding}"/>
+                                </StackLayout>
+                            </StackLayout>
+                        </DataTemplate>
+				    </CollectionView.ItemTemplate>
+			    </CollectionView>
 			</ScrollView>	
-            <StackLayout Orientation="Horizontal" x:Name="QuestionDraftingBox">
-                <Editor x:Name="DraftEditor" Placeholder="{xct:Translate DraftQuestionPlaceholderText}" Text="{Binding DraftQuestion}" HorizontalOptions="FillAndExpand" Completed="Question_Entered" Style="{StaticResource NormalEditor}" />
+            <StackLayout Orientation="Horizontal">
+                <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}" Text="{Binding DraftQuestion}" 
+                        HorizontalOptions="FillAndExpand" Style="{StaticResource NormalEditor}" IsVisible="{Binding ShowDraftEditor}"/>
             </StackLayout>
 			<StackLayout Orientation="Horizontal">
-                <Button x:Name="DiscardButton" Style="{StaticResource GreenButton}" Text="{xct:Translate DiscardDraftButtonText}" Clicked="OnDiscardButtonClicked" />
-				<Button x:Name="KeepButton" Style="{StaticResource DoneButton}" Text="{xct:Translate KeepQuestionButtonText}" Clicked="OnSaveButtonClicked" />
+                <Button Text="{xct:Translate DiscardDraftButtonText}" Style="{StaticResource GreenButton}" 
+                        Command="{Binding DiscardButtonCommand}" IsVisible="{Binding ShowDiscardButton}"/>
+                <Button Text="{xct:Translate KeepQuestionButtonText}" Style="{StaticResource DoneButton}" 
+                        Command="{Binding KeepQuestionButtonCommand}" IsVisible="{Binding ShowContinueButton}" />
 			</StackLayout>
 		</StackLayout>
 	</ContentPage.Content>

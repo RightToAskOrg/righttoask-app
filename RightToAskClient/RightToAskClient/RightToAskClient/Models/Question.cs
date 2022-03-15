@@ -30,18 +30,11 @@ namespace RightToAskClient.Models
 
         public string LinkOrAnswer { get; set; } = "";
 
-        public int UpVotes 
+        public int UpVotes
         {
-            get
-            {
-                return _upVotes;
-            }
-            set
-            {
-                _upVotes = value;
-                OnPropertyChanged();
-            }
-        }        
+            get => _upVotes;
+            set => SetProperty(ref _upVotes, value);
+        }
         public int DownVotes 
         {
             get
