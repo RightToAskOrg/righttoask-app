@@ -28,40 +28,36 @@
             <!-- Google's material.io suggestions based on Primary #649b49 -->
             <!-- Darkest: #36642f -->
             <!-- almost-darkest: #538740 -->
-            <!-- lighter: #77af53 #85bf5c #96c973 #a9d28c #c1dfac #d9eccc #f0f8eb -->
+            <!-- lighter: #77af53 #85bf5c #96c973 #a9d28c #c1dfac #d9eccc #f0f8eb (lightest) -->
+            
+            <!-- These are all meant to be the same dark green -->
             <Color x:Key="Primary">#36642f</Color>
-            <Color x:Key="WindowBackgroundColor">#f2f2f7</Color>
-            <Color x:Key="WindowBackgroundColorDark">#14171c</Color>
+            <Color x:Key="HeadingTextColor">#36642f</Color>
+            <Color x:Key="FrameOutlineColor">#36642f</Color>
+            <Color x:Key="DarkButtonColor">#36642f</Color>
+            
+            <!-- These are all the same mid green -->
+            <Color x:Key="ButtonColor">#649b49</Color>
+            
+            <!-- These are all the same light green -->
+            <Color x:Key="FadedButtonColor">#c1dfac</Color>
+            <Color x:Key="FrameColor">#c1dfac</Color> 
+            
+            <!-- Highlight / Alert colours -->
+            <Color x:Key="AlertColor">#9a4119</Color> 
+            
+            <Color x:Key="IndicatorColor">#efd242</Color> 
             <Color x:Key="TitleTextColor">#efd242</Color>
             <Color x:Key="WattleYellow">#efd242</Color>
-            <!-- <Color x:Key="HeadingTextColor">#195a6a</Color>  -->
-            <Color x:Key="HeadingTextColor">#36642f</Color>
-            <Color x:Key="TextColor">black</Color>
-            <Color x:Key="TextColorGray">gray</Color>
-            <Color x:Key="TextColorDark">#f2f2f7</Color>
-            <Color x:Key="FrameColor">#c1dfac</Color> 
-            <Color x:Key="FrameOutlineColor">#36642f</Color>
-            <!-- <Color x:Key="FrameColor">#666972</Color> -->
-            <Color x:Key="FrameColorDark">#6e5000</Color>
-            <Color x:Key="DarkButtonColor">#36642f</Color>
-            <!-- <Color x:Key="DarkButtonColor">#2f4858</Color> -->
-            <!--<Color x:Key="ButtonColor">#006d72</Color> -->
-            <Color x:Key="ButtonColor">#649b49</Color>
-            <Color x:Key="FadedButtonColor">#c1dfac</Color>
-            <!-- <Color x:Key="AlertColor">#cc7945</Color>-->
-            <Color x:Key="AlertColor">#9a4119</Color> 
-            <!-- <Color x:Key="IndicatorColor">#a33708</Color> -->
-            <Color x:Key="IndicatorColor">#efd242</Color> 
-            <!--Old Colors
-            <Color x:Key="Primary">#6FA22E</Color>
+            
+            <!-- white/grey/black/beige text & background colors -->
             <Color x:Key="WindowBackgroundColor">#f2f2f7</Color>
-            <Color x:Key="WindowBackgroundColorDark">#424242</Color>
+            <Color x:Key="WindowBackgroundColorDark">#14171c</Color>
+            
             <Color x:Key="TextColor">black</Color>
             <Color x:Key="TextColorGray">gray</Color>
             <Color x:Key="TextColorDark">#f2f2f7</Color>
-            <Color x:Key="FrameColor">NavajoWhite</Color>
-            <Color x:Key="FrameColorDark">#6e5000</Color>
-            -->
+            
             <!--Generic Styles-->
             <Style TargetType="Label">
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, 
@@ -94,7 +90,7 @@
                 <Setter Property="HeightRequest" Value="40"></Setter>
             </Style>
             <Style x:Key="RedButton" TargetType="Button" ApplyToDerivedTypes="True">
-                <Setter Property="BackgroundColor" Value="Red"></Setter>
+                <Setter Property="BackgroundColor" Value="{StaticResource AlertColor}"></Setter>
             </Style>
             <Style x:Key="DoneButton" TargetType="Button" ApplyToDerivedTypes="True">
                 <Setter Property="BackgroundColor" Value="{StaticResource DarkButtonColor}"></Setter>
@@ -129,8 +125,8 @@
             <Style x:Key="GreenSearchBar" TargetType="SearchBar">
                 <Setter Property="BackgroundColor" Value="{StaticResource ButtonColor}"></Setter>
                 <Setter Property="MinimumWidthRequest" Value="200"></Setter>
-                <Setter Property="TextColor" Value="White"></Setter>
-                <Setter Property="PlaceholderColor" Value="White"></Setter>
+                <Setter Property="TextColor" Value="{StaticResource TextColorDark}"></Setter>
+                <Setter Property="PlaceholderColor" Value="{StaticResource TextColorDark}"></Setter>
             </Style>
             <Style x:Key="GreenFrame" TargetType="Frame">
                 <Setter Property="OutlineColor" Value="{StaticResource FrameOutlineColor}"></Setter>
@@ -139,11 +135,6 @@
                 <Setter Property="BackgroundColor" Value="{StaticResource FrameColor}"></Setter> 
                 <Setter Property="CornerRadius" Value="10"></Setter>
                 <!-- <Setter Property="BorderColor" Value="{StaticResource AlertColor}"></Setter> -->
-                <Setter Property="Padding" Value="0"></Setter>
-            </Style>
-            <Style x:Key="NavajoWhiteFrame" TargetType="Frame">
-                <Setter Property="BackgroundColor" Value="NavajoWhite"></Setter>
-                <Setter Property="CornerRadius" Value="10"></Setter>
                 <Setter Property="Padding" Value="0"></Setter>
             </Style>
             <Style x:Key="Header1" TargetType="Label">
