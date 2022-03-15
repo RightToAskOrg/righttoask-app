@@ -44,7 +44,7 @@
                 <Editor x:Name="DraftEditor" Placeholder="{xct:Translate DraftQuestionPlaceholderText}" Text="{Binding DraftQuestion}" HorizontalOptions="FillAndExpand" Completed="Question_Entered" Style="{StaticResource NormalEditor}" />
             </StackLayout>
 			<StackLayout Orientation="Horizontal">
-                <Button x:Name="DiscardButton" Style="{StaticResource TurquoiseButton}" Text="{xct:Translate DiscardDraftButtonText}" Clicked="OnDiscardButtonClicked" />
+                <Button x:Name="DiscardButton" Style="{StaticResource GreenButton}" Text="{xct:Translate DiscardDraftButtonText}" Clicked="OnDiscardButtonClicked" />
 				<Button x:Name="KeepButton" Style="{StaticResource DoneButton}" Text="{xct:Translate KeepQuestionButtonText}" Clicked="OnSaveButtonClicked" />
 			</StackLayout>
 		</StackLayout>

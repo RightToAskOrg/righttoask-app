@@ -31,9 +31,9 @@
 			<StackLayout Orientation="Horizontal">
                 <Label Text="{xct:Translate ToBeAnsweredByText}" Style="{StaticResource Header2}" VerticalOptions="Center" />
 				<StackLayout Orientation="Vertical">
-                    <Button Text="{xct:Translate PublicAuthorityButtonText}" Style="{StaticResource TurquoiseButton}" Command="{Binding OtherPublicAuthorityButtonCommand}"/>
-                    <Button Text="{xct:Translate MyMPButtonText}" Style="{StaticResource TurquoiseButton}" Command="{Binding AnsweredByMyMPCommand}"  HorizontalOptions="Center" IsEnabled="{Binding MPButtonsEnabled}"/>
-                    <Button Text="{xct:Translate AnotherMPButtonText}" Style="{StaticResource TurquoiseButton}" Command="{Binding AnsweredByOtherMPCommand}" HorizontalOptions="Center" IsEnabled="{Binding MPButtonsEnabled}"/>
+                    <Button Text="{xct:Translate PublicAuthorityButtonText}" Style="{StaticResource GreenButton}" Command="{Binding OtherPublicAuthorityButtonCommand}"/>
+                    <Button Text="{xct:Translate MyMPButtonText}" Style="{StaticResource GreenButton}" Command="{Binding AnsweredByMyMPCommand}"  HorizontalOptions="Center" IsEnabled="{Binding MPButtonsEnabled}"/>
+                    <Button Text="{xct:Translate AnotherMPButtonText}" Style="{StaticResource GreenButton}" Command="{Binding AnsweredByOtherMPCommand}" HorizontalOptions="Center" IsEnabled="{Binding MPButtonsEnabled}"/>
 				</StackLayout>
 			</StackLayout>
 			<Label Style="{StaticResource ReportLabel}" Text="{Binding ReportLabelText}" IsVisible="{Binding MPButtonsEnabled, Converter={StaticResource Key=cnvInvert}}"/>

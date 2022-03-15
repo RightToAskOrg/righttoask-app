@@ -8,24 +8,24 @@
              Shell.FlyoutBehavior="Flyout">
 	<ContentPage.Content>
         <StackLayout VerticalOptions="CenterAndExpand" Spacing="40">
-            <Frame Style="{StaticResource NavajoWhiteFrame}">
+            <Frame Style="{StaticResource SubtleFrame}">
 			    <StackLayout Style="{StaticResource VertStack}">
                     <Label Text="{xct:Translate MainPageHeaderText}" Style="{StaticResource Header1}" />
                     <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                        <Button x:Name="Top10NowButton" Text="{xct:Translate TrendingNowButtonText}" Style="{StaticResource TurquoiseButton}" HeightRequest="50" Clicked="OnTop10NowButtonClicked" HorizontalOptions="Center"/>
-                        <Button x:Name="ExpiringSoonButton" Text="{xct:Translate ExpiringSoonButtonText}" Style="{StaticResource TurquoiseButton}" Clicked="OnExpiringSoonButtonClicked" HorizontalOptions="Center"/>
+                        <Button x:Name="Top10NowButton" Text="{xct:Translate TrendingNowButtonText}" Style="{StaticResource GreenButton}" HeightRequest="50" Clicked="OnTop10NowButtonClicked" HorizontalOptions="Center"/>
+                        <Button x:Name="ExpiringSoonButton" Text="{xct:Translate ExpiringSoonButtonText}" Style="{StaticResource GreenButton}" Clicked="OnExpiringSoonButtonClicked" HorizontalOptions="Center"/>
 			        </StackLayout>
                     <StackLayout Orientation="Horizontal" HorizontalOptions="Start">
-                        <SearchBar x:Name="ReadByKeywordButton" Placeholder="{xct:Translate SearchBarPlaceholderText}" Style="{StaticResource TurquoiseSearcbar}" SearchButtonPressed="OnReadByKeywordFieldCompleted" TextChanged="OnKeywordChanged" HorizontalOptions="Start"/>
-                        <Button x:Name="ReadButton" Text="{xct:Translate AdvancedSearchButtonText}" Clicked="OnReadButtonClicked" Style="{StaticResource TurquoiseButton}" HeightRequest="50"/>
+                        <SearchBar x:Name="ReadByKeywordButton" Placeholder="{xct:Translate SearchBarPlaceholderText}" Style="{StaticResource TurquoiseSearchbar}" SearchButtonPressed="OnReadByKeywordFieldCompleted" TextChanged="OnKeywordChanged" HorizontalOptions="Start"/>
+                        <Button x:Name="ReadButton" Text="{xct:Translate AdvancedSearchButtonText}" Clicked="OnReadButtonClicked" Style="{StaticResource GreenButton}" HeightRequest="50"/>
                     </StackLayout>
                 </StackLayout>
 			</Frame>
-            <Frame Style="{StaticResource NavajoWhiteFrame}">
+            <Frame Style="{StaticResource SubtleFrame}">
 			    <StackLayout Style="{StaticResource VertStack}">
                     <Label Text="{xct:Translate MainPageHeader2Text}" Style="{StaticResource Header1}" />
 				    <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                        <Button x:Name="NavigateButton" Text="{xct:Translate StartDraftingButtonText}" Style="{StaticResource TurquoiseButton}" HeightRequest="50" Clicked="OnNavigateButtonClicked" HorizontalOptions="Center"/>
+                        <Button x:Name="NavigateButton" Text="{xct:Translate StartDraftingButtonText}" Style="{StaticResource GreenButton}" HeightRequest="50" Clicked="OnNavigateButtonClicked" HorizontalOptions="Center"/>
 				    </StackLayout>
 			</StackLayout>
 			</Frame>	

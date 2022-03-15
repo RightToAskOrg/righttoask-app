@@ -18,19 +18,19 @@
                 <Label Text="{xct:Translate Step2BodyText1}" Style="{StaticResource Header2}" />
                 <Label Text="{xct:Translate Step2BodyText2}" Style="{StaticResource Header2}" />
                 <Label Text="{xct:Translate Step2BodyText3}" Style="{StaticResource Header2}" />
-                <Button Text="{xct:Translate FindCommitteeButtonText}" Style="{StaticResource TurquoiseButton}" Command="{Binding RaisedOptionSelectedCommand}" CommandParameter="0" IsVisible="{Binding DisplayFindCommitteeButton}"/>
+                <Button Text="{xct:Translate FindCommitteeButtonText}" Style="{StaticResource GreenButton}" Command="{Binding RaisedOptionSelectedCommand}" CommandParameter="0" IsVisible="{Binding DisplayFindCommitteeButton}"/>
                 <StackLayout Orientation="Horizontal" IsVisible="{Binding DisplaySenateEstimatesSection}">
                     <Label Text="{Binding SenateEstimatesAppearanceText}" Style="{StaticResource Header2}" />
-					<Button Style="{StaticResource TurquoiseButton}" Text="{Binding SelectButtonText}" Command="{Binding SelectCommitteeButtonCommand}" />
+					<Button Style="{StaticResource GreenButton}" Text="{Binding SelectButtonText}" Command="{Binding SelectCommitteeButtonCommand}" />
 				</StackLayout>
                 <Label Text="{xct:Translate Step2BodyText4}" Style="{StaticResource Header2}" />
-                <Button Text="{xct:Translate MyMPButtonText}" Style="{StaticResource TurquoiseButton}" Command="{Binding RaisedOptionSelectedCommand}" CommandParameter="1" IsEnabled="{Binding MPButtonsEnabled}"/>
+                <Button Text="{xct:Translate MyMPButtonText}" Style="{StaticResource GreenButton}" Command="{Binding RaisedOptionSelectedCommand}" CommandParameter="1" IsEnabled="{Binding MPButtonsEnabled}"/>
                 <Label Text="{xct:Translate Step2BodyText5}" Style="{StaticResource Header2}" />
-                <Button Text="{xct:Translate AnotherMPButtonText}" Style="{StaticResource TurquoiseButton}" Command="{Binding RaisedOptionSelectedCommand}" CommandParameter="2" IsEnabled="{Binding MPButtonsEnabled}"/>
+                <Button Text="{xct:Translate AnotherMPButtonText}" Style="{StaticResource GreenButton}" Command="{Binding RaisedOptionSelectedCommand}" CommandParameter="2" IsEnabled="{Binding MPButtonsEnabled}"/>
                 <Label Text="{xct:Translate Step2BodyText6}" Style="{StaticResource Header2}" />
-                <Button Text="{Binding AnotherUserButtonText}" Style="{StaticResource TurquoiseButton}" Command="{Binding RaisedOptionSelectedCommand}" CommandParameter="3"/>
+                <Button Text="{Binding AnotherUserButtonText}" Style="{StaticResource GreenButton}" Command="{Binding RaisedOptionSelectedCommand}" CommandParameter="3"/>
                 <Label Text="{xct:Translate Step2BodyText7}" Style="{StaticResource Header2}" />
-                <Button Text="{Binding NotSureWhoShouldRaiseButtonText}" Style="{StaticResource TurquoiseButton}" Command="{Binding RaisedOptionSelectedCommand}" CommandParameter="4" />
+                <Button Text="{Binding NotSureWhoShouldRaiseButtonText}" Style="{StaticResource GreenButton}" Command="{Binding RaisedOptionSelectedCommand}" CommandParameter="4" />
 				<Label Text="{Binding ReportLabelText}" IsVisible="{Binding ShowReportLabel}"/>
             </StackLayout>
             <Button Text="{xct:Translate NextButtonText}" Style="{StaticResource DoneButton}" Command="{Binding ProceedToReadingPageCommand}" IsVisible="{Binding RaisedByOptionSelected}"/>
