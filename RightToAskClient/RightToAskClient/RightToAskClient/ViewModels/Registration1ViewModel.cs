@@ -169,7 +169,8 @@ namespace RightToAskClient.ViewModels
             Title = App.ReadingContext.IsReadingOnly ? AppResources.UserProfileTitle : AppResources.CreateAccountTitle;
             RegisterMPButtonText = AppResources.RegisterMPAccountButtonText;
             RegisterOrgButtonText = AppResources.RegisterOrganisationAccountButtonText;
-            CanEditUID = !App.ReadingContext.ThisParticipant.IsRegistered;
+            //CanEditUID = !App.ReadingContext.ThisParticipant.IsRegistered; // re-add this line after finished testing
+            CanEditUID = true;
 
             if (!App.ReadingContext.IsReadingOnly)
             {
@@ -344,7 +345,8 @@ namespace RightToAskClient.ViewModels
         {
             var existingReg = Registration;
             existingReg.public_key = App.ReadingContext.ThisParticipant.MyPublicKey();
-            Result<bool> httpResponse = await RTAClient.UpdateExistingUser(existingReg);
+            ClientSignedUnparsed signedUser = App.ReadingContext.ThisParticipant.SignMessage(existingReg); // sign the registration
+            Result<bool> httpResponse = await RTAClient.UpdateExistingUser(signedUser);
             var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
             ReportLabelText = httpValidation.message;
             if (httpValidation.isValid)
