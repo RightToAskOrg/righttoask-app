@@ -55,7 +55,7 @@
             <Color x:Key="WindowBackgroundColorDark">#14171c</Color>
             
             <Color x:Key="TextColor">black</Color>
-            <Color x:Key="TextColorGray">gray</Color>
+            <Color x:Key="TextColorGray">DarkGray</Color>
             <Color x:Key="TextColorDark">#f2f2f7</Color>
             
             <!--Generic Styles-->
@@ -172,6 +172,13 @@
                 <Setter Property="PlaceholderColor" Value="{StaticResource TextColorGray}"></Setter>
                 <Setter Property="FontSize" Value="Medium"></Setter>
                 <Setter Property="HorizontalOptions" Value="Start"></Setter>
+            </Style>
+            <Style x:Key="CenterFramePicker" TargetType="Picker">
+                <Setter Property="TextColor" Value="{StaticResource TextColorDark}"></Setter>
+                <Setter Property="TitleColor" Value="{StaticResource TextColorDark}"></Setter>
+                <Setter Property="FontSize" Value="Medium"></Setter>
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="BackgroundColor" Value="{StaticResource ButtonColor}"></Setter>
             </Style>
             <Style x:Key="LeftFramePicker" TargetType="Picker">
                 <Setter Property="TextColor" Value="{StaticResource TextColor}"></Setter>

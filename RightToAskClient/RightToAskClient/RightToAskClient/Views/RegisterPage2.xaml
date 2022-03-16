@@ -21,8 +21,8 @@
                 <Label Text="{xct:Translate MPsHeaderText1}" FontSize="Medium" HorizontalOptions="Center" />
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
                     <Label Text="{xct:Translate MPsHeaderText2}" FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center" />
-                    <Picker Title="{Binding StatePickerTitle}" ItemsSource="{Binding StatePicker}" BackgroundColor="Turquoise"
-					        SelectedIndex="{Binding SelectedState}">
+                    <Picker Title="{Binding StatePickerTitle}" ItemsSource="{Binding StatePicker}" 
+					        Style="{StaticResource CenterFramePicker}" SelectedIndex="{Binding SelectedState}">
                     </Picker>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal">
@@ -43,7 +43,7 @@
                         </Label>
                     </Frame>
                 </StackLayout>
-                <Frame Style="{StaticResource PaleTurquoiseFrame}" IsVisible="{Binding ShowKnowElectoratesFrame}">
+                <Frame Style="{StaticResource SubtleFrame}" IsVisible="{Binding ShowKnowElectoratesFrame}">
                     <StackLayout Orientation="Vertical">
                         <Picker Style="{StaticResource LeftFramePicker}" Title="{Binding StateLAElectoratePickerTitle}" ItemsSource="{Binding AllStateLAElectorates}"
                                 SelectedIndex="{Binding SelectedStateLAElectorate}" MinimumWidthRequest="200">
