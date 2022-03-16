@@ -32,7 +32,7 @@
                                 <StackLayout Orientation="Horizontal" Padding="0" HorizontalOptions="Start" VerticalOptions="CenterAndExpand">
                                     <Label Text="Upvotes " Style="{StaticResource ListViewTextSmall}"/>
                                     <Label Text="{Binding UpVotes}" Style="{StaticResource ListViewTextSmall}"/>
-                                    <controls:ToggleButton ToBeIncremented="{Binding}"/>
+                                    <controls:ToggleButton Style="{StaticResource GreenButton}" ToBeIncremented="{Binding}"/>
                                 </StackLayout>
                             </StackLayout>
                         </DataTemplate>

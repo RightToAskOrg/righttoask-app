@@ -21,7 +21,6 @@ namespace RightToAskClient.Controls
 		{
 			Text = _initialText;
 			Clicked += IncrementOrDecrement;
-			BackgroundColor = Color.Turquoise;
 		}
 		
 		public static readonly BindableProperty ToBeIncrementedProperty 

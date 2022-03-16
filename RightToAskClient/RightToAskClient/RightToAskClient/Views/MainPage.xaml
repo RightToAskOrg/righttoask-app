@@ -22,7 +22,7 @@
                                 Command="{Binding ExpiringSoonButtonCommand}" HorizontalOptions="Center"/>
 			        </StackLayout>
                     <StackLayout Orientation="Horizontal" HorizontalOptions="Start">
-                        <SearchBar Placeholder="{xct:Translate SearchBarPlaceholderText}" Style="{StaticResource TurquoiseSearcbar}" 
+                        <SearchBar Placeholder="{xct:Translate SearchBarPlaceholderText}" Style="{StaticResource GreenSearchBar}" 
                                    Text="{Binding SearchText}" HorizontalOptions="Start" SearchCommand="{Binding ExpiringSoonButtonCommand}"/>
                         <Button Text="{xct:Translate AdvancedSearchButtonText}" Command="{Binding AdvancedSearchButtonCommand}" 
                                 Style="{StaticResource GreenButton}" HeightRequest="50"/>
