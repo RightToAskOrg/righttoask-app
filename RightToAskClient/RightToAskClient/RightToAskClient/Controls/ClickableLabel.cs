@@ -9,7 +9,6 @@ namespace RightToAskClient.Controls
 
 		public ClickableLabel()
 		{
-			TextColor = Color.Teal;
 			FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label));
 			
 			TapGestureRecognizer tapped = new TapGestureRecognizer();
