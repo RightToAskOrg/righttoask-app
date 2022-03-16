@@ -48,9 +48,9 @@
                 <Button Text="{Binding RegisterOrgButtonText}" Command="{Binding RegisterOrgButtonCommand}" IsVisible="{Binding ShowRegisterOrgButton}" Style="{StaticResource DoneButton}" HorizontalOptions="Center"/>
                 <Button Text="{xct:Translate CancelButtonText}" Command="{Binding CancelButtonCommand}" IsVisible="{Binding ShowDoneButton}"/>
 			</StackLayout>
-            <Button Text="{Binding FollowButtonText}" Style="{StaticResource TurquoiseButton}" Command="{Binding FollowButtonCommand}" IsVisible="{Binding ShowFollowButton}" HorizontalOptions="Center"/>
-            <Button Text="{Binding SeeQuestionsButtonText}" Style="{StaticResource TurquoiseButton}"  IsVisible="{Binding ShowSeeQuestionsButton}" Command="{Binding SeeQuestionsButtonCommand}" HorizontalOptions="Center"/>
-            <Button Text="{Binding DMButtonText}" Style="{StaticResource TurquoiseButton}" IsVisible="{Binding ShowDMButton}" Command="{Binding DMButtonCommand}" HorizontalOptions="Center"/>
+            <Button Text="{Binding FollowButtonText}" Style="{StaticResource GreenButton}" Command="{Binding FollowButtonCommand}" IsVisible="{Binding ShowFollowButton}" HorizontalOptions="Center"/>
+            <Button Text="{Binding SeeQuestionsButtonText}" Style="{StaticResource GreenButton}"  IsVisible="{Binding ShowSeeQuestionsButton}" Command="{Binding SeeQuestionsButtonCommand}" HorizontalOptions="Center"/>
+            <Button Text="{Binding DMButtonText}" Style="{StaticResource GreenButton}" IsVisible="{Binding ShowDMButton}" Command="{Binding DMButtonCommand}" HorizontalOptions="Center"/>
         </StackLayout>
 	<!--
 	</StackLayout>

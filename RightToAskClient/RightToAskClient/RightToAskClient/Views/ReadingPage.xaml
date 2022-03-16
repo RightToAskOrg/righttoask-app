@@ -20,7 +20,7 @@
 		<StackLayout x:Name = "WholePage" HorizontalOptions="Center" VerticalOptions="Start">
             <Label Text="{xct:Translate ReadingPageHeader1}" Style="{StaticResource Header2}"/>
             <!-- Filters inserted here -->
-			<Frame x:Name="FilterShower" Style="{StaticResource TealFrame}">
+			<Frame x:Name="FilterShower" Style="{StaticResource GreenFrame}">
                 <controls:ClickableLabel Tapped="OnShowFilters" Text="{xct:Translate ClickForFiltersText}"/> 
 			</Frame>
 			<ScrollView Scrolled="Questions_Scrolled">
@@ -44,7 +44,7 @@
                         HorizontalOptions="FillAndExpand" Style="{StaticResource NormalEditor}" IsVisible="{Binding ShowDraftEditor}"/>
             </StackLayout>
 			<StackLayout Orientation="Horizontal">
-                <Button Text="{xct:Translate DiscardDraftButtonText}" Style="{StaticResource TurquoiseButton}" 
+                <Button Text="{xct:Translate DiscardDraftButtonText}" Style="{StaticResource GreenButton}" 
                         Command="{Binding DiscardButtonCommand}" IsVisible="{Binding ShowDiscardButton}"/>
                 <Button Text="{xct:Translate KeepQuestionButtonText}" Style="{StaticResource DoneButton}" 
                         Command="{Binding KeepQuestionButtonCommand}" IsVisible="{Binding ShowContinueButton}" />

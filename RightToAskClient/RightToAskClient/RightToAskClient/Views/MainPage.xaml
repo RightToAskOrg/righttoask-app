@@ -12,28 +12,28 @@
     </ContentPage.BindingContext>
         <ContentPage.Content>
         <StackLayout VerticalOptions="CenterAndExpand" Spacing="40">
-            <Frame Style="{StaticResource NavajoWhiteFrame}">
+            <Frame Style="{StaticResource SubtleFrame}">
 			    <StackLayout Style="{StaticResource VertStack}">
                     <Label Text="{xct:Translate MainPageHeaderText}" Style="{StaticResource Header1}" />
                     <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                        <Button Text="{xct:Translate TrendingNowButtonText}" Style="{StaticResource TurquoiseButton}" HeightRequest="50" 
+                        <Button Text="{xct:Translate TrendingNowButtonText}" Style="{StaticResource GreenButton}" HeightRequest="50" 
                                 Command="{Binding Top10ButtonCommand}" HorizontalOptions="Center"/>
-                        <Button Text="{xct:Translate ExpiringSoonButtonText}" Style="{StaticResource TurquoiseButton}" 
+                        <Button Text="{xct:Translate ExpiringSoonButtonText}" Style="{StaticResource GreenButton}" 
                                 Command="{Binding ExpiringSoonButtonCommand}" HorizontalOptions="Center"/>
 			        </StackLayout>
                     <StackLayout Orientation="Horizontal" HorizontalOptions="Start">
                         <SearchBar Placeholder="{xct:Translate SearchBarPlaceholderText}" Style="{StaticResource TurquoiseSearcbar}" 
                                    Text="{Binding SearchText}" HorizontalOptions="Start" SearchCommand="{Binding ExpiringSoonButtonCommand}"/>
                         <Button Text="{xct:Translate AdvancedSearchButtonText}" Command="{Binding AdvancedSearchButtonCommand}" 
-                                Style="{StaticResource TurquoiseButton}" HeightRequest="50"/>
+                                Style="{StaticResource GreenButton}" HeightRequest="50"/>
                     </StackLayout>
                 </StackLayout>
 			</Frame>
-            <Frame Style="{StaticResource NavajoWhiteFrame}">
+            <Frame Style="{StaticResource SubtleFrame}">
 			    <StackLayout Style="{StaticResource VertStack}">
                     <Label Text="{xct:Translate MainPageHeader2Text}" Style="{StaticResource Header1}" />
 				    <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                        <Button x:Name="NavigateButton" Text="{xct:Translate StartDraftingButtonText}" Style="{StaticResource TurquoiseButton}" HeightRequest="50" 
+                        <Button x:Name="NavigateButton" Text="{xct:Translate StartDraftingButtonText}" Style="{StaticResource GreenButton}" HeightRequest="50" 
                                 Command="{Binding DraftingButtonCommand}" HorizontalOptions="Center"/>
 				    </StackLayout>
 			</StackLayout>
