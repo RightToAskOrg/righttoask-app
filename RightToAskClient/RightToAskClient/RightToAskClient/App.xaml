@@ -44,6 +44,8 @@
             <Color x:Key="FrameColor">#c1dfac</Color> 
             
             <!-- Highlight / Alert colours -->
+            <!-- Note that this mostly doesn't have much effect and has been separately
+                 set in the Android project, in Resources/values/styles.xml -->
             <Color x:Key="AlertColor">#9a4119</Color> 
             
             <Color x:Key="IndicatorColor">#efd242</Color> 
@@ -55,7 +57,7 @@
             <Color x:Key="WindowBackgroundColorDark">#14171c</Color>
             
             <Color x:Key="TextColor">black</Color>
-            <Color x:Key="TextColorGray">DarkGray</Color>
+            <Color x:Key="TextColorGray">#36642f</Color>
             <Color x:Key="TextColorDark">#f2f2f7</Color>
             
             <!--Generic Styles-->

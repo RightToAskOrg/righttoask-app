@@ -17,5 +17,6 @@
     <!-- Top status bar area on Android -->
     <!-- <item name="android:statusBarColor">#a9a9a9</item> -->
     <item name="android:statusBarColor">#649b49</item>
+    <item name="colorAccent">#9a4119</item>
   </style>
 </resources>
