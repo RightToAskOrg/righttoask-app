@@ -9,7 +9,7 @@
     <ContentView.Content>
         <StackLayout>
             <Label Text="{xct:Translate UIDHeaderText}" Style="{StaticResource LeftSmall}"/>
-            <Entry Text="{Binding Registration.uid}" Placeholder="{xct:Translate UIDPlaceholderText}" Style="{StaticResource NormalEntry}"/>
+            <Entry Text="{Binding Registration.uid}" Placeholder="{xct:Translate UIDPlaceholderText}" Style="{StaticResource NormalEntry}" IsEnabled="{Binding CanEditUID}"/>
             <Label Text="{xct:Translate DisplayNameHeaderText}" Style="{StaticResource LeftSmall}"/>
             <Entry Text="{Binding Registration.display_name}" Placeholder="{xct:Translate DisplayNamePlaceholderText}" Style="{StaticResource NormalEntry}"/>
             <Label Text="{xct:Translate StateHeaderText}" Style="{StaticResource LeftSmall}"/>

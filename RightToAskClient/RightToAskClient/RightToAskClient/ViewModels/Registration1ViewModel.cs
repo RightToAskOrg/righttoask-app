@@ -114,6 +114,13 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _followButtonText, value);
         }
 
+        private bool _canEditUID = true;
+        public bool CanEditUID
+        {
+            get => _canEditUID;
+            set => SetProperty(ref _canEditUID, value);
+        }
+
         public List<string> StateList => ParliamentData.StatesAndTerritories;
 
         private ElectorateWithChamber? _selectedElectorateWithChamber = null;
@@ -162,6 +169,7 @@ namespace RightToAskClient.ViewModels
             Title = App.ReadingContext.IsReadingOnly ? AppResources.UserProfileTitle : AppResources.CreateAccountTitle;
             RegisterMPButtonText = AppResources.RegisterMPAccountButtonText;
             RegisterOrgButtonText = AppResources.RegisterOrganisationAccountButtonText;
+            CanEditUID = !App.ReadingContext.ThisParticipant.IsRegistered;
 
             if (!App.ReadingContext.IsReadingOnly)
             {
@@ -321,23 +329,32 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        private async void SaveToPreferences()
+        private void SaveToPreferences()
         {
             // save to preferences
             Preferences.Set("DisplayName", Registration.display_name);
             Preferences.Set("UID", Registration.uid);
             Preferences.Set("State", SelectedState); // stored as an int as used for the other page(s) state pickers
             ReportLabelText = "Not Implemented yet";
-            //Result<bool> httpResponse = await RTAClient.RegisterNewUser(newRegistration);
-            //var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
-            //if (httpValidation.isValid)
-            //{
-            //    ReportLabelText = AppResources.SuccessfullyUpdatedAccountText;
-            //}
-            //else
-            //{
-            //    ReportLabelText = AppResources.FailedToUpdateAccountText;
-            //}
+            // call the method for updating an existing user
+            SendUpdatedUserToServer();
+        }
+
+        private async void SendUpdatedUserToServer()
+        {
+            var existingReg = Registration;
+            existingReg.public_key = App.ReadingContext.ThisParticipant.MyPublicKey();
+            Result<bool> httpResponse = await RTAClient.UpdateExistingUser(existingReg);
+            var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
+            ReportLabelText = httpValidation.message;
+            if (httpValidation.isValid)
+            {
+                App.ReadingContext.ThisParticipant.RegistrationInfo = existingReg;
+                App.ReadingContext.ThisParticipant.IsRegistered = true;
+                Preferences.Set("IsRegistered", App.ReadingContext.ThisParticipant.IsRegistered); // save the registration to preferences
+                // pop back to the QuestionDetailsPage after the account is created
+                await App.Current.MainPage.Navigation.PopAsync();
+            }
         }
 
         private async void PromptUser(string message)

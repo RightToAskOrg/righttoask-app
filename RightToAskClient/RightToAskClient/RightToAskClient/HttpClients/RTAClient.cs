@@ -81,9 +81,46 @@ namespace RightToAskClient.HttpClients
             return await RegisterNewThing<Registration>(newReg, "user", RegUrl);
         }
 
+        public static async Task<Result<bool>> UpdateExistingUser(Registration existingReg)
+        {
+            return await UpdateExistingThing<Registration>(existingReg, "user", RegUrl);
+        }
+
         public static async Task<Result<bool>> RegisterNewQuestion(ClientSignedUnparsed newQuestion)
         {
             return await RegisterNewThing<ClientSignedUnparsed>(newQuestion, "question", QnUrl);
+        }
+
+        public static async Task<Result<bool>> UpdateExistingThing<T>(T existingThing, string typeDescr, string uri)
+        {
+            var httpResponse
+                = await Client.PutGenericItemAsync<Result<SignedString>, T>(existingThing, uri);
+
+            // http errors
+            if (String.IsNullOrEmpty(httpResponse.Err))
+            {
+                // Error responses from the server
+                if (String.IsNullOrEmpty(httpResponse.Ok.Err))
+                {
+                    if (!httpResponse.Ok.Ok.verifies(ServerSignatureVerificationService.ServerPublicKey))
+                    {
+                        Debug.WriteLine(@"\t Error updating existing " + typeDescr + ": Signature verification failed");
+                        return new Result<bool>()
+                        {
+                            Err = "Server signature verification failed"
+                        };
+                    }
+
+                    return new Result<bool>() { Ok = true };
+
+                }
+
+                Debug.WriteLine(@"\tError updating existing " + typeDescr + ": " + httpResponse.Ok.Err);
+                return new Result<bool>() { Err = httpResponse.Ok.Err };
+            }
+
+            Debug.WriteLine(@"\tError reaching server for updating existing " + typeDescr + ": " + httpResponse.Err);
+            return new Result<bool>() { Err = httpResponse.Err };
         }
 
         /*
