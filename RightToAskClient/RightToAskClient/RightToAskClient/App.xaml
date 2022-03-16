@@ -113,14 +113,15 @@
             </Style>
             <Style x:Key="NormalEditor" TargetType="Editor" ApplyToDerivedTypes="True">
                 <Setter Property="BackgroundColor" Value = "{StaticResource FadedButtonColor}"></Setter>
+                <Setter Property="TextColor" Value="{StaticResource TextColor}"></Setter>
                 <Setter Property="AutoSize" Value="TextChanges"></Setter>
                 <Setter Property="FontSize" Value="Medium"></Setter>
                 <Setter Property="FontAttributes" Value="Bold"></Setter>
             </Style>
             <Style x:Key="NormalEntry" TargetType="Entry" ApplyToDerivedTypes="True">
                 <Setter Property="BackgroundColor" Value= "{StaticResource FadedButtonColor}"></Setter>
-                <Setter Property="TextColor" Value="White"></Setter>
-                <Setter Property="PlaceholderColor" Value="White"></Setter>
+                <Setter Property="TextColor" Value="{StaticResource TextColor}"></Setter>
+                <Setter Property="PlaceholderColor" Value="{StaticResource TextColor}"></Setter>
             </Style>
             <Style x:Key="GreenSearchBar" TargetType="SearchBar">
                 <Setter Property="BackgroundColor" Value="{StaticResource ButtonColor}"></Setter>
