@@ -23,8 +23,7 @@
             <Entry Text="{Binding Registration.display_name}" Placeholder="{xct:Translate DisplayNamePlaceholderText}" Style="{StaticResource NormalEntry}"/>
             <Label Text="{xct:Translate StateHeaderText}" Style="{StaticResource LeftSmall}"/>
 			<Picker x:Name="stateOrTerritoryPicker" Title="{Binding Registration.State,  StringFormat='{0:F0}'}" 
-			        BackgroundColor="Turquoise"
-			        SelectedIndex="{Binding SelectedState}">
+			        SelectedIndex="{Binding SelectedState}" Style="{StaticResource CenterFramePicker}">
 			</Picker>
             <Label Text="{xct:Translate ElectoratesHeaderText}" Style="{StaticResource LeftSmall}"/>
 			<CollectionView ItemsSource="{Binding Registration.electorates}" SelectionMode="Single" SelectedItem="{Binding SelectedElectorateWithChamber}">
@@ -48,9 +47,9 @@
                 <Button Text="{Binding RegisterOrgButtonText}" Command="{Binding RegisterOrgButtonCommand}" IsVisible="{Binding ShowRegisterOrgButton}" Style="{StaticResource DoneButton}" HorizontalOptions="Center"/>
                 <Button Text="{xct:Translate CancelButtonText}" Command="{Binding CancelButtonCommand}" IsVisible="{Binding ShowDoneButton}"/>
 			</StackLayout>
-            <Button Text="{Binding FollowButtonText}" Style="{StaticResource TurquoiseButton}" Command="{Binding FollowButtonCommand}" IsVisible="{Binding ShowFollowButton}" HorizontalOptions="Center"/>
-            <Button Text="{Binding SeeQuestionsButtonText}" Style="{StaticResource TurquoiseButton}"  IsVisible="{Binding ShowSeeQuestionsButton}" Command="{Binding SeeQuestionsButtonCommand}" HorizontalOptions="Center"/>
-            <Button Text="{Binding DMButtonText}" Style="{StaticResource TurquoiseButton}" IsVisible="{Binding ShowDMButton}" Command="{Binding DMButtonCommand}" HorizontalOptions="Center"/>
+            <Button Text="{Binding FollowButtonText}" Style="{StaticResource GreenButton}" Command="{Binding FollowButtonCommand}" IsVisible="{Binding ShowFollowButton}" HorizontalOptions="Center"/>
+            <Button Text="{Binding SeeQuestionsButtonText}" Style="{StaticResource GreenButton}"  IsVisible="{Binding ShowSeeQuestionsButton}" Command="{Binding SeeQuestionsButtonCommand}" HorizontalOptions="Center"/>
+            <Button Text="{Binding DMButtonText}" Style="{StaticResource GreenButton}" IsVisible="{Binding ShowDMButton}" Command="{Binding DMButtonCommand}" HorizontalOptions="Center"/>
         </StackLayout>
 	<!--
 	</StackLayout>

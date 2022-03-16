@@ -21,12 +21,12 @@
                 <Label Text="{xct:Translate MPsHeaderText1}" FontSize="Medium" HorizontalOptions="Center" />
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
                     <Label Text="{xct:Translate MPsHeaderText2}" FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center" />
-                    <Picker Title="{Binding StatePickerTitle}" ItemsSource="{Binding StatePicker}" BackgroundColor="Turquoise"
-					        SelectedIndex="{Binding SelectedState}">
+                    <Picker Title="{Binding StatePickerTitle}" ItemsSource="{Binding StatePicker}" 
+					        Style="{StaticResource CenterFramePicker}" SelectedIndex="{Binding SelectedState}">
                     </Picker>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal">
-                    <Frame Style="{StaticResource TealFrame}">
+                    <Frame Style="{StaticResource GreenFrame}">
                         <Label Text="{xct:Translate ElectoratesKnownHeaderText}" Style="{StaticResource Header1}" VerticalOptions="Center">
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding KnowElectoratesCommand}"/>
@@ -35,7 +35,7 @@
                     </Frame>
                     <Label Text="Or" WidthRequest="150" FontSize="Large"
 					       HorizontalOptions="Center" VerticalOptions="Center" />
-                    <Frame Style="{StaticResource TealFrame}">
+                    <Frame Style="{StaticResource GreenFrame}">
                         <Label Text="{xct:Translate LookupElectoratesHeaderText}" Style="{StaticResource Header1}" VerticalOptions="Center">
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding LookupElectoratesCommand}"/>
@@ -43,7 +43,7 @@
                         </Label>
                     </Frame>
                 </StackLayout>
-                <Frame Style="{StaticResource PaleTurquoiseFrame}" IsVisible="{Binding ShowKnowElectoratesFrame}">
+                <Frame Style="{StaticResource SubtleFrame}" IsVisible="{Binding ShowKnowElectoratesFrame}">
                     <StackLayout Orientation="Vertical">
                         <Picker Style="{StaticResource LeftFramePicker}" Title="{Binding StateLAElectoratePickerTitle}" ItemsSource="{Binding AllStateLAElectorates}"
                                 SelectedIndex="{Binding SelectedStateLAElectorate}" MinimumWidthRequest="200">
@@ -57,7 +57,7 @@
                     </StackLayout>
                 </Frame>
 
-                <Frame Style="{StaticResource NavajoWhiteFrame}" IsVisible="{Binding ShowAddressStack}">
+                <Frame Style="{StaticResource SubtleFrame}" IsVisible="{Binding ShowAddressStack}">
                     <StackLayout Margin="20">
                         <Label Text="{xct:Translate StreetHeaderText}" Style="{StaticResource LeftFrameText}"/>
                         <Entry Placeholder="{xct:Translate StreetHeaderText}" Text="{Binding Address.StreetNumberAndName}" Style="{StaticResource LeftFrameEntry}"/>
@@ -66,7 +66,7 @@
                         <Label Text="{xct:Translate PostcodeHeaderText}" Style="{StaticResource LeftFrameText}"/>
                         <Entry Placeholder="{xct:Translate PostcodeHeaderText}" Text="{Binding Address.Postcode}" Style="{StaticResource LeftFrameEntry}"/>
                         <StackLayout Orientation="Vertical" HorizontalOptions="Center">
-                            <Button Text="{xct:Translate FindMyElectoratesButtonText}" HorizontalOptions="Center" Style="{StaticResource TurquoiseButton}" Command="{Binding SubmitAddressButtonCommand}" />
+                            <Button Text="{xct:Translate FindMyElectoratesButtonText}" HorizontalOptions="Center" Style="{StaticResource GreenButton}" Command="{Binding SubmitAddressButtonCommand}" />
                             <Label x:Name="ReportLabel" Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}"/>
                         </StackLayout>
                         <!--
@@ -77,7 +77,7 @@
                     </StackLayout>
                 </Frame>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
-                    <Button Style="{StaticResource TurquoiseButton}" Text="{xct:Translate SkipStepButton}" Command="{Binding SkipButtonCommand}" IsVisible="{Binding ShowSkipButton}"/>
+                    <Button Style="{StaticResource GreenButton}" Text="{xct:Translate SkipStepButton}" Command="{Binding SkipButtonCommand}" IsVisible="{Binding ShowSkipButton}"/>
                     <Button HorizontalOptions="End" Style="{StaticResource DoneButton}" Text="{Binding DoneButtonText}" Command="{Binding MPsButtonCommand}" IsVisible="{Binding ShowFindMPsButton}" />
                 </StackLayout>
             </StackLayout>

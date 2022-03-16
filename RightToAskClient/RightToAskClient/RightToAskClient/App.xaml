@@ -11,96 +11,142 @@
         <ResourceDictionary>
             <!--Converter-->
             <helpers:InvertConvert x:Key="cnvInvert" />
-            <!--Colors-->
-            <Color x:Key="Primary">#6FA22E</Color>
+            <!-- Website colors -->
+            <!--
+            light green: #649b49
+            yellow: #efd242 
+            site background: #ffffff
+            light grey background: #ededed
+            text colour (dark background) #ffffff
+            mid blue/green : #006d72
+            mid-to-dark blue: #195a6a
+            dark blue background & text: #2f4858
+            red (highlight): #9a4119
+            -->
+            <!--Colors -->
+            <!-- <Color x:Key="Primary">#649b49</Color> -->
+            <!-- Google's material.io suggestions based on Primary #649b49 -->
+            <!-- Darkest: #36642f -->
+            <!-- almost-darkest: #538740 -->
+            <!-- lighter: #77af53 #85bf5c #96c973 #a9d28c #c1dfac #d9eccc #f0f8eb (lightest) -->
+            
+            <!-- These are all meant to be the same dark green -->
+            <Color x:Key="Primary">#36642f</Color>
+            <Color x:Key="HeadingTextColor">#36642f</Color>
+            <Color x:Key="FrameOutlineColor">#36642f</Color>
+            <Color x:Key="DarkButtonColor">#36642f</Color>
+            
+            <!-- These are all the same mid green -->
+            <Color x:Key="ButtonColor">#649b49</Color>
+            
+            <!-- These are all the same light green -->
+            <Color x:Key="FadedButtonColor">#c1dfac</Color>
+            <Color x:Key="FrameColor">#c1dfac</Color> 
+            
+            <!-- Highlight / Alert colours -->
+            <!-- Note that this mostly doesn't have much effect and has been separately
+                 set in the Android project, in Resources/values/styles.xml -->
+            <Color x:Key="AlertColor">#9a4119</Color> 
+            
+            <Color x:Key="IndicatorColor">#efd242</Color> 
+            <Color x:Key="TitleTextColor">#efd242</Color>
+            <Color x:Key="WattleYellow">#efd242</Color>
+            
+            <!-- white/grey/black/beige text & background colors -->
             <Color x:Key="WindowBackgroundColor">#f2f2f7</Color>
-            <Color x:Key="WindowBackgroundColorDark">#424242</Color>
+            <Color x:Key="WindowBackgroundColorDark">#14171c</Color>
+            
             <Color x:Key="TextColor">black</Color>
-            <Color x:Key="TextColorGray">gray</Color>
+            <Color x:Key="TextColorGray">#36642f</Color>
             <Color x:Key="TextColorDark">#f2f2f7</Color>
-            <Color x:Key="FrameColor">NavajoWhite</Color>
-            <Color x:Key="FrameColorDark">#6e5000</Color>
+            
             <!--Generic Styles-->
             <Style TargetType="Label">
-                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColorDark}}"></Setter>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, 
+                   Dark={StaticResource TextColorDark}}"></Setter>
             </Style>
             <Style TargetType="Entry">
-                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColorGray}, Dark={StaticResource TextColorDark}}"></Setter>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColorGray}, 
+                   Dark={StaticResource TextColorDark}}"></Setter>
             </Style>
             <Style TargetType="SearchBar">
-                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColorDark}}"></Setter>
-                <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource TextColorGray}, Dark={StaticResource TextColorDark}}"></Setter>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, 
+                   Dark={StaticResource TextColorDark}}"></Setter>
+                <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource TextColorGray}, 
+                   Dark={StaticResource TextColorDark}}"></Setter>
             </Style>
             <Style TargetType="ContentPage" ApplyToDerivedTypes="True">
-                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}"></Setter>
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, 
+                   Dark={StaticResource WindowBackgroundColorDark}}"></Setter>
                 <Setter Property="Shell.FlyoutBehavior" Value="Disabled"/>
             </Style>
+            <Style TargetType="Switch" ApplyToDerivedTypes="True">
+                <Setter Property="OnColor" Value="{StaticResource IndicatorColor}"></Setter>
+                <Setter Property="ThumbColor" Value="{StaticResource IndicatorColor}"></Setter>
+            </Style>
             <!--Specific Styles-->
-            <Style x:Key="TurquoiseButton" TargetType="Button">
+            <Style x:Key="GreenButton" TargetType="Button">
                 <Setter Property="TextColor" Value="White"></Setter>
-                <Setter Property="BackgroundColor" Value="Turquoise"></Setter>
+                <Setter Property="BackgroundColor" Value="{StaticResource ButtonColor}"></Setter>
                 <Setter Property="CornerRadius" Value="20"></Setter>
                 <Setter Property="HeightRequest" Value="40"></Setter>
             </Style>
             <Style x:Key="RedButton" TargetType="Button" ApplyToDerivedTypes="True">
-                <Setter Property="BackgroundColor" Value="Red"></Setter>
+                <Setter Property="BackgroundColor" Value="{StaticResource AlertColor}"></Setter>
             </Style>
             <Style x:Key="DoneButton" TargetType="Button" ApplyToDerivedTypes="True">
-                <Setter Property="BackgroundColor" Value="Teal"></Setter>
+                <Setter Property="BackgroundColor" Value="{StaticResource DarkButtonColor}"></Setter>
                 <Setter Property="TextColor" Value="White"></Setter>
                 <Setter Property="Text" Value="Next"></Setter>
                 <Setter Property="HorizontalOptions" Value="End"></Setter>
             </Style>
             <Style x:Key="SaveButton" TargetType="Button" ApplyToDerivedTypes="True">
-                <Setter Property="BackgroundColor" Value="Teal"></Setter>
+                <Setter Property="BackgroundColor" Value="{StaticResource DarkButtonColor}"></Setter>
                 <Setter Property="TextColor" Value="White"></Setter>
                 <Setter Property="Text" Value="Save"></Setter>
                 <Setter Property="HorizontalOptions" Value="End"></Setter>
             </Style>
             <Style x:Key="UpVoteButton" TargetType="Button" ApplyToDerivedTypes="True">
-                <Setter Property="BackgroundColor" Value="Turquoise"></Setter>
+                <Setter Property="BackgroundColor" Value="{StaticResource ButtonColor}"></Setter>
                 <Setter Property="CornerRadius" Value="20"></Setter>
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
                 <Setter Property="Padding" Value="0"></Setter>
                 <!--<Setter Property="Text" Value="+1"></Setter>-->
             </Style>
             <Style x:Key="NormalEditor" TargetType="Editor" ApplyToDerivedTypes="True">
-                <Setter Property="BackgroundColor" Value="Turquoise"></Setter>
+                <Setter Property="BackgroundColor" Value = "{StaticResource FadedButtonColor}"></Setter>
+                <Setter Property="TextColor" Value="{StaticResource TextColor}"></Setter>
                 <Setter Property="AutoSize" Value="TextChanges"></Setter>
                 <Setter Property="FontSize" Value="Medium"></Setter>
                 <Setter Property="FontAttributes" Value="Bold"></Setter>
             </Style>
             <Style x:Key="NormalEntry" TargetType="Entry" ApplyToDerivedTypes="True">
-                <Setter Property="BackgroundColor" Value="Turquoise"></Setter>
-                <Setter Property="TextColor" Value="White"></Setter>
-                <Setter Property="PlaceholderColor" Value="White"></Setter>
+                <Setter Property="BackgroundColor" Value= "{StaticResource FadedButtonColor}"></Setter>
+                <Setter Property="TextColor" Value="{StaticResource TextColor}"></Setter>
+                <Setter Property="PlaceholderColor" Value="{StaticResource TextColor}"></Setter>
             </Style>
-            <Style x:Key="TurquoiseSearcbar" TargetType="SearchBar">
-                <Setter Property="BackgroundColor" Value="Turquoise"></Setter>
-                <Setter Property="MinimumWidthRequest" Value="20"></Setter>
-                <Setter Property="TextColor" Value="White"></Setter>
-                <Setter Property="PlaceholderColor" Value="White"></Setter>
+            <Style x:Key="GreenSearchBar" TargetType="SearchBar">
+                <Setter Property="BackgroundColor" Value="{StaticResource ButtonColor}"></Setter>
+                <Setter Property="MinimumWidthRequest" Value="200"></Setter>
+                <Setter Property="TextColor" Value="{StaticResource TextColorDark}"></Setter>
+                <Setter Property="PlaceholderColor" Value="{StaticResource TextColorDark}"></Setter>
             </Style>
-            <Style x:Key="TealFrame" TargetType="Frame">
-                <Setter Property="OutlineColor" Value="Teal"></Setter>
+            <Style x:Key="GreenFrame" TargetType="Frame">
+                <Setter Property="OutlineColor" Value="{StaticResource FrameOutlineColor}"></Setter>
             </Style>
-            <Style x:Key="PaleTurquoiseFrame" TargetType="Frame">
-                <Setter Property="BackgroundColor" Value="PaleTurquoise"></Setter>
+            <Style x:Key="SubtleFrame" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="{StaticResource FrameColor}"></Setter> 
                 <Setter Property="CornerRadius" Value="10"></Setter>
-                <Setter Property="Padding" Value="0"></Setter>
-            </Style>
-            <Style x:Key="NavajoWhiteFrame" TargetType="Frame">
-                <Setter Property="BackgroundColor" Value="NavajoWhite"></Setter>
-                <Setter Property="CornerRadius" Value="10"></Setter>
+                <!-- <Setter Property="BorderColor" Value="{StaticResource AlertColor}"></Setter> -->
                 <Setter Property="Padding" Value="0"></Setter>
             </Style>
             <Style x:Key="Header1" TargetType="Label">
-                <Setter Property="TextColor" Value="Teal"></Setter>
+                <Setter Property="TextColor" Value="{StaticResource HeadingTextColor }"></Setter>
                 <Setter Property="FontSize" Value="Large"></Setter>
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
             </Style>
             <Style x:Key="Header2" TargetType="Label">
-                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColorDark}}"></Setter>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource HeadingTextColor}, Dark={StaticResource TextColorDark}}"></Setter>
                 <Setter Property="FontSize" Value="Medium"></Setter>
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
             </Style>
@@ -130,6 +176,13 @@
                 <Setter Property="FontSize" Value="Medium"></Setter>
                 <Setter Property="HorizontalOptions" Value="Start"></Setter>
             </Style>
+            <Style x:Key="CenterFramePicker" TargetType="Picker">
+                <Setter Property="TextColor" Value="{StaticResource TextColorDark}"></Setter>
+                <Setter Property="TitleColor" Value="{StaticResource TextColorDark}"></Setter>
+                <Setter Property="FontSize" Value="Medium"></Setter>
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="BackgroundColor" Value="{StaticResource ButtonColor}"></Setter>
+            </Style>
             <Style x:Key="LeftFramePicker" TargetType="Picker">
                 <Setter Property="TextColor" Value="{StaticResource TextColor}"></Setter>
                 <Setter Property="TitleColor" Value="{StaticResource TextColorGray}"></Setter>
@@ -137,22 +190,26 @@
                 <Setter Property="HorizontalOptions" Value="Start"></Setter>
             </Style>
             <Style x:Key="ListViewText" TargetType="Label">
-                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColorDark}}"></Setter>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, 
+                   Dark={StaticResource TextColorDark}}"></Setter>
                 <Setter Property="FontSize" Value="Medium"></Setter>
                 <Setter Property="HorizontalOptions" Value="Start"></Setter>
             </Style>
             <Style x:Key="ListViewTextSmall" TargetType="Label">
-                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColorDark}}"></Setter>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, 
+                   Dark={StaticResource TextColorDark}}"></Setter>
                 <Setter Property="FontSize" Value="Small"></Setter>
                 <Setter Property="HorizontalOptions" Value="Start"></Setter>
             </Style>
             <Style x:Key="ListViewTextVertCenter" TargetType="Label">
-                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColorDark}}"></Setter>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, 
+                   Dark={StaticResource TextColorDark}}"></Setter>
                 <Setter Property="FontSize" Value="Small"></Setter>
                 <Setter Property="VerticalOptions" Value="Center"></Setter>
             </Style>
             <Style x:Key="ReportLabel" TargetType="Label">
-                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColorGray}, Dark={StaticResource TextColorDark}}"></Setter>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColorGray}, 
+                   Dark={StaticResource TextColorDark}}"></Setter>
                 <Setter Property="FontSize" Value="Small"></Setter>
             </Style>
             <Style x:Key="VertStack" TargetType="StackLayout">
