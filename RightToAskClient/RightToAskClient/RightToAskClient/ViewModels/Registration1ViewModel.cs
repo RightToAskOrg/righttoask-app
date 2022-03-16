@@ -344,7 +344,7 @@ namespace RightToAskClient.ViewModels
         private async void SendUpdatedUserToServer()
         {
             var existingReg = Registration;
-            existingReg.public_key = App.ReadingContext.ThisParticipant.MyPublicKey();
+            // existingReg.public_key = App.ReadingContext.ThisParticipant.MyPublicKey();
             ClientSignedUnparsed signedUser = App.ReadingContext.ThisParticipant.SignMessage(existingReg); // sign the registration
             Result<bool> httpResponse = await RTAClient.UpdateExistingUser(signedUser);
             var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");

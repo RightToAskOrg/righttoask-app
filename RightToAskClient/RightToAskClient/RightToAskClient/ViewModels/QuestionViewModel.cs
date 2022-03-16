@@ -441,8 +441,15 @@ namespace RightToAskClient.ViewModels
             ClientSignedUnparsed signedQuestion 
                 = App.ReadingContext.ThisParticipant.SignMessage(uploadableQuestion);
 
+            if (!String.IsNullOrEmpty(signedQuestion.signature))
+            {
             Result<bool> httpResponse = await RTAClient.RegisterNewQuestion(signedQuestion);
             return RTAClient.ValidateHttpResponse(httpResponse, "Question Upload");
+            }
+            else
+            {
+                return (false, "Client signing error.");
+            }
         }
     }
 }

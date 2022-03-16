@@ -79,18 +79,18 @@ namespace RightToAskClient.HttpClients
 
         public static async Task<Result<bool>> RegisterNewUser(Registration newReg)
         {
-            return await RegisterNewThing<Registration>(newReg, "user", RegUrl);
+            return await SendDataToServer<Registration>(newReg, "user", RegUrl);
         }
 
         public static async Task<Result<bool>> UpdateExistingUser(ClientSignedUnparsed existingReg)
         {
             string EditUrl = EditUserUrl + App.ReadingContext.ThisParticipant.RegistrationInfo.uid;
-            return await RegisterNewThing<ClientSignedUnparsed>(existingReg, "user", EditUrl);
+            return await SendDataToServer<ClientSignedUnparsed>(existingReg, "user", EditUrl);
         }
 
         public static async Task<Result<bool>> RegisterNewQuestion(ClientSignedUnparsed newQuestion)
         {
-            return await RegisterNewThing<ClientSignedUnparsed>(newQuestion, "question", QnUrl);
+            return await SendDataToServer<ClientSignedUnparsed>(newQuestion, "question", QnUrl);
         }
 
         public static async Task<Result<bool>> UpdateExistingThing<T>(T existingThing, string typeDescr, string uri)
@@ -133,7 +133,7 @@ namespace RightToAskClient.HttpClients
          * These are returned to the user on the assumption that there's something they
          * can do.
          */
-        public static async Task<Result<bool>> RegisterNewThing<T>(T newThing, string typeDescr, string uri)
+        private static async Task<Result<bool>> SendDataToServer<T>(T newThing, string typeDescr, string uri)
         {
             var httpResponse 
                 = await Client.PostGenericItemAsync<Result<SignedString>, T>(newThing, uri);
