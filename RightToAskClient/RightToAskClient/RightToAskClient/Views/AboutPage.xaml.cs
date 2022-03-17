@@ -65,15 +65,14 @@ namespace RightToAskClient.Views
                     "Please copy the link and paste it into your web browser if you wish to continue.";
                 string alertCancel = "Cancel";
                 string alertDestruction = "Proceed";
-                string[] alertButtons = { "Copy Link" };
-                //string? result = await Shell.Current.DisplayActionSheet("You are trying to navigate to: " + destination + " which is not part of our Website. " +
-                //    "Please copy the link and paste it into your web browser if you wish to continue.", "Go Back", "Copy Link", "Proceed");
-                string? result = await Shell.Current.DisplayActionSheet(alertTitle, alertCancel, alertDestruction, alertButtons);
-                if (result == "Copy Link")
-                {
-                    await Clipboard.SetTextAsync(destination);
-                }
-                else if(result == "Proceed")
+                //string[] alertButtons = { "Copy Link" };
+                //string? result = await Shell.Current.DisplayActionSheet(alertTitle, alertCancel, alertDestruction, alertButtons);
+                string? result = await Shell.Current.DisplayActionSheet(alertTitle, alertCancel, alertDestruction);
+                //if (result == "Copy Link")
+                //{
+                //    await Clipboard.SetTextAsync(destination);
+                //}
+                if(result == "Proceed")
                 {
                     Uri browserDestination = new Uri(destination);
                     await OpenBrowser(browserDestination);
