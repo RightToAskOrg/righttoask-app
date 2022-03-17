@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
@@ -153,7 +154,7 @@ namespace RightToAskClient.ViewModels
             ShowAddressStack = false;
             ShowKnowElectoratesFrame = false;
             _launchMPsSelectionPageNext = true;
-            SelectedState = Preferences.Get("State", SelectedState);
+            SelectedState = Preferences.Get("StateID", SelectedState);
 
             MessagingCenter.Subscribe<Registration1ViewModel>(this, "FromReg1", (sender) =>
             {
@@ -284,12 +285,13 @@ namespace RightToAskClient.ViewModels
         // saving the address.
         private void SaveAddress()
         {
-            Preferences.Set("Address", Address.ToString()); // save the full address
+            var fullAddress = JsonSerializer.Serialize(Address);
+            Preferences.Set("Address", fullAddress); // save the full address
             Preferences.Set("Street", Address.StreetNumberAndName);
             Preferences.Set("City", Address.CityOrSuburb);
             Preferences.Set("Postcode", Address.Postcode);
-            Preferences.Set("State", SelectedState);
-            Preferences.Set("Electorates", AllFederalElectorates.ToString()); // might not make sense to save all of the electorates
+            Preferences.Set("StateID", SelectedState);
+            //Preferences.Set("Electorates", AllFederalElectorates.ToString()); // might not make sense to save all of the electorates
         }
 
         private void OnStateLCElectoratePickerSelectedIndexChanged()

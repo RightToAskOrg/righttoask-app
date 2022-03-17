@@ -4,6 +4,10 @@ using RightToAskClient.Models;
 using Xamarin.CommunityToolkit.Helpers;
 using RightToAskClient.Resx;
 using Xamarin.Essentials;
+using System.Text.Json;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace RightToAskClient
 {
@@ -38,10 +42,22 @@ namespace RightToAskClient
                 // get account info from preferences
                 ReadingContext.ThisParticipant.RegistrationInfo.display_name = Preferences.Get("DisplayName", "Display name not found");
                 ReadingContext.ThisParticipant.RegistrationInfo.uid = Preferences.Get("UID", "User ID not found");
-                int stateID = Preferences.Get("State", -1);
+                int stateID = Preferences.Get("StateID", -1);
                 if(stateID >= 0)
                 {
                     ReadingContext.ThisParticipant.RegistrationInfo.State = ParliamentData.StatesAndTerritories[stateID];
+                }
+                // grab the electorates from storage
+                var electoratePref = Preferences.Get("Electorates", "");
+                if (!string.IsNullOrEmpty(electoratePref))
+                {
+                    var electorates = JsonSerializer.Deserialize<ObservableCollection<ElectorateWithChamber>>(electoratePref);
+                    ReadingContext.ThisParticipant.RegistrationInfo.electorates = electorates ?? new ObservableCollection<ElectorateWithChamber>();
+                    // if we got electorates, let the app know to skip the Find My MPs step
+                    if (ReadingContext.ThisParticipant.RegistrationInfo.electorates.Any())
+                    {
+                        ReadingContext.ThisParticipant.MPsKnown = true;
+                    }
                 }
             }
         }

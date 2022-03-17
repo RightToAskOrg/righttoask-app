@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using RightToAskClient.CryptoUtils;
 using RightToAskClient.HttpClients;
@@ -164,7 +165,8 @@ namespace RightToAskClient.ViewModels
             // now that it's being done at the app level but keeping them shouldn't hurt
             Registration.display_name = Preferences.Get("DisplayName", Registration.display_name);
             Registration.uid = Preferences.Get("UID", Registration.uid);
-            SelectedState = Preferences.Get("State", -1);
+            SelectedState = Preferences.Get("StateID", -1);
+            Registration.State = Preferences.Get("State", Registration.State);
 
             // commands
             SaveButtonCommand = new Command(() =>
@@ -289,7 +291,11 @@ namespace RightToAskClient.ViewModels
                     // save to preferences
                     Preferences.Set("DisplayName", Registration.display_name);
                     Preferences.Set("UID", Registration.uid);
-                    Preferences.Set("State", SelectedState); // stored as an int as used for the other page(s) state pickers
+                    Preferences.Set("StateID", SelectedState); // stored as an int as used for the other page(s) state pickers
+                    // serialize to save the electorates
+                    var electoratesToSave = JsonSerializer.Serialize(Registration.electorates);
+                    Preferences.Set("Electorates", electoratesToSave);
+
                     Result<bool> httpResponse = await RTAClient.RegisterNewUser(newRegistration);
                     var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
                     ReportLabelText = httpValidation.message;
