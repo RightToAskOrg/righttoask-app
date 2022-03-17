@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using RightToAskClient.CryptoUtils;
@@ -346,16 +347,22 @@ namespace RightToAskClient.ViewModels
             var existingReg = Registration;
             // existingReg.public_key = App.ReadingContext.ThisParticipant.MyPublicKey();
             ClientSignedUnparsed signedUser = App.ReadingContext.ThisParticipant.SignMessage(existingReg); // sign the registration
-            Result<bool> httpResponse = await RTAClient.UpdateExistingUser(signedUser);
-            var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
-            ReportLabelText = httpValidation.message;
-            if (httpValidation.isValid)
+            if (!String.IsNullOrEmpty(signedUser.signature))
             {
-                App.ReadingContext.ThisParticipant.RegistrationInfo = existingReg;
-                App.ReadingContext.ThisParticipant.IsRegistered = true;
-                Preferences.Set("IsRegistered", App.ReadingContext.ThisParticipant.IsRegistered); // save the registration to preferences
-                // pop back to the QuestionDetailsPage after the account is created
-                await App.Current.MainPage.Navigation.PopAsync();
+                Result<bool> httpResponse = await RTAClient.UpdateExistingUser(signedUser);
+                var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
+                ReportLabelText = httpValidation.message;
+                if (httpValidation.isValid)
+                {
+                    App.ReadingContext.ThisParticipant.RegistrationInfo = existingReg;
+                    App.ReadingContext.ThisParticipant.IsRegistered = true;
+                    Preferences.Set("IsRegistered", App.ReadingContext.ThisParticipant.IsRegistered); // save the registration to preferences
+                }
+            }
+            else
+            {
+                Debug.WriteLine("Failed to sign user update message.");
+                ReportLabelText = "Failed to sign user update message.";
             }
         }
 

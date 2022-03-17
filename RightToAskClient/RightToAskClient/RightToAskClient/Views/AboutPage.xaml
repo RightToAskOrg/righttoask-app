@@ -6,7 +6,13 @@
              Shell.FlyoutBehavior="Flyout">
     <ContentPage.Content>
         <StackLayout>
-            <WebView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Source="https://righttoask.democracydevelopers.org.au/what-it-does/">
+            <StackLayout Orientation="Horizontal">
+                <Button Text="Back" HorizontalOptions="StartAndExpand" Clicked="OnBackButtonClicked" />
+                <Button Text="Forward" HorizontalOptions="EndAndExpand" Clicked="OnForwardButtonClicked" />
+            </StackLayout>
+            <WebView x:Name="webView" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
+                     Source="https://righttoask.democracydevelopers.org.au/what-it-does/"
+                     Navigating="OnWebViewNavigating">
             </WebView>
         </StackLayout>
     </ContentPage.Content>

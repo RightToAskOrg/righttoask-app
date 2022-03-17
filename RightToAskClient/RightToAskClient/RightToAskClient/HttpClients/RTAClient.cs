@@ -18,7 +18,7 @@ namespace RightToAskClient.HttpClients
         private static string BaseUrl = SetUpServerConfig();
 
         private static string RegUrl = BaseUrl + "/new_registration";
-        private static string EditUserUrl = BaseUrl + "/edit_user?uid=";
+        private static string EditUserUrl = BaseUrl + "/edit_user";
         private static string QnUrl = BaseUrl + "/new_question";
         private static string MPListUrl = BaseUrl + "/MPs.json";
         private static string UserListUrl = BaseUrl + "/get_user_list";
@@ -84,8 +84,8 @@ namespace RightToAskClient.HttpClients
 
         public static async Task<Result<bool>> UpdateExistingUser(ClientSignedUnparsed existingReg)
         {
-            string EditUrl = EditUserUrl + App.ReadingContext.ThisParticipant.RegistrationInfo.uid;
-            return await SendDataToServer<ClientSignedUnparsed>(existingReg, "user", EditUrl);
+            //string EditUrl = EditUserUrl + App.ReadingContext.ThisParticipant.RegistrationInfo.uid;
+            return await SendDataToServer<ClientSignedUnparsed>(existingReg, "user", EditUserUrl);
         }
 
         public static async Task<Result<bool>> RegisterNewQuestion(ClientSignedUnparsed newQuestion)
