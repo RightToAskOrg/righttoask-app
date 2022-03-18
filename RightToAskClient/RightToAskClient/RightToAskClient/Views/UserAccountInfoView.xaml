@@ -13,9 +13,9 @@
             <Label Text="{xct:Translate DisplayNameHeaderText}" Style="{StaticResource LeftSmall}"/>
             <Entry Text="{Binding Registration.display_name}" Placeholder="{xct:Translate DisplayNamePlaceholderText}" Style="{StaticResource NormalEntry}"/>
             <Label Text="{xct:Translate StateHeaderText}" Style="{StaticResource LeftSmall}"/>
-            <Picker Title="{Binding Registration.State,  StringFormat='{0:F0}'}" 
-			        BackgroundColor="Turquoise"
+            <Picker Title="{Binding Registration.State,  StringFormat='{0:F0}'}"
                     ItemsSource="{Binding StateList}"
+                    Style="{StaticResource LeftPicker}"
 			        SelectedIndex="{Binding SelectedState}">
             </Picker>
             <Label Text="{xct:Translate ElectoratesHeaderText}" Style="{StaticResource LeftSmall}"/>

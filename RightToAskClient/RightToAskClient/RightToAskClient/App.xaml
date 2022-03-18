@@ -183,6 +183,12 @@
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
                 <Setter Property="BackgroundColor" Value="{StaticResource ButtonColor}"></Setter>
             </Style>
+            <Style x:Key="LeftPicker" TargetType="Picker">
+                <Setter Property="TextColor" Value="{StaticResource TextColorDark}"></Setter>
+                <Setter Property="TitleColor" Value="{StaticResource TextColorDark}"></Setter>
+                <Setter Property="FontSize" Value="Medium"></Setter>
+                <Setter Property="BackgroundColor" Value="{StaticResource ButtonColor}"></Setter>
+            </Style>
             <Style x:Key="LeftFramePicker" TargetType="Picker">
                 <Setter Property="TextColor" Value="{StaticResource TextColor}"></Setter>
                 <Setter Property="TitleColor" Value="{StaticResource TextColorGray}"></Setter>

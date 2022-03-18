@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
@@ -23,6 +24,13 @@ namespace RightToAskClient.ViewModels
         {
             get => _registration;
             set => SetProperty(ref _registration, value);
+        }
+
+        private Registration _oldRegistration = new Registration();
+        public Registration OldRegistration
+        {
+            get => _oldRegistration;
+            set => SetProperty(ref _oldRegistration, value);
         }
 
         private bool _showRegisterCitizenButton = false;
@@ -178,6 +186,9 @@ namespace RightToAskClient.ViewModels
                 Registration.display_name = Preferences.Get("DisplayName", Registration.display_name);
                 Registration.uid = Preferences.Get("UID", Registration.uid);
                 SelectedState = Preferences.Get("StateID", -1);
+                // save the old details
+                OldRegistration = new Registration();
+                OldRegistration = Registration;
             }
 
             // commands
@@ -298,7 +309,7 @@ namespace RightToAskClient.ViewModels
                 // see if we need to push the electorates page or if we push the server account things
                 if (!App.ReadingContext.ThisParticipant.MPsKnown)
                 {
-                    await Shell.Current.GoToAsync($"{nameof(RegisterPage2)}").ContinueWith((_) => 
+                    await Shell.Current.GoToAsync($"{nameof(RegisterPage2)}").ContinueWith((_) =>
                     {
                         MessagingCenter.Send(this, "FromReg1"); // sending Registration1ViewModel
                     });
@@ -328,7 +339,7 @@ namespace RightToAskClient.ViewModels
             }
             else
             {
-                if(regTest != null)
+                if (regTest != null)
                 {
                     PromptUser(regTest);
                 }
@@ -339,7 +350,7 @@ namespace RightToAskClient.ViewModels
         {
             // save to preferences
             Preferences.Set("DisplayName", Registration.display_name);
-            Preferences.Set("UID", Registration.uid);
+            Preferences.Set("UID", Registration.uid); // shouldn't be able to change this
             Preferences.Set("State", SelectedState); // stored as an int as used for the other page(s) state pickers
             ReportLabelText = "Not Implemented yet";
             // call the method for updating an existing user
@@ -348,19 +359,22 @@ namespace RightToAskClient.ViewModels
 
         private async void SendUpdatedUserToServer()
         {
-            var existingReg = Registration;
-            // existingReg.public_key = App.ReadingContext.ThisParticipant.MyPublicKey();
-            ClientSignedUnparsed signedUser = App.ReadingContext.ThisParticipant.SignMessage(existingReg); // sign the registration
-            if (!String.IsNullOrEmpty(signedUser.signature))
+            var nameToSend = new { display_name = Registration.display_name, state = Registration.State, electorates = Registration.electorates };
+            ClientSignedUnparsed signedUserMessage = App.ReadingContext.ThisParticipant.SignMessage(nameToSend);
+            if (!String.IsNullOrEmpty(signedUserMessage.signature))
             {
-                Result<bool> httpResponse = await RTAClient.UpdateExistingUser(signedUser);
+                Result<bool> httpResponse = await RTAClient.UpdateExistingUser(signedUserMessage);
                 var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
                 ReportLabelText = httpValidation.message;
                 if (httpValidation.isValid)
                 {
-                    App.ReadingContext.ThisParticipant.RegistrationInfo = existingReg;
+                    App.ReadingContext.ThisParticipant.RegistrationInfo = Registration;
                     App.ReadingContext.ThisParticipant.IsRegistered = true;
                     Preferences.Set("IsRegistered", App.ReadingContext.ThisParticipant.IsRegistered); // save the registration to preferences
+                }
+                else
+                {
+                    Debug.WriteLine("HttpValidationError: " + httpValidation.message);
                 }
             }
             else

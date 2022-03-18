@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace RightToAskClient.Models
 {
@@ -76,22 +78,38 @@ namespace RightToAskClient.Models
 		    { State.WA, new List<Chamber> { Chamber.WA_Legislative_Assembly, Chamber.WA_Legislative_Council} },
 	    };
 	    
+		[JsonConverter(typeof(JsonStringEnumConverter))]
 	    public enum Chamber
 	    {
+			[EnumMember(Value = "ACT_Legislative_Assembly")]
 			ACT_Legislative_Assembly,
-			Australian_House_Of_Representatives, 
-		    Australian_Senate, 
-		    NSW_Legislative_Assembly,
+			[EnumMember(Value = "Australian_House_Of_Representatives")]
+			Australian_House_Of_Representatives,
+			[EnumMember(Value = "Australian_Senate")]
+			Australian_Senate,
+			[EnumMember(Value = "NSW_Legislative_Assembly")]
+			NSW_Legislative_Assembly,
+			[EnumMember(Value = "NSW_Legislative_Council")]
 			NSW_Legislative_Council,
+			[EnumMember(Value = "NT_Legislative_Assembly")]
 			NT_Legislative_Assembly,
-		    Qld_Legislative_Assembly, 
-		    SA_House_Of_Assembly,
+			[EnumMember(Value = "Qld_Legislative_Assembly")]
+			Qld_Legislative_Assembly,
+			[EnumMember(Value = "SA_House_Of_Assembly")]
+			SA_House_Of_Assembly,
+			[EnumMember(Value = "SA_Legislative_Council")]
 			SA_Legislative_Council,
+			[EnumMember(Value = "Tas_House_Of_Assembly")]
 			Tas_House_Of_Assembly,
+			[EnumMember(Value = "Tas_Legislative_Council")]
 			Tas_Legislative_Council,
-		    Vic_Legislative_Assembly, 
+			[EnumMember(Value = "Vic_Legislative_Assembly")]
+			Vic_Legislative_Assembly,
+			[EnumMember(Value = "Vic_Legislative_Council")]
 			Vic_Legislative_Council,
+			[EnumMember(Value = "WA_Legislative_Assembly")]
 			WA_Legislative_Assembly,
+			[EnumMember(Value = "WA_Legislative_Council")]
 			WA_Legislative_Council
 	    }
         

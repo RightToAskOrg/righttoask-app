@@ -153,8 +153,7 @@ namespace RightToAskClient.ViewModels
             ShowSkipButton = false;
             ShowAddressStack = false;
             ShowKnowElectoratesFrame = false;
-            _launchMPsSelectionPageNext = true;
-            SelectedState = Preferences.Get("StateID", SelectedState);
+            _launchMPsSelectionPageNext = true;            
 
             MessagingCenter.Subscribe<Registration1ViewModel>(this, "FromReg1", (sender) =>
             {
@@ -291,7 +290,6 @@ namespace RightToAskClient.ViewModels
             Preferences.Set("City", Address.CityOrSuburb);
             Preferences.Set("Postcode", Address.Postcode);
             Preferences.Set("StateID", SelectedState);
-            //Preferences.Set("Electorates", AllFederalElectorates.ToString()); // might not make sense to save all of the electorates
         }
 
         private void OnStateLCElectoratePickerSelectedIndexChanged()
