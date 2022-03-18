@@ -18,6 +18,7 @@ namespace RightToAskClient.HttpClients
         private static string BaseUrl = SetUpServerConfig();
 
         private static string RegUrl = BaseUrl + "/new_registration";
+        private static string EditUserUrl = BaseUrl + "/edit_user";
         private static string QnUrl = BaseUrl + "/new_question";
         private static string MPListUrl = BaseUrl + "/MPs.json";
         private static string UserListUrl = BaseUrl + "/get_user_list";
@@ -78,12 +79,50 @@ namespace RightToAskClient.HttpClients
 
         public static async Task<Result<bool>> RegisterNewUser(Registration newReg)
         {
-            return await RegisterNewThing<Registration>(newReg, "user", RegUrl);
+            return await SendDataToServer<Registration>(newReg, "user", RegUrl);
+        }
+
+        public static async Task<Result<bool>> UpdateExistingUser(ClientSignedUnparsed existingReg)
+        {
+            //string EditUrl = EditUserUrl + App.ReadingContext.ThisParticipant.RegistrationInfo.uid;
+            return await SendDataToServer<ClientSignedUnparsed>(existingReg, "user", EditUserUrl);
         }
 
         public static async Task<Result<bool>> RegisterNewQuestion(ClientSignedUnparsed newQuestion)
         {
-            return await RegisterNewThing<ClientSignedUnparsed>(newQuestion, "question", QnUrl);
+            return await SendDataToServer<ClientSignedUnparsed>(newQuestion, "question", QnUrl);
+        }
+
+        public static async Task<Result<bool>> UpdateExistingThing<T>(T existingThing, string typeDescr, string uri)
+        {
+            var httpResponse
+                = await Client.PutGenericItemAsync<Result<SignedString>, T>(existingThing, uri);
+
+            // http errors
+            if (String.IsNullOrEmpty(httpResponse.Err))
+            {
+                // Error responses from the server
+                if (String.IsNullOrEmpty(httpResponse.Ok.Err))
+                {
+                    if (!httpResponse.Ok.Ok.verifies(ServerSignatureVerificationService.ServerPublicKey))
+                    {
+                        Debug.WriteLine(@"\t Error updating existing " + typeDescr + ": Signature verification failed");
+                        return new Result<bool>()
+                        {
+                            Err = "Server signature verification failed"
+                        };
+                    }
+
+                    return new Result<bool>() { Ok = true };
+
+                }
+
+                Debug.WriteLine(@"\tError updating existing " + typeDescr + ": " + httpResponse.Ok.Err);
+                return new Result<bool>() { Err = httpResponse.Ok.Err };
+            }
+
+            Debug.WriteLine(@"\tError reaching server for updating existing " + typeDescr + ": " + httpResponse.Err);
+            return new Result<bool>() { Err = httpResponse.Err };
         }
 
         /*
@@ -94,7 +133,7 @@ namespace RightToAskClient.HttpClients
          * These are returned to the user on the assumption that there's something they
          * can do.
          */
-        public static async Task<Result<bool>> RegisterNewThing<T>(T newThing, string typeDescr, string uri)
+        private static async Task<Result<bool>> SendDataToServer<T>(T newThing, string typeDescr, string uri)
         {
             var httpResponse 
                 = await Client.PostGenericItemAsync<Result<SignedString>, T>(newThing, uri);

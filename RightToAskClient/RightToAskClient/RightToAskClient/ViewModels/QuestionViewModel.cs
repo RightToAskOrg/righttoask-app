@@ -217,8 +217,14 @@ namespace RightToAskClient.ViewModels
             });
             QuestionSuggesterCommand = new AsyncCommand(async () =>
             {
-                RegisterPage1 otherUserProfilePage = new RegisterPage1();
-                await App.Current.MainPage.Navigation.PushAsync(otherUserProfilePage);
+                //RegisterPage1 otherUserProfilePage = new RegisterPage1();
+                //await App.Current.MainPage.Navigation.PushAsync(otherUserProfilePage);
+                // create a new temp person to send -- nvm can't create a Person object...
+
+                await Shell.Current.GoToAsync($"{nameof(OtherUserProfilePage)}").ContinueWith((_) =>
+                {
+                    MessagingCenter.Send(this, "OtherUserQuestion", Question); // Send person or send question
+                });
             });
             BackCommand = new AsyncCommand(async () =>
             {
@@ -431,12 +437,18 @@ namespace RightToAskClient.ViewModels
                 question_text = Question.QuestionText,
             };
 
-            // TODO Check for serialisation errors.
             ClientSignedUnparsed signedQuestion 
                 = App.ReadingContext.ThisParticipant.SignMessage(uploadableQuestion);
 
+            if (!String.IsNullOrEmpty(signedQuestion.signature))
+            {
             Result<bool> httpResponse = await RTAClient.RegisterNewQuestion(signedQuestion);
             return RTAClient.ValidateHttpResponse(httpResponse, "Question Upload");
+            }
+            else
+            {
+                return (false, "Client signing error.");
+            }
         }
     }
 }

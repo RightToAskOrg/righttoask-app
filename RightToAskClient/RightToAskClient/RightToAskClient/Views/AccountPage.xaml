@@ -1,12 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:views="clr-namespace:RightToAskClient.Views"
+             xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              x:Class="RightToAskClient.Views.AccountPage"
-             Title="Account"
-             Shell.FlyoutBehavior="Flyout">
+             x:DataType="vm:Registration1ViewModel"
+             Shell.FlyoutBehavior="Flyout"
+             Title="{xct:Translate EditYourAccountTitle}">
+    <ContentPage.BindingContext>
+        <vm:Registration1ViewModel />
+    </ContentPage.BindingContext>
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="This page will give information about the user's account details and allow them to edit." Style="{StaticResource Header2}" />
+        <StackLayout Margin="20">
+            <views:UserAccountInfoView/>
+            <Label Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}"/>
+            <Button Text="{xct:Translate UpdateAccountButtonText}" Command="{Binding UpdateAccountButtonCommand}" Style="{StaticResource DoneButton}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

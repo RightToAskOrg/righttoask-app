@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:RightToAskClient.Models;assembly=RightToAskClient"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels;assembly=RightToAskClient"
+             xmlns:views="clr-namespace:RightToAskClient.Views"
              xmlns:generic="clr-namespace:System.Collections.Generic;assembly=netstandard"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              x:Class="RightToAskClient.Views.RegisterPage1"
@@ -17,25 +18,7 @@
     </ContentPage.BindingContext>
 	<ContentPage.Content >
         <StackLayout Margin="20">
-            <Label Text="{xct:Translate UIDHeaderText}" Style="{StaticResource LeftSmall}"/>
-            <Entry Text="{Binding Registration.uid}" Placeholder="{xct:Translate UIDPlaceholderText}" Style="{StaticResource NormalEntry}"/>
-            <Label Text="{xct:Translate DisplayNameHeaderText}" Style="{StaticResource LeftSmall}"/>
-            <Entry Text="{Binding Registration.display_name}" Placeholder="{xct:Translate DisplayNamePlaceholderText}" Style="{StaticResource NormalEntry}"/>
-            <Label Text="{xct:Translate StateHeaderText}" Style="{StaticResource LeftSmall}"/>
-			<Picker x:Name="stateOrTerritoryPicker" Title="{Binding Registration.State,  StringFormat='{0:F0}'}" 
-			        SelectedIndex="{Binding SelectedState}" Style="{StaticResource CenterFramePicker}">
-			</Picker>
-            <Label Text="{xct:Translate ElectoratesHeaderText}" Style="{StaticResource LeftSmall}"/>
-			<CollectionView ItemsSource="{Binding Registration.electorates}" SelectionMode="Single" SelectedItem="{Binding SelectedElectorateWithChamber}">
-				<CollectionView.ItemTemplate>
-					<DataTemplate x:DataType="models:ElectorateWithChamber">
-                        <StackLayout HorizontalOptions="StartAndExpand" Orientation="Horizontal">
-                            <Label Text="{Binding chamber}" Style="{StaticResource ListViewTextVertCenter}"/>
-                            <Label Text="{Binding region}" Style="{StaticResource ListViewTextVertCenter}" />
-                        </StackLayout>
-                    </DataTemplate>
-				</CollectionView.ItemTemplate>
-			</CollectionView>
+            <views:UserAccountInfoView/>
             <Label x:Name="ReportLabel" Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}"/>
             <StackLayout Orientation="Vertical" VerticalOptions="Center">
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center">

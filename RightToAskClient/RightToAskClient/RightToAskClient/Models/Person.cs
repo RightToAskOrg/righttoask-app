@@ -8,10 +8,15 @@ using System.Collections.Generic;
 // data about the particular person using this app.
 namespace RightToAskClient.Models
 {
-    public abstract class Person : Entity
+    public class Person : Entity
     {
 		private Address _address = new Address();
 		private string _userEmail = "";
+
+		public override string ShortestName
+		{
+			get { return RegistrationInfo.display_name; }
+		}
 
 		private Registration _registrationInfo = new Registration();
         // TODO add attributes for a nice profile, such as a photo.

@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:models="clr-namespace:RightToAskClient.Models"
+             xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
+             x:Class="RightToAskClient.Views.UserAccountInfoView"
+             x:DataType="vm:Registration1ViewModel">
+    <ContentView.Content>
+        <StackLayout>
+            <Label Text="{xct:Translate UIDHeaderText}" Style="{StaticResource LeftSmall}"/>
+            <Entry Text="{Binding Registration.uid}" Placeholder="{xct:Translate UIDPlaceholderText}" Style="{StaticResource NormalEntry}" IsEnabled="{Binding CanEditUID}"/>
+            <Label Text="{xct:Translate DisplayNameHeaderText}" Style="{StaticResource LeftSmall}"/>
+            <Entry Text="{Binding Registration.display_name}" Placeholder="{xct:Translate DisplayNamePlaceholderText}" Style="{StaticResource NormalEntry}"/>
+            <Label Text="{xct:Translate StateHeaderText}" Style="{StaticResource LeftSmall}"/>
+            <Picker Title="{Binding Registration.State,  StringFormat='{0:F0}'}" 
+			        BackgroundColor="Turquoise"
+                    ItemsSource="{Binding StateList}"
+			        SelectedIndex="{Binding SelectedState}">
+            </Picker>
+            <Label Text="{xct:Translate ElectoratesHeaderText}" Style="{StaticResource LeftSmall}"/>
+            <CollectionView ItemsSource="{Binding Registration.electorates}" SelectionMode="Single" SelectedItem="{Binding SelectedElectorateWithChamber}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:ElectorateWithChamber">
+                        <StackLayout HorizontalOptions="StartAndExpand" Orientation="Horizontal">
+                            <Label Text="{Binding chamber}" Style="{StaticResource ListViewTextVertCenter}"/>
+                            <Label Text="{Binding region}" Style="{StaticResource ListViewTextVertCenter}" />
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

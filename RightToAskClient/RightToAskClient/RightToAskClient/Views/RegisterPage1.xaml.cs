@@ -15,9 +15,6 @@ namespace RightToAskClient.Views
         public RegisterPage1()
         {
             InitializeComponent();
-
-            stateOrTerritoryPicker.ItemsSource = ParliamentData.StatesAndTerritories;
-            //stateOrTerritoryPicker.SelectedIndex = Preferences.Get("State", -1);
         }
 
         void OnStatePickerSelectedIndexChanged(object sender, EventArgs e)
