@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RightToAskClient.Resx;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -61,10 +62,10 @@ namespace RightToAskClient.Views
                 e.Cancel = true;
 
                 // display an alert
-                string alertTitle = "You are trying to navigate to: " + destination + " which is not part of our Website. " +
-                    "Please copy the link and paste it into your web browser if you wish to continue.";
-                string alertCancel = "Cancel";
-                string alertDestruction = "Proceed";
+                string alertTitle = AppResources.WebNavigationWarning + destination +
+                                    AppResources.WebNavigationRequest;
+                string alertCancel = AppResources.CancelButtonText;
+                string alertDestruction = AppResources.NavigateOKText; 
                 //string[] alertButtons = { "Copy Link" };
                 //string? result = await Shell.Current.DisplayActionSheet(alertTitle, alertCancel, alertDestruction, alertButtons);
                 string? result = await Shell.Current.DisplayActionSheet(alertTitle, alertCancel, alertDestruction);
@@ -72,7 +73,7 @@ namespace RightToAskClient.Views
                 //{
                 //    await Clipboard.SetTextAsync(destination);
                 //}
-                if(result == "Proceed")
+                if(result == AppResources.NavigateOKText)
                 {
                     Uri browserDestination = new Uri(destination);
                     await OpenBrowser(browserDestination);

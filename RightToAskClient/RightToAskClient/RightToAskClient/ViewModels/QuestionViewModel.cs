@@ -437,7 +437,6 @@ namespace RightToAskClient.ViewModels
                 question_text = Question.QuestionText,
             };
 
-            // TODO Check for serialisation errors.
             ClientSignedUnparsed signedQuestion 
                 = App.ReadingContext.ThisParticipant.SignMessage(uploadableQuestion);
 

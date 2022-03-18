@@ -262,6 +262,9 @@
   <data name="MyQuestionTitleText" xml:space="preserve">
     <value>My question is...</value>
   </data>
+  <data name="NavigateOKText" xml:space="preserve">
+    <value>Open in web browser</value>
+  </data>
   <data name="NextButtonText" xml:space="preserve">
     <value>Next</value>
   </data>
@@ -270,6 +273,9 @@
   </data>
   <data name="NoUpperHousePickerTitle" xml:space="preserve">
     <value>{0} has no Upper House</value>
+  </data>
+  <data name="OKText" xml:space="preserve">
+    <value>OK</value>
   </data>
   <data name="OrHeaderText" xml:space="preserve">
     <value>Or</value>
@@ -414,5 +420,11 @@
   </data>
   <data name="ViewOtherUserProfile" xml:space="preserve">
     <value>View {0}'s profile</value>
+  </data>
+  <data name="WebNavigationWarning" xml:space="preserve">
+    <value>This link is outside Right To Ask </value>
+  </data>
+  <data name="WebNavigationRequest" xml:space="preserve">
+    <value>Do you want to open it in a web browser?</value>
   </data>
 </root>
