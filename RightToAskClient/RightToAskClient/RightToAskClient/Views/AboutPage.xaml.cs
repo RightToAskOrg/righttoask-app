@@ -62,8 +62,7 @@ namespace RightToAskClient.Views
                 e.Cancel = true;
 
                 // display an alert
-                string alertTitle = AppResources.WebNavigationWarning + destination +
-                                    AppResources.WebNavigationRequest;
+                string alertTitle = AppResources.WebNavigationWarning +"\n" + destination;
                 string alertCancel = AppResources.CancelButtonText;
                 string alertDestruction = AppResources.NavigateOKText; 
                 //string[] alertButtons = { "Copy Link" };
