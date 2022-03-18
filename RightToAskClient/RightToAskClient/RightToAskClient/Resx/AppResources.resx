@@ -177,14 +177,23 @@
   <data name="EditProfileButtonText" xml:space="preserve">
     <value>Edit Your Profile</value>
   </data>
+  <data name="EditYourAccountTitle" xml:space="preserve">
+    <value>Edit Your Account</value>
+  </data>
   <data name="ElectoratesHeaderText" xml:space="preserve">
     <value>Electorates:</value>
   </data>
   <data name="ElectoratesKnownHeaderText" xml:space="preserve">
     <value>I know my electorates already</value>
   </data>
+  <data name="EmailTitle" xml:space="preserve">
+    <value>Email</value>
+  </data>
   <data name="ExpiringSoonButtonText" xml:space="preserve">
     <value>Expiring Soon</value>
+  </data>
+  <data name="FailedToUpdateAccountText" xml:space="preserve">
+    <value>Server Error: Your account details could not be changed at this time.</value>
   </data>
   <data name="FindCommitteeButtonText" xml:space="preserve">
     <value>Find a Committee</value>
@@ -253,6 +262,9 @@
   <data name="MyQuestionTitleText" xml:space="preserve">
     <value>My question is...</value>
   </data>
+  <data name="NavigateOKText" xml:space="preserve">
+    <value>Open in web browser</value>
+  </data>
   <data name="NextButtonText" xml:space="preserve">
     <value>Next</value>
   </data>
@@ -262,6 +274,9 @@
   <data name="NoUpperHousePickerTitle" xml:space="preserve">
     <value>{0} has no Upper House</value>
   </data>
+  <data name="OKText" xml:space="preserve">
+    <value>OK</value>
+  </data>
   <data name="OrHeaderText" xml:space="preserve">
     <value>Or</value>
   </data>
@@ -270,6 +285,9 @@
   </data>
   <data name="OtherMPRaiseFilterLabelText" xml:space="preserve">
     <value>Other MPs who should raise the question in Parliament</value>
+  </data>
+  <data name="OtherUserProfileTitle" xml:space="preserve">
+    <value>{0}'s Profile</value>
   </data>
   <data name="PostcodeHeaderText" xml:space="preserve">
     <value>Postcode</value>
@@ -367,6 +385,9 @@
   <data name="StreetHeaderText" xml:space="preserve">
     <value>Street number and name</value>
   </data>
+  <data name="SuccessfullyUpdatedAccountText" xml:space="preserve">
+    <value>Your account details were successfully updated.</value>
+  </data>
   <data name="TapToEditFiltersText" xml:space="preserve">
     <value>Filters - Tap to edit</value>
   </data>
@@ -382,6 +403,9 @@
   <data name="UIDPlaceholderText" xml:space="preserve">
     <value>Enter UserID</value>
   </data>
+  <data name="UpdateAccountButtonText" xml:space="preserve">
+    <value>Update Account</value>
+  </data>
   <data name="UpvoteButtonText" xml:space="preserve">
     <value>+1</value>
   </data>
@@ -396,5 +420,11 @@
   </data>
   <data name="ViewOtherUserProfile" xml:space="preserve">
     <value>View {0}'s profile</value>
+  </data>
+  <data name="WebNavigationWarning" xml:space="preserve">
+    <value>This link is outside Right To Ask </value>
+  </data>
+  <data name="WebNavigationRequest" xml:space="preserve">
+    <value>Do you want to open it in a web browser?</value>
   </data>
 </root>

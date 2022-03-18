@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -115,6 +116,15 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _followButtonText, value);
         }
 
+        private bool _canEditUID = true;
+        public bool CanEditUID
+        {
+            get => _canEditUID;
+            set => SetProperty(ref _canEditUID, value);
+        }
+
+        public List<string> StateList => ParliamentData.StatesAndTerritories;
+
         private ElectorateWithChamber? _selectedElectorateWithChamber = null;
         public ElectorateWithChamber? SelectedElectorateWithChamber
         {
@@ -149,6 +159,7 @@ namespace RightToAskClient.ViewModels
         public Registration1ViewModel()
         {
             // initialize defaults
+            ReportLabelText = "";
             Registration = App.ReadingContext.ThisParticipant.RegistrationInfo ?? new Registration()
             {
                 uid = "This is a test user",
@@ -160,7 +171,15 @@ namespace RightToAskClient.ViewModels
             Title = App.ReadingContext.IsReadingOnly ? AppResources.UserProfileTitle : AppResources.CreateAccountTitle;
             RegisterMPButtonText = AppResources.RegisterMPAccountButtonText;
             RegisterOrgButtonText = AppResources.RegisterOrganisationAccountButtonText;
+            //CanEditUID = !App.ReadingContext.ThisParticipant.IsRegistered; // re-add this line after finished testing
+            CanEditUID = true;
 
+            if (!App.ReadingContext.IsReadingOnly)
+            {
+                Registration.display_name = Preferences.Get("DisplayName", Registration.display_name);
+                Registration.uid = Preferences.Get("UID", Registration.uid);
+                SelectedState = Preferences.Get("State", -1);
+            }
             // get account info from preferences -- I can probably remove these
             // now that it's being done at the app level but keeping them shouldn't hurt
             Registration.display_name = Preferences.Get("DisplayName", Registration.display_name);
@@ -172,6 +191,10 @@ namespace RightToAskClient.ViewModels
             SaveButtonCommand = new Command(() =>
             {
                 OnSaveButtonClicked();
+            });
+            UpdateAccountButtonCommand = new Command(() =>
+            {
+                SaveToPreferences();
             });
             RegisterMPButtonCommand = new Command(() =>
             {
@@ -208,6 +231,7 @@ namespace RightToAskClient.ViewModels
 
         // commands
         public Command SaveButtonCommand { get; }
+        public Command UpdateAccountButtonCommand { get; }
         public Command RegisterMPButtonCommand { get; }
         public Command RegisterOrgButtonCommand { get; }
         public Command FollowButtonCommand { get; }
@@ -315,6 +339,41 @@ namespace RightToAskClient.ViewModels
                 {
                     PromptUser(regTest);
                 }
+            }
+        }
+
+        private void SaveToPreferences()
+        {
+            // save to preferences
+            Preferences.Set("DisplayName", Registration.display_name);
+            Preferences.Set("UID", Registration.uid);
+            Preferences.Set("State", SelectedState); // stored as an int as used for the other page(s) state pickers
+            ReportLabelText = "Not Implemented yet";
+            // call the method for updating an existing user
+            SendUpdatedUserToServer();
+        }
+
+        private async void SendUpdatedUserToServer()
+        {
+            var existingReg = Registration;
+            // existingReg.public_key = App.ReadingContext.ThisParticipant.MyPublicKey();
+            ClientSignedUnparsed signedUser = App.ReadingContext.ThisParticipant.SignMessage(existingReg); // sign the registration
+            if (!String.IsNullOrEmpty(signedUser.signature))
+            {
+                Result<bool> httpResponse = await RTAClient.UpdateExistingUser(signedUser);
+                var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
+                ReportLabelText = httpValidation.message;
+                if (httpValidation.isValid)
+                {
+                    App.ReadingContext.ThisParticipant.RegistrationInfo = existingReg;
+                    App.ReadingContext.ThisParticipant.IsRegistered = true;
+                    Preferences.Set("IsRegistered", App.ReadingContext.ThisParticipant.IsRegistered); // save the registration to preferences
+                }
+            }
+            else
+            {
+                Debug.WriteLine("Failed to sign user update message.");
+                ReportLabelText = "Failed to sign user update message.";
             }
         }
 

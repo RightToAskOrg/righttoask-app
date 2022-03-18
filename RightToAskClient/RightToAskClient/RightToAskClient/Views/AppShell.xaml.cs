@@ -19,6 +19,7 @@ namespace RightToAskClient
             Routing.RegisterRoute(nameof(RegisterPage2), typeof(RegisterPage2));
             Routing.RegisterRoute(nameof(SecondPage), typeof(SecondPage));
             Routing.RegisterRoute(nameof(ReadingPage), typeof(ReadingPage));
+            Routing.RegisterRoute(nameof(OtherUserProfilePage), typeof(OtherUserProfilePage));
         }
     }
 }
