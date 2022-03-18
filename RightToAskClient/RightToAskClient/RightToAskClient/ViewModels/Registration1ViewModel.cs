@@ -171,21 +171,14 @@ namespace RightToAskClient.ViewModels
             Title = App.ReadingContext.IsReadingOnly ? AppResources.UserProfileTitle : AppResources.CreateAccountTitle;
             RegisterMPButtonText = AppResources.RegisterMPAccountButtonText;
             RegisterOrgButtonText = AppResources.RegisterOrganisationAccountButtonText;
-            //CanEditUID = !App.ReadingContext.ThisParticipant.IsRegistered; // re-add this line after finished testing
-            CanEditUID = true;
+            CanEditUID = !App.ReadingContext.ThisParticipant.IsRegistered;
 
             if (!App.ReadingContext.IsReadingOnly)
             {
                 Registration.display_name = Preferences.Get("DisplayName", Registration.display_name);
                 Registration.uid = Preferences.Get("UID", Registration.uid);
-                SelectedState = Preferences.Get("State", -1);
+                SelectedState = Preferences.Get("StateID", -1);
             }
-            // get account info from preferences -- I can probably remove these
-            // now that it's being done at the app level but keeping them shouldn't hurt
-            Registration.display_name = Preferences.Get("DisplayName", Registration.display_name);
-            Registration.uid = Preferences.Get("UID", Registration.uid);
-            SelectedState = Preferences.Get("StateID", -1);
-            Registration.State = Preferences.Get("State", Registration.State);
 
             // commands
             SaveButtonCommand = new Command(() =>
