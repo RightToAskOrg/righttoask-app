@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -24,13 +25,6 @@ namespace RightToAskClient.ViewModels
         {
             get => _registration;
             set => SetProperty(ref _registration, value);
-        }
-
-        private Registration _oldRegistration = new Registration();
-        public Registration OldRegistration
-        {
-            get => _oldRegistration;
-            set => SetProperty(ref _oldRegistration, value);
         }
 
         private bool _showRegisterCitizenButton = false;
@@ -131,6 +125,13 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _canEditUID, value);
         }
 
+        private bool _showUpdateAccountButton = false;
+        public bool ShowUpdateAccountButton
+        {
+            get => _showUpdateAccountButton;
+            set => SetProperty(ref _showUpdateAccountButton, value);
+        }
+
         public List<string> StateList => ParliamentData.StatesAndTerritories;
 
         private ElectorateWithChamber? _selectedElectorateWithChamber = null;
@@ -168,6 +169,7 @@ namespace RightToAskClient.ViewModels
         {
             // initialize defaults
             ReportLabelText = "";
+            ShowUpdateAccountButton = App.ReadingContext.ThisParticipant.IsRegistered;
             Registration = App.ReadingContext.ThisParticipant.RegistrationInfo ?? new Registration()
             {
                 uid = "This is a test user",
@@ -183,12 +185,26 @@ namespace RightToAskClient.ViewModels
 
             if (!App.ReadingContext.IsReadingOnly)
             {
-                Registration.display_name = Preferences.Get("DisplayName", Registration.display_name);
-                Registration.uid = Preferences.Get("UID", Registration.uid);
                 SelectedState = Preferences.Get("StateID", -1);
-                // save the old details
-                OldRegistration = new Registration();
-                OldRegistration = Registration;
+                var registrationPref = Preferences.Get("RegistrationInfo", "");
+                if (!string.IsNullOrEmpty(registrationPref))
+                {
+                    var registrationObj = JsonSerializer.Deserialize<Registration>(registrationPref);
+                    Registration = registrationObj ?? new Registration();
+                    // if we got back a uid then the user should be considered as registered
+                    if (!string.IsNullOrEmpty(Registration.uid))
+                    {
+                        App.ReadingContext.ThisParticipant.RegistrationInfo = Registration;
+                        App.ReadingContext.ThisParticipant.IsRegistered = true;
+                        ShowUpdateAccountButton = App.ReadingContext.ThisParticipant.IsRegistered;
+                    }
+                    // if we got electorates, let the app know to skip the Find My MPs step
+                    if (Registration.electorates.Any())
+                    {
+                        App.ReadingContext.ThisParticipant.MPsKnown = true;
+                        App.ReadingContext.ThisParticipant.UpdateMPs(); // to refresh the list
+                    }
+                }
             }
 
             // commands
@@ -317,12 +333,9 @@ namespace RightToAskClient.ViewModels
                 else
                 {
                     // save to preferences
-                    Preferences.Set("DisplayName", Registration.display_name);
-                    Preferences.Set("UID", Registration.uid);
-                    Preferences.Set("StateID", SelectedState); // stored as an int as used for the other page(s) state pickers
-                    // serialize to save the electorates
-                    var electoratesToSave = JsonSerializer.Serialize(Registration.electorates);
-                    Preferences.Set("Electorates", electoratesToSave);
+                    var registrationObjectToSave = JsonSerializer.Serialize(Registration);
+                    Preferences.Set("RegistrationInfo", registrationObjectToSave);
+                    Preferences.Set("StateID", SelectedState);
 
                     Result<bool> httpResponse = await RTAClient.RegisterNewUser(newRegistration);
                     var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
@@ -348,11 +361,10 @@ namespace RightToAskClient.ViewModels
 
         private void SaveToPreferences()
         {
-            // save to preferences
-            Preferences.Set("DisplayName", Registration.display_name);
-            Preferences.Set("UID", Registration.uid); // shouldn't be able to change this
-            Preferences.Set("State", SelectedState); // stored as an int as used for the other page(s) state pickers
-            ReportLabelText = "Not Implemented yet";
+            // save registration to preferences
+            var registrationObjectToSave = JsonSerializer.Serialize(Registration);
+            Preferences.Set("RegistrationInfo", registrationObjectToSave);
+            Preferences.Set("StateID", SelectedState); // stored as an int as used for the other page(s) state pickers
             // call the method for updating an existing user
             SendUpdatedUserToServer();
         }

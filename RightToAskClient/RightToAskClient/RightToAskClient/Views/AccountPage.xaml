@@ -15,7 +15,12 @@
         <StackLayout Margin="20">
             <views:UserAccountInfoView/>
             <Label Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}"/>
-            <Button Text="{xct:Translate UpdateAccountButtonText}" Command="{Binding UpdateAccountButtonCommand}" Style="{StaticResource DoneButton}"/>
+            <StackLayout Orientation="Vertical" VerticalOptions="Center">
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                    <Button Text="{xct:Translate CompleteAccountCreationButtonText}" Style="{StaticResource DoneButton}" Command="{Binding SaveButtonCommand}" HorizontalOptions="Center" IsVisible="{Binding ShowUpdateAccountButton, Converter={StaticResource Key=cnvInvert}}"/>
+                </StackLayout>
+            </StackLayout>
+            <Button Text="{xct:Translate UpdateAccountButtonText}" Command="{Binding UpdateAccountButtonCommand}" Style="{StaticResource DoneButton}" IsVisible="{Binding ShowUpdateAccountButton}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -194,9 +194,12 @@ namespace RightToAskClient.ViewModels
                 ShowKnowElectoratesFrame = false;
 
                 // set the address data if we have it
-                Address.StreetNumberAndName = Preferences.Get("Street", Address.StreetNumberAndName);
-                Address.CityOrSuburb = Preferences.Get("City", Address.CityOrSuburb);
-                Address.Postcode = Preferences.Get("Postcode", Address.Postcode);
+                var addressPref = Preferences.Get("Address", "");
+                if (!string.IsNullOrEmpty(addressPref))
+                {
+                    var addressObj = JsonSerializer.Deserialize<Address>(addressPref);
+                    Address = addressObj ?? new Address();
+                }
             });
             KnowElectoratesCommand = new Command(() =>
             {
@@ -286,9 +289,6 @@ namespace RightToAskClient.ViewModels
         {
             var fullAddress = JsonSerializer.Serialize(Address);
             Preferences.Set("Address", fullAddress); // save the full address
-            Preferences.Set("Street", Address.StreetNumberAndName);
-            Preferences.Set("City", Address.CityOrSuburb);
-            Preferences.Set("Postcode", Address.Postcode);
             Preferences.Set("StateID", SelectedState);
         }
 

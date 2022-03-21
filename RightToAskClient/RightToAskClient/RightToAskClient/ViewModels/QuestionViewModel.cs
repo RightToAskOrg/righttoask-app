@@ -264,7 +264,7 @@ namespace RightToAskClient.ViewModels
             SelectButtonText = AppResources.SelectButtonText;
             ReportLabelText = AppResources.MPDataStillInitializing;
             App.ReadingContext.DraftQuestion = Question.QuestionText;
-            Question.QuestionSuggester = Preferences.Get("DisplayName", "Could not find User's Name");
+            Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.display_name; // could need rechecking
         }
 
         public void OnButtonPressed(int buttonId)
@@ -394,7 +394,7 @@ namespace RightToAskClient.ViewModels
 
         private void setSuggester(object sender, EventArgs e)
         {
-            QuestionViewModel.Instance.Question.QuestionSuggester = Preferences.Get("DisplayName", "Anonymous user");
+            QuestionViewModel.Instance.Question.QuestionSuggester = App.ReadingContext.ThisParticipant.ShortestName;
         }
 
         private async void SaveQuestion()

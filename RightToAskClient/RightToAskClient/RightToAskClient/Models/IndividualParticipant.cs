@@ -76,7 +76,7 @@ namespace RightToAskClient.Models
 		// This stores a flat list of MPs, not sorted or structured by Electorate.
 		// It also refreshes the MPs according to the current list of electorates so,
 		// for example, if an electorate is removed, the MPs representing it will disappear.
-		private void UpdateMPs()
+		public void UpdateMPs()
 		{
 			var mps = new List<MP>();
 			List<MP> mpstoadd;

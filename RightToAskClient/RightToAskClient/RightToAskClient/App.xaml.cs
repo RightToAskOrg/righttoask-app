@@ -32,33 +32,32 @@ namespace RightToAskClient
 
         protected override void OnStart()
         {
-            // Preferences.Clear(); // Toggle this line in and out as needed instead of resetting the emulator every time
+            //Preferences.Clear(); // Toggle this line in and out as needed instead of resetting the emulator every time
             ParliamentData.MPAndOtherData.TryInit();
             ReadingContext = new ReadingContext();
-            // get the registration info from preferences or default to not registered
-            ReadingContext.ThisParticipant.IsRegistered = Preferences.Get("IsRegistered", false);
-            if (ReadingContext.ThisParticipant.IsRegistered)
+            // get account info from preferences
+            var registrationPref = Preferences.Get("RegistrationInfo", "");
+            if (!string.IsNullOrEmpty(registrationPref))
             {
-                // get account info from preferences
-                ReadingContext.ThisParticipant.RegistrationInfo.display_name = Preferences.Get("DisplayName", "Display name not found");
-                ReadingContext.ThisParticipant.RegistrationInfo.uid = Preferences.Get("UID", "User ID not found");
-                int stateID = Preferences.Get("StateID", -1);
-                if(stateID >= 0)
+                var registrationObj = JsonSerializer.Deserialize<Registration>(registrationPref);
+                ReadingContext.ThisParticipant.RegistrationInfo = registrationObj ?? new Registration();
+                // if we got back a uid then the user should be considered as registered
+                if (!string.IsNullOrEmpty(ReadingContext.ThisParticipant.RegistrationInfo.uid))
                 {
-                    ReadingContext.ThisParticipant.RegistrationInfo.State = ParliamentData.StatesAndTerritories[stateID];
+                    ReadingContext.ThisParticipant.IsRegistered = true;
                 }
-                // grab the electorates from storage
-                var electoratePref = Preferences.Get("Electorates", "");
-                if (!string.IsNullOrEmpty(electoratePref))
+                // if we got electorates, let the app know to skip the Find My MPs step
+                if (ReadingContext.ThisParticipant.RegistrationInfo.electorates.Any())
                 {
-                    var electorates = JsonSerializer.Deserialize<ObservableCollection<ElectorateWithChamber>>(electoratePref);
-                    ReadingContext.ThisParticipant.RegistrationInfo.electorates = electorates ?? new ObservableCollection<ElectorateWithChamber>();
-                    // if we got electorates, let the app know to skip the Find My MPs step
-                    if (ReadingContext.ThisParticipant.RegistrationInfo.electorates.Any())
-                    {
-                        ReadingContext.ThisParticipant.MPsKnown = true;
-                    }
+                    ReadingContext.ThisParticipant.MPsKnown = true;
+                    ReadingContext.ThisParticipant.UpdateMPs(); // to refresh the list
                 }
+            }
+            // sets state pickers
+            int stateID = Preferences.Get("StateID", -1);
+            if (stateID >= 0)
+            {
+                ReadingContext.ThisParticipant.RegistrationInfo.State = ParliamentData.StatesAndTerritories[stateID];
             }
         }
 
