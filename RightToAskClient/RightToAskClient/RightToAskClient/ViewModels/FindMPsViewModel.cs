@@ -323,7 +323,7 @@ namespace RightToAskClient.ViewModels
 
         private void RevealNextStepIfElectoratesKnown()
         {
-            if (SelectedStateLAElectorate != -1 && SelectedFederalElectorate != -1)
+            if (SelectedStateLAElectorate != -1 || SelectedFederalElectorate != -1)
             {
                 ShowFindMPsButton = true;
             }
