@@ -143,7 +143,7 @@ namespace RightToAskClient.ViewModels
                 _ = SetProperty(ref _selectedElectorateWithChamber, value);
                 if (_selectedElectorateWithChamber != null)
                 {
-                    ElectorateSelected();
+                    NavigateToFindMPsPage();
                 }
             }
         }
@@ -181,6 +181,7 @@ namespace RightToAskClient.ViewModels
             RegisterMPButtonText = AppResources.RegisterMPAccountButtonText;
             RegisterOrgButtonText = AppResources.RegisterOrganisationAccountButtonText;
             CanEditUID = !App.ReadingContext.ThisParticipant.IsRegistered;
+            Title = AppResources.CreateAccountTitle; // default the title to create account. It will update to EditAccount or User'sProfile otherwise
 
             if (!App.ReadingContext.IsReadingOnly)
             {
@@ -270,14 +271,6 @@ namespace RightToAskClient.ViewModels
 
         #region Methods
         // TODO Make this put up the electorate-finding page.
-        public async void ElectorateSelected()
-        {
-            await Shell.Current.GoToAsync($"{nameof(RegisterPage2)}").ContinueWith((_) =>
-            {
-                MessagingCenter.Send(this, "FromReg1"); // sending Registration1ViewModel
-            });
-        }
-
         public async void NavigateToFindMPsPage()
         {
             await Shell.Current.GoToAsync($"{nameof(RegisterPage2)}").ContinueWith((_) =>
@@ -359,6 +352,9 @@ namespace RightToAskClient.ViewModels
                         App.ReadingContext.ThisParticipant.RegistrationInfo = newRegistration;
                         App.ReadingContext.ThisParticipant.IsRegistered = true;
                         Preferences.Set("IsRegistered", App.ReadingContext.ThisParticipant.IsRegistered); // save the registration to preferences
+                        ShowUpdateAccountButton = true;
+                        CanEditUID = false;
+                        Title = AppResources.EditYourAccountTitle;
                         // pop back to the QuestionDetailsPage after the account is created
                         await App.Current.MainPage.Navigation.PopAsync();
                     }
