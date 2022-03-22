@@ -427,4 +427,7 @@
   <data name="WebNavigationRequest" xml:space="preserve">
     <value>Do you want to open it in a web browser?</value>
   </data>
+  <data name="UpdateMPsButtonText" xml:space="preserve">
+    <value>Update MPs</value>
+  </data>
 </root>

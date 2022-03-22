@@ -178,7 +178,6 @@ namespace RightToAskClient.ViewModels
                 State = "VIC"
             };
             ShowTheRightButtonsAsync(Registration.display_name);
-            Title = App.ReadingContext.IsReadingOnly ? AppResources.UserProfileTitle : AppResources.CreateAccountTitle;
             RegisterMPButtonText = AppResources.RegisterMPAccountButtonText;
             RegisterOrgButtonText = AppResources.RegisterOrganisationAccountButtonText;
             CanEditUID = !App.ReadingContext.ThisParticipant.IsRegistered;
@@ -197,6 +196,7 @@ namespace RightToAskClient.ViewModels
                         App.ReadingContext.ThisParticipant.RegistrationInfo = Registration;
                         App.ReadingContext.ThisParticipant.IsRegistered = true;
                         ShowUpdateAccountButton = App.ReadingContext.ThisParticipant.IsRegistered;
+                        Title = App.ReadingContext.ThisParticipant.IsRegistered ? AppResources.EditYourAccountTitle : AppResources.CreateAccountTitle;
                     }
                     // if we got electorates, let the app know to skip the Find My MPs step
                     if (Registration.electorates.Any())
@@ -205,6 +205,10 @@ namespace RightToAskClient.ViewModels
                         App.ReadingContext.ThisParticipant.UpdateMPs(); // to refresh the list
                     }
                 }
+            }
+            else
+            {
+                Title = AppResources.UserProfileTitle;
             }
 
             // commands
@@ -215,6 +219,10 @@ namespace RightToAskClient.ViewModels
             UpdateAccountButtonCommand = new Command(() =>
             {
                 SaveToPreferences();
+            });
+            UpdateMPsButtonCommand = new Command(() =>
+            {
+                NavigateToFindMPsPage();
             });
             RegisterMPButtonCommand = new Command(() =>
             {
@@ -252,6 +260,7 @@ namespace RightToAskClient.ViewModels
         // commands
         public Command SaveButtonCommand { get; }
         public Command UpdateAccountButtonCommand { get; }
+        public Command UpdateMPsButtonCommand { get; }
         public Command RegisterMPButtonCommand { get; }
         public Command RegisterOrgButtonCommand { get; }
         public Command FollowButtonCommand { get; }
@@ -262,6 +271,14 @@ namespace RightToAskClient.ViewModels
         #region Methods
         // TODO Make this put up the electorate-finding page.
         public async void ElectorateSelected()
+        {
+            await Shell.Current.GoToAsync($"{nameof(RegisterPage2)}").ContinueWith((_) =>
+            {
+                MessagingCenter.Send(this, "FromReg1"); // sending Registration1ViewModel
+            });
+        }
+
+        public async void NavigateToFindMPsPage()
         {
             await Shell.Current.GoToAsync($"{nameof(RegisterPage2)}").ContinueWith((_) =>
             {
@@ -325,10 +342,7 @@ namespace RightToAskClient.ViewModels
                 // see if we need to push the electorates page or if we push the server account things
                 if (!App.ReadingContext.ThisParticipant.MPsKnown)
                 {
-                    await Shell.Current.GoToAsync($"{nameof(RegisterPage2)}").ContinueWith((_) =>
-                    {
-                        MessagingCenter.Send(this, "FromReg1"); // sending Registration1ViewModel
-                    });
+                    NavigateToFindMPsPage();
                 }
                 else
                 {
