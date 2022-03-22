@@ -1,9 +1,13 @@
-﻿using RightToAskClient.Models;
+﻿using RightToAskClient.HttpClients;
+using RightToAskClient.Models;
+using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Resx;
 using RightToAskClient.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
@@ -66,6 +70,20 @@ namespace RightToAskClient.ViewModels
 
         public ObservableCollection<Question> ExistingQuestions => App.ReadingContext.ExistingQuestions;
 
+        private List<string> _questionIds = new List<string>();
+        public List<string> QuestionIds
+        {
+            get => _questionIds;
+            set => SetProperty(ref _questionIds, value);
+        }
+
+        private List<NewQuestionServerSend> _serverQuestions = new List<NewQuestionServerSend>();
+        public List<NewQuestionServerSend> ServerQuestions
+        {
+            get => _serverQuestions;
+            set => SetProperty(ref _serverQuestions, value);
+        }
+
         public ReadingPageViewModel()
         {
             if (!string.IsNullOrEmpty(App.ReadingContext.DraftQuestion))
@@ -95,6 +113,8 @@ namespace RightToAskClient.ViewModels
                 ShowDiscardButton = true;
                 ShowContinueButton = true;
             }
+            // get questions from the server
+            LoadQuestions();
 
             KeepQuestionButtonCommand = new AsyncCommand(async () =>
             {
@@ -152,6 +172,60 @@ namespace RightToAskClient.ViewModels
             if (goHome)
             {
                 await App.Current.MainPage.Navigation.PopToRootAsync();
+            }
+        }
+
+        private async void LoadQuestions()
+        {
+            Result<List<string>> httpResponse = await RTAClient.GetQuestionList();
+            Result<bool> resultToValidate = new Result<bool>();
+            if (httpResponse.Ok.Any())
+            {
+                resultToValidate.Ok = true;
+                resultToValidate.Err = null; // or perhaps empty string
+            }
+            else
+            {
+                resultToValidate.Ok = false;
+                resultToValidate.Err = "Failed to get Question List from server.";
+            }
+            var httpValidation = RTAClient.ValidateHttpResponse(resultToValidate, "Server Signature Verification");
+            ReportLabelText = httpValidation.message;
+            if (httpValidation.isValid)
+            {
+                // set the question Ids list
+                QuestionIds = httpResponse.Ok;
+                // loop through the questions
+                foreach (string questionId in QuestionIds)
+                {
+                    // pull the individual question from the server by id
+                    NewQuestionServerSend temp;
+                    try
+                    {
+                        temp = RTAClient.GetQuestionById(questionId).Result.Ok;
+                        if (!string.IsNullOrEmpty(temp.question_text))
+                        {
+                            ServerQuestions.Add(temp);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine("Could not find question: " + ex.Message);
+                    }
+                }
+                // convert the ServerQuestions to a Displayable format
+                foreach (NewQuestionServerSend serverQuestion in ServerQuestions)
+                {
+                    Question temp = new Question()
+                    {
+                        QuestionId = serverQuestion.question_id,
+                        QuestionText = serverQuestion.question_text,
+                        QuestionSuggester = serverQuestion.question_writer,
+                        QuestionAsker = serverQuestion.mp_who_should_ask_the_questions.ToString(),
+                        QuestionAnswerers = new ObservableCollection<Entity>(serverQuestion.entity_who_should_answer_the_quetions),
+                    };
+                    ExistingQuestions.Add(temp);
+                }
             }
         }
     }
