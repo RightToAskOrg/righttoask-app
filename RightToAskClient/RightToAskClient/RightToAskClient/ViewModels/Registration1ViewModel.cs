@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using RightToAskClient.CryptoUtils;
 using RightToAskClient.HttpClients;
@@ -122,6 +125,13 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _canEditUID, value);
         }
 
+        private bool _showUpdateAccountButton = false;
+        public bool ShowUpdateAccountButton
+        {
+            get => _showUpdateAccountButton;
+            set => SetProperty(ref _showUpdateAccountButton, value);
+        }
+
         public List<string> StateList => ParliamentData.StatesAndTerritories;
 
         private ElectorateWithChamber? _selectedElectorateWithChamber = null;
@@ -159,6 +169,7 @@ namespace RightToAskClient.ViewModels
         {
             // initialize defaults
             ReportLabelText = "";
+            ShowUpdateAccountButton = App.ReadingContext.ThisParticipant.IsRegistered;
             Registration = App.ReadingContext.ThisParticipant.RegistrationInfo ?? new Registration()
             {
                 uid = "This is a test user",
@@ -167,17 +178,37 @@ namespace RightToAskClient.ViewModels
                 State = "VIC"
             };
             ShowTheRightButtonsAsync(Registration.display_name);
-            Title = App.ReadingContext.IsReadingOnly ? AppResources.UserProfileTitle : AppResources.CreateAccountTitle;
             RegisterMPButtonText = AppResources.RegisterMPAccountButtonText;
             RegisterOrgButtonText = AppResources.RegisterOrganisationAccountButtonText;
-            //CanEditUID = !App.ReadingContext.ThisParticipant.IsRegistered; // re-add this line after finished testing
-            CanEditUID = true;
+            CanEditUID = !App.ReadingContext.ThisParticipant.IsRegistered;
 
             if (!App.ReadingContext.IsReadingOnly)
             {
-                Registration.display_name = Preferences.Get("DisplayName", Registration.display_name);
-                Registration.uid = Preferences.Get("UID", Registration.uid);
-                SelectedState = Preferences.Get("State", -1);
+                SelectedState = Preferences.Get("StateID", -1);
+                var registrationPref = Preferences.Get("RegistrationInfo", "");
+                if (!string.IsNullOrEmpty(registrationPref))
+                {
+                    var registrationObj = JsonSerializer.Deserialize<Registration>(registrationPref);
+                    Registration = registrationObj ?? new Registration();
+                    // if we got back a uid then the user should be considered as registered
+                    if (!string.IsNullOrEmpty(Registration.uid))
+                    {
+                        App.ReadingContext.ThisParticipant.RegistrationInfo = Registration;
+                        App.ReadingContext.ThisParticipant.IsRegistered = true;
+                        ShowUpdateAccountButton = App.ReadingContext.ThisParticipant.IsRegistered;
+                        Title = App.ReadingContext.ThisParticipant.IsRegistered ? AppResources.EditYourAccountTitle : AppResources.CreateAccountTitle;
+                    }
+                    // if we got electorates, let the app know to skip the Find My MPs step
+                    if (Registration.electorates.Any())
+                    {
+                        App.ReadingContext.ThisParticipant.MPsKnown = true;
+                        App.ReadingContext.ThisParticipant.UpdateMPs(); // to refresh the list
+                    }
+                }
+            }
+            else
+            {
+                Title = AppResources.UserProfileTitle;
             }
 
             // commands
@@ -188,6 +219,10 @@ namespace RightToAskClient.ViewModels
             UpdateAccountButtonCommand = new Command(() =>
             {
                 SaveToPreferences();
+            });
+            UpdateMPsButtonCommand = new Command(() =>
+            {
+                NavigateToFindMPsPage();
             });
             RegisterMPButtonCommand = new Command(() =>
             {
@@ -225,6 +260,7 @@ namespace RightToAskClient.ViewModels
         // commands
         public Command SaveButtonCommand { get; }
         public Command UpdateAccountButtonCommand { get; }
+        public Command UpdateMPsButtonCommand { get; }
         public Command RegisterMPButtonCommand { get; }
         public Command RegisterOrgButtonCommand { get; }
         public Command FollowButtonCommand { get; }
@@ -235,6 +271,14 @@ namespace RightToAskClient.ViewModels
         #region Methods
         // TODO Make this put up the electorate-finding page.
         public async void ElectorateSelected()
+        {
+            await Shell.Current.GoToAsync($"{nameof(RegisterPage2)}").ContinueWith((_) =>
+            {
+                MessagingCenter.Send(this, "FromReg1"); // sending Registration1ViewModel
+            });
+        }
+
+        public async void NavigateToFindMPsPage()
         {
             await Shell.Current.GoToAsync($"{nameof(RegisterPage2)}").ContinueWith((_) =>
             {
@@ -298,17 +342,15 @@ namespace RightToAskClient.ViewModels
                 // see if we need to push the electorates page or if we push the server account things
                 if (!App.ReadingContext.ThisParticipant.MPsKnown)
                 {
-                    await Shell.Current.GoToAsync($"{nameof(RegisterPage2)}").ContinueWith((_) => 
-                    {
-                        MessagingCenter.Send(this, "FromReg1"); // sending Registration1ViewModel
-                    });
+                    NavigateToFindMPsPage();
                 }
                 else
                 {
                     // save to preferences
-                    Preferences.Set("DisplayName", Registration.display_name);
-                    Preferences.Set("UID", Registration.uid);
-                    Preferences.Set("State", SelectedState); // stored as an int as used for the other page(s) state pickers
+                    var registrationObjectToSave = JsonSerializer.Serialize(Registration);
+                    Preferences.Set("RegistrationInfo", registrationObjectToSave);
+                    Preferences.Set("StateID", SelectedState);
+
                     Result<bool> httpResponse = await RTAClient.RegisterNewUser(newRegistration);
                     var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
                     ReportLabelText = httpValidation.message;
@@ -324,7 +366,7 @@ namespace RightToAskClient.ViewModels
             }
             else
             {
-                if(regTest != null)
+                if (regTest != null)
                 {
                     PromptUser(regTest);
                 }
@@ -333,30 +375,32 @@ namespace RightToAskClient.ViewModels
 
         private void SaveToPreferences()
         {
-            // save to preferences
-            Preferences.Set("DisplayName", Registration.display_name);
-            Preferences.Set("UID", Registration.uid);
-            Preferences.Set("State", SelectedState); // stored as an int as used for the other page(s) state pickers
-            ReportLabelText = "Not Implemented yet";
+            // save registration to preferences
+            var registrationObjectToSave = JsonSerializer.Serialize(Registration);
+            Preferences.Set("RegistrationInfo", registrationObjectToSave);
+            Preferences.Set("StateID", SelectedState); // stored as an int as used for the other page(s) state pickers
             // call the method for updating an existing user
             SendUpdatedUserToServer();
         }
 
         private async void SendUpdatedUserToServer()
         {
-            var existingReg = Registration;
-            // existingReg.public_key = App.ReadingContext.ThisParticipant.MyPublicKey();
-            ClientSignedUnparsed signedUser = App.ReadingContext.ThisParticipant.SignMessage(existingReg); // sign the registration
-            if (!String.IsNullOrEmpty(signedUser.signature))
+            var nameToSend = new { display_name = Registration.display_name, state = Registration.State, electorates = Registration.electorates };
+            ClientSignedUnparsed signedUserMessage = App.ReadingContext.ThisParticipant.SignMessage(nameToSend);
+            if (!String.IsNullOrEmpty(signedUserMessage.signature))
             {
-                Result<bool> httpResponse = await RTAClient.UpdateExistingUser(signedUser);
+                Result<bool> httpResponse = await RTAClient.UpdateExistingUser(signedUserMessage);
                 var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
                 ReportLabelText = httpValidation.message;
                 if (httpValidation.isValid)
                 {
-                    App.ReadingContext.ThisParticipant.RegistrationInfo = existingReg;
+                    App.ReadingContext.ThisParticipant.RegistrationInfo = Registration;
                     App.ReadingContext.ThisParticipant.IsRegistered = true;
                     Preferences.Set("IsRegistered", App.ReadingContext.ThisParticipant.IsRegistered); // save the registration to preferences
+                }
+                else
+                {
+                    Debug.WriteLine("HttpValidationError: " + httpValidation.message);
                 }
             }
             else
