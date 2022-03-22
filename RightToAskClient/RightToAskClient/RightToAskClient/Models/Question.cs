@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -13,6 +14,14 @@ namespace RightToAskClient.Models
         private int _downVotes;
 
         public string QuestionText { get; set; } = "";
+        public DateTime UploadTimestamp { get; set; }
+        public string Background { get; set; } = "";
+        public bool AnswerAccepted { get; set; }
+        public string IsFollowupTo { get; set; } = "";
+        public List<string> Keywords { get; set; } = new List<string>();
+        public List<string> Category { get; set; } = new List<string>();
+        public DateTime ExpiryDate { get; set; }
+        public string QuestionId { get; set; } = "";
 
         // The citizen who suggested the question
         private string _questionSuggester = "";
@@ -64,12 +73,6 @@ namespace RightToAskClient.Models
                    "UpVotes: " + UpVotes+ '\n' +
                    // "DownVotes: " + DownVotes + '\n' +
                    "Link/Answer: " + LinkOrAnswer;
-        }
-        
-        public event PropertyChangedEventHandler? PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
