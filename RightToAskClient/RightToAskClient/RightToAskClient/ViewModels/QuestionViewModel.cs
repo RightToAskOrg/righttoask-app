@@ -433,16 +433,16 @@ namespace RightToAskClient.ViewModels
         {
             // TODO: Obviously later this uploadable question will have more of the 
             // other data. Just getting it working for now.
-            NewQuestionCommand uploadableQuestion = new NewQuestionCommand()
-            {
-                question_text = Question.QuestionText,
-            };
-            //NewQuestionServerSend uploadableQuestion = new NewQuestionServerSend()
+            //NewQuestionCommand uploadableQuestion = new NewQuestionCommand()
             //{
             //    question_text = Question.QuestionText,
-            //    background = Question.Background,
-            //    is_followup_to = Question.IsFollowupTo
             //};
+            NewQuestionServerSend uploadableQuestion = new NewQuestionServerSend()
+            {
+                question_text = Question.QuestionText,
+                background = Question.Background,
+                //is_followup_to = Question.IsFollowupTo
+            };
 
             ClientSignedUnparsed signedQuestion 
                 = App.ReadingContext.ThisParticipant.SignMessage(uploadableQuestion);
