@@ -69,6 +69,12 @@ namespace RightToAskClient.ViewModels
         }
 
         public ObservableCollection<Question> ExistingQuestions => App.ReadingContext.ExistingQuestions;
+        private ObservableCollection<Question> _questionsToDisplay = new ObservableCollection<Question>();
+        public ObservableCollection<Question> QuestionsToDisplay
+        {
+            get => _questionsToDisplay;
+            set => SetProperty(ref _questionsToDisplay, value);
+        }
 
         private List<string> _questionIds = new List<string>();
         public List<string> QuestionIds
@@ -82,6 +88,13 @@ namespace RightToAskClient.ViewModels
         {
             get => _serverQuestions;
             set => SetProperty(ref _serverQuestions, value);
+        }
+
+        private bool _isRefreshing = true;
+        public bool IsRefreshing
+        {
+            get => _isRefreshing;
+            set => SetProperty(ref _isRefreshing, value);
         }
 
         public ReadingPageViewModel()
@@ -124,11 +137,16 @@ namespace RightToAskClient.ViewModels
             {
                 OnDiscardButtonClicked();
             });
+            RefreshCommand = new Command(() =>
+            {
+                LoadQuestions();
+            });
         }
 
         // commands
         public IAsyncCommand KeepQuestionButtonCommand { get; }
         public IAsyncCommand DiscardButtonCommand { get; }
+        public Command RefreshCommand { get; }
 
         // helper methods
         private async void OnSaveButtonClicked()
@@ -193,6 +211,9 @@ namespace RightToAskClient.ViewModels
             ReportLabelText = httpValidation.message;
             if (httpValidation.isValid)
             {
+                // reset the lists to rebuild and re-acquire questions
+                QuestionsToDisplay.Clear();
+                ServerQuestions.Clear();
                 // set the question Ids list
                 QuestionIds = httpResponse.Ok;
                 // loop through the questions
@@ -234,8 +255,9 @@ namespace RightToAskClient.ViewModels
                         //QuestionAsker = serverQuestion.who_should_ask_the_question_permissions,
                         //QuestionAnswerers = serverQuestion.who_should_answer_the_question_permissions,
                     };
-                    ExistingQuestions.Add(temp);
+                    QuestionsToDisplay.Add(temp);
                 }
+                IsRefreshing = false;
             }
         }
     }

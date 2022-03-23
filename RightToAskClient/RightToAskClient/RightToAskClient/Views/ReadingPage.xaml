@@ -23,22 +23,24 @@
 			<Frame x:Name="FilterShower" Style="{StaticResource GreenFrame}">
                 <controls:ClickableLabel Tapped="OnShowFilters" Text="{xct:Translate ClickForFiltersText}"/> 
 			</Frame>
-			<ScrollView Scrolled="Questions_Scrolled">
-			    <CollectionView x:Name="QuestionList" ItemsSource="{Binding ExistingQuestions}" SelectionMode="Single" SelectedItem="{Binding SelectedQuestion}">
-				    <CollectionView.ItemTemplate>
-					    <DataTemplate x:DataType="models:Question">
-                            <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" Spacing="4">
-                                <Label Text="{Binding QuestionText}" Style="{StaticResource ListViewText}"/>
-                                <StackLayout Orientation="Horizontal" Padding="0" HorizontalOptions="Start" VerticalOptions="CenterAndExpand">
-                                    <Label Text="Upvotes " Style="{StaticResource ListViewTextSmall}"/>
-                                    <Label Text="{Binding UpVotes}" Style="{StaticResource ListViewTextSmall}"/>
-                                    <controls:ToggleButton Style="{StaticResource GreenButton}" ToBeIncremented="{Binding}"/>
+            <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
+                <ScrollView Scrolled="Questions_Scrolled">
+                    <CollectionView x:Name="QuestionList" ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="Single" SelectedItem="{Binding SelectedQuestion}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Question">
+                                <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" Spacing="4">
+                                    <Label Text="{Binding QuestionText}" Style="{StaticResource ListViewText}"/>
+                                    <StackLayout Orientation="Horizontal" Padding="0" HorizontalOptions="Start" VerticalOptions="CenterAndExpand">
+                                        <Label Text="Upvotes " Style="{StaticResource ListViewTextSmall}"/>
+                                        <Label Text="{Binding UpVotes}" Style="{StaticResource ListViewTextSmall}"/>
+                                        <controls:ToggleButton Style="{StaticResource GreenButton}" ToBeIncremented="{Binding}"/>
+                                    </StackLayout>
                                 </StackLayout>
-                            </StackLayout>
-                        </DataTemplate>
-				    </CollectionView.ItemTemplate>
-			    </CollectionView>
-			</ScrollView>	
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </ScrollView>
+            </RefreshView>
             <StackLayout Orientation="Horizontal">
                 <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}" Text="{Binding DraftQuestion}" 
                         HorizontalOptions="FillAndExpand" Style="{StaticResource NormalEditor}" IsVisible="{Binding ShowDraftEditor}"/>
