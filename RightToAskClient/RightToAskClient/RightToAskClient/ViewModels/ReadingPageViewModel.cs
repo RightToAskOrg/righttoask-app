@@ -77,8 +77,8 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _questionIds, value);
         }
 
-        private List<NewQuestionServerSend> _serverQuestions = new List<NewQuestionServerSend>();
-        public List<NewQuestionServerSend> ServerQuestions
+        private List<NewQuestionServerReceive> _serverQuestions = new List<NewQuestionServerReceive>();
+        public List<NewQuestionServerReceive> ServerQuestions
         {
             get => _serverQuestions;
             set => SetProperty(ref _serverQuestions, value);
@@ -199,7 +199,7 @@ namespace RightToAskClient.ViewModels
                 foreach (string questionId in QuestionIds)
                 {
                     // pull the individual question from the server by id
-                    NewQuestionServerSend temp;
+                    NewQuestionServerReceive temp;
                     try
                     {
                         temp = RTAClient.GetQuestionById(questionId).Result.Ok;
@@ -214,15 +214,17 @@ namespace RightToAskClient.ViewModels
                     }
                 }
                 // convert the ServerQuestions to a Displayable format
-                foreach (NewQuestionServerSend serverQuestion in ServerQuestions)
+                foreach (NewQuestionServerReceive serverQuestion in ServerQuestions)
                 {
                     Question temp = new Question()
                     {
                         QuestionId = serverQuestion.question_id,
                         QuestionText = serverQuestion.question_text,
-                        QuestionSuggester = serverQuestion.question_writer,
-                        QuestionAsker = serverQuestion.mp_who_should_ask_the_questions.ToString(),
-                        QuestionAnswerers = new ObservableCollection<Entity>(serverQuestion.entity_who_should_answer_the_quetions),
+                        QuestionSuggester = serverQuestion.author,
+                        //UploadTimestamp = serverQuestion.timestamp,
+                        //ExpiryDate = serverQuestion.last_modified,
+                        //QuestionAsker = serverQuestion.who_should_ask_the_question_permissions,
+                        //QuestionAnswerers = serverQuestion.who_should_answer_the_question_permissions,
                     };
                     ExistingQuestions.Add(temp);
                 }

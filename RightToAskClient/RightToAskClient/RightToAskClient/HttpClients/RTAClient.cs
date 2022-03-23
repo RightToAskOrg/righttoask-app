@@ -95,10 +95,10 @@ namespace RightToAskClient.HttpClients
             return await Client.DoGetResultRequest<List<string>>(QuestionListUrl);
         }
 
-        public static async Task<Result<NewQuestionServerSend>> GetQuestionById(string questionId)
+        public static async Task<Result<NewQuestionServerReceive>> GetQuestionById(string questionId)
         {
             string GetQuestionUrl = QuestionUrl + "?question_id=" + questionId;
-            return await Client.DoGetJSONRequest<NewQuestionServerSend>(GetQuestionUrl);
+            return await Client.DoGetResultRequest<NewQuestionServerReceive>(GetQuestionUrl);
         }
 
         public static async Task<Result<bool>> RegisterNewQuestion(ClientSignedUnparsed newQuestion)
