@@ -1,6 +1,7 @@
 ﻿using RightToAskClient.CryptoUtils;
 using RightToAskClient.HttpClients;
 using RightToAskClient.Models;
+using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Resx;
 using RightToAskClient.Views;
 using System;
@@ -436,6 +437,12 @@ namespace RightToAskClient.ViewModels
             {
                 question_text = Question.QuestionText,
             };
+            //NewQuestionServerSend uploadableQuestion = new NewQuestionServerSend()
+            //{
+            //    question_text = Question.QuestionText,
+            //    background = Question.Background,
+            //    is_followup_to = Question.IsFollowupTo
+            //};
 
             ClientSignedUnparsed signedQuestion 
                 = App.ReadingContext.ThisParticipant.SignMessage(uploadableQuestion);

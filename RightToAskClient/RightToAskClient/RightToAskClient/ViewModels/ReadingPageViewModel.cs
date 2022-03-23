@@ -202,10 +202,18 @@ namespace RightToAskClient.ViewModels
                     NewQuestionServerReceive temp;
                     try
                     {
-                        temp = RTAClient.GetQuestionById(questionId).Result.Ok;
-                        if (!string.IsNullOrEmpty(temp.question_text))
+                        var data = await RTAClient.GetQuestionById(questionId);
+                        if (string.IsNullOrEmpty(data.Err))
                         {
-                            ServerQuestions.Add(temp);
+                            temp = data.Ok;
+                            if (!string.IsNullOrEmpty(temp.question_text))
+                            {
+                                ServerQuestions.Add(temp);
+                            }
+                        }
+                        else
+                        {
+                            Debug.WriteLine("Could not find question: " + data.Err);
                         }
                     }
                     catch (Exception ex)
