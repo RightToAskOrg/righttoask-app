@@ -124,6 +124,20 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _saveButtonText, value);
         }
 
+        private bool _canEditBackground;
+        public bool CanEditBackground
+        {
+            get => _canEditBackground;
+            set => SetProperty(ref _canEditBackground, value);
+        }
+
+        private bool _canEditQuestion;
+        public bool CanEditQuestion
+        {
+            get => _canEditQuestion;
+            set => SetProperty(ref _canEditQuestion, value);
+        }
+
         public string QuestionSuggesterButtonText => QuestionViewModel.Instance.IsNewQuestion ? AppResources.EditProfileButtonText : String.Format(AppResources.ViewOtherUserProfile, QuestionViewModel.Instance.Question.QuestionSuggester);
 
         public bool MPButtonsEnabled => ParliamentData.MPAndOtherData.IsInitialised;
@@ -216,6 +230,10 @@ namespace RightToAskClient.ViewModels
             {
                 SubmitNewQuestionButton_OnClicked();
             });
+            EditAnswerCommand = new Command(() =>
+            {
+                EditQuestionButton_OnClicked();
+            });
             QuestionSuggesterCommand = new AsyncCommand(async () =>
             {
                 //RegisterPage1 otherUserProfilePage = new RegisterPage1();
@@ -249,6 +267,7 @@ namespace RightToAskClient.ViewModels
         public Command SelectCommitteeButtonCommand { get; }
         public Command UpvoteCommand { get; }
         public Command SaveAnswerCommand { get; }
+        public Command EditAnswerCommand { get; }
 
         public void ResetInstance()
         {
@@ -266,6 +285,12 @@ namespace RightToAskClient.ViewModels
             ReportLabelText = AppResources.MPDataStillInitializing;
             App.ReadingContext.DraftQuestion = Question.QuestionText;
             Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.display_name; // could need rechecking
+
+            if (Question.QuestionSuggester == App.ReadingContext.ThisParticipant.RegistrationInfo.uid)
+            {
+                CanEditBackground = true;
+                CanEditQuestion = true;
+            }
         }
 
         public void OnButtonPressed(int buttonId)
@@ -362,7 +387,7 @@ namespace RightToAskClient.ViewModels
             await NavigationUtils.PushAnsweringMPsExploringPage();
         }
 
-        async void SubmitNewQuestionButton_OnClicked()
+        private async void SubmitNewQuestionButton_OnClicked()
         {
             if (!App.ReadingContext.ThisParticipant.IsRegistered)
             {
@@ -390,6 +415,15 @@ namespace RightToAskClient.ViewModels
             else
             {
                 SaveQuestion();
+            }
+        }
+
+        private async void EditQuestionButton_OnClicked()
+        {
+            (bool isValid, string errorMessage) successfulSubmission = await SendQuestionUpdatesToServer();
+            if (!successfulSubmission.isValid)
+            {
+                ReportLabelText = "Could not update question: " + successfulSubmission.errorMessage;
             }
         }
 
@@ -451,6 +485,28 @@ namespace RightToAskClient.ViewModels
             {
             Result<bool> httpResponse = await RTAClient.RegisterNewQuestion(signedQuestion);
             return RTAClient.ValidateHttpResponse(httpResponse, "Question Upload");
+            }
+            else
+            {
+                return (false, "Client signing error.");
+            }
+        }
+
+        private async Task<(bool isValid, string message)> SendQuestionUpdatesToServer()
+        {
+            // find a way to serialize for just the edited fields
+            NewQuestionServerSend editedQuestion = new NewQuestionServerSend()
+            {
+                question_text = Question.QuestionText,
+                background = Question.Background,
+            };
+
+            ClientSignedUnparsed signedQuestionEdit = App.ReadingContext.ThisParticipant.SignMessage(editedQuestion);
+
+            if (!String.IsNullOrEmpty(signedQuestionEdit.signature))
+            {
+                Result<bool> httpResponse = await RTAClient.UpdateExistingQuestion(signedQuestionEdit);
+                return RTAClient.ValidateHttpResponse(httpResponse, "Question Upload");
             }
             else
             {
