@@ -433,6 +433,10 @@ namespace RightToAskClient.ViewModels
             {
                 ReportLabelText = "Could not update question: " + successfulSubmission.errorMessage;
             }
+            else
+            {
+                await App.Current.MainPage.DisplayAlert(AppResources.QuestionEditSuccessfulPopupText, "", "OK");
+            }
         }
 
         private void setSuggester(object sender, EventArgs e)
