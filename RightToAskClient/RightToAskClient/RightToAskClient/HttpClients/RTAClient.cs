@@ -85,7 +85,8 @@ namespace RightToAskClient.HttpClients
 
         public static async Task<Result<bool>> RegisterNewUser(Registration newReg)
         {
-            return await SendDataToServer<Registration>(newReg, "user", RegUrl);
+            var newUserForServer = new ServerUser(newReg);
+            return await SendDataToServer<ServerUser>(newUserForServer, "user", RegUrl);
         }
 
         public static async Task<Result<bool>> UpdateExistingUser(ClientSignedUnparsed existingReg)

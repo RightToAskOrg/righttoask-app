@@ -7,7 +7,9 @@ using Xamarin.Essentials;
 using System.Text.Json;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
+using Switch = Xamarin.Forms.Switch;
 
 namespace RightToAskClient
 {
@@ -40,11 +42,16 @@ namespace RightToAskClient
             {
                 var registrationObj = JsonSerializer.Deserialize<Registration>(registrationPref);
                 ReadingContext.ThisParticipant.RegistrationInfo = registrationObj ?? new Registration();
-                // if we got back a uid then the user should be considered as registered
-                if (!string.IsNullOrEmpty(ReadingContext.ThisParticipant.RegistrationInfo.uid))
-                {
-                    ReadingContext.ThisParticipant.IsRegistered = true;
-                }
+                
+                // We actually need to check for the stored "IsRegistered" boolean, in case they tried to
+                // register but failed, for example because the server was offline.
+                // So we may have stored Registration data, but not have actually succeeded in uploading it.
+                var registrationSuccess = Preferences.Get("IsRegistered", false);
+                ReadingContext.ThisParticipant.IsRegistered = registrationSuccess;
+                
+                // We have a problem if our stored registration is null but we think we registered successfully.
+                Debug.Assert(registrationObj != null || registrationSuccess is false);
+                
                 // if we got electorates, let the app know to skip the Find My MPs step
                 // TODO We definitely shouldn't have to do this here - the Registration
                 // data structure should take care of whether the MPs are known and updated.
