@@ -614,6 +614,15 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Question was edited successfully..
+        /// </summary>
+        internal static string QuestionEditSuccessfulPopupText {
+            get {
+                return ResourceManager.GetString("QuestionEditSuccessfulPopupText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Question: .
         /// </summary>
         internal static string QuestionHeaderText {

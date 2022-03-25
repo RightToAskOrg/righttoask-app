@@ -433,4 +433,7 @@
   <data name="EditQuestionButtonText" xml:space="preserve">
     <value>Edit Question</value>
   </data>
+  <data name="QuestionEditSuccessfulPopupText" xml:space="preserve">
+    <value>Question was edited successfully.</value>
+  </data>
 </root>

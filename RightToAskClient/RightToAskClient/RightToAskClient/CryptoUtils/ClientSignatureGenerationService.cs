@@ -38,11 +38,11 @@ namespace RightToAskClient.CryptoUtils
         // private static Ed25519PublicKeyParameters? _myPublicKey  = MyKeyPair.Public as Ed25519PublicKeyParameters;
 
         //private static Ed25519PrivateKeyParameters MyKeyPair; // = await MakeMyKey();
-        
+
         private Ed25519PrivateKeyParameters MyKeyPair; // = await MakeMyKey();
 
         private Ed25519PublicKeyParameters _myPublicKey;
-        
+
         private static Ed25519Signer MySigner;
 
         private ClientSignatureGenerationService(Ed25519PrivateKeyParameters myKey)
@@ -57,10 +57,10 @@ namespace RightToAskClient.CryptoUtils
             Ed25519PrivateKeyParameters myKeyPair = await MakeMyKey();
             return new ClientSignatureGenerationService(myKeyPair);
         }
-        
+
         public string MyPublicKey()
         {
-            if(_myPublicKey.GetEncoded() != null)
+            if (_myPublicKey.GetEncoded() != null)
             {
                 return Convert.ToBase64String(_myPublicKey.GetEncoded());
             }
@@ -71,7 +71,7 @@ namespace RightToAskClient.CryptoUtils
             }
         }
 
-        private static async  Task<Ed25519PrivateKeyParameters> MakeMyKey()
+        private static async Task<Ed25519PrivateKeyParameters> MakeMyKey()
         {
             // First see if there's already a stored key. If so, use that.
             try
@@ -93,28 +93,28 @@ namespace RightToAskClient.CryptoUtils
             {
                 Debug.WriteLine(ex.Message);
             }
-            
+
             // If there isn't already a stored key, generate a new one 
             var keyPairGenerator = new Ed25519KeyPairGenerator();
 
             keyPairGenerator.Init(new Ed25519KeyGenerationParameters(new SecureRandom()));
             Ed25519PrivateKeyParameters? signingKey = keyPairGenerator.GenerateKeyPair().Private as Ed25519PrivateKeyParameters;
-             
+
             // and store it. 
             try
             {
                 var encodedSigningKey = signingKey?.GetEncoded() ?? Array.Empty<byte>();
                 string keyAsString = Convert.ToBase64String(encodedSigningKey);
-                if(!String.IsNullOrEmpty(keyAsString))
+                if (!String.IsNullOrEmpty(keyAsString))
                 {
                     await SecureStorage.SetAsync("signing_key", keyAsString);
                 }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Error storing signing key"+ex.Message);
+                Debug.WriteLine("Error storing signing key" + ex.Message);
             }
-            
+
             return signingKey;
         }
 
@@ -130,12 +130,12 @@ namespace RightToAskClient.CryptoUtils
             string serializedMessage = "";
             byte[] messageBytes;
             string sig = "";
-            
+
             try
             {
                 serializedMessage = JsonSerializer.Serialize(message);
                 messageBytes = Encoding.UTF8.GetBytes(serializedMessage);
-                
+
                 MySigner.BlockUpdate(messageBytes, 0, messageBytes.Length);
                 sig = Convert.ToBase64String(MySigner.GenerateSignature());
             }
@@ -154,14 +154,13 @@ namespace RightToAskClient.CryptoUtils
                 // TODO Something else went wrong
                 Debug.WriteLine("Generic Exception: " + e.Message);
             }
-                
+
             return new ClientSignedUnparsed()
             {
                 message = serializedMessage,
-                signature = sig, 
+                signature = sig,
                 user = userID
             };
-
         }
 
         public ClientSignedUnparsed SignMessageWithOptions<T>(T message, string userID)
@@ -170,11 +169,13 @@ namespace RightToAskClient.CryptoUtils
             byte[] messageBytes;
             string sig = "";
 
+            // --------------------------------------------- THIS IS THE NEW STUFF ------------------------------------------
             // json serializer options
             JsonSerializerOptions options = new JsonSerializerOptions()
             {
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
             };
+            // --------------------------------------------- THIS IS THE NEW STUFF ------------------------------------------
 
             try
             {
@@ -206,7 +207,6 @@ namespace RightToAskClient.CryptoUtils
                 signature = sig,
                 user = userID
             };
-
         }
     }
 }
