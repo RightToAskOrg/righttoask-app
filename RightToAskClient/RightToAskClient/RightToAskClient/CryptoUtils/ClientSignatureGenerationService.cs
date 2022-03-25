@@ -169,13 +169,11 @@ namespace RightToAskClient.CryptoUtils
             byte[] messageBytes;
             string sig = "";
 
-            // --------------------------------------------- THIS IS THE NEW STUFF ------------------------------------------
             // json serializer options
             JsonSerializerOptions options = new JsonSerializerOptions()
             {
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
             };
-            // --------------------------------------------- THIS IS THE NEW STUFF ------------------------------------------
 
             try
             {
