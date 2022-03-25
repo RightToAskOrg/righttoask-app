@@ -22,6 +22,7 @@ namespace RightToAskClient.Models
         public List<string> Category { get; set; } = new List<string>();
         public DateTime ExpiryDate { get; set; }
         public string QuestionId { get; set; } = "";
+        public string Version { get; set; } = "";
 
         // The citizen who suggested the question
         private string _questionSuggester = "";

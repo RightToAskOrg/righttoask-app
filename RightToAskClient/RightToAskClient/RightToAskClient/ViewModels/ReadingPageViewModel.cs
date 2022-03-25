@@ -250,6 +250,8 @@ namespace RightToAskClient.ViewModels
                         QuestionId = serverQuestion.question_id,
                         QuestionText = serverQuestion.question_text,
                         QuestionSuggester = serverQuestion.author,
+                        Version = serverQuestion.version,
+                        //Background = serverQuestion.background, // doesn't exist on the server response object yet
                         //UploadTimestamp = serverQuestion.timestamp,
                         //ExpiryDate = serverQuestion.last_modified,
                         //QuestionAsker = serverQuestion.who_should_ask_the_question_permissions,

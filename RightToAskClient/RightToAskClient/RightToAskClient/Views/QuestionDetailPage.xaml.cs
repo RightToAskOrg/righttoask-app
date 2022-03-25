@@ -14,6 +14,20 @@ namespace RightToAskClient.Views
         {
             InitializeComponent();
             BindingContext = QuestionViewModel.Instance;
+            // default to false, then check if they should be true
+            QuestionViewModel.Instance.CanEditBackground = false;
+            QuestionViewModel.Instance.CanEditQuestion = false;
+            if (!string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.RegistrationInfo.uid))
+            {
+                if (!string.IsNullOrEmpty(QuestionViewModel.Instance.Question.QuestionSuggester))
+                {
+                    if (QuestionViewModel.Instance.Question.QuestionSuggester == App.ReadingContext.ThisParticipant.RegistrationInfo.uid)
+                    {
+                        QuestionViewModel.Instance.CanEditBackground = true;
+                        QuestionViewModel.Instance.CanEditQuestion = true;
+                    }
+                }
+            }
         }
 
         // I'm not actually sure what triggers the 'send' event here, and hence not sure
@@ -21,11 +35,6 @@ namespace RightToAskClient.Views
         private void Answer_Entered(object sender, EventArgs e)
         {
             QuestionViewModel.Instance.Question.LinkOrAnswer = ((Editor)sender).Text;
-        }
-
-        private void Background_Entered(object sender, EventArgs e)
-        {
-            // Do nothing.
         }
 
         protected override bool OnBackButtonPressed()

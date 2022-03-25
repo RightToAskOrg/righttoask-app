@@ -7,6 +7,8 @@ using RightToAskClient.Views;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
@@ -286,10 +288,16 @@ namespace RightToAskClient.ViewModels
             App.ReadingContext.DraftQuestion = Question.QuestionText;
             Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.display_name; // could need rechecking
 
-            if (Question.QuestionSuggester == App.ReadingContext.ThisParticipant.RegistrationInfo.uid)
+            if (!string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.RegistrationInfo.uid))
             {
-                CanEditBackground = true;
-                CanEditQuestion = true;
+                if (!string.IsNullOrEmpty(Question.QuestionSuggester))
+                {
+                    if (Question.QuestionSuggester == App.ReadingContext.ThisParticipant.RegistrationInfo.uid)
+                    {
+                        CanEditBackground = true;
+                        CanEditQuestion = true;
+                    }
+                }
             }
         }
 
@@ -497,11 +505,13 @@ namespace RightToAskClient.ViewModels
             // find a way to serialize for just the edited fields
             NewQuestionServerSend editedQuestion = new NewQuestionServerSend()
             {
+                question_id = Question.QuestionId,
                 question_text = Question.QuestionText,
+                version = Question.Version,
                 background = Question.Background,
             };
 
-            ClientSignedUnparsed signedQuestionEdit = App.ReadingContext.ThisParticipant.SignMessage(editedQuestion);
+            ClientSignedUnparsed signedQuestionEdit = App.ReadingContext.ThisParticipant.SignMessageWithOptions(editedQuestion);
 
             if (!String.IsNullOrEmpty(signedQuestionEdit.signature))
             {

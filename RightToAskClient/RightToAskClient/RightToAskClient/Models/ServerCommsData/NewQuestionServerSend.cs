@@ -36,8 +36,10 @@ namespace RightToAskClient.Models.ServerCommsData
         //public DateTime expiry_date { get; set; }
 
         // bookkeeping fields
-        //[JsonPropertyName("question_id")]
-        //public string question_id { get; set; }
+        [JsonPropertyName("question_id")]
+        public string question_id { get; set; }
+        [JsonPropertyName("version")]
+        public string version { get; set; }
 
     }
 }
