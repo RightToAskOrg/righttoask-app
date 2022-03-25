@@ -34,7 +34,6 @@ namespace RightToAskClient
         {
             //Preferences.Clear(); // Toggle this line in and out as needed instead of resetting the emulator every time
             ParliamentData.MPAndOtherData.TryInit();
-            ReadingContext = new ReadingContext();
             // get account info from preferences
             var registrationPref = Preferences.Get("RegistrationInfo", "");
             if (!string.IsNullOrEmpty(registrationPref))
@@ -47,6 +46,8 @@ namespace RightToAskClient
                     ReadingContext.ThisParticipant.IsRegistered = true;
                 }
                 // if we got electorates, let the app know to skip the Find My MPs step
+                // TODO We definitely shouldn't have to do this here - the Registration
+                // data structure should take care of whether the MPs are known and updated.
                 if (ReadingContext.ThisParticipant.RegistrationInfo.electorates.Any())
                 {
                     ReadingContext.ThisParticipant.MPsKnown = true;
