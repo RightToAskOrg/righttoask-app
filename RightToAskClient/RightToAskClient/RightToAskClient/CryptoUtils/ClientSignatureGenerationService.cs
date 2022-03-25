@@ -127,17 +127,20 @@ namespace RightToAskClient.CryptoUtils
 
         public ClientSignedUnparsed SignMessage<T>(T message, string userID)
         {
+            /*
             JsonSerializerOptions serializerOptions = new JsonSerializerOptions
             {
                 Converters = { new JsonStringEnumConverter() },
             };
+            */
             string serializedMessage = "";
             byte[] messageBytes;
             string sig = "";
             
             try
             {
-                serializedMessage = JsonSerializer.Serialize(message, serializerOptions);
+                // serializedMessage = JsonSerializer.Serialize(message, serializerOptions);
+                serializedMessage = JsonSerializer.Serialize(message);
                 messageBytes = Encoding.UTF8.GetBytes(serializedMessage);
                 
                 MySigner.BlockUpdate(messageBytes, 0, messageBytes.Length);

@@ -20,12 +20,12 @@ namespace RightToAskClient.ViewModels
     public class Registration1ViewModel : BaseViewModel
     {
         #region Properties
-        private Registration _registration = new Registration();
+        private Registration _registration = App.ReadingContext.ThisParticipant.RegistrationInfo;
         public Registration Registration
         {
             get => _registration;
             set => SetProperty(ref _registration, value);
-        }
+        } 
 
         private bool _showRegisterCitizenButton = false;
         public bool ShowRegisterCitizenButton
@@ -170,17 +170,14 @@ namespace RightToAskClient.ViewModels
             // initialize defaults
             ReportLabelText = "";
             ShowUpdateAccountButton = App.ReadingContext.ThisParticipant.IsRegistered;
-            Registration = App.ReadingContext.ThisParticipant.RegistrationInfo ?? new Registration()
-            {
-                uid = "This is a test user",
-                display_name = "testing user",
-                public_key = "123",
-                State = "VIC"
-            };
+            
             ShowTheRightButtonsAsync(Registration.display_name);
             RegisterMPButtonText = AppResources.RegisterMPAccountButtonText;
             RegisterOrgButtonText = AppResources.RegisterOrganisationAccountButtonText;
             CanEditUID = !App.ReadingContext.ThisParticipant.IsRegistered;
+            
+                /* Pretty sure the below is no longer necessary because everything is set in
+                 * App.xaml.cs.
             Title = AppResources.CreateAccountTitle; // default the title to create account. It will update to EditAccount or User'sProfile otherwise
 
             if (!App.ReadingContext.IsReadingOnly)
@@ -206,6 +203,23 @@ namespace RightToAskClient.ViewModels
                         App.ReadingContext.ThisParticipant.UpdateMPs(); // to refresh the list
                     }
                 }
+            }
+            else
+            {
+                Title = AppResources.UserProfileTitle;
+            }
+            */
+
+            // If this is this user's profile, show them IndividualParticipant data
+            // (if there is any) and give them the option to edit (or make new).
+            // Otherwise, if we're looking at someone else, just tell them it's another
+            // person's profile.
+            // TODO Clarify meaning of ReadingOnly - looks like it has a few different uses.
+            if (!App.ReadingContext.IsReadingOnly)
+            {
+                SelectedState = Preferences.Get("StateID", -1);
+                ShowUpdateAccountButton = App.ReadingContext.ThisParticipant.IsRegistered;
+                Title = App.ReadingContext.ThisParticipant.IsRegistered ? AppResources.EditYourAccountTitle : AppResources.CreateAccountTitle;
             }
             else
             {

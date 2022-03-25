@@ -29,6 +29,7 @@ namespace RightToAskClient.HttpClients
         // TODO At the moment, this is not used, because we don't have a cert chain for the server Public Key.
         // Instead, the public key itself is hardcoded.
         // private static string ServerPubKeyUrl = BaseUrl + "/get_server_public_key_spki";
+        
         private static JsonSerializerOptions _serializerOptions =
             new JsonSerializerOptions
             {
@@ -37,6 +38,7 @@ namespace RightToAskClient.HttpClients
             };
         
         private static readonly GenericHttpClient Client = new GenericHttpClient(_serializerOptions);
+        
         public static string? ServerPublicKey
         {
             get;
