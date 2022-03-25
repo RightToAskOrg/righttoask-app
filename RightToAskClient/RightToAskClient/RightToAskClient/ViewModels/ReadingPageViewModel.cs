@@ -1,9 +1,13 @@
-﻿using RightToAskClient.Models;
+﻿using RightToAskClient.HttpClients;
+using RightToAskClient.Models;
+using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Resx;
 using RightToAskClient.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
@@ -65,6 +69,33 @@ namespace RightToAskClient.ViewModels
         }
 
         public ObservableCollection<Question> ExistingQuestions => App.ReadingContext.ExistingQuestions;
+        private ObservableCollection<Question> _questionsToDisplay = new ObservableCollection<Question>();
+        public ObservableCollection<Question> QuestionsToDisplay
+        {
+            get => _questionsToDisplay;
+            set => SetProperty(ref _questionsToDisplay, value);
+        }
+
+        private List<string> _questionIds = new List<string>();
+        public List<string> QuestionIds
+        {
+            get => _questionIds;
+            set => SetProperty(ref _questionIds, value);
+        }
+
+        private List<NewQuestionServerReceive> _serverQuestions = new List<NewQuestionServerReceive>();
+        public List<NewQuestionServerReceive> ServerQuestions
+        {
+            get => _serverQuestions;
+            set => SetProperty(ref _serverQuestions, value);
+        }
+
+        private bool _isRefreshing = true;
+        public bool IsRefreshing
+        {
+            get => _isRefreshing;
+            set => SetProperty(ref _isRefreshing, value);
+        }
 
         public ReadingPageViewModel()
         {
@@ -95,6 +126,8 @@ namespace RightToAskClient.ViewModels
                 ShowDiscardButton = true;
                 ShowContinueButton = true;
             }
+            // get questions from the server
+            LoadQuestions();
 
             KeepQuestionButtonCommand = new AsyncCommand(async () =>
             {
@@ -104,11 +137,16 @@ namespace RightToAskClient.ViewModels
             {
                 OnDiscardButtonClicked();
             });
+            RefreshCommand = new Command(() =>
+            {
+                LoadQuestions();
+            });
         }
 
         // commands
         public IAsyncCommand KeepQuestionButtonCommand { get; }
         public IAsyncCommand DiscardButtonCommand { get; }
+        public Command RefreshCommand { get; }
 
         // helper methods
         private async void OnSaveButtonClicked()
@@ -152,6 +190,76 @@ namespace RightToAskClient.ViewModels
             if (goHome)
             {
                 await App.Current.MainPage.Navigation.PopToRootAsync();
+            }
+        }
+
+        private async void LoadQuestions()
+        {
+            Result<List<string>> httpResponse = await RTAClient.GetQuestionList();
+            Result<bool> resultToValidate = new Result<bool>();
+            if (httpResponse.Ok.Any())
+            {
+                resultToValidate.Ok = true;
+                resultToValidate.Err = null; // or perhaps empty string
+            }
+            else
+            {
+                resultToValidate.Ok = false;
+                resultToValidate.Err = "Failed to get Question List from server.";
+            }
+            var httpValidation = RTAClient.ValidateHttpResponse(resultToValidate, "Server Signature Verification");
+            ReportLabelText = httpValidation.message;
+            if (httpValidation.isValid)
+            {
+                // reset the lists to rebuild and re-acquire questions
+                QuestionsToDisplay.Clear();
+                ServerQuestions.Clear();
+                // set the question Ids list
+                QuestionIds = httpResponse.Ok;
+                // loop through the questions
+                foreach (string questionId in QuestionIds)
+                {
+                    // pull the individual question from the server by id
+                    NewQuestionServerReceive temp;
+                    try
+                    {
+                        var data = await RTAClient.GetQuestionById(questionId);
+                        if (string.IsNullOrEmpty(data.Err))
+                        {
+                            temp = data.Ok;
+                            if (!string.IsNullOrEmpty(temp.question_text))
+                            {
+                                ServerQuestions.Add(temp);
+                            }
+                        }
+                        else
+                        {
+                            Debug.WriteLine("Could not find question: " + data.Err);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine("Could not find question: " + ex.Message);
+                    }
+                }
+                // convert the ServerQuestions to a Displayable format
+                foreach (NewQuestionServerReceive serverQuestion in ServerQuestions)
+                {
+                    Question temp = new Question()
+                    {
+                        QuestionId = serverQuestion.question_id,
+                        QuestionText = serverQuestion.question_text,
+                        QuestionSuggester = serverQuestion.author,
+                        Version = serverQuestion.version,
+                        //Background = serverQuestion.background, // doesn't exist on the server response object yet
+                        //UploadTimestamp = serverQuestion.timestamp,
+                        //ExpiryDate = serverQuestion.last_modified,
+                        //QuestionAsker = serverQuestion.who_should_ask_the_question_permissions,
+                        //QuestionAnswerers = serverQuestion.who_should_answer_the_question_permissions,
+                    };
+                    QuestionsToDisplay.Add(temp);
+                }
+                IsRefreshing = false;
             }
         }
     }

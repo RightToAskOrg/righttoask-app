@@ -430,4 +430,7 @@
   <data name="UpdateMPsButtonText" xml:space="preserve">
     <value>Update MPs</value>
   </data>
+  <data name="EditQuestionButtonText" xml:space="preserve">
+    <value>Edit Question</value>
+  </data>
 </root>

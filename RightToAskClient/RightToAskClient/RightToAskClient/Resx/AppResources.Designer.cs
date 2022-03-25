@@ -241,6 +241,15 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit Question.
+        /// </summary>
+        internal static string EditQuestionButtonText {
+            get {
+                return ResourceManager.GetString("EditQuestionButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit Your Account.
         /// </summary>
         internal static string EditYourAccountTitle {

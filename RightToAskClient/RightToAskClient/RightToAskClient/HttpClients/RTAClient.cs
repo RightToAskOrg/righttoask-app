@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using RightToAskClient.Models;
 using RightToAskClient.CryptoUtils;
 using Xamarin.Essentials;
+using RightToAskClient.Models.ServerCommsData;
 
 namespace RightToAskClient.HttpClients
 {
@@ -20,8 +21,11 @@ namespace RightToAskClient.HttpClients
         private static string RegUrl = BaseUrl + "/new_registration";
         private static string EditUserUrl = BaseUrl + "/edit_user";
         private static string QnUrl = BaseUrl + "/new_question";
+        private static string EditQnUrl = BaseUrl + "/edit_question";
         private static string MPListUrl = BaseUrl + "/MPs.json";
         private static string UserListUrl = BaseUrl + "/get_user_list";
+        private static string QuestionListUrl = BaseUrl + "/get_question_list";
+        private static string QuestionUrl = BaseUrl + "/get_question";
         // TODO At the moment, this is not used, because we don't have a cert chain for the server Public Key.
         // Instead, the public key itself is hardcoded.
         // private static string ServerPubKeyUrl = BaseUrl + "/get_server_public_key_spki";
@@ -84,8 +88,18 @@ namespace RightToAskClient.HttpClients
 
         public static async Task<Result<bool>> UpdateExistingUser(ClientSignedUnparsed existingReg)
         {
-            //string EditUrl = EditUserUrl + App.ReadingContext.ThisParticipant.RegistrationInfo.uid;
             return await SendDataToServer<ClientSignedUnparsed>(existingReg, "user", EditUserUrl);
+        }
+
+        public static async Task<Result<List<string>>> GetQuestionList()
+        {
+            return await Client.DoGetResultRequest<List<string>>(QuestionListUrl);
+        }
+
+        public static async Task<Result<NewQuestionServerReceive>> GetQuestionById(string questionId)
+        {
+            string GetQuestionUrl = QuestionUrl + "?question_id=" + questionId;
+            return await Client.DoGetResultRequest<NewQuestionServerReceive>(GetQuestionUrl);
         }
 
         public static async Task<Result<bool>> RegisterNewQuestion(ClientSignedUnparsed newQuestion)
@@ -93,36 +107,9 @@ namespace RightToAskClient.HttpClients
             return await SendDataToServer<ClientSignedUnparsed>(newQuestion, "question", QnUrl);
         }
 
-        public static async Task<Result<bool>> UpdateExistingThing<T>(T existingThing, string typeDescr, string uri)
+        public static async Task<Result<bool>> UpdateExistingQuestion(ClientSignedUnparsed existingQuestion)
         {
-            var httpResponse
-                = await Client.PutGenericItemAsync<Result<SignedString>, T>(existingThing, uri);
-
-            // http errors
-            if (String.IsNullOrEmpty(httpResponse.Err))
-            {
-                // Error responses from the server
-                if (String.IsNullOrEmpty(httpResponse.Ok.Err))
-                {
-                    if (!httpResponse.Ok.Ok.verifies(ServerSignatureVerificationService.ServerPublicKey))
-                    {
-                        Debug.WriteLine(@"\t Error updating existing " + typeDescr + ": Signature verification failed");
-                        return new Result<bool>()
-                        {
-                            Err = "Server signature verification failed"
-                        };
-                    }
-
-                    return new Result<bool>() { Ok = true };
-
-                }
-
-                Debug.WriteLine(@"\tError updating existing " + typeDescr + ": " + httpResponse.Ok.Err);
-                return new Result<bool>() { Err = httpResponse.Ok.Err };
-            }
-
-            Debug.WriteLine(@"\tError reaching server for updating existing " + typeDescr + ": " + httpResponse.Err);
-            return new Result<bool>() { Err = httpResponse.Err };
+            return await SendDataToServer<ClientSignedUnparsed>(existingQuestion, "question", EditQnUrl);
         }
 
         /*
@@ -182,7 +169,21 @@ namespace RightToAskClient.HttpClients
 
             return (false, "Server error" + response.Err);
         }
-        
+
+        // maybe overload this to get both a response boolean and data back
+        public static (bool isValid, string message) ValidateHttpResponse(Result<(bool, List<string>)> response, string messageTopic)
+        {
+            if (String.IsNullOrEmpty(response.Err))
+            {
+                if (response.Ok.Item1)
+                {
+                    return (true, messageTopic + ": Success.");
+                }
+                return (false, messageTopic + ": Failure.");
+            }
+            return (false, "Server error" + response.Err);
+        }
+
         // Tries to read server config, returns the url if there's a valid configuration file
         // specifying that that url is to be used.
         // Otherwise use default URL for localhost.

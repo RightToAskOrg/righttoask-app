@@ -163,5 +163,50 @@ namespace RightToAskClient.CryptoUtils
             };
 
         }
+
+        public ClientSignedUnparsed SignMessageWithOptions<T>(T message, string userID)
+        {
+            string serializedMessage = "";
+            byte[] messageBytes;
+            string sig = "";
+
+            // json serializer options
+            JsonSerializerOptions options = new JsonSerializerOptions()
+            {
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+            };
+
+            try
+            {
+                serializedMessage = JsonSerializer.Serialize(message, options);
+                messageBytes = Encoding.UTF8.GetBytes(serializedMessage);
+
+                MySigner.BlockUpdate(messageBytes, 0, messageBytes.Length);
+                sig = Convert.ToBase64String(MySigner.GenerateSignature());
+            }
+            catch (JsonException e)
+            {
+                // TODO Deal with Json serialisation problem
+                Debug.WriteLine("Json Exception: " + e.Message);
+            }
+            catch (InvalidOperationException e)
+            {
+                // TODO Something went wrong with signing
+                Debug.WriteLine("Invalid Operation Exception: " + e.Message);
+            }
+            catch (Exception e)
+            {
+                // TODO Something else went wrong
+                Debug.WriteLine("Generic Exception: " + e.Message);
+            }
+
+            return new ClientSignedUnparsed()
+            {
+                message = serializedMessage,
+                signature = sig,
+                user = userID
+            };
+
+        }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using System.Text.Json;
 using RightToAskClient.CryptoUtils;
 
 // This class represents a person who uses the
@@ -61,6 +62,11 @@ namespace RightToAskClient.Models
 		{
 			return _signatureService.SignMessage(message, RegistrationInfo.uid );
 		}
+
+		public ClientSignedUnparsed SignMessageWithOptions<T>(T message)
+        {
+			return _signatureService.SignMessageWithOptions(message, RegistrationInfo.uid);
+        }
 
 		public string MyPublicKey()
 		{
