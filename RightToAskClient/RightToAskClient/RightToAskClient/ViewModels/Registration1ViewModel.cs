@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using RightToAskClient.CryptoUtils;
 using RightToAskClient.HttpClients;
 using RightToAskClient.Models;
+using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Resx;
 using RightToAskClient.Views;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -351,14 +352,14 @@ namespace RightToAskClient.ViewModels
         private void SaveToPreferences()
         {
             // save registration to preferences
-            var registrationObjectToSave = JsonSerializer.Serialize(Registration);
+            var registrationObjectToSave = JsonSerializer.Serialize(new ServerUser(Registration));
             Preferences.Set("RegistrationInfo", registrationObjectToSave);
             Preferences.Set("StateID", SelectedState); // stored as an int as used for the other page(s) state pickers
         }
 
         private async void SendUpdatedUserToServer()
         {
-            // If we try to update an existing user, this will fail.
+            // Shouldn't be updating a non-existent user. 
             Debug.Assert(App.ReadingContext.ThisParticipant.IsRegistered);
             
             var nameToSend = new { display_name = Registration.display_name, state = Registration.State, electorates = Registration.electorates };

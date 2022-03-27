@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using RightToAskClient.Models.ServerCommsData;
 using Switch = Xamarin.Forms.Switch;
 
 namespace RightToAskClient
@@ -40,8 +41,9 @@ namespace RightToAskClient
             var registrationPref = Preferences.Get("RegistrationInfo", "");
             if (!string.IsNullOrEmpty(registrationPref))
             {
-                var registrationObj = JsonSerializer.Deserialize<Registration>(registrationPref);
-                ReadingContext.ThisParticipant.RegistrationInfo = registrationObj ?? new Registration();
+                var registrationObj = JsonSerializer.Deserialize<ServerUser>(registrationPref);
+                ReadingContext.ThisParticipant.RegistrationInfo 
+                    = registrationObj is null ? new Registration() : new Registration(registrationObj);
                 
                 // We actually need to check for the stored "IsRegistered" boolean, in case they tried to
                 // register but failed, for example because the server was offline.

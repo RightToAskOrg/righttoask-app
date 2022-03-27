@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using RightToAskClient.Annotations;
+using RightToAskClient.Models.ServerCommsData;
 using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace RightToAskClient.Models
@@ -26,6 +27,22 @@ namespace RightToAskClient.Models
         public string uid { get; set; } = "";
 
         private List<ElectorateWithChamber> _electorates = new List<ElectorateWithChamber>();
+
+        public Registration()
+        {
+        }
+
+        public Registration(ServerUser input)
+        {
+            display_name = input.display_name;
+            public_key = input.public_key;
+            state = input.state;
+            uid = input.uid;
+            _electorates = input.electorates.ToList();
+            // TODO add badges
+            // badges = input.badges;
+        }
+
         public ObservableCollection<ElectorateWithChamber> electorates 
         {
             get { return new ObservableCollection<ElectorateWithChamber>(_electorates); }
