@@ -411,6 +411,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string QuestionEditSuccessfulPopupText {
+            get {
+                return ResourceManager.GetString("QuestionEditSuccessfulPopupText", resourceCulture);
+            }
+        }
+        
         internal static string QuestionHeaderText {
             get {
                 return ResourceManager.GetString("QuestionHeaderText", resourceCulture);
