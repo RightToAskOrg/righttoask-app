@@ -350,7 +350,7 @@ namespace RightToAskClient.ViewModels
         {
             if (SelectedState != -1)
             {
-                App.ReadingContext.ThisParticipant.RegistrationInfo.State = ParliamentData.StatesAndTerritories[SelectedState];
+                App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsIndex = SelectedState;
                 App.ReadingContext.ThisParticipant.AddSenatorsFromState(App.ReadingContext.ThisParticipant.RegistrationInfo.State);
                 UpdateElectoratePickerSources(App.ReadingContext.ThisParticipant.RegistrationInfo.State);
             }

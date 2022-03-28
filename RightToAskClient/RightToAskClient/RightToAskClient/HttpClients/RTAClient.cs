@@ -8,6 +8,7 @@ using RightToAskClient.Models;
 using RightToAskClient.CryptoUtils;
 using Xamarin.Essentials;
 using RightToAskClient.Models.ServerCommsData;
+using RightToAskClient.Resx;
 
 namespace RightToAskClient.HttpClients
 {
@@ -29,14 +30,17 @@ namespace RightToAskClient.HttpClients
         // TODO At the moment, this is not used, because we don't have a cert chain for the server Public Key.
         // Instead, the public key itself is hardcoded.
         // private static string ServerPubKeyUrl = BaseUrl + "/get_server_public_key_spki";
+        
         private static JsonSerializerOptions _serializerOptions =
             new JsonSerializerOptions
             {
                 Converters = { new JsonStringEnumConverter() },
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
                 WriteIndented = false,
             };
         
         private static readonly GenericHttpClient Client = new GenericHttpClient(_serializerOptions);
+        
         public static string? ServerPublicKey
         {
             get;
@@ -83,13 +87,17 @@ namespace RightToAskClient.HttpClients
 
         public static async Task<Result<bool>> RegisterNewUser(Registration newReg)
         {
-            return await SendDataToServer<Registration>(newReg, "user", RegUrl);
+            var newUserForServer = new ServerUser(newReg);
+            return await SendDataToServer<ServerUser>(newUserForServer, "user", RegUrl);
         }
 
-        public static async Task<Result<bool>> UpdateExistingUser(ClientSignedUnparsed existingReg)
+        public static async Task<Result<bool>> UpdateExistingUser(ServerUser existingReg)
         {
-            return await SendDataToServer<ClientSignedUnparsed>(existingReg, "user", EditUserUrl);
+            Debug.Assert(App.ReadingContext.ThisParticipant.IsRegistered);
+            return await SignAndSendDataToServer<ServerUser>(existingReg, "user", EditUserUrl,
+                AppResources.AccountUpdateSigningError);
         }
+
 
         public static async Task<Result<List<string>>> GetQuestionList()
         {
@@ -102,16 +110,32 @@ namespace RightToAskClient.HttpClients
             return await Client.DoGetResultRequest<NewQuestionServerReceive>(GetQuestionUrl);
         }
 
+        // TODO refactor to use SignAndSendDataToServer 
         public static async Task<Result<bool>> RegisterNewQuestion(ClientSignedUnparsed newQuestion)
         {
             return await SendDataToServer<ClientSignedUnparsed>(newQuestion, "question", QnUrl);
         }
 
+        // TODO refactor to use SignAndSendDataToServer 
         public static async Task<Result<bool>> UpdateExistingQuestion(ClientSignedUnparsed existingQuestion)
         {
             return await SendDataToServer<ClientSignedUnparsed>(existingQuestion, "question", EditQnUrl);
         }
 
+        // Sign a message (data) with this user's key, then upload to the specified url. 
+        // "description" and "error string" are for reporting errors in upload and signing resp.
+        private static async Task<Result<bool>> SignAndSendDataToServer<T>(T data, string description, string url, string errorString)
+        {
+            ClientSignedUnparsed signedUserMessage = App.ReadingContext.ThisParticipant.SignMessage(data);
+            if (!String.IsNullOrEmpty(signedUserMessage.signature))
+            {
+                return await SendDataToServer<ClientSignedUnparsed>(signedUserMessage, description, url);
+            }
+
+            Debug.WriteLine(errorString);
+            return new Result<bool>() { Err = errorString};
+        }
+        
         /*
          * Errors in the outer layer represent http errors, (e.g. 404).
          * These are logged because they represent a problem with the system.

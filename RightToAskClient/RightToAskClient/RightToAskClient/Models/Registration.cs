@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using RightToAskClient.Annotations;
+using RightToAskClient.Models.ServerCommsData;
 using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace RightToAskClient.Models
@@ -19,13 +20,50 @@ namespace RightToAskClient.Models
 
         public string State
         {
-            get => state;
-            set => state = value;
+            get
+            {
+                if (0 <= _selectedStateAsIndex && _selectedStateAsIndex < ParliamentData.StatesAndTerritories.Count)
+                {
+                     return ParliamentData.StatesAndTerritories[_selectedStateAsIndex];       
+                }
+
+                return "";
+            }
+            private set => state = value;
         }
 
         public string uid { get; set; } = "";
 
+        private int _selectedStateAsIndex = -1;
+        
+        // State, as an index into ParliamentData.StatesAndTerritories
+        // Setting this value also updates the chambers.
+        // TODO: Should it clear electorates that are not in the relevant state any more?
+        public int SelectedStateAsIndex
+        {
+            get => _selectedStateAsIndex;
+            set
+            {
+                
+            }
+        }
         private List<ElectorateWithChamber> _electorates = new List<ElectorateWithChamber>();
+
+        public Registration()
+        {
+        }
+
+        public Registration(ServerUser input)
+        {
+            display_name = input.display_name ?? "";
+            public_key = input.public_key ?? "";
+            state = input.state ?? "";
+            uid = input.uid ?? "";
+            _electorates = (input.electorates ?? new ObservableCollection<ElectorateWithChamber>()).ToList();
+            // TODO add badges
+            // badges = input.badges;
+        }
+
         public ObservableCollection<ElectorateWithChamber> electorates 
         {
             get { return new ObservableCollection<ElectorateWithChamber>(_electorates); }
@@ -87,6 +125,11 @@ namespace RightToAskClient.Models
             {
                 Err = "Please complete " + String.Join(" and ", errorFields)
             };
+        }
+
+        public void UpdateMultipleElectoratesRemoveDuplicates(ObservableCollection<ElectorateWithChamber> value)
+        {
+            throw new NotImplementedException();
         }
     }
 }
