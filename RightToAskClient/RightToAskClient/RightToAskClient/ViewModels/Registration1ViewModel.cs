@@ -73,12 +73,7 @@ namespace RightToAskClient.ViewModels
                 _registration.SelectedStateAsIndex = _selectedStateAsIndex;
                 if (SelectedStateAsIndex != -1)
                 {
-                    // _registration.State = ParliamentData.StatesAndTerritories[SelectedStateAsIndex];
-                    // This second line is redundant - it's the same thing because we only reach here when editing
-                    // updates for this user.
-                    // App.ReadingContext.ThisParticipant.RegistrationInfo.State = _registration.State;
-                    //TODO ** Make sure this update happens as part of updating state.
-                    // App.ReadingContext.ThisParticipant.UpdateChambers(_registration.State);
+                    _registrationUpdates.state = State;
                 }
             }
         }
