@@ -67,7 +67,7 @@ namespace RightToAskClient
             int stateID = Preferences.Get("StateID", -1);
             if (stateID >= 0)
             {
-                ReadingContext.ThisParticipant.RegistrationInfo.State = ParliamentData.StatesAndTerritories[stateID];
+                ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsIndex = stateID;
             }
         }
 

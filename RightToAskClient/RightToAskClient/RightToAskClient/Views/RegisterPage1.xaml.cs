@@ -24,7 +24,7 @@ namespace RightToAskClient.Views
             if (picker.SelectedIndex != -1)
             {
                 string state = (string)picker.SelectedItem;
-                App.ReadingContext.ThisParticipant.RegistrationInfo.State = state;
+                App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsIndex = picker.SelectedIndex;
                 App.ReadingContext.ThisParticipant.UpdateChambers(state);
             }
         }

@@ -35,6 +35,7 @@ namespace RightToAskClient.HttpClients
             new JsonSerializerOptions
             {
                 Converters = { new JsonStringEnumConverter() },
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
                 WriteIndented = false,
             };
         
