@@ -29,8 +29,12 @@ namespace RightToAskClient.ViewModels
         // The updates that have been made to this user's registration on this page
         // Note this is used only for updating an existing registration - new registrations are handled
         // with _registration.
-        private ServerUser _registrationUpdates = new ServerUser();  
-        
+        private ServerUser _registrationUpdates = new ServerUser();
+
+        public void ReinitRegistrationUpdates()
+        {
+            _registrationUpdates = new ServerUser() { uid = _registration.uid };
+        } 
         // UserID, DisplayName, State, SelectedStateAsInt and Electorates are all just reflections of their 
         // corresponding data in _registration.
         //
@@ -299,6 +303,10 @@ namespace RightToAskClient.ViewModels
             {
                 await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
             });
+            
+            // TODO Check that this is guaranteed to happen only after all the
+            // Components are initialized, i.e. after the fields are set.
+            // ReinitRegistrationUpdates();
         }
 
         // commands

@@ -3,6 +3,7 @@ using System.Linq;
 using RightToAskClient.CryptoUtils;
 using RightToAskClient.Models;
 using RightToAskClient.HttpClients;
+using RightToAskClient.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Xamarin.Essentials;
@@ -15,6 +16,9 @@ namespace RightToAskClient.Views
         public RegisterPage1()
         {
             InitializeComponent();
+
+            var reg = BindingContext as Registration1ViewModel;
+            reg.ReinitRegistrationUpdates();
         }
 
         void OnStatePickerSelectedIndexChanged(object sender, EventArgs e)
