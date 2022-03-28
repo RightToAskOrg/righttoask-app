@@ -105,5 +105,10 @@ namespace RightToAskClient.Models
                 Err = "Please complete " + String.Join(" and ", errorFields)
             };
         }
+
+        public void UpdateMultipleElectoratesRemoveDuplicates(ObservableCollection<ElectorateWithChamber> value)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
