@@ -21,6 +21,14 @@ namespace RightToAskClient.ViewModels
     public class Registration1ViewModel : BaseViewModel
     {
         #region Properties
+
+        // The updates that have been made to this user's registration on this page
+        // Note this is used only for updating an existing registration - new registrations are handled
+        // with _registration.
+        private ServerUser _registrationUpdates = new ServerUser();
+        
+        // The complete information about this user's current registration, including any updates that have been made
+        // on this page.
         private Registration _registration = App.ReadingContext.ThisParticipant.RegistrationInfo;
         public Registration Registration
         {
@@ -145,6 +153,8 @@ namespace RightToAskClient.ViewModels
                 if (_selectedElectorateWithChamber != null)
                 {
                     NavigateToFindMPsPage();
+                    // Update the electorate-updates that will be sent to the server, based on what was updated by the MP-finding page.
+                    _registrationUpdates.electorates = _registration.electorates;
                 }
             }
         }
@@ -206,6 +216,8 @@ namespace RightToAskClient.ViewModels
             UpdateMPsButtonCommand = new Command(() =>
             {
                 NavigateToFindMPsPage();
+                // Update the electorate-updates that will be sent to the server, based on what was updated by the MP-finding page.
+                _registrationUpdates.electorates = _registration.electorates;
             });
             RegisterMPButtonCommand = new Command(() =>
             {
@@ -252,13 +264,13 @@ namespace RightToAskClient.ViewModels
         public IAsyncCommand SeeQuestionsButtonCommand { get; }
 
         #region Methods
-        // TODO Make this put up the electorate-finding page.
         public async void NavigateToFindMPsPage()
         {
             await Shell.Current.GoToAsync($"{nameof(RegisterPage2)}").ContinueWith((_) =>
             {
                 MessagingCenter.Send(this, "FromReg1"); // sending Registration1ViewModel
             });
+             
         }
 
         // Show and label different buttons according to whether we're registering
@@ -307,6 +319,8 @@ namespace RightToAskClient.ViewModels
             }
         }
 
+        // This is called only for registering a new account - we need to include all necessary information, including
+        // public key and uid. Electorates are optional.
         private async void OnSaveButtonClicked()
         {
             Debug.Assert(!App.ReadingContext.ThisParticipant.IsRegistered);
@@ -362,11 +376,12 @@ namespace RightToAskClient.ViewModels
             // Shouldn't be updating a non-existent user. 
             Debug.Assert(App.ReadingContext.ThisParticipant.IsRegistered);
             
-            var nameToSend = new { display_name = Registration.display_name, state = Registration.State, electorates = Registration.electorates };
+            var nameToSend = new ServerUser { display_name = Registration.display_name, state = Registration.State, electorates = Registration.electorates };
             ClientSignedUnparsed signedUserMessage = App.ReadingContext.ThisParticipant.SignMessage(nameToSend);
             if (!String.IsNullOrEmpty(signedUserMessage.signature))
             {
-                Result<bool> httpResponse = await RTAClient.UpdateExistingUser(signedUserMessage);
+                Result<bool> httpResponse = await RTAClient.UpdateExistingUser(nameToSend);
+                // Result<bool> httpResponse = await RTAClient.UpdateExistingUser(signedUserMessage);
                 var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
                 ReportLabelText = httpValidation.message;
                 if (httpValidation.isValid)
