@@ -28,6 +28,8 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _question, value);
         }
 
+        public NewQuestionServerSend _serverQuestionUpdates = new NewQuestionServerSend();
+
         private bool _isNewQuestion;
         public bool IsNewQuestion
         {
@@ -276,7 +278,7 @@ namespace RightToAskClient.ViewModels
             // set defaults
             Question = new Question();
             IsNewQuestion = false;
-            IsReadingOnly = App.ReadingContext.IsReadingOnly;
+            IsReadingOnly = App.ReadingContext.IsReadingOnly; // crashes here if setting up existing test questions
             RaisedByOptionSelected = false;
             DisplayFindCommitteeButton = true;
             DisplaySenateEstimatesSection = false;
@@ -286,19 +288,12 @@ namespace RightToAskClient.ViewModels
             SelectButtonText = AppResources.SelectButtonText;
             ReportLabelText = AppResources.MPDataStillInitializing;
             App.ReadingContext.DraftQuestion = Question.QuestionText;
-            Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.display_name; // could need rechecking
+            Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.uid;
+        }
 
-            if (!string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.RegistrationInfo.uid))
-            {
-                if (!string.IsNullOrEmpty(Question.QuestionSuggester))
-                {
-                    if (Question.QuestionSuggester == App.ReadingContext.ThisParticipant.RegistrationInfo.uid)
-                    {
-                        CanEditBackground = true;
-                        CanEditQuestion = true;
-                    }
-                }
-            }
+        public void ReinitQuestionUpdates()
+        {
+            _serverQuestionUpdates = new NewQuestionServerSend();
         }
 
         public void OnButtonPressed(int buttonId)
@@ -441,7 +436,7 @@ namespace RightToAskClient.ViewModels
 
         private void setSuggester(object sender, EventArgs e)
         {
-            QuestionViewModel.Instance.Question.QuestionSuggester = App.ReadingContext.ThisParticipant.ShortestName;
+            QuestionViewModel.Instance.Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.uid;
         }
 
         private async void SaveQuestion()
@@ -506,17 +501,10 @@ namespace RightToAskClient.ViewModels
 
         private async Task<(bool isValid, string message)> SendQuestionUpdatesToServer()
         {
-            // find a way to serialize for just the edited fields
-            NewQuestionServerSend editedQuestion = new NewQuestionServerSend()
-            {
-                question_id = Question.QuestionId,
-                question_text = Question.QuestionText,
-                version = Question.Version,
-                background = Question.Background,
-            };
-
-            ClientSignedUnparsed signedQuestionEdit = App.ReadingContext.ThisParticipant.SignMessageWithOptions(editedQuestion);
-
+            // needs these two fields in the message payload
+            _serverQuestionUpdates.question_id = Question.QuestionId;
+            _serverQuestionUpdates.version = Question.Version;
+            ClientSignedUnparsed signedQuestionEdit = App.ReadingContext.ThisParticipant.SignMessageWithOptions(_serverQuestionUpdates);
             if (!String.IsNullOrEmpty(signedQuestionEdit.signature))
             {
                 Result<bool> httpResponse = await RTAClient.UpdateExistingQuestion(signedQuestionEdit);

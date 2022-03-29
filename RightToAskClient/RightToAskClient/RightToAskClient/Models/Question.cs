@@ -1,3 +1,4 @@
+using RightToAskClient.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,16 +14,52 @@ namespace RightToAskClient.Models
         private int _upVotes;
         private int _downVotes;
 
-        public string QuestionText { get; set; } = "";
+        private string _questionText = "";
+        public string QuestionText
+        {
+            get => _questionText;
+            set
+            {
+                SetProperty(ref _questionText, value);
+                QuestionViewModel.Instance._serverQuestionUpdates.question_text = _questionText;
+            }
+        }
         public DateTime UploadTimestamp { get; set; }
-        public string Background { get; set; } = "";
+        private string _background = "";
+        public string Background
+        {
+            get => _background;
+            set
+            {
+                SetProperty(ref _background, value);
+                QuestionViewModel.Instance._serverQuestionUpdates.background = _background;
+            }
+        }
         public bool AnswerAccepted { get; set; }
         public string IsFollowupTo { get; set; } = "";
         public List<string> Keywords { get; set; } = new List<string>();
         public List<string> Category { get; set; } = new List<string>();
         public DateTime ExpiryDate { get; set; }
-        public string QuestionId { get; set; } = "";
-        public string Version { get; set; } = "";
+        private string _questionId = "";
+        public string QuestionId
+        {
+            get => _questionId;
+            set
+            {
+                SetProperty(ref _questionId, value);
+                QuestionViewModel.Instance._serverQuestionUpdates.question_id = _questionId;
+            }
+        }
+        private string _version = "";
+        public string Version
+        {
+            get => _version;
+            set
+            {
+                SetProperty(ref _version, value);
+                QuestionViewModel.Instance._serverQuestionUpdates.version = _version;
+            }
+        }
 
         // The person who suggested the question
         private string _questionSuggester = "";
