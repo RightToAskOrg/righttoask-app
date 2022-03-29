@@ -236,9 +236,9 @@ namespace RightToAskClient.ViewModels
             RegisterMPButtonText = AppResources.RegisterMPAccountButtonText;
             RegisterOrgButtonText = AppResources.RegisterOrganisationAccountButtonText;
             CanEditUID = !App.ReadingContext.ThisParticipant.IsRegistered;
-            
-             // uid should still be sent in the 'update' even though it doesn't change.
-             _registrationUpdates.uid = _registration.uid ;
+
+            // uid should still be sent in the 'update' even though it doesn't change.
+            _registrationUpdates.uid = _registration.uid;
              
             // If this is this user's profile, show them IndividualParticipant data
             // (if there is any) and give them the option to edit (or make new).
@@ -303,10 +303,6 @@ namespace RightToAskClient.ViewModels
             {
                 await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
             });
-            
-            // TODO Check that this is guaranteed to happen only after all the
-            // Components are initialized, i.e. after the fields are set.
-            // ReinitRegistrationUpdates();
         }
 
         // commands

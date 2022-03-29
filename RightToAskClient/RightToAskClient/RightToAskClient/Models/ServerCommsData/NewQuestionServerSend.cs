@@ -7,7 +7,7 @@ namespace RightToAskClient.Models.ServerCommsData
     public class NewQuestionServerSend
     {
         [JsonPropertyName("question_text")]
-        public string question_text { get; set; }
+        public string? question_text { get; set; }
         //[JsonPropertyName("question_writer")]
         //public string question_writer { get; set; }
         //[JsonPropertyName("upload_timestamp")]
@@ -15,7 +15,7 @@ namespace RightToAskClient.Models.ServerCommsData
 
         // non-defining fields
         [JsonPropertyName("background")]
-        public string background { get; set; }
+        public string? background { get; set; }
         //[JsonPropertyName("mp_who_should_ask_the_questions")]
         //public List<Entity> mp_who_should_ask_the_questions { get; set; }
         //[JsonPropertyName("entity_who_should_answer_the_quetions")]
@@ -27,7 +27,7 @@ namespace RightToAskClient.Models.ServerCommsData
         //[JsonPropertyName("hansard_link")]
         //public List<string> hansard_link { get; set; } // list<url>
         [JsonPropertyName("is_followup_to")]
-        public string is_followup_to { get; set; } // questionID
+        public string? is_followup_to { get; set; } // questionID
         //[JsonPropertyName("keywords")]
         //public List<string> keywords { get; set; }
         //[JsonPropertyName("category")]
@@ -36,10 +36,12 @@ namespace RightToAskClient.Models.ServerCommsData
         //public DateTime expiry_date { get; set; }
 
         // bookkeeping fields
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
         [JsonPropertyName("question_id")]
-        public string question_id { get; set; }
+        public string? question_id { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
         [JsonPropertyName("version")]
-        public string version { get; set; }
+        public string? version { get; set; }
 
     }
 }

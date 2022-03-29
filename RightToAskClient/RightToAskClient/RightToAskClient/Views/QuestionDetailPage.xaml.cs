@@ -24,10 +24,15 @@ namespace RightToAskClient.Views
                     if (QuestionViewModel.Instance.Question.QuestionSuggester == App.ReadingContext.ThisParticipant.RegistrationInfo.uid)
                     {
                         QuestionViewModel.Instance.CanEditBackground = true;
-                        QuestionViewModel.Instance.CanEditQuestion = true;
+                        if (!QuestionViewModel.Instance.IsNewQuestion)
+                        {
+                            QuestionViewModel.Instance.CanEditQuestion = true;
+                        }
                     }
                 }
             }
+            var vm = BindingContext as QuestionViewModel;
+            vm.ReinitQuestionUpdates();
         }
 
         // I'm not actually sure what triggers the 'send' event here, and hence not sure

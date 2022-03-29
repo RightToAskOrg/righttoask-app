@@ -166,7 +166,7 @@ namespace RightToAskClient.ViewModels
             {
                 QuestionText = App.ReadingContext.DraftQuestion,
                 // TODO: Enforce registration before question-suggesting.
-                QuestionSuggester = (thisParticipant.IsRegistered) ? thisParticipant.RegistrationInfo.display_name : "Anonymous user",
+                QuestionSuggester = (thisParticipant.IsRegistered) ? thisParticipant.RegistrationInfo.uid : "Anonymous user",
                 QuestionAnswerers = questionAnswerers,
                 DownVotes = 0,
                 UpVotes = 0
@@ -247,11 +247,11 @@ namespace RightToAskClient.ViewModels
                 {
                     Question temp = new Question()
                     {
-                        QuestionId = serverQuestion.question_id,
-                        QuestionText = serverQuestion.question_text,
-                        QuestionSuggester = serverQuestion.author,
-                        Version = serverQuestion.version,
-                        //Background = serverQuestion.background, // doesn't exist on the server response object yet
+                        QuestionId = serverQuestion.question_id ?? "",
+                        QuestionText = serverQuestion.question_text ?? "",
+                        QuestionSuggester = serverQuestion.author ?? "",
+                        Version = serverQuestion.version ?? "",
+                        Background = serverQuestion.background ?? "",
                         //UploadTimestamp = serverQuestion.timestamp,
                         //ExpiryDate = serverQuestion.last_modified,
                         //QuestionAsker = serverQuestion.who_should_ask_the_question_permissions,
