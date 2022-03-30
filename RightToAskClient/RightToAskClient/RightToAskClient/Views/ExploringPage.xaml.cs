@@ -40,6 +40,7 @@ namespace RightToAskClient.Views
 		protected ObservableCollection<Person> SelectedPeople = new ObservableCollection<Person>();
 
 		public bool CameFromReg2Page = false;
+		public bool SelectedOptionA = false;
 
 		public ExploringPage(ObservableCollection<MP> allEntities, 
 			ObservableCollection<MP> selectedEntities, string message="")
@@ -61,6 +62,11 @@ namespace RightToAskClient.Views
 					CameFromReg2Page = true;
 				}
 				MessagingCenter.Unsubscribe<FindMPsViewModel, bool>(this, "PreviousPage");
+			});
+			MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionA", (sender) =>
+			{
+				SelectedOptionA = true;
+				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionA");
 			});
 		}
 
@@ -86,6 +92,12 @@ namespace RightToAskClient.Views
 					CameFromReg2Page = true;
 				}
 				MessagingCenter.Unsubscribe<FindMPsViewModel, bool>(this, "PreviousPage");
+			});
+
+			MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionA", (sender) =>
+			{
+				SelectedOptionA = true;
+				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionA");
 			});
 		}
 
@@ -123,6 +135,11 @@ namespace RightToAskClient.Views
 					CameFromReg2Page = true;
 				}
 				MessagingCenter.Unsubscribe<FindMPsViewModel, bool>(this, "PreviousPage");
+			});
+			MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionA", (sender) =>
+			{
+				SelectedOptionA = true;
+				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionA");
 			});
 		}
 
@@ -172,6 +189,11 @@ namespace RightToAskClient.Views
 				CameFromReg2Page = false;
 				await Shell.Current.GoToAsync("../.."); // double pop
 			}
+			else if (SelectedOptionA)
+            {
+				SelectedOptionA = false;
+				await Shell.Current.GoToAsync(nameof(QuestionDetailPage));
+            }
             else
             {
 				await Navigation.PopAsync(); // single pop

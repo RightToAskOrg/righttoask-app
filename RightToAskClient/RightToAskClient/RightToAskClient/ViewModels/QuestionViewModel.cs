@@ -201,7 +201,10 @@ namespace RightToAskClient.ViewModels
             // It will pop back to here.
             AnsweredByMyMPCommand = new AsyncCommand(async () =>
             {
-                await NavigationUtils.PushMyAnsweringMPsExploringPage();
+                await NavigationUtils.PushMyAnsweringMPsExploringPage().ContinueWith((_) =>
+                {
+                    MessagingCenter.Send(this, "OptionA"); // Sends this view model
+                });
             });
             AnsweredByOtherMPCommand = new AsyncCommand(async () =>
             {
