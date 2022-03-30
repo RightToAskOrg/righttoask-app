@@ -113,6 +113,12 @@
                 <Setter Property="Padding" Value="0"></Setter>
                 <!--<Setter Property="Text" Value="+1"></Setter>-->
             </Style>
+            <Style x:Key="TransparentSquareButton" TargetType="Button" ApplyToDerivedTypes="True">
+                <Setter Property="BackgroundColor" Value="Transparent"></Setter>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"></Setter>
+                <Setter Property="VerticalOptions" Value="FillAndExpand"></Setter>
+                <Setter Property="Padding" Value="0"></Setter>
+            </Style>
             <Style x:Key="NormalEditor" TargetType="Editor" ApplyToDerivedTypes="True">
                 <Setter Property="BackgroundColor" Value = "{StaticResource FadedButtonColor}"></Setter>
                 <Setter Property="TextColor" Value="{StaticResource TextColor}"></Setter>
@@ -134,6 +140,13 @@
             <Style x:Key="GreenFrame" TargetType="Frame">
                 <Setter Property="OutlineColor" Value="{StaticResource FrameOutlineColor}"></Setter>
             </Style>
+            <Style x:Key="InvisibleButtonFrame" TargetType="Frame">
+                <Setter Property="OutlineColor" Value="{StaticResource FrameOutlineColor}"></Setter>
+                <Setter Property="BackgroundColor" Value="{StaticResource FrameColor}"></Setter>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"></Setter>
+                <Setter Property="VerticalOptions" Value="FillAndExpand"></Setter>
+                <Setter Property="Padding" Value="0"></Setter>
+            </Style>
             <Style x:Key="SubtleFrame" TargetType="Frame">
                 <Setter Property="BackgroundColor" Value="{StaticResource FrameColor}"></Setter> 
                 <Setter Property="CornerRadius" Value="10"></Setter>
@@ -149,6 +162,19 @@
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource HeadingTextColor}, Dark={StaticResource TextColorDark}}"></Setter>
                 <Setter Property="FontSize" Value="Medium"></Setter>
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
+            </Style>
+            <Style x:Key="HeaderButtonText" TargetType="Label">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColorDark}}"></Setter>
+                <Setter Property="FontSize" Value="Medium"></Setter>
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="VerticalOptions" Value="Center"></Setter>
+                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
+            </Style>
+            <Style x:Key="BodyButtonText" TargetType="Label">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColorDark}}"></Setter>
+                <Setter Property="FontSize" Value="Small"></Setter>
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
             </Style>
             <Style x:Key="LeftSmall" TargetType="Label">
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColorDark}}"></Setter>

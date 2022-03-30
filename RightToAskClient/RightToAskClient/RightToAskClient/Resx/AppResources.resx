@@ -382,8 +382,8 @@
   <data name="Step2BodyText7" xml:space="preserve">
     <value>or are you just not sure?</value>
   </data>
-  <data name="Step2Title" xml:space="preserve">
-    <value>Step 2</value>
+  <data name="RaiseQuestionTitle" xml:space="preserve">
+    <value>Raise My Question</value>
   </data>
   <data name="StreetHeaderText" xml:space="preserve">
     <value>Street number and name</value>
@@ -438,5 +438,11 @@
   </data>
   <data name="QuestionEditSuccessfulPopupText" xml:space="preserve">
     <value>Question was edited successfully.</value>
+  </data>
+  <data name="DraftMyQuestionTitle" xml:space="preserve">
+    <value>Draft a Question</value>
+  </data>
+  <data name="RaiseQuestionHeaderText" xml:space="preserve">
+    <value>Now, we'll help you direct your question to where it might get answered. Choose by whom should it be raised by...</value>
   </data>
 </root>

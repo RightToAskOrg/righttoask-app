@@ -27,7 +27,7 @@ namespace RightToAskClient.Views
             else
             {
                 QuestionViewModel.Instance.IsReadingOnly = false;
-                Title = AppResources.DirectMyQuestionTitle;
+                Title = AppResources.DraftMyQuestionTitle;
             }
         }
 

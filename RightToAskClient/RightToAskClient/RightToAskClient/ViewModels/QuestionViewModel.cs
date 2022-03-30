@@ -178,15 +178,16 @@ namespace RightToAskClient.ViewModels
             // At the moment this exclusivity is not enforced.
             NavigateForwardCommand = new AsyncCommand(async () =>
             {
-                if (NeedToFindAsker)
-                {
-                    await Shell.Current.GoToAsync($"{nameof(QuestionAskerPage)}");
-                }
-                else
-                {
-                    App.ReadingContext.IsReadingOnly = IsReadingOnly;
-                    await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
-                }
+                await Shell.Current.GoToAsync($"{nameof(FlowOptionPage)}");
+                //if (NeedToFindAsker)
+                //{
+                //    await Shell.Current.GoToAsync($"{nameof(QuestionAskerPage)}");
+                //}
+                //else
+                //{
+                //    App.ReadingContext.IsReadingOnly = IsReadingOnly;
+                //    await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
+                //}
             });
             OtherPublicAuthorityButtonCommand = new AsyncCommand(async () =>
             {
@@ -257,6 +258,14 @@ namespace RightToAskClient.ViewModels
                     _ = await Shell.Current.Navigation.PopAsync();
                 }
             });
+            OptionACommand = new AsyncCommand(async () =>
+            {
+                await Shell.Current.GoToAsync($"{nameof(QuestionAskerPage)}");
+            });
+            OptionBCommand = new AsyncCommand(async () =>
+            {
+                await Shell.Current.GoToAsync($"{nameof(QuestionAskerPage)}");
+            });
         }
 
         public Command<string> RaisedOptionSelectedCommand { get; }
@@ -272,6 +281,8 @@ namespace RightToAskClient.ViewModels
         public Command UpvoteCommand { get; }
         public Command SaveAnswerCommand { get; }
         public Command EditAnswerCommand { get; }
+        public IAsyncCommand OptionACommand { get; }
+        public IAsyncCommand OptionBCommand { get; }
 
         public void ResetInstance()
         {

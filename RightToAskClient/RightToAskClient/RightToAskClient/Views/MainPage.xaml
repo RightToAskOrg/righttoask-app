@@ -14,7 +14,10 @@
         <StackLayout VerticalOptions="CenterAndExpand" Spacing="40">
             <Frame Style="{StaticResource SubtleFrame}">
 			    <StackLayout Style="{StaticResource VertStack}">
-                    <Label Text="{xct:Translate MainPageHeaderText}" Style="{StaticResource Header1}" />
+                    <Label Text="{xct:Translate MainPageHeaderText}" Style="{StaticResource Header1}" 
+                           AutomationProperties.IsInAccessibleTree="True"
+                           AutomationProperties.Name="Main Page Label"
+                           AutomationProperties.HelpText="This is the main header for the page and application in general"/>
                     <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
                         <Button Text="{xct:Translate TrendingNowButtonText}" Style="{StaticResource GreenButton}" HeightRequest="50" 
                                 Command="{Binding Top10ButtonCommand}" HorizontalOptions="Center"/>
