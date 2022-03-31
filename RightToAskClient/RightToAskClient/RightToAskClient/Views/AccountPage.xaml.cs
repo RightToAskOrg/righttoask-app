@@ -17,7 +17,7 @@ namespace RightToAskClient.Views
             InitializeComponent();
             
             var reg = BindingContext as Registration1ViewModel;
-            reg.ReinitRegistrationUpdates();
+            reg?.ReinitRegistrationUpdates();
         }
 
         protected override bool OnBackButtonPressed()
