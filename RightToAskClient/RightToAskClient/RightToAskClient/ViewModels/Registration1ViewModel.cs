@@ -46,7 +46,7 @@ namespace RightToAskClient.ViewModels
             set
             {
                 _registration.uid = value;
-                OnPropertyChanged();
+                OnPropertyChanged("UserID");
             }
         }
         
@@ -59,26 +59,29 @@ namespace RightToAskClient.ViewModels
             {
                 _registration.display_name = value;
                 _registrationUpdates.display_name = value;
-                OnPropertyChanged();
+                OnPropertyChanged("DisplayName");
             }
         }
 
         public string State
         {
-            get => _selectedStateAsIndex >= 0 ? ParliamentData.StatesAndTerritories[SelectedStateAsIndex] : "";
+            get => _registration.SelectedStateAsIndex >= 0 ? ParliamentData.StatesAndTerritories[SelectedStateAsIndex] : "";
         }
-        private int _selectedStateAsIndex = -1;
+        
+        // private int _selectedStateAsIndex = -1;
         public int SelectedStateAsIndex
         {
-            get => _selectedStateAsIndex;
+            get => _registration.SelectedStateAsIndex;
             set
             {
-                SetProperty(ref _selectedStateAsIndex, value);
-                _registration.SelectedStateAsIndex = _selectedStateAsIndex;
+                _registration.SelectedStateAsIndex = value;
+                // TODO At the moment, this means that there is no way that someone who has previously selected a state can
+                // revert to the point where there is no state
                 if (SelectedStateAsIndex != -1)
                 {
                     _registrationUpdates.state = State;
                 }
+                OnPropertyChanged("State");
             }
         }
         
@@ -91,6 +94,7 @@ namespace RightToAskClient.ViewModels
             {
                 _registration.UpdateMultipleElectoratesRemoveDuplicates(value);
                 _registrationUpdates.electorates = _registration.electorates;
+                OnPropertyChanged("Electorates");
             }
         }
         public Registration Registration
@@ -247,7 +251,7 @@ namespace RightToAskClient.ViewModels
             // TODO Clarify meaning of ReadingOnly - looks like it has a few different uses.
             if (!App.ReadingContext.IsReadingOnly)
             {
-                SelectedStateAsIndex = Preferences.Get("StateID", -1);
+                // SelectedStateAsIndex = Preferences.Get("StateID", -1);
                 ShowUpdateAccountButton = App.ReadingContext.ThisParticipant.IsRegistered;
                 Title = App.ReadingContext.ThisParticipant.IsRegistered ? AppResources.EditYourAccountTitle : AppResources.CreateAccountTitle;
             }

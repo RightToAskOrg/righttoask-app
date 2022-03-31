@@ -42,10 +42,7 @@ namespace RightToAskClient.Models
         public int SelectedStateAsIndex
         {
             get => _selectedStateAsIndex;
-            set
-            {
-                
-            }
+            set => SetProperty(ref _selectedStateAsIndex, value); 
         }
         private List<ElectorateWithChamber> _electorates = new List<ElectorateWithChamber>();
 
