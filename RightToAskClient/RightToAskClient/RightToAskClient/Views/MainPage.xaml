@@ -11,36 +11,54 @@
         <vm:MainPageViewModel/>
     </ContentPage.BindingContext>
         <ContentPage.Content>
-        <StackLayout VerticalOptions="CenterAndExpand" Spacing="40">
-            <Frame Style="{StaticResource SubtleFrame}">
-			    <StackLayout Style="{StaticResource VertStack}">
-                    <Label Text="{xct:Translate MainPageHeaderText}" Style="{StaticResource Header1}" 
+        <StackLayout VerticalOptions="FillAndExpand" Margin="10">
+            <Label Text="Make your political questions have an impact" Style="{StaticResource Header1}" HorizontalTextAlignment="Center"/>
+            <BoxView />
+            <Grid RowDefinitions="auto,*,*,*" ColumnDefinitions="*,*,*,*,*" VerticalOptions="FillAndExpand">
+                <StackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Margin="0" Padding="0" Spacing="0">
+                    <Label Text="Read and upvote questions" Style="{StaticResource CenterSmall}"/>
+                    <Label Text="Write your own questions" Style="{StaticResource CenterSmall}"/>
+                    <Label Text="Help other citizens direct their questions" Style="{StaticResource CenterSmall}"/>
+                </StackLayout>
+                <StackLayout Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Grid.RowSpan="3" VerticalOptions="FillAndExpand">
+                    <StackLayout VerticalOptions="CenterAndExpand" Spacing="20">
+                        <Frame Style="{StaticResource SubtleFrame}" HeightRequest="115" Padding="10">
+                            <StackLayout VerticalOptions="Center">
+                                <Label Text="Search" Style="{StaticResource Header1}"/>
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="Start">
+                                    <SearchBar Placeholder="{xct:Translate SearchBarPlaceholderText}" Style="{StaticResource GreenSearchBar}" 
+                                   Text="{Binding SearchText}" HorizontalOptions="Start" SearchCommand="{Binding ExpiringSoonButtonCommand}"/>
+                                    <Button Text="{xct:Translate AdvancedSearchButtonText}" Command="{Binding AdvancedSearchButtonCommand}" 
+                                Style="{StaticResource GreenButton}" HeightRequest="60" WidthRequest="100" CornerRadius="0"/>
+                                </StackLayout>
+                            </StackLayout>
+                        </Frame>
+                        <Frame Style="{StaticResource SubtleFrame}" HeightRequest="115" Padding="10">
+                            <StackLayout Style="{StaticResource VertStack}">
+                                <Label Text="{xct:Translate MainPageHeaderText}" Style="{StaticResource Header1}" HorizontalTextAlignment="Center"
                            AutomationProperties.IsInAccessibleTree="True"
                            AutomationProperties.Name="Main Page Label"
                            AutomationProperties.HelpText="This is the main header for the page and application in general"/>
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                        <Button Text="{xct:Translate TrendingNowButtonText}" Style="{StaticResource GreenButton}" HeightRequest="50" 
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                                    <Button Text="{xct:Translate TrendingNowButtonText}" Style="{StaticResource GreenButton}" HeightRequest="50" 
                                 Command="{Binding Top10ButtonCommand}" HorizontalOptions="Center"/>
-                        <Button Text="{xct:Translate ExpiringSoonButtonText}" Style="{StaticResource GreenButton}" 
+                                    <Button Text="{xct:Translate ExpiringSoonButtonText}" Style="{StaticResource GreenButton}" 
                                 Command="{Binding ExpiringSoonButtonCommand}" HorizontalOptions="Center"/>
-			        </StackLayout>
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="Start">
-                        <SearchBar Placeholder="{xct:Translate SearchBarPlaceholderText}" Style="{StaticResource GreenSearchBar}" 
-                                   Text="{Binding SearchText}" HorizontalOptions="Start" SearchCommand="{Binding ExpiringSoonButtonCommand}"/>
-                        <Button Text="{xct:Translate AdvancedSearchButtonText}" Command="{Binding AdvancedSearchButtonCommand}" 
-                                Style="{StaticResource GreenButton}" HeightRequest="50"/>
+                                </StackLayout>
+                            </StackLayout>
+                        </Frame>
+                        <Frame Style="{StaticResource SubtleFrame}" HeightRequest="115" Padding="10">
+                            <StackLayout Style="{StaticResource VertStack}">
+                                <Label Text="{xct:Translate MainPageHeader2Text}" Style="{StaticResource Header1}" />
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                                    <Button x:Name="NavigateButton" Text="{xct:Translate StartDraftingButtonText}" Style="{StaticResource GreenButton}" HeightRequest="50" 
+                                Command="{Binding DraftingButtonCommand}" HorizontalOptions="Center"/>
+                                </StackLayout>
+                            </StackLayout>
+                        </Frame>
                     </StackLayout>
                 </StackLayout>
-			</Frame>
-            <Frame Style="{StaticResource SubtleFrame}">
-			    <StackLayout Style="{StaticResource VertStack}">
-                    <Label Text="{xct:Translate MainPageHeader2Text}" Style="{StaticResource Header1}" />
-				    <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                        <Button x:Name="NavigateButton" Text="{xct:Translate StartDraftingButtonText}" Style="{StaticResource GreenButton}" HeightRequest="50" 
-                                Command="{Binding DraftingButtonCommand}" HorizontalOptions="Center"/>
-				    </StackLayout>
-			</StackLayout>
-			</Frame>	
-		</StackLayout>
+            </Grid>
+        </StackLayout>        
 	</ContentPage.Content>
 </ContentPage>

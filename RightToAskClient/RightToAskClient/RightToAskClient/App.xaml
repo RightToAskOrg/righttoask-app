@@ -84,6 +84,11 @@
                 <Setter Property="OnColor" Value="{StaticResource IndicatorColor}"></Setter>
                 <Setter Property="ThumbColor" Value="{StaticResource IndicatorColor}"></Setter>
             </Style>
+            <Style TargetType="BoxView" ApplyToDerivedTypes="True">
+                <Setter Property="HeightRequest" Value="2"></Setter>
+                <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource TextColor}, 
+                   Dark={StaticResource TextColorDark}}"></Setter>
+            </Style>
             <!--Specific Styles-->
             <Style x:Key="GreenButton" TargetType="Button">
                 <Setter Property="TextColor" Value="White"></Setter>
@@ -162,6 +167,14 @@
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource HeadingTextColor}, Dark={StaticResource TextColorDark}}"></Setter>
                 <Setter Property="FontSize" Value="Medium"></Setter>
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
+            </Style>
+            <Style x:Key="CenterSmall" TargetType="Label">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColorDark}}"></Setter>
+                <Setter Property="FontSize" Value="Small"></Setter>
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
+                <Setter Property="Margin" Value="0"></Setter>
+                <Setter Property="Padding" Value="0"></Setter>
             </Style>
             <Style x:Key="HeaderButtonText" TargetType="Label">
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColorDark}}"></Setter>
