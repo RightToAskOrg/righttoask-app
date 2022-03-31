@@ -2,32 +2,41 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              x:Class="RightToAskClient.Views.FlowOptionPage"
-             Title="Who Should Answer?">
+             Title="{xct:Translate WhoShouldAnswerTitle}"
+             x:DataType="vm:QuestionViewModel">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="30">
+        <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="30" Spacing="30">
             <Frame Style="{StaticResource InvisibleButtonFrame}">
-                <Grid RowDefinitions="*,*,*">
-                    <StackLayout Grid.Row="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-                        <Label Text="Option A" HorizontalOptions="Center" VerticalOptions="Center" FontSize="Large"/>
-                        <Label Text="Question in the app" HorizontalOptions="Center" VerticalOptions="Center" FontSize="Large"/>
+                <Grid RowDefinitions="*,*,*" ColumnDefinitions="*,*">
+                    <StackLayout Grid.Row="0" Grid.ColumnSpan="2" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                        <Label Text="{xct:Translate OptionAText1}" HorizontalOptions="Center" VerticalOptions="Center" FontSize="Large"/>
+                        <Label Text="{xct:Translate OptionAText2}" HorizontalOptions="Center" VerticalOptions="Center" FontSize="Large"/>
                     </StackLayout>
-                    <Label Grid.Row="1" Text="Public in the app" HorizontalOptions="Center" VerticalOptions="Center"/>
-                    <Label Grid.Row="2" Text="MP (mainly)" HorizontalOptions="Center" VerticalOptions="Start"/>
-                    <Button Grid.RowSpan="3" Style="{StaticResource TransparentSquareButton}" 
-                    Command="{Binding AnsweredByMyMPCommand}" BorderColor="{StaticResource Primary}"/>
+                    <Label Grid.Row="1" Grid.ColumnSpan="2" Text="{xct:Translate OptionAText3}" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    <Button Grid.Row="2" Grid.Column="0" Text="My MP" Style="{StaticResource GreenButton}" Command="{Binding AnsweredByMyMPCommand}" Margin="10"/>
+                    <Button Grid.Row="2" Grid.Column="1" Text="Another MP" Style="{StaticResource GreenButton}" Command="{Binding AnsweredByOtherMPCommand}" Margin="10"/>
+                    <!--<Label Grid.Row="2" Grid.ColumnSpan="2" Text="{xct:Translate OptionAText4}" HorizontalOptions="Center" VerticalOptions="Start"/>-->
+                    <!--<Button Grid.RowSpan="3" Style="{StaticResource TransparentSquareButton}" 
+                    Command="{Binding AnsweredByMyMPCommand}" BorderColor="{StaticResource Primary}"/>-->
                 </Grid>
             </Frame>
             <Frame Style="{StaticResource InvisibleButtonFrame}">
-                <Grid RowDefinitions="*,*,*">
-                    <StackLayout Grid.Row="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-                        <Label Text="Option B" HorizontalOptions="Center" VerticalOptions="Center" FontSize="Large"/>
-                        <Label Text="to raise in Parliament" HorizontalOptions="Center" VerticalOptions="Center" FontSize="Large"/>
+                <Grid RowDefinitions="*,*,*" ColumnDefinitions="*,*">
+                    <StackLayout Grid.Row="0" Grid.ColumnSpan="2" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                        <Label Text="{xct:Translate OptionBText1}" HorizontalOptions="Center" VerticalOptions="Center" FontSize="Large"/>
+                        <Label Text="{xct:Translate OptionBText2}" HorizontalOptions="Center" VerticalOptions="Center" FontSize="Large"/>
                     </StackLayout>
-                    <Label Grid.Row="1" Text="Who should answer it" HorizontalOptions="Center" VerticalOptions="Center"/>
-                    <Label Grid.Row="2" Text="Who should raise it" HorizontalOptions="Center" VerticalOptions="Start"/>
-                    <Button Grid.RowSpan="3" Style="{StaticResource TransparentSquareButton}"
-                    Command="{Binding OptionBCommand}" BorderColor="{StaticResource Primary}"/>
+                    <Label Grid.Row="1" Grid.ColumnSpan="2" Text="{xct:Translate OptionBText3}" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    <Button Grid.Row="2" Grid.Column="0" Text="Another MP" Style="{StaticResource GreenButton}" Command="{Binding AnsweredByOtherMPCommandOptionB}" Margin="10"/>
+                    <Button Grid.Row="2" Grid.Column="1" Text="A Public Authority" Style="{StaticResource GreenButton}" Command="{Binding OtherPublicAuthorityButtonCommand}" Margin="10"/>
+                    <!--<Label Grid.Row="2" Grid.ColumnSpan="2" Text="{xct:Translate OptionBText4}" HorizontalOptions="Center" VerticalOptions="Start"/>-->
+                    <!--<Button Grid.RowSpan="3" Style="{StaticResource TransparentSquareButton}"
+                    Command="{Binding OptionBCommand}" BorderColor="{StaticResource Primary}"/>-->
                 </Grid>
             </Frame>
         </StackLayout>

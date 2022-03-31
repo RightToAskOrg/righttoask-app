@@ -560,6 +560,78 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Option A.
+        /// </summary>
+        internal static string OptionAText1 {
+            get {
+                return ResourceManager.GetString("OptionAText1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Question in the app.
+        /// </summary>
+        internal static string OptionAText2 {
+            get {
+                return ResourceManager.GetString("OptionAText2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Public in the app.
+        /// </summary>
+        internal static string OptionAText3 {
+            get {
+                return ResourceManager.GetString("OptionAText3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MP (mainly).
+        /// </summary>
+        internal static string OptionAText4 {
+            get {
+                return ResourceManager.GetString("OptionAText4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Option B.
+        /// </summary>
+        internal static string OptionBText1 {
+            get {
+                return ResourceManager.GetString("OptionBText1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to to raise in Parliament.
+        /// </summary>
+        internal static string OptionBText2 {
+            get {
+                return ResourceManager.GetString("OptionBText2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Who should answer it?.
+        /// </summary>
+        internal static string OptionBText3 {
+            get {
+                return ResourceManager.GetString("OptionBText3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Who should raise it?.
+        /// </summary>
+        internal static string OptionBText4 {
+            get {
+                return ResourceManager.GetString("OptionBText4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Or.
         /// </summary>
         internal static string OrHeaderText {
@@ -1033,6 +1105,15 @@ namespace RightToAskClient.Resx {
         internal static string WebNavigationWarning {
             get {
                 return ResourceManager.GetString("WebNavigationWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Who Should Answer?.
+        /// </summary>
+        internal static string WhoShouldAnswerTitle {
+            get {
+                return ResourceManager.GetString("WhoShouldAnswerTitle", resourceCulture);
             }
         }
     }

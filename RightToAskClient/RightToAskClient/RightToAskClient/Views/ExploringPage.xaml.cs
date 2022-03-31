@@ -40,7 +40,8 @@ namespace RightToAskClient.Views
 		protected ObservableCollection<Person> SelectedPeople = new ObservableCollection<Person>();
 
 		public bool CameFromReg2Page = false;
-		public bool SelectedOptionA = false;
+		public bool GoToReadingPageNext = false;
+		public bool OptionB = false;
 
 		public ExploringPage(ObservableCollection<MP> allEntities, 
 			ObservableCollection<MP> selectedEntities, string message="")
@@ -63,10 +64,15 @@ namespace RightToAskClient.Views
 				}
 				MessagingCenter.Unsubscribe<FindMPsViewModel, bool>(this, "PreviousPage");
 			});
-			MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionA", (sender) =>
+			MessagingCenter.Subscribe<QuestionViewModel>(this, "GoToReadingPage", (sender) =>
 			{
-				SelectedOptionA = true;
-				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionA");
+				GoToReadingPageNext = true;
+				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "GoToReadingPage");
+			});
+			MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionB", (sender) =>
+			{
+				OptionB = true;
+				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionB");
 			});
 		}
 
@@ -94,10 +100,15 @@ namespace RightToAskClient.Views
 				MessagingCenter.Unsubscribe<FindMPsViewModel, bool>(this, "PreviousPage");
 			});
 
-			MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionA", (sender) =>
+			MessagingCenter.Subscribe<QuestionViewModel>(this, "GoToReadingPage", (sender) =>
 			{
-				SelectedOptionA = true;
-				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionA");
+				GoToReadingPageNext = true;
+				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "GoToReadingPage");
+			});
+			MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionB", (sender) =>
+			{
+				OptionB = true;
+				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionB");
 			});
 		}
 
@@ -136,10 +147,15 @@ namespace RightToAskClient.Views
 				}
 				MessagingCenter.Unsubscribe<FindMPsViewModel, bool>(this, "PreviousPage");
 			});
-			MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionA", (sender) =>
+			MessagingCenter.Subscribe<QuestionViewModel>(this, "GoToReadingPage", (sender) =>
 			{
-				SelectedOptionA = true;
-				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionA");
+				GoToReadingPageNext = true;
+				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "GoToReadingPage");
+			});
+			MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionB", (sender) =>
+			{
+				OptionB = true;
+				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionB");
 			});
 		}
 
@@ -189,11 +205,15 @@ namespace RightToAskClient.Views
 				CameFromReg2Page = false;
 				await Shell.Current.GoToAsync("../.."); // double pop
 			}
-			else if (SelectedOptionA)
+			else if (GoToReadingPageNext && !OptionB)
             {
-				SelectedOptionA = false;
-				await Shell.Current.GoToAsync(nameof(QuestionDetailPage));
+				//SelectedOptionA = false;
+				await Shell.Current.GoToAsync(nameof(ReadingPage));
             }
+			else if (OptionB)
+            {
+				await Shell.Current.GoToAsync(nameof(QuestionAskerPage));
+			}
             else
             {
 				await Navigation.PopAsync(); // single pop
@@ -203,8 +223,19 @@ namespace RightToAskClient.Views
 		async void DoneAuthoritiesButton_OnClicked(object sender, EventArgs e)
 		{
 			UpdateSelectedList(SelectedAuthorities);
-			await Navigation.PopAsync();
-			//await Shell.Current.GoToAsync("../..");
+			if (OptionB)
+            {
+				await Shell.Current.GoToAsync(nameof(QuestionAskerPage));
+            }
+			else if (GoToReadingPageNext && !OptionB)
+			{
+				//SelectedOptionA = false;
+				await Shell.Current.GoToAsync(nameof(ReadingPage));
+			}
+            else
+            {
+				await Navigation.PopAsync();
+			}
 		}
 			
 		/*
