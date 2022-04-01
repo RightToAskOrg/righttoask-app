@@ -7,11 +7,13 @@
              xmlns:views="clr-namespace:RightToAskClient.Views"
              xmlns:generic="clr-namespace:System.Collections.Generic;assembly=netstandard"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:local="clr-namespace:RightToAskClient"
              x:Class="RightToAskClient.Views.RegisterPage1"
              x:DataType="vm:Registration1ViewModel"
              Title="{Binding Title}">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"/>
+        <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.home1.png}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.BindingContext>
         <vm:Registration1ViewModel />

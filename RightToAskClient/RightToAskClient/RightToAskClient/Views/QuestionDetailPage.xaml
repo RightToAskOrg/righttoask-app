@@ -6,12 +6,14 @@
              xmlns:controls="clr-namespace:RightToAskClient.Controls;assembly=RightToAskClient"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:models="clr-namespace:RightToAskClient.Models;assembly=RightToAskClient"
+             xmlns:local="clr-namespace:RightToAskClient"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              x:Class="RightToAskClient.Views.QuestionDetailPage"
              x:DataType="vm:QuestionViewModel"
              Title="{xct:Translate QuestionDetailsTitle}">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"/>
+        <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.home1.png}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
 		<StackLayout x:Name="WholePage" Margin="20">

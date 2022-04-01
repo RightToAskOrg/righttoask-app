@@ -5,12 +5,14 @@
              xmlns:rightToAskClient="clr-namespace:RightToAskClient;assembly=RightToAskClient"
              xmlns:controls="clr-namespace:RightToAskClient.Controls;assembly=RightToAskClient"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:local="clr-namespace:RightToAskClient"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              x:Class="RightToAskClient.Views.QuestionAskerPage"
              Title="{xct:Translate RaiseQuestionTitle}"
              x:DataType="vm:QuestionViewModel">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"/>
+        <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.home1.png}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout x:Name = "WholePage">

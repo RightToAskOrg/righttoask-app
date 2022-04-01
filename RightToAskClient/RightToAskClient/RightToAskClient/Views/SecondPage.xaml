@@ -3,10 +3,12 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:local="clr-namespace:RightToAskClient"
 			 x:Class="RightToAskClient.Views.SecondPage"
              x:DataType="vm:QuestionViewModel">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"/>
+        <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.home1.png}"/>
     </ContentPage.ToolbarItems>
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding BackCommand}"
