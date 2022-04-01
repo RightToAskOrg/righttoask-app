@@ -176,6 +176,9 @@
                 <Setter Property="Margin" Value="0"></Setter>
                 <Setter Property="Padding" Value="0"></Setter>
             </Style>
+            <Style x:Key="StagnantColor" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource Primary}"></Setter>
+            </Style>
             <Style x:Key="HeaderButtonText" TargetType="Label">
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColorDark}}"></Setter>
                 <Setter Property="FontSize" Value="Medium"></Setter>
