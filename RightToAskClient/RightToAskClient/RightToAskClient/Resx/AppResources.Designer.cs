@@ -232,6 +232,24 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This image is to help show that you draft your questions by clicking here..
+        /// </summary>
+        internal static string DraftImageAccessibilityHelpText {
+            get {
+                return ResourceManager.GetString("DraftImageAccessibilityHelpText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Image of a piece of paper with writing on it and a pencil pointing at and touching part of that page..
+        /// </summary>
+        internal static string DraftImageAccessibilityNameText {
+            get {
+                return ResourceManager.GetString("DraftImageAccessibilityNameText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Draft a Question.
         /// </summary>
         internal static string DraftMyQuestionTitle {
@@ -367,6 +385,24 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This image of glasses is to convey the act of reading questions if you choose to go to this section of the app..
+        /// </summary>
+        internal static string GlassesImageAccessibilityHelpText {
+            get {
+                return ResourceManager.GetString("GlassesImageAccessibilityHelpText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Image of Glasses.
+        /// </summary>
+        internal static string GlassesImageAccessibilityNameText {
+            get {
+                return ResourceManager.GetString("GlassesImageAccessibilityNameText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Home.
         /// </summary>
         internal static string HomeButtonText {
@@ -435,6 +471,51 @@ namespace RightToAskClient.Resx {
         internal static string MainPageHeaderText {
             get {
                 return ResourceManager.GetString("MainPageHeaderText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Read and upvote questions.
+        /// </summary>
+        internal static string MainPageSubheader1Text {
+            get {
+                return ResourceManager.GetString("MainPageSubheader1Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Write your own questions.
+        /// </summary>
+        internal static string MainPageSubheader2Text {
+            get {
+                return ResourceManager.GetString("MainPageSubheader2Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Help other citizens direct their questions.
+        /// </summary>
+        internal static string MainPageSubheader3Text {
+            get {
+                return ResourceManager.GetString("MainPageSubheader3Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is the Trending Now header for this frame/bubble that is meant to indicate that clicking on this area of the screen will bring the user to a reading page filled with questions in the app that are currently trending based on a filtered search..
+        /// </summary>
+        internal static string MainPageTrendingNowAccessibilityLabelHelpText {
+            get {
+                return ResourceManager.GetString("MainPageTrendingNowAccessibilityLabelHelpText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trending now frame heading text..
+        /// </summary>
+        internal static string MainPageTrendingNowAccessibilityLabelName {
+            get {
+                return ResourceManager.GetString("MainPageTrendingNowAccessibilityLabelName", resourceCulture);
             }
         }
         
@@ -749,6 +830,15 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Read.
+        /// </summary>
+        internal static string ReadFrameSubtext {
+            get {
+                return ResourceManager.GetString("ReadFrameSubtext", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Upvote good questions, or click for more detail.
         /// </summary>
         internal static string ReadingPageHeader1 {
@@ -803,11 +893,20 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Search.
+        ///   Looks up a localized string similar to Keyword.
         /// </summary>
         internal static string SearchBarPlaceholderText {
             get {
                 return ResourceManager.GetString("SearchBarPlaceholderText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search.
+        /// </summary>
+        internal static string SearchBarTitle {
+            get {
+                return ResourceManager.GetString("SearchBarTitle", resourceCulture);
             }
         }
         
@@ -1087,6 +1186,33 @@ namespace RightToAskClient.Resx {
         internal static string ViewOtherUserProfile {
             get {
                 return ResourceManager.GetString("ViewOtherUserProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vote.
+        /// </summary>
+        internal static string VoteFrameSubtext {
+            get {
+                return ResourceManager.GetString("VoteFrameSubtext", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This image is to show that you can also vote on questions after reading them if you choose to go to this section of the app..
+        /// </summary>
+        internal static string VoteImageAccessibilityHelpText {
+            get {
+                return ResourceManager.GetString("VoteImageAccessibilityHelpText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Image a check mark in a box..
+        /// </summary>
+        internal static string VoteImageAccessibilityNameText {
+            get {
+                return ResourceManager.GetString("VoteImageAccessibilityNameText", resourceCulture);
             }
         }
         
