@@ -41,8 +41,13 @@ namespace RightToAskClient.ViewModels
         // Note that there is no need to update _registrationUpdates because UID is only set when the registration
         // is initialized.
         public string UserID
+        
         {
             get => _registration.uid;
+            // consider whether SetProperty is needed instead.
+            // there may be subtle differences.
+            // set => SetProperty(ref _registration.uid, )
+            
             set
             {
                 _registration.uid = value;
@@ -68,14 +73,13 @@ namespace RightToAskClient.ViewModels
             get => _registration.SelectedStateAsIndex >= 0 ? ParliamentData.StatesAndTerritories[SelectedStateAsIndex] : "";
         }
         
-        // private int _selectedStateAsIndex = -1;
         public int SelectedStateAsIndex
         {
             get => _registration.SelectedStateAsIndex;
             set
             {
                 _registration.SelectedStateAsIndex = value;
-                // TODO At the moment, this means that there is no way that someone who has previously selected a state can
+                // At the moment, this means that there is no way that someone who has previously selected a state can
                 // revert to the point where there is no state
                 if (SelectedStateAsIndex != -1)
                 {
@@ -434,12 +438,7 @@ namespace RightToAskClient.ViewModels
             // Shouldn't be updating a non-existent user. 
             Debug.Assert(App.ReadingContext.ThisParticipant.IsRegistered);
             
-            // var nameToSend = new ServerUser { display_name = _registration.display_name, state = _registration.State, electorates = _registration.electorates };
-            // ClientSignedUnparsed signedUserMessage = App.ReadingContext.ThisParticipant.SignMessage(nameToSend);
-            // if (!String.IsNullOrEmpty(signedUserMessage.signature))
-            //{
                 Result<bool> httpResponse = await RTAClient.UpdateExistingUser(_registrationUpdates);
-                // Result<bool> httpResponse = await RTAClient.UpdateExistingUser(signedUserMessage);
                 var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
                 ReportLabelText = httpValidation.message;
                 if (httpValidation.isValid)
@@ -451,15 +450,6 @@ namespace RightToAskClient.ViewModels
                     // IsRegistered flags in both Readingcontext and Preferences default to false.
                     Debug.WriteLine("HttpValidationError: " + httpValidation.message);
                 }
-            // }
-            /*
-            else
-            {
-                // IsRegistered flags in both Readingcontext and Preferences default to false.
-                Debug.WriteLine("Failed to sign user update message.");
-                ReportLabelText = "Failed to sign user update message.";
-            }
-            */
         }
 
         private void UpdateLocalRegistrationInfo()
