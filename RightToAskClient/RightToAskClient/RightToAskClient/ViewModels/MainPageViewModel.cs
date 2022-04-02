@@ -43,8 +43,15 @@ namespace RightToAskClient.ViewModels
             });
             AdvancedSearchButtonCommand = new AsyncCommand(async () =>
             {
-                App.ReadingContext.IsReadingOnly = false;
-                await Shell.Current.GoToAsync($"{nameof(SecondPage)}");
+                App.ReadingContext.IsReadingOnly = true;
+                await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
+
+                // TODO: Start the page with filters expanded and have the keyword entered in filters
+            });
+            SearchButtonCommand = new AsyncCommand(async () =>
+            {
+                App.ReadingContext.IsReadingOnly = true;
+                await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
             });
         }
 
@@ -53,5 +60,6 @@ namespace RightToAskClient.ViewModels
         public IAsyncCommand ExpiringSoonButtonCommand { get; }
         public IAsyncCommand DraftingButtonCommand { get; }
         public IAsyncCommand AdvancedSearchButtonCommand { get; }
+        public IAsyncCommand SearchButtonCommand { get; }
     }
 }

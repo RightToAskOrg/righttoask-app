@@ -178,21 +178,25 @@ namespace RightToAskClient.ViewModels
             // At the moment this exclusivity is not enforced.
             NavigateForwardCommand = new AsyncCommand(async () =>
             {
-                if (NeedToFindAsker)
-                {
-                    await Shell.Current.GoToAsync($"{nameof(QuestionAskerPage)}");
-                }
-                else
-                {
-                    App.ReadingContext.IsReadingOnly = IsReadingOnly;
-                    await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
-                }
+                await Shell.Current.GoToAsync($"{nameof(FlowOptionPage)}");
+                //if (NeedToFindAsker)
+                //{
+                //    await Shell.Current.GoToAsync($"{nameof(QuestionAskerPage)}");
+                //}
+                //else
+                //{
+                //    App.ReadingContext.IsReadingOnly = IsReadingOnly;
+                //    await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
+                //}
             });
             OtherPublicAuthorityButtonCommand = new AsyncCommand(async () =>
             {
                 var exploringPageToSearchAuthorities
                     = new ExploringPageWithSearch(App.ReadingContext.Filters.SelectedAuthorities, "Choose authorities");
-                await Shell.Current.Navigation.PushAsync(exploringPageToSearchAuthorities);
+                await Shell.Current.Navigation.PushAsync(exploringPageToSearchAuthorities).ContinueWith((_) => 
+                {
+                    MessagingCenter.Send(this, "OptionB"); // Sends this view model
+                });
             });
             // If we already know the electorates (and hence responsible MPs), go
             // straight to the Explorer page that lists them.
@@ -200,16 +204,31 @@ namespace RightToAskClient.ViewModels
             // It will pop back to here.
             AnsweredByMyMPCommand = new AsyncCommand(async () =>
             {
-                await NavigationUtils.PushMyAnsweringMPsExploringPage();
+                await NavigationUtils.PushMyAnsweringMPsExploringPage().ContinueWith((_) =>
+                {
+                    MessagingCenter.Send(this, "GoToReadingPage"); // Sends this view model
+                });
             });
             AnsweredByOtherMPCommand = new AsyncCommand(async () =>
             {
-                await NavigationUtils.PushAnsweringMPsExploringPage();
+                await NavigationUtils.PushAnsweringMPsExploringPage().ContinueWith((_) =>
+                {
+                    MessagingCenter.Send(this, "GoToReadingPage"); // Sends this view model
+                });
             });
-            SelectCommitteeButtonCommand = new Command(() => 
+            AnsweredByOtherMPCommandOptionB = new AsyncCommand(async () =>
+            {
+                await NavigationUtils.PushAnsweringMPsExploringPage().ContinueWith((_) =>
+                {
+                    MessagingCenter.Send(this, "OptionB"); // Sends this view model
+                });
+            });
+            SelectCommitteeButtonCommand = new AsyncCommand(async() => 
             {
                 App.ReadingContext.Filters.SelectedAskingCommittee.Add("Senate Estimates tomorrow");
                 SelectButtonText = AppResources.SelectedButtonText;
+                // then navigate to the reading page
+                await Shell.Current.GoToAsync(nameof(ReadingPage));
             });
             UpvoteCommand = new Command(() =>
             {
@@ -257,6 +276,14 @@ namespace RightToAskClient.ViewModels
                     _ = await Shell.Current.Navigation.PopAsync();
                 }
             });
+            OptionACommand = new AsyncCommand(async () =>
+            {
+                await Shell.Current.GoToAsync($"{nameof(QuestionAskerPage)}");
+            });
+            OptionBCommand = new AsyncCommand(async () =>
+            {
+                await Shell.Current.GoToAsync($"{nameof(QuestionAskerPage)}");
+            });
         }
 
         public Command<string> RaisedOptionSelectedCommand { get; }
@@ -265,13 +292,16 @@ namespace RightToAskClient.ViewModels
         public IAsyncCommand OtherPublicAuthorityButtonCommand { get; }
         public IAsyncCommand AnsweredByMyMPCommand { get; }
         public IAsyncCommand AnsweredByOtherMPCommand { get; }
+        public IAsyncCommand AnsweredByOtherMPCommandOptionB { get; }
         public IAsyncCommand QuestionSuggesterCommand { get; }
         public IAsyncCommand BackCommand { get; }
         public Command SaveQuestionCommand { get; }
-        public Command SelectCommitteeButtonCommand { get; }
+        public IAsyncCommand SelectCommitteeButtonCommand { get; }
         public Command UpvoteCommand { get; }
         public Command SaveAnswerCommand { get; }
         public Command EditAnswerCommand { get; }
+        public IAsyncCommand OptionACommand { get; }
+        public IAsyncCommand OptionBCommand { get; }
 
         public void ResetInstance()
         {
@@ -337,7 +367,10 @@ namespace RightToAskClient.ViewModels
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
-                await NavigationUtils.PushMyAskingMPsExploringPage();
+                await NavigationUtils.PushMyAskingMPsExploringPage().ContinueWith((_) =>
+                {
+                    MessagingCenter.Send(this, "GoToReadingPage"); // Sends this view model
+                });
             }
             else
             {
@@ -353,22 +386,27 @@ namespace RightToAskClient.ViewModels
             ReportLabelText = ParliamentData.MPAndOtherData.ErrorMessage;
         }
 
-        private void NotSureWhoShouldRaiseButtonClicked()
+        private async void NotSureWhoShouldRaiseButtonClicked()
         {
             NotSureWhoShouldRaiseButtonText = "Not implemented yet";
+            await Shell.Current.GoToAsync(nameof(ReadingPage));
         }
 
         // TODO: Implement an ExporingPage constructor for people.
-        private void UserShouldRaiseButtonClicked()
+        private async void UserShouldRaiseButtonClicked()
         {
             AnotherUserButtonText = "Not Implemented Yet";
+            await Shell.Current.GoToAsync(nameof(ReadingPage));
         }
 
         private async void OnOtherMPRaiseButtonClicked()
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
-                await NavigationUtils.PushAskingMPsExploringPageAsync();
+                await NavigationUtils.PushAskingMPsExploringPageAsync().ContinueWith((_) =>
+                {
+                    MessagingCenter.Send(this, "GoToReadingPage"); // Sends this view model
+                });
             }
             else
             {
