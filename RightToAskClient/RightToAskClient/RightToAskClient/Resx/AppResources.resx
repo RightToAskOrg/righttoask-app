@@ -329,7 +329,7 @@
     <value>Save Answer</value>
   </data>
   <data name="SearchBarPlaceholderText" xml:space="preserve">
-    <value>Search</value>
+    <value>Keyword</value>
   </data>
   <data name="SeeQuestionsButtonText" xml:space="preserve">
     <value>Read questions from {0}</value>
@@ -382,8 +382,8 @@
   <data name="Step2BodyText7" xml:space="preserve">
     <value>or are you just not sure?</value>
   </data>
-  <data name="Step2Title" xml:space="preserve">
-    <value>Step 2</value>
+  <data name="RaiseQuestionTitle" xml:space="preserve">
+    <value>Raise My Question</value>
   </data>
   <data name="StreetHeaderText" xml:space="preserve">
     <value>Street number and name</value>
@@ -438,5 +438,74 @@
   </data>
   <data name="QuestionEditSuccessfulPopupText" xml:space="preserve">
     <value>Question was edited successfully.</value>
+  </data>
+  <data name="DraftMyQuestionTitle" xml:space="preserve">
+    <value>Draft a Question</value>
+  </data>
+  <data name="RaiseQuestionHeaderText" xml:space="preserve">
+    <value>Now, we'll help you direct your question to where it might get answered. Choose by whom should it be raised by...</value>
+  </data>
+  <data name="OptionAText1" xml:space="preserve">
+    <value>Option A</value>
+  </data>
+  <data name="OptionAText2" xml:space="preserve">
+    <value>Question in the app</value>
+  </data>
+  <data name="OptionAText3" xml:space="preserve">
+    <value>Public in the app</value>
+  </data>
+  <data name="OptionAText4" xml:space="preserve">
+    <value>MP (mainly)</value>
+  </data>
+  <data name="OptionBText1" xml:space="preserve">
+    <value>Option B</value>
+  </data>
+  <data name="OptionBText2" xml:space="preserve">
+    <value>to raise in Parliament</value>
+  </data>
+  <data name="OptionBText3" xml:space="preserve">
+    <value>Who should answer it?</value>
+  </data>
+  <data name="OptionBText4" xml:space="preserve">
+    <value>Who should raise it?</value>
+  </data>
+  <data name="WhoShouldAnswerTitle" xml:space="preserve">
+    <value>Who Should Answer?</value>
+  </data>
+  <data name="DraftImageAccessibilityHelpText" xml:space="preserve">
+    <value>This image is to help show that you draft your questions by clicking here.</value>
+  </data>
+  <data name="DraftImageAccessibilityNameText" xml:space="preserve">
+    <value>Image of a piece of paper with writing on it and a pencil pointing at and touching part of that page.</value>
+  </data>
+  <data name="MainPageSubheader1Text" xml:space="preserve">
+    <value>Read and upvote questions</value>
+  </data>
+  <data name="MainPageSubheader2Text" xml:space="preserve">
+    <value>Write your own questions</value>
+  </data>
+  <data name="MainPageSubheader3Text" xml:space="preserve">
+    <value>Help other citizens direct their questions</value>
+  </data>
+  <data name="MainPageTrendingNowAccessibilityLabelHelpText" xml:space="preserve">
+    <value>This is the Trending Now header for this frame/bubble that is meant to indicate that clicking on this area of the screen will bring the user to a reading page filled with questions in the app that are currently trending based on a filtered search.</value>
+  </data>
+  <data name="MainPageTrendingNowAccessibilityLabelName" xml:space="preserve">
+    <value>Trending now frame heading text.</value>
+  </data>
+  <data name="ReadAndUpvoteFrameSubtext" xml:space="preserve">
+    <value>Read and Upvote</value>
+  </data>
+  <data name="ReadAndUpvoteImageAccessibilityHelpText" xml:space="preserve">
+    <value>The image of glasses is to convey the act of reading questions while the image of the checkbox is to show that you can also upvote questions after reading them if you choose to go to this section of the app.</value>
+  </data>
+  <data name="ReadAndUpvoteImageAccessibilityNameText" xml:space="preserve">
+    <value>Image of Glasses on the left and a checkmark in a box to the right.</value>
+  </data>
+  <data name="SearchBarTitle" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="SearchButtonText" xml:space="preserve">
+    <value>Search</value>
   </data>
 </root>
