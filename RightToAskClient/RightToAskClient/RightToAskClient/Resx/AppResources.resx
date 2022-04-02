@@ -478,12 +478,6 @@
   <data name="DraftImageAccessibilityNameText" xml:space="preserve">
     <value>Image of a piece of paper with writing on it and a pencil pointing at and touching part of that page.</value>
   </data>
-  <data name="GlassesImageAccessibilityHelpText" xml:space="preserve">
-    <value>This image of glasses is to convey the act of reading questions if you choose to go to this section of the app.</value>
-  </data>
-  <data name="GlassesImageAccessibilityNameText" xml:space="preserve">
-    <value>Image of Glasses</value>
-  </data>
   <data name="MainPageSubheader1Text" xml:space="preserve">
     <value>Read and upvote questions</value>
   </data>
@@ -499,19 +493,19 @@
   <data name="MainPageTrendingNowAccessibilityLabelName" xml:space="preserve">
     <value>Trending now frame heading text.</value>
   </data>
-  <data name="ReadFrameSubtext" xml:space="preserve">
-    <value>Read</value>
+  <data name="ReadAndUpvoteFrameSubtext" xml:space="preserve">
+    <value>Read and Upvote</value>
+  </data>
+  <data name="ReadAndUpvoteImageAccessibilityHelpText" xml:space="preserve">
+    <value>The image of glasses is to convey the act of reading questions while the image of the checkbox is to show that you can also upvote questions after reading them if you choose to go to this section of the app.</value>
+  </data>
+  <data name="ReadAndUpvoteImageAccessibilityNameText" xml:space="preserve">
+    <value>Image of Glasses on the left and a checkmark in a box to the right.</value>
   </data>
   <data name="SearchBarTitle" xml:space="preserve">
     <value>Search</value>
   </data>
-  <data name="VoteFrameSubtext" xml:space="preserve">
-    <value>Vote</value>
-  </data>
-  <data name="VoteImageAccessibilityHelpText" xml:space="preserve">
-    <value>This image is to show that you can also vote on questions after reading them if you choose to go to this section of the app.</value>
-  </data>
-  <data name="VoteImageAccessibilityNameText" xml:space="preserve">
-    <value>Image a check mark in a box.</value>
+  <data name="SearchButtonText" xml:space="preserve">
+    <value>Search</value>
   </data>
 </root>

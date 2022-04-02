@@ -385,24 +385,6 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This image of glasses is to convey the act of reading questions if you choose to go to this section of the app..
-        /// </summary>
-        internal static string GlassesImageAccessibilityHelpText {
-            get {
-                return ResourceManager.GetString("GlassesImageAccessibilityHelpText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Image of Glasses.
-        /// </summary>
-        internal static string GlassesImageAccessibilityNameText {
-            get {
-                return ResourceManager.GetString("GlassesImageAccessibilityNameText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Home.
         /// </summary>
         internal static string HomeButtonText {
@@ -830,11 +812,29 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Read.
+        ///   Looks up a localized string similar to Read and Upvote.
         /// </summary>
-        internal static string ReadFrameSubtext {
+        internal static string ReadAndUpvoteFrameSubtext {
             get {
-                return ResourceManager.GetString("ReadFrameSubtext", resourceCulture);
+                return ResourceManager.GetString("ReadAndUpvoteFrameSubtext", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The image of glasses is to convey the act of reading questions while the image of the checkbox is to show that you can also upvote questions after reading them if you choose to go to this section of the app..
+        /// </summary>
+        internal static string ReadAndUpvoteImageAccessibilityHelpText {
+            get {
+                return ResourceManager.GetString("ReadAndUpvoteImageAccessibilityHelpText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Image of Glasses on the left and a checkmark in a box to the right..
+        /// </summary>
+        internal static string ReadAndUpvoteImageAccessibilityNameText {
+            get {
+                return ResourceManager.GetString("ReadAndUpvoteImageAccessibilityNameText", resourceCulture);
             }
         }
         
@@ -907,6 +907,15 @@ namespace RightToAskClient.Resx {
         internal static string SearchBarTitle {
             get {
                 return ResourceManager.GetString("SearchBarTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search.
+        /// </summary>
+        internal static string SearchButtonText {
+            get {
+                return ResourceManager.GetString("SearchButtonText", resourceCulture);
             }
         }
         
@@ -1186,33 +1195,6 @@ namespace RightToAskClient.Resx {
         internal static string ViewOtherUserProfile {
             get {
                 return ResourceManager.GetString("ViewOtherUserProfile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Vote.
-        /// </summary>
-        internal static string VoteFrameSubtext {
-            get {
-                return ResourceManager.GetString("VoteFrameSubtext", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to This image is to show that you can also vote on questions after reading them if you choose to go to this section of the app..
-        /// </summary>
-        internal static string VoteImageAccessibilityHelpText {
-            get {
-                return ResourceManager.GetString("VoteImageAccessibilityHelpText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Image a check mark in a box..
-        /// </summary>
-        internal static string VoteImageAccessibilityNameText {
-            get {
-                return ResourceManager.GetString("VoteImageAccessibilityNameText", resourceCulture);
             }
         }
         

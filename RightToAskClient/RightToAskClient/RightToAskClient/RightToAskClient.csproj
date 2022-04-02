@@ -50,6 +50,7 @@
     <None Remove="Images\QuestionDraft.png" />
     <None Remove="Images\question_draft.png" />
     <None Remove="Images\question_draft_resized.png" />
+    <None Remove="Images\read_and_upvote.png" />
     <None Remove="Images\Schoolhouse.png" />
     <None Remove="Images\school_house.png" />
     <None Remove="Images\search.png" />
@@ -109,6 +110,7 @@
     <EmbeddedResource Include="Images\pin.png" />
     <EmbeddedResource Include="Images\question_draft.png" />
     <EmbeddedResource Include="Images\question_draft_resized.png" />
+    <EmbeddedResource Include="Images\read_and_upvote.png" />
     <EmbeddedResource Include="Images\school_house.png" />
     <EmbeddedResource Include="Images\search.png" />
     <EmbeddedResource Include="Images\settings_gear.png" />
