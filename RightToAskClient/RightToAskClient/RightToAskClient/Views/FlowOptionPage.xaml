@@ -5,8 +5,9 @@
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:local="clr-namespace:RightToAskClient"
              x:Class="RightToAskClient.Views.FlowOptionPage"
-             Title="{xct:Translate WhoShouldAnswerTitle}"
+             Title = "Choose who should answer the question"
              x:DataType="vm:QuestionViewModel">
+             <!-- Title="{xct:Translate WhoShouldAnswerTitle}" -->
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel" 
                      IconImageSource="{local:ImageResource RightToAskClient.Images.home1.png}"/>
