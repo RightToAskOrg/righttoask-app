@@ -39,6 +39,8 @@
     <None Remove="Images\glasses.png" />
     <None Remove="Images\home1.png" />
     <None Remove="Images\home2.png" />
+    <None Remove="Images\home3.png" />
+    <None Remove="Images\home4.png" />
     <None Remove="Images\LocationPin.png" />
     <None Remove="Images\location_pin.png" />
     <None Remove="Images\MessageBubble.png" />
@@ -103,6 +105,8 @@
     <EmbeddedResource Include="Images\glasses.png" />
     <EmbeddedResource Include="Images\home1.png" />
     <EmbeddedResource Include="Images\home2.png" />
+    <EmbeddedResource Include="Images\home3.png" />
+    <EmbeddedResource Include="Images\home4.png" />
     <EmbeddedResource Include="Images\location_pin.png" />
     <EmbeddedResource Include="Images\message_bubble.png" />
     <EmbeddedResource Include="Images\open_book.png" />
