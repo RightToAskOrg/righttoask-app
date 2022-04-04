@@ -5,11 +5,9 @@
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:local="clr-namespace:RightToAskClient"
              x:Class="RightToAskClient.Views.FlowOptionPage"
+             Title="{xct:Translate WhoShouldAnswerTitle}" 
              x:DataType="vm:QuestionViewModel">
-             <!-- On iOS, this title seems to get pushed out of view -->
-             <!-- Title="{xct:Translate WhoShouldAnswerTitle}" -->
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text = "{xct:Translate WhoShouldAnswerTitle}" /> 
         <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel" 
                      IconImageSource="{local:ImageResource RightToAskClient.Images.home1.png}" Priority="0"/>
     </ContentPage.ToolbarItems>

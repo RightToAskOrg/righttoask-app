@@ -446,25 +446,25 @@
     <value>Now, we'll help you direct your question to where it might get answered. Choose by whom should it be raised by...</value>
   </data>
   <data name="OptionAText1" xml:space="preserve">
-    <value>Option A</value>
+    <value>Get an answer in the app</value>
   </data>
   <data name="OptionAText2" xml:space="preserve">
-    <value>Question in the app</value>
+    <value>Ask an MP directly and publicly</value>
   </data>
   <data name="OptionAText3" xml:space="preserve">
-    <value>Public in the app</value>
+    <value>Who should answer the question?</value>
   </data>
   <data name="OptionAText4" xml:space="preserve">
     <value>MP (mainly)</value>
   </data>
   <data name="OptionBText1" xml:space="preserve">
-    <value>Option B</value>
+    <value>Get an answer in Parliament</value>
   </data>
   <data name="OptionBText2" xml:space="preserve">
-    <value>to raise in Parliament</value>
+    <value>in committees or question time</value>
   </data>
   <data name="OptionBText3" xml:space="preserve">
-    <value>Who should answer it?</value>
+    <value>Who should answer the question?</value>
   </data>
   <data name="OptionBText4" xml:space="preserve">
     <value>Who should raise it?</value>
