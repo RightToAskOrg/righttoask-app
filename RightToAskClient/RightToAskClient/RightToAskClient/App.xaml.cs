@@ -89,6 +89,8 @@ namespace RightToAskClient
                 // nameLabel.SetBinding(Label.TextProperty, "TagEntity.NickName");
                 nameLabel.SetBinding(Label.TextProperty, "TagEntity");
                 selectedToggle.SetBinding(Switch.IsToggledProperty, "Selected");
+                selectedToggle.HorizontalOptions = LayoutOptions.End;
+                //selectedToggle.VerticalOptions = LayoutOptions.End;
 
                 grid.Children.Add(nameLabel);
                 grid.Children.Add(selectedToggle, 1, 0);
