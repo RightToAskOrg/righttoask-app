@@ -44,6 +44,10 @@ namespace RightToAskClient.Views
 
         private void OnShowFilters(object sender, EventArgs e)
         {
+            // maybe go to the new page instead
+            //Shell.Current.GoToAsync(nameof(AdvancedSearchFiltersPage));
+            var filtersPage = new AdvancedSearchFiltersPage((ReadingPageViewModel)this.BindingContext);
+            App.Current.MainPage.Navigation.PushAsync(filtersPage);
             _ttestableView.IsVisible = true;
             FilterShower.IsVisible = false;
         }
