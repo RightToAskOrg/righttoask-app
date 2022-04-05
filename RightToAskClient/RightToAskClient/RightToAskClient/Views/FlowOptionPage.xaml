@@ -9,7 +9,7 @@
              x:DataType="vm:QuestionViewModel">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel" 
-                     IconImageSource="{local:ImageResource RightToAskClient.Images.home1.png}" Priority="0"/>
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.home4.png}" Priority="0"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         
