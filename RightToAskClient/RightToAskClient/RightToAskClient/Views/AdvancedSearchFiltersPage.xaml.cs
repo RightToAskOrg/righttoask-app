@@ -13,19 +13,18 @@ namespace RightToAskClient.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AdvancedSearchFiltersPage : ContentPage
     {
-        ReadingPageViewModel vm;
         public AdvancedSearchFiltersPage()
         {
-            vm = new ReadingPageViewModel();
-            BindingContext = vm;
+            //vm = new ReadingPageViewModel();
+            //vm.Title = "Advanced Search Filters";
+            //BindingContext = vm;
             InitializeComponent();
         }
-
-        public AdvancedSearchFiltersPage(ReadingPageViewModel readingPageVM)
-        {
-            vm = readingPageVM;
-            vm.Title = "Advanced Search Filters";
-            BindingContext = vm;
-        }
+        //public AdvancedSearchFiltersPage(ReadingPageViewModel readingPageVM)
+        //{
+        //    vm = readingPageVM;
+        //    vm.Title = "Advanced Search Filters";
+        //    BindingContext = vm;
+        //}
     }
 }

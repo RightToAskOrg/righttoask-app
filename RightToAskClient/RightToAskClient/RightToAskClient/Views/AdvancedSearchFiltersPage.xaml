@@ -2,14 +2,156 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RightToAskClient.Views.AdvancedSearchFiltersPage"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              Title="{Binding Title}"
-             x:DataType="vm:ReadingPageViewModel">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+             x:DataType="vm:FilterViewModel">
+    <ContentPage.BindingContext>
+        <vm:FilterViewModel/>
+    </ContentPage.BindingContext>
+        <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                <xct:Expander>
+                    <xct:Expander.Header>
+                        <Label Text="Answered By... click to expand" Style="{StaticResource LeftMedium}"/>
+                    </xct:Expander.Header>
+                    <xct:Expander.Content>
+                        <Frame>
+                            <StackLayout>
+                                <!--<Label Text="Answered By" Style="{StaticResource LeftMedium}"/>-->
+                                <StackLayout Spacing="0" Margin="0" Padding="0">
+                                    <Label Text="My MP">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding AnsweringMPsFilterCommand}"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                    <Label Text="{Binding SelectedAnsweringMyMPsText}">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding AnsweringMPsFilterCommand}"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </StackLayout>
+                                <StackLayout Spacing="0" Margin="0" Padding="0">
+                                    <Label Text="Other MP">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding OtherAnsweringMPsFilterCommand}"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                    <Label Text="{Binding SelectedAnsweringMPsText}">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding OtherAnsweringMPsFilterCommand}"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </StackLayout>
+                                <StackLayout Spacing="0" Margin="0" Padding="0">
+                                    <Label Text="Public Authority">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding AnsweringAuthoritiesFilterCommand}"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                    <Label Text="{Binding FilterChoices.SelectedAuthorities}">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding AnsweringAuthoritiesFilterCommand}"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </StackLayout>
+                            </StackLayout>
+                        </Frame>
+                    </xct:Expander.Content>
+                </xct:Expander>
+                <Frame>
+                    <StackLayout>
+                        <Label Text="Raised By" Style="{StaticResource LeftMedium}"/>
+                        <StackLayout Spacing="0" Margin="0" Padding="0">
+                            <Label Text="My MP">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding AskingMPsFilterCommand}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Label Text="{Binding SelectedAskingMyMPsText}">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding AskingMPsFilterCommand}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </StackLayout>
+                        <StackLayout Spacing="0" Margin="0" Padding="0">
+                            <Label Text="Committee">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding NotSureCommand}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Label Text="{Binding FilterChoices.SelectedAskingCommittee}">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding NotSureCommand}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </StackLayout>
+                        <StackLayout Spacing="0" Margin="0" Padding="0">
+                            <Label Text="Other MP">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding OtherAskingMPsFilterCommand}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Label Text="{Binding SelectedAskingMPsText}">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding OtherAskingMPsFilterCommand}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </StackLayout>
+                        <StackLayout Spacing="0" Margin="0" Padding="0">
+                            <Label Text="Right to Ask Participant">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding RightToAskUserCommand}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Label Text="{Binding FilterChoices.SelectedAskingUsers}">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding RightToAskUserCommand}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </StackLayout>
+                        <StackLayout Spacing="0" Margin="0" Padding="0">
+                            <Label Text="Not Stated">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding NotSureCommand}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+                <Frame>
+                    <StackLayout>
+                        <Label Text="Written By" Style="{StaticResource LeftMedium}"/>
+                        <StackLayout Spacing="0" Margin="0" Padding="0">
+                            <Label Text="Right to Ask Participant">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding RightToAskUserCommand}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Label Text="Right to Ask Participant User Name Here">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding RightToAskUserCommand}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+                <Frame>
+                    <StackLayout>
+                        <Label Text="Question Details" Style="{StaticResource LeftMedium}"/>
+                        <SearchBar Placeholder="Keyword"/>
+                        <Grid ColumnDefinitions="auto,*,*,*">
+                            <Label Grid.Column="0" Text="Answer Staus?" VerticalOptions="Center"/>
+                            <Button Grid.Column="1" Text="Not Answered" FontSize="Micro"/>
+                            <Button Grid.Column="2" Text="Partially Answered" FontSize="Micro"/>
+                            <Button Grid.Column="3" Text="Fully Answered" FontSize="Micro"/>
+                        </Grid>
+                        <Label Text="Seach with These Filters?" />
+                        <Button Text="Go"/>
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

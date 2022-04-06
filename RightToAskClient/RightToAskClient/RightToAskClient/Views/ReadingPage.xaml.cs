@@ -11,7 +11,7 @@ namespace RightToAskClient.Views
 {
     public partial class ReadingPage : ContentPage
     {
-        private FilterDisplayTableView _ttestableView;
+        //private FilterDisplayTableView _ttestableView;
         //private ClickableEntityListView<Authority> _clickableEntityListView;
 
         // default constructor required for flyout page item
@@ -20,8 +20,8 @@ namespace RightToAskClient.Views
             InitializeComponent();
             HomeButton.Clicked += HomeButton_Clicked;
 
-            _ttestableView = new FilterDisplayTableView();
-            WholePage.Children.Insert(1, _ttestableView);
+            //_ttestableView = new FilterDisplayTableView();
+            //WholePage.Children.Insert(1, _ttestableView);
 
             OnHideFilters();
         }
@@ -45,16 +45,16 @@ namespace RightToAskClient.Views
         private void OnShowFilters(object sender, EventArgs e)
         {
             // maybe go to the new page instead
-            //Shell.Current.GoToAsync(nameof(AdvancedSearchFiltersPage));
-            var filtersPage = new AdvancedSearchFiltersPage((ReadingPageViewModel)this.BindingContext);
-            App.Current.MainPage.Navigation.PushAsync(filtersPage);
-            _ttestableView.IsVisible = true;
+            Shell.Current.GoToAsync(nameof(AdvancedSearchFiltersPage));
+            //var filtersPage = new AdvancedSearchFiltersPage((ReadingPageViewModel)this.BindingContext);
+            //App.Current.MainPage.Navigation.PushAsync(filtersPage);
+            //_ttestableView.IsVisible = true;
             FilterShower.IsVisible = false;
         }
 
         private void OnHideFilters()
         {
-            _ttestableView.IsVisible = false;
+            //_ttestableView.IsVisible = false;
             FilterShower.IsVisible = true;
         }
 
