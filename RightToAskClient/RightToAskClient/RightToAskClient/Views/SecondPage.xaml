@@ -19,7 +19,7 @@
 		             Padding="30">
 			<StackLayout Orientation="Vertical" x:Name="QuestionDraftingBox" IsVisible="{Binding IsReadingOnly, Converter={StaticResource Key=cnvInvert}}">
 				<Label Text="{xct:Translate MyQuestionTitleText}" Style="{StaticResource Header2}" />
-                <Editor Completed="Question_Entered" MaxLength="280" 
+                <Editor Completed="Question_Entered" MaxLength="280"  HeightRequest="200" WidthRequest="320"
 				        Style="{StaticResource NormalEditor}" Text="{Binding Question.QuestionText}" Placeholder="{xct:Translate MyQuestionPlaceholderText}">
 					<!--<Editor.Placeholder>
 						Enter your question (max 280 chars)

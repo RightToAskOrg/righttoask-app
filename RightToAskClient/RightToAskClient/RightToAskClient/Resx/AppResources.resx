@@ -256,7 +256,8 @@
     <value>My MP</value>
   </data>
   <data name="MyQuestionPlaceholderText" xml:space="preserve">
-    <value>Enter your question (max 280  chars)
+    <value>Enter your question 
+      (max 280 chars)
 
 
 
