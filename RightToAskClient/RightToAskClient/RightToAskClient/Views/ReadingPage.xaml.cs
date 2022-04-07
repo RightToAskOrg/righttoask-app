@@ -22,8 +22,6 @@ namespace RightToAskClient.Views
 
             //_ttestableView = new FilterDisplayTableView();
             //WholePage.Children.Insert(1, _ttestableView);
-
-            OnHideFilters();
         }
 
         protected override void OnDisappearing()
@@ -42,27 +40,6 @@ namespace RightToAskClient.Views
             }
         }
 
-        private void OnShowFilters(object sender, EventArgs e)
-        {
-            // maybe go to the new page instead
-            Shell.Current.GoToAsync(nameof(AdvancedSearchFiltersPage));
-            //var filtersPage = new AdvancedSearchFiltersPage((ReadingPageViewModel)this.BindingContext);
-            //App.Current.MainPage.Navigation.PushAsync(filtersPage);
-            //_ttestableView.IsVisible = true;
-            FilterShower.IsVisible = false;
-        }
-
-        private void OnHideFilters()
-        {
-            //_ttestableView.IsVisible = false;
-            FilterShower.IsVisible = true;
-        }
-
-        private void Questions_Scrolled(object sender, ScrolledEventArgs e)
-        {
-            OnHideFilters();
-        }
-
         // Note: it's possible that this would be better with an ItemTapped event instead.
         private async void Question_Selected(object sender, ItemTappedEventArgs e)
         {
@@ -71,6 +48,5 @@ namespace RightToAskClient.Views
             //await Navigation.PushAsync(questionDetailPage);
             await Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
         }
-
     }
 }

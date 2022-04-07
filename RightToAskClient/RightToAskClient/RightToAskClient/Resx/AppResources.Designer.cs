@@ -394,7 +394,7 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Keep Question: Review for Upload.
+        ///   Looks up a localized string similar to Keep Question for Upload.
         /// </summary>
         internal static string KeepQuestionButtonText {
             get {

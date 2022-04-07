@@ -19,10 +19,10 @@
         <vm:ReadingPageViewModel/>
     </ContentPage.BindingContext>
     <ContentPage.Content>
-		<StackLayout x:Name = "WholePage" HorizontalOptions="Center" VerticalOptions="Start">
+		<StackLayout x:Name="WholePage" HorizontalOptions="Center" VerticalOptions="Start" Spacing="0">
             <Label Text="{xct:Translate ReadingPageHeader1}" Style="{StaticResource Header2}"/>
             <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
-                <ScrollView Scrolled="Questions_Scrolled">
+                <ScrollView>
                     <CollectionView x:Name="QuestionList" ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="Single" SelectedItem="{Binding SelectedQuestion}">
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="models:Question">
@@ -39,28 +39,34 @@
                     </CollectionView>
                 </ScrollView>
             </RefreshView>
-            <!-- Filters inserted here -->
-            <Grid ColumnDefinitions="*,*,*,*">
-                <SearchBar Grid.Column="0" Grid.ColumnSpan="3" Placeholder="{xct:Translate SearchBarPlaceholderText}" 
+            <!--Search Frame-->
+            <Frame Style="{StaticResource GreenFrame}" Margin="0" Padding="10,0,10,10">
+                <StackLayout>
+                    <Label Text="Search" Style="{StaticResource LeftMedium}"/>
+                    <Grid ColumnDefinitions="*,*,*,*" MinimumHeightRequest="30">
+                        <SearchBar Grid.Column="0" Grid.ColumnSpan="3" Placeholder="{xct:Translate SearchBarPlaceholderText}" 
                            Style="{StaticResource GreenSearchBar}" Text="keyword" HorizontalOptions="Start" 
                            Margin="0"/>
-                <!--SearchCommand="{Binding ExpiringSoonButtonCommand}"-->
-                <Frame x:Name="FilterShower" Grid.Column="3" HeightRequest="50" Margin="0" Padding="0" Style="{StaticResource GreenFrame}">
-                    <!--<controls:ClickableLabel Tapped="OnShowFilters" Text="{xct:Translate ClickForFiltersText}"/>-->
-                    <Button Text="Show Filters" Clicked="OnShowFilters"/>
-                </Frame>
-            </Grid>
-
-            <StackLayout Orientation="Horizontal">
-                <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}" Text="{Binding DraftQuestion}" 
-                        HorizontalOptions="FillAndExpand" Style="{StaticResource NormalEditor}" IsVisible="{Binding ShowDraftEditor}"/>
-            </StackLayout>
-			<StackLayout Orientation="Horizontal">
-                <Button Text="{xct:Translate DiscardDraftButtonText}" Style="{StaticResource GreenButton}" 
-                        Command="{Binding DiscardButtonCommand}" IsVisible="{Binding ShowDiscardButton}"/>
-                <Button Text="{xct:Translate KeepQuestionButtonText}" Style="{StaticResource DoneButton}" 
-                        Command="{Binding KeepQuestionButtonCommand}" IsVisible="{Binding ShowContinueButton}" />
-			</StackLayout>
-		</StackLayout>
+                        <!--SearchCommand="{Binding ExpiringSoonButtonCommand}"-->
+                        <Button Grid.Column="3" Style="{StaticResource GreenButton}" FontSize="Small" Text="Filters" Command="{Binding ShowFiltersCommand}"/>
+                    </Grid>
+                </StackLayout>
+            </Frame>
+            <!-- Question Flow Details-->
+            <Frame Style="{StaticResource GreenFrame}" Margin="0" Padding="10" IsVisible="{Binding ShowQuestionFrame}">
+                <StackLayout>
+                    <Label Text="Your Question" Style="{StaticResource LeftMedium}"/>
+                        <StackLayout Orientation="Horizontal">
+                        <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}" Text="{Binding DraftQuestion}" 
+                        HorizontalOptions="FillAndExpand" Style="{StaticResource NormalEditor}"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal" VerticalOptions="FillAndExpand">
+                        <Button Text="{xct:Translate DiscardDraftButtonText}" Style="{StaticResource GreenButton}" Command="{Binding DiscardButtonCommand}"/>
+                        <Button Text="{xct:Translate KeepQuestionButtonText}" Style="{StaticResource DoneButton}" 
+                        Command="{Binding KeepQuestionButtonCommand}" HorizontalOptions="FillAndExpand"/>
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+        </StackLayout>
 	</ContentPage.Content>
 </ContentPage>

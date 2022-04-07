@@ -18,8 +18,32 @@ namespace RightToAskClient.ViewModels
         public FilterDisplayTableView FilterDisplay = new FilterDisplayTableView();
         public FilterChoices FilterChoices => App.ReadingContext.Filters;
 
+        public List<string> CommitteeList = new List<string>();
+        private string _committeeText = "";
+        public string CommitteeText
+        {
+            get => _committeeText;
+            set => SetProperty(ref _committeeText, value);
+        }
+
+        public List<Entity> OtherRightToAskUserList = new List<Entity>();
+        private string _otherRightToAskUserText = "";
+        public string OtherRightToAskUserText
+        {
+            get => _otherRightToAskUserText;
+            set => SetProperty(ref _otherRightToAskUserText, value);
+        }
+
+        public List<Authority> PublicAuthoritiesList = new List<Authority>();
+        private string _publicAuthoritiesText = "";
+        public string PublicAuthoritiesText
+        {
+            get => _publicAuthoritiesText;
+            set => SetProperty(ref _publicAuthoritiesText, value);
+        }
+
         public List<MP> SelectedAnsweringMyMPsList = new List<MP>();
-        private string _selectedAnsweringMyMPs;
+        private string _selectedAnsweringMyMPs = "";
         public string SelectedAnsweringMyMPsText
         {
             get => _selectedAnsweringMyMPs;
@@ -27,7 +51,7 @@ namespace RightToAskClient.ViewModels
         }
 
         public List<MP> SelectedAskingMyMPsList = new List<MP>();
-        private string _selectedAskingMyMPs;
+        private string _selectedAskingMyMPs = "";
         public string SelectedAskingMyMPsText
         {
             get => _selectedAskingMyMPs;
@@ -35,7 +59,7 @@ namespace RightToAskClient.ViewModels
         }
 
         public List<MP> SelectedAskingMPsList = new List<MP>();
-        private string _selectedAskingMPs;
+        private string _selectedAskingMPs = "";
         public string SelectedAskingMPsText
         {
             get => _selectedAskingMPs;
@@ -84,6 +108,10 @@ namespace RightToAskClient.ViewModels
             {
                 // not implemented yet
             });
+            SearchCommand = new Command(() =>
+            {
+                ApplyFiltersAndSearch();
+            });
         }
 
         // commands
@@ -94,6 +122,7 @@ namespace RightToAskClient.ViewModels
         public Command OtherAskingMPsFilterCommand { get; }
         public Command RightToAskUserCommand { get; }
         public Command NotSureCommand { get; }
+        public Command SearchCommand { get; }
 
         // helper methods
         public void ReinitData()
@@ -102,40 +131,85 @@ namespace RightToAskClient.ViewModels
             SelectedAskingMPsList = FilterChoices.SelectedAskingMPs.ToList();
             SelectedAnsweringMPsList = FilterChoices.SelectedAnsweringMPs.ToList();
             SelectedAskingMyMPsList = FilterChoices.SelectedAskingMPsMine.ToList();
-            SelectedAnsweringMyMPsList= FilterChoices.SelectedAnsweringMPsMine.ToList();
+            SelectedAnsweringMyMPsList = FilterChoices.SelectedAnsweringMPsMine.ToList();
+            PublicAuthoritiesList = FilterChoices.SelectedAuthorities.ToList();
+            OtherRightToAskUserList = FilterChoices.SelectedAskingUsers.ToList();
+            CommitteeList = FilterChoices.SelectedAskingCommittee.ToList();
 
             // create strings from those lists
-            SelectedAskingMPsText = CreateTextGivenList(SelectedAskingMPsList);
-            SelectedAnsweringMPsText = CreateTextGivenList(SelectedAnsweringMPsList);
-            SelectedAskingMyMPsText = CreateTextGivenList(SelectedAskingMyMPsList);
-            SelectedAnsweringMyMPsText = CreateTextGivenList(SelectedAnsweringMyMPsList);
-
-            //foreach (MP mp in SelectedAnsweringMPsList)
-            //{
-            //    SelectedAnsweringMPsText += mp.ShortestName;
-            //}
-            //for (int i = 0; i < SelectedAnsweringMPsList.Count; i++)
-            //{
-            //    SelectedAnsweringMPsText += SelectedAnsweringMPsList[i].ShortestName;
-            //    if (i == SelectedAnsweringMPsList.Count - 1)
-            //    {
-            //        // no comma + space
-            //        continue;
-            //    }
-            //    else
-            //    {
-            //        SelectedAnsweringMPsText += ", ";
-            //    }
-            //}
+            SelectedAskingMPsText = CreateTextGivenListMPs(SelectedAskingMPsList);
+            SelectedAnsweringMPsText = CreateTextGivenListMPs(SelectedAnsweringMPsList);
+            SelectedAskingMyMPsText = CreateTextGivenListMPs(SelectedAskingMyMPsList);
+            SelectedAnsweringMyMPsText = CreateTextGivenListMPs(SelectedAnsweringMyMPsList);
+            PublicAuthoritiesText = CreateTextGivenListPAs(PublicAuthoritiesList);
+            OtherRightToAskUserText = CreateTextGivenListEntities(OtherRightToAskUserList);
+            CommitteeText = CreateTextGivenListCommittees(CommitteeList);
         }
 
-        public string CreateTextGivenList(List<MP> mpList)
+        public string CreateTextGivenListMPs(List<MP> mpList)
         {
             string text = "";
             for (int i = 0; i < mpList.Count; i++)
             {
                 text += mpList[i].ShortestName;
                 if (i == mpList.Count - 1)
+                {
+                    // no comma + space
+                    continue;
+                }
+                else
+                {
+                    text += ", ";
+                }
+            }
+            return text;
+        }
+
+        public string CreateTextGivenListCommittees(List<string> committeeList)
+        {
+            string text = "";
+            for (int i = 0; i < committeeList.Count; i++)
+            {
+                text += committeeList[i].ToString();
+                if (i == committeeList.Count - 1)
+                {
+                    // no comma + space
+                    continue;
+                }
+                else
+                {
+                    text += ", ";
+                }
+            }
+            return text;
+        }
+
+        public string CreateTextGivenListPAs(List<Authority> paList)
+        {
+            string text = "";
+            for (int i = 0; i < paList.Count; i++)
+            {
+                text += paList[i].ShortestName;
+                if (i == paList.Count - 1)
+                {
+                    // no comma + space
+                    continue;
+                }
+                else
+                {
+                    text += ", ";
+                }
+            }
+            return text;
+        }
+
+        public string CreateTextGivenListEntities(List<Entity> userList)
+        {
+            string text = "";
+            for (int i = 0; i < userList.Count; i++)
+            {
+                text += userList[i].ShortestName;
+                if (i == userList.Count - 1)
                 {
                     // no comma + space
                     continue;
@@ -187,6 +261,12 @@ namespace RightToAskClient.ViewModels
             {
                 await NavigationUtils.PushMyAskingMPsExploringPage();
             }
+        }
+
+        private async void ApplyFiltersAndSearch()
+        {
+            // TODO apply filters to the list of questions
+            await Shell.Current.GoToAsync(nameof(ReadingPage));
         }
     }
 }
