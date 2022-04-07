@@ -19,8 +19,17 @@
             <StackLayout>
                 <Frame Style="{StaticResource GreenFrame}">
                     <xct:Expander>
-                        <xct:Expander.Header>
-                            <Label Text="Answered By... click to expand" Style="{StaticResource LeftMedium}"/>
+                        <xct:Expander.Header>                            
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                <Label Text="Answered By" Style="{StaticResource LeftMedium}" TextColor="{StaticResource Primary}"/>
+                                <Image Source="{local:ImageResource RightToAskClient.Images.expand_48.png}" xct:IconTintColorEffect.TintColor="{StaticResource Primary}"  HorizontalOptions="EndAndExpand" VerticalOptions="Center">
+                                    <Image.Triggers>
+                                        <DataTrigger TargetType="Image" Binding="{Binding Source={RelativeSource AncestorType={x:Type xct:Expander}}, Path=IsExpanded}" Value="True">
+                                            <Setter Property="Source" Value="{local:ImageResource RightToAskClient.Images.collapse_48.png}" />
+                                        </DataTrigger>
+                                    </Image.Triggers>
+                                </Image>
+                            </StackLayout>
                         </xct:Expander.Header>
                         <xct:Expander.Content>
                             <StackLayout>
@@ -68,7 +77,16 @@
                 <Frame Style="{StaticResource GreenFrame}">
                     <xct:Expander>
                         <xct:Expander.Header>
-                            <Label Text="Raised By... click to expand" Style="{StaticResource LeftMedium}"/>
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                <Label Text="Raised By" Style="{StaticResource LeftMedium}" TextColor="{StaticResource Primary}"/>
+                                <Image Source="{local:ImageResource RightToAskClient.Images.expand_48.png}" xct:IconTintColorEffect.TintColor="{StaticResource Primary}"  HorizontalOptions="EndAndExpand" VerticalOptions="Center">
+                                    <Image.Triggers>
+                                        <DataTrigger TargetType="Image" Binding="{Binding Source={RelativeSource AncestorType={x:Type xct:Expander}}, Path=IsExpanded}" Value="True">
+                                            <Setter Property="Source" Value="{local:ImageResource RightToAskClient.Images.collapse_48.png}" />
+                                        </DataTrigger>
+                                    </Image.Triggers>
+                                </Image>
+                            </StackLayout>
                         </xct:Expander.Header>
                         <xct:Expander.Content>
                             <StackLayout>
@@ -134,7 +152,16 @@
                 <Frame Style="{StaticResource GreenFrame}">
                     <xct:Expander>
                         <xct:Expander.Header>
-                            <Label Text="Written By... click to expand" Style="{StaticResource LeftMedium}"/>
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                <Label Text="Written By" Style="{StaticResource LeftMedium}" TextColor="{StaticResource Primary}"/>
+                                <Image Source="{local:ImageResource RightToAskClient.Images.expand_48.png}" xct:IconTintColorEffect.TintColor="{StaticResource Primary}"  HorizontalOptions="EndAndExpand" VerticalOptions="Center">
+                                    <Image.Triggers>
+                                        <DataTrigger TargetType="Image" Binding="{Binding Source={RelativeSource AncestorType={x:Type xct:Expander}}, Path=IsExpanded}" Value="True">
+                                            <Setter Property="Source" Value="{local:ImageResource RightToAskClient.Images.collapse_48.png}" />
+                                        </DataTrigger>
+                                    </Image.Triggers>
+                                </Image>
+                            </StackLayout>
                         </xct:Expander.Header>
                         <xct:Expander.Content>
                             <StackLayout Spacing="0" Margin="0" Padding="0">
