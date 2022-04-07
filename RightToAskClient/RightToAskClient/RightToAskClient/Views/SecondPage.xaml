@@ -21,23 +21,8 @@
 				<Label Text="{xct:Translate MyQuestionTitleText}" Style="{StaticResource Header2}" />
                 <Editor Completed="Question_Entered" MaxLength="280"  HeightRequest="200" WidthRequest="320"
 				        Style="{StaticResource NormalEditor}" Text="{Binding Question.QuestionText}" Placeholder="{xct:Translate MyQuestionPlaceholderText}">
-					<!--<Editor.Placeholder>
-						Enter your question (max 280 chars)
-						  
-						  
-						  
-						                                                      ?   	
-					</Editor.Placeholder>-->
 				</Editor>
 			</StackLayout >
-			<!--<StackLayout Orientation="Horizontal">
-                <Label Text="{xct:Translate ToBeAnsweredByText}" Style="{StaticResource Header2}" VerticalOptions="Center" />
-				<StackLayout Orientation="Vertical">
-                    <Button Text="{xct:Translate PublicAuthorityButtonText}" Style="{StaticResource GreenButton}" Command="{Binding OtherPublicAuthorityButtonCommand}"/>
-                    <Button Text="{xct:Translate MyMPButtonText}" Style="{StaticResource GreenButton}" Command="{Binding AnsweredByMyMPCommand}"  HorizontalOptions="Center" IsEnabled="{Binding MPButtonsEnabled}"/>
-                    <Button Text="{xct:Translate AnotherMPButtonText}" Style="{StaticResource GreenButton}" Command="{Binding AnsweredByOtherMPCommand}" HorizontalOptions="Center" IsEnabled="{Binding MPButtonsEnabled}"/>
-				</StackLayout>
-			</StackLayout>-->
 			<Label Style="{StaticResource ReportLabel}" Text="{Binding ReportLabelText}" IsVisible="{Binding MPButtonsEnabled, Converter={StaticResource Key=cnvInvert}}"/>
 			<StackLayout Orientation="Horizontal" HorizontalOptions="End" VerticalOptions="End">
                 <Button Text="{xct:Translate NextButtonText}" Style="{StaticResource DoneButton}"  Command="{Binding NavigateForwardCommand}" IsVisible="{Binding IsReadingOnly, Converter={StaticResource Key=cnvInvert}}"/>
