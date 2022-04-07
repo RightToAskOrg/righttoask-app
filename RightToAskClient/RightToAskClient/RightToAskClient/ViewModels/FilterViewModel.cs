@@ -76,6 +76,18 @@ namespace RightToAskClient.ViewModels
 
         public FilterViewModel()
         {
+            MessagingCenter.Subscribe<ExploringPage>(this, "UpdateFilters", (sender) =>
+            {
+                ReinitData();
+            });
+            MessagingCenter.Subscribe<ExploringPageWithSearch>(this, "UpdateFilters", (sender) =>
+            {
+                ReinitData();
+            });
+            MessagingCenter.Subscribe<ExploringPageWithSearchAndPreSelections>(this, "UpdateFilters", (sender) =>
+            {
+                ReinitData();
+            });
             Title = "Advanced Search Page Filters";
             ReinitData(); // to set the display strings
 
