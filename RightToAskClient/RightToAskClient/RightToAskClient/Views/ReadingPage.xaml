@@ -64,18 +64,20 @@
                         Command="{Binding DraftCommand}" IsVisible="{Binding ShowQuestionFrame, Converter={StaticResource Key=cnvInvert}}"/>
             </Grid>
             <!-- Question Flow Details-->
-            <Frame Style="{StaticResource GreenFrame}" Margin="0" Padding="10" IsVisible="{Binding ShowQuestionFrame}">
-                <StackLayout Margin="0" Padding="0" Spacing="0">
-                    <StackLayout Orientation="Horizontal" HeightRequest="35">
-                        <Label Text="Your Question" Style="{StaticResource LeftMedium}" VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand"/>
-                        <Button Text="{xct:Translate DiscardDraftButtonText}" Style="{StaticResource GreenButton}" Command="{Binding DiscardButtonCommand}"/>
-                        <Button Text="{xct:Translate KeepQuestionButtonText}" Style="{StaticResource DoneButton}"
+            <ScrollView>
+                <Frame Style="{StaticResource GreenFrame}" Margin="0" Padding="10" IsVisible="{Binding ShowQuestionFrame}">
+                    <StackLayout Margin="0" Padding="0" Spacing="0">
+                        <StackLayout Orientation="Horizontal" HeightRequest="35">
+                            <Label Text="Your Question" Style="{StaticResource LeftMedium}" VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand"/>
+                            <Button Text="{xct:Translate DiscardDraftButtonText}" Style="{StaticResource GreenButton}" Command="{Binding DiscardButtonCommand}"/>
+                            <Button Text="{xct:Translate KeepQuestionButtonText}" Style="{StaticResource DoneButton}"
                         Command="{Binding KeepQuestionButtonCommand}"/>
-                    </StackLayout>
-                    <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}" Text="{Binding DraftQuestion}" 
+                        </StackLayout>
+                        <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}" Text="{Binding DraftQuestion}" 
                         HorizontalOptions="FillAndExpand" Style="{StaticResource NormalEditor}"/>
-                </StackLayout>
-            </Frame>
+                    </StackLayout>
+                </Frame>
+            </ScrollView>
         </StackLayout>
 	</ContentPage.Content>
 </ContentPage>
