@@ -20,7 +20,13 @@ namespace RightToAskClient.Models
 	 * */
 	public class UpdatableParliamentAndMPData
 	{
-		private UpdatableParliamentAndMPDataStructure _allMPsData = new UpdatableParliamentAndMPDataStructure();
+		private UpdatableParliamentAndMPDataStructure _allMPsData
+			= new UpdatableParliamentAndMPDataStructure()
+			{
+				mps = new MP[] { },
+				FederalElectoratesByState = new RegionsContained[] { }
+			};
+		
 		private bool _isInitialised;  // Defaults to false.
 
 		public List<MP> AllMPs  
@@ -29,7 +35,7 @@ namespace RightToAskClient.Models
 			{
 				if (!_allMPsData.mps.IsNullOrEmpty())
 				{
-					return new List<MP>(_allMPsData.mps);
+					return new List<MP>(_allMPsData.mps ?? new MP[]{});
 				}
 
 				return new List<MP>();
@@ -40,7 +46,7 @@ namespace RightToAskClient.Models
 		{
 			get
 			{
-				return new List<RegionsContained>(_allMPsData.FederalElectoratesByState);
+				return new List<RegionsContained>(_allMPsData.FederalElectoratesByState ?? new RegionsContained[]{});
 			}
 		}
 		public List<RegionsContained> VicRegions
@@ -64,10 +70,10 @@ namespace RightToAskClient.Models
 		// Find all the MPs representing a certain electorate.
 		public List<MP> GetMPsRepresentingElectorate(ElectorateWithChamber queryElectorate)
 		{
-			var mps = _allMPsData.mps.Where(mp => mp.electorate.chamber == queryElectorate.chamber
+			var mps = _allMPsData.mps?.Where(mp => mp.electorate.chamber == queryElectorate.chamber
 			                             && mp.electorate.region.Equals(queryElectorate.region,
 				                             StringComparison.OrdinalIgnoreCase));
-			return new List<MP>(mps);
+			return new List<MP>(mps ?? new MP[]{});
 		}
 		
 		// Returns true if initialisation is successful, i.e. no errors.

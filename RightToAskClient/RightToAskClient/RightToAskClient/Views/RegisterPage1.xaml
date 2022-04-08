@@ -13,7 +13,7 @@
              Title="{Binding Title}">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
-                     IconImageSource="{local:ImageResource RightToAskClient.Images.home1.png}"/>
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.home4.png}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.BindingContext>
         <vm:Registration1ViewModel />

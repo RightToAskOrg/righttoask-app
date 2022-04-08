@@ -13,7 +13,7 @@
              x:DataType="vm:ReadingPageViewModel">
     <ContentPage.ToolbarItems>
         <ToolbarItem x:Name="HomeButton" Text="{xct:Translate HomeButtonText}" 
-                     IconImageSource="{local:ImageResource RightToAskClient.Images.home1.png}"/>
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.home4.png}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.BindingContext>
         <vm:ReadingPageViewModel/>
