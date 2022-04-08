@@ -23,62 +23,59 @@
         <vm:ReadingPageViewModel/>
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <Grid RowDefinitions="*,*" ColumnDefinitions="*,*" VerticalOptions="FillAndExpand">
-            <ScrollView Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="2">
-                <StackLayout x:Name="WholePage" HorizontalOptions="Center" VerticalOptions="FillAndExpand" Spacing="0"
-                             Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="2">
-                    <Label Text="{xct:Translate ReadingPageHeader1}" Style="{StaticResource Header2}"/>
-                    <!--Search Frame-->
-                    <Frame Style="{StaticResource GreenFrame}" Margin="0" Padding="0" IsVisible="{Binding ShowSearchFrame}">
-                        <StackLayout>
-                            <!--<Label Text="Search" Style="{StaticResource LeftMedium}"/>-->
-                            <Grid ColumnDefinitions="*,*,*,*" MinimumHeightRequest="30">
-                                <SearchBar Grid.Column="0" Grid.ColumnSpan="3" Placeholder="{xct:Translate SearchBarPlaceholderText}" 
+        <StackLayout x:Name="WholePage" HorizontalOptions="Center" VerticalOptions="FillAndExpand" Spacing="0">
+            <Label Text="{xct:Translate ReadingPageHeader1}" Style="{StaticResource Header2}"/>
+            <!--Search Frame-->
+            <Frame Style="{StaticResource GreenFrame}" Margin="0" Padding="0" IsVisible="{Binding ShowSearchFrame}">
+                <StackLayout>
+                    <!--<Label Text="Search" Style="{StaticResource LeftMedium}"/>-->
+                    <Grid ColumnDefinitions="*,*,*,*" MinimumHeightRequest="30">
+                        <SearchBar Grid.Column="0" Grid.ColumnSpan="3" Placeholder="{xct:Translate SearchBarPlaceholderText}" 
                            Style="{StaticResource GreenSearchBar}" Text="keyword" HorizontalOptions="Start" 
                            Margin="0"/>
-                                <!--SearchCommand="{Binding ExpiringSoonButtonCommand}"-->
-                                <Button Grid.Column="3" Style="{StaticResource GreenButton}" FontSize="Small" Text="Filters" Command="{Binding ShowFiltersCommand}"/>
-                            </Grid>
-                        </StackLayout>
-                    </Frame>
-                    <!--Questions Scroll View with Floating Draft Button-->
-                    <RefreshView Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="2" IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
-                        <ScrollView>
-                            <CollectionView x:Name="QuestionList" ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="Single" SelectedItem="{Binding SelectedQuestion}">
-                                <CollectionView.ItemTemplate>
-                                    <DataTemplate x:DataType="models:Question">
-                                        <SwipeView>
-                                            <SwipeView.RightItems>
-                                                <SwipeItem Text="Dismiss" BackgroundColor="PaleVioletRed"/>
-                                            </SwipeView.RightItems>
-                                            <SwipeView.LeftItems>
-                                                <SwipeItem Text="Dismiss" BackgroundColor="PaleVioletRed"/>
-                                            </SwipeView.LeftItems>
-                                            <views:QuestionDisplayCard/>
-                                        </SwipeView>
-                                    </DataTemplate>
-                                </CollectionView.ItemTemplate>
-                            </CollectionView>
-                        </ScrollView>
-                    </RefreshView>
-                    <!-- Question Flow Details-->
-                    <Frame Style="{StaticResource GreenFrame}" Margin="0" Padding="10" IsVisible="{Binding ShowQuestionFrame}">
-                        <StackLayout Margin="0" Padding="0" Spacing="0">
-                            <StackLayout Orientation="Horizontal" HeightRequest="35">
-                                <Label Text="Your Question" Style="{StaticResource LeftMedium}" VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand"/>
-                                <Button Text="{xct:Translate DiscardDraftButtonText}" Style="{StaticResource GreenButton}" Command="{Binding DiscardButtonCommand}"/>
-                                <Button Text="{xct:Translate KeepQuestionButtonText}" Style="{StaticResource DoneButton}"
-                        Command="{Binding KeepQuestionButtonCommand}"/>
-                            </StackLayout>
-                            <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}" Text="{Binding DraftQuestion}" 
-                        HorizontalOptions="FillAndExpand" Style="{StaticResource NormalEditor}"/>
-                        </StackLayout>
-                    </Frame>
+                        <!--SearchCommand="{Binding ExpiringSoonButtonCommand}"-->
+                        <Button Grid.Column="3" Style="{StaticResource GreenButton}" FontSize="Small" Text="Filters" Command="{Binding ShowFiltersCommand}"/>
+                    </Grid>
                 </StackLayout>
-            </ScrollView>
-            <Button Grid.Row="1" Grid.Column="1" VerticalOptions="End" HorizontalOptions="End" Margin="10" 
+            </Frame>
+            <!--Questions Scroll View with Floating Draft Button-->
+            <Grid RowDefinitions="*,*" ColumnDefinitions="*,*" VerticalOptions="FillAndExpand">
+                <RefreshView Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="2" IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
+                    <ScrollView>
+                        <CollectionView x:Name="QuestionList" ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="Single" SelectedItem="{Binding SelectedQuestion}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:Question">
+                                    <SwipeView>
+                                        <SwipeView.RightItems>
+                                            <SwipeItem Text="Dismiss" BackgroundColor="PaleVioletRed"/>
+                                        </SwipeView.RightItems>
+                                        <SwipeView.LeftItems>
+                                            <SwipeItem Text="Dismiss" BackgroundColor="PaleVioletRed"/>
+                                        </SwipeView.LeftItems>
+                                        <views:QuestionDisplayCard/>
+                                    </SwipeView>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </ScrollView>
+                </RefreshView>
+                <Button Grid.Row="1" Grid.Column="1" VerticalOptions="End" HorizontalOptions="End" Margin="10" 
                         Text="+" WidthRequest="50" CornerRadius="25" BackgroundColor="{StaticResource ButtonColor}" 
                         Command="{Binding DraftCommand}" IsVisible="{Binding ShowQuestionFrame, Converter={StaticResource Key=cnvInvert}}"/>
-        </Grid>
+            </Grid>
+            <!-- Question Flow Details-->
+            <Frame Style="{StaticResource GreenFrame}" Margin="0" Padding="10" IsVisible="{Binding ShowQuestionFrame}">
+                <StackLayout Margin="0" Padding="0" Spacing="0">
+                    <StackLayout Orientation="Horizontal" HeightRequest="35">
+                        <Label Text="Your Question" Style="{StaticResource LeftMedium}" VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand"/>
+                        <Button Text="{xct:Translate DiscardDraftButtonText}" Style="{StaticResource GreenButton}" Command="{Binding DiscardButtonCommand}"/>
+                        <Button Text="{xct:Translate KeepQuestionButtonText}" Style="{StaticResource DoneButton}"
+                        Command="{Binding KeepQuestionButtonCommand}"/>
+                    </StackLayout>
+                    <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}" Text="{Binding DraftQuestion}" 
+                        HorizontalOptions="FillAndExpand" Style="{StaticResource NormalEditor}"/>
+                </StackLayout>
+            </Frame>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>
