@@ -24,6 +24,13 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _showQuestionFrame, value);
         }
 
+        private bool _showSearchFrame = false;
+        public bool ShowSearchFrame
+        {
+            get => _showSearchFrame;
+            set => SetProperty(ref _showSearchFrame, value);
+        }
+
         private string _draftQuestion = "";
         public string DraftQuestion
         {
@@ -123,6 +130,14 @@ namespace RightToAskClient.ViewModels
             {
                 LoadQuestions();
             });
+            DraftCommand = new Command(() =>
+            {
+                ShowQuestionFrame = true;
+            });
+            SearchToolbarCommand = new Command(() =>
+            {
+                ShowSearchFrame = !ShowSearchFrame; // just toggle it
+            });
             ShowFiltersCommand = new AsyncCommand(async() =>
             {
                 await Shell.Current.GoToAsync(nameof(AdvancedSearchFiltersPage));
@@ -133,6 +148,8 @@ namespace RightToAskClient.ViewModels
         public IAsyncCommand KeepQuestionButtonCommand { get; }
         public IAsyncCommand DiscardButtonCommand { get; }
         public Command RefreshCommand { get; }
+        public Command DraftCommand { get; }
+        public Command SearchToolbarCommand { get; }
         public IAsyncCommand ShowFiltersCommand { get; }
 
         // helper methods

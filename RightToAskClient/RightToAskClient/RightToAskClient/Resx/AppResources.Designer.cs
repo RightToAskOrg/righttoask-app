@@ -187,7 +187,7 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Discard Draft.
+        ///   Looks up a localized string similar to Discard.
         /// </summary>
         internal static string DiscardDraftButtonText {
             get {
@@ -394,7 +394,7 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Keep Question for Upload.
+        ///   Looks up a localized string similar to Keep for Upload.
         /// </summary>
         internal static string KeepQuestionButtonText {
             get {
@@ -893,7 +893,7 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Keyword.
+        ///   Looks up a localized string similar to Search for keyword.
         /// </summary>
         internal static string SearchBarPlaceholderText {
             get {

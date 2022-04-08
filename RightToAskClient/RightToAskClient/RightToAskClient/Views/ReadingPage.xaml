@@ -12,6 +12,9 @@
              Title="{Binding Title}"
              x:DataType="vm:ReadingPageViewModel">
     <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="SearchButton" Text="{xct:Translate HomeButtonText}" 
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.search.png}"
+                     Command="{Binding SearchToolbarCommand}"/>
         <ToolbarItem x:Name="HomeButton" Text="{xct:Translate HomeButtonText}" 
                      IconImageSource="{local:ImageResource RightToAskClient.Images.home1.png}"/>
     </ContentPage.ToolbarItems>
@@ -19,30 +22,12 @@
         <vm:ReadingPageViewModel/>
     </ContentPage.BindingContext>
     <ContentPage.Content>
-		<StackLayout x:Name="WholePage" HorizontalOptions="Center" VerticalOptions="Start" Spacing="0">
+		<StackLayout x:Name="WholePage" HorizontalOptions="Center" VerticalOptions="FillAndExpand" Spacing="0">
             <Label Text="{xct:Translate ReadingPageHeader1}" Style="{StaticResource Header2}"/>
-            <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
-                <ScrollView>
-                    <CollectionView x:Name="QuestionList" ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="Single" SelectedItem="{Binding SelectedQuestion}">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="models:Question">
-                                <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" Spacing="4">
-                                    <Label Text="{Binding QuestionText}" Style="{StaticResource ListViewText}"/>
-                                    <StackLayout Orientation="Horizontal" Padding="0" HorizontalOptions="Start" VerticalOptions="CenterAndExpand">
-                                        <Label Text="Upvotes " Style="{StaticResource ListViewTextSmall}"/>
-                                        <Label Text="{Binding UpVotes}" Style="{StaticResource ListViewTextSmall}"/>
-                                        <controls:ToggleButton Style="{StaticResource GreenButton}" ToBeIncremented="{Binding}"/>
-                                    </StackLayout>
-                                </StackLayout>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </ScrollView>
-            </RefreshView>
             <!--Search Frame-->
-            <Frame Style="{StaticResource GreenFrame}" Margin="0" Padding="10,0,10,10">
+            <Frame Style="{StaticResource GreenFrame}" Margin="0" Padding="0" IsVisible="{Binding ShowSearchFrame}">
                 <StackLayout>
-                    <Label Text="Search" Style="{StaticResource LeftMedium}"/>
+                    <!--<Label Text="Search" Style="{StaticResource LeftMedium}"/>-->
                     <Grid ColumnDefinitions="*,*,*,*" MinimumHeightRequest="30">
                         <SearchBar Grid.Column="0" Grid.ColumnSpan="3" Placeholder="{xct:Translate SearchBarPlaceholderText}" 
                            Style="{StaticResource GreenSearchBar}" Text="keyword" HorizontalOptions="Start" 
@@ -52,19 +37,41 @@
                     </Grid>
                 </StackLayout>
             </Frame>
+            <!--Questions Scroll View with Floating Draft Button-->
+            <Grid RowDefinitions="*,*" ColumnDefinitions="*,*" VerticalOptions="FillAndExpand">
+                <RefreshView Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="2" IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
+                    <ScrollView>
+                        <CollectionView x:Name="QuestionList" ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="Single" SelectedItem="{Binding SelectedQuestion}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:Question">
+                                    <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" Spacing="4">
+                                        <Label Text="{Binding QuestionText}" Style="{StaticResource ListViewText}"/>
+                                        <StackLayout Orientation="Horizontal" Padding="0" HorizontalOptions="Start" VerticalOptions="CenterAndExpand">
+                                            <Label Text="Upvotes " Style="{StaticResource ListViewTextSmall}"/>
+                                            <Label Text="{Binding UpVotes}" Style="{StaticResource ListViewTextSmall}"/>
+                                            <controls:ToggleButton Style="{StaticResource GreenButton}" ToBeIncremented="{Binding}"/>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </ScrollView>
+                </RefreshView>
+                <Button Grid.Row="1" Grid.Column="1" VerticalOptions="End" HorizontalOptions="End" Margin="10" 
+                        Text="+" WidthRequest="50" CornerRadius="25" BackgroundColor="{StaticResource ButtonColor}" 
+                        Command="{Binding DraftCommand}" IsVisible="{Binding ShowQuestionFrame, Converter={StaticResource Key=cnvInvert}}"/>
+            </Grid>
             <!-- Question Flow Details-->
             <Frame Style="{StaticResource GreenFrame}" Margin="0" Padding="10" IsVisible="{Binding ShowQuestionFrame}">
-                <StackLayout>
-                    <Label Text="Your Question" Style="{StaticResource LeftMedium}"/>
-                        <StackLayout Orientation="Horizontal">
-                        <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}" Text="{Binding DraftQuestion}" 
-                        HorizontalOptions="FillAndExpand" Style="{StaticResource NormalEditor}"/>
-                    </StackLayout>
-                    <StackLayout Orientation="Horizontal" VerticalOptions="FillAndExpand">
+                <StackLayout Margin="0" Padding="0" Spacing="0">
+                    <StackLayout Orientation="Horizontal" HeightRequest="35">
+                        <Label Text="Your Question" Style="{StaticResource LeftMedium}" VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand"/>
                         <Button Text="{xct:Translate DiscardDraftButtonText}" Style="{StaticResource GreenButton}" Command="{Binding DiscardButtonCommand}"/>
-                        <Button Text="{xct:Translate KeepQuestionButtonText}" Style="{StaticResource DoneButton}" 
-                        Command="{Binding KeepQuestionButtonCommand}" HorizontalOptions="FillAndExpand"/>
+                        <Button Text="{xct:Translate KeepQuestionButtonText}" Style="{StaticResource DoneButton}"
+                        Command="{Binding KeepQuestionButtonCommand}"/>
                     </StackLayout>
+                    <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}" Text="{Binding DraftQuestion}" 
+                        HorizontalOptions="FillAndExpand" Style="{StaticResource NormalEditor}"/>
                 </StackLayout>
             </Frame>
         </StackLayout>
