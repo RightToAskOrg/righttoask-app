@@ -1,10 +1,28 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="RightToAskClient.Views.QuestionDisplayCard">
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+             xmlns:local="clr-namespace:RightToAskClient"
+             xmlns:controls="clr-namespace:RightToAskClient.Controls"
+             xmlns:models="clr-namespace:RightToAskClient.Models"
+             x:Class="RightToAskClient.Views.QuestionDisplayCard"
+             x:DataType="models:Question">
   <ContentView.Content>
-      <StackLayout>
-          <Label Text="Hello Xamarin.Forms!" />
-      </StackLayout>
-  </ContentView.Content>
+        <Frame HeightRequest="100" Style="{StaticResource GreenFrame}" Padding="5">
+            <Grid RowDefinitions="*,*,*" ColumnDefinitions="*,*,*,*,*" Padding="0" Margin="0">
+                <Label Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="4" Text="{Binding QuestionText}"
+                                                Style="{StaticResource ListViewText}"/>
+                <ImageButton Grid.Row="0" Grid.Column="0" Source="{local:ImageResource RightToAskClient.Images.home1.png}" BackgroundColor="Transparent"/>
+                <StackLayout Orientation="Horizontal" Grid.Row="2" Grid.Column="0">
+                    <Label Text="Upvotes " Style="{StaticResource ListViewTextSmall}"/>
+                    <Label Text="{Binding UpVotes}" Style="{StaticResource ListViewTextSmall}"/>
+                </StackLayout>
+                <Label Grid.Row="1" Grid.Column="0" Text="Swipe to Dismiss" FontSize="Micro"/>
+                <controls:ToggleButton Grid.Row="2" Grid.Column="1" Style="{StaticResource GreenButton}" ToBeIncremented="{Binding}" FontSize="Micro"/>
+                <ImageButton Grid.Row="2" Grid.Column="2" Source="{local:ImageResource RightToAskClient.Images.home1.png}" BackgroundColor="Transparent"/>
+                <ImageButton Grid.Row="2" Grid.Column="3" Source="{local:ImageResource RightToAskClient.Images.home1.png}" BackgroundColor="Transparent"/>
+                <ImageButton Grid.Row="2" Grid.Column="4" Source="{local:ImageResource RightToAskClient.Images.home1.png}" BackgroundColor="Transparent"/>
+            </Grid>
+        </Frame>
+    </ContentView.Content>
 </ContentView>

@@ -6,6 +6,7 @@
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
 			 xmlns:models="clr-namespace:RightToAskClient.Models;assembly=RightToAskClient"
              xmlns:local="clr-namespace:RightToAskClient"
+             xmlns:views="clr-namespace:RightToAskClient.Views"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
 			 x:Class="RightToAskClient.Views.ReadingPage"
 			 x:Name="TitleBar"
@@ -44,14 +45,15 @@
                         <CollectionView x:Name="QuestionList" ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="Single" SelectedItem="{Binding SelectedQuestion}">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="models:Question">
-                                    <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" Spacing="4">
-                                        <Label Text="{Binding QuestionText}" Style="{StaticResource ListViewText}"/>
-                                        <StackLayout Orientation="Horizontal" Padding="0" HorizontalOptions="Start" VerticalOptions="CenterAndExpand">
-                                            <Label Text="Upvotes " Style="{StaticResource ListViewTextSmall}"/>
-                                            <Label Text="{Binding UpVotes}" Style="{StaticResource ListViewTextSmall}"/>
-                                            <controls:ToggleButton Style="{StaticResource GreenButton}" ToBeIncremented="{Binding}"/>
-                                        </StackLayout>
-                                    </StackLayout>
+                                    <SwipeView>
+                                        <SwipeView.RightItems>
+                                            <SwipeItem Text="Dismiss" BackgroundColor="PaleVioletRed"/>
+                                        </SwipeView.RightItems>
+                                        <SwipeView.LeftItems>
+                                            <SwipeItem Text="Dismiss" BackgroundColor="PaleVioletRed"/>
+                                        </SwipeView.LeftItems>
+                                        <views:QuestionDisplayCard/>
+                                    </SwipeView>                                    
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
                         </CollectionView>
