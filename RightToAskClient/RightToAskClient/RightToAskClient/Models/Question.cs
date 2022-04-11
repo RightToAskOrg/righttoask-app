@@ -1,4 +1,5 @@
 using RightToAskClient.ViewModels;
+using RightToAskClient.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -6,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace RightToAskClient.Models
 {
@@ -112,5 +114,34 @@ namespace RightToAskClient.Models
                    // "DownVotes: " + DownVotes + '\n' +
                    "Link/Answer: " + LinkOrAnswer;
         }
+
+        // constructor needed for command creation
+        public Question()
+        {
+            UpvoteCommand = new Command(() => 
+            {
+                if (!AlreadyUpvoted)
+                {
+                    UpVotes += 1;
+                    AlreadyUpvoted = true;
+                }
+                else
+                {
+                    UpVotes -= 1;
+                    AlreadyUpvoted = false;
+                }
+            });
+            QuestionDetailsCommand = new Command(() =>
+            {
+                //QuestionViewModel.Instance.SelectedQuestion = this;
+                QuestionViewModel.Instance.Question = this;
+                QuestionViewModel.Instance.IsNewQuestion = false;
+                _ = Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
+            });
+        }
+
+        // command
+        public Command UpvoteCommand { get; }
+        public Command QuestionDetailsCommand { get; }
     }
 }

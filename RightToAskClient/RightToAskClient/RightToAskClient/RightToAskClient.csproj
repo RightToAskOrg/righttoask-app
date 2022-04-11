@@ -51,6 +51,7 @@
     <None Remove="Images\message_bubble.png" />
     <None Remove="Images\OpenBook.png" />
     <None Remove="Images\open_book.png" />
+    <None Remove="Images\outline_arrow_circle_up_48.png" />
     <None Remove="Images\Pen.png" />
     <None Remove="Images\Pin.png" />
     <None Remove="Images\QuestionDraft.png" />
@@ -118,6 +119,7 @@
     <EmbeddedResource Include="Images\location_pin.png" />
     <EmbeddedResource Include="Images\message_bubble.png" />
     <EmbeddedResource Include="Images\open_book.png" />
+    <EmbeddedResource Include="Images\outline_arrow_circle_up_48.png" />
     <EmbeddedResource Include="Images\pen.png" />
     <EmbeddedResource Include="Images\pin.png" />
     <EmbeddedResource Include="Images\question_draft.png" />
