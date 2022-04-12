@@ -24,6 +24,10 @@ namespace RightToAskClient.Models
                 QuestionViewModel.Instance._serverQuestionUpdates.question_text = _questionText;
             }
         }
+        // VT: As an Australian, I am suspicious of anything except Unix time. Let's just store 
+        // milliseconds, as the server does, and then display them according to the local timezone.
+        // I am reliably advised that anything else is too clever to actually work.
+        // Likewise for expiry date.
         public DateTime UploadTimestamp { get; set; }
         private string _background = "";
         public string Background
