@@ -34,7 +34,13 @@
                            Style="{StaticResource GreenSearchBar}" Text="keyword" HorizontalOptions="Start" 
                            Margin="0"/>
                         <!--SearchCommand="{Binding ExpiringSoonButtonCommand}"-->
-                        <Button Grid.Column="3" Style="{StaticResource GreenButton}" FontSize="Small" Text="Filters" Command="{Binding ShowFiltersCommand}"/>
+                        <StackLayout Orientation="Horizontal" Grid.Column="3" Padding="0" Margin="0">
+                            <Label Style="{StaticResource CenterSmall}" FontSize="Micro" Text="Filters" 
+                                   Padding="0" Margin="0" VerticalOptions="Center" VerticalTextAlignment="Center"/>
+                            <ImageButton Source="{local:ImageResource RightToAskClient.Images.filter_sliders_48.png}" 
+                                         Command="{Binding ShowFiltersCommand}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
+                                         Padding="0" Margin="0" BackgroundColor="{StaticResource ButtonColor}"/>                            
+                        </StackLayout>
                     </Grid>
                 </StackLayout>
             </Frame>
@@ -47,10 +53,10 @@
                                 <DataTemplate x:DataType="models:Question">
                                     <SwipeView>
                                         <SwipeView.RightItems>
-                                            <SwipeItem Text="Dismiss" BackgroundColor="PaleVioletRed"/>
+                                            <SwipeItem Text="Dismiss" BackgroundColor="PaleVioletRed" Command="{Binding RemoveQuestionCommand}" x:DataType="vm:ReadingPageViewModel"/>
                                         </SwipeView.RightItems>
                                         <SwipeView.LeftItems>
-                                            <SwipeItem Text="Dismiss" BackgroundColor="PaleVioletRed"/>
+                                            <SwipeItem Text="Dismiss" BackgroundColor="PaleVioletRed" Command="{Binding RemoveQuestionCommand}" x:DataType="vm:ReadingPageViewModel"/>
                                         </SwipeView.LeftItems>
                                         <views:QuestionDisplayCard/>
                                     </SwipeView>
@@ -59,8 +65,8 @@
                         </CollectionView>
                     </ScrollView>
                 </RefreshView>
-                <Button Grid.Row="1" Grid.Column="1" VerticalOptions="End" HorizontalOptions="End" Margin="10" 
-                        Text="+" WidthRequest="50" CornerRadius="25" BackgroundColor="{StaticResource ButtonColor}" 
+                <ImageButton Grid.Row="1" Grid.Column="1" VerticalOptions="End" HorizontalOptions="End" Margin="10" 
+                        Source="{local:ImageResource RightToAskClient.Images.edit_note_48.png}" WidthRequest="50" HeightRequest="50" CornerRadius="25" BackgroundColor="{StaticResource ButtonColor}" 
                         Command="{Binding DraftCommand}" IsVisible="{Binding ShowQuestionFrame, Converter={StaticResource Key=cnvInvert}}"/>
             </Grid>
             <!-- Question Flow Details-->

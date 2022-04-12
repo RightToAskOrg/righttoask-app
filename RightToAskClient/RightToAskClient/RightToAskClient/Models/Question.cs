@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace RightToAskClient.Models
@@ -138,10 +139,19 @@ namespace RightToAskClient.Models
                 QuestionViewModel.Instance.IsNewQuestion = false;
                 _ = Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
             });
+            ShareCommand = new AsyncCommand(async() =>
+            {
+                await Share.RequestAsync(new ShareTextRequest 
+                {
+                    Text = QuestionText,
+                    Title = "Share Text"
+                });
+            });
         }
 
         // command
         public Command UpvoteCommand { get; }
         public Command QuestionDetailsCommand { get; }
+        public IAsyncCommand ShareCommand { get; }
     }
 }

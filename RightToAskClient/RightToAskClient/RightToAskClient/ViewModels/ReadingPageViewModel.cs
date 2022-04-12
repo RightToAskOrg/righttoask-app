@@ -142,6 +142,10 @@ namespace RightToAskClient.ViewModels
             {
                 await Shell.Current.GoToAsync(nameof(AdvancedSearchFiltersPage));
             });
+            RemoveQuestionCommand = new Command<Question>((Question questionToRemove) =>
+            {
+                QuestionsToDisplay.Remove(questionToRemove);
+            });
         }
 
         // commands
@@ -150,6 +154,7 @@ namespace RightToAskClient.ViewModels
         public Command RefreshCommand { get; }
         public Command DraftCommand { get; }
         public Command SearchToolbarCommand { get; }
+        public Command<Question> RemoveQuestionCommand { get; }
         public IAsyncCommand ShowFiltersCommand { get; }
 
         // helper methods

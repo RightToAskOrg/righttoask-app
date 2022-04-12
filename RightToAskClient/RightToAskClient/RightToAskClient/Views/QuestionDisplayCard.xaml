@@ -15,12 +15,17 @@
                 <!--This button is for just the text area to be clickable-->
                 <!--<Button Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="4" Style="{StaticResource TransparentSquareButton}"
                         Command="{Binding QuestionDetailsCommand}" BackgroundColor="Yellow"/>-->
-                <ImageButton Grid.Row="0" Grid.Column="0" Source="{local:ImageResource RightToAskClient.Images.home1.png}" BackgroundColor="Transparent"/>
+                <ImageButton Grid.Row="0" Grid.Column="0" Source="{local:ImageResource RightToAskClient.Images.check_box_48.png}" BackgroundColor="Transparent"/>
                 <StackLayout Orientation="Horizontal" Grid.Row="2" Grid.Column="0">
                     <Label Text="Upvotes " Style="{StaticResource ListViewTextSmall}"/>
                     <Label Text="{Binding UpVotes}" Style="{StaticResource ListViewTextSmall}"/>
                 </StackLayout>
-                <Label Grid.Row="1" Grid.Column="0" Text="Swipe to Dismiss" FontSize="Micro"/>
+                <!--<Label Grid.Row="1" Grid.Column="0" Text="Swipe to Dismiss" FontSize="Micro"/>-->
+                <!--<Image Grid.Row="1" Grid.Column="0" Source="{local:ImageResource RightToAskClient.Images.swipe_left_48.png}"/>-->
+                <StackLayout Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Padding="0" Spacing="0" Margin="0">
+                    <Image Source="{local:ImageResource RightToAskClient.Images.swipe_left_48.png}" Margin="0"/>
+                    <Label Text="Swipe to Dismiss" FontSize="Micro" Padding="0" Margin="2,0,0,0"/>                    
+                </StackLayout>
                 <!--The following button is for the whole background of the section to be clickable, and the buttons for specific interactions are
                     inserted on top of this.-->
                 <Button Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="5" Style="{StaticResource TransparentSquareButton}"
@@ -28,9 +33,10 @@
                 <!--<controls:ToggleButton Grid.Row="2" Grid.Column="1" Style="{StaticResource GreenButton}" ToBeIncremented="{Binding}" FontSize="Micro"/>-->
                 <ImageButton Grid.Row="2" Grid.Column="1" Source="{local:ImageResource RightToAskClient.Images.outline_arrow_circle_up_48.png}" 
                              BackgroundColor="Transparent" Command="{Binding UpvoteCommand}"/>
-                <ImageButton Grid.Row="2" Grid.Column="2" Source="{local:ImageResource RightToAskClient.Images.home1.png}" BackgroundColor="Transparent"/>
-                <ImageButton Grid.Row="2" Grid.Column="3" Source="{local:ImageResource RightToAskClient.Images.home1.png}" BackgroundColor="Transparent"/>
-                <ImageButton Grid.Row="2" Grid.Column="4" Source="{local:ImageResource RightToAskClient.Images.home1.png}" BackgroundColor="Transparent"/>
+                <ImageButton Grid.Row="2" Grid.Column="2" Source="{local:ImageResource RightToAskClient.Images.share_48.png}" 
+                             Command="{Binding ShareCommand}" BackgroundColor="Transparent"/>
+                <ImageButton Grid.Row="2" Grid.Column="3" Source="{local:ImageResource RightToAskClient.Images.outline_question_answer_48.png}" BackgroundColor="Transparent"/>
+                <ImageButton Grid.Row="2" Grid.Column="4" Source="{local:ImageResource RightToAskClient.Images.flag_48.png}" BackgroundColor="Transparent"/>
             </Grid>
         </Frame>
     </ContentView.Content>
