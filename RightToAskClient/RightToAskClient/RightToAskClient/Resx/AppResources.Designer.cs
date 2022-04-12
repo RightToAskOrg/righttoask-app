@@ -75,6 +75,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string ApproveAnswerText {
+            get {
+                return ResourceManager.GetString("ApproveAnswerText", resourceCulture);
+            }
+        }
+        
         internal static string ApplicationTitle {
             get {
                 return ResourceManager.GetString("ApplicationTitle", resourceCulture);

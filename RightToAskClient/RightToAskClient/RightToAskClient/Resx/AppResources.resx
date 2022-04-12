@@ -132,6 +132,9 @@
   <data name="AnotherUserButtonText" xml:space="preserve">
     <value>Another RightToAsk User</value>
   </data>
+  <data name="ApproveAnswerText" xml:space="preserve">
+    <value>Approve this answer?</value>
+  </data>
   <data name="ApplicationTitle" xml:space="preserve">
     <value>Right To Ask</value>
   </data>
@@ -300,6 +303,13 @@
   <data name="QuestionDetailsTitle" xml:space="preserve">
     <value>Question Details</value>
   </data>
+  <!--
+  <data name="QuestionAnswererHeaderText" xml:space="preserve">
+    <value>To be answered by:</value>
+  </data>
+  <data name="QuestionAskerHeaderText" xml:space="preserve">
+    <value>To be raised in parliament by:</value>
+  </data> -->
   <data name="QuestionHeaderText" xml:space="preserve">
     <value>Question: </value>
   </data>

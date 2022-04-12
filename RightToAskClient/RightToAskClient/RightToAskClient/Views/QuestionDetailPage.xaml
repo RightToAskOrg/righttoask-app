@@ -20,6 +20,16 @@
             <Label Text="{xct:Translate QuestionHeaderText}" Style="{StaticResource LeftSmall}"/>
 			<Label Text="{Binding Question.QuestionText}" Style="{StaticResource LeftLarge}" IsVisible="{Binding CanEditQuestion, Converter={StaticResource Key=cnvInvert}}"/>
 			<Editor Text="{Binding Question.QuestionText}" Style="{StaticResource NormalEditor}" IsVisible="{Binding CanEditQuestion}"/>
+            <Label Text="{xct:Translate WhoShouldAnswerTitle}" Style="{StaticResource LeftSmall}"/>
+			<Label Text="{Binding Question.QuestionAnswerers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
+			<!-- 
+			Put something in here that asks the user whether they allow other users to add QuestionAnswerers. (Y/N)
+            -->
+            <Label Text="{xct:Translate OptionBText4}" Style="{StaticResource LeftSmall}"/>
+			<Label Text="{Binding Question.QuestionAsker, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
+			<!-- 
+			Put something in here that asks the user whether they allow other users to add QuestionAskers. (Y/N)
+            -->
             <Label Text="{xct:Translate QuestionWriterHeaderText}" Style="{StaticResource LeftSmall}"/>
 			<Label Text="{Binding Question.QuestionSuggester, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
             <Label Text="{xct:Translate UpvotesHeaderText}" Style="{StaticResource LeftSmall}"/>
@@ -34,6 +44,7 @@
             <StackLayout Orientation="Vertical" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
                 <Label Text="{xct:Translate LinkAnswerHeaderText}" />
                 <Editor Placeholder="{xct:Translate LinkAnswerPlaceholderText}" Completed="Answer_Entered" Style="{StaticResource NormalEditor}" />
+                <Label  Text="{xct:Translate ApproveAnswerText}" />
 			</StackLayout >
             <Button Text="{Binding SaveButtonText}" Style="{StaticResource SaveButton}" Command="{Binding SaveAnswerCommand}" HorizontalOptions="Center" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}"/>
             <Button Text="{xct:Translate EditQuestionButtonText}" Style="{StaticResource SaveButton}" Command="{Binding EditAnswerCommand}" HorizontalOptions="Center" IsVisible="{Binding CanEditQuestion}"/>
