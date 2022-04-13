@@ -8,7 +8,7 @@
              Title="Select the ones you want">
     <ContentPage.ToolbarItems>
         <ToolbarItem x:Name="HomeButton" Text="{xct:Translate HomeButtonText}" 
-                     IconImageSource="{local:ImageResource RightToAskClient.Images.home1.png}"/>
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.home4.png}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
 		<StackLayout x:Name="MainLayout" x:FieldModifier="protected" HorizontalOptions="Center" VerticalOptions="Start">

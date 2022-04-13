@@ -82,16 +82,30 @@ namespace RightToAskClient
         {
             var selectableDataTemplate = new DataTemplate(() =>
             {
-                var grid = new Grid();
+                Grid grid = new Grid
+                {
+                    ColumnDefinitions =
+                    {
+                        new ColumnDefinition(),
+                        new ColumnDefinition(),
+                        new ColumnDefinition(),
+                        new ColumnDefinition()
+                    }
+                };
+
                 var nameLabel = new Label { FontAttributes = FontAttributes.Bold };
                 var selectedToggle = new Switch();
 
                 // nameLabel.SetBinding(Label.TextProperty, "TagEntity.NickName");
                 nameLabel.SetBinding(Label.TextProperty, "TagEntity");
                 selectedToggle.SetBinding(Switch.IsToggledProperty, "Selected");
+                selectedToggle.HorizontalOptions = LayoutOptions.End;
+                selectedToggle.VerticalOptions = LayoutOptions.Center;
 
                 grid.Children.Add(nameLabel);
-                grid.Children.Add(selectedToggle, 1, 0);
+                grid.Children.Add(selectedToggle, 4, 0);
+                Grid.SetColumn(nameLabel, 0);
+                Grid.SetColumnSpan(nameLabel, 4);
 
                 return new Xamarin.Forms.ViewCell { View = grid };
             });

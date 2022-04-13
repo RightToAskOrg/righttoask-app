@@ -5,13 +5,14 @@
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:local="clr-namespace:RightToAskClient"
              x:Class="RightToAskClient.Views.FlowOptionPage"
-             Title="{xct:Translate WhoShouldAnswerTitle}"
+             Title="{xct:Translate WhoShouldAnswerTitle}" 
              x:DataType="vm:QuestionViewModel">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel" 
-                     IconImageSource="{local:ImageResource RightToAskClient.Images.home1.png}"/>
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.home4.png}" Priority="0"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
+        
         <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="30" Spacing="30">
             <Frame Style="{StaticResource InvisibleButtonFrame}">
                 <Grid RowDefinitions="*,*,*" ColumnDefinitions="*,*">
