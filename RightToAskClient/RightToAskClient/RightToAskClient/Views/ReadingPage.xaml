@@ -47,11 +47,11 @@
             <!--Questions Scroll View with Floating Draft Button-->
             <Grid RowDefinitions="*,*" ColumnDefinitions="*,*" VerticalOptions="FillAndExpand">
                 <RefreshView Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="2" IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
-                    <ScrollView>
-                        <CollectionView x:Name="QuestionList" ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None" SelectedItem="{Binding SelectedQuestion}">
+                    <ScrollView VerticalOptions="FillAndExpand">
+                        <CollectionView x:Name="QuestionList" ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None" SelectedItem="{Binding SelectedQuestion}" VerticalOptions="FillAndExpand">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="models:Question">
-                                    <SwipeView>
+                                    <SwipeView VerticalOptions="FillAndExpand">
                                         <SwipeView.RightItems>
                                             <SwipeItem Text="Dismiss" BackgroundColor="PaleVioletRed" Command="{Binding RemoveQuestionCommand}" x:DataType="vm:ReadingPageViewModel"/>
                                         </SwipeView.RightItems>

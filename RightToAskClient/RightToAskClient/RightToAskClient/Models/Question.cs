@@ -74,6 +74,8 @@ namespace RightToAskClient.Models
 
         // The Authority, department, MPs, who are meant to answer 
         public ObservableCollection<Entity> QuestionAnswerers { get; set; } = new ObservableCollection<Entity>();
+
+        public string QuestionAnswerer => QuestionAnswerers.FirstOrDefault().ToString() ?? "";
         
         // The MPs or committee who are meant to ask the question
         public string QuestionAsker { get; set; } = "";
