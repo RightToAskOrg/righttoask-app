@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using RightToAskClient.Models.ServerCommsData;
 using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace RightToAskClient.Models
@@ -41,9 +42,9 @@ namespace RightToAskClient.Models
         }
         public bool AnswerAccepted { get; set; }
         public string IsFollowupTo { get; set; } = "";
-        public List<string> Keywords { get; set; } = new List<string>();
-        public List<string> Category { get; set; } = new List<string>();
-        public DateTime ExpiryDate { get; set; }
+        // public List<string> Keywords { get; set; } = new List<string>();
+        // public List<string> Category { get; set; } = new List<string>();
+        // public DateTime ExpiryDate { get; set; }
         private string _questionId = "";
         public string QuestionId
         {
@@ -76,8 +77,19 @@ namespace RightToAskClient.Models
         // The Authority, department, MPs, who are meant to answer 
         public ObservableCollection<Entity> QuestionAnswerers { get; set; } = new ObservableCollection<Entity>();
         
-        // The MPs or committee who are meant to ask the question
+        // Whether the person writing the question allows other users to add QuestionAnswerers
+        // false = RTAPermissions.WriterOnly  (default)
+        // true  = RTAPermissions.Others
+        public bool OthersCanAddAnswerers { get; set; } = false;
+
+        // The MPs, committee or other Right To Ask user who are meant to ask the question
         public string QuestionAsker { get; set; } = "";
+        
+        // Whether the person writing the question allows other users to add QuestionAnswerers
+        // false = RTAPermissions.WriterOnly  (default)
+        // true  = RTAPermissions.Others
+
+        public bool OthersCanAddAskers { get; set; } = false;
 
         public string LinkOrAnswer { get; set; } = "";
 

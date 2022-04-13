@@ -75,6 +75,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string AnswererPermissions {
+            get {
+                return ResourceManager.GetString("AnswererPermissions", resourceCulture);
+            }
+        }
+        
         internal static string ApproveAnswerText {
             get {
                 return ResourceManager.GetString("ApproveAnswerText", resourceCulture);
@@ -84,6 +90,12 @@ namespace RightToAskClient.Resx {
         internal static string ApplicationTitle {
             get {
                 return ResourceManager.GetString("ApplicationTitle", resourceCulture);
+            }
+        }
+        
+        internal static string AskerPermissions {
+            get {
+                return ResourceManager.GetString("AskerPermissions", resourceCulture);
             }
         }
         

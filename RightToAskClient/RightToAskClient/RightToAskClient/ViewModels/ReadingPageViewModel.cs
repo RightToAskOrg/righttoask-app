@@ -254,8 +254,10 @@ namespace RightToAskClient.ViewModels
                         Background = serverQuestion.background ?? "",
                         //UploadTimestamp = serverQuestion.timestamp,
                         //ExpiryDate = serverQuestion.last_modified,
-                        //QuestionAsker = serverQuestion.who_should_ask_the_question_permissions,
-                        //QuestionAnswerers = serverQuestion.who_should_answer_the_question_permissions,
+                        //QuestionAsker = TODO
+                        OthersCanAddAnswerers = serverQuestion.who_should_answer_the_question_permissions == RTAPermissions.Others,
+                        //QuestionAnswerers = TODO
+                        OthersCanAddAskers = serverQuestion.who_should_ask_the_question_permissions == RTAPermissions.Others
                     };
                     QuestionsToDisplay.Add(temp);
                 }

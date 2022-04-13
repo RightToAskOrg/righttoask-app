@@ -13,21 +13,53 @@ namespace RightToAskClient.Models.ServerCommsData
         //[JsonPropertyName("upload_timestamp")]
         //public DateTime upload_timestamp { get; set; }
 
+        // bookkeeping fields
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonPropertyName("question_id")]
+        public string? question_id { get; set; }
+        
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonPropertyName("version")]
+        public string? version { get; set; }
+        
         // non-defining fields
         [JsonPropertyName("background")]
         public string? background { get; set; }
-        //[JsonPropertyName("mp_who_should_ask_the_questions")]
-        //public List<Entity> mp_who_should_ask_the_questions { get; set; }
-        //[JsonPropertyName("entity_who_should_answer_the_quetions")]
-        //public List<Entity> entity_who_should_answer_the_quetions { get; set; }
-        //[JsonPropertyName("answer")]
-        //public List<Tuple<string, Person, MP>> answer { get; set; } // List<string,answerer>
-        //[JsonPropertyName("answer_accepted")]
-        //public bool answer_accepted { get; set; }
-        //[JsonPropertyName("hansard_link")]
-        //public List<string> hansard_link { get; set; } // list<url>
+        
+        // TODO Note that the entity that should ask the question might be a
+        // committee or other RTA participant, not necessarily an MP.
+        // Not clear whether we want a separate field for each of these possibilities
+        // - possibly we do.
+        [JsonPropertyName("mp_who_should_ask_the_question")]
+        public List<Entity>? mp_who_should_ask_the_question { get; set; }
+
+        [JsonPropertyName("who_should_ask_the_question_permissions")]
+        public RTAPermissions who_should_ask_the_question_permissions { get; set; }
+
+        [JsonPropertyName("entity_who_should_answer_the_quetion")]
+        public List<Entity>? entity_who_should_answer_the_question { get; set; }
+
+        [JsonPropertyName("who_should_answer_the_question_permissions")]
+        public RTAPermissions who_should_answer_the_question_permissions { get; set; }
+
+        // TODO: Check whether this data structure lines up with the 'QuestionAnswer' type 
+        // - possibly we want to implement that explicitly.
+        [JsonPropertyName("answers")]
+        public List<Tuple<string, Person, MP>>? answers { get; set; } 
+        
+        // TODO This needs to be interpreted/stored carefully, because we need 'false'
+        // to mean 'the user has seen it but didn't fully approve' and to distinguish this
+        // from 'the user hasn't seen or hasn't rated the answer'
+        // Consider whether it'd make more sense to have an enum.
+        [JsonPropertyName("answer_accepted")]
+        public bool? answer_accepted { get; set; }
+        
+        [JsonPropertyName("hansard_link")]
+        public List<Uri> hansard_link { get; set; } 
+        
         [JsonPropertyName("is_followup_to")]
-        public string? is_followup_to { get; set; } // questionID
+        public string? is_followup_to { get; set; } 
+        
         //[JsonPropertyName("keywords")]
         //public List<string> keywords { get; set; }
         //[JsonPropertyName("category")]
@@ -35,13 +67,7 @@ namespace RightToAskClient.Models.ServerCommsData
         //[JsonPropertyName("expiry_date")]
         //public DateTime expiry_date { get; set; }
 
-        // bookkeeping fields
-        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-        [JsonPropertyName("question_id")]
-        public string? question_id { get; set; }
-        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-        [JsonPropertyName("version")]
-        public string? version { get; set; }
+        
 
     }
 }

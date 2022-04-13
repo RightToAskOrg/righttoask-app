@@ -6,6 +6,7 @@ using RightToAskClient.Resx;
 using RightToAskClient.Views;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -151,6 +152,37 @@ namespace RightToAskClient.ViewModels
         }
         public bool NeedToFindAsker => App.ReadingContext.Filters.SelectedAnsweringMPs.IsNullOrEmpty();
 
+        private RTAPermissions _whoShouldAnswerItPermissions = RTAPermissions.NoChange;
+
+        public RTAPermissions WhoShouldAnswerItPermissions
+        {
+            get => _whoShouldAnswerItPermissions;
+            set
+            {
+                // It should only be set when it changes, not set to 'no change'
+                Debug.Assert(value != RTAPermissions.NoChange);
+
+                _whoShouldAnswerItPermissions = value;
+                Question.OthersCanAddAnswerers = value == RTAPermissions.Others;
+                _serverQuestionUpdates.who_should_answer_the_question_permissions = value;
+            }
+        }
+
+        private RTAPermissions _whoShouldAskItPermissions = RTAPermissions.NoChange;
+        public RTAPermissions WhoShouldAskItPermissions
+        {
+            get => _whoShouldAskItPermissions;
+            set
+            {
+                // It should only be set when it changes, not set to 'no change'
+                Debug.Assert(value != RTAPermissions.NoChange);
+                
+                _whoShouldAskItPermissions = value;
+                Question.OthersCanAddAskers = value == RTAPermissions.Others;
+                _serverQuestionUpdates.who_should_ask_the_question_permissions = value;
+            }
+        }
+
         public QuestionViewModel()
         {
             // set defaults
@@ -257,6 +289,13 @@ namespace RightToAskClient.ViewModels
             {
                 EditQuestionButton_OnClicked();
             });
+            // FIXME This doesn't quite work because the types are wrong.
+            /*
+            AnswererPermissionChangedCommand = new EventHandler((object sender, CheckedChangedEventArgs e) =>
+            {
+                OnAnswererAddPermissionsChanged(sender, e);
+            });
+            */
             QuestionSuggesterCommand = new AsyncCommand(async () =>
             {
                 //RegisterPage1 otherUserProfilePage = new RegisterPage1();
@@ -300,6 +339,9 @@ namespace RightToAskClient.ViewModels
         public Command UpvoteCommand { get; }
         public Command SaveAnswerCommand { get; }
         public Command EditAnswerCommand { get; }
+        
+        // FIXME
+        public EventHandler AnswererPermissionChangedCommand { get; }
         public IAsyncCommand OptionACommand { get; }
         public IAsyncCommand OptionBCommand { get; }
 
@@ -326,6 +368,23 @@ namespace RightToAskClient.ViewModels
             _serverQuestionUpdates = new NewQuestionServerSend();
         }
 
+        // FIXME I think these can be deleted now.
+        // I thought I could make a bindable attribute that could be instantiated to this,
+        // but didn't quite get it to work. At the moment, the attribute is just set from the
+        // code-behind, which works, but doesn't properly follow the MVVM pattern.
+        public void AnswererAddPermissionsChanged(bool permissionGranted)
+        {
+            RTAPermissions permission = permissionGranted ? RTAPermissions.Others : RTAPermissions.WriterOnly;
+            _serverQuestionUpdates.who_should_answer_the_question_permissions = permission;
+            Question.OthersCanAddAnswerers = permissionGranted;
+        }
+        
+        public void AskerAddPermissionsChanged(bool permissionGranted)
+        {
+            RTAPermissions permission = permissionGranted ? RTAPermissions.Others : RTAPermissions.WriterOnly;
+            _serverQuestionUpdates.who_should_ask_the_question_permissions = permission;
+            Question.OthersCanAddAskers = permissionGranted;
+        }
         public void OnButtonPressed(int buttonId)
         {
             RaisedByOptionSelected = true;
@@ -516,15 +575,18 @@ namespace RightToAskClient.ViewModels
             //{
             //    question_text = Question.QuestionText,
             //};
-            NewQuestionServerSend uploadableQuestion = new NewQuestionServerSend()
+            /*
+             * NewQuestionServerSend uploadableQuestion = new NewQuestionServerSend()
             {
                 question_text = Question.QuestionText,
                 background = Question.Background,
                 //is_followup_to = Question.IsFollowupTo
             };
+             */
 
+            _serverQuestionUpdates.question_text = Question.QuestionText;
             ClientSignedUnparsed signedQuestion 
-                = App.ReadingContext.ThisParticipant.SignMessage(uploadableQuestion);
+                = App.ReadingContext.ThisParticipant.SignMessage(_serverQuestionUpdates);
 
             if (!String.IsNullOrEmpty(signedQuestion.signature))
             {
@@ -542,6 +604,7 @@ namespace RightToAskClient.ViewModels
             // needs these two fields in the message payload
             _serverQuestionUpdates.question_id = Question.QuestionId;
             _serverQuestionUpdates.version = Question.Version;
+            _serverQuestionUpdates.background = Question.Background;
             ClientSignedUnparsed signedQuestionEdit = App.ReadingContext.ThisParticipant.SignMessageWithOptions(_serverQuestionUpdates);
             if (!String.IsNullOrEmpty(signedQuestionEdit.signature))
             {
