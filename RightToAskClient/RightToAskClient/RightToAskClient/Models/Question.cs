@@ -97,8 +97,19 @@ namespace RightToAskClient.Models
                 OnPropertyChanged();
             }
         }
-        
-        public bool AlreadyUpvoted { get; set; }
+        private bool _alreadyUpvoted;
+        public bool AlreadyUpvoted 
+        {
+            get => _alreadyUpvoted;
+            set => SetProperty(ref _alreadyUpvoted, value);
+        }
+
+        private bool _alreadyReported;
+        public bool AlreadyReported
+        {
+            get => _alreadyReported;
+            set => SetProperty(ref _alreadyReported, value);
+        }
 
         public override string ToString ()
         {
@@ -147,10 +158,15 @@ namespace RightToAskClient.Models
                     Title = "Share Text"
                 });
             });
+            ReportCommand = new Command(() =>
+            {
+                AlreadyReported = !AlreadyReported;
+            });
         }
 
         // command
         public Command UpvoteCommand { get; }
+        public Command ReportCommand { get; }
         public Command QuestionDetailsCommand { get; }
         public IAsyncCommand ShareCommand { get; }
     }
