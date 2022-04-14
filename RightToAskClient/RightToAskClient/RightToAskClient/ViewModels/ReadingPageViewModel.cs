@@ -204,10 +204,22 @@ namespace RightToAskClient.ViewModels
         {
             Result<List<string>> httpResponse = await RTAClient.GetQuestionList();
             Result<bool> resultToValidate = new Result<bool>();
-            if (httpResponse.Ok.Any())
+            if (httpResponse is null)
             {
-                resultToValidate.Ok = true;
-                resultToValidate.Err = null; // or perhaps empty string
+                return;
+            }
+            if (!String.IsNullOrEmpty(httpResponse.Err))
+            {
+                ReportLabelText = "Failed to get Question List from server.";
+                return;
+            }
+            if (httpResponse.Ok != null)
+            {
+                if (httpResponse.Ok.Any())
+                {
+                    resultToValidate.Ok = true;
+                    resultToValidate.Err = null; // or perhaps empty string
+                }
             }
             else
             {
