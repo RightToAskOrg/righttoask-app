@@ -69,6 +69,8 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _questionsToDisplay, value);
         }
 
+        private List<string> RemovedQuestionIDs { get; set; } = new List<string>();
+
         private List<string> _questionIds = new List<string>();
         public List<string> QuestionIds
         {
@@ -144,6 +146,11 @@ namespace RightToAskClient.ViewModels
             });
             RemoveQuestionCommand = new Command<Question>((Question questionToRemove) =>
             {
+                // store question ID for later data manipulation?
+                if (!RemovedQuestionIDs.Contains(questionToRemove.QuestionId))
+                {
+                    RemovedQuestionIDs.Add(questionToRemove.QuestionId);
+                }                
                 QuestionsToDisplay.Remove(questionToRemove);
             });
         }
