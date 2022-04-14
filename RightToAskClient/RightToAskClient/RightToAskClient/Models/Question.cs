@@ -76,20 +76,37 @@ namespace RightToAskClient.Models
 
         // The Authority, department, MPs, who are meant to answer 
         public ObservableCollection<Entity> QuestionAnswerers { get; set; } = new ObservableCollection<Entity>();
-        
+
         // Whether the person writing the question allows other users to add QuestionAnswerers
         // false = RTAPermissions.WriterOnly  (default)
         // true  = RTAPermissions.Others
-        public bool OthersCanAddAnswerers { get; set; } = false;
+        private bool _othersCanAddAnswerers = false;
+        public bool OthersCanAddAnswerers
+        {
+            get => _othersCanAddAnswerers;
+            set 
+            {
+                SetProperty(ref _othersCanAddAnswerers, value);
+                QuestionViewModel.Instance.WhoShouldAnswerItPermissions = _othersCanAddAnswerers ? RTAPermissions.Others : RTAPermissions.WriterOnly;
+            }
+        }
 
         // The MPs, committee or other Right To Ask user who are meant to ask the question
         public string QuestionAsker { get; set; } = "";
-        
+
         // Whether the person writing the question allows other users to add QuestionAnswerers
         // false = RTAPermissions.WriterOnly  (default)
         // true  = RTAPermissions.Others
-
-        public bool OthersCanAddAskers { get; set; } = false;
+        private bool _othersCanAddAskers = false;
+        public bool OthersCanAddAskers
+        {
+            get => _othersCanAddAskers;
+            set 
+            {
+                SetProperty(ref _othersCanAddAskers, value);
+                QuestionViewModel.Instance.WhoShouldAskItPermissions = _othersCanAddAskers ? RTAPermissions.Others : RTAPermissions.WriterOnly;
+            }
+        }
 
         public string LinkOrAnswer { get; set; } = "";
 

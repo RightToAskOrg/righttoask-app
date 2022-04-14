@@ -29,13 +29,15 @@
 			    <Label Text="{xct:Translate AnswererPermissions}" Style="{StaticResource LeftSmall}" />
 			    <!-- FIXME Can't quite figure out how to make these checkboxes part of the BindingContext. -->
 			    <!-- <CheckBox IsChecked="{Binding Question.OthersCanAddAnswerers}" CheckedChanged = "{Binding AnswererPermissionsChangedCommand}" /> -->
-			    <CheckBox IsChecked="{Binding Question.OthersCanAddAnswerers}" CheckedChanged = "AnswererPermissionsChangedCommandPlaceholder" />
+                    <CheckBox IsChecked="{Binding Question.OthersCanAddAnswerers}"/>
+                    <!--CheckedChanged = "AnswererPermissionsChangedCommandPlaceholder"-->
 			    </StackLayout>
 			    <Label Text="{xct:Translate OptionBText4}" Style="{StaticResource LeftSmall}" />
 			    <Label Text="{Binding Question.QuestionAsker, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
 			    <!-- Ask the user whether they allow other users to add QuestionAskers. (Y/N) -->
 			    <Label Text="{xct:Translate AskerPermissions}" Style="{StaticResource LeftSmall}" />
-			    <CheckBox IsChecked="{Binding Question.OthersCanAddAskers}" CheckedChanged = "AskerPermissionsChangedCommandPlaceholder" />
+                <CheckBox IsChecked="{Binding Question.OthersCanAddAskers}"/>
+                <!--CheckedChanged = "AskerPermissionsChangedCommandPlaceholder"-->
 			    <Label Text="{xct:Translate QuestionWriterHeaderText}" Style="{StaticResource LeftSmall}" />
 			    <Label Text="{Binding Question.QuestionSuggester, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
 			    <Label Text="{xct:Translate UpvotesHeaderText}" Style="{StaticResource LeftSmall}" />
