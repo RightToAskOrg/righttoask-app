@@ -76,6 +76,7 @@
     <None Remove="Images\thumb_up_48.png" />
     <None Remove="Images\ToolboxBag.png" />
     <None Remove="Images\toolbox_bag.png" />
+    <None Remove="Images\trash_delete_48.png" />
     <None Remove="Images\WriteDraft.png" />
     <None Remove="Images\write_draft.png" />
     <None Remove="Models\" />
@@ -151,6 +152,7 @@
     <EmbeddedResource Include="Images\swipe_left_48.png" />
     <EmbeddedResource Include="Images\thumb_up_48.png" />
     <EmbeddedResource Include="Images\toolbox_bag.png" />
+    <EmbeddedResource Include="Images\trash_delete_48.png" />
     <EmbeddedResource Include="Images\write_draft.png" />
     <EmbeddedResource Include="Resources\VicLegislativeAssemblymembers.csv" />
     <None Remove="Resources\VicLegislativeCouncilmembers.csv" />

@@ -9,7 +9,7 @@
              xmlns:views="clr-namespace:RightToAskClient.Views"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
 			 x:Class="RightToAskClient.Views.ReadingPage"
-			 x:Name="TitleBar"
+			 x:Name="ReadingPageName"
              Title="{Binding Title}"
              x:DataType="vm:ReadingPageViewModel">
     <ContentPage.ToolbarItems>
@@ -54,11 +54,17 @@
                                 <DataTemplate x:DataType="models:Question">
                                     <SwipeView VerticalOptions="FillAndExpand">
                                         <SwipeView.RightItems>
-                                            <SwipeItem Text="Dismiss" BackgroundColor="PaleVioletRed" Command="{Binding RemoveQuestionCommand}" x:DataType="vm:ReadingPageViewModel"/>
+                                            <SwipeItem Text="Dismiss" IconImageSource="{local:ImageResource RightToAskClient.Images.trash_delete_48.png}" 
+                                                       BackgroundColor="{StaticResource AlertColor}" 
+                                                       Command="{Binding Path=BindingContext.RemoveQuestionCommand, Source={x:Reference ReadingPageName}}" 
+                                                       CommandParameter="{Binding .}"/>
                                         </SwipeView.RightItems>
-                                        <SwipeView.LeftItems>
-                                            <SwipeItem Text="Dismiss" BackgroundColor="PaleVioletRed" Command="{Binding RemoveQuestionCommand}" x:DataType="vm:ReadingPageViewModel"/>
-                                        </SwipeView.LeftItems>
+                                        <!--<SwipeView.LeftItems>
+                                            <SwipeItem Text="Dismiss" IconImageSource="{local:ImageResource RightToAskClient.Images.trash_delete_48.png}" 
+                                                       BackgroundColor="{StaticResource AlertColor}" 
+                                                       Command="{Binding Path=BindingContext.RemoveQuestionCommand, Source={x:Reference ReadingPageName}}" 
+                                                       CommandParameter="{Binding .}"/>
+                                        </SwipeView.LeftItems>-->
                                         <views:QuestionDisplayCard/>
                                     </SwipeView>
                                 </DataTemplate>
