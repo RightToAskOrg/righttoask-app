@@ -97,6 +97,7 @@ namespace RightToAskClient.Models
         // The MPs, committee or other Right To Ask user who are meant to ask the question
 
         public string QuestionAnswerer => QuestionAnswerers.FirstOrDefault().ToString() ?? "";
+        public string QuestionAnswerersDisplayString => QuestionAnswerers.ToList().ToString();
 
         // The MPs or committee who are meant to ask the question
         public string QuestionAsker { get; set; } = "";

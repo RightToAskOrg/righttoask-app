@@ -163,7 +163,7 @@ namespace RightToAskClient.ViewModels
                 Debug.Assert(value != RTAPermissions.NoChange);
 
                 _whoShouldAnswerItPermissions = value;
-                Question.OthersCanAddAnswerers = value == RTAPermissions.Others;
+                //Question.OthersCanAddAnswerers = value == RTAPermissions.Others;
                 _serverQuestionUpdates.who_should_answer_the_question_permissions = value;
             }
         }
@@ -178,7 +178,7 @@ namespace RightToAskClient.ViewModels
                 Debug.Assert(value != RTAPermissions.NoChange);
                 
                 _whoShouldAskItPermissions = value;
-                Question.OthersCanAddAskers = value == RTAPermissions.Others;
+                //Question.OthersCanAddAskers = value == RTAPermissions.Others;
                 _serverQuestionUpdates.who_should_ask_the_question_permissions = value;
             }
         }
@@ -289,7 +289,7 @@ namespace RightToAskClient.ViewModels
             {
                 EditQuestionButton_OnClicked();
             });
-            // FIXME This doesn't quite work because the types are wrong.
+            // FIXME This doesn't quite work because the types are wrong. Commands =/= (do not equal) Event Handlers
             /*
             AnswererPermissionChangedCommand = new EventHandler((object sender, CheckedChangedEventArgs e) =>
             {

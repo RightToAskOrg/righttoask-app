@@ -24,7 +24,7 @@
 			    <Editor Text="{Binding Question.QuestionText}" Style="{StaticResource NormalEditor}"
 			            IsVisible="{Binding CanEditQuestion}" />
 			    <Label Text="{xct:Translate WhoShouldAnswerTitle}" Style="{StaticResource LeftSmall}" />
-			    <Label Text="{Binding Question.QuestionAnswerers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
+			    <Label Text="{Binding Question.QuestionAnswerersDisplayString, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
 			    <StackLayout Orientation="Horizontal">
 			    <Label Text="{xct:Translate AnswererPermissions}" Style="{StaticResource LeftSmall}" />
 			    <!-- FIXME Can't quite figure out how to make these checkboxes part of the BindingContext. -->
