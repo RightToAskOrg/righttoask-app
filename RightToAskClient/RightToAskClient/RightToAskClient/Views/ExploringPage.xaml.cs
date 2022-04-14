@@ -217,7 +217,8 @@ namespace RightToAskClient.Views
             else
             {
 				await Navigation.PopAsync(); // single pop
-			}			
+			}
+			MessagingCenter.Send(this, "UpdateFilters");
 		}
 		
 		async void DoneAuthoritiesButton_OnClicked(object sender, EventArgs e)
@@ -236,6 +237,7 @@ namespace RightToAskClient.Views
             {
 				await Navigation.PopAsync();
 			}
+			MessagingCenter.Send(this, "UpdateFilters");
 		}
 			
 		/*

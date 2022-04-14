@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -31,12 +31,23 @@
     <None Remove="Images\calendar_checkmark.png" />
     <None Remove="Images\calendar_check_simple.png" />
     <None Remove="Images\checkmark_box.png" />
+    <None Remove="Images\check_box_48.png" />
     <None Remove="Images\Clipboard.png" />
     <None Remove="Images\ClosedBook.png" />
     <None Remove="Images\closed_book.png" />
+    <None Remove="Images\collapse.png" />
+    <None Remove="Images\collapse_48.png" />
+    <None Remove="Images\collapse_96.png" />
     <None Remove="Images\CupOfSupplies.png" />
     <None Remove="Images\cup_of_supplies.png" />
+    <None Remove="Images\edit_note_48.png" />
+    <None Remove="Images\expand.png" />
+    <None Remove="Images\expand_48.png" />
+    <None Remove="Images\expand_96.png" />
+    <None Remove="Images\filter_sliders_48.png" />
+    <None Remove="Images\flag_48.png" />
     <None Remove="Images\glasses.png" />
+    <None Remove="Images\half_roo.png" />
     <None Remove="Images\home1.png" />
     <None Remove="Images\home2.png" />
     <None Remove="Images\home3.png" />
@@ -47,6 +58,8 @@
     <None Remove="Images\message_bubble.png" />
     <None Remove="Images\OpenBook.png" />
     <None Remove="Images\open_book.png" />
+    <None Remove="Images\outline_arrow_circle_up_48.png" />
+    <None Remove="Images\outline_question_answer_48.png" />
     <None Remove="Images\Pen.png" />
     <None Remove="Images\Pin.png" />
     <None Remove="Images\QuestionDraft.png" />
@@ -58,6 +71,9 @@
     <None Remove="Images\search.png" />
     <None Remove="Images\SettingsGear.png" />
     <None Remove="Images\settings_gear.png" />
+    <None Remove="Images\share_48.png" />
+    <None Remove="Images\swipe_left_48.png" />
+    <None Remove="Images\thumb_up_48.png" />
     <None Remove="Images\ToolboxBag.png" />
     <None Remove="Images\toolbox_bag.png" />
     <None Remove="Images\WriteDraft.png" />
@@ -99,10 +115,21 @@
     <EmbeddedResource Include="Images\calendar_checkmark.png" />
     <EmbeddedResource Include="Images\calendar_check_simple.png" />
     <EmbeddedResource Include="Images\checkmark_box.png" />
+    <EmbeddedResource Include="Images\check_box_48.png" />
     <EmbeddedResource Include="Images\clipboard.png" />
     <EmbeddedResource Include="Images\closed_book.png" />
+    <EmbeddedResource Include="Images\collapse.png" />
+    <EmbeddedResource Include="Images\collapse_48.png" />
+    <EmbeddedResource Include="Images\collapse_96.png" />
     <EmbeddedResource Include="Images\cup_of_supplies.png" />
+    <EmbeddedResource Include="Images\edit_note_48.png" />
+    <EmbeddedResource Include="Images\expand.png" />
+    <EmbeddedResource Include="Images\expand_48.png" />
+    <EmbeddedResource Include="Images\expand_96.png" />
+    <EmbeddedResource Include="Images\filter_sliders_48.png" />
+    <EmbeddedResource Include="Images\flag_48.png" />
     <EmbeddedResource Include="Images\glasses.png" />
+    <EmbeddedResource Include="Images\half_roo.png" />
     <EmbeddedResource Include="Images\home1.png" />
     <EmbeddedResource Include="Images\home2.png" />
     <EmbeddedResource Include="Images\home3.png" />
@@ -110,6 +137,8 @@
     <EmbeddedResource Include="Images\location_pin.png" />
     <EmbeddedResource Include="Images\message_bubble.png" />
     <EmbeddedResource Include="Images\open_book.png" />
+    <EmbeddedResource Include="Images\outline_arrow_circle_up_48.png" />
+    <EmbeddedResource Include="Images\outline_question_answer_48.png" />
     <EmbeddedResource Include="Images\pen.png" />
     <EmbeddedResource Include="Images\pin.png" />
     <EmbeddedResource Include="Images\question_draft.png" />
@@ -118,6 +147,9 @@
     <EmbeddedResource Include="Images\school_house.png" />
     <EmbeddedResource Include="Images\search.png" />
     <EmbeddedResource Include="Images\settings_gear.png" />
+    <EmbeddedResource Include="Images\share_48.png" />
+    <EmbeddedResource Include="Images\swipe_left_48.png" />
+    <EmbeddedResource Include="Images\thumb_up_48.png" />
     <EmbeddedResource Include="Images\toolbox_bag.png" />
     <EmbeddedResource Include="Images\write_draft.png" />
     <EmbeddedResource Include="Resources\VicLegislativeAssemblymembers.csv" />
@@ -163,6 +195,9 @@
     <EmbeddedResource Update="Views\AccountPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\AdvancedSearchFiltersPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\AppShell.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -170,6 +205,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\OtherUserProfilePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\QuestionDisplayCard.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\UserAccountInfoView.xaml">

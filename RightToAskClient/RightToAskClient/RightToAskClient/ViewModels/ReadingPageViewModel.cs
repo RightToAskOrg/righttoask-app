@@ -17,25 +17,18 @@ namespace RightToAskClient.ViewModels
     public class ReadingPageViewModel : BaseViewModel
     {
         // properties
-        private bool _showContinueButton = true;
-        public bool ShowContinueButton
+        private bool _showQuestionFrame = true;
+        public bool ShowQuestionFrame
         {
-            get => _showContinueButton;
-            set => SetProperty(ref _showContinueButton, value);
+            get => _showQuestionFrame;
+            set => SetProperty(ref _showQuestionFrame, value);
         }
 
-        private bool _showDiscardButton = true;
-        public bool ShowDiscardButton
+        private bool _showSearchFrame = false;
+        public bool ShowSearchFrame
         {
-            get => _showDiscardButton;
-            set => SetProperty(ref _showDiscardButton, value);
-        }
-
-        private bool _showDraftEditor = true;
-        public bool ShowDraftEditor
-        {
-            get => _showDraftEditor;
-            set => SetProperty(ref _showDraftEditor, value);
+            get => _showSearchFrame;
+            set => SetProperty(ref _showSearchFrame, value);
         }
 
         private string _draftQuestion = "";
@@ -107,9 +100,7 @@ namespace RightToAskClient.ViewModels
 
             if (App.ReadingContext.IsReadingOnly)
             {
-                ShowDraftEditor = false;
-                ShowDiscardButton = false;
-                ShowContinueButton = false;
+                ShowQuestionFrame = false;
                 if (App.ReadingContext.TopTen)
                 {
                     Title = AppResources.RecentQuestionsTitle;
@@ -122,9 +113,7 @@ namespace RightToAskClient.ViewModels
             else
             {
                 Title = AppResources.SimilarQuestionsTitle;
-                ShowDraftEditor = true;
-                ShowDiscardButton = true;
-                ShowContinueButton = true;
+                ShowQuestionFrame = true;
             }
             // get questions from the server
             LoadQuestions();
@@ -141,12 +130,32 @@ namespace RightToAskClient.ViewModels
             {
                 LoadQuestions();
             });
+            DraftCommand = new Command(() =>
+            {
+                ShowQuestionFrame = true;
+            });
+            SearchToolbarCommand = new Command(() =>
+            {
+                ShowSearchFrame = !ShowSearchFrame; // just toggle it
+            });
+            ShowFiltersCommand = new AsyncCommand(async() =>
+            {
+                await Shell.Current.GoToAsync(nameof(AdvancedSearchFiltersPage));
+            });
+            RemoveQuestionCommand = new Command<Question>((Question questionToRemove) =>
+            {
+                QuestionsToDisplay.Remove(questionToRemove);
+            });
         }
 
         // commands
         public IAsyncCommand KeepQuestionButtonCommand { get; }
         public IAsyncCommand DiscardButtonCommand { get; }
         public Command RefreshCommand { get; }
+        public Command DraftCommand { get; }
+        public Command SearchToolbarCommand { get; }
+        public Command<Question> RemoveQuestionCommand { get; }
+        public IAsyncCommand ShowFiltersCommand { get; }
 
         // helper methods
         private async void OnSaveButtonClicked()
@@ -180,9 +189,7 @@ namespace RightToAskClient.ViewModels
         private async void OnDiscardButtonClicked()
         {
             App.ReadingContext.DraftQuestion = "";
-            ShowDraftEditor = false;
-            ShowDiscardButton = false;
-            ShowContinueButton = false;
+            ShowQuestionFrame = false;
 
             bool goHome = await App.Current.MainPage.DisplayAlert("Draft discarded", 
                 "Save time and focus support by voting on a similar question", 
@@ -197,10 +204,22 @@ namespace RightToAskClient.ViewModels
         {
             Result<List<string>> httpResponse = await RTAClient.GetQuestionList();
             Result<bool> resultToValidate = new Result<bool>();
-            if (httpResponse.Ok.Any())
+            if (httpResponse is null)
             {
-                resultToValidate.Ok = true;
-                resultToValidate.Err = null; // or perhaps empty string
+                return;
+            }
+            if (!String.IsNullOrEmpty(httpResponse.Err))
+            {
+                ReportLabelText = "Failed to get Question List from server.";
+                return;
+            }
+            if (httpResponse.Ok != null)
+            {
+                if (httpResponse.Ok.Any())
+                {
+                    resultToValidate.Ok = true;
+                    resultToValidate.Err = null; // or perhaps empty string
+                }
             }
             else
             {

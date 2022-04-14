@@ -6,12 +6,16 @@
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
 			 xmlns:models="clr-namespace:RightToAskClient.Models;assembly=RightToAskClient"
              xmlns:local="clr-namespace:RightToAskClient"
+             xmlns:views="clr-namespace:RightToAskClient.Views"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
 			 x:Class="RightToAskClient.Views.ReadingPage"
 			 x:Name="TitleBar"
              Title="{Binding Title}"
              x:DataType="vm:ReadingPageViewModel">
     <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="SearchButton" Text="{xct:Translate HomeButtonText}" 
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.search.png}"
+                     Command="{Binding SearchToolbarCommand}"/>
         <ToolbarItem x:Name="HomeButton" Text="{xct:Translate HomeButtonText}" 
                      IconImageSource="{local:ImageResource RightToAskClient.Images.home4.png}"/>
     </ContentPage.ToolbarItems>
@@ -19,40 +23,69 @@
         <vm:ReadingPageViewModel/>
     </ContentPage.BindingContext>
     <ContentPage.Content>
-		<StackLayout x:Name = "WholePage" HorizontalOptions="Center" VerticalOptions="Start">
+        <StackLayout x:Name="WholePage" HorizontalOptions="Center" VerticalOptions="FillAndExpand" Spacing="0">
             <Label Text="{xct:Translate ReadingPageHeader1}" Style="{StaticResource Header2}"/>
-            <!-- Filters inserted here -->
-			<Frame x:Name="FilterShower" Style="{StaticResource GreenFrame}">
-                <controls:ClickableLabel Tapped="OnShowFilters" Text="{xct:Translate ClickForFiltersText}"/> 
-			</Frame>
-            <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
-                <ScrollView Scrolled="Questions_Scrolled">
-                    <CollectionView x:Name="QuestionList" ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="Single" SelectedItem="{Binding SelectedQuestion}">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="models:Question">
-                                <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" Spacing="4">
-                                    <Label Text="{Binding QuestionText}" Style="{StaticResource ListViewText}"/>
-                                    <StackLayout Orientation="Horizontal" Padding="0" HorizontalOptions="Start" VerticalOptions="CenterAndExpand">
-                                        <Label Text="Upvotes " Style="{StaticResource ListViewTextSmall}"/>
-                                        <Label Text="{Binding UpVotes}" Style="{StaticResource ListViewTextSmall}"/>
-                                        <controls:ToggleButton Style="{StaticResource GreenButton}" ToBeIncremented="{Binding}"/>
-                                    </StackLayout>
-                                </StackLayout>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </ScrollView>
-            </RefreshView>
-            <StackLayout Orientation="Horizontal">
-                <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}" Text="{Binding DraftQuestion}" 
-                        HorizontalOptions="FillAndExpand" Style="{StaticResource NormalEditor}" IsVisible="{Binding ShowDraftEditor}"/>
-            </StackLayout>
-			<StackLayout Orientation="Horizontal">
-                <Button Text="{xct:Translate DiscardDraftButtonText}" Style="{StaticResource GreenButton}" 
-                        Command="{Binding DiscardButtonCommand}" IsVisible="{Binding ShowDiscardButton}"/>
-                <Button Text="{xct:Translate KeepQuestionButtonText}" Style="{StaticResource DoneButton}" 
-                        Command="{Binding KeepQuestionButtonCommand}" IsVisible="{Binding ShowContinueButton}" />
-			</StackLayout>
-		</StackLayout>
-	</ContentPage.Content>
+            <!--Search Frame-->
+            <Frame Style="{StaticResource GreenFrame}" Margin="0" Padding="0" IsVisible="{Binding ShowSearchFrame}">
+                <StackLayout>
+                    <!--<Label Text="Search" Style="{StaticResource LeftMedium}"/>-->
+                    <Grid ColumnDefinitions="*,*,*,*" MinimumHeightRequest="30">
+                        <SearchBar Grid.Column="0" Grid.ColumnSpan="3" Placeholder="{xct:Translate SearchBarPlaceholderText}" 
+                           Style="{StaticResource GreenSearchBar}" Text="keyword" HorizontalOptions="Start" 
+                           Margin="0"/>
+                        <!--SearchCommand="{Binding ExpiringSoonButtonCommand}"-->
+                        <StackLayout Orientation="Horizontal" Grid.Column="3" Padding="0" Margin="0">
+                            <Label Style="{StaticResource CenterSmall}" FontSize="Micro" Text="Filters" 
+                                   Padding="0" Margin="0" VerticalOptions="Center" VerticalTextAlignment="Center"/>
+                            <ImageButton Source="{local:ImageResource RightToAskClient.Images.filter_sliders_48.png}" 
+                                         Command="{Binding ShowFiltersCommand}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
+                                         Padding="0" Margin="0" BackgroundColor="{StaticResource ButtonColor}"/>                            
+                        </StackLayout>
+                    </Grid>
+                </StackLayout>
+            </Frame>
+            <!--Questions Scroll View with Floating Draft Button-->
+            <Grid RowDefinitions="*,*" ColumnDefinitions="*,*" VerticalOptions="FillAndExpand">
+                <RefreshView Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="2" IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
+                    <ScrollView VerticalOptions="FillAndExpand">
+                        <CollectionView x:Name="QuestionList" ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None" 
+                                        SelectedItem="{Binding SelectedQuestion}" VerticalOptions="FillAndExpand" EmptyView="Unable to Connect to Server or No Questions Available">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:Question">
+                                    <SwipeView VerticalOptions="FillAndExpand">
+                                        <SwipeView.RightItems>
+                                            <SwipeItem Text="Dismiss" BackgroundColor="PaleVioletRed" Command="{Binding RemoveQuestionCommand}" x:DataType="vm:ReadingPageViewModel"/>
+                                        </SwipeView.RightItems>
+                                        <SwipeView.LeftItems>
+                                            <SwipeItem Text="Dismiss" BackgroundColor="PaleVioletRed" Command="{Binding RemoveQuestionCommand}" x:DataType="vm:ReadingPageViewModel"/>
+                                        </SwipeView.LeftItems>
+                                        <views:QuestionDisplayCard/>
+                                    </SwipeView>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </ScrollView>
+                </RefreshView>
+                <ImageButton Grid.Row="1" Grid.Column="1" VerticalOptions="End" HorizontalOptions="End" Margin="10" 
+                        Source="{local:ImageResource RightToAskClient.Images.edit_note_48.png}" WidthRequest="50" HeightRequest="50" CornerRadius="25" BackgroundColor="{StaticResource ButtonColor}" 
+                        Command="{Binding DraftCommand}" IsVisible="{Binding ShowQuestionFrame, Converter={StaticResource Key=cnvInvert}}"/>
+                <!--<ImageButton Grid.Row="1" Grid.Column="1" VerticalOptions="End" HorizontalOptions="End" Margin="10" 
+                        Source="{local:ImageResource RightToAskClient.Images.half_roo.png}" WidthRequest="50" HeightRequest="50" CornerRadius="25" BackgroundColor="{StaticResource FrameColor}" 
+                        Command="{Binding DraftCommand}" IsVisible="{Binding ShowQuestionFrame, Converter={StaticResource Key=cnvInvert}}"/>-->
+            </Grid>
+            <!-- Question Flow Details-->
+            <Frame Style="{StaticResource GreenFrame}" Margin="0" Padding="10" IsVisible="{Binding ShowQuestionFrame}">
+                <StackLayout Margin="0" Padding="0" Spacing="0">
+                    <StackLayout Orientation="Horizontal" HeightRequest="35">
+                        <Label Text="Your Question" Style="{StaticResource LeftMedium}" VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand"/>
+                        <Button Text="{xct:Translate DiscardDraftButtonText}" Style="{StaticResource GreenButton}" Command="{Binding DiscardButtonCommand}"/>
+                        <Button Text="{xct:Translate KeepQuestionButtonText}" Style="{StaticResource DoneButton}"
+                        Command="{Binding KeepQuestionButtonCommand}"/>
+                    </StackLayout>
+                    <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}" Text="{Binding DraftQuestion}" 
+                        HorizontalOptions="FillAndExpand" Style="{StaticResource NormalEditor}"/>
+                </StackLayout>
+            </Frame>
+        </StackLayout>
+    </ContentPage.Content>
 </ContentPage>

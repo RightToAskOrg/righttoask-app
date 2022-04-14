@@ -1,4 +1,5 @@
 using RightToAskClient.ViewModels;
+using RightToAskClient.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,6 +8,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using RightToAskClient.Models.ServerCommsData;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace RightToAskClient.Models
 {
@@ -92,6 +95,10 @@ namespace RightToAskClient.Models
         }
 
         // The MPs, committee or other Right To Ask user who are meant to ask the question
+
+        public string QuestionAnswerer => QuestionAnswerers.FirstOrDefault().ToString() ?? "";
+        
+        // The MPs or committee who are meant to ask the question
         public string QuestionAsker { get; set; } = "";
 
         // Whether the person writing the question allows other users to add QuestionAnswerers
@@ -127,8 +134,19 @@ namespace RightToAskClient.Models
                 OnPropertyChanged();
             }
         }
-        
-        public bool AlreadyUpvoted { get; set; }
+        private bool _alreadyUpvoted;
+        public bool AlreadyUpvoted 
+        {
+            get => _alreadyUpvoted;
+            set => SetProperty(ref _alreadyUpvoted, value);
+        }
+
+        private bool _alreadyReported;
+        public bool AlreadyReported
+        {
+            get => _alreadyReported;
+            set => SetProperty(ref _alreadyReported, value);
+        }
 
         public override string ToString ()
         {
@@ -145,5 +163,48 @@ namespace RightToAskClient.Models
                    // "DownVotes: " + DownVotes + '\n' +
                    "Link/Answer: " + LinkOrAnswer;
         }
+
+        // constructor needed for command creation
+        public Question()
+        {
+            UpvoteCommand = new Command(() => 
+            {
+                if (!AlreadyUpvoted)
+                {
+                    UpVotes += 1;
+                    AlreadyUpvoted = true;
+                }
+                else
+                {
+                    UpVotes -= 1;
+                    AlreadyUpvoted = false;
+                }
+            });
+            QuestionDetailsCommand = new Command(() =>
+            {
+                //QuestionViewModel.Instance.SelectedQuestion = this;
+                QuestionViewModel.Instance.Question = this;
+                QuestionViewModel.Instance.IsNewQuestion = false;
+                _ = Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
+            });
+            ShareCommand = new AsyncCommand(async() =>
+            {
+                await Share.RequestAsync(new ShareTextRequest 
+                {
+                    Text = QuestionText,
+                    Title = "Share Text"
+                });
+            });
+            ReportCommand = new Command(() =>
+            {
+                AlreadyReported = !AlreadyReported;
+            });
+        }
+
+        // command
+        public Command UpvoteCommand { get; }
+        public Command ReportCommand { get; }
+        public Command QuestionDetailsCommand { get; }
+        public IAsyncCommand ShareCommand { get; }
     }
 }
