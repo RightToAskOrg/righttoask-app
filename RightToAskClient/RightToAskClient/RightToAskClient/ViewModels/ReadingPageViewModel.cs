@@ -162,21 +162,25 @@ namespace RightToAskClient.ViewModels
         {
             // Tag the new question with the authorities that have been selected.
             // ObservableCollection<Entity> questionAnswerers;
-            var questionAnswerers = new ObservableCollection<Entity>(App.ReadingContext.Filters.SelectedAuthorities);
+
+            /* var questionAnswerers = new ObservableCollection<Entity>(App.ReadingContext.Filters.SelectedAuthorities);
 
             foreach (var answeringMP in App.ReadingContext.Filters.SelectedAnsweringMPs)
             {
                 questionAnswerers.Add(answeringMP);
-            }
+            } */
 
             IndividualParticipant thisParticipant = App.ReadingContext.ThisParticipant;
 
+            // Set up new question in preparation for upload. 
+            // The filters are what the user has chosen through the flow.
             Question newQuestion = new Question
             {
                 QuestionText = App.ReadingContext.DraftQuestion,
                 // TODO: Enforce registration before question-suggesting.
                 QuestionSuggester = (thisParticipant.IsRegistered) ? thisParticipant.RegistrationInfo.uid : "Anonymous user",
-                QuestionAnswerers = questionAnswerers,
+                Filters = App.ReadingContext.Filters, 
+                // QuestionAnswerers = questionAnswerers,
                 DownVotes = 0,
                 UpVotes = 0
             };

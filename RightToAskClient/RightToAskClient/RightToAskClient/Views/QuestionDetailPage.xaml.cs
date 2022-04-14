@@ -80,15 +80,5 @@ namespace RightToAskClient.Views
             App.Current.MainPage.Navigation.PopToRootAsync();
             return true;
         }
-
-        // FIXME I think these should be bindable, not here in the code-behind.
-        //private void AnswererPermissionsChangedCommandPlaceholder(object sender, CheckedChangedEventArgs e)
-        //{
-        //     QuestionViewModel.Instance.WhoShouldAnswerItPermissions = e.Value ? RTAPermissions.Others : RTAPermissions.WriterOnly;
-        //}
-        //private void AskerPermissionsChangedCommandPlaceholder(object sender, CheckedChangedEventArgs e)
-        //{
-        //    QuestionViewModel.Instance.WhoShouldAskItPermissions = e.Value ? RTAPermissions.Others : RTAPermissions.WriterOnly;
-        //}
     }
 }

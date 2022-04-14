@@ -43,6 +43,22 @@ namespace RightToAskClient.Models
                 QuestionViewModel.Instance._serverQuestionUpdates.background = _background;
             }
         }
+
+        private FilterChoices _filters = new FilterChoices();
+
+        // These are all the metadata for the question, including who should
+        // answer and ask it. This is part of the question because it may be completely
+        // different from the filters that the user has put in place to find the 
+        // question.
+        public FilterChoices Filters
+        {
+            get => _filters;
+            set
+            {
+                SetProperty(ref _filters, value);
+            }
+        }
+        
         public bool AnswerAccepted { get; set; }
         public string IsFollowupTo { get; set; } = "";
         // public List<string> Keywords { get; set; } = new List<string>();
@@ -78,7 +94,8 @@ namespace RightToAskClient.Models
         }
 
         // The Authority, department, MPs, who are meant to answer 
-        public ObservableCollection<Entity> QuestionAnswerers { get; set; } = new ObservableCollection<Entity>();
+        // Unfortunately we might have to convert them all into the same type for display.
+        private ObservableCollection<Entity> QuestionAnswerers { get; set; } = new ObservableCollection<Entity>();
 
         // Whether the person writing the question allows other users to add QuestionAnswerers
         // false = RTAPermissions.WriterOnly  (default)
@@ -97,7 +114,11 @@ namespace RightToAskClient.Models
         // The MPs, committee or other Right To Ask user who are meant to ask the question
 
         public string QuestionAnswerer => QuestionAnswerers.FirstOrDefault().ToString() ?? "";
-        public string QuestionAnswerersDisplayString => QuestionAnswerers.ToList().ToString();
+
+        public string QuestionAnswerersDisplayString =>
+            String.Join(",",Filters.SelectedAnsweringMPs.Select(mp => mp.ShortestName))
+            .Concat(String.Join(",",Filters.SelectedAnsweringMPsMine.Select(mp => mp.ShortestName)))
+            .Concat(String.Join(",",Filters.SelectedAuthorities.Select(a => a.ShortestName))) as string ?? "";
 
         // The MPs or committee who are meant to ask the question
         public string QuestionAsker { get; set; } = "";

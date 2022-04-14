@@ -7,6 +7,7 @@ using RightToAskClient.Views;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -585,6 +586,12 @@ namespace RightToAskClient.ViewModels
              */
 
             _serverQuestionUpdates.question_text = Question.QuestionText;
+            /* TODO unfortunately this will not quite work because the types are
+               not right. Need to figure out the PersonID enum-of-string - not
+               sure how to do that in C#.
+                _serverQuestionUpdates.entity_who_should_answer_the_question = 
+                Question.Filters.SelectedAuthorities.ToList();
+                */
             ClientSignedUnparsed signedQuestion 
                 = App.ReadingContext.ThisParticipant.SignMessage(_serverQuestionUpdates);
 
