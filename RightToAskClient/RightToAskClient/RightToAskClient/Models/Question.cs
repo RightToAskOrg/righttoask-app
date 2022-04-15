@@ -138,11 +138,13 @@ namespace RightToAskClient.Models
                 {
                     UpVotes += 1;
                     AlreadyUpvoted = true;
+                    App.ReadingContext.ThisParticipant.UpvotedQuestionIDs.Add(QuestionId);
                 }
                 else
                 {
                     UpVotes -= 1;
                     AlreadyUpvoted = false;
+                    App.ReadingContext.ThisParticipant.UpvotedQuestionIDs.Remove(QuestionId);
                 }
             });
             QuestionDetailsCommand = new Command(() =>

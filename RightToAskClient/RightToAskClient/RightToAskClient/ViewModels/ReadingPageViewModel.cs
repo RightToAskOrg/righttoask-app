@@ -69,8 +69,6 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _questionsToDisplay, value);
         }
 
-        private List<string> RemovedQuestionIDs { get; set; } = new List<string>();
-
         private List<string> _questionIds = new List<string>();
         public List<string> QuestionIds
         {
@@ -147,9 +145,9 @@ namespace RightToAskClient.ViewModels
             RemoveQuestionCommand = new Command<Question>((Question questionToRemove) =>
             {
                 // store question ID for later data manipulation?
-                if (!RemovedQuestionIDs.Contains(questionToRemove.QuestionId))
+                if (!App.ReadingContext.ThisParticipant.RemovedQuestionIDs.Contains(questionToRemove.QuestionId))
                 {
-                    RemovedQuestionIDs.Add(questionToRemove.QuestionId);
+                    App.ReadingContext.ThisParticipant.RemovedQuestionIDs.Add(questionToRemove.QuestionId);
                 }                
                 QuestionsToDisplay.Remove(questionToRemove);
             });
@@ -286,6 +284,26 @@ namespace RightToAskClient.ViewModels
                     QuestionsToDisplay.Add(temp);
                 }
                 IsRefreshing = false;
+            }
+            // after getting the list of questions, remove the ids for dismissed questions, and set the upvoted status of liked ones
+            for(int i = 0; i < App.ReadingContext.ThisParticipant.RemovedQuestionIDs.Count; i++)
+            {
+                Question temp = QuestionsToDisplay.ToList().Where(q => q.QuestionId == App.ReadingContext.ThisParticipant.RemovedQuestionIDs[i]).FirstOrDefault();
+                if(temp != null)
+                {
+                    QuestionsToDisplay.Remove(temp);
+                }
+            }
+            // set previously upvoted questions
+            foreach(Question q in QuestionsToDisplay)
+            {
+                foreach(string qID in App.ReadingContext.ThisParticipant.UpvotedQuestionIDs)
+                {
+                    if(q.QuestionId == qID)
+                    {
+                        q.AlreadyUpvoted = true;
+                    }
+                }
             }
         }
     }
