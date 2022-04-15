@@ -89,7 +89,7 @@
                         Command="{Binding KeepQuestionButtonCommand}"/>
                     </StackLayout>
                     <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}" Text="{Binding DraftQuestion}" 
-                        HorizontalOptions="FillAndExpand" Style="{StaticResource NormalEditor}"/>
+                        HorizontalOptions="FillAndExpand" MaxLength="280" Style="{StaticResource NormalEditor}"/>
                 </StackLayout>
             </Frame>
         </StackLayout>
