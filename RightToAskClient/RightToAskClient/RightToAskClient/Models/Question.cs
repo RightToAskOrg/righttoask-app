@@ -165,6 +165,14 @@ namespace RightToAskClient.Models
             ReportCommand = new Command(() =>
             {
                 AlreadyReported = !AlreadyReported;
+                if (AlreadyReported)
+                {
+                    App.ReadingContext.ThisParticipant.ReportedQuestionIDs.Add(QuestionId);
+                }
+                else
+                {
+                    App.ReadingContext.ThisParticipant.ReportedQuestionIDs.Remove(QuestionId);
+                }
             });
         }
 

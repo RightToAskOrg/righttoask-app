@@ -304,6 +304,14 @@ namespace RightToAskClient.ViewModels
                         q.AlreadyUpvoted = true;
                     }
                 }
+                // set previously flagged/reported questions
+                foreach (string qID in App.ReadingContext.ThisParticipant.ReportedQuestionIDs)
+                {
+                    if (q.QuestionId == qID)
+                    {
+                        q.AlreadyReported = true;
+                    }
+                }
             }
         }
     }

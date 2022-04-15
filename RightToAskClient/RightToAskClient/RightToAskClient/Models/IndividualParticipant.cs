@@ -28,6 +28,7 @@ namespace RightToAskClient.Models
 
 		// needs to be accessible on a few pages and VMs so I put it here
 		public List<string> UpvotedQuestionIDs { get; set; } = new List<string>();
+		public List<string> ReportedQuestionIDs { get; set; } = new List<string>();
 		public List<string> RemovedQuestionIDs { get; set; } = new List<string>();
 
 		private ObservableCollection<MP> _myMPs = new ObservableCollection<MP>();
