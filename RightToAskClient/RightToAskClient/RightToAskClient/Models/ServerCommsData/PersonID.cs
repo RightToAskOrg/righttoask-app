@@ -1,11 +1,33 @@
-// Matches the PersonID enum in the server.
-// TODO we'll need to add authorities.
+using System.Text.Json.Serialization;
 
-/* Unfortunately I don't think enum-of-type is doable in C#.
- * Possibly look at what the server is sending and see if we can replicate it.
-public enum PersonID {
-    User(string),
-    MP(string),
-    Organisation(string),
+/* These match the data type in PersonID.
+ * It is expected that only one field will be non-empty.
+ * Used for sending arrays/lists of people/entitites to ask
+ * and raise questions.
+ * */
+namespace RightToAskClient.Models.ServerCommsData
+{
+    public class PersonID
+    {
+        public PersonID(MPId mpId)
+        {
+            MP = mpId;
+        }
+
+        public PersonID()
+        {
+        }
+
+        // UserUID
+        [JsonPropertyName("User")]
+        public string? User { get; set; }
+        
+        // MPId
+        [JsonPropertyName("MP")]
+        public MPId? MP { get; set; }
+        
+        // Add Org later
+        [JsonPropertyName("Organisation")]
+        public string? Organisation { get; set; }
+    }
 }
-*/

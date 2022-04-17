@@ -568,6 +568,7 @@ namespace RightToAskClient.ViewModels
             }
         }
 
+        // For editing an existing question.
         private async Task<(bool isValid, string message)> SubmitQuestionToServer()
         {
             // TODO: Obviously later this uploadable question will have more of the 
@@ -586,12 +587,12 @@ namespace RightToAskClient.ViewModels
              */
 
             _serverQuestionUpdates.question_text = Question.QuestionText;
-            /* TODO unfortunately this will not quite work because the types are
-               not right. Need to figure out the PersonID enum-of-string - not
-               sure how to do that in C#.
-                _serverQuestionUpdates.entity_who_should_answer_the_question = 
-                Question.Filters.SelectedAuthorities.ToList();
-                */
+            // TODO At the moment, this only looks at the not-mine answering MPs. Just getting
+            // it working.
+            var testlist = 
+                Question.Filters.SelectedAnsweringMPs.ToList().Select(mp => new PersonID(new MPId(mp)));
+            _serverQuestionUpdates.entity_who_should_answer_the_question = 
+                Question.Filters.SelectedAnsweringMPs.ToList().Select(mp => new PersonID(new MPId(mp))).ToList();
             ClientSignedUnparsed signedQuestion 
                 = App.ReadingContext.ThisParticipant.SignMessage(_serverQuestionUpdates);
 
