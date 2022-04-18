@@ -160,7 +160,7 @@
     <value>Direct my question</value>
   </data>
   <data name="DiscardDraftButtonText" xml:space="preserve">
-    <value>Discard Draft</value>
+    <value>Discard</value>
   </data>
   <data name="DisplayNameHeaderText" xml:space="preserve">
     <value>Display Name</value>
@@ -217,7 +217,7 @@
     <value>Home</value>
   </data>
   <data name="KeepQuestionButtonText" xml:space="preserve">
-    <value>Keep Question: Review for Upload</value>
+    <value>Keep for Upload</value>
   </data>
   <data name="KeywordEntryPlaceholderText" xml:space="preserve">
     <value>Keyword</value>
@@ -325,7 +325,7 @@
     <value>Save Answer</value>
   </data>
   <data name="SearchBarPlaceholderText" xml:space="preserve">
-    <value>Keyword</value>
+    <value>Search for keyword</value>
   </data>
   <data name="SeeQuestionsButtonText" xml:space="preserve">
     <value>Read questions from {0}</value>

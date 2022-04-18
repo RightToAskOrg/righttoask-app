@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RightToAskClient.Views.AdvancedSearchFiltersPage"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
+             xmlns:local="clr-namespace:RightToAskClient"
+             Title="{Binding Title}"
+             x:DataType="vm:FilterViewModel">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="HomeButton" Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.home1.png}"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.BindingContext>
+        <vm:FilterViewModel/>
+    </ContentPage.BindingContext>
+        <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                <Frame Style="{StaticResource GreenFrame}">
+                    <xct:Expander>
+                        <xct:Expander.Header>                            
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                <Label Text="Answered By" Style="{StaticResource LeftMedium}" TextColor="{StaticResource Primary}"/>
+                                <Image Source="{local:ImageResource RightToAskClient.Images.expand_48.png}" xct:IconTintColorEffect.TintColor="{StaticResource Primary}"  HorizontalOptions="EndAndExpand" VerticalOptions="Center">
+                                    <Image.Triggers>
+                                        <DataTrigger TargetType="Image" Binding="{Binding Source={RelativeSource AncestorType={x:Type xct:Expander}}, Path=IsExpanded}" Value="True">
+                                            <Setter Property="Source" Value="{local:ImageResource RightToAskClient.Images.collapse_48.png}" />
+                                        </DataTrigger>
+                                    </Image.Triggers>
+                                </Image>
+                            </StackLayout>
+                        </xct:Expander.Header>
+                        <xct:Expander.Content>
+                            <StackLayout>
+                                <!--<Label Text="Answered By" Style="{StaticResource LeftMedium}"/>-->
+                                <StackLayout Spacing="0" Margin="0" Padding="0">
+                                    <Label Text="My MP">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding AnsweringMPsFilterCommand}"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                    <Label Text="{Binding SelectedAnsweringMyMPsText}">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding AnsweringMPsFilterCommand}"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </StackLayout>
+                                <StackLayout Spacing="0" Margin="0" Padding="0">
+                                    <Label Text="Other MP">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding OtherAnsweringMPsFilterCommand}"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                    <Label Text="{Binding SelectedAnsweringMPsText}">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding OtherAnsweringMPsFilterCommand}"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </StackLayout>
+                                <StackLayout Spacing="0" Margin="0" Padding="0">
+                                    <Label Text="Public Authority">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding AnsweringAuthoritiesFilterCommand}"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                    <Label Text="{Binding PublicAuthoritiesText}">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding AnsweringAuthoritiesFilterCommand}"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </StackLayout>
+                            </StackLayout>
+                        </xct:Expander.Content>
+                    </xct:Expander>
+                </Frame>
+                <Frame Style="{StaticResource GreenFrame}">
+                    <xct:Expander>
+                        <xct:Expander.Header>
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                <Label Text="Raised By" Style="{StaticResource LeftMedium}" TextColor="{StaticResource Primary}"/>
+                                <Image Source="{local:ImageResource RightToAskClient.Images.expand_48.png}" xct:IconTintColorEffect.TintColor="{StaticResource Primary}"  HorizontalOptions="EndAndExpand" VerticalOptions="Center">
+                                    <Image.Triggers>
+                                        <DataTrigger TargetType="Image" Binding="{Binding Source={RelativeSource AncestorType={x:Type xct:Expander}}, Path=IsExpanded}" Value="True">
+                                            <Setter Property="Source" Value="{local:ImageResource RightToAskClient.Images.collapse_48.png}" />
+                                        </DataTrigger>
+                                    </Image.Triggers>
+                                </Image>
+                            </StackLayout>
+                        </xct:Expander.Header>
+                        <xct:Expander.Content>
+                            <StackLayout>
+                                <StackLayout Spacing="0" Margin="0" Padding="0">
+                                    <Label Text="My MP">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding AskingMPsFilterCommand}"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                    <Label Text="{Binding SelectedAskingMyMPsText}">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding AskingMPsFilterCommand}"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </StackLayout>
+                                <StackLayout Spacing="0" Margin="0" Padding="0">
+                                    <Label Text="Committee">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding NotSureCommand}"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                    <Label Text="{Binding CommitteeText}">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding NotSureCommand}"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </StackLayout>
+                                <StackLayout Spacing="0" Margin="0" Padding="0">
+                                    <Label Text="Other MP">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding OtherAskingMPsFilterCommand}"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                    <Label Text="{Binding SelectedAskingMPsText}">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding OtherAskingMPsFilterCommand}"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </StackLayout>
+                                <StackLayout Spacing="0" Margin="0" Padding="0">
+                                    <Label Text="Right to Ask Participant">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding RightToAskUserCommand}"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                    <Label Text="{Binding OtherRightToAskUserText}">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding RightToAskUserCommand}"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </StackLayout>
+                                <StackLayout Spacing="0" Margin="0" Padding="0">
+                                    <Label Text="Not Stated">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding NotSureCommand}"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </StackLayout>
+                            </StackLayout>
+                        </xct:Expander.Content>
+                    </xct:Expander>
+                </Frame>
+                <Frame Style="{StaticResource GreenFrame}">
+                    <xct:Expander>
+                        <xct:Expander.Header>
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                <Label Text="Written By" Style="{StaticResource LeftMedium}" TextColor="{StaticResource Primary}"/>
+                                <Image Source="{local:ImageResource RightToAskClient.Images.expand_48.png}" xct:IconTintColorEffect.TintColor="{StaticResource Primary}"  HorizontalOptions="EndAndExpand" VerticalOptions="Center">
+                                    <Image.Triggers>
+                                        <DataTrigger TargetType="Image" Binding="{Binding Source={RelativeSource AncestorType={x:Type xct:Expander}}, Path=IsExpanded}" Value="True">
+                                            <Setter Property="Source" Value="{local:ImageResource RightToAskClient.Images.collapse_48.png}" />
+                                        </DataTrigger>
+                                    </Image.Triggers>
+                                </Image>
+                            </StackLayout>
+                        </xct:Expander.Header>
+                        <xct:Expander.Content>
+                            <StackLayout Spacing="0" Margin="0" Padding="0">
+                                <Label Text="Right to Ask Participant">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding RightToAskUserCommand}"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <Label Text="{Binding OtherRightToAskUserText}">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding RightToAskUserCommand}"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </StackLayout>
+                        </xct:Expander.Content>
+                    </xct:Expander>
+                </Frame>
+                <Frame Style="{StaticResource GreenFrame}">
+                    <StackLayout>
+                        <Label Text="Question Details" Style="{StaticResource LeftMedium}"/>
+                        <SearchBar Placeholder="Keyword"/>
+                        <Grid ColumnDefinitions="auto,*,*,*">
+                            <Label Grid.Column="0" Text="Answer Staus?" VerticalOptions="Center"/>
+                            <Button Grid.Column="1" Text="Not Answered" FontSize="Micro"/>
+                            <Button Grid.Column="2" Text="Partially Answered" FontSize="Micro"/>
+                            <Button Grid.Column="3" Text="Fully Answered" FontSize="Micro"/>
+                        </Grid>
+                        <Label Text="Seach with These Filters?" />
+                        <Button Text="Go" Command="{Binding SearchCommand}"/>
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

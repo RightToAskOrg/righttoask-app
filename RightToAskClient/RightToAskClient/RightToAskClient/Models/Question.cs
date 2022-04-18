@@ -1,4 +1,5 @@
 using RightToAskClient.ViewModels;
+using RightToAskClient.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -6,6 +7,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace RightToAskClient.Models
 {
@@ -71,6 +74,8 @@ namespace RightToAskClient.Models
 
         // The Authority, department, MPs, who are meant to answer 
         public ObservableCollection<Entity> QuestionAnswerers { get; set; } = new ObservableCollection<Entity>();
+
+        public string QuestionAnswerer => QuestionAnswerers.FirstOrDefault().ToString() ?? "";
         
         // The MPs or committee who are meant to ask the question
         public string QuestionAsker { get; set; } = "";
@@ -94,8 +99,19 @@ namespace RightToAskClient.Models
                 OnPropertyChanged();
             }
         }
-        
-        public bool AlreadyUpvoted { get; set; }
+        private bool _alreadyUpvoted;
+        public bool AlreadyUpvoted 
+        {
+            get => _alreadyUpvoted;
+            set => SetProperty(ref _alreadyUpvoted, value);
+        }
+
+        private bool _alreadyReported;
+        public bool AlreadyReported
+        {
+            get => _alreadyReported;
+            set => SetProperty(ref _alreadyReported, value);
+        }
 
         public override string ToString ()
         {
@@ -112,5 +128,58 @@ namespace RightToAskClient.Models
                    // "DownVotes: " + DownVotes + '\n' +
                    "Link/Answer: " + LinkOrAnswer;
         }
+
+        // constructor needed for command creation
+        public Question()
+        {
+            UpvoteCommand = new Command(() => 
+            {
+                if (!AlreadyUpvoted)
+                {
+                    UpVotes += 1;
+                    AlreadyUpvoted = true;
+                    App.ReadingContext.ThisParticipant.UpvotedQuestionIDs.Add(QuestionId);
+                }
+                else
+                {
+                    UpVotes -= 1;
+                    AlreadyUpvoted = false;
+                    App.ReadingContext.ThisParticipant.UpvotedQuestionIDs.Remove(QuestionId);
+                }
+            });
+            QuestionDetailsCommand = new Command(() =>
+            {
+                //QuestionViewModel.Instance.SelectedQuestion = this;
+                QuestionViewModel.Instance.Question = this;
+                QuestionViewModel.Instance.IsNewQuestion = false;
+                _ = Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
+            });
+            ShareCommand = new AsyncCommand(async() =>
+            {
+                await Share.RequestAsync(new ShareTextRequest 
+                {
+                    Text = QuestionText,
+                    Title = "Share Text"
+                });
+            });
+            ReportCommand = new Command(() =>
+            {
+                AlreadyReported = !AlreadyReported;
+                if (AlreadyReported)
+                {
+                    App.ReadingContext.ThisParticipant.ReportedQuestionIDs.Add(QuestionId);
+                }
+                else
+                {
+                    App.ReadingContext.ThisParticipant.ReportedQuestionIDs.Remove(QuestionId);
+                }
+            });
+        }
+
+        // command
+        public Command UpvoteCommand { get; }
+        public Command ReportCommand { get; }
+        public Command QuestionDetailsCommand { get; }
+        public IAsyncCommand ShareCommand { get; }
     }
 }
