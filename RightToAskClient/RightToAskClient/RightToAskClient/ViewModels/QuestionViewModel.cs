@@ -589,8 +589,6 @@ namespace RightToAskClient.ViewModels
             _serverQuestionUpdates.question_text = Question.QuestionText;
             // TODO At the moment, this only looks at the not-mine answering MPs. Just getting
             // it working.
-            var testlist = 
-                Question.Filters.SelectedAnsweringMPs.ToList().Select(mp => new PersonID(new MPId(mp)));
             _serverQuestionUpdates.entity_who_should_answer_the_question = 
                 Question.Filters.SelectedAnsweringMPs.ToList().Select(mp => new PersonID(new MPId(mp))).ToList();
             ClientSignedUnparsed signedQuestion 
