@@ -39,6 +39,7 @@ namespace RightToAskClient.Views
 		protected ObservableCollection<MP> SelectedMPs = new ObservableCollection<MP>();
 		protected ObservableCollection<Person> SelectedPeople = new ObservableCollection<Person>();
 
+		public bool FirstTimeSetup = false;
 		public bool CameFromReg2Page = false;
 		public bool GoToReadingPageNext = false;
 		public bool OptionB = false;
@@ -61,6 +62,10 @@ namespace RightToAskClient.Views
 				if (arg)
                 {
 					CameFromReg2Page = true;
+					if (!App.ReadingContext.ThisParticipant.IsRegistered)
+                    {
+						FirstTimeSetup = true;
+                    }
 				}
 				MessagingCenter.Unsubscribe<FindMPsViewModel, bool>(this, "PreviousPage");
 			});
@@ -96,6 +101,10 @@ namespace RightToAskClient.Views
 				if (arg)
 				{
 					CameFromReg2Page = true;
+					if (!App.ReadingContext.ThisParticipant.IsRegistered)
+					{
+						FirstTimeSetup = true;
+					}
 				}
 				MessagingCenter.Unsubscribe<FindMPsViewModel, bool>(this, "PreviousPage");
 			});
@@ -144,6 +153,10 @@ namespace RightToAskClient.Views
 				if (arg)
 				{
 					CameFromReg2Page = true;
+					if (!App.ReadingContext.ThisParticipant.IsRegistered)
+					{
+						FirstTimeSetup = true;
+					}
 				}
 				MessagingCenter.Unsubscribe<FindMPsViewModel, bool>(this, "PreviousPage");
 			});
@@ -203,7 +216,15 @@ namespace RightToAskClient.Views
             if (CameFromReg2Page)
             {
 				CameFromReg2Page = false;
-				await Shell.Current.GoToAsync("../.."); // double pop
+                if (FirstTimeSetup)
+                {
+					FirstTimeSetup = false;
+					await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
+				}
+                else
+                {
+					await Shell.Current.GoToAsync("../.."); // double pop
+				}				
 			}
 			else if (GoToReadingPageNext && !OptionB)
             {
