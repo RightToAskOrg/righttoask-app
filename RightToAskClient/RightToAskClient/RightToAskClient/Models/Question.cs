@@ -195,11 +195,13 @@ namespace RightToAskClient.Models
                 {
                     UpVotes += 1;
                     AlreadyUpvoted = true;
+                    App.ReadingContext.ThisParticipant.UpvotedQuestionIDs.Add(QuestionId);
                 }
                 else
                 {
                     UpVotes -= 1;
                     AlreadyUpvoted = false;
+                    App.ReadingContext.ThisParticipant.UpvotedQuestionIDs.Remove(QuestionId);
                 }
             });
             QuestionDetailsCommand = new Command(() =>
@@ -220,6 +222,14 @@ namespace RightToAskClient.Models
             ReportCommand = new Command(() =>
             {
                 AlreadyReported = !AlreadyReported;
+                if (AlreadyReported)
+                {
+                    App.ReadingContext.ThisParticipant.ReportedQuestionIDs.Add(QuestionId);
+                }
+                else
+                {
+                    App.ReadingContext.ThisParticipant.ReportedQuestionIDs.Remove(QuestionId);
+                }
             });
         }
 

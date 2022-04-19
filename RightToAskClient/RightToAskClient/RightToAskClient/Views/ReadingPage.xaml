@@ -9,7 +9,7 @@
              xmlns:views="clr-namespace:RightToAskClient.Views"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
 			 x:Class="RightToAskClient.Views.ReadingPage"
-			 x:Name="TitleBar"
+			 x:Name="ReadingPageName"
              Title="{Binding Title}"
              x:DataType="vm:ReadingPageViewModel">
     <ContentPage.ToolbarItems>
@@ -54,11 +54,17 @@
                                 <DataTemplate x:DataType="models:Question">
                                     <SwipeView VerticalOptions="FillAndExpand">
                                         <SwipeView.RightItems>
-                                            <SwipeItem Text="Dismiss" BackgroundColor="PaleVioletRed" Command="{Binding RemoveQuestionCommand}" x:DataType="vm:ReadingPageViewModel"/>
+                                            <SwipeItem Text="Dismiss" IconImageSource="{local:ImageResource RightToAskClient.Images.trash_delete_48.png}" 
+                                                       BackgroundColor="{StaticResource AlertColor}" 
+                                                       Command="{Binding Path=BindingContext.RemoveQuestionCommand, Source={x:Reference ReadingPageName}}" 
+                                                       CommandParameter="{Binding .}"/>
                                         </SwipeView.RightItems>
-                                        <SwipeView.LeftItems>
-                                            <SwipeItem Text="Dismiss" BackgroundColor="PaleVioletRed" Command="{Binding RemoveQuestionCommand}" x:DataType="vm:ReadingPageViewModel"/>
-                                        </SwipeView.LeftItems>
+                                        <!--<SwipeView.LeftItems>
+                                            <SwipeItem Text="Dismiss" IconImageSource="{local:ImageResource RightToAskClient.Images.trash_delete_48.png}" 
+                                                       BackgroundColor="{StaticResource AlertColor}" 
+                                                       Command="{Binding Path=BindingContext.RemoveQuestionCommand, Source={x:Reference ReadingPageName}}" 
+                                                       CommandParameter="{Binding .}"/>
+                                        </SwipeView.LeftItems>-->
                                         <views:QuestionDisplayCard/>
                                     </SwipeView>
                                 </DataTemplate>
@@ -67,7 +73,7 @@
                     </ScrollView>
                 </RefreshView>
                 <ImageButton Grid.Row="1" Grid.Column="1" VerticalOptions="End" HorizontalOptions="End" Margin="10" 
-                        Source="{local:ImageResource RightToAskClient.Images.edit_note_48.png}" WidthRequest="50" HeightRequest="50" CornerRadius="25" BackgroundColor="{StaticResource ButtonColor}" 
+                        Source="{local:ImageResource RightToAskClient.Images.wireframe_roo_smaller.png}" WidthRequest="50" HeightRequest="50" CornerRadius="25" BackgroundColor="{StaticResource FrameColor}" 
                         Command="{Binding DraftCommand}" IsVisible="{Binding ShowQuestionFrame, Converter={StaticResource Key=cnvInvert}}"/>
                 <!--<ImageButton Grid.Row="1" Grid.Column="1" VerticalOptions="End" HorizontalOptions="End" Margin="10" 
                         Source="{local:ImageResource RightToAskClient.Images.half_roo.png}" WidthRequest="50" HeightRequest="50" CornerRadius="25" BackgroundColor="{StaticResource FrameColor}" 
@@ -83,7 +89,7 @@
                         Command="{Binding KeepQuestionButtonCommand}"/>
                     </StackLayout>
                     <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}" Text="{Binding DraftQuestion}" 
-                        HorizontalOptions="FillAndExpand" Style="{StaticResource NormalEditor}"/>
+                        HorizontalOptions="FillAndExpand" MaxLength="280" Style="{StaticResource NormalEditor}"/>
                 </StackLayout>
             </Frame>
         </StackLayout>

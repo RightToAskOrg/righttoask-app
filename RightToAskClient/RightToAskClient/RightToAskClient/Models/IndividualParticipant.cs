@@ -26,6 +26,11 @@ namespace RightToAskClient.Models
 		public bool IsRegistered { get; set; }
 		public bool MPsKnown { get; set; }
 
+		// needs to be accessible on a few pages and VMs so I put it here
+		public List<string> UpvotedQuestionIDs { get; set; } = new List<string>();
+		public List<string> ReportedQuestionIDs { get; set; } = new List<string>();
+		public List<string> RemovedQuestionIDs { get; set; } = new List<string>();
+
 		private ObservableCollection<MP> _myMPs = new ObservableCollection<MP>();
 		public ObservableCollection<MP> MyMPs
 		{

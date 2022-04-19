@@ -144,6 +144,11 @@ namespace RightToAskClient.ViewModels
             });
             RemoveQuestionCommand = new Command<Question>((Question questionToRemove) =>
             {
+                // store question ID for later data manipulation?
+                if (!App.ReadingContext.ThisParticipant.RemovedQuestionIDs.Contains(questionToRemove.QuestionId))
+                {
+                    App.ReadingContext.ThisParticipant.RemovedQuestionIDs.Add(questionToRemove.QuestionId);
+                }                
                 QuestionsToDisplay.Remove(questionToRemove);
             });
         }
@@ -285,6 +290,34 @@ namespace RightToAskClient.ViewModels
                     QuestionsToDisplay.Add(temp);
                 }
                 IsRefreshing = false;
+            }
+            // after getting the list of questions, remove the ids for dismissed questions, and set the upvoted status of liked ones
+            for(int i = 0; i < App.ReadingContext.ThisParticipant.RemovedQuestionIDs.Count; i++)
+            {
+                Question temp = QuestionsToDisplay.ToList().Where(q => q.QuestionId == App.ReadingContext.ThisParticipant.RemovedQuestionIDs[i]).FirstOrDefault();
+                if(temp != null)
+                {
+                    QuestionsToDisplay.Remove(temp);
+                }
+            }
+            // set previously upvoted questions
+            foreach(Question q in QuestionsToDisplay)
+            {
+                foreach(string qID in App.ReadingContext.ThisParticipant.UpvotedQuestionIDs)
+                {
+                    if(q.QuestionId == qID)
+                    {
+                        q.AlreadyUpvoted = true;
+                    }
+                }
+                // set previously flagged/reported questions
+                foreach (string qID in App.ReadingContext.ThisParticipant.ReportedQuestionIDs)
+                {
+                    if (q.QuestionId == qID)
+                    {
+                        q.AlreadyReported = true;
+                    }
+                }
             }
         }
     }
