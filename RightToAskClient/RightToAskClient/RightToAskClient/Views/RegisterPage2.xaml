@@ -20,6 +20,7 @@
         <ContentPage.Content>
 	    <ScrollView>
             <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
+                <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"/>
                 <Label Text="{xct:Translate MPsHeaderText1}" FontSize="Medium" HorizontalOptions="Center" />
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
                     <Label Text="{xct:Translate MPsHeaderText2}" FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center" />
@@ -27,7 +28,7 @@
 					        Style="{StaticResource CenterFramePicker}" SelectedIndex="{Binding SelectedState}">
                     </Picker>
                 </StackLayout>
-                <StackLayout Orientation="Horizontal">
+                <StackLayout Orientation="Horizontal" IsVisible="{Binding ShowStateOnly, Converter={StaticResource Key=cnvInvert}}">
                     <Frame Style="{StaticResource GreenFrame}">
                         <Label Text="{xct:Translate ElectoratesKnownHeaderText}" Style="{StaticResource Header1}" VerticalOptions="Center">
                             <Label.GestureRecognizers>
@@ -58,7 +59,6 @@
                         </Picker>
                     </StackLayout>
                 </Frame>
-
                 <Frame Style="{StaticResource SubtleFrame}" IsVisible="{Binding ShowAddressStack}">
                     <StackLayout Margin="20">
                         <Label Text="{xct:Translate StreetHeaderText}" Style="{StaticResource LeftFrameText}"/>
@@ -70,12 +70,21 @@
                         <StackLayout Orientation="Vertical" HorizontalOptions="Center">
                             <Button Text="{xct:Translate FindMyElectoratesButtonText}" HorizontalOptions="Center" Style="{StaticResource GreenButton}" Command="{Binding SubmitAddressButtonCommand}" />
                             <Label x:Name="ReportLabel" Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}"/>
+                            <!--<ActivityIndicator IsRunning="{Binding IsBusy}"/>-->
                         </StackLayout>
                         <!--
 				            <Label FontSize="Small" Text="(i) If you are on the electoral roll,
                              					    your MP is more likely to listen to you if you tell them your address. RightToAsk does not learn 
                              					    your address. Your address will not leave your phone unless you decide to share it with your MP" />
 			            -->
+                    </StackLayout>
+                </Frame>
+                <!--Electorates Found Frame-->
+                <Frame Style="{StaticResource SubtleFrame}" IsVisible="{Binding ShowElectoratesFrame}">
+                    <StackLayout Margin="20">
+                        <Label Text="Electorates Found!" Style="{StaticResource LeftFrameText}"/>
+                        <Label Text="{Binding FederalElectorateDisplayText, StringFormat='Federal Electorate: {0}'}" Style="{StaticResource LeftFrameText}"/>
+                        <Label Text="{Binding StateLowerHouseElectorateDisplayText, StringFormat='State Lower House Electorate: {0}'}" Style="{StaticResource LeftFrameText}"/>
                     </StackLayout>
                 </Frame>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">

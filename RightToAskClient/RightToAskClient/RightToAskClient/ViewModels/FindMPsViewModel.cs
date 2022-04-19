@@ -36,6 +36,18 @@ namespace RightToAskClient.ViewModels
             get => _showSkipButton;
             set => SetProperty(ref _showSkipButton, value);
         }
+        private bool _showStateOnly = false;
+        public bool ShowStateOnly
+        {
+            get => _showStateOnly;
+            set => SetProperty(ref _showStateOnly, value);
+        }
+        private bool _showElectoratesFrame = false;
+        public bool ShowElectoratesFrame
+        {
+            get => _showElectoratesFrame;
+            set => SetProperty(ref _showElectoratesFrame, value);
+        }
         private bool _showKnowElectoratesFrame = false;
         public bool ShowKnowElectoratesFrame
         {
@@ -144,6 +156,17 @@ namespace RightToAskClient.ViewModels
             get => _doneButtonText;
             set => SetProperty(ref _doneButtonText, value);
         }
+        private bool _promptAddressSave = false;
+        public bool PromptAddressSave
+        {
+            get => _promptAddressSave;
+            set => SetProperty(ref _promptAddressSave, value);
+        }
+
+        // display properties for Electorates
+        public string FederalElectorateDisplayText => App.ReadingContext.ThisParticipant.CommonwealthElectorate;
+        public string StateLowerHouseElectorateDisplayText => App.ReadingContext.ThisParticipant.StateLowerHouseElectorate;
+
         private bool _launchMPsSelectionPageNext;
         #endregion
 
@@ -153,6 +176,7 @@ namespace RightToAskClient.ViewModels
             ShowSkipButton = false;
             ShowAddressStack = false;
             ShowKnowElectoratesFrame = false;
+            ShowStateOnly = string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.RegistrationInfo.State);
             _launchMPsSelectionPageNext = true;            
 
             MessagingCenter.Subscribe<Registration1ViewModel>(this, "FromReg1", (sender) =>
@@ -163,6 +187,16 @@ namespace RightToAskClient.ViewModels
             // commands
             MPsButtonCommand = new AsyncCommand(async () =>
             {
+                if (App.ReadingContext.ThisParticipant.AddressUpdated) // PromptAddressSave
+                {
+                    bool saveThisAddress = await App.Current.MainPage.DisplayAlert("Save Address?",
+                        "Do you want to save your address on this device? Right To Ask will not learn your address.",
+                        "OK - Save address on this device", "No thanks");
+                    if (saveThisAddress)
+                    {
+                        SaveAddress();
+                    }
+                }
                 if (_launchMPsSelectionPageNext)
                 {
                     string message = "These are your MPs.  Select the one(s) who should answer the question";
@@ -192,12 +226,14 @@ namespace RightToAskClient.ViewModels
             {
                 ShowAddressStack = true;
                 ShowKnowElectoratesFrame = false;
+                ShowElectoratesFrame = false;
 
                 // set the address data if we have it
                 var addressPref = Preferences.Get("Address", "");
                 if (!string.IsNullOrEmpty(addressPref))
                 {
                     var addressObj = JsonSerializer.Deserialize<Address>(addressPref);
+                    //OldAddress = addressObj ?? new Address();
                     Address = addressObj ?? new Address();
                 }
             });
@@ -205,6 +241,7 @@ namespace RightToAskClient.ViewModels
             {
                 ShowKnowElectoratesFrame = true;
                 ShowAddressStack = false;
+                ShowElectoratesFrame = false;
             });
 
             // set the pickers to update their content lists here if state was already indicated elsewhere in the application
@@ -229,6 +266,7 @@ namespace RightToAskClient.ViewModels
         // If we know their state but not their Legislative Assembly or Council makeup, we can go on. 
         private async Task OnSubmitAddressButton_Clicked()
         {
+            IsBusy = true;
             Result<GeoscapeAddressFeature> httpResponse;
 
             string state = App.ReadingContext.ThisParticipant.RegistrationInfo.State;
@@ -262,18 +300,22 @@ namespace RightToAskClient.ViewModels
                 ShowFindMPsButton = true;
                 ReportLabelText = "";
 
-                bool saveThisAddress = await App.Current.MainPage.DisplayAlert("Electorates found!",
-                    // "State Assembly Electorate: "+thisParticipant.SelectedLAStateElectorate+"\n"
-                    // +"State Legislative Council Electorate: "+thisParticipant.SelectedLCStateElectorate+"\n"
-                    "Federal electorate: " + App.ReadingContext.ThisParticipant.CommonwealthElectorate + "\n" +
-                    "State lower house electorate: " + App.ReadingContext.ThisParticipant.StateLowerHouseElectorate + "\n" +
-                    "Do you want to save your address on this device? Right To Ask will not learn your address.",
-                    "OK - Save address on this device", "No thanks");
-                if (saveThisAddress)
-                {
-                    SaveAddress();
-                }
+                ShowElectoratesFrame = true;
+                ShowAddressStack = false;
+
+                //bool saveThisAddress = await App.Current.MainPage.DisplayAlert("Electorates found!",
+                //    // "State Assembly Electorate: "+thisParticipant.SelectedLAStateElectorate+"\n"
+                //    // +"State Legislative Council Electorate: "+thisParticipant.SelectedLCStateElectorate+"\n"
+                //    "Federal electorate: " + App.ReadingContext.ThisParticipant.CommonwealthElectorate + "\n" +
+                //    "State lower house electorate: " + App.ReadingContext.ThisParticipant.StateLowerHouseElectorate + "\n" +
+                //    "Do you want to save your address on this device? Right To Ask will not learn your address.",
+                //    "OK - Save address on this device", "No thanks");
+                //if (saveThisAddress)
+                //{
+                //    SaveAddress();
+                //}
                 ShowSkipButton = false;
+                IsBusy = false;
             }
         }
 
@@ -353,6 +395,7 @@ namespace RightToAskClient.ViewModels
                 App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsIndex = SelectedState;
                 App.ReadingContext.ThisParticipant.AddSenatorsFromState(App.ReadingContext.ThisParticipant.RegistrationInfo.State);
                 UpdateElectoratePickerSources(App.ReadingContext.ThisParticipant.RegistrationInfo.State);
+                ShowStateOnly = SelectedState == -1;
             }
         }
         #endregion
