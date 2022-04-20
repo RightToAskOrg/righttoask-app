@@ -162,10 +162,29 @@ namespace RightToAskClient.ViewModels
             get => _promptAddressSave;
             set => SetProperty(ref _promptAddressSave, value);
         }
+        private bool _postcodeIsValid = false;
+        public bool PostcodeIsValid
+        {
+            get => _postcodeIsValid;
+            set => SetProperty(ref _postcodeIsValid, value);
+        }
 
         // display properties for Electorates
-        public string FederalElectorateDisplayText => App.ReadingContext.ThisParticipant.CommonwealthElectorate;
-        public string StateLowerHouseElectorateDisplayText => App.ReadingContext.ThisParticipant.StateLowerHouseElectorate;
+        private string _federalElectorateDisplayText = "";
+        //public string FederalElectorateDisplayText => App.ReadingContext.ThisParticipant.CommonwealthElectorate;
+        public string FederalElectorateDisplayText
+        {
+            get => _federalElectorateDisplayText;
+            set => SetProperty(ref _federalElectorateDisplayText, value);
+        }
+
+        private string _stateLowerHouseElectorateDisplayText = "";
+        //public string StateLowerHouseElectorateDisplayText => App.ReadingContext.ThisParticipant.StateLowerHouseElectorate;
+        public string StateLowerHouseElectorateDisplayText
+        {
+            get => _stateLowerHouseElectorateDisplayText;
+            set => SetProperty(ref _stateLowerHouseElectorateDisplayText, value);
+        }
 
         private bool _launchMPsSelectionPageNext;
         #endregion
@@ -266,56 +285,73 @@ namespace RightToAskClient.ViewModels
         // If we know their state but not their Legislative Assembly or Council makeup, we can go on. 
         private async Task OnSubmitAddressButton_Clicked()
         {
-            IsBusy = true;
-            Result<GeoscapeAddressFeature> httpResponse;
+            // see if we should prompt first
+            CheckPostcode();
 
-            string state = App.ReadingContext.ThisParticipant.RegistrationInfo.State;
-
-            if (String.IsNullOrEmpty(state))
+            if (!PostcodeIsValid)
             {
-                await App.Current.MainPage.DisplayAlert(AppResources.SelectStateWarningText, "", "OK");
-                return;
-            }
-
-            Result<bool> addressValidation = _address.SeemsValid();
-            if (!String.IsNullOrEmpty(addressValidation.Err))
-            {
-                await App.Current.MainPage.DisplayAlert(addressValidation.Err, "", "OK");
-                return;
-            }
-
-            httpResponse = await GeoscapeClient.GetFirstAddressData(_address + " " + state);
-
-            if (httpResponse != null)
-            {
-                if (httpResponse.Err != null)
+                string? result = await Shell.Current.DisplayActionSheet("This postcode seems invalid for this area. Would you like to proceed anyways?", "Cancel", "Yes, I'm sure.");
+                if (result == "Yes, I'm sure.")
                 {
-                    ReportLabelText = httpResponse.Err;
+                    PostcodeIsValid = true;
+                }
+            }
+            if (PostcodeIsValid)
+            {
+                IsBusy = true;
+                Result<GeoscapeAddressFeature> httpResponse;
+
+                string state = App.ReadingContext.ThisParticipant.RegistrationInfo.State;
+
+                if (String.IsNullOrEmpty(state))
+                {
+                    await App.Current.MainPage.DisplayAlert(AppResources.SelectStateWarningText, "", "OK");
                     return;
                 }
 
-                // Now we know everything is good.
-                var bestAddress = httpResponse.Ok;
-                AddElectorates(bestAddress);
-                ShowFindMPsButton = true;
-                ReportLabelText = "";
+                Result<bool> addressValidation = _address.SeemsValid();
+                if (!String.IsNullOrEmpty(addressValidation.Err))
+                {
+                    await App.Current.MainPage.DisplayAlert(addressValidation.Err, "", "OK");
+                    return;
+                }
 
-                ShowElectoratesFrame = true;
-                ShowAddressStack = false;
+                httpResponse = await GeoscapeClient.GetFirstAddressData(_address + " " + state);
 
-                //bool saveThisAddress = await App.Current.MainPage.DisplayAlert("Electorates found!",
-                //    // "State Assembly Electorate: "+thisParticipant.SelectedLAStateElectorate+"\n"
-                //    // +"State Legislative Council Electorate: "+thisParticipant.SelectedLCStateElectorate+"\n"
-                //    "Federal electorate: " + App.ReadingContext.ThisParticipant.CommonwealthElectorate + "\n" +
-                //    "State lower house electorate: " + App.ReadingContext.ThisParticipant.StateLowerHouseElectorate + "\n" +
-                //    "Do you want to save your address on this device? Right To Ask will not learn your address.",
-                //    "OK - Save address on this device", "No thanks");
-                //if (saveThisAddress)
-                //{
-                //    SaveAddress();
-                //}
-                ShowSkipButton = false;
-                IsBusy = false;
+                if (httpResponse != null)
+                {
+                    if (httpResponse.Err != null)
+                    {
+                        ReportLabelText = httpResponse.Err;
+                        return;
+                    }
+
+                    // Now we know everything is good.
+                    var bestAddress = httpResponse.Ok;
+                    AddElectorates(bestAddress);
+                    ShowFindMPsButton = true;
+                    ReportLabelText = "";
+
+                    ShowElectoratesFrame = true;
+                    ShowAddressStack = false;
+
+                    //bool saveThisAddress = await App.Current.MainPage.DisplayAlert("Electorates found!",
+                    //    // "State Assembly Electorate: "+thisParticipant.SelectedLAStateElectorate+"\n"
+                    //    // +"State Legislative Council Electorate: "+thisParticipant.SelectedLCStateElectorate+"\n"
+                    //    "Federal electorate: " + App.ReadingContext.ThisParticipant.CommonwealthElectorate + "\n" +
+                    //    "State lower house electorate: " + App.ReadingContext.ThisParticipant.StateLowerHouseElectorate + "\n" +
+                    //    "Do you want to save your address on this device? Right To Ask will not learn your address.",
+                    //    "OK - Save address on this device", "No thanks");
+                    //if (saveThisAddress)
+                    //{
+                    //    SaveAddress();
+                    //}
+                    FederalElectorateDisplayText = App.ReadingContext.ThisParticipant.CommonwealthElectorate;
+                    StateLowerHouseElectorateDisplayText = App.ReadingContext.ThisParticipant.StateLowerHouseElectorate;
+
+                    ShowSkipButton = false;
+                    IsBusy = false;
+                }
             }
         }
 
@@ -388,7 +424,7 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        void OnStatePickerSelectedIndexChanged()
+        private void OnStatePickerSelectedIndexChanged()
         {
             if (SelectedState != -1)
             {
@@ -396,6 +432,116 @@ namespace RightToAskClient.ViewModels
                 App.ReadingContext.ThisParticipant.AddSenatorsFromState(App.ReadingContext.ThisParticipant.RegistrationInfo.State);
                 UpdateElectoratePickerSources(App.ReadingContext.ThisParticipant.RegistrationInfo.State);
                 ShowStateOnly = SelectedState == -1;
+            }
+        }
+
+        private void CheckPostcode()
+        {
+            switch (SelectedState)
+            {
+                // ACT
+                case 0:
+                    int postcode = 0; 
+                    int.TryParse(Address.Postcode, out postcode);
+                    if((postcode >= 2600 && postcode <= 2618) 
+                        || (postcode >= 2900 && postcode <= 2920))
+                    {
+                        PostcodeIsValid = true;
+                    }
+                    else
+                    {
+                        PostcodeIsValid = false;
+                    }
+                    break;
+                // NSW
+                case 1:
+                    int.TryParse(Address.Postcode, out postcode);
+                    if ((postcode >= 2000 && postcode <= 2599)
+                        || (postcode >= 2619 && postcode <= 2898)
+                        || (postcode >= 2921 && postcode <= 2999))
+                    {
+                        PostcodeIsValid = true;
+                    }
+                    else
+                    {
+                        PostcodeIsValid = false;
+                    }
+                    break;
+                // NT
+                case 2:
+                    int.TryParse(Address.Postcode, out postcode);
+                    if (postcode >= 0800 && postcode <= 0899)
+                    {
+                        PostcodeIsValid = true;
+                    }
+                    else
+                    {
+                        PostcodeIsValid = false;
+                    }
+                    break;
+                // QLD
+                case 3:
+                    int.TryParse(Address.Postcode, out postcode);
+                    if (postcode >= 4000 && postcode <= 4999)
+                    {
+                        PostcodeIsValid = true;
+                    }
+                    else
+                    {
+                        PostcodeIsValid = false;
+                    }
+                    break;
+                // SA
+                case 4:
+                    int.TryParse(Address.Postcode, out postcode);
+                    if (postcode >= 5000 && postcode <= 5799)
+                    {
+                        PostcodeIsValid = true;
+                    }
+                    else
+                    {
+                        PostcodeIsValid = false;
+                    }
+                    break;
+                // TAS
+                case 5:
+                    int.TryParse(Address.Postcode, out postcode);
+                    if (postcode >= 7000 && postcode <= 7799)
+                    {
+                        PostcodeIsValid = true;
+                    }
+                    else
+                    {
+                        PostcodeIsValid = false;
+                    }
+                    break;
+                // VIC
+                case 6:
+                    int.TryParse(Address.Postcode, out postcode);
+                    if (postcode >= 3000 && postcode <= 3999)
+                    {
+                        PostcodeIsValid = true;
+                    }
+                    else
+                    {
+                        PostcodeIsValid = false;
+                    }
+                    break;
+                // WA
+                case 7:
+                    int.TryParse(Address.Postcode, out postcode);
+                    if (postcode >= 6000 && postcode <= 6797)
+                    {
+                        PostcodeIsValid = true;
+                    }
+                    else
+                    {
+                        PostcodeIsValid = false;
+                    }
+                    break;
+                default:
+                    PostcodeIsValid = false;
+                    break;
             }
         }
         #endregion
