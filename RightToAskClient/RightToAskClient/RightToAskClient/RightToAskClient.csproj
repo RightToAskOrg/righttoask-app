@@ -77,6 +77,7 @@
     <None Remove="Images\Schoolhouse.png" />
     <None Remove="Images\school_house.png" />
     <None Remove="Images\search.png" />
+    <None Remove="Images\search_75.png" />
     <None Remove="Images\SettingsGear.png" />
     <None Remove="Images\settings_gear.png" />
     <None Remove="Images\share_48.png" />
@@ -165,6 +166,7 @@
     <EmbeddedResource Include="Images\read_and_upvote.png" />
     <EmbeddedResource Include="Images\school_house.png" />
     <EmbeddedResource Include="Images\search.png" />
+    <EmbeddedResource Include="Images\search_75.png" />
     <EmbeddedResource Include="Images\settings_gear.png" />
     <EmbeddedResource Include="Images\share_48.png" />
     <EmbeddedResource Include="Images\swipe_left_48.png" />
