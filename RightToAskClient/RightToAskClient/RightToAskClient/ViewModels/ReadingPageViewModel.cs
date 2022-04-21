@@ -134,8 +134,12 @@ namespace RightToAskClient.ViewModels
             {
                 //ShowQuestionFrame = true; // navigate to the draft page instead of just showing the frame on this page
                 App.ReadingContext.IsReadingOnly = false;
-                await App.Current.MainPage.Navigation.PopToRootAsync().ContinueWith(async (_) => {
-                    await Shell.Current.GoToAsync($"{nameof(SecondPage)}");
+                Device.BeginInvokeOnMainThread(async () =>  // needed for the UI operation to be invoked on the main thread
+                {
+                    await App.Current.MainPage.Navigation.PopToRootAsync().ContinueWith(async (_) => {
+
+                        await Shell.Current.GoToAsync($"{nameof(SecondPage)}");
+                    });
                 });
             });
             SearchToolbarCommand = new Command(() =>
