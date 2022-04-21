@@ -130,9 +130,13 @@ namespace RightToAskClient.ViewModels
             {
                 LoadQuestions();
             });
-            DraftCommand = new Command(() =>
+            DraftCommand = new AsyncCommand(async () =>
             {
-                ShowQuestionFrame = true;
+                //ShowQuestionFrame = true; // navigate to the draft page instead of just showing the frame on this page
+                App.ReadingContext.IsReadingOnly = false;
+                await App.Current.MainPage.Navigation.PopToRootAsync().ContinueWith(async (_) => {
+                    await Shell.Current.GoToAsync($"{nameof(SecondPage)}");
+                });
             });
             SearchToolbarCommand = new Command(() =>
             {
@@ -157,7 +161,7 @@ namespace RightToAskClient.ViewModels
         public IAsyncCommand KeepQuestionButtonCommand { get; }
         public IAsyncCommand DiscardButtonCommand { get; }
         public Command RefreshCommand { get; }
-        public Command DraftCommand { get; }
+        public IAsyncCommand DraftCommand { get; }
         public Command SearchToolbarCommand { get; }
         public Command<Question> RemoveQuestionCommand { get; }
         public IAsyncCommand ShowFiltersCommand { get; }
