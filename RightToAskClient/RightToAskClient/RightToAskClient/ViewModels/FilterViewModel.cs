@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace RightToAskClient.ViewModels
@@ -73,6 +74,7 @@ namespace RightToAskClient.ViewModels
             get => _selectedAnsweringMPs;
             set => SetProperty(ref _selectedAnsweringMPs, value);
         }
+        public bool CameFromMainPage = false;
 
         public FilterViewModel()
         {
@@ -87,6 +89,11 @@ namespace RightToAskClient.ViewModels
             MessagingCenter.Subscribe<ExploringPageWithSearchAndPreSelections>(this, "UpdateFilters", (sender) =>
             {
                 ReinitData();
+            });
+            MessagingCenter.Subscribe<MainPageViewModel>(this, "MainPage", (sender) =>
+            {
+                CameFromMainPage = true;
+                MessagingCenter.Unsubscribe<MainPageViewModel>(this, "MainPage");
             });
             Title = "Advanced Search Page Filters";
             ReinitData(); // to set the display strings
@@ -124,6 +131,17 @@ namespace RightToAskClient.ViewModels
             {
                 ApplyFiltersAndSearch();
             });
+            BackCommand = new AsyncCommand(async () =>
+            {
+                if (CameFromMainPage)
+                {
+                    await App.Current.MainPage.Navigation.PopToRootAsync();
+                }
+                else
+                {
+                    await App.Current.MainPage.Navigation.PopAsync();
+                }
+            });
         }
 
         // commands
@@ -135,6 +153,7 @@ namespace RightToAskClient.ViewModels
         public Command RightToAskUserCommand { get; }
         public Command NotSureCommand { get; }
         public Command SearchCommand { get; }
+        public IAsyncCommand BackCommand { get; }
 
         // helper methods
         public void ReinitData()
