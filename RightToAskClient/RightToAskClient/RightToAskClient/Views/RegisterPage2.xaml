@@ -85,6 +85,8 @@
                         <Label Text="Electorates Found!" Style="{StaticResource LeftFrameText}"/>
                         <Label Text="{Binding FederalElectorateDisplayText, StringFormat='Federal Electorate: {0}'}" Style="{StaticResource LeftFrameText}"/>
                         <Label Text="{Binding StateLowerHouseElectorateDisplayText, StringFormat='State Lower House Electorate: {0}'}" Style="{StaticResource LeftFrameText}"/>
+                        <!--<WebView x:Name="ElectorateMap" Source="https://www.abc.net.au/res/sites/news-projects/interactive-electorateboundaries-2/5.0.0/?kml=/dat/news/elections/federal/2022/guide/kml/Redist-Cooper.kml" WidthRequest="250" HeightRequest="500"/>-->
+                        <WebView x:Name="ElectorateMap" Source="https://arcg.is/1mOuKq" WidthRequest="250" HeightRequest="250"/>
                     </StackLayout>
                 </Frame>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">

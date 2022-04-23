@@ -186,6 +186,13 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _stateLowerHouseElectorateDisplayText, value);
         }
 
+        private string _mapUrl = "https://www.aec.gov.au/profiles/vic/files/2021/2021-AEC-Victoria-A3-Holt-final.pdf";
+        public string MapUrl
+        {
+            get => _mapUrl;
+            set => SetProperty(ref _mapUrl, value);
+        }
+
         private bool _launchMPsSelectionPageNext;
         #endregion
 
