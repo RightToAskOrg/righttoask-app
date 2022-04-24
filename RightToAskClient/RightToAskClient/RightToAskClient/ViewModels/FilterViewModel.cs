@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using RightToAskClient.Resx;
 using Xamarin.Forms;
 
 namespace RightToAskClient.ViewModels
@@ -88,7 +89,7 @@ namespace RightToAskClient.ViewModels
             {
                 ReinitData();
             });
-            Title = "Advanced Search Page Filters";
+            Title = AppResources.AdvancedSearchButtonText; 
             ReinitData(); // to set the display strings
 
             // commands

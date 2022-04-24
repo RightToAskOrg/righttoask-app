@@ -29,14 +29,15 @@
             <Frame Style="{StaticResource GreenFrame}" Margin="0" Padding="0" IsVisible="{Binding ShowSearchFrame}">
                 <StackLayout>
                     <!--<Label Text="Search" Style="{StaticResource LeftMedium}"/>-->
-                    <Grid ColumnDefinitions="*,*,*,*" MinimumHeightRequest="30">
+                    <Grid ColumnDefinitions="*,*,*,auto" MinimumHeightRequest="30">
                         <SearchBar Grid.Column="0" Grid.ColumnSpan="3" Placeholder="{xct:Translate SearchBarPlaceholderText}" 
                            Style="{StaticResource GreenSearchBar}" HorizontalOptions="Start" 
                            Margin="0"/>
                         <!--SearchCommand="{Binding ExpiringSoonButtonCommand}"-->
-                        <Grid ColumnDefinitions="*, auto" Grid.Column="3" Padding="0" Margin="0">
+                        <Grid ColumnDefinitions="auto, auto" Grid.Column="3" Padding="0" Margin="0">
                             <Label Grid.Column="0" Style="{StaticResource CenterSmall}" FontSize="Micro" Text="{xct:Translate AdvancedSearchButtonText}" 
-                                   Padding="0" Margin="0" VerticalOptions="Center" VerticalTextAlignment="Center">
+                                   Padding="0" Margin="0" VerticalOptions="Center" VerticalTextAlignment="Center" WidthRequest="60" LineBreakMode="WordWrap">
+                                <!-- I was hoping LineBreakMode="WordWrap" would solve the text-wrapping problem on iOS, but it didn't so I used a widthrequest.-->
                                 <Label.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding ShowFiltersCommand}"/>
                                 </Label.GestureRecognizers>
