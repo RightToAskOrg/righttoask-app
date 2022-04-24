@@ -24,6 +24,7 @@
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout x:Name="WholePage" HorizontalOptions="Center" VerticalOptions="FillAndExpand" Spacing="0">
+            <Label Text="{Binding Heading1}" Style="{StaticResource Header1}" HorizontalTextAlignment="Center"/>
             <Label Text="{xct:Translate ReadingPageHeader1}" Style="{StaticResource Header2}"/>
             <!--Search Frame-->
             <Frame Style="{StaticResource GreenFrame}" Margin="0" Padding="0" IsVisible="{Binding ShowSearchFrame}">
@@ -84,7 +85,7 @@
                 <StackLayout Margin="0" Padding="0" Spacing="0">
                     <StackLayout Orientation="Horizontal" HeightRequest="35">
                         <Label Text="Your Question" Style="{StaticResource LeftMedium}" VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand"/>
-                        <Button Text="{xct:Translate DiscardDraftButtonText}" Style="{StaticResource GreenButton}" Command="{Binding DiscardButtonCommand}"/>
+                        <Button Text="{xct:Translate DiscardDraftButtonText}" Style="{StaticResource DoneButton}" Command="{Binding DiscardButtonCommand}"/>
                         <Button Text="{xct:Translate KeepQuestionButtonText}" Style="{StaticResource DoneButton}"
                         Command="{Binding KeepQuestionButtonCommand}"/>
                     </StackLayout>
