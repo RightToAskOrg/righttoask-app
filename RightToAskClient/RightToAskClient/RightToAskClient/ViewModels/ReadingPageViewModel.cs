@@ -31,6 +31,12 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _showSearchFrame, value);
         }
 
+        private string heading1 = string.Empty;
+        public string Heading1
+        {
+            get => heading1;
+            set => SetProperty(ref heading1, value);
+        }
         private string _draftQuestion = "";
         public string DraftQuestion
         {
@@ -101,6 +107,7 @@ namespace RightToAskClient.ViewModels
             if (App.ReadingContext.IsReadingOnly)
             {
                 ShowQuestionFrame = false;
+                Heading1 = AppResources.FocusSupportInstructionReadingOnly;
                 if (App.ReadingContext.TopTen)
                 {
                     Title = AppResources.RecentQuestionsTitle;
@@ -112,6 +119,7 @@ namespace RightToAskClient.ViewModels
             }
             else
             {
+                Heading1 = AppResources.FocusSupportInstructionQuestionDrafting;
                 Title = AppResources.SimilarQuestionsTitle;
                 ShowQuestionFrame = true;
             }
@@ -197,8 +205,7 @@ namespace RightToAskClient.ViewModels
             ShowQuestionFrame = false;
 
             bool goHome = await App.Current.MainPage.DisplayAlert("Draft discarded", 
-                "Save time and focus support by voting on a similar question", 
-                "Home", "Related questions");
+               AppResources.FocusSupportReport, "Home", "Related questions");
             if (goHome)
             {
                 await App.Current.MainPage.Navigation.PopToRootAsync();
