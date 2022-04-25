@@ -516,4 +516,7 @@
   <data name="SearchButtonText" xml:space="preserve">
     <value>Search</value>
   </data>
+  <data name="YourQuestionTitleText" xml:space="preserve">
+    <value>Your Question</value>
+  </data>
 </root>
