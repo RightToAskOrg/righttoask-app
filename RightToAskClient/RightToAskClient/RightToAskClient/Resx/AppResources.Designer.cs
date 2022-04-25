@@ -169,6 +169,15 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You need to make an account to publish or vote on questions.
+        /// </summary>
+        internal static string CreateAccountPopUpText {
+            get {
+                return ResourceManager.GetString("CreateAccountPopUpText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create Account.
         /// </summary>
         internal static string CreateAccountTitle {
@@ -187,7 +196,7 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Discard.
+        ///   Looks up a localized string similar to Bin - already here!.
         /// </summary>
         internal static string DiscardDraftButtonText {
             get {
@@ -375,24 +384,33 @@ namespace RightToAskClient.Resx {
             }
         }
         
-        internal static string FocusSupportInstructionReadingOnly {
-            get {
-                return ResourceManager.GetString("FocusSupportInstructionReadingOnly", resourceCulture);
-            }
-        }
-        
+        /// <summary>
+        ///   Looks up a localized string similar to Is a similar question here already? If you can, focus support by upvoting an old question, not sending a new one.
+        /// </summary>
         internal static string FocusSupportInstructionQuestionDrafting {
             get {
                 return ResourceManager.GetString("FocusSupportInstructionQuestionDrafting", resourceCulture);
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to Support questions you care about.
+        /// </summary>
+        internal static string FocusSupportInstructionReadingOnly {
+            get {
+                return ResourceManager.GetString("FocusSupportInstructionReadingOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You saved time and focused support by upvoting a similar question.
+        /// </summary>
         internal static string FocusSupportReport {
             get {
                 return ResourceManager.GetString("FocusSupportReport", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Follow {0}.
         /// </summary>
@@ -412,7 +430,7 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Keep for Upload.
+        ///   Looks up a localized string similar to Keep for upload.
         /// </summary>
         internal static string KeepQuestionButtonText {
             get {
@@ -520,6 +538,15 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Make an account?.
+        /// </summary>
+        internal static string MakeAccountQuestionText {
+            get {
+                return ResourceManager.GetString("MakeAccountQuestionText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to My MPs who should answer the question.
         /// </summary>
         internal static string MPAnswerFilterLabelText {
@@ -606,6 +633,15 @@ namespace RightToAskClient.Resx {
         internal static string NextButtonText {
             get {
                 return ResourceManager.GetString("NextButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not now.
+        /// </summary>
+        internal static string NotNowAnswerText {
+            get {
+                return ResourceManager.GetString("NotNowAnswerText", resourceCulture);
             }
         }
         
@@ -853,7 +889,7 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Upvote good questions, or click for more detail.
+        ///   Looks up a localized string similar to Upvote good questions, or tap for more detail. Swipe left to dismiss uninteresting ones..
         /// </summary>
         internal static string ReadingPageHeader1 {
             get {
@@ -861,12 +897,15 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to Upvote good questions, or tap for more detail. Swipe left to discard uninteresting ones..
+        /// </summary>
         internal static string ReadingPageQuestionDraftingHeader1 {
             get {
                 return ResourceManager.GetString("ReadingPageQuestionDraftingHeader1", resourceCulture);
             }
         }
-       
+        
         /// <summary>
         ///   Looks up a localized string similar to Read Questions.
         /// </summary>

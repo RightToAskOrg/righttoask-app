@@ -519,4 +519,13 @@
   <data name="YourQuestionTitleText" xml:space="preserve">
     <value>Your Question</value>
   </data>
+  <data name="CreateAccountPopUpText" xml:space="preserve">
+    <value>You need to make an account to publish or vote on questions</value>
+  </data>
+  <data name="MakeAccountQuestionText" xml:space="preserve">
+    <value>Make an account?</value>
+  </data>
+  <data name="NotNowAnswerText" xml:space="preserve">
+    <value>Not now</value>
+  </data>
 </root>

@@ -230,19 +230,31 @@ namespace RightToAskClient.ViewModels
                 // then navigate to the reading page
                 await Shell.Current.GoToAsync(nameof(ReadingPage));
             });
-            UpvoteCommand = new Command(() =>
+            UpvoteCommand = new AsyncCommand(async () =>
             {
-                if (Question.AlreadyUpvoted)
+                if (App.ReadingContext.ThisParticipant.IsRegistered)
                 {
-                    Question.UpVotes--;
-                    Question.AlreadyUpvoted = false;
-                    UpvoteButtonText = AppResources.UpvoteButtonText;
+                    if (Question.AlreadyUpvoted)
+                    {
+                        Question.UpVotes--;
+                        Question.AlreadyUpvoted = false;
+                        UpvoteButtonText = AppResources.UpvoteButtonText;
+                    }
+                    else
+                    {
+                        Question.UpVotes++;
+                        Question.AlreadyUpvoted = true;
+                        UpvoteButtonText = AppResources.UpvotedButtonText;
+                    }
                 }
                 else
                 {
-                    Question.UpVotes++;
-                    Question.AlreadyUpvoted = true;
-                    UpvoteButtonText = AppResources.UpvotedButtonText;
+                    string message = AppResources.CreateAccountPopUpText;
+                    bool registerNow = await App.Current.MainPage.DisplayAlert(AppResources.MakeAccountQuestionText, message, AppResources.OKText, AppResources.NotNowAnswerText);
+                    if (registerNow)
+                    {
+                        await Shell.Current.GoToAsync($"{nameof(RegisterPage1)}");
+                    }
                 }
             });
             SaveAnswerCommand = new Command(() =>
@@ -302,7 +314,7 @@ namespace RightToAskClient.ViewModels
         public IAsyncCommand BackCommand { get; }
         public Command SaveQuestionCommand { get; }
         public IAsyncCommand SelectCommitteeButtonCommand { get; }
-        public Command UpvoteCommand { get; }
+        public IAsyncCommand UpvoteCommand { get; }
         public Command SaveAnswerCommand { get; }
         public Command EditAnswerCommand { get; }
         public IAsyncCommand OptionACommand { get; }
@@ -437,9 +449,9 @@ namespace RightToAskClient.ViewModels
         {
             if (!App.ReadingContext.ThisParticipant.IsRegistered)
             {
-                string message = "You need to make an account to publish or vote on questions";
+                string message = AppResources.CreateAccountPopUpText;
                 bool registerNow
-                    = await App.Current.MainPage.DisplayAlert("Make an account?", message, "OK", "Not now");
+                    = await App.Current.MainPage.DisplayAlert(AppResources.MakeAccountQuestionText, message, AppResources.OKText, AppResources.NotNowAnswerText);
 
                 if (registerNow)
                 {
@@ -447,7 +459,7 @@ namespace RightToAskClient.ViewModels
                     RegisterPage1 registrationPage = new RegisterPage1();
                     registrationPage.Disappearing += setSuggester;
 
-                    Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.display_name;
+                    Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.uid;
                     // Commenting-out this instruction means that the person has to push
                     // the 'publish question' button again after they've registered 
                     // their account. This seems natural to me, but is worth checking
