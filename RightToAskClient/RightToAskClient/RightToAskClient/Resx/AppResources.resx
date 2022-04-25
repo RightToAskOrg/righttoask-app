@@ -160,7 +160,7 @@
     <value>Direct my question</value>
   </data>
   <data name="DiscardDraftButtonText" xml:space="preserve">
-    <value>Discard</value>
+    <value>Bin - already here!</value>
   </data>
   <data name="DisplayNameHeaderText" xml:space="preserve">
     <value>Display Name</value>
@@ -210,6 +210,15 @@
   <data name="FindQuestionsTitle" xml:space="preserve">
     <value>Find Questions</value>
   </data>
+  <data name="FocusSupportInstructionReadingOnly" xml:space="preserve">
+    <value>Support questions you care about</value>
+  </data>
+  <data name="FocusSupportInstructionQuestionDrafting" xml:space="preserve">
+    <value>Is a similar question here already? If you can, focus support by upvoting an old question, not sending a new one</value>
+  </data>
+  <data name="FocusSupportReport" xml:space="preserve">
+    <value>You saved time and focused support by upvoting a similar question</value>
+  </data>
   <data name="FollowButtonText" xml:space="preserve">
     <value>Follow {0}</value>
   </data>
@@ -217,7 +226,7 @@
     <value>Home</value>
   </data>
   <data name="KeepQuestionButtonText" xml:space="preserve">
-    <value>Keep for Upload</value>
+    <value>Keep for upload</value>
   </data>
   <data name="KeywordEntryPlaceholderText" xml:space="preserve">
     <value>Keyword</value>
@@ -307,7 +316,10 @@
     <value>Question Writer:</value>
   </data>
   <data name="ReadingPageHeader1" xml:space="preserve">
-    <value>Upvote good questions, or click for more detail</value>
+    <value>Upvote good questions, or tap for more detail. Swipe left to dismiss uninteresting ones.</value>
+  </data>
+  <data name="ReadingPageQuestionDraftingHeader1" xml:space="preserve">
+    <value>Upvote good questions, or tap for more detail. Swipe left to discard uninteresting ones.</value>
   </data>
   <data name="ReadQuestionsTitle" xml:space="preserve">
     <value>Read Questions</value>

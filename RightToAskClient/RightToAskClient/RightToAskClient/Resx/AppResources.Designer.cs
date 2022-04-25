@@ -375,6 +375,24 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string FocusSupportInstructionReadingOnly {
+            get {
+                return ResourceManager.GetString("FocusSupportInstructionReadingOnly", resourceCulture);
+            }
+        }
+        
+        internal static string FocusSupportInstructionQuestionDrafting {
+            get {
+                return ResourceManager.GetString("FocusSupportInstructionQuestionDrafting", resourceCulture);
+            }
+        }
+        
+        internal static string FocusSupportReport {
+            get {
+                return ResourceManager.GetString("FocusSupportReport", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Follow {0}.
         /// </summary>
@@ -843,6 +861,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string ReadingPageQuestionDraftingHeader1 {
+            get {
+                return ResourceManager.GetString("ReadingPageQuestionDraftingHeader1", resourceCulture);
+            }
+        }
+       
         /// <summary>
         ///   Looks up a localized string similar to Read Questions.
         /// </summary>
