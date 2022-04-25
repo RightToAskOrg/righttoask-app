@@ -16,8 +16,11 @@
             <Label Text="{Binding OtherUserDisplayName}" Style="{StaticResource LeftMedium}" Margin="0,0,0,20"/>
             <Label Text="{xct:Translate StateHeaderText}" Style="{StaticResource LeftSmall}"/>
             <Label Text="{Binding OtherUserState}"  Style="{StaticResource LeftMedium}" Margin="0,0,0,20"/>
+            <!--
+            Probably don't want to display other users' emails.
             <Label Text="{xct:Translate EmailTitle}" Style="{StaticResource LeftSmall}"/>
             <Label Text="{Binding OtherUserEmail}"  Style="{StaticResource LeftMedium}" Margin="0,0,0,20"/>
+            -->
             <Label Text="{xct:Translate ElectoratesHeaderText}" Style="{StaticResource LeftSmall}"/>
             <Label Text="{Binding ElectoratesDisplayString}" Style="{StaticResource LeftMedium}" Margin="0,0,0,20"/>
             <!--Maybe add a list of their other submitted questions below-->
