@@ -1,4 +1,5 @@
-﻿using RightToAskClient.HttpClients;
+﻿using RightToAskClient.Helpers;
+using RightToAskClient.HttpClients;
 using RightToAskClient.Models;
 using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Resx;
@@ -9,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
@@ -134,13 +136,14 @@ namespace RightToAskClient.ViewModels
             {
                 //ShowQuestionFrame = true; // navigate to the draft page instead of just showing the frame on this page
                 App.ReadingContext.IsReadingOnly = false;
-                Device.BeginInvokeOnMainThread(async () =>  // needed for the UI operation to be invoked on the main thread
-                {
-                    await App.Current.MainPage.Navigation.PopToRootAsync().ContinueWith(async (_) => {
+                await Shell.Current.PopGoToAsync($"{nameof(SecondPage)}");
+                //Device.BeginInvokeOnMainThread(async () =>  // needed for the UI operation to be invoked on the main thread
+                //{
+                //    await App.Current.MainPage.Navigation.PopToRootAsync().ContinueWith(async (_) => {
 
-                        await Shell.Current.GoToAsync($"{nameof(SecondPage)}");
-                    });
-                });
+                //        await Shell.Current.GoToAsync($"{nameof(SecondPage)}");
+                //    });
+                //});
             });
             SearchToolbarCommand = new Command(() =>
             {

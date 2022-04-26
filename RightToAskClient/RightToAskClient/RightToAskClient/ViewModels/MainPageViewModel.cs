@@ -44,12 +44,17 @@ namespace RightToAskClient.ViewModels
             AdvancedSearchButtonCommand = new AsyncCommand(async () =>
             {
                 App.ReadingContext.IsReadingOnly = true;
-                await Shell.Current.GoToAsync($"{nameof(ReadingPage)}").ContinueWith(async(_) =>{
-                    await Shell.Current.GoToAsync($"{nameof(AdvancedSearchFiltersPage)}").ContinueWith((_) =>
-                    {
-                        MessagingCenter.Send<MainPageViewModel>(this, "MainPage");
-                    });
+                await Shell.Current.GoToAsync($"{nameof(AdvancedSearchFiltersPage)}").ContinueWith((_) =>
+                {
+                    MessagingCenter.Send<MainPageViewModel>(this, "MainPage");
                 });
+                //await Shell.Current.GoToAsync($"{nameof(ReadingPage)}").ContinueWith(async (_) =>
+                //{
+                //    await Shell.Current.GoToAsync($"{nameof(AdvancedSearchFiltersPage)}").ContinueWith((_) =>
+                //    {
+                //        MessagingCenter.Send<MainPageViewModel>(this, "MainPage");
+                //    });
+                //});
                 // TODO: Start the page with filters expanded and have the keyword entered in filters
             });
             SearchButtonCommand = new AsyncCommand(async () =>

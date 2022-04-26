@@ -297,8 +297,14 @@ namespace RightToAskClient.ViewModels
         private async void ApplyFiltersAndSearch()
         {
             // TODO apply filters to the list of questions
-            //await Shell.Current.GoToAsync(nameof(ReadingPage));
-            await App.Current.MainPage.Navigation.PopAsync();
+            if (CameFromMainPage)
+            {
+                await Shell.Current.GoToAsync(nameof(ReadingPage));
+            }
+            else
+            {
+                await App.Current.MainPage.Navigation.PopAsync();
+            }
         }
     }
 }
