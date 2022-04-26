@@ -9,7 +9,7 @@
              x:DataType="vm:FilterViewModel">
     <ContentPage.ToolbarItems>
         <ToolbarItem x:Name="HomeButton" Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
-                     IconImageSource="{local:ImageResource RightToAskClient.Images.home1.png}"/>
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.home4.png}"/>
     </ContentPage.ToolbarItems>
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding BackCommand}"

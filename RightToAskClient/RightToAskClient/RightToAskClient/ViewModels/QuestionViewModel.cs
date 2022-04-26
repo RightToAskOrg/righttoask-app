@@ -259,14 +259,19 @@ namespace RightToAskClient.ViewModels
             });
             QuestionSuggesterCommand = new AsyncCommand(async () =>
             {
-                //RegisterPage1 otherUserProfilePage = new RegisterPage1();
-                //await App.Current.MainPage.Navigation.PushAsync(otherUserProfilePage);
-                // create a new temp person to send -- nvm can't create a Person object...
-
-                await Shell.Current.GoToAsync($"{nameof(OtherUserProfilePage)}").ContinueWith((_) =>
+                string userId = Question.QuestionSuggester;
+                var userToSend = await RTAClient.GetUserById(userId);
+                if (userToSend.Err != null)
                 {
-                    MessagingCenter.Send(this, "OtherUserQuestion", Question); // Send person or send question
-                });
+                    ReportLabelText = "Could not find user on the server: " + userToSend.Err;
+                }
+                if (userToSend.Ok != null)
+                {
+                    await Shell.Current.GoToAsync($"{nameof(OtherUserProfilePage)}").ContinueWith((_) =>
+                    {
+                        MessagingCenter.Send(this, "OtherUser", userToSend.Ok); // Send person or send question
+                    });
+                }
             });
             BackCommand = new AsyncCommand(async () =>
             {
