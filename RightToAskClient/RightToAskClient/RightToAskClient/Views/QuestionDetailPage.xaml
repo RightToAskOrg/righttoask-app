@@ -24,7 +24,7 @@
 			    <Editor Text="{Binding Question.QuestionText}" Style="{StaticResource NormalEditor}"
 			            IsVisible="{Binding CanEditQuestion}" />
 			    <Label Text="{xct:Translate WhoShouldAnswerTitle}" Style="{StaticResource LeftSmall}" />
-			    <Label Text="{Binding Question.QuestionAnswerersDisplayString, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
+			    <Label Text="{Binding Question.QuestionAnswerers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
 			    <StackLayout Orientation="Horizontal">
 			    <Label Text="{xct:Translate AnswererPermissions}" Style="{StaticResource LeftSmall}" />
 			    <!-- FIXME Can't quite figure out how to make these checkboxes part of the BindingContext. -->
@@ -33,7 +33,7 @@
                     <!--CheckedChanged = "AnswererPermissionsChangedCommandPlaceholder"-->
 			    </StackLayout>
 			    <Label Text="{xct:Translate OptionBText4}" Style="{StaticResource LeftSmall}" />
-			    <Label Text="{Binding Question.QuestionAsker, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
+			    <Label Text="{Binding Question.QuestionAskers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
 			    <!-- Ask the user whether they allow other users to add QuestionAskers. (Y/N) -->
 			    <Label Text="{xct:Translate AskerPermissions}" Style="{StaticResource LeftSmall}" />
                 <CheckBox IsChecked="{Binding Question.OthersCanAddAskers}"/>

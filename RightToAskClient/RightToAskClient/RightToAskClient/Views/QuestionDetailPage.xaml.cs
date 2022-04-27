@@ -50,6 +50,11 @@ namespace RightToAskClient.Views
             // default to false, then check if they should be true
             QuestionViewModel.Instance.CanEditBackground = false;
             QuestionViewModel.Instance.CanEditQuestion = false;
+            
+            // TODO (Github issue # ). This logic isn't quite right if you haven't yet registered and are in the process
+            // of drafting a question. If you're in the process of drafting but haven't yet registered, you should
+            // be able to edit the background (first).
+            // I think we want the IsNewQuestion flag
             if (!string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.RegistrationInfo.uid))
             {
                 if (!string.IsNullOrEmpty(QuestionViewModel.Instance.Question.QuestionSuggester))

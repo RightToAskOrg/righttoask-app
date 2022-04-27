@@ -104,10 +104,10 @@ namespace RightToAskClient.HttpClients
             return await Client.DoGetResultRequest<List<string>>(QuestionListUrl);
         }
 
-        public static async Task<Result<NewQuestionServerReceive>> GetQuestionById(string questionId)
+        public static async Task<Result<NewQuestionReceiveFromServer>> GetQuestionById(string questionId)
         {
             string GetQuestionUrl = QuestionUrl + "?question_id=" + questionId;
-            return await Client.DoGetResultRequest<NewQuestionServerReceive>(GetQuestionUrl);
+            return await Client.DoGetResultRequest<NewQuestionReceiveFromServer>(GetQuestionUrl);
         }
 
         // TODO refactor to use SignAndSendDataToServer 

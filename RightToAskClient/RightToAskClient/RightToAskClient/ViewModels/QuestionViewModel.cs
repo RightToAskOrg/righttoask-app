@@ -30,7 +30,7 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _question, value);
         }
 
-        public NewQuestionServerSend _serverQuestionUpdates = new NewQuestionServerSend();
+        public NewQuestionSendToServer _serverQuestionUpdates = new NewQuestionSendToServer();
 
         private bool _isNewQuestion;
         public bool IsNewQuestion
@@ -165,7 +165,7 @@ namespace RightToAskClient.ViewModels
 
                 _whoShouldAnswerItPermissions = value;
                 //Question.OthersCanAddAnswerers = value == RTAPermissions.Others;
-                _serverQuestionUpdates.who_should_answer_the_question_permissions = value;
+                //_serverQuestionUpdates.who_should_answer_the_question_permissions = value;
             }
         }
 
@@ -180,7 +180,7 @@ namespace RightToAskClient.ViewModels
                 
                 _whoShouldAskItPermissions = value;
                 //Question.OthersCanAddAskers = value == RTAPermissions.Others;
-                _serverQuestionUpdates.who_should_ask_the_question_permissions = value;
+                //_serverQuestionUpdates.who_should_ask_the_question_permissions = value;
             }
         }
 
@@ -341,8 +341,6 @@ namespace RightToAskClient.ViewModels
         public Command SaveAnswerCommand { get; }
         public Command EditAnswerCommand { get; }
         
-        // FIXME
-        public EventHandler AnswererPermissionChangedCommand { get; }
         public IAsyncCommand OptionACommand { get; }
         public IAsyncCommand OptionBCommand { get; }
 
@@ -359,33 +357,18 @@ namespace RightToAskClient.ViewModels
             AnotherUserButtonText = AppResources.AnotherUserButtonText;
             NotSureWhoShouldRaiseButtonText = AppResources.NotSureButtonText;
             SelectButtonText = AppResources.SelectButtonText;
-            ReportLabelText = AppResources.MPDataStillInitializing;
+            ReportLabelText = "";
+            // TODO not sure whether either of these is the right default - suggest not setting either?
             App.ReadingContext.DraftQuestion = Question.QuestionText;
             Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.uid;
         }
 
         public void ReinitQuestionUpdates()
         {
-            _serverQuestionUpdates = new NewQuestionServerSend();
+            _serverQuestionUpdates = new NewQuestionSendToServer();
+            Question.ReinitQuestionUpdates();
         }
 
-        // FIXME I think these can be deleted now.
-        // I thought I could make a bindable attribute that could be instantiated to this,
-        // but didn't quite get it to work. At the moment, the attribute is just set from the
-        // code-behind, which works, but doesn't properly follow the MVVM pattern.
-        public void AnswererAddPermissionsChanged(bool permissionGranted)
-        {
-            RTAPermissions permission = permissionGranted ? RTAPermissions.Others : RTAPermissions.WriterOnly;
-            _serverQuestionUpdates.who_should_answer_the_question_permissions = permission;
-            Question.OthersCanAddAnswerers = permissionGranted;
-        }
-        
-        public void AskerAddPermissionsChanged(bool permissionGranted)
-        {
-            RTAPermissions permission = permissionGranted ? RTAPermissions.Others : RTAPermissions.WriterOnly;
-            _serverQuestionUpdates.who_should_ask_the_question_permissions = permission;
-            Question.OthersCanAddAskers = permissionGranted;
-        }
         public void OnButtonPressed(int buttonId)
         {
             RaisedByOptionSelected = true;
@@ -515,10 +498,12 @@ namespace RightToAskClient.ViewModels
             }
             else
             {
-                SaveQuestion();
+                SendNewQuestionToServer();
             }
         }
 
+        // TODO Consider permissions for question editing.
+        // Also we need to check that the person is registered, just like submitting a new question.
         private async void EditQuestionButton_OnClicked()
         {
             (bool isValid, string errorMessage) successfulSubmission = await SendQuestionUpdatesToServer();
@@ -537,21 +522,22 @@ namespace RightToAskClient.ViewModels
             QuestionViewModel.Instance.Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.uid;
         }
 
-        private async void SaveQuestion()
+        // For uploading a new question
+        private async void SendNewQuestionToServer()
         {
             // I have confirmed that we no longer need to set the QuestionSuggester here, as we have it being done on the details page.
             if (App.ReadingContext.ThisParticipant.IsRegistered)
             {
                 App.ReadingContext.ExistingQuestions.Insert(0, Question);
-                (bool isValid, string errorMessage) successfulSubmission = await SubmitQuestionToServer();
-                App.ReadingContext.DraftQuestion = "";
+                (bool isValid, string errorMessage) successfulSubmission = await SubmitNewQuestionToServer();
 
                 if (!successfulSubmission.isValid)
                 {
                     await App.Current.MainPage.DisplayAlert("Error", successfulSubmission.errorMessage, "", "OK");
                     return;
                 }
-
+                
+                App.ReadingContext.DraftQuestion = "";
                 bool goHome = await App.Current.MainPage.DisplayAlert("Question published!", "", "Home", "Write another one");
 
                 if (goHome)
@@ -568,9 +554,56 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        // For editing an existing question.
-        private async Task<(bool isValid, string message)> SubmitQuestionToServer()
+        private async Task<(bool isValid, string message)> SubmitNewQuestionToServer()
         {
+            var serverQuestionUpdates = new NewQuestionSendToServer(Question);
+            updateQuestionMetadata(serverQuestionUpdates );
+            TranscribeQuestionFiltersForUpload(serverQuestionUpdates);
+            
+            ClientSignedUnparsed signedQuestion 
+                = App.ReadingContext.ThisParticipant.SignMessage(serverQuestionUpdates);
+
+            if (!String.IsNullOrEmpty(signedQuestion.signature))
+            {
+                Result<bool> httpResponse = await RTAClient.RegisterNewQuestion(signedQuestion);
+                return RTAClient.ValidateHttpResponse(httpResponse, "Question Upload");
+            }
+            else
+            {
+                return (false, "Client signing error.");
+            }
+        }
+
+        private async Task<(bool isValid, string message)> SendQuestionUpdatesToServer()
+        {
+            var serverQuestionUpdates = Question.Updates;
+            updateQuestionMetadata(serverQuestionUpdates);
+            
+            // needs these two fields in the message payload for updates, but not for new questions.
+            serverQuestionUpdates.question_id = Question.QuestionId;
+            serverQuestionUpdates.version = Question.Version;
+            
+            ClientSignedUnparsed signedQuestionEdit = App.ReadingContext.ThisParticipant.SignMessageWithOptions(serverQuestionUpdates);
+            if (!String.IsNullOrEmpty(signedQuestionEdit.signature))
+            {
+                Result<bool> httpResponse = await RTAClient.UpdateExistingQuestion(signedQuestionEdit);
+                return RTAClient.ValidateHttpResponse(httpResponse, "Question Edit");
+            }
+            else
+            {
+                return (false, "Client signing error.");
+            }
+        }
+
+        private void updateQuestionMetadata(NewQuestionSendToServer serverQuestionUpdates)
+        {
+            // _serverQuestionUpdates.question_text = Question.QuestionText;
+            // TODO: This isn't quite the right place to do this, because the background might not have changed.
+            // _serverQuestionUpdates.background = Question.Background;
+
+            serverQuestionUpdates.who_should_answer_the_question_permissions = _whoShouldAnswerItPermissions;
+            serverQuestionUpdates.who_should_ask_the_question_permissions = _whoShouldAskItPermissions;
+
             // TODO: Obviously later this uploadable question will have more of the 
             // other data. Just getting it working for now.
             //NewQuestionCommand uploadableQuestion = new NewQuestionCommand()
@@ -585,42 +618,28 @@ namespace RightToAskClient.ViewModels
                 //is_followup_to = Question.IsFollowupTo
             };
              */
-
-            _serverQuestionUpdates.question_text = Question.QuestionText;
-            // TODO At the moment, this only looks at the not-mine answering MPs. Just getting
-            // it working.
-            _serverQuestionUpdates.entity_who_should_answer_the_question = 
-                Question.Filters.SelectedAnsweringMPs.ToList().Select(mp => new PersonID(new MPId(mp))).ToList();
-            ClientSignedUnparsed signedQuestion 
-                = App.ReadingContext.ThisParticipant.SignMessage(_serverQuestionUpdates);
-
-            if (!String.IsNullOrEmpty(signedQuestion.signature))
-            {
-            Result<bool> httpResponse = await RTAClient.RegisterNewQuestion(signedQuestion);
-            return RTAClient.ValidateHttpResponse(httpResponse, "Question Upload");
-            }
-            else
-            {
-                return (false, "Client signing error.");
-            }
         }
-
-        private async Task<(bool isValid, string message)> SendQuestionUpdatesToServer()
+        
+        private void TranscribeQuestionFiltersForUpload(NewQuestionSendToServer currentQuestionForUpload)
         {
-            // needs these two fields in the message payload
-            _serverQuestionUpdates.question_id = Question.QuestionId;
-            _serverQuestionUpdates.version = Question.Version;
-            _serverQuestionUpdates.background = Question.Background;
-            ClientSignedUnparsed signedQuestionEdit = App.ReadingContext.ThisParticipant.SignMessageWithOptions(_serverQuestionUpdates);
-            if (!String.IsNullOrEmpty(signedQuestionEdit.signature))
-            {
-                Result<bool> httpResponse = await RTAClient.UpdateExistingQuestion(signedQuestionEdit);
-                return RTAClient.ValidateHttpResponse(httpResponse, "Question Upload");
-            }
-            else
-            {
-                return (false, "Client signing error.");
-            }
+        // TODO This clearly doesn't work for *updates* - it simply reports the current settings
+            // regardless of whether they have been altered.
+            // FIXME Consider a hack in which we just test, for now, whether it's a new question or not.
+            List<PersonID> answerers = Question.Filters.SelectedAnsweringMPs.ToList().Select(mp => new PersonID(new MPId(mp))).
+                Concat(Question.Filters.SelectedAnsweringMPsMine.ToList().Select(mp => new PersonID(new MPId(mp))).ToList()).
+                Concat(Question.Filters.SelectedAuthorities.ToList().Select(a => new PersonID(a)).ToList())
+                as List<PersonID> ?? new List<PersonID>();
+            currentQuestionForUpload.entity_who_should_answer_the_question = answerers;
+
+            // TOOD add committees, other users, etc.
+            List<PersonID> askers =
+                Question.Filters.SelectedAskingMPs.ToList().Select(mp => new PersonID(new MPId(mp))).Concat(Question
+                        .Filters.SelectedAskingMPsMine.ToList().Select(mp => new PersonID(new MPId(mp))).ToList())
+                    as List<PersonID> ?? new List<PersonID>();
+            currentQuestionForUpload.mp_who_should_ask_the_question = askers;
+            
+            //TODO Obviously need to add askers, background etc too.
+
         }
     }
 }

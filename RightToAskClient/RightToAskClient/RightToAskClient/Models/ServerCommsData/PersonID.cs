@@ -14,6 +14,16 @@ namespace RightToAskClient.Models.ServerCommsData
             MP = mpId;
         }
 
+        public PersonID(Authority a)
+        {
+            Organisation = a.AuthorityName;
+        }
+
+        public PersonID(Person user)
+        {
+            User = user.RegistrationInfo.uid;
+        }
+
         public PersonID()
         {
         }
@@ -26,7 +36,7 @@ namespace RightToAskClient.Models.ServerCommsData
         [JsonPropertyName("MP")]
         public MPId? MP { get; set; }
         
-        // Add Org later
+        // TODO Should change this to 'Authority'? 
         [JsonPropertyName("Organisation")]
         public string? Organisation { get; set; }
     }

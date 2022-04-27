@@ -17,6 +17,7 @@ namespace RightToAskClient.Models
     {
         private int _upVotes;
         private int _downVotes;
+        private NewQuestionSendToServer _updates = new NewQuestionSendToServer();
 
         private string _questionText = "";
         public string QuestionText
@@ -26,7 +27,16 @@ namespace RightToAskClient.Models
             {
                 SetProperty(ref _questionText, value);
                 QuestionViewModel.Instance._serverQuestionUpdates.question_text = _questionText;
+                _updates.question_text = _questionText;
             }
+        }
+        
+        // Lists the updates that have occurred since construction.
+        public NewQuestionSendToServer Updates => _updates; 
+        
+        public void ReinitQuestionUpdates()
+        {
+            _updates = new NewQuestionSendToServer();
         }
         // VT: As an Australian, I am suspicious of anything except Unix time. Let's just store 
         // milliseconds, as the server does, and then display them according to the local timezone.
@@ -41,6 +51,7 @@ namespace RightToAskClient.Models
             {
                 SetProperty(ref _background, value);
                 QuestionViewModel.Instance._serverQuestionUpdates.background = _background;
+                _updates.background = _background;
             }
         }
 
@@ -50,6 +61,7 @@ namespace RightToAskClient.Models
         // answer and ask it. This is part of the question because it may be completely
         // different from the filters that the user has put in place to find the 
         // question.
+        // TODO Think about how to record updates appropriately.
         public FilterChoices Filters
         {
             get => _filters;
@@ -59,6 +71,7 @@ namespace RightToAskClient.Models
             }
         }
         
+        // TODO do updates.
         public bool AnswerAccepted { get; set; }
         public string IsFollowupTo { get; set; } = "";
         // public List<string> Keywords { get; set; } = new List<string>();
@@ -86,20 +99,23 @@ namespace RightToAskClient.Models
         }
 
         // The person who suggested the question
+        // Note that this is never part of the updates - only the defining features - 
+        // so doesn't need an update set.
         private string _questionSuggester = "";
         public string QuestionSuggester 
         { 
-            get => _questionSuggester; 
-            set => SetProperty(ref _questionSuggester, value); 
+            get => _questionSuggester;
+            set
+            {
+                SetProperty(ref _questionSuggester, value);
+            }
         }
-
-        // The Authority, department, MPs, who are meant to answer 
-        // Unfortunately we might have to convert them all into the same type for display.
-        private ObservableCollection<Entity> QuestionAnswerers { get; set; } = new ObservableCollection<Entity>();
 
         // Whether the person writing the question allows other users to add QuestionAnswerers
         // false = RTAPermissions.WriterOnly  (default)
         // true  = RTAPermissions.Others
+        // Note that this does not need an explicit _update fix because the ViewModel takes
+        // care of the translation from 2 to 3 values.
         private bool _othersCanAddAnswerers = false;
         public bool OthersCanAddAnswerers
         {
@@ -111,21 +127,26 @@ namespace RightToAskClient.Models
             }
         }
 
-        // The MPs, committee or other Right To Ask user who are meant to ask the question
-
-        public string QuestionAnswerer => QuestionAnswerers.FirstOrDefault().ToString() ?? "";
-
-        public string QuestionAnswerersDisplayString =>
-            String.Join(",",Filters.SelectedAnsweringMPs.Select(mp => mp.ShortestName))
-            .Concat(String.Join(",",Filters.SelectedAnsweringMPsMine.Select(mp => mp.ShortestName)))
-            .Concat(String.Join(",",Filters.SelectedAuthorities.Select(a => a.ShortestName))) as string ?? "";
+        public string QuestionAnswerers => "" 
+            + String.Join(", ",Filters.SelectedAnsweringMPs.Select(mp => mp.ShortestName))
+            + String.Join(", ",Filters.SelectedAnsweringMPsMine.Select(mp => mp.ShortestName))
+            + String.Join(", ",Filters.SelectedAuthorities.Select(a => a.ShortestName));
 
         // The MPs or committee who are meant to ask the question
-        public string QuestionAsker { get; set; } = "";
+        public string QuestionAskers => ""
+            + String.Join(", ", Filters.SelectedAskingMPs.Select(mp => mp.ShortestName))
+            + String.Join(", ", Filters.SelectedAskingMPsMine.Select(mp => mp.ShortestName));
+        // TODO add:
+            // + String.Join(",",Filters.SelectedAskingCommittee.Select(... ))
+            // + String.Join(",",Filters.SelectedAskingUsers.Select(....));
+            
+        
 
         // Whether the person writing the question allows other users to add QuestionAnswerers
         // false = RTAPermissions.WriterOnly  (default)
         // true  = RTAPermissions.Others
+        // Note that this does not need an explicit _update fix because the ViewModel takes
+        // care of the translation from 2 to 3 values.
         private bool _othersCanAddAskers = false;
         public bool OthersCanAddAskers
         {
@@ -137,7 +158,19 @@ namespace RightToAskClient.Models
             }
         }
 
-        public string LinkOrAnswer { get; set; } = "";
+        private string _linkOrAnswer = "";
+
+        public string LinkOrAnswer
+        {
+            get => _linkOrAnswer;
+            set
+            {
+                SetProperty(ref _background, value);
+                QuestionViewModel.Instance._serverQuestionUpdates.background = _background;
+                // TODO Deal with types for vectors of answers.
+                // _updates.answers = _linkOrAnswer;
+            }
+        }
 
         public int UpVotes
         {
@@ -170,21 +203,6 @@ namespace RightToAskClient.Models
             set => SetProperty(ref _alreadyReported, value);
         }
 
-        public override string ToString ()
-        {
-            
-            List<string> questionAnswerersList 
-                = QuestionAnswerers.Select(ans => ans.GetName()).ToList();
-            // view.Select(f => return new { Food = f, Selected = selectedFood.Contains(f)});
-            return QuestionText+ "\n" +
-                   "Suggested by: " + QuestionSuggester + '\n' +
-                   "To be asked by: " + QuestionAsker + '\n' +
-                   // var readablePhrase = string.Join(" ", words); 
-                   "To be answered by: " + string.Join(", ", questionAnswerersList) + '\n' +
-                   "UpVotes: " + UpVotes+ '\n' +
-                   // "DownVotes: " + DownVotes + '\n' +
-                   "Link/Answer: " + LinkOrAnswer;
-        }
 
         // constructor needed for command creation
         public Question()
@@ -238,5 +256,6 @@ namespace RightToAskClient.Models
         public Command ReportCommand { get; }
         public Command QuestionDetailsCommand { get; }
         public IAsyncCommand ShareCommand { get; }
+
     }
 }

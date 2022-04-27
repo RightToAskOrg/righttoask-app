@@ -4,8 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace RightToAskClient.Models.ServerCommsData
 {
-    public class NewQuestionServerSend
+    public class NewQuestionSendToServer
     {
+
         [JsonPropertyName("question_text")]
         public string? question_text { get; set; }
         //[JsonPropertyName("question_writer")]
@@ -31,7 +32,7 @@ namespace RightToAskClient.Models.ServerCommsData
         // Not clear whether we want a separate field for each of these possibilities
         // - possibly we do.
         [JsonPropertyName("mp_who_should_ask_the_question")]
-        public List<Entity>? mp_who_should_ask_the_question { get; set; }
+        public List<PersonID>? mp_who_should_ask_the_question { get; set; }
 
         [JsonPropertyName("who_should_ask_the_question_permissions")]
         public RTAPermissions who_should_ask_the_question_permissions { get; set; }
@@ -68,6 +69,23 @@ namespace RightToAskClient.Models.ServerCommsData
         //public DateTime expiry_date { get; set; }
 
         
+        public NewQuestionSendToServer () {}
+        public NewQuestionSendToServer(Question question)
+        {
+            if (!String.IsNullOrEmpty(question.QuestionText))
+            {
+                question_text = question.QuestionText;
+            }
+
+            if (!String.IsNullOrEmpty(question.Background))
+            {
+                background = question.Background;
+            }
+
+            //TODO: Add other structures.
+            // we *don't* need QuestionID or version, but it's 
+            //possibly clearer to have them anyway.
+        }
 
     }
 }

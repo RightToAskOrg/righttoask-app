@@ -76,8 +76,8 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _questionIds, value);
         }
 
-        private List<NewQuestionServerReceive> _serverQuestions = new List<NewQuestionServerReceive>();
-        public List<NewQuestionServerReceive> ServerQuestions
+        private List<NewQuestionReceiveFromServer> _serverQuestions = new List<NewQuestionReceiveFromServer>();
+        public List<NewQuestionReceiveFromServer> ServerQuestions
         {
             get => _serverQuestions;
             set => SetProperty(ref _serverQuestions, value);
@@ -248,7 +248,7 @@ namespace RightToAskClient.ViewModels
                 foreach (string questionId in QuestionIds)
                 {
                     // pull the individual question from the server by id
-                    NewQuestionServerReceive temp;
+                    NewQuestionReceiveFromServer temp;
                     try
                     {
                         var data = await RTAClient.GetQuestionById(questionId);
@@ -271,7 +271,7 @@ namespace RightToAskClient.ViewModels
                     }
                 }
                 // convert the ServerQuestions to a Displayable format
-                foreach (NewQuestionServerReceive serverQuestion in ServerQuestions)
+                foreach (NewQuestionReceiveFromServer serverQuestion in ServerQuestions)
                 {
                     Question temp = new Question()
                     {

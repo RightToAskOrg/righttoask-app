@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace RightToAskClient.Models.ServerCommsData
 {
-    public class NewQuestionServerReceive
+    public class NewQuestionReceiveFromServer
     {
         [JsonPropertyName("author")]
         public string? author { get; set; }
