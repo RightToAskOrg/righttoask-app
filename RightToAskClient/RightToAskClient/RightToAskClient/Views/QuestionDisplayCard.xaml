@@ -11,7 +11,7 @@
         <Frame Style="{StaticResource GreenFrame}" Padding="5" VerticalOptions="FillAndExpand">
             <Grid RowDefinitions="auto,auto,auto" ColumnDefinitions="*,*,*,*" Padding="0" Margin="0" BackgroundColor="Transparent" RowSpacing="0" ColumnSpacing="0">
                 <Grid ColumnDefinitions="*,auto" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4">
-                    <Label Grid.Row="0" Grid.Column="0" Text="To: Test Answerer" Style="{StaticResource ListViewText}" 
+                    <Label Grid.Row="0" Grid.Column="0" Text="To: Test Answerer" Style="{StaticResource QuestionFrameCardText}" 
                            FontAttributes="Bold"/>
                     <ImageButton Grid.Row="0" Grid.Column="1" WidthRequest="20" HeightRequest="20" VerticalOptions="Center"
                              Source="{local:ImageResource RightToAskClient.Images.assured_workload_48.png}" BackgroundColor="Transparent"/>
@@ -21,7 +21,7 @@
                 <!--<FlexLayout Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" BackgroundColor="LightPink">
                     <Label Text="{Binding QuestionText}" Style="{StaticResource ListViewText}"/>
                 </FlexLayout>-->
-                <Label Text="{Binding QuestionText}" Style="{StaticResource ListViewText}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4"/>
+                <Label Text="{Binding QuestionText}" Style="{StaticResource QuestionFrameCardText}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4"/>
                 <!--<ImageButton Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Source="{local:ImageResource RightToAskClient.Images.check_box_48.png}" BackgroundColor="Transparent"/>-->
 
                 <!--<StackLayout Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Padding="0" Spacing="0" Margin="0">
@@ -48,7 +48,7 @@
                     <ImageButton Source="{local:ImageResource RightToAskClient.Images.thumb_up_48.png}" 
                              BackgroundColor="Transparent" Command="{Binding UpvoteCommand}" IsVisible="{Binding AlreadyUpvoted}" Padding="5"
                              xct:IconTintColorEffect.TintColor="{StaticResource ButtonColor}" HorizontalOptions="Start" WidthRequest="50"/>
-                    <Label Text="{Binding UpVotes}" Style="{StaticResource ListViewTextSmall}" Margin="0" Padding="0" VerticalTextAlignment="Center"/>
+                    <Label Text="{Binding UpVotes}" Style="{StaticResource QuestionFrameCardTextSmall}" Margin="0" Padding="0" VerticalTextAlignment="Center"/>
                 </StackLayout>
 
                 <ImageButton Grid.Row="2" Grid.Column="1" Source="{local:ImageResource RightToAskClient.Images.share_48.png}" 
