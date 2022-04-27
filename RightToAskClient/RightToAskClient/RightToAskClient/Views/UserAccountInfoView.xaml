@@ -5,7 +5,7 @@
              xmlns:models="clr-namespace:RightToAskClient.Models"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              x:Class="RightToAskClient.Views.UserAccountInfoView"
-             x:DataType="vm:Registration1ViewModel">
+             x:DataType="vm:RegistrationViewModel">
     <ContentView.Content>
         <StackLayout>
             <Label Text="{xct:Translate UIDHeaderText}" Style="{StaticResource LeftSmall}"/>

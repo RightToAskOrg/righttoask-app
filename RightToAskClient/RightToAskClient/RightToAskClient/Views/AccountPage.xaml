@@ -5,11 +5,11 @@
              xmlns:views="clr-namespace:RightToAskClient.Views"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              x:Class="RightToAskClient.Views.AccountPage"
-             x:DataType="vm:Registration1ViewModel"
+             x:DataType="vm:RegistrationViewModel"
              Shell.FlyoutBehavior="Flyout"
              Title="{Binding Title}">
     <ContentPage.BindingContext>
-        <vm:Registration1ViewModel />
+        <vm:RegistrationViewModel />
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout Margin="20">
