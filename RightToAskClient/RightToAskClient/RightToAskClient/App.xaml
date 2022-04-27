@@ -202,6 +202,11 @@
                 <Setter Property="FontSize" Value="Medium"></Setter>
                 <Setter Property="HorizontalOptions" Value="Start"></Setter>
             </Style>
+            <Style x:Key="QuestionFrameCardText" TargetType="Label">
+                <Setter Property="TextColor" Value="Black"></Setter>
+                <Setter Property="FontSize" Value="Medium"></Setter>
+                <Setter Property="HorizontalOptions" Value="Start"></Setter>
+            </Style>
             <Style x:Key="LeftLarge" TargetType="Label">
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColorDark}}"></Setter>
                 <Setter Property="FontSize" Value="Large"></Setter>
