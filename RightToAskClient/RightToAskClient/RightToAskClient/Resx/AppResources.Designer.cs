@@ -322,6 +322,15 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to Connect to Server or No Questions Available..
+        /// </summary>
+        internal static string EmptyQuestionCollectionViewString {
+            get {
+                return ResourceManager.GetString("EmptyQuestionCollectionViewString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Expiring Soon.
         /// </summary>
         internal static string ExpiringSoonButtonText {
