@@ -1,4 +1,5 @@
 using System;
+using System.Text.Json.Serialization;
 
 namespace RightToAskClient.Models.ServerCommsData
 {
@@ -15,10 +16,13 @@ namespace RightToAskClient.Models.ServerCommsData
         {
         }
 
-        public string first_name { get; }
+        [JsonPropertyName("first_name")]
+        public string first_name { get; set; }
 
-        public string surname { get; }
+        [JsonPropertyName("surname")]
+        public string surname { get; set; }
 
+        [JsonPropertyName("electorate")]
         public ElectorateWithChamber electorate { get; set; }
     }
 }

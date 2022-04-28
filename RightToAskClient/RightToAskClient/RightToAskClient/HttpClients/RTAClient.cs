@@ -191,7 +191,7 @@ namespace RightToAskClient.HttpClients
                 return (false, messageTopic + ": Failure.");
             }
 
-            return (false, "Server error" + response.Err);
+            return (false, "Server error: " + response.Err);
         }
 
         // maybe overload this to get both a response boolean and data back
@@ -205,7 +205,7 @@ namespace RightToAskClient.HttpClients
                 }
                 return (false, messageTopic + ": Failure.");
             }
-            return (false, "Server error" + response.Err);
+            return (false, "Server error: " + response.Err);
         }
 
         // Tries to read server config, returns the url if there's a valid configuration file

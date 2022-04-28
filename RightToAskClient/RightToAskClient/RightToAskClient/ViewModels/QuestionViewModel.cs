@@ -597,41 +597,22 @@ namespace RightToAskClient.ViewModels
 
         private void updateQuestionMetadata(NewQuestionSendToServer serverQuestionUpdates)
         {
-            // _serverQuestionUpdates.question_text = Question.QuestionText;
-            // TODO: This isn't quite the right place to do this, because the background might not have changed.
-            // _serverQuestionUpdates.background = Question.Background;
-
             serverQuestionUpdates.who_should_answer_the_question_permissions = _whoShouldAnswerItPermissions;
             serverQuestionUpdates.who_should_ask_the_question_permissions = _whoShouldAskItPermissions;
-
-            // TODO: Obviously later this uploadable question will have more of the 
-            // other data. Just getting it working for now.
-            //NewQuestionCommand uploadableQuestion = new NewQuestionCommand()
-            //{
-            //    question_text = Question.QuestionText,
-            //};
-            /*
-             * NewQuestionServerSend uploadableQuestion = new NewQuestionServerSend()
-            {
-                question_text = Question.QuestionText,
-                background = Question.Background,
-                //is_followup_to = Question.IsFollowupTo
-            };
-             */
         }
         
         private void TranscribeQuestionFiltersForUpload(NewQuestionSendToServer currentQuestionForUpload)
         {
-        // TODO This clearly doesn't work for *updates* - it simply reports the current settings
+            // TODO This clearly doesn't work for *updates* - it simply reports the current settings
             // regardless of whether they have been altered.
             // FIXME Consider a hack in which we just test, for now, whether it's a new question or not.
-            List<PersonID> answerers = Question.Filters.SelectedAnsweringMPs.ToList().Select(mp => new PersonID(new MPId(mp))).
-                Concat(Question.Filters.SelectedAnsweringMPsMine.ToList().Select(mp => new PersonID(new MPId(mp))).ToList()).
-                Concat(Question.Filters.SelectedAuthorities.ToList().Select(a => new PersonID(a)).ToList())
-                as List<PersonID> ?? new List<PersonID>();
+            
+            List<PersonID> answerers = Question.Filters.SelectedAnsweringMPs.Select(mp => new PersonID(new MPId(mp))).ToList();
+                // .Concat(Question.Filters.SelectedAnsweringMPsMine.ToList().Select(mp => new PersonID(new MPId(mp))).ToList()).
+                // Concat(Question.Filters.SelectedAuthorities.ToList().Select(a => new PersonID(a)).ToList())
             currentQuestionForUpload.entity_who_should_answer_the_question = answerers;
 
-            // TOOD add committees, other users, etc.
+            // TODO add committees, other users, etc.
             List<PersonID> askers =
                 Question.Filters.SelectedAskingMPs.ToList().Select(mp => new PersonID(new MPId(mp))).Concat(Question
                         .Filters.SelectedAskingMPsMine.ToList().Select(mp => new PersonID(new MPId(mp))).ToList())
