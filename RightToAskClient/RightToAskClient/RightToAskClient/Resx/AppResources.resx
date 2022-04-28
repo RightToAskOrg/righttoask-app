@@ -405,8 +405,8 @@
   <data name="ToBeAnsweredByText" xml:space="preserve">
     <value>To be answered by</value>
   </data>
-  <data name="TrendingNowButtonText" xml:space="preserve">
-    <value>Trending Now</value>
+  <data name="TrendingButtonText" xml:space="preserve">
+    <value>Trending</value>
   </data>
   <data name="UIDHeaderText" xml:space="preserve">
     <value>UID</value>
@@ -518,5 +518,8 @@
   </data>
   <data name="YourQuestionTitleText" xml:space="preserve">
     <value>Your Question</value>
+  </data>
+  <data name="SearchFrameSubtext" xml:space="preserve">
+    <value>by keyword or other filters</value>
   </data>
 </root>

@@ -187,7 +187,7 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Discard.
+        ///   Looks up a localized string similar to Bin - already here!.
         /// </summary>
         internal static string DiscardDraftButtonText {
             get {
@@ -375,24 +375,33 @@ namespace RightToAskClient.Resx {
             }
         }
         
-        internal static string FocusSupportInstructionReadingOnly {
-            get {
-                return ResourceManager.GetString("FocusSupportInstructionReadingOnly", resourceCulture);
-            }
-        }
-        
+        /// <summary>
+        ///   Looks up a localized string similar to Is a similar question here already? If you can, focus support by upvoting an old question, not sending a new one.
+        /// </summary>
         internal static string FocusSupportInstructionQuestionDrafting {
             get {
                 return ResourceManager.GetString("FocusSupportInstructionQuestionDrafting", resourceCulture);
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to Support questions you care about.
+        /// </summary>
+        internal static string FocusSupportInstructionReadingOnly {
+            get {
+                return ResourceManager.GetString("FocusSupportInstructionReadingOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You saved time and focused support by upvoting a similar question.
+        /// </summary>
         internal static string FocusSupportReport {
             get {
                 return ResourceManager.GetString("FocusSupportReport", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Follow {0}.
         /// </summary>
@@ -412,7 +421,7 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Keep for Upload.
+        ///   Looks up a localized string similar to Keep for upload.
         /// </summary>
         internal static string KeepQuestionButtonText {
             get {
@@ -853,7 +862,7 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Upvote good questions, or click for more detail.
+        ///   Looks up a localized string similar to Upvote good questions, or tap for more detail. Swipe left to dismiss uninteresting ones..
         /// </summary>
         internal static string ReadingPageHeader1 {
             get {
@@ -861,12 +870,15 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to Upvote good questions, or tap for more detail. Swipe left to discard uninteresting ones..
+        /// </summary>
         internal static string ReadingPageQuestionDraftingHeader1 {
             get {
                 return ResourceManager.GetString("ReadingPageQuestionDraftingHeader1", resourceCulture);
             }
         }
-       
+        
         /// <summary>
         ///   Looks up a localized string similar to Read Questions.
         /// </summary>
@@ -936,6 +948,15 @@ namespace RightToAskClient.Resx {
         internal static string SearchButtonText {
             get {
                 return ResourceManager.GetString("SearchButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to by keyword or other filters.
+        /// </summary>
+        internal static string SearchFrameSubtext {
+            get {
+                return ResourceManager.GetString("SearchFrameSubtext", resourceCulture);
             }
         }
         
@@ -1129,11 +1150,11 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Trending Now.
+        ///   Looks up a localized string similar to Trending.
         /// </summary>
-        internal static string TrendingNowButtonText {
+        internal static string TrendingButtonText {
             get {
-                return ResourceManager.GetString("TrendingNowButtonText", resourceCulture);
+                return ResourceManager.GetString("TrendingButtonText", resourceCulture);
             }
         }
         
