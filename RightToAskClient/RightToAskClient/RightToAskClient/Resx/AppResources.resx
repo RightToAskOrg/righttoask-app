@@ -525,4 +525,31 @@
   <data name="SearchFrameSubtext" xml:space="preserve">
     <value>by keyword or other filters</value>
   </data>
+  <data name="QuestionFrameAnswerButtonAccessibilityName" xml:space="preserve">
+    <value>Shows an icon of a historical looking building, such as a government building.</value>
+  </data>
+  <data name="QuestionFrameAnswerButtonAccessibilityText" xml:space="preserve">
+    <value>This button indicates that you can answer the question by clicking here. There is no checkmark on this icon, which means that there are no other answers to this question yet. The icon is also not highlighted, which means you have not yet answered this question.</value>
+  </data>
+  <data name="QuestionFrameFlagButtonAccessibilityName" xml:space="preserve">
+    <value>Icon for a button that depicts a flag.</value>
+  </data>
+  <data name="QuestionFrameFlagButtonAccessibilityText" xml:space="preserve">
+    <value>This button indicates that you can flag or report the question by clicking here. It is currently not highlighted, which means you have not chosen to report this question.</value>
+  </data>
+  <data name="QuestionFrameFlagButtonAccessibilityTextRed" xml:space="preserve">
+    <value>This button indicates that you can flag or report the question by clicking here. It is currently highlighted in a redish brown color, indicating that you have already reported this question. Re-activating this button will undo and remove the report.</value>
+  </data>
+  <data name="QuestionFrameShareButtonAccessibilityName" xml:space="preserve">
+    <value>Share button image. Visually represented by 3 dots connected by 2 lines forming a less than sign pointing towards the left.</value>
+  </data>
+  <data name="QuestionFrameShareButtonAccessibilityText" xml:space="preserve">
+    <value>This button is to indicate that you can share this question on social media or with other people through messaging applications on your device by copying the text through this share feature.</value>
+  </data>
+  <data name="QuestionFrameThumbsUpAccessibilityName" xml:space="preserve">
+    <value>Thumbs Up Icon or Upvote Button.</value>
+  </data>
+  <data name="QuestionFrameThumbsUpAccessibilityText" xml:space="preserve">
+    <value>Shows an image of a thumbs up icon that is highlighted green if you have already liked this question, or is not highlighted if you have not upvoted it. There is a tally number of total number of upvotes this question has to the right of this icon.</value>
+  </data>
 </root>
