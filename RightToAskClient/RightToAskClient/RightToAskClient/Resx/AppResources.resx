@@ -519,4 +519,7 @@
   <data name="YourQuestionTitleText" xml:space="preserve">
     <value>Your Question</value>
   </data>
+  <data name="EmptyQuestionCollectionViewString" xml:space="preserve">
+    <value>Unable to Connect to Server or No Questions Available.</value>
+  </data>
 </root>
