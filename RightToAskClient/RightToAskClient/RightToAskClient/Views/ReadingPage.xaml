@@ -25,7 +25,7 @@
     <ContentPage.Content>
         <StackLayout x:Name="WholePage" HorizontalOptions="Center" VerticalOptions="FillAndExpand" Spacing="0">
             <Label Text="{Binding Heading1}" Style="{StaticResource Header1}" HorizontalTextAlignment="Center"/>
-            <Label Text="{xct:Translate ReadingPageHeader1}" Style="{StaticResource Header2}"/>
+            <Label Text="{xct:Translate ReadingPageHeader1}" Style="{StaticResource Header2}" HorizontalTextAlignment="Center"/>
             <!--Search Frame-->
             <Frame Style="{StaticResource GreenFrame}" Margin="0" Padding="0" IsVisible="{Binding ShowSearchFrame}">
                 <StackLayout>
@@ -56,7 +56,7 @@
                 <RefreshView Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="2" IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
                     <ScrollView VerticalOptions="FillAndExpand">
                         <CollectionView x:Name="QuestionList" ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None" 
-                                        SelectedItem="{Binding SelectedQuestion}" VerticalOptions="FillAndExpand" EmptyView="Unable to Connect to Server or No Questions Available">
+                                        SelectedItem="{Binding SelectedQuestion}" VerticalOptions="FillAndExpand">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="models:Question">
                                     <SwipeView VerticalOptions="FillAndExpand">
@@ -76,6 +76,17 @@
                                     </SwipeView>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
+                            <CollectionView.EmptyView>
+                                <views:EmptyCollectionView/>
+                            </CollectionView.EmptyView>
+                            <CollectionView.EmptyViewTemplate>
+                                <DataTemplate>
+                                    <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                        <Label Text="{xct:Translate EmptyQuestionCollectionViewString}" Style="{StaticResource HeaderButtonText}" 
+                                               VerticalOptions="Start" Margin="0,100,0,0"/>
+                                    </StackLayout>
+                                </DataTemplate>
+                            </CollectionView.EmptyViewTemplate>
                         </CollectionView>
                     </ScrollView>
                 </RefreshView>
@@ -90,7 +101,7 @@
             <Frame Style="{StaticResource GreenFrame}" Margin="0" Padding="10" IsVisible="{Binding ShowQuestionFrame}">
                 <StackLayout Margin="0" Padding="0" Spacing="0">
                     <StackLayout Orientation="Horizontal" HeightRequest="35">
-                        <Label Text="{xct:Translate YourQuestionTitleText}" Style="{StaticResource LeftMedium}" VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand"/>
+                        <Label Text="{xct:Translate YourQuestionTitleText}" Style="{StaticResource LeftFrameTextMedium}" VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand"/>
                         <Button Text="{xct:Translate DiscardDraftButtonText}" Style="{StaticResource DoneButton}" Command="{Binding DiscardButtonCommand}"/>
                         <Button Text="{xct:Translate KeepQuestionButtonText}" Style="{StaticResource DoneButton}"
                         Command="{Binding KeepQuestionButtonCommand}"/>
