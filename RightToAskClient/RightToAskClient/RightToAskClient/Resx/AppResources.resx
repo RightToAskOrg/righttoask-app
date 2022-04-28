@@ -526,7 +526,8 @@
     <value>Make an account?</value>
   </data>
   <data name="NotNowAnswerText" xml:space="preserve">
-    <value>Not now</value
+	  <value>Not now</value>
+  </data>
   <data name="EmptyQuestionCollectionViewString" xml:space="preserve">
     <value>Unable to Connect to Server or No Questions Available.</value>
   </data>
