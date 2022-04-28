@@ -606,9 +606,14 @@ namespace RightToAskClient.ViewModels
             // TODO This clearly doesn't work for *updates* - it simply reports the current settings
             // regardless of whether they have been altered.
             // FIXME Consider a hack in which we just test, for now, whether it's a new question or not.
-            
-            List<PersonID> answerers = Question.Filters.SelectedAnsweringMPs.Select(mp => new PersonID(new MPId(mp))).ToList();
-                // .Concat(Question.Filters.SelectedAnsweringMPsMine.ToList().Select(mp => new PersonID(new MPId(mp))).ToList()).
+
+            // We take the (duplicate-removing) union of selected MPs, because at the moment the UI doesn't remove 
+            // your MPs from the 'other MPs' list and the user may have selected the same MP in both categories.
+            var MPAnswerers = Question.Filters.SelectedAnsweringMPs.Union(Question.Filters.SelectedAnsweringMPsMine);
+            var MPanswerersServerData = MPAnswerers.Select(mp => new PersonID(new MPId(mp)));
+            var answerers = MPanswerersServerData.ToList();
+            // List<PersonID> answerers = Question.Filters.SelectedAnsweringMPs.Select(mp => new PersonID(new MPId(mp)))
+              //   .Union(Question.Filters.SelectedAnsweringMPsMine.Select(mp => new PersonID(new MPId(mp)))).ToList();
                 // Concat(Question.Filters.SelectedAuthorities.ToList().Select(a => new PersonID(a)).ToList())
             currentQuestionForUpload.entity_who_should_answer_the_question = answerers;
 

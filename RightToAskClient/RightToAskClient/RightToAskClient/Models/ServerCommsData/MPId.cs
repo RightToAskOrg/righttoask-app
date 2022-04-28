@@ -3,7 +3,8 @@ using System.Text.Json.Serialization;
 
 namespace RightToAskClient.Models.ServerCommsData
 {
-    public class MPId 
+    
+    public class MPId : IEquatable<MPId>
     {
         public MPId(MP mp)
         {
@@ -24,5 +25,14 @@ namespace RightToAskClient.Models.ServerCommsData
 
         [JsonPropertyName("electorate")]
         public ElectorateWithChamber electorate { get; set; }
+
+        // This allows for set-based Linq list operations such as removing duplicates.
+        public bool Equals(MPId other)
+        {
+            return first_name == other.first_name
+                   && surname == other.surname
+                   && electorate.chamber == other.electorate.chamber
+                   && electorate.region == other.electorate.region;
+        }
     }
 }
