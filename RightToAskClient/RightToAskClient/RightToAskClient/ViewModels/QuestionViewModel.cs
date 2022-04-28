@@ -557,7 +557,7 @@ namespace RightToAskClient.ViewModels
         private async Task<(bool isValid, string message)> SubmitNewQuestionToServer()
         {
             var serverQuestionUpdates = new NewQuestionSendToServer(Question);
-            updateQuestionMetadata(serverQuestionUpdates );
+            updateQuestionEditPermissions(serverQuestionUpdates );
             TranscribeQuestionFiltersForUpload(serverQuestionUpdates);
             
             ClientSignedUnparsed signedQuestion 
@@ -577,7 +577,7 @@ namespace RightToAskClient.ViewModels
         private async Task<(bool isValid, string message)> SendQuestionUpdatesToServer()
         {
             var serverQuestionUpdates = Question.Updates;
-            updateQuestionMetadata(serverQuestionUpdates);
+            updateQuestionEditPermissions(serverQuestionUpdates);
             
             // needs these two fields in the message payload for updates, but not for new questions.
             serverQuestionUpdates.question_id = Question.QuestionId;
@@ -595,37 +595,34 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        private void updateQuestionMetadata(NewQuestionSendToServer serverQuestionUpdates)
+        private void updateQuestionEditPermissions(NewQuestionSendToServer serverQuestionUpdates)
         {
             serverQuestionUpdates.who_should_answer_the_question_permissions = _whoShouldAnswerItPermissions;
             serverQuestionUpdates.who_should_ask_the_question_permissions = _whoShouldAskItPermissions;
         }
         
+        // Interprets the current filters into the right form for server upload.
+        // This clearly doesn't work for *updates* - it simply reports the current settings
+        // regardless of whether they have been altered.
         private void TranscribeQuestionFiltersForUpload(NewQuestionSendToServer currentQuestionForUpload)
         {
-            // TODO This clearly doesn't work for *updates* - it simply reports the current settings
-            // regardless of whether they have been altered.
-            // FIXME Consider a hack in which we just test, for now, whether it's a new question or not.
-
             // We take the (duplicate-removing) union of selected MPs, because at the moment the UI doesn't remove 
             // your MPs from the 'other MPs' list and the user may have selected the same MP in both categories.
             var MPAnswerers = Question.Filters.SelectedAnsweringMPs.Union(Question.Filters.SelectedAnsweringMPsMine);
             var MPanswerersServerData = MPAnswerers.Select(mp => new PersonID(new MPId(mp)));
-            var answerers = MPanswerersServerData.ToList();
-            // List<PersonID> answerers = Question.Filters.SelectedAnsweringMPs.Select(mp => new PersonID(new MPId(mp)))
-              //   .Union(Question.Filters.SelectedAnsweringMPsMine.Select(mp => new PersonID(new MPId(mp)))).ToList();
-                // Concat(Question.Filters.SelectedAuthorities.ToList().Select(a => new PersonID(a)).ToList())
+            
+            // Add authorities, guaranteed not to be duplicates.
+            List<PersonID> answerers = MPanswerersServerData.
+                Concat(Question.Filters.SelectedAuthorities.Select(a => new PersonID(a))).ToList();
             currentQuestionForUpload.entity_who_should_answer_the_question = answerers;
 
+            // Entities who should raise the question - currently just MPs.
             // TODO add committees, other users, etc.
-            List<PersonID> askers =
-                Question.Filters.SelectedAskingMPs.ToList().Select(mp => new PersonID(new MPId(mp))).Concat(Question
-                        .Filters.SelectedAskingMPsMine.ToList().Select(mp => new PersonID(new MPId(mp))).ToList())
-                    as List<PersonID> ?? new List<PersonID>();
-            currentQuestionForUpload.mp_who_should_ask_the_question = askers;
-            
-            //TODO Obviously need to add askers, background etc too.
+            var MPAskers = Question.Filters.SelectedAskingMPs.Union(Question.Filters.SelectedAskingMPsMine);
+            var MPAskersServerData = MPAskers.Select(mp => new PersonID(new MPId(mp)));
 
+            List<PersonID> askers = MPAskersServerData.ToList();
+            currentQuestionForUpload.mp_who_should_ask_the_question = askers;
         }
     }
 }

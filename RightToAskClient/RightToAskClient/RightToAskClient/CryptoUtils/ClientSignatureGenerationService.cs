@@ -140,7 +140,6 @@ namespace RightToAskClient.CryptoUtils
             try
             {
                 serializedMessage = JsonSerializer.Serialize(message, serializerOptions);
-                // serializedMessage = JsonSerializer.Serialize(message);
                 messageBytes = Encoding.UTF8.GetBytes(serializedMessage);
 
                 MySigner.BlockUpdate(messageBytes, 0, messageBytes.Length);
