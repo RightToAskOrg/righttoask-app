@@ -35,7 +35,7 @@ namespace RightToAskClient
 
         protected override void OnStart()
         {
-            //Preferences.Clear(); // Toggle this line in and out as needed instead of resetting the emulator every time
+            //ResetAppData(); // Toggle this line in and out as needed instead of resetting the emulator every time
             ParliamentData.MPAndOtherData.TryInit();
             // get account info from preferences
             var registrationPref = Preferences.Get("RegistrationInfo", "");
@@ -110,6 +110,14 @@ namespace RightToAskClient
                 return new Xamarin.Forms.ViewCell { View = grid };
             });
             Resources.Add("SelectableDataTemplate", selectableDataTemplate);
+        }
+
+        // method for resetting the data in the application. Needs to be run when we re-initiliaze the databases on the server
+        private void ResetAppData()
+        {
+            // clear the preferences, which holds the user's account registration info
+            Preferences.Clear();
+            // TODO: wipe the crypto/signing key
         }
     }
 }

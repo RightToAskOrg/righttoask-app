@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Xamarin.CommunityToolkit.ObjectModel;
 using RightToAskClient.Resx;
 using Xamarin.Forms;
 
@@ -74,6 +75,7 @@ namespace RightToAskClient.ViewModels
             get => _selectedAnsweringMPs;
             set => SetProperty(ref _selectedAnsweringMPs, value);
         }
+        public bool CameFromMainPage = false;
 
         public FilterViewModel()
         {
@@ -89,6 +91,13 @@ namespace RightToAskClient.ViewModels
             {
                 ReinitData();
             });
+
+            MessagingCenter.Subscribe<MainPageViewModel>(this, "MainPage", (sender) =>
+            {
+                CameFromMainPage = true;
+                MessagingCenter.Unsubscribe<MainPageViewModel>(this, "MainPage");
+            });
+
             Title = AppResources.AdvancedSearchButtonText; 
             ReinitData(); // to set the display strings
 
@@ -125,6 +134,17 @@ namespace RightToAskClient.ViewModels
             {
                 ApplyFiltersAndSearch();
             });
+            BackCommand = new AsyncCommand(async () =>
+            {
+                if (CameFromMainPage)
+                {
+                    await App.Current.MainPage.Navigation.PopToRootAsync();
+                }
+                else
+                {
+                    await App.Current.MainPage.Navigation.PopAsync();
+                }
+            });
         }
 
         // commands
@@ -136,6 +156,7 @@ namespace RightToAskClient.ViewModels
         public Command RightToAskUserCommand { get; }
         public Command NotSureCommand { get; }
         public Command SearchCommand { get; }
+        public IAsyncCommand BackCommand { get; }
 
         // helper methods
         public void ReinitData()
@@ -279,8 +300,14 @@ namespace RightToAskClient.ViewModels
         private async void ApplyFiltersAndSearch()
         {
             // TODO apply filters to the list of questions
-            //await Shell.Current.GoToAsync(nameof(ReadingPage));
-            await App.Current.MainPage.Navigation.PopAsync();
+            if (CameFromMainPage)
+            {
+                await Shell.Current.GoToAsync(nameof(ReadingPage));
+            }
+            else
+            {
+                await App.Current.MainPage.Navigation.PopAsync();
+            }
         }
     }
 }

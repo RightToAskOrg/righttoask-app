@@ -202,21 +202,52 @@
                 <Setter Property="FontSize" Value="Medium"></Setter>
                 <Setter Property="HorizontalOptions" Value="Start"></Setter>
             </Style>
+            <Style x:Key="QuestionFrameCardText" TargetType="Label">
+                <Setter Property="TextColor" Value="Black"></Setter>
+                <Setter Property="FontSize" Value="Medium"></Setter>
+                <Setter Property="HorizontalOptions" Value="Start"></Setter>
+            </Style>
+            <Style x:Key="QuestionFrameCardTextSmall" TargetType="Label">
+                <Setter Property="TextColor" Value="Black"></Setter>
+                <Setter Property="FontSize" Value="Small"></Setter>
+                <Setter Property="HorizontalOptions" Value="Start"></Setter>
+            </Style>
             <Style x:Key="LeftLarge" TargetType="Label">
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColorDark}}"></Setter>
                 <Setter Property="FontSize" Value="Large"></Setter>
                 <Setter Property="HorizontalOptions" Value="Start"></Setter>
                 <Setter Property="FontAttributes" Value="Bold"></Setter>
             </Style>
+            <Style x:Key="LeftFrameTextMedium" TargetType="Label">
+                <Setter Property="TextColor" Value="Black"></Setter>
+                <Setter Property="FontSize" Value="Medium"></Setter>
+                <Setter Property="HorizontalOptions" Value="Start"></Setter>
+            </Style>
             <Style x:Key="LeftFrameText" TargetType="Label">
                 <Setter Property="TextColor" Value="Black"></Setter>
                 <Setter Property="FontSize" Value="Small"></Setter>
                 <Setter Property="HorizontalOptions" Value="Start"></Setter>
             </Style>
+            <Style x:Key="CenterFrameTextSmall" TargetType="Label">
+                <Setter Property="TextColor" Value="Black"></Setter>
+                <Setter Property="FontSize" Value="Small"></Setter>
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
+            </Style>
+            <Style x:Key="CenterFrameTextLarge" TargetType="Label">
+                <Setter Property="TextColor" Value="Black"></Setter>
+                <Setter Property="FontSize" Value="Large"></Setter>
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
+            </Style>
             <Style x:Key="LeftFrameEntry" TargetType="Entry">
                 <Setter Property="PlaceholderColor" Value="{StaticResource TextColorGray}"></Setter>
                 <Setter Property="FontSize" Value="Medium"></Setter>
                 <Setter Property="HorizontalOptions" Value="Start"></Setter>
+            </Style>
+            <Style x:Key="CollectionViewDefaultText" TargetType="CollectionView">
+                <Setter Property="EmptyView" Value="{AppThemeBinding Light={StaticResource TextColor}, 
+                   Dark={StaticResource TextColorDark}}"></Setter>
             </Style>
             <Style x:Key="CenterFramePicker" TargetType="Picker">
                 <Setter Property="TextColor" Value="{StaticResource TextColorDark}"></Setter>
