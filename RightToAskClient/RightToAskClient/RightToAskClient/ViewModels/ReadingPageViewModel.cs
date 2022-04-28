@@ -98,8 +98,24 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _isRefreshing, value);
         }
 
+        private string _keyword = "";
+        public string Keyword
+        {
+            get => _keyword;
+            set
+            {
+                bool changed = SetProperty(ref _keyword, value);
+                if (changed)
+                {
+                    App.ReadingContext.Filters.SearchKeyword = _keyword;
+                }
+            }
+        }
+
         public ReadingPageViewModel()
         {
+            Keyword = App.ReadingContext.Filters.SearchKeyword;
+
             if (!string.IsNullOrEmpty(App.ReadingContext.DraftQuestion))
             {
                 DraftQuestion = App.ReadingContext.DraftQuestion;
