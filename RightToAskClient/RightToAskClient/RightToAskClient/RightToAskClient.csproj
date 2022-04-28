@@ -207,6 +207,15 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
+    <Compile Update="Views\QuestionDraftingPage.xaml.cs">
+      <DependentUpon>QuestionDraftingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\FindMPsPage.xaml.cs">
+      <DependentUpon>FindMPsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\RegisterAccountPage.xaml.cs">
+      <DependentUpon>RegisterAccountPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Resx\AppResources.resx">

@@ -155,7 +155,7 @@ namespace RightToAskClient.ViewModels
             ShowKnowElectoratesFrame = false;
             _launchMPsSelectionPageNext = true;            
 
-            MessagingCenter.Subscribe<Registration1ViewModel>(this, "FromReg1", (sender) =>
+            MessagingCenter.Subscribe<RegistrationViewModel>(this, "FromReg1", (sender) =>
             {
                 _launchMPsSelectionPageNext = false;
             });
