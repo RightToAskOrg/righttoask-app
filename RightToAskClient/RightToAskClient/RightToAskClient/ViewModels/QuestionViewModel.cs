@@ -582,8 +582,6 @@ namespace RightToAskClient.ViewModels
             
             // TODO: Here, we'll need to ensure we've got the right version (from the server - get it returned from
             // BuildSignAndUpload... 
-            // and update the question in our list of questions, with both the new edits and the new version.
-            // This update should actually be happening automatically because we're pointing to the question in our stored list.
             bool goHome =
                 await App.Current.MainPage.DisplayAlert("Question edited!", "", "Home", "Keep editing");
             if (goHome)
@@ -617,23 +615,13 @@ namespace RightToAskClient.ViewModels
         // The actual upload of question data, for either new questions or edits.
         // uplaodInstruction: may be either RTAClient.RegisterNewQuestion or RTAClient.UpdateExistingQuestion
         // intendedFunction: an error string to tell the user what operation failed.
+        // TODO: Get rid of this - not a helpful factor.
         private async Task<(bool isValid, string message)> signAndUploadQuestion(NewQuestionSendToServer question, 
-            Func<ClientSignedUnparsed, Task<Result<bool>>> uploadInstruction, string intendedFunction)
+            Func<NewQuestionSendToServer, Task<Result<bool>>> uploadInstruction, string intendedFunction)
         {
-            ClientSignedUnparsed signedQuestion 
-                = App.ReadingContext.ThisParticipant.SignMessage(question);
-
-            if (!String.IsNullOrEmpty(signedQuestion.signature))
-            {
-                Result<bool> httpResponse = await uploadInstruction(signedQuestion);
+                Result<bool> httpResponse = await uploadInstruction(question);
                 return RTAClient.ValidateHttpResponse(httpResponse, intendedFunction);
-            }
-            else
-            {
-                return (false, "Client signing error.");
-            }
         }
-
 
         private void updateQuestionEditPermissions(NewQuestionSendToServer serverQuestionUpdates)
         {

@@ -111,15 +111,15 @@ namespace RightToAskClient.HttpClients
         }
 
         // TODO refactor to use SignAndSendDataToServer 
-        public static async Task<Result<bool>> RegisterNewQuestion(ClientSignedUnparsed newQuestion)
+        public static async Task<Result<bool>> RegisterNewQuestion(NewQuestionSendToServer newQuestion)
         {
-            return await SendDataToServer<ClientSignedUnparsed>(newQuestion, "question", QnUrl);
+            return await SignAndSendDataToServer<NewQuestionSendToServer>(newQuestion, "question", QnUrl,"Error publishing New Question");
         }
 
         // TODO refactor to use SignAndSendDataToServer 
-        public static async Task<Result<bool>> UpdateExistingQuestion(ClientSignedUnparsed existingQuestion)
+        public static async Task<Result<bool>> UpdateExistingQuestion(NewQuestionSendToServer existingQuestion)
         {
-            return await SendDataToServer<ClientSignedUnparsed>(existingQuestion, "question", EditQnUrl);
+            return await SignAndSendDataToServer<NewQuestionSendToServer>(existingQuestion, "question", EditQnUrl, "Error editing question");
         }
 
         // Sign a message (data) with this user's key, then upload to the specified url. 
