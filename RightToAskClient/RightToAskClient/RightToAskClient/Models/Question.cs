@@ -1,3 +1,4 @@
+using RightToAskClient.Resx;
 using RightToAskClient.ViewModels;
 using RightToAskClient.Views;
 using System;
@@ -139,21 +140,33 @@ namespace RightToAskClient.Models
         // constructor needed for command creation
         public Question()
         {
-            //HasAnswer = true;
+            UpvoteCommand = new Command(async () => 
 
-            UpvoteCommand = new Command(() => 
             {
-                if (!AlreadyUpvoted)
+                // can only upvote questions if you are registered
+                if (App.ReadingContext.ThisParticipant.IsRegistered)
                 {
-                    UpVotes += 1;
-                    AlreadyUpvoted = true;
-                    App.ReadingContext.ThisParticipant.UpvotedQuestionIDs.Add(QuestionId);
+                    if (!AlreadyUpvoted)
+                    {
+                        UpVotes += 1;
+                        AlreadyUpvoted = true;
+                        App.ReadingContext.ThisParticipant.UpvotedQuestionIDs.Add(QuestionId);
+                    }
+                    else
+                    {
+                        UpVotes -= 1;
+                        AlreadyUpvoted = false;
+                        App.ReadingContext.ThisParticipant.UpvotedQuestionIDs.Remove(QuestionId);
+                    }
                 }
                 else
                 {
-                    UpVotes -= 1;
-                    AlreadyUpvoted = false;
-                    App.ReadingContext.ThisParticipant.UpvotedQuestionIDs.Remove(QuestionId);
+                    string message = AppResources.CreateAccountPopUpText;
+                    bool registerNow = await App.Current.MainPage.DisplayAlert(AppResources.MakeAccountQuestionText, message, AppResources.OKText, AppResources.NotNowAnswerText);
+                    if (registerNow)
+                    {
+                        await Shell.Current.GoToAsync($"{nameof(RegisterPage1)}");
+                    }
                 }
             });
             QuestionDetailsCommand = new Command(() =>

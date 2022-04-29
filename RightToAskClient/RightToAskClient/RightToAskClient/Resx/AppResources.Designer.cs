@@ -169,6 +169,15 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You need to make an account to publish or vote on questions.
+        /// </summary>
+        internal static string CreateAccountPopUpText {
+            get {
+                return ResourceManager.GetString("CreateAccountPopUpText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create Account.
         /// </summary>
         internal static string CreateAccountTitle {
@@ -538,6 +547,15 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Make an account?.
+        /// </summary>
+        internal static string MakeAccountQuestionText {
+            get {
+                return ResourceManager.GetString("MakeAccountQuestionText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to My MPs who should answer the question.
         /// </summary>
         internal static string MPAnswerFilterLabelText {
@@ -624,6 +642,15 @@ namespace RightToAskClient.Resx {
         internal static string NextButtonText {
             get {
                 return ResourceManager.GetString("NextButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not now.
+        /// </summary>
+        internal static string NotNowAnswerText {
+            get {
+                return ResourceManager.GetString("NotNowAnswerText", resourceCulture);
             }
         }
         
