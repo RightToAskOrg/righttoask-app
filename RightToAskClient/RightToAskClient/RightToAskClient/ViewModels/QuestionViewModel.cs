@@ -12,6 +12,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using RightToAskClient.Annotations;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -477,7 +478,9 @@ namespace RightToAskClient.ViewModels
             
             if (App.ReadingContext.ThisParticipant.IsRegistered)
             {
+                // This isn't necessary unless the person has just registered, but is necessary if they have.
                 QuestionViewModel.Instance.Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.uid;
+                
                 SendNewQuestionToServer();
             }
         }
@@ -486,9 +489,13 @@ namespace RightToAskClient.ViewModels
         // Also we need to check that the person is registered, just like submitting a new question.
         private async void EditQuestionButton_OnClicked()
         {
-            (bool isValid, string errorMessage) successfulSubmission = await BuildSignAndUploadQuestionUpdates();
-            await reportSubmissionSuccessOrFailure("update question",
-                AppResources.QuestionEditSuccessfulPopupText,"","OK",successfulSubmission);
+            await doRegistrationCheck();
+
+            if (App.ReadingContext.ThisParticipant.IsRegistered)
+            {
+                sendQuestionEditToServer();
+            }
+
         }
 
         private async Task doRegistrationCheck()
@@ -521,34 +528,67 @@ namespace RightToAskClient.ViewModels
         }
 
         // For uploading a new question
+        // This should be called only if the person is already registered.
         private async void SendNewQuestionToServer()
         {
-            if (App.ReadingContext.ThisParticipant.IsRegistered)
-            {
-                App.ReadingContext.ExistingQuestions.Insert(0, Question);
-                
-                (bool isValid, string errorMessage) successfulSubmission = await BuildSignAndUploadNewQuestion();
+            // This isn't supposed to be called for unregistered participants.
+            if (!App.ReadingContext.ThisParticipant.IsRegistered) return;
 
-                if (!successfulSubmission.isValid)
-                {
-                    await App.Current.MainPage.DisplayAlert("Error", successfulSubmission.errorMessage, "", "OK");
-                    return;
-                }
-                
-                // Reset the draft question only if it didn't upload correctly.
-                App.ReadingContext.DraftQuestion = "";
-                
-                bool goHome = await App.Current.MainPage.DisplayAlert("Question published!", "", "Home", "Write another one");
-                if (goHome)
-                {
-                    await App.Current.MainPage.Navigation.PopToRootAsync();
-                }
-                else // Pop back to readingpage. TODO: fix the context so that it doesn't think you're drafting
-                     // a question.  Possibly the right thing to do is pop everything and then push a reading page.
-                {
-                    //await Navigation.PopAsync();
-                    await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
-                }
+            // Insert the question into our own list even if it doesn't upload.
+            App.ReadingContext.ExistingQuestions.Insert(0, Question);
+
+            (bool isValid, string errorMessage) successfulSubmission = await BuildSignAndUploadNewQuestion();
+
+            if (!successfulSubmission.isValid)
+            {
+                // await App.Current.MainPage.DisplayAlert("Error", successfulSubmission.errorMessage, "", "OK");
+                ReportLabelText =  "Error uploading new question: " + successfulSubmission.errorMessage;
+                return;
+            }
+            
+            // Reset the draft question only if it didn't upload correctly.
+            App.ReadingContext.DraftQuestion = "";
+
+            bool goHome =
+                await App.Current.MainPage.DisplayAlert("Question published!", "", "Home", "Write another one");
+            if (goHome)
+            {
+                await App.Current.MainPage.Navigation.PopToRootAsync();
+            }
+            else // Pop back to readingpage. TODO: fix the context so that it doesn't think you're drafting
+                // a question.  Possibly the right thing to do is pop everything and then push a reading page.
+            {
+                //await Navigation.PopAsync();
+                await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
+            }
+        }
+
+        private async void sendQuestionEditToServer()
+        {
+            // This isn't supposed to be called for unregistered participants.
+            if (!App.ReadingContext.ThisParticipant.IsRegistered) return;
+            
+            (bool isValid, string errorMessage) successfulSubmission = await BuildSignAndUploadQuestionUpdates();
+            
+            if (!successfulSubmission.isValid)
+            {
+                // await App.Current.MainPage.DisplayAlert("Error editing question", successfulSubmission.errorMessage, "OK");
+                ReportLabelText =  "Error editing question: " + successfulSubmission.errorMessage;
+                return;
+            }
+            
+            // Success - reinitialize question state and make sure we've got the most up to date version.
+            Question.ReinitQuestionUpdates();
+            
+            // TODO: Here, we'll need to ensure we've got the right version (from the server - get it returned from
+            // BuildSignAndUpload... 
+            // and update the question in our list of questions, with both the new edits and the new version.
+            // This update should actually be happening automatically because we're pointing to the question in our stored list.
+            bool goHome =
+                await App.Current.MainPage.DisplayAlert("Question edited!", "", "Home", "Keep editing");
+            if (goHome)
+            {
+                await App.Current.MainPage.Navigation.PopToRootAsync();
             }
         }
 
