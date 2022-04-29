@@ -485,7 +485,9 @@ namespace RightToAskClient.ViewModels
                     RegisterPage1 registrationPage = new RegisterPage1();
                     registrationPage.Disappearing += setSuggester;
 
-                    Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.display_name;
+                    // TODO I think this is clobbered by setSuggester.
+                    // Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.display_name;
+                    
                     // Commenting-out this instruction means that the person has to push
                     // the 'publish question' button again after they've registered 
                     // their account. This seems natural to me, but is worth checking
