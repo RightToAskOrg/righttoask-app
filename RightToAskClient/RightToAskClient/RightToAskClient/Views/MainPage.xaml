@@ -24,29 +24,44 @@
                 <StackLayout Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Grid.RowSpan="3" VerticalOptions="FillAndExpand">
                     <StackLayout VerticalOptions="CenterAndExpand" Spacing="10">
                         <Frame Style="{StaticResource SubtleFrame}" HeightRequest="135">
-                            <Grid RowDefinitions="auto,*,*">
+                            <Grid RowDefinitions="*,*,*">
+                                <Label Grid.Row="0" Text="{xct:Translate SearchBarTitle}" Style="{StaticResource Header1}" Margin="0,10,0,0"/>
+                                <Image Grid.Row="1" x:Name="searchImage" Margin="0" HorizontalOptions="Center" VerticalOptions="Center"
+                                       Source="{local:ImageResource RightToAskClient.Images.search.png}" WidthRequest="50"
+                                       xct:IconTintColorEffect.TintColor="{StaticResource Primary}"
+                                       AutomationProperties.IsInAccessibleTree="True" 
+                                       AutomationProperties.Name="{xct:Translate DraftImageAccessibilityNameText}"
+                                       AutomationProperties.HelpText="{xct:Translate DraftImageAccessibilityHelpText}"/>
+                                <Label Grid.Row="2" Text="{xct:Translate SearchFrameSubtext}" Style="{StaticResource StagnantColor}" 
+                                       HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                                <Button Grid.Row="0" Grid.RowSpan="3" Style="{StaticResource TransparentSquareButton}" 
+                                        Command="{Binding AdvancedSearchButtonCommand}" BorderColor="{StaticResource Primary}" 
+                                        AutomationProperties.LabeledBy="{x:Reference searchImage}">
+                                </Button>
+                            </Grid>
+                            <!--<Grid RowDefinitions="auto,*,*">
                                 <Label Grid.Row="0" Text="{xct:Translate SearchBarTitle}" Style="{StaticResource Header1}" Margin="0" Padding="0" VerticalOptions="Center"/>
                                 <SearchBar Grid.Row="1" Placeholder="{xct:Translate SearchBarPlaceholderText}" Style="{StaticResource GreenSearchBar}"
                                             Text="{Binding SearchText}" HorizontalOptions="Start" SearchCommand="{Binding ExpiringSoonButtonCommand}" Margin="0"/>
-                                <!--<BoxView WidthRequest="2" Color="{StaticResource FrameColor}"/>-->
                                 <Grid ColumnDefinitions="*,*" Grid.Row="2" Padding="0" Margin="0">
                                     <Button Grid.Column="0" Text="{xct:Translate SearchButtonText}" Command="{Binding SearchButtonCommand}"
                                             Style="{StaticResource GreenButton}" CornerRadius="0" FontSize="Small"/>
                                     <Button Grid.Column="1" Text="{xct:Translate AdvancedSearchButtonText}" Command="{Binding AdvancedSearchButtonCommand}"
                                             Style="{StaticResource GreenButton}" CornerRadius="0" FontSize="Micro"/>
                                 </Grid>
-                            </Grid>
+                            </Grid>-->
                         </Frame>
                         <Frame Style="{StaticResource SubtleFrame}" HeightRequest="135">
                             <Grid RowDefinitions="*,*,*">
-                                <Label Grid.Row="0" Text="{xct:Translate TrendingNowButtonText}" Style="{StaticResource Header1}" VerticalOptions="Center" HorizontalTextAlignment="Center"
+                                <Label Grid.Row="0" Text="{xct:Translate TrendingButtonText}" Style="{StaticResource Header1}" VerticalOptions="Center" HorizontalTextAlignment="Center"
                                        AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{xct:Translate MainPageTrendingNowAccessibilityLabelName}"
                                        AutomationProperties.HelpText="{xct:Translate MainPageTrendingNowAccessibilityLabelHelpText}"/>
-                                <Image x:Name="readAndUpvoteImage" Grid.Row="1" Source="{local:ImageResource RightToAskClient.Images.read_and_upvote.png}" 
-                                       xct:IconTintColorEffect.TintColor="{StaticResource Primary}" WidthRequest="200" HorizontalOptions="Center"
+                                <Image x:Name="readAndUpvoteImage" Grid.Row="1" Source="{local:ImageResource RightToAskClient.Images.trending_up_48.png}" 
+                                       xct:IconTintColorEffect.TintColor="{StaticResource Primary}" WidthRequest="50" HorizontalOptions="Center"
                                        AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{xct:Translate ReadAndUpvoteImageAccessibilityNameText}"
                                        AutomationProperties.HelpText="{xct:Translate ReadAndUpvoteImageAccessibilityHelpText}"/>
-                                <Label Grid.Row="2" Text="{xct:Translate ReadAndUpvoteFrameSubtext}" Style="{StaticResource StagnantColor}" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalOptions="Start"/>
+                                <Label Grid.Row="2" Text="{xct:Translate ReadAndUpvoteFrameSubtext}" Style="{StaticResource StagnantColor}" 
+                                       HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
                                 <Button Grid.Row="0" Grid.RowSpan="3" Style="{StaticResource TransparentSquareButton}" 
                                         Command="{Binding Top10ButtonCommand}" BorderColor="{StaticResource Primary}"
                                         AutomationProperties.LabeledBy="{x:Reference readAndUpvoteImage}"/>

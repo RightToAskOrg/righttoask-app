@@ -114,6 +114,13 @@ namespace RightToAskClient.Models
             set => SetProperty(ref _alreadyReported, value);
         }
 
+        private bool _hasAnswer;
+        public bool HasAnswer
+        {
+            get => _hasAnswer;
+            set => SetProperty(ref _hasAnswer, value);
+        }
+
         public override string ToString ()
         {
             
@@ -134,6 +141,7 @@ namespace RightToAskClient.Models
         public Question()
         {
             UpvoteCommand = new Command(async () => 
+
             {
                 // can only upvote questions if you are registered
                 if (App.ReadingContext.ThisParticipant.IsRegistered)
