@@ -473,21 +473,36 @@ namespace RightToAskClient.ViewModels
 
         private async void SubmitNewQuestionButton_OnClicked()
         {
+            await doRegistrationCheck();
+            
+            if (App.ReadingContext.ThisParticipant.IsRegistered)
+            {
+                QuestionViewModel.Instance.Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.uid;
+                SendNewQuestionToServer();
+            }
+        }
+        
+        // TODO Consider permissions for question editing.
+        // Also we need to check that the person is registered, just like submitting a new question.
+        private async void EditQuestionButton_OnClicked()
+        {
+            (bool isValid, string errorMessage) successfulSubmission = await BuildSignAndUploadQuestionUpdates();
+            await reportSubmissionSuccessOrFailure("update question",
+                AppResources.QuestionEditSuccessfulPopupText,"","OK",successfulSubmission);
+        }
+
+        private async Task doRegistrationCheck()
+        {
             if (!App.ReadingContext.ThisParticipant.IsRegistered)
             {
-                string message = "You need to make an account to publish or vote on questions";
+                string message = "You need to make an account to publish, edit or vote on questions";
                 bool registerNow
                     = await App.Current.MainPage.DisplayAlert("Make an account?", message, "OK", "Not now");
 
                 if (registerNow)
                 {
-                    // var reg = new Registration();
                     RegisterPage1 registrationPage = new RegisterPage1();
-                    registrationPage.Disappearing += setSuggester;
 
-                    // TODO I think this is clobbered by setSuggester.
-                    // Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.display_name;
-                    
                     // Commenting-out this instruction means that the person has to push
                     // the 'publish question' button again after they've registered 
                     // their account. This seems natural to me, but is worth checking
@@ -495,29 +510,10 @@ namespace RightToAskClient.ViewModels
                     // registrationPage.Disappearing += saveQuestion;
 
                     await App.Current.MainPage.Navigation.PushAsync(registrationPage);
-                    //await Shell.Current.GoToAsync($"{nameof(RegisterPage1)}");
                 }
-            }
-            else
-            {
-                SendNewQuestionToServer();
             }
         }
 
-        // TODO Consider permissions for question editing.
-        // Also we need to check that the person is registered, just like submitting a new question.
-        private async void EditQuestionButton_OnClicked()
-        {
-            (bool isValid, string errorMessage) successfulSubmission = await SendQuestionUpdatesToServer();
-            if (!successfulSubmission.isValid)
-            {
-                ReportLabelText = "Could not update question: " + successfulSubmission.errorMessage;
-            }
-            else
-            {
-                await App.Current.MainPage.DisplayAlert(AppResources.QuestionEditSuccessfulPopupText, "", "OK");
-            }
-        }
 
         private void setSuggester(object sender, EventArgs e)
         {
@@ -527,11 +523,11 @@ namespace RightToAskClient.ViewModels
         // For uploading a new question
         private async void SendNewQuestionToServer()
         {
-            // I have confirmed that we no longer need to set the QuestionSuggester here, as we have it being done on the details page.
             if (App.ReadingContext.ThisParticipant.IsRegistered)
             {
                 App.ReadingContext.ExistingQuestions.Insert(0, Question);
-                (bool isValid, string errorMessage) successfulSubmission = await SubmitNewQuestionToServer();
+                
+                (bool isValid, string errorMessage) successfulSubmission = await BuildSignAndUploadNewQuestion();
 
                 if (!successfulSubmission.isValid)
                 {
@@ -539,13 +535,13 @@ namespace RightToAskClient.ViewModels
                     return;
                 }
                 
+                // Reset the draft question only if it didn't upload correctly.
                 App.ReadingContext.DraftQuestion = "";
+                
                 bool goHome = await App.Current.MainPage.DisplayAlert("Question published!", "", "Home", "Write another one");
-
                 if (goHome)
                 {
                     await App.Current.MainPage.Navigation.PopToRootAsync();
-                    //await Shell.Current.GoToAsync($"///{nameof(MainPage)}");
                 }
                 else // Pop back to readingpage. TODO: fix the context so that it doesn't think you're drafting
                      // a question.  Possibly the right thing to do is pop everything and then push a reading page.
@@ -556,46 +552,48 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        private async Task<(bool isValid, string message)> SubmitNewQuestionToServer()
+        private async Task<(bool isValid, string message)> BuildSignAndUploadNewQuestion()
         {
-            var serverQuestionUpdates = new NewQuestionSendToServer(Question);
-            updateQuestionEditPermissions(serverQuestionUpdates );
-            TranscribeQuestionFiltersForUpload(serverQuestionUpdates);
-            
-            ClientSignedUnparsed signedQuestion 
-                = App.ReadingContext.ThisParticipant.SignMessage(serverQuestionUpdates);
+            var serverQuestion = new NewQuestionSendToServer(Question);
+            updateQuestionEditPermissions(serverQuestion);
+            TranscribeQuestionFiltersForUpload(serverQuestion);
 
-            if (!String.IsNullOrEmpty(signedQuestion.signature))
-            {
-                Result<bool> httpResponse = await RTAClient.RegisterNewQuestion(signedQuestion);
-                return RTAClient.ValidateHttpResponse(httpResponse, "Question Upload");
-            }
-            else
-            {
-                return (false, "Client signing error.");
-            }
+            return await signAndUploadQuestion(serverQuestion,RTAClient.RegisterNewQuestion, "Question Upload");
         }
 
-        private async Task<(bool isValid, string message)> SendQuestionUpdatesToServer()
+        private async Task<(bool isValid, string message)> BuildSignAndUploadQuestionUpdates()
         {
             var serverQuestionUpdates = Question.Updates;
             updateQuestionEditPermissions(serverQuestionUpdates);
             
             // needs these two fields in the message payload for updates, but not for new questions.
+            // FIXME at the moment, the version isn't been correctly updated.
             serverQuestionUpdates.question_id = Question.QuestionId;
             serverQuestionUpdates.version = Question.Version;
             
-            ClientSignedUnparsed signedQuestionEdit = App.ReadingContext.ThisParticipant.SignMessageWithOptions(serverQuestionUpdates);
-            if (!String.IsNullOrEmpty(signedQuestionEdit.signature))
+            return await signAndUploadQuestion(serverQuestionUpdates,RTAClient.UpdateExistingQuestion, "Question Edit");
+        }
+        
+        // The actual upload of question data, for either new questions or edits.
+        // uplaodInstruction: may be either RTAClient.RegisterNewQuestion or RTAClient.UpdateExistingQuestion
+        // intendedFunction: an error string to tell the user what operation failed.
+        private async Task<(bool isValid, string message)> signAndUploadQuestion(NewQuestionSendToServer question, 
+            Func<ClientSignedUnparsed, Task<Result<bool>>> uploadInstruction, string intendedFunction)
+        {
+            ClientSignedUnparsed signedQuestion 
+                = App.ReadingContext.ThisParticipant.SignMessage(question);
+
+            if (!String.IsNullOrEmpty(signedQuestion.signature))
             {
-                Result<bool> httpResponse = await RTAClient.UpdateExistingQuestion(signedQuestionEdit);
-                return RTAClient.ValidateHttpResponse(httpResponse, "Question Edit");
+                Result<bool> httpResponse = await uploadInstruction(signedQuestion);
+                return RTAClient.ValidateHttpResponse(httpResponse, intendedFunction);
             }
             else
             {
                 return (false, "Client signing error.");
             }
         }
+
 
         private void updateQuestionEditPermissions(NewQuestionSendToServer serverQuestionUpdates)
         {
@@ -626,5 +624,19 @@ namespace RightToAskClient.ViewModels
             List<PersonID> askers = MPAskersServerData.ToList();
             currentQuestionForUpload.mp_who_should_ask_the_question = askers;
         }
+        
+        private async Task reportSubmissionSuccessOrFailure(string attemptedTask, string successMessage, 
+            string noOption, string OKOption, (bool isValid, string errorMessage) successfulSubmission)
+        {
+            if (!successfulSubmission.isValid)
+            {
+                ReportLabelText = "Could not "+attemptedTask+": " + successfulSubmission.errorMessage;
+            }
+            else
+            {
+                await App.Current.MainPage.DisplayAlert(successMessage, noOption, OKOption);
+            }
+        }
+
     }
 }
