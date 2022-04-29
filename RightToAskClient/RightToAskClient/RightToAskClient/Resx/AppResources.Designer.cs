@@ -808,6 +808,87 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Shows an icon of a historical looking building, such as a government building..
+        /// </summary>
+        internal static string QuestionFrameAnswerButtonAccessibilityName {
+            get {
+                return ResourceManager.GetString("QuestionFrameAnswerButtonAccessibilityName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This button indicates that you can answer the question by clicking here. There is no checkmark on this icon, which means that there are no other answers to this question yet. The icon is also not highlighted, which means you have not yet answered this question..
+        /// </summary>
+        internal static string QuestionFrameAnswerButtonAccessibilityText {
+            get {
+                return ResourceManager.GetString("QuestionFrameAnswerButtonAccessibilityText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Icon for a button that depicts a flag..
+        /// </summary>
+        internal static string QuestionFrameFlagButtonAccessibilityName {
+            get {
+                return ResourceManager.GetString("QuestionFrameFlagButtonAccessibilityName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This button indicates that you can flag or report the question by clicking here. It is currently not highlighted, which means you have not chosen to report this question..
+        /// </summary>
+        internal static string QuestionFrameFlagButtonAccessibilityText {
+            get {
+                return ResourceManager.GetString("QuestionFrameFlagButtonAccessibilityText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This button indicates that you can flag or report the question by clicking here. It is currently highlighted in a redish brown color, indicating that you have already reported this question. Re-activating this button will undo and remove the report..
+        /// </summary>
+        internal static string QuestionFrameFlagButtonAccessibilityTextRed {
+            get {
+                return ResourceManager.GetString("QuestionFrameFlagButtonAccessibilityTextRed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Share button image. Visually represented by 3 dots connected by 2 lines forming a less than sign pointing towards the left..
+        /// </summary>
+        internal static string QuestionFrameShareButtonAccessibilityName {
+            get {
+                return ResourceManager.GetString("QuestionFrameShareButtonAccessibilityName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This button is to indicate that you can share this question on social media or with other people through messaging applications on your device by copying the text through this share feature..
+        /// </summary>
+        internal static string QuestionFrameShareButtonAccessibilityText {
+            get {
+                return ResourceManager.GetString("QuestionFrameShareButtonAccessibilityText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thumbs Up Icon or Upvote Button..
+        /// </summary>
+        internal static string QuestionFrameThumbsUpAccessibilityName {
+            get {
+                return ResourceManager.GetString("QuestionFrameThumbsUpAccessibilityName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shows an image of a thumbs up icon that is highlighted green if you have already liked this question, or is not highlighted if you have not upvoted it. There is a tally number of total number of upvotes this question has to the right of this icon..
+        /// </summary>
+        internal static string QuestionFrameThumbsUpAccessibilityText {
+            get {
+                return ResourceManager.GetString("QuestionFrameThumbsUpAccessibilityText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Question: .
         /// </summary>
         internal static string QuestionHeaderText {
@@ -957,6 +1038,15 @@ namespace RightToAskClient.Resx {
         internal static string SearchButtonText {
             get {
                 return ResourceManager.GetString("SearchButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to by keyword or other filters.
+        /// </summary>
+        internal static string SearchFrameSubtext {
+            get {
+                return ResourceManager.GetString("SearchFrameSubtext", resourceCulture);
             }
         }
         
@@ -1150,11 +1240,11 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Trending Now.
+        ///   Looks up a localized string similar to Trending.
         /// </summary>
-        internal static string TrendingNowButtonText {
+        internal static string TrendingButtonText {
             get {
-                return ResourceManager.GetString("TrendingNowButtonText", resourceCulture);
+                return ResourceManager.GetString("TrendingButtonText", resourceCulture);
             }
         }
         

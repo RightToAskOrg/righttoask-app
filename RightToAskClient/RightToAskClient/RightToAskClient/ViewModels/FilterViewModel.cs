@@ -77,6 +77,20 @@ namespace RightToAskClient.ViewModels
         }
         public bool CameFromMainPage = false;
 
+        private string _keyword = "";
+        public string Keyword
+        {
+            get => _keyword;
+            set
+            {
+                bool changed = SetProperty(ref _keyword, value);
+                if (changed)
+                {
+                    App.ReadingContext.Filters.SearchKeyword = _keyword;
+                }
+            }
+        }
+
         public FilterViewModel()
         {
             MessagingCenter.Subscribe<ExploringPage>(this, "UpdateFilters", (sender) =>
@@ -161,6 +175,9 @@ namespace RightToAskClient.ViewModels
         // helper methods
         public void ReinitData()
         {
+            // set the keyword
+            Keyword = App.ReadingContext.Filters.SearchKeyword;
+
             // get lists of data
             SelectedAskingMPsList = FilterChoices.SelectedAskingMPs.ToList();
             SelectedAnsweringMPsList = FilterChoices.SelectedAnsweringMPs.ToList();
