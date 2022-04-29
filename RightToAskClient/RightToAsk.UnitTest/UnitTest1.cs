@@ -1,14 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RightToAskClient.ViewModels;
+﻿using RightToAskClient.ViewModels;
 using System;
 using Xunit;
 
 namespace RightToAsk.UnitTest
 {
-    [TestClass]
     public class UnitTest1
     {
-        [TestMethod]
         public void ReadingPageQuestionListTest()
         {
             // Arrange
@@ -18,13 +15,19 @@ namespace RightToAsk.UnitTest
             var questions = vm.QuestionsToDisplay;
 
             // Assert
-            Assert.IsTrue(questions != null, "vm.QuestionsToDisplay is null!");
+            Assert.True(questions != null, "vm.QuestionsToDisplay is null!");
         }
 
         [Fact]
         public void Test1()
         {
-            Assert.AreEqual(5, 2 + 3);
+            Assert.Equal(5, 2 + 3);
+        }
+
+        [Fact]
+        public void Test2()
+        {
+            Assert.Equal(6, 2 + 3);
         }
     }
 }
