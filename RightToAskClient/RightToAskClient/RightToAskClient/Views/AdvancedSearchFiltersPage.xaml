@@ -25,7 +25,8 @@
                 <Frame Style="{StaticResource AppThemeFramePadding}">
                     <StackLayout>
                         <Label Text="Question Details" Style="{StaticResource LeftMedium}"/>
-                        <SearchBar Placeholder="{xct:Translate SearchBarPlaceholderText}" Text="{Binding Keyword}" SearchCommand="{Binding SearchCommand}"/>
+                        <SearchBar Placeholder="{xct:Translate SearchBarPlaceholderText}" Text="{Binding Keyword}" 
+                                   Style="{StaticResource GreenSearchBar}" SearchCommand="{Binding SearchCommand}"/>
                         <Label Text="Seach with These Filters?" />
                         <Button Text="Go" Command="{Binding SearchCommand}"/>
                     </StackLayout>

@@ -57,7 +57,8 @@
             <Color x:Key="WindowBackgroundColorDark">#14171c</Color>
             
             <Color x:Key="TextColor">black</Color>
-            <Color x:Key="TextColorGray">#36642f</Color>
+            <Color x:Key="TextColorGreen">#36642f</Color>
+            <Color x:Key="TextColorGray">Gray</Color>
             <Color x:Key="TextColorDark">#f2f2f7</Color>
             
             <!--Generic Styles-->
@@ -127,6 +128,7 @@
             <Style x:Key="NormalEditor" TargetType="Editor" ApplyToDerivedTypes="True">
                 <Setter Property="BackgroundColor" Value = "{StaticResource FadedButtonColor}"></Setter>
                 <Setter Property="TextColor" Value="{StaticResource TextColor}"></Setter>
+                <Setter Property="PlaceholderColor" Value="{StaticResource TextColorGray}"></Setter>
                 <Setter Property="AutoSize" Value="TextChanges"></Setter>
                 <Setter Property="FontSize" Value="Medium"></Setter>
                 <Setter Property="FontAttributes" Value="Bold"></Setter>
@@ -140,7 +142,7 @@
                 <Setter Property="BackgroundColor" Value="{StaticResource FrameColor}"></Setter>
                 <Setter Property="MinimumWidthRequest" Value="200"></Setter>
                 <Setter Property="TextColor" Value="{StaticResource TextColorDark}"></Setter>
-                <Setter Property="PlaceholderColor" Value="{StaticResource TextColorDark}"></Setter>
+                <Setter Property="PlaceholderColor" Value="{StaticResource TextColorGray}"></Setter>
             </Style>
             <Style x:Key="GreenFrame" TargetType="Frame">
                 <Setter Property="OutlineColor" Value="{StaticResource FrameOutlineColor}"></Setter>
@@ -260,7 +262,7 @@
                 <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
             </Style>
             <Style x:Key="LeftFrameEntry" TargetType="Entry">
-                <Setter Property="PlaceholderColor" Value="{StaticResource TextColorGray}"></Setter>
+                <Setter Property="PlaceholderColor" Value="{StaticResource TextColorGreen}"></Setter>
                 <Setter Property="FontSize" Value="Medium"></Setter>
                 <Setter Property="HorizontalOptions" Value="Start"></Setter>
             </Style>
@@ -283,7 +285,7 @@
             </Style>
             <Style x:Key="LeftFramePicker" TargetType="Picker">
                 <Setter Property="TextColor" Value="{StaticResource TextColor}"></Setter>
-                <Setter Property="TitleColor" Value="{StaticResource TextColorGray}"></Setter>
+                <Setter Property="TitleColor" Value="{StaticResource TextColorGreen}"></Setter>
                 <Setter Property="FontSize" Value="Medium"></Setter>
                 <Setter Property="HorizontalOptions" Value="Start"></Setter>
             </Style>
@@ -306,7 +308,7 @@
                 <Setter Property="VerticalOptions" Value="Center"></Setter>
             </Style>
             <Style x:Key="ReportLabel" TargetType="Label">
-                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColorGray}, 
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColorGreen}, 
                    Dark={StaticResource TextColorDark}}"></Setter>
                 <Setter Property="FontSize" Value="Small"></Setter>
             </Style>
