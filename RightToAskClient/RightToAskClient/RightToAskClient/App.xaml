@@ -137,13 +137,17 @@
                 <Setter Property="PlaceholderColor" Value="{StaticResource TextColor}"></Setter>
             </Style>
             <Style x:Key="GreenSearchBar" TargetType="SearchBar">
-                <Setter Property="BackgroundColor" Value="{StaticResource ButtonColor}"></Setter>
+                <Setter Property="BackgroundColor" Value="{StaticResource FrameColor}"></Setter>
                 <Setter Property="MinimumWidthRequest" Value="200"></Setter>
                 <Setter Property="TextColor" Value="{StaticResource TextColorDark}"></Setter>
                 <Setter Property="PlaceholderColor" Value="{StaticResource TextColorDark}"></Setter>
             </Style>
             <Style x:Key="GreenFrame" TargetType="Frame">
                 <Setter Property="OutlineColor" Value="{StaticResource FrameOutlineColor}"></Setter>
+            </Style>
+            <Style x:Key="AppThemeGreenFrame" TargetType="Frame">
+                <Setter Property="OutlineColor" Value="{StaticResource FrameOutlineColor}"></Setter>
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}"></Setter>
             </Style>
             <Style x:Key="InvisibleButtonFrame" TargetType="Frame">
                 <Setter Property="OutlineColor" Value="{StaticResource FrameOutlineColor}"></Setter>
@@ -157,6 +161,21 @@
                 <Setter Property="CornerRadius" Value="10"></Setter>
                 <!-- <Setter Property="BorderColor" Value="{StaticResource AlertColor}"></Setter> -->
                 <Setter Property="Padding" Value="0"></Setter>
+            </Style>
+            <Style x:Key="AppThemeFramePadding" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}"></Setter>
+                <Setter Property="CornerRadius" Value="0"></Setter>
+                <Setter Property="BorderColor" Value="{StaticResource FrameColor}"></Setter>
+                <Setter Property="Padding" Value="5"></Setter>
+            </Style>
+            <Style x:Key="AppThemeFrame" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}"></Setter>
+                <Setter Property="CornerRadius" Value="0"></Setter>
+                <Setter Property="BorderColor" Value="{StaticResource FrameColor}"></Setter>
+                <Setter Property="Padding" Value="0"></Setter>
+            </Style>
+            <Style x:Key="TransparentSwipeView" TargetType="SwipeView">
+                <Setter Property="BackgroundColor" Value="Transparent"></Setter>
             </Style>
             <Style x:Key="Header1" TargetType="Label">
                 <Setter Property="TextColor" Value="{StaticResource HeadingTextColor }"></Setter>
@@ -203,12 +222,12 @@
                 <Setter Property="HorizontalOptions" Value="Start"></Setter>
             </Style>
             <Style x:Key="QuestionFrameCardText" TargetType="Label">
-                <Setter Property="TextColor" Value="Black"></Setter>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColorDark}}"></Setter>
                 <Setter Property="FontSize" Value="Medium"></Setter>
                 <Setter Property="HorizontalOptions" Value="Start"></Setter>
             </Style>
             <Style x:Key="QuestionFrameCardTextSmall" TargetType="Label">
-                <Setter Property="TextColor" Value="Black"></Setter>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColorDark}}"></Setter>
                 <Setter Property="FontSize" Value="Small"></Setter>
                 <Setter Property="HorizontalOptions" Value="Start"></Setter>
             </Style>
