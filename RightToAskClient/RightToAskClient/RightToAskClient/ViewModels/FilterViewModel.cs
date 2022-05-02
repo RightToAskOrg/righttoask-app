@@ -26,7 +26,7 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _committeeText, value);
         }
 
-        public List<Entity> OtherRightToAskUserList = new List<Entity>();
+        public List<Person> OtherRightToAskUserList = new List<Person>();
         private string _otherRightToAskUserText = "";
         public string OtherRightToAskUserText
         {
@@ -149,14 +149,28 @@ namespace RightToAskClient.ViewModels
             CommitteeList = FilterChoices.SelectedAskingCommittee.ToList();
 
             // create strings from those lists
+            /*
             SelectedAskingMPsText = CreateTextGivenListMPs(SelectedAskingMPsList);
             SelectedAnsweringMPsText = CreateTextGivenListMPs(SelectedAnsweringMPsList);
             SelectedAskingMyMPsText = CreateTextGivenListMPs(SelectedAskingMyMPsList);
             SelectedAnsweringMyMPsText = CreateTextGivenListMPs(SelectedAnsweringMyMPsList);
             PublicAuthoritiesText = CreateTextGivenListPAs(PublicAuthoritiesList);
+            OtherRightToAskUserText = CreateTextGivenListPeople(OtherRightToAskUserList);
+            */
+            SelectedAskingMPsText = CreateTextGivenListEntities(SelectedAskingMPsList);
+            SelectedAnsweringMPsText = CreateTextGivenListEntities(SelectedAnsweringMPsList);
+            SelectedAskingMyMPsText = CreateTextGivenListEntities(SelectedAskingMyMPsList);
+            SelectedAnsweringMyMPsText = CreateTextGivenListEntities(SelectedAnsweringMyMPsList);
+            PublicAuthoritiesText = CreateTextGivenListEntities(PublicAuthoritiesList);
             OtherRightToAskUserText = CreateTextGivenListEntities(OtherRightToAskUserList);
             CommitteeText = CreateTextGivenListCommittees(CommitteeList);
         }
+
+        public string CreateTextGivenListEntities(IEnumerable<Entity> entityList)
+        {
+            return String.Join(", ", entityList.Select(e => e.ShortestName));
+        }
+            
 
         public string CreateTextGivenListMPs(List<MP> mpList)
         {
@@ -215,7 +229,7 @@ namespace RightToAskClient.ViewModels
             return text;
         }
 
-        public string CreateTextGivenListEntities(List<Entity> userList)
+        public string CreateTextGivenListPeople(List<Person> userList)
         {
             string text = "";
             for (int i = 0; i < userList.Count; i++)

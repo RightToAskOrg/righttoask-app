@@ -17,7 +17,7 @@ namespace RightToAskClient.Models
     {
         private int _upVotes;
         private int _downVotes;
-        private NewQuestionSendToServer _updates = new NewQuestionSendToServer();
+        private QuestionSendToServer _updates = new QuestionSendToServer();
 
         private string _questionText = "";
         public string QuestionText
@@ -32,13 +32,13 @@ namespace RightToAskClient.Models
         }
         
         // Lists the updates that have occurred since construction.
-        public NewQuestionSendToServer Updates => _updates; 
+        public QuestionSendToServer Updates => _updates; 
         
         public void ReinitQuestionUpdates()
         {
-            _updates = new NewQuestionSendToServer();
+            _updates = new QuestionSendToServer();
         }
-        // VT: As an Australian, I am suspicious of anything except Unix time. Let's just store 
+        // TODO: As an Australian, I am suspicious of anything except Unix time. Let's just store 
         // milliseconds, as the server does, and then display them according to the local timezone.
         // I am reliably advised that anything else is too clever to actually work.
         // Likewise for expiry date.
@@ -158,17 +158,15 @@ namespace RightToAskClient.Models
             }
         }
 
-        private string _linkOrAnswer = "";
+        private List<Uri> _hansardLink = new List<Uri>();
 
-        public string LinkOrAnswer
+        public List<Uri> HansardLink
         {
-            get => _linkOrAnswer;
+            get => _hansardLink;
             set
             {
-                SetProperty(ref _background, value);
-                QuestionViewModel.Instance._serverQuestionUpdates.background = _background;
-                // TODO Deal with types for vectors of answers.
-                // _updates.answers = _linkOrAnswer;
+                SetProperty(ref _hansardLink, value);
+                QuestionViewModel.Instance._serverQuestionUpdates.hansard_link = _hansardLink;
             }
         }
 
@@ -256,6 +254,70 @@ namespace RightToAskClient.Models
         public Command ReportCommand { get; }
         public Command QuestionDetailsCommand { get; }
         public IAsyncCommand ShareCommand { get; }
+        public Question(QuestionReceiveFromServer serverQuestion)
+        {
+            // question-defining fields
+            QuestionSuggester = serverQuestion.author ?? "";
+            QuestionText = serverQuestion.question_text ?? "";
+            // TODO Not clear whether we need this.
+            // Timestamp = serverQuestion.timestamp ?? "";
+            
+            // bookkeeping fields
+            QuestionId = serverQuestion.question_id ?? "";
+            Version = serverQuestion.version ?? "";
+            
+            // question non-defining fields
+            Background = serverQuestion.background ?? "";
+
+            interpretFilters(serverQuestion);
+            
+            OthersCanAddAnswerers = serverQuestion.who_should_answer_the_question_permissions == RTAPermissions.Others;
+            OthersCanAddAskers = serverQuestion.who_should_ask_the_question_permissions == RTAPermissions.Others;
+
+            // TODO Add answers
+            // Answers = serverQuestion.answers ?? new List();
+
+            AnswerAccepted = serverQuestion.answer_accepted ?? false;
+            HansardLink = serverQuestion.hansard_link ?? new List<Uri>();
+            IsFollowupTo = serverQuestion.is_followup_to ?? "";
+        }
+
+        private void interpretFilters(QuestionReceiveFromServer serverQuestion)
+        {
+            Filters = new FilterChoices();
+
+            if (serverQuestion.entity_who_should_answer_the_question != null)
+            {
+                foreach (var entity in serverQuestion.entity_who_should_answer_the_question)
+                {
+                    if (entity.AsAuthority != null)
+                    {
+                        Filters.SelectedAuthorities.Add(entity.AsAuthority);
+                    }
+                    else if (entity.AsRTAUser != null)
+                    {
+                        Filters.SelectedAskingUsers.Add(entity.AsRTAUser);
+                    }
+                    else if (entity.AsMP != null)
+                    {
+                        // FIXME Filter for my MPs; add them to SelectedAnsweringMPsMine instead
+                        Filters.SelectedAnsweringMPs.Add(entity.AsMP);
+                    }
+                }
+            }
+
+            if (serverQuestion.mp_who_should_ask_the_question != null)
+            {
+                foreach (var entity in serverQuestion.mp_who_should_ask_the_question)
+                {
+                    if (entity.AsMP != null)
+                    {
+                        Filters.SelectedAskingMPs.Add(entity.AsMP);
+                    }
+                }
+            }
+        }
+
 
     }
 }

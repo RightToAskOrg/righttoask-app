@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using RightToAskClient.HttpClients;
 using RightToAskClient.CryptoUtils;
@@ -73,11 +74,18 @@ namespace RightToAskClient.Views
             vm.ReinitQuestionUpdates();
         }
 
-        // I'm not actually sure what triggers the 'send' event here, and hence not sure
-        // which of these two functions should be doing the saving.
+        // TODO At the moment, this just interprets a single string as a single URL, but we should 
+        // actually have two entry fields:
+        // - One for MPs allows free-form answers, and we'll need a list because MPs can answer other
+        // MPs' answers.
+        // - One for other participants allows only Hansard links, which should also be allowed to be a list.
+        // MPs should see both options; ordinary users can read the free-form answers but only add Hansard urls.
         private void Answer_Entered(object sender, EventArgs e)
         {
-            QuestionViewModel.Instance.Question.LinkOrAnswer = ((Editor)sender).Text;
+            QuestionViewModel.Instance.Question.HansardLink = new List<Uri>()
+            {
+                new Uri(((Editor)sender).Text)
+            };
         }
 
         protected override bool OnBackButtonPressed()

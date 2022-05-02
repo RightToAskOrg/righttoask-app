@@ -5,11 +5,11 @@ using System.Text.Json.Serialization;
 // Data structure for serialising question data to send to the server,
 // either for new questions or for updating existing questions.
 // Note that these fields should have the same names and types as the equivalent
-// fields in NewQuestionReceiveFromServer, though the set of fields is not
+// fields in QuestionReceiveFromServer, though the set of fields is not
 // exactly the same.
 namespace RightToAskClient.Models.ServerCommsData
 {
-    public class NewQuestionSendToServer
+    public class QuestionSendToServer
     {
 
         // Question-defining fields.
@@ -66,8 +66,8 @@ namespace RightToAskClient.Models.ServerCommsData
         [JsonPropertyName("is_followup_to")]
         public string? is_followup_to { get; set; } 
         
-        public NewQuestionSendToServer () {}
-        public NewQuestionSendToServer(Question question)
+        public QuestionSendToServer () {}
+        public QuestionSendToServer(Question question)
         {
             if (!String.IsNullOrEmpty(question.QuestionText))
             {

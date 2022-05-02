@@ -104,22 +104,22 @@ namespace RightToAskClient.HttpClients
             return await Client.DoGetResultRequest<List<string>>(QuestionListUrl);
         }
 
-        public static async Task<Result<NewQuestionReceiveFromServer>> GetQuestionById(string questionId)
+        public static async Task<Result<QuestionReceiveFromServer>> GetQuestionById(string questionId)
         {
             string GetQuestionUrl = QuestionUrl + "?question_id=" + questionId;
-            return await Client.DoGetResultRequest<NewQuestionReceiveFromServer>(GetQuestionUrl);
+            return await Client.DoGetResultRequest<QuestionReceiveFromServer>(GetQuestionUrl);
         }
 
         // TODO refactor to use SignAndSendDataToServer 
-        public static async Task<Result<bool>> RegisterNewQuestion(NewQuestionSendToServer newQuestion)
+        public static async Task<Result<bool>> RegisterNewQuestion(QuestionSendToServer newQuestion)
         {
-            return await SignAndSendDataToServer<NewQuestionSendToServer>(newQuestion, "question", QnUrl,"Error publishing New Question");
+            return await SignAndSendDataToServer<QuestionSendToServer>(newQuestion, "question", QnUrl,"Error publishing New Question");
         }
 
         // TODO refactor to use SignAndSendDataToServer 
-        public static async Task<Result<bool>> UpdateExistingQuestion(NewQuestionSendToServer existingQuestion)
+        public static async Task<Result<bool>> UpdateExistingQuestion(QuestionSendToServer existingQuestion)
         {
-            return await SignAndSendDataToServer<NewQuestionSendToServer>(existingQuestion, "question", EditQnUrl, "Error editing question");
+            return await SignAndSendDataToServer<QuestionSendToServer>(existingQuestion, "question", EditQnUrl, "Error editing question");
         }
 
         // Sign a message (data) with this user's key, then upload to the specified url. 

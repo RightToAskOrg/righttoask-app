@@ -76,8 +76,8 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _questionIds, value);
         }
 
-        private List<NewQuestionReceiveFromServer> _serverQuestions = new List<NewQuestionReceiveFromServer>();
-        public List<NewQuestionReceiveFromServer> ServerQuestions
+        private List<QuestionReceiveFromServer> _serverQuestions = new List<QuestionReceiveFromServer>();
+        public List<QuestionReceiveFromServer> ServerQuestions
         {
             get => _serverQuestions;
             set => SetProperty(ref _serverQuestions, value);
@@ -182,17 +182,14 @@ namespace RightToAskClient.ViewModels
             Question newQuestion = new Question
             {
                 QuestionText = App.ReadingContext.DraftQuestion,
-                // TODO: Enforce registration before question-suggesting.
                 QuestionSuggester = (thisParticipant.IsRegistered) ? thisParticipant.RegistrationInfo.uid : "Anonymous user",
                 Filters = App.ReadingContext.Filters, 
-                // QuestionAnswerers = questionAnswerers,
                 DownVotes = 0,
                 UpVotes = 0
             };
 
             QuestionViewModel.Instance.Question = newQuestion;
             QuestionViewModel.Instance.IsNewQuestion = true;
-            //await Navigation.PushAsync(questionDetailPage);
             await Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
         }
         private async void OnDiscardButtonClicked()
@@ -248,7 +245,7 @@ namespace RightToAskClient.ViewModels
                 foreach (string questionId in QuestionIds)
                 {
                     // pull the individual question from the server by id
-                    NewQuestionReceiveFromServer temp;
+                    QuestionReceiveFromServer temp;
                     try
                     {
                         var data = await RTAClient.GetQuestionById(questionId);
@@ -271,8 +268,10 @@ namespace RightToAskClient.ViewModels
                     }
                 }
                 // convert the ServerQuestions to a Displayable format
-                foreach (NewQuestionReceiveFromServer serverQuestion in ServerQuestions)
+                foreach (QuestionReceiveFromServer serverQuestion in ServerQuestions)
                 {
+                    Question temp = new Question(serverQuestion);
+                    /*
                     Question temp = new Question()
                     {
                         QuestionId = serverQuestion.question_id ?? "",
@@ -287,6 +286,7 @@ namespace RightToAskClient.ViewModels
                         //QuestionAnswerers = TODO
                         OthersCanAddAskers = serverQuestion.who_should_ask_the_question_permissions == RTAPermissions.Others
                     };
+                    */
                     QuestionsToDisplay.Add(temp);
                 }
                 IsRefreshing = false;

@@ -4,6 +4,7 @@
 // represented in the RightToKnow list.
 
 using System;
+using RightToAskClient.Models.ServerCommsData;
 
 namespace RightToAskClient.Models
 {
@@ -30,6 +31,10 @@ namespace RightToAskClient.Models
 
         private string salutation = "";
 
+        public MP()
+        {
+        }
+
         public MP(string first_name, string surname, ElectorateWithChamber electorate,
             string email = "", string role = "", string party = "" )
         {
@@ -39,6 +44,14 @@ namespace RightToAskClient.Models
             this.email = email;
             this.role = role;
             this.party = party;
+        }
+
+        // TODO Consider adding lookup of other attributes such as ministerial roles from MP.json.
+        public MP(MPId serverMP)
+        {
+            this.first_name = serverMP.first_name;
+            this.surname = serverMP.surname;
+            this.electorate = serverMP.electorate;
         }
 
         // public string ElectorateRepresenting { get; set; } = "";

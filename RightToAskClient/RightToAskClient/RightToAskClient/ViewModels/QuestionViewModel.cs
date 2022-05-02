@@ -31,7 +31,7 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _question, value);
         }
 
-        public NewQuestionSendToServer _serverQuestionUpdates = new NewQuestionSendToServer();
+        public QuestionSendToServer _serverQuestionUpdates = new QuestionSendToServer();
 
         private bool _isNewQuestion;
         public bool IsNewQuestion
@@ -366,7 +366,7 @@ namespace RightToAskClient.ViewModels
 
         public void ReinitQuestionUpdates()
         {
-            _serverQuestionUpdates = new NewQuestionSendToServer();
+            _serverQuestionUpdates = new QuestionSendToServer();
             Question.ReinitQuestionUpdates();
         }
 
@@ -588,7 +588,7 @@ namespace RightToAskClient.ViewModels
 
         private async Task<(bool isValid, string message)> BuildSignAndUploadNewQuestion()
         {
-            var serverQuestion = new NewQuestionSendToServer(Question);
+            var serverQuestion = new QuestionSendToServer(Question);
             setQuestionEditPermissions(serverQuestion);
             TranscribeQuestionFiltersForUpload(serverQuestion);
 
@@ -609,7 +609,7 @@ namespace RightToAskClient.ViewModels
             return RTAClient.ValidateHttpResponse(httpResponse, "Question Edit");
         }
        
-        private void setQuestionEditPermissions(NewQuestionSendToServer serverQuestionUpdates)
+        private void setQuestionEditPermissions(QuestionSendToServer serverQuestionUpdates)
         {
             serverQuestionUpdates.who_should_answer_the_question_permissions = _whoShouldAnswerItPermissions;
             serverQuestionUpdates.who_should_ask_the_question_permissions = _whoShouldAskItPermissions;
@@ -618,7 +618,7 @@ namespace RightToAskClient.ViewModels
         // Interprets the current filters into the right form for server upload.
         // This clearly doesn't work for *updates* - it simply reports the current settings
         // regardless of whether they have been altered.
-        private void TranscribeQuestionFiltersForUpload(NewQuestionSendToServer currentQuestionForUpload)
+        private void TranscribeQuestionFiltersForUpload(QuestionSendToServer currentQuestionForUpload)
         {
             // We take the (duplicate-removing) union of selected MPs, because at the moment the UI doesn't remove 
             // your MPs from the 'other MPs' list and the user may have selected the same MP in both categories.

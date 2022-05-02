@@ -5,11 +5,11 @@ using System.Text.Json.Serialization;
 
 // Data structure for deserialising question data received from the server.
 // Note that these fields should have the same names and types as the equivalent
-// fields in NewQuestionSendToServer, though the set of fields is not
+// fields in QuestionSendToServer, though the set of fields is not
 // exactly the same.
 namespace RightToAskClient.Models.ServerCommsData
 {
-    public class NewQuestionReceiveFromServer
+    public class QuestionReceiveFromServer
     {
         // Question-defining fields.
         [JsonPropertyName("author")]
@@ -63,7 +63,7 @@ namespace RightToAskClient.Models.ServerCommsData
         public bool? answer_accepted { get; set; }
         
         [JsonPropertyName("hansard_link")]
-        public List<Uri> hansard_link { get; set; } 
+        public List<Uri>? hansard_link { get; set; } 
         
         [JsonPropertyName("is_followup_to")]
         public string? is_followup_to { get; set; } 

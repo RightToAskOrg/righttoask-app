@@ -1,4 +1,6 @@
 using System;
+using System.Diagnostics;
+using RightToAskClient.Models.ServerCommsData;
 using Xamarin.Forms;
 
 namespace RightToAskClient.Models
@@ -9,6 +11,8 @@ namespace RightToAskClient.Models
         private string _nickName = "";
         private UrlWebViewSource _url = new UrlWebViewSource();
         private string _rightToKnowURLSuffix = "";
+
+
         public string AuthorityName
         {
             get { return _authorityName; }
@@ -55,11 +59,20 @@ namespace RightToAskClient.Models
             }
         }
 
+        // Constructors
+        // TODO Look up the authority's other details. 
+        // Consider how to deal with the problem that org name is null.
+        public Authority(string authority)
+        {
+            Debug.Assert(authority != null, nameof(authority) + " != null");
+            AuthorityName = authority ?? "";
+        }
+
+        public Authority() { }
         private string NickNameIfPresent()
         {
             return String.IsNullOrEmpty(NickName) ? "" : " (" + NickName + ")";
         }
-
 
         public override string GetName()
         {
