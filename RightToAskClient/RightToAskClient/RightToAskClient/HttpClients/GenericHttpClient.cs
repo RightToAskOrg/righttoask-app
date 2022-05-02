@@ -93,7 +93,7 @@ namespace RightToAskClient.HttpClients
             }
         }
         
-        // Note: This shouldn't be necessary any more - just unify with
+        // TODO: This shouldn't be necessary any more - just unify with
         // DoGetJsonRequest
         public async Task<Result<T>> DoGetResultRequest<T>(string uriString)
         {

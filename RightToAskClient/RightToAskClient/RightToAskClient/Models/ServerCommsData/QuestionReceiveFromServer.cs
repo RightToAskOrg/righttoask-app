@@ -1,19 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Text.Json.Serialization;
 
+// Data structure for deserialising question data received from the server.
+// Note that these fields should have the same names and types as the equivalent
+// fields in NewQuestionSendToServer, though the set of fields is not
+// exactly the same.
 namespace RightToAskClient.Models.ServerCommsData
 {
-    public class NewQuestionSendToServer
+    public class NewQuestionReceiveFromServer
     {
-
+        // Question-defining fields.
+        [JsonPropertyName("author")]
+        public string? author { get; set; }
+        
         [JsonPropertyName("question_text")]
         public string? question_text { get; set; }
-        //[JsonPropertyName("question_writer")]
-        //public string question_writer { get; set; }
-        //[JsonPropertyName("upload_timestamp")]
-        //public DateTime upload_timestamp { get; set; }
-
+        
+        [JsonPropertyName("timestamp")]
+        public int? timestamp { get; set; }
+        
         // bookkeeping fields
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
         [JsonPropertyName("question_id")]
@@ -23,26 +30,26 @@ namespace RightToAskClient.Models.ServerCommsData
         [JsonPropertyName("version")]
         public string? version { get; set; }
         
+        
         // non-defining fields
         [JsonPropertyName("background")]
         public string? background { get; set; }
-        
         // TODO Note that the entity that should ask the question might be a
         // committee or other RTA participant, not necessarily an MP.
         // Not clear whether we want a separate field for each of these possibilities
         // - possibly we do.
         [JsonPropertyName("mp_who_should_ask_the_question")]
         public List<PersonID>? mp_who_should_ask_the_question { get; set; }
-
+        
         [JsonPropertyName("who_should_ask_the_question_permissions")]
         public RTAPermissions who_should_ask_the_question_permissions { get; set; }
-
-        [JsonPropertyName("entity_who_should_answer_the_question")]
+        
+        [JsonPropertyName("entity_who_should_answer_the_quetion")]
         public List<PersonID>? entity_who_should_answer_the_question { get; set; }
-
+        
         [JsonPropertyName("who_should_answer_the_question_permissions")]
         public RTAPermissions who_should_answer_the_question_permissions { get; set; }
-
+        
         // TODO: Check whether this data structure lines up with the 'QuestionAnswer' type 
         // - possibly we want to implement that explicitly.
         [JsonPropertyName("answers")]
@@ -60,32 +67,5 @@ namespace RightToAskClient.Models.ServerCommsData
         
         [JsonPropertyName("is_followup_to")]
         public string? is_followup_to { get; set; } 
-        
-        //[JsonPropertyName("keywords")]
-        //public List<string> keywords { get; set; }
-        //[JsonPropertyName("category")]
-        //public List<string> category { get; set; }
-        //[JsonPropertyName("expiry_date")]
-        //public DateTime expiry_date { get; set; }
-
-        
-        public NewQuestionSendToServer () {}
-        public NewQuestionSendToServer(Question question)
-        {
-            if (!String.IsNullOrEmpty(question.QuestionText))
-            {
-                question_text = question.QuestionText;
-            }
-
-            if (!String.IsNullOrEmpty(question.Background))
-            {
-                background = question.Background;
-            }
-
-            //TODO: Add other structures.
-            // we *don't* need QuestionID or version, but it's 
-            //possibly clearer to have them anyway.
-        }
-
     }
 }

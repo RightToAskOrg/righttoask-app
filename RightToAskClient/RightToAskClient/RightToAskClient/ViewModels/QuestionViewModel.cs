@@ -486,7 +486,6 @@ namespace RightToAskClient.ViewModels
         }
         
         // TODO Consider permissions for question editing.
-        // Also we need to check that the person is registered, just like submitting a new question.
         private async void EditQuestionButton_OnClicked()
         {
             await doRegistrationCheck();
@@ -521,12 +520,6 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-
-        private void setSuggester(object sender, EventArgs e)
-        {
-            QuestionViewModel.Instance.Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.uid;
-        }
-
         // For uploading a new question
         // This should be called only if the person is already registered.
         private async void SendNewQuestionToServer()
@@ -548,6 +541,8 @@ namespace RightToAskClient.ViewModels
             
             // Reset the draft question only if it didn't upload correctly.
             App.ReadingContext.DraftQuestion = "";
+            
+            //FIXME update version, just like for edits.
 
             bool goHome =
                 await App.Current.MainPage.DisplayAlert("Question published!", "", "Home", "Write another one");
@@ -580,6 +575,7 @@ namespace RightToAskClient.ViewModels
             // Success - reinitialize question state and make sure we've got the most up to date version.
             Question.ReinitQuestionUpdates();
             
+            // FIXME at the moment, the version isn't been correctly updated.
             // TODO: Here, we'll need to ensure we've got the right version (from the server - get it returned from
             // BuildSignAndUpload... 
             bool goHome =
@@ -593,37 +589,27 @@ namespace RightToAskClient.ViewModels
         private async Task<(bool isValid, string message)> BuildSignAndUploadNewQuestion()
         {
             var serverQuestion = new NewQuestionSendToServer(Question);
-            updateQuestionEditPermissions(serverQuestion);
+            setQuestionEditPermissions(serverQuestion);
             TranscribeQuestionFiltersForUpload(serverQuestion);
 
-            return await signAndUploadQuestion(serverQuestion,RTAClient.RegisterNewQuestion, "Question Upload");
+            Result<bool> httpResponse = await RTAClient.RegisterNewQuestion(serverQuestion);
+            return RTAClient.ValidateHttpResponse(httpResponse, "Question Upload");
         }
 
         private async Task<(bool isValid, string message)> BuildSignAndUploadQuestionUpdates()
         {
             var serverQuestionUpdates = Question.Updates;
-            updateQuestionEditPermissions(serverQuestionUpdates);
+            setQuestionEditPermissions(serverQuestionUpdates);
             
             // needs these two fields in the message payload for updates, but not for new questions.
-            // FIXME at the moment, the version isn't been correctly updated.
             serverQuestionUpdates.question_id = Question.QuestionId;
             serverQuestionUpdates.version = Question.Version;
-            
-            return await signAndUploadQuestion(serverQuestionUpdates,RTAClient.UpdateExistingQuestion, "Question Edit");
-        }
-        
-        // The actual upload of question data, for either new questions or edits.
-        // uplaodInstruction: may be either RTAClient.RegisterNewQuestion or RTAClient.UpdateExistingQuestion
-        // intendedFunction: an error string to tell the user what operation failed.
-        // TODO: Get rid of this - not a helpful factor.
-        private async Task<(bool isValid, string message)> signAndUploadQuestion(NewQuestionSendToServer question, 
-            Func<NewQuestionSendToServer, Task<Result<bool>>> uploadInstruction, string intendedFunction)
-        {
-                Result<bool> httpResponse = await uploadInstruction(question);
-                return RTAClient.ValidateHttpResponse(httpResponse, intendedFunction);
-        }
 
-        private void updateQuestionEditPermissions(NewQuestionSendToServer serverQuestionUpdates)
+            Result<bool> httpResponse = await RTAClient.UpdateExistingQuestion(serverQuestionUpdates);
+            return RTAClient.ValidateHttpResponse(httpResponse, "Question Edit");
+        }
+       
+        private void setQuestionEditPermissions(NewQuestionSendToServer serverQuestionUpdates)
         {
             serverQuestionUpdates.who_should_answer_the_question_permissions = _whoShouldAnswerItPermissions;
             serverQuestionUpdates.who_should_ask_the_question_permissions = _whoShouldAskItPermissions;
@@ -652,19 +638,5 @@ namespace RightToAskClient.ViewModels
             List<PersonID> askers = MPAskersServerData.ToList();
             currentQuestionForUpload.mp_who_should_ask_the_question = askers;
         }
-        
-        private async Task reportSubmissionSuccessOrFailure(string attemptedTask, string successMessage, 
-            string noOption, string OKOption, (bool isValid, string errorMessage) successfulSubmission)
-        {
-            if (!successfulSubmission.isValid)
-            {
-                ReportLabelText = "Could not "+attemptedTask+": " + successfulSubmission.errorMessage;
-            }
-            else
-            {
-                await App.Current.MainPage.DisplayAlert(successMessage, noOption, OKOption);
-            }
-        }
-
     }
 }
