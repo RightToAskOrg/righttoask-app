@@ -104,11 +104,8 @@ namespace RightToAskClient.Models
         private string _questionSuggester = "";
         public string QuestionSuggester 
         { 
-            get => _questionSuggester;
-            set
-            {
-                SetProperty(ref _questionSuggester, value);
-            }
+            get => _questionSuggester; 
+            set => SetProperty(ref _questionSuggester, value); 
         }
 
         // Whether the person writing the question allows other users to add QuestionAnswerers
@@ -201,23 +198,59 @@ namespace RightToAskClient.Models
             set => SetProperty(ref _alreadyReported, value);
         }
 
+        private bool _hasAnswer;
+        public bool HasAnswer
+        {
+            get => _hasAnswer;
+            set => SetProperty(ref _hasAnswer, value);
+        }
+
+        public override string ToString ()
+        {
+            
+            List<string> questionAnswerersList 
+                = QuestionAnswerers.Select(ans => ans.GetName()).ToList();
+            // view.Select(f => return new { Food = f, Selected = selectedFood.Contains(f)});
+            return QuestionText+ "\n" +
+                   "Suggested by: " + QuestionSuggester + '\n' +
+                   "To be asked by: " + QuestionAsker + '\n' +
+                   // var readablePhrase = string.Join(" ", words); 
+                   "To be answered by: " + string.Join(", ", questionAnswerersList) + '\n' +
+                   "UpVotes: " + UpVotes+ '\n' +
+                   // "DownVotes: " + DownVotes + '\n' +
+                   "Link/Answer: " + LinkOrAnswer;
+        }
 
         // constructor needed for command creation
         public Question()
         {
-            UpvoteCommand = new Command(() => 
+            UpvoteCommand = new Command(async () => 
+
             {
-                if (!AlreadyUpvoted)
+                // can only upvote questions if you are registered
+                if (App.ReadingContext.ThisParticipant.IsRegistered)
                 {
-                    UpVotes += 1;
-                    AlreadyUpvoted = true;
-                    App.ReadingContext.ThisParticipant.UpvotedQuestionIDs.Add(QuestionId);
+                    if (!AlreadyUpvoted)
+                    {
+                        UpVotes += 1;
+                        AlreadyUpvoted = true;
+                        App.ReadingContext.ThisParticipant.UpvotedQuestionIDs.Add(QuestionId);
+                    }
+                    else
+                    {
+                        UpVotes -= 1;
+                        AlreadyUpvoted = false;
+                        App.ReadingContext.ThisParticipant.UpvotedQuestionIDs.Remove(QuestionId);
+                    }
                 }
                 else
                 {
-                    UpVotes -= 1;
-                    AlreadyUpvoted = false;
-                    App.ReadingContext.ThisParticipant.UpvotedQuestionIDs.Remove(QuestionId);
+                    string message = AppResources.CreateAccountPopUpText;
+                    bool registerNow = await App.Current.MainPage.DisplayAlert(AppResources.MakeAccountQuestionText, message, AppResources.OKText, AppResources.NotNowAnswerText);
+                    if (registerNow)
+                    {
+                        await Shell.Current.GoToAsync($"{nameof(RegisterPage1)}");
+                    }
                 }
             });
             QuestionDetailsCommand = new Command(() =>

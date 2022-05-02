@@ -27,6 +27,7 @@ namespace RightToAskClient.HttpClients
         private static string UserListUrl = BaseUrl + "/get_user_list";
         private static string QuestionListUrl = BaseUrl + "/get_question_list";
         private static string QuestionUrl = BaseUrl + "/get_question";
+        private static string UserUrl = BaseUrl + "/get_user";
         // TODO At the moment, this is not used, because we don't have a cert chain for the server Public Key.
         // Instead, the public key itself is hardcoded.
         // private static string ServerPubKeyUrl = BaseUrl + "/get_server_public_key_spki";
@@ -108,6 +109,12 @@ namespace RightToAskClient.HttpClients
         {
             string GetQuestionUrl = QuestionUrl + "?question_id=" + questionId;
             return await Client.DoGetResultRequest<QuestionReceiveFromServer>(GetQuestionUrl);
+        }
+
+        public static async Task<Result<ServerUser>> GetUserById(string userId)
+        {
+            string GetUserUrl = UserUrl + "?uid=" + userId;
+            return await Client.DoGetResultRequest<ServerUser>(GetUserUrl);
         }
 
         // TODO refactor to use SignAndSendDataToServer 

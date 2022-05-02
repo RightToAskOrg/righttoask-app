@@ -18,7 +18,7 @@ using Xamarin.Forms;
 
 namespace RightToAskClient.ViewModels
 {
-    public class Registration1ViewModel : BaseViewModel
+    public class RegistrationViewModel : BaseViewModel
     {
         #region Properties
 
@@ -234,7 +234,7 @@ namespace RightToAskClient.ViewModels
         #endregion
 
         // constructor
-        public Registration1ViewModel()
+        public RegistrationViewModel()
         {
             // initialize defaults
             ReportLabelText = "";

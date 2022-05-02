@@ -77,6 +77,7 @@
     <None Remove="Images\Schoolhouse.png" />
     <None Remove="Images\school_house.png" />
     <None Remove="Images\search.png" />
+    <None Remove="Images\search_75.png" />
     <None Remove="Images\SettingsGear.png" />
     <None Remove="Images\settings_gear.png" />
     <None Remove="Images\share_48.png" />
@@ -85,6 +86,7 @@
     <None Remove="Images\ToolboxBag.png" />
     <None Remove="Images\toolbox_bag.png" />
     <None Remove="Images\trash_delete_48.png" />
+    <None Remove="Images\trending_up_48.png" />
     <None Remove="Images\wireframe_roo_small.png" />
     <None Remove="Images\wireframe_roo_smaller.png" />
     <None Remove="Images\WriteDraft.png" />
@@ -165,12 +167,14 @@
     <EmbeddedResource Include="Images\read_and_upvote.png" />
     <EmbeddedResource Include="Images\school_house.png" />
     <EmbeddedResource Include="Images\search.png" />
+    <EmbeddedResource Include="Images\search_75.png" />
     <EmbeddedResource Include="Images\settings_gear.png" />
     <EmbeddedResource Include="Images\share_48.png" />
     <EmbeddedResource Include="Images\swipe_left_48.png" />
     <EmbeddedResource Include="Images\thumb_up_48.png" />
     <EmbeddedResource Include="Images\toolbox_bag.png" />
     <EmbeddedResource Include="Images\trash_delete_48.png" />
+    <EmbeddedResource Include="Images\trending_up_48.png" />
     <EmbeddedResource Include="Images\wireframe_roo_small.png" />
     <EmbeddedResource Include="Images\wireframe_roo_smaller.png" />
     <EmbeddedResource Include="Images\write_draft.png" />
@@ -205,6 +209,15 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
+    <Compile Update="Views\QuestionDraftingPage.xaml.cs">
+      <DependentUpon>QuestionDraftingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\FindMPsPage.xaml.cs">
+      <DependentUpon>FindMPsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\RegisterAccountPage.xaml.cs">
+      <DependentUpon>RegisterAccountPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Resx\AppResources.resx">
@@ -221,6 +234,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\AppShell.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\EmptyCollectionView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\FlowOptionPage.xaml">

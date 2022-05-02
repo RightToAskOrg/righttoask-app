@@ -264,19 +264,31 @@ namespace RightToAskClient.ViewModels
                 // then navigate to the reading page
                 await Shell.Current.GoToAsync(nameof(ReadingPage));
             });
-            UpvoteCommand = new Command(() =>
+            UpvoteCommand = new AsyncCommand(async () =>
             {
-                if (Question.AlreadyUpvoted)
+                if (App.ReadingContext.ThisParticipant.IsRegistered)
                 {
-                    Question.UpVotes--;
-                    Question.AlreadyUpvoted = false;
-                    UpvoteButtonText = AppResources.UpvoteButtonText;
+                    if (Question.AlreadyUpvoted)
+                    {
+                        Question.UpVotes--;
+                        Question.AlreadyUpvoted = false;
+                        UpvoteButtonText = AppResources.UpvoteButtonText;
+                    }
+                    else
+                    {
+                        Question.UpVotes++;
+                        Question.AlreadyUpvoted = true;
+                        UpvoteButtonText = AppResources.UpvotedButtonText;
+                    }
                 }
                 else
                 {
-                    Question.UpVotes++;
-                    Question.AlreadyUpvoted = true;
-                    UpvoteButtonText = AppResources.UpvotedButtonText;
+                    string message = AppResources.CreateAccountPopUpText;
+                    bool registerNow = await App.Current.MainPage.DisplayAlert(AppResources.MakeAccountQuestionText, message, AppResources.OKText, AppResources.NotNowAnswerText);
+                    if (registerNow)
+                    {
+                        await Shell.Current.GoToAsync($"{nameof(RegisterPage1)}");
+                    }
                 }
             });
             SaveAnswerCommand = new Command(() =>
@@ -291,23 +303,21 @@ namespace RightToAskClient.ViewModels
             {
                 EditQuestionButton_OnClicked();
             });
-            // FIXME This doesn't quite work because the types are wrong. Commands =/= (do not equal) Event Handlers
-            /*
-            AnswererPermissionChangedCommand = new EventHandler((object sender, CheckedChangedEventArgs e) =>
-            {
-                OnAnswererAddPermissionsChanged(sender, e);
-            });
-            */
             QuestionSuggesterCommand = new AsyncCommand(async () =>
             {
-                //RegisterPage1 otherUserProfilePage = new RegisterPage1();
-                //await App.Current.MainPage.Navigation.PushAsync(otherUserProfilePage);
-                // create a new temp person to send -- nvm can't create a Person object...
-
-                await Shell.Current.GoToAsync($"{nameof(OtherUserProfilePage)}").ContinueWith((_) =>
+                string userId = Question.QuestionSuggester;
+                var userToSend = await RTAClient.GetUserById(userId);
+                if (userToSend.Err != null)
                 {
-                    MessagingCenter.Send(this, "OtherUserQuestion", Question); // Send person or send question
-                });
+                    ReportLabelText = "Could not find user on the server: " + userToSend.Err;
+                }
+                if (userToSend.Ok != null)
+                {
+                    await Shell.Current.GoToAsync($"{nameof(OtherUserProfilePage)}").ContinueWith((_) =>
+                    {
+                        MessagingCenter.Send(this, "OtherUser", userToSend.Ok); // Send person or send question
+                    });
+                }
             });
             BackCommand = new AsyncCommand(async () =>
             {
@@ -338,10 +348,9 @@ namespace RightToAskClient.ViewModels
         public IAsyncCommand BackCommand { get; }
         public Command SaveQuestionCommand { get; }
         public IAsyncCommand SelectCommitteeButtonCommand { get; }
-        public Command UpvoteCommand { get; }
+        public IAsyncCommand UpvoteCommand { get; }
         public Command SaveAnswerCommand { get; }
         public Command EditAnswerCommand { get; }
-        
         public IAsyncCommand OptionACommand { get; }
         public IAsyncCommand OptionBCommand { get; }
 
@@ -501,9 +510,9 @@ namespace RightToAskClient.ViewModels
         {
             if (!App.ReadingContext.ThisParticipant.IsRegistered)
             {
-                string message = "You need to make an account to publish, edit or vote on questions";
+                string message = AppResources.CreateAccountPopUpText;
                 bool registerNow
-                    = await App.Current.MainPage.DisplayAlert("Make an account?", message, "OK", "Not now");
+                    = await App.Current.MainPage.DisplayAlert(AppResources.MakeAccountQuestionText, message, AppResources.OKText, AppResources.NotNowAnswerText);
 
                 if (registerNow)
                 {
