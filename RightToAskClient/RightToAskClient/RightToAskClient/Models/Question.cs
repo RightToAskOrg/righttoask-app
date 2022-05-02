@@ -290,7 +290,9 @@ namespace RightToAskClient.Models
         public Command ReportCommand { get; }
         public Command QuestionDetailsCommand { get; }
         public IAsyncCommand ShareCommand { get; }
-        public Question(QuestionReceiveFromServer serverQuestion)
+        
+        // Call empty constructor to initialize commands etc.
+        public Question(QuestionReceiveFromServer serverQuestion) : this()
         {
             // question-defining fields
             QuestionSuggester = serverQuestion.author ?? "";

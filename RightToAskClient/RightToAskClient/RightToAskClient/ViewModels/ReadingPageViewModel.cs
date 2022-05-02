@@ -304,7 +304,9 @@ namespace RightToAskClient.ViewModels
                 // convert the ServerQuestions to a Displayable format
                 foreach (QuestionReceiveFromServer serverQuestion in ServerQuestions)
                 {
+                    // FIXME: The use of this constructor seems to break things.
                     Question temp = new Question(serverQuestion);
+                    
                     /*
                     Question temp = new Question()
                     {
@@ -321,6 +323,7 @@ namespace RightToAskClient.ViewModels
                         OthersCanAddAskers = serverQuestion.who_should_ask_the_question_permissions == RTAPermissions.Others
                     };
                     */
+                    
                     QuestionsToDisplay.Add(temp);
                 }
                 IsRefreshing = false;
