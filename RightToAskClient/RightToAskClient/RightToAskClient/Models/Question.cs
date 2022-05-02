@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using RightToAskClient.Models.ServerCommsData;
+using RightToAskClient.Resx;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -205,6 +206,7 @@ namespace RightToAskClient.Models
             set => SetProperty(ref _hasAnswer, value);
         }
 
+        /*
         public override string ToString ()
         {
             
@@ -220,6 +222,7 @@ namespace RightToAskClient.Models
                    // "DownVotes: " + DownVotes + '\n' +
                    "Link/Answer: " + LinkOrAnswer;
         }
+        */
 
         // constructor needed for command creation
         public Question()

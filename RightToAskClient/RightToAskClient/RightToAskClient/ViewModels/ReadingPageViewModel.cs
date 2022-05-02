@@ -328,7 +328,9 @@ namespace RightToAskClient.ViewModels
             // after getting the list of questions, remove the ids for dismissed questions, and set the upvoted status of liked ones
             for(int i = 0; i < App.ReadingContext.ThisParticipant.RemovedQuestionIDs.Count; i++)
             {
-                Question temp = QuestionsToDisplay.ToList().Where(q => q.QuestionId == App.ReadingContext.ThisParticipant.RemovedQuestionIDs[i]).FirstOrDefault();
+                Question temp = QuestionsToDisplay.ToList()
+                    .Where(q => q.QuestionId == App.ReadingContext.ThisParticipant.RemovedQuestionIDs[i])
+                    .FirstOrDefault();
                 if(temp != null)
                 {
                     QuestionsToDisplay.Remove(temp);
