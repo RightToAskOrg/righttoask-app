@@ -181,5 +181,16 @@ namespace RightToAskClient.Models
         public Command ReportCommand { get; }
         public Command QuestionDetailsCommand { get; }
         public IAsyncCommand ShareCommand { get; }
+
+        // validation
+        //public bool Validate()
+        //{
+        //    bool isValid = false;
+        //    // must have an Id string, and question text
+        //    if (!string.IsNullOrEmpty(QuestionId))
+        //    {
+
+        //    }
+        //}
     }
 }
