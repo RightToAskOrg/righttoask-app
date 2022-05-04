@@ -182,15 +182,17 @@ namespace RightToAskClient.Models
         public Command QuestionDetailsCommand { get; }
         public IAsyncCommand ShareCommand { get; }
 
-        // validation
-        //public bool Validate()
-        //{
-        //    bool isValid = false;
-        //    // must have an Id string, and question text
-        //    if (!string.IsNullOrEmpty(QuestionId))
-        //    {
-
-        //    }
-        //}
+        //validation
+        public bool Validate()
+        {
+            bool isValid = false;
+            // must have an Id string, and question text
+            if (!string.IsNullOrEmpty(QuestionId)
+                && !string.IsNullOrEmpty(QuestionText))
+            {
+                isValid = true;
+            }
+            return isValid;
+        }
     }
 }

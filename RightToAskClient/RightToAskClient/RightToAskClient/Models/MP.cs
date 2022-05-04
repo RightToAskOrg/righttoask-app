@@ -62,5 +62,16 @@ namespace RightToAskClient.Models
                    + RoleIfNeeded; 
         }
 
+        public bool Validate()
+        {
+            // TODO: 
+
+            bool isValid = false;
+            if (!string.IsNullOrEmpty(surname) && electorate != null && !string.IsNullOrEmpty(electorate.region))
+            {
+                isValid = true;
+            }
+            return isValid;
+        }
     }
 }

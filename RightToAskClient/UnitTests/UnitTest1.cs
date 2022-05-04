@@ -1,6 +1,12 @@
+using RightToAskClient;
+using RightToAskClient.Helpers;
+using RightToAskClient.Models;
 using RightToAskClient.ViewModels;
 using RightToAskClient.Views;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using Xamarin.Forms;
 using Xunit;
 
@@ -65,6 +71,8 @@ namespace UnitTests
             bool messageReceived = false;
             MainPageViewModel vm = new MainPageViewModel();
 
+            var appShell = new AppShell();
+
             MessagingCenter.Subscribe<MainPageViewModel>(this, "MainPage", (sender) =>
             {
                 messageReceived = true;
@@ -113,7 +121,7 @@ namespace UnitTests
             Assert.True(messageReceived);
         }
 
-        public class MockMessageSendingService 
+        public class MockMessageSendingService
         {
             public MockMessageSendingService(string message)
             {
@@ -138,7 +146,102 @@ namespace UnitTests
         }
         #endregion
 
-        // Validate Object Tests
+        // ListToString Converter Tests
+        [Fact]
+        public void CreateTextGivenListMPsTest()
+        {
+            // arrange data
+            ElectorateWithChamber electorateWithChamber = new ElectorateWithChamber(ParliamentData.Chamber.Vic_Legislative_Council, "VIC");
+            MP validMP = new MP("firstname", "lastname", electorateWithChamber, "email", "role", "party");
 
+            List<MP> mps = new List<MP>
+            {
+
+            };
+
+            FilterViewModel vm = new FilterViewModel();
+            //vm.CreateTextGivenListMPs();
+        }
+
+        // Validate Object Tests
+        [Fact]
+        public void ValidMPTest()
+        {
+            ElectorateWithChamber electorateWithChamber = new ElectorateWithChamber(ParliamentData.Chamber.Vic_Legislative_Council, "VIC");
+            MP validMP = new MP("firstname", "lastname", electorateWithChamber, "email", "role", "party");
+
+            Assert.NotNull(validMP);
+            Assert.NotNull(electorateWithChamber);
+            Assert.Equal(ParliamentData.Chamber.Vic_Legislative_Council, electorateWithChamber.chamber);
+            Assert.Equal(ParliamentData.State.VIC, electorateWithChamber.region);
+            Assert.True(validMP.first_name.Any());
+            Assert.True(validMP.surname.Any());
+            Assert.True(validMP.email.Any());
+            Assert.True(validMP.role.Any());
+            Assert.True(validMP.party.Any());
+        }
+
+        [Fact]
+        public void FindParliamentDataTest()
+        {
+            // arrange
+            string state = "VIC";
+            string invalidState = "test";
+
+            // act
+            var data = ParliamentData.FindChambers(state);
+            var data2 = ParliamentData.FindChambers(invalidState);
+
+            // assert 
+            Assert.NotNull(data);
+            Assert.Equal(ParliamentData.Chamber.Australian_House_Of_Representatives, data[0]);
+            Assert.Equal(ParliamentData.Chamber.Australian_Senate, data[1]);
+            Assert.Equal(ParliamentData.Chamber.Vic_Legislative_Assembly, data[2]);
+            Assert.Equal(ParliamentData.Chamber.Vic_Legislative_Council, data[3]);
+            Assert.False(data2.Any()); // this line fails because we still set the first 2 chambers for invalid strings.
+        }
+
+        [Fact]
+        public void ValidateQuestionTest()
+        {
+            // arrange
+            Question validQuestion = new Question();
+            validQuestion.QuestionId = "TestId";
+            validQuestion.QuestionText = "Question Text for Testing the question's validator method.";
+
+            Question invalidQuestion = new Question();
+
+            // act
+            bool isValid = validQuestion.Validate();
+            bool invalid = invalidQuestion.Validate();
+
+            // assert
+            Assert.True(isValid);
+            Assert.False(invalid);
+            Assert.True(!string.IsNullOrEmpty(validQuestion.QuestionId));
+            Assert.True(!string.IsNullOrEmpty(validQuestion.QuestionText));
+        }
+
+        // Boolean Converter Test
+        [Fact]
+        public void ConverterTest()
+        {
+            // arrange data
+            bool falseConvert = false;
+            bool trueConvert = true;
+
+            Type t = typeof(bool);
+            CultureInfo c = new CultureInfo("es-ES", false);
+
+            InvertConvert converterClass = new InvertConvert();
+
+            // act on the data
+            falseConvert = (bool)converterClass.Convert(falseConvert, t, null, c);
+            trueConvert = (bool)converterClass.Convert(trueConvert, t, null, c);
+
+            // assert
+            Assert.True(falseConvert);
+            Assert.False(trueConvert);
+        }
     }
 }

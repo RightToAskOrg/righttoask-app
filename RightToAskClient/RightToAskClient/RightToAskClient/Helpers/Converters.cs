@@ -4,7 +4,7 @@ using Xamarin.Forms;
 
 namespace RightToAskClient.Helpers
 {
-    class InvertConvert : IValueConverter
+    public class InvertConvert : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
