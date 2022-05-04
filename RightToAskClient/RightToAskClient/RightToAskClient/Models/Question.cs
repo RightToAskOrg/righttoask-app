@@ -334,31 +334,26 @@ namespace RightToAskClient.Models
                     if (entity.AsAuthority != null)
                     {
                         // If we can find it in our existing authority list, add that item to 'selected'
-                        if(CanFindInListBThenAddToListA(entity.AsAuthority, Filters.SelectedAuthorities, 
+                        if(!CanFindInListBThenAddToListA(entity.AsAuthority, Filters.SelectedAuthorities, 
                             ParliamentData.AllAuthorities))
                         {
-                        }
-                        // otherwise, add the authority we just constructed/received
-                        else 
-                        {
+                            // otherwise, add the authority we just constructed/received
                             Filters.SelectedAuthorities.Add(entity.AsAuthority);
                         }
                     }
                     else if (entity.AsMP != null)
                     {
                         // If the MP is one of mine, add it to AnsweringMPsMine
-                        if (CanFindInListBThenAddToListA<MP>(entity.AsMP,
+                        if (!CanFindInListBThenAddToListA<MP>(entity.AsMP,
                             Filters.SelectedAnsweringMPsMine, App.ReadingContext.ThisParticipant.MyMPs))
                         {
-                        }
-                        // otherwise, try to find it in AllMPs
-                        else if (CanFindInListBThenAddToListA<MP>(entity.AsMP, Filters.SelectedAnsweringMPs,
-                            ParliamentData.AllMPs))
-                        {
-                        }
-                        else
-                        {
-                            Filters.SelectedAnsweringMPs.Add(entity.AsMP);
+                            // otherwise, try to find it in AllMPs
+                            if (!CanFindInListBThenAddToListA<MP>(entity.AsMP, Filters.SelectedAnsweringMPs,
+                                ParliamentData.AllMPs))
+                            {
+                                // If all else fails, add the bare-bones MP record we received.
+                                Filters.SelectedAnsweringMPs.Add(entity.AsMP);
+                            }
                         }
                     }
                 }
@@ -379,18 +374,16 @@ namespace RightToAskClient.Models
                     else if (entity.AsMP != null)
                     {
                         // If the MP is one of mine, add it to AskingMPsMine
-                        if (CanFindInListBThenAddToListA<MP>(entity.AsMP,
-                            Filters.SelectedAskingMPsMine, App.ReadingContext.ThisParticipant.MyMPs))
+                        if (!CanFindInListBThenAddToListA<MP>(entity.AsMP,
+                                Filters.SelectedAskingMPsMine, App.ReadingContext.ThisParticipant.MyMPs))
                         {
-                        }
-                        // otherwise, try to find it in AllMPs
-                        else if (CanFindInListBThenAddToListA<MP>(entity.AsMP, Filters.SelectedAskingMPs,
-                            ParliamentData.AllMPs))
-                        {
-                        }
-                        else
-                        {
-                            Filters.SelectedAskingMPs.Add(entity.AsMP);
+                            // otherwise, try to find it in AllMPs
+                            if (!CanFindInListBThenAddToListA<MP>(entity.AsMP, Filters.SelectedAskingMPs,
+                                ParliamentData.AllMPs))
+                            {
+                                // If all else fails, add bare-bones MP data we got from the server.
+                                Filters.SelectedAskingMPs.Add(entity.AsMP);
+                            }
                         }
                     }
                 }
