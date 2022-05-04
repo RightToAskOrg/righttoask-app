@@ -338,24 +338,36 @@ namespace RightToAskClient.Models
                     }
                     else if (entity.AsMP != null)
                     {
-                        // Not sure if we can use == because we rewrote Equals. I think so.
-                        MP? possiblyMyMP = App.ReadingContext.ThisParticipant.MyMPs.ToList()
-                            .Find(mp => mp.Equals(entity.AsMP));
-                        if (possiblyMyMP != null)
+                        // If the MP is one of mine, addit to AnsweringMPsMine
+                        if (IsItemPresentInListBIfSoAddToListA<MP>(entity.AsMP,
+                            Filters.SelectedAnsweringMPsMine, App.ReadingContext.ThisParticipant.MyMPs))
                         {
-                            Filters.SelectedAnsweringMPsMine.Add(possiblyMyMP); 
-                        } 
+                            // Not sure if we can use == because we rewrote Equals. I think so.
+                            /*
+                            MP? possiblyMyMP = App.ReadingContext.ThisParticipant.MyMPs.ToList()
+                                .Find(mp => mp.Equals(entity.AsMP));
+                            if (possiblyMyMP != null)
+                            {
+                                Filters.SelectedAnsweringMPsMine.Add(possiblyMyMP); 
+                            } 
+                            */
+                        }
+                        // otherwise, try to find it in AllMPs
+                        else if (IsItemPresentInListBIfSoAddToListA<MP>(entity.AsMP, Filters.SelectedAnsweringMPs,
+                            ParliamentData.AllMPs))
+                        {
+                        }
+                        /* else 
+                    {
+                        MP? possiblyMP = ParliamentData.AllMPs.ToList().Find(mp => mp.Equals(entity.AsMP));
+                        if (possiblyMP != null)
+                        {
+                            Filters.SelectedAnsweringMPs.Add(possiblyMP); 
+                        }
+                        */
                         else
                         {
-                            MP? possiblyMP = ParliamentData.AllMPs.ToList().Find(mp => mp.Equals(entity.AsMP));
-                            if (possiblyMP != null)
-                            {
-                                Filters.SelectedAnsweringMPs.Add(possiblyMP); 
-                            }
-                            else
-                            {
-                                Filters.SelectedAnsweringMPs.Add(entity.AsMP);
-                            }
+                            Filters.SelectedAnsweringMPs.Add(entity.AsMP);
                         }
                     }
                 }
@@ -374,6 +386,21 @@ namespace RightToAskClient.Models
             }
         }
 
-
+        // If an item equal to item is found in listB, that list element is added to listA.
+        // Note that the ListB element is added, not the item - this is important for data structures
+        // such as MP in which the equality operator is true if identifying fields (but not necessarily
+        // all fields) are equal.
+        // Returns true if the item was found
+        private bool IsItemPresentInListBIfSoAddToListA<T>(T item, IEnumerable<T> listA, IEnumerable<T> listB)
+        {
+            T possibleItem = listB.ToList().Find(t => t != null && t.Equals(item));
+            if (possibleItem is null)
+            {
+                return false;
+            }
+            
+            listA.ToList().Add(possibleItem);
+            return true;
+        }
     }
 }
