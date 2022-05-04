@@ -20,11 +20,9 @@ namespace RightToAskClient.Models.ServerCommsData
         public string? question_text { get; set; }
 
         // bookkeeping fields
-        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
         [JsonPropertyName("question_id")]
         public string? question_id { get; set; }
         
-        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
         [JsonPropertyName("version")]
         public string? version { get; set; }
         

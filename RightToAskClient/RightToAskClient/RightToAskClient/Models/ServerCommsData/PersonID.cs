@@ -44,6 +44,10 @@ namespace RightToAskClient.Models.ServerCommsData
         // TODO at the moment, each of these simply generates the minimal data structure with a string
         // However, we probably want to edit and make constructors that fill in the extra data, either from stored json
         // or from looking up the user online.
+        // Obviously these should be ignored for json serialisation - they don't get sent to the server, they're just
+        // for internal app use.
+        
+        [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
         public Authority? AsAuthority
         {
             get
@@ -59,6 +63,8 @@ namespace RightToAskClient.Models.ServerCommsData
                 return null;
             }   
         }
+        
+        [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
         public Person? AsRTAUser 
         {
             get
@@ -75,6 +81,7 @@ namespace RightToAskClient.Models.ServerCommsData
             }
         }
 
+        [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
         public MP? AsMP
         {
             get
