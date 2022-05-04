@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace RightToAskClient.Models
 {
-    public class Authority : Entity
+    public class Authority : Entity, IEquatable<Authority>
     {
         private string _authorityName = "";
         private string _nickName = "";
@@ -77,6 +77,14 @@ namespace RightToAskClient.Models
         public override string GetName()
         {
             return _authorityName + NickNameIfPresent();
+        }
+
+        // Equality is satisfied if the names are equal
+        // TODO we may want to edit with server to consider whether a level/jurisdiction should be considered too, 
+        // e.g. "department of health" "vic" or something.
+        public bool Equals(Authority other)
+        {
+            return _authorityName == other.AuthorityName;
         }
 
         public override string ToString()

@@ -320,6 +320,9 @@ namespace RightToAskClient.Models
             IsFollowupTo = serverQuestion.is_followup_to ?? "";
         }
 
+        // At the moment, if this gets an entity that it can't match, it simply adds it to the 'selected' list anyway,
+        // in the minimal form it receives from the server.
+        // TODO it's possible that this may cause problems with uniqueness, and hence we may consider dropping it instead.
         private void interpretFilters(QuestionReceiveFromServer serverQuestion)
         {
             Filters = new FilterChoices();
@@ -330,41 +333,29 @@ namespace RightToAskClient.Models
                 {
                     if (entity.AsAuthority != null)
                     {
-                        Filters.SelectedAuthorities.Add(entity.AsAuthority);
-                    }
-                    else if (entity.AsRTAUser != null)
-                    {
-                        Filters.SelectedAskingUsers.Add(entity.AsRTAUser);
+                        // If we can find it in our existing authority list, add that item to 'selected'
+                        if(CanFindInListBThenAddToListA(entity.AsAuthority, Filters.SelectedAuthorities, 
+                            ParliamentData.AllAuthorities))
+                        {
+                        }
+                        // otherwise, add the authority we just constructed/received
+                        else 
+                        {
+                            Filters.SelectedAuthorities.Add(entity.AsAuthority);
+                        }
                     }
                     else if (entity.AsMP != null)
                     {
-                        // If the MP is one of mine, addit to AnsweringMPsMine
-                        if (IsItemPresentInListBIfSoAddToListA<MP>(entity.AsMP,
+                        // If the MP is one of mine, add it to AnsweringMPsMine
+                        if (CanFindInListBThenAddToListA<MP>(entity.AsMP,
                             Filters.SelectedAnsweringMPsMine, App.ReadingContext.ThisParticipant.MyMPs))
                         {
-                            // Not sure if we can use == because we rewrote Equals. I think so.
-                            /*
-                            MP? possiblyMyMP = App.ReadingContext.ThisParticipant.MyMPs.ToList()
-                                .Find(mp => mp.Equals(entity.AsMP));
-                            if (possiblyMyMP != null)
-                            {
-                                Filters.SelectedAnsweringMPsMine.Add(possiblyMyMP); 
-                            } 
-                            */
                         }
                         // otherwise, try to find it in AllMPs
-                        else if (IsItemPresentInListBIfSoAddToListA<MP>(entity.AsMP, Filters.SelectedAnsweringMPs,
+                        else if (CanFindInListBThenAddToListA<MP>(entity.AsMP, Filters.SelectedAnsweringMPs,
                             ParliamentData.AllMPs))
                         {
                         }
-                        /* else 
-                    {
-                        MP? possiblyMP = ParliamentData.AllMPs.ToList().Find(mp => mp.Equals(entity.AsMP));
-                        if (possiblyMP != null)
-                        {
-                            Filters.SelectedAnsweringMPs.Add(possiblyMP); 
-                        }
-                        */
                         else
                         {
                             Filters.SelectedAnsweringMPs.Add(entity.AsMP);
@@ -373,14 +364,34 @@ namespace RightToAskClient.Models
                 }
             }
 
-            // FIXME
+            // Exactly the same, but for asking rather than answering MPs 
+            // except that at the moment, we have no authorities/orgs set up to be able to ask the question,
+            // and also we may one day have other users set to ask questions.
             if (serverQuestion.mp_who_should_ask_the_question != null)
             {
                 foreach (var entity in serverQuestion.mp_who_should_ask_the_question)
                 {
-                    if (entity.AsMP != null)
+                    // TODO SelectedAskingUsers isn't used anywhere yet.
+                    if (entity.AsRTAUser != null)
                     {
-                        Filters.SelectedAskingMPs.Add(entity.AsMP);
+                        Filters.SelectedAskingUsers.Add(entity.AsRTAUser);
+                    }
+                    else if (entity.AsMP != null)
+                    {
+                        // If the MP is one of mine, add it to AskingMPsMine
+                        if (CanFindInListBThenAddToListA<MP>(entity.AsMP,
+                            Filters.SelectedAskingMPsMine, App.ReadingContext.ThisParticipant.MyMPs))
+                        {
+                        }
+                        // otherwise, try to find it in AllMPs
+                        else if (CanFindInListBThenAddToListA<MP>(entity.AsMP, Filters.SelectedAskingMPs,
+                            ParliamentData.AllMPs))
+                        {
+                        }
+                        else
+                        {
+                            Filters.SelectedAskingMPs.Add(entity.AsMP);
+                        }
                     }
                 }
             }
@@ -391,7 +402,7 @@ namespace RightToAskClient.Models
         // such as MP in which the equality operator is true if identifying fields (but not necessarily
         // all fields) are equal.
         // Returns true if the item was found
-        private bool IsItemPresentInListBIfSoAddToListA<T>(T item, IEnumerable<T> listA, IEnumerable<T> listB)
+        private bool CanFindInListBThenAddToListA<T>(T item, IEnumerable<T> listA, IEnumerable<T> listB)
         {
             T possibleItem = listB.ToList().Find(t => t != null && t.Equals(item));
             if (possibleItem is null)
