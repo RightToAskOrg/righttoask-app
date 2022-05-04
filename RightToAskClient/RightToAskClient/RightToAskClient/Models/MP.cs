@@ -4,25 +4,34 @@
 // represented in the RightToKnow list.
 
 using System;
+using System.Text.Json.Serialization;
 using RightToAskClient.Models.ServerCommsData;
 
 namespace RightToAskClient.Models
 {
     public class MP : Entity
     {
-        public string first_name { get; }
+        [JsonPropertyName("first_name")]
+        public string first_name { get; set; }
         // public ParliamentData.Chamber ChamberSeatedIn { get; set; }
 
-        public string surname { get; }
+        [JsonPropertyName("surname")] 
+        public string surname { get; set; } = "";
 
+
+        [JsonPropertyName("electorate")] 
         public ElectorateWithChamber electorate { get; set; }
 
         // TODO consider making this a specific appropriate type
-        public string email { get; } = "";
+        [JsonPropertyName("email")]
+        public string email { get; set; } = "";
         
-        public string role { get; }= "";
         
-        public string party { get; }= "";
+        [JsonPropertyName("role")]
+        public string role { get; set; }= "";
+        
+        [JsonPropertyName("party")]
+        public string party { get; set; }= "";
 
         public override string ShortestName
         {
@@ -31,10 +40,12 @@ namespace RightToAskClient.Models
 
         private string salutation = "";
 
+        // The compiler thinks this is unused, but it's necessary for json deserialisation.
         public MP()
         {
         }
 
+        /*
         public MP(string first_name, string surname, ElectorateWithChamber electorate,
             string email = "", string role = "", string party = "" )
         {
@@ -45,13 +56,14 @@ namespace RightToAskClient.Models
             this.role = role;
             this.party = party;
         }
+        */
 
         // TODO Consider adding lookup of other attributes such as ministerial roles from MP.json.
         public MP(MPId serverMP)
         {
-            this.first_name = serverMP.first_name;
-            this.surname = serverMP.surname;
-            this.electorate = serverMP.electorate;
+            first_name = serverMP.first_name;
+            surname = serverMP.surname;
+            electorate = serverMP.electorate;
         }
 
         // public string ElectorateRepresenting { get; set; } = "";
