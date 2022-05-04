@@ -44,7 +44,7 @@ namespace RightToAskClient.Models.ServerCommsData
         [JsonPropertyName("who_should_ask_the_question_permissions")]
         public RTAPermissions who_should_ask_the_question_permissions { get; set; }
         
-        [JsonPropertyName("entity_who_should_answer_the_quetion")]
+        [JsonPropertyName("entity_who_should_answer_the_question")]
         public List<PersonID>? entity_who_should_answer_the_question { get; set; }
         
         [JsonPropertyName("who_should_answer_the_question_permissions")]

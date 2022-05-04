@@ -9,7 +9,8 @@ using RightToAskClient.Models.ServerCommsData;
 
 namespace RightToAskClient.Models
 {
-    public class MP : Entity
+    public class MP : Entity, IEquatable<MP> 
+
     {
         [JsonPropertyName("first_name")]
         public string first_name { get; set; }
@@ -45,19 +46,6 @@ namespace RightToAskClient.Models
         {
         }
 
-        /*
-        public MP(string first_name, string surname, ElectorateWithChamber electorate,
-            string email = "", string role = "", string party = "" )
-        {
-            this.surname = surname;
-            this.first_name = first_name;
-            this.electorate = electorate;
-            this.email = email;
-            this.role = role;
-            this.party = party;
-        }
-        */
-
         // TODO Consider adding lookup of other attributes such as ministerial roles from MP.json.
         public MP(MPId serverMP)
         {
@@ -71,6 +59,16 @@ namespace RightToAskClient.Models
         public override string GetName()
         {
             return first_name + " " + surname;
+        }
+
+        // Note that this is *not* complete equality of the whole data structure. 
+        // In particular, it omits to check roles, parties and email, on the assumption
+        // that these things may change and we still want to consider it to be the same MP.
+        public bool Equals(MP other)
+        {
+            return surname == other.surname
+                   && first_name == other.first_name
+                   && electorate.Equals(other.electorate);
         }
 
         public override string ToString()

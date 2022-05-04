@@ -338,12 +338,30 @@ namespace RightToAskClient.Models
                     }
                     else if (entity.AsMP != null)
                     {
-                        // FIXME Filter for my MPs; add them to SelectedAnsweringMPsMine instead
-                        Filters.SelectedAnsweringMPs.Add(entity.AsMP);
+                        // Not sure if we can use == because we rewrote Equals. I think so.
+                        MP? possiblyMyMP = App.ReadingContext.ThisParticipant.MyMPs.ToList()
+                            .Find(mp => mp.Equals(entity.AsMP));
+                        if (possiblyMyMP != null)
+                        {
+                            Filters.SelectedAnsweringMPsMine.Add(possiblyMyMP); 
+                        } 
+                        else
+                        {
+                            MP? possiblyMP = ParliamentData.AllMPs.ToList().Find(mp => mp.Equals(entity.AsMP));
+                            if (possiblyMP != null)
+                            {
+                                Filters.SelectedAnsweringMPs.Add(possiblyMP); 
+                            }
+                            else
+                            {
+                                Filters.SelectedAnsweringMPs.Add(entity.AsMP);
+                            }
+                        }
                     }
                 }
             }
 
+            // FIXME
             if (serverQuestion.mp_who_should_ask_the_question != null)
             {
                 foreach (var entity in serverQuestion.mp_who_should_ask_the_question)
