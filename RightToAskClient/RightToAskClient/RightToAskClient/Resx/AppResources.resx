@@ -132,8 +132,17 @@
   <data name="AnotherUserButtonText" xml:space="preserve">
     <value>Another RightToAsk User</value>
   </data>
+  <data name="AnswererPermissions" xml:space="preserve">
+    <value>Allow other users to add more people to answer the question?</value>
+  </data>
+  <data name="ApproveAnswerText" xml:space="preserve">
+    <value>Approve this answer?</value>
+  </data>
   <data name="ApplicationTitle" xml:space="preserve">
     <value>Right To Ask</value>
+  </data>
+  <data name="AskerPermissions" xml:space="preserve">
+    <value>Allow other users to add more people to raise the question?</value>
   </data>
   <data name="AuthorityFilterLabelText" xml:space="preserve">
     <value>Authorities who should answer the question</value>
@@ -309,6 +318,13 @@
   <data name="QuestionDetailsTitle" xml:space="preserve">
     <value>Question Details</value>
   </data>
+  <!--
+  <data name="QuestionAnswererHeaderText" xml:space="preserve">
+    <value>To be answered by:</value>
+  </data>
+  <data name="QuestionAskerHeaderText" xml:space="preserve">
+    <value>To be raised in parliament by:</value>
+  </data> -->
   <data name="QuestionHeaderText" xml:space="preserve">
     <value>Question: </value>
   </data>

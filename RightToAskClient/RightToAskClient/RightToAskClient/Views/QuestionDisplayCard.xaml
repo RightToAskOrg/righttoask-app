@@ -11,7 +11,7 @@
         <Frame Style="{StaticResource GreenFrame}" Padding="5" VerticalOptions="FillAndExpand">
             <Grid RowDefinitions="auto,auto,auto" ColumnDefinitions="*,*,*,*" Padding="0" Margin="0" BackgroundColor="Transparent" RowSpacing="0" ColumnSpacing="0">
                 <Grid ColumnDefinitions="*,auto" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4">
-                    <Label Grid.Row="0" Grid.Column="0" Text="To: Test Answerer" Style="{StaticResource QuestionFrameCardText}" 
+                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding QuestionAnswerers, StringFormat='To: {0}'}" Style="{StaticResource QuestionFrameCardText}" 
                            FontAttributes="Bold"/>
                     <!-- Answer Status?-->
                     <!--<ImageButton Grid.Row="0" Grid.Column="1" WidthRequest="20" HeightRequest="20" VerticalOptions="Center"

@@ -18,21 +18,16 @@ namespace RightToAskClient.Models
 			get { return RegistrationInfo.display_name; }
 		}
 
-		private Registration _registrationInfo = new Registration();
-        // TODO add attributes for a nice profile, such as a photo.
 
         // Initially, when we don't know the state, it's only the Australian
 		// Parliament.
 		protected List<ParliamentData.Chamber> ChambersRepresentedIn 
 			= ParliamentData.FindChambers("");
 
-		//protected List<ElectorateWithChamber> electorates = new List<ElectorateWithChamber>();
 
-		public void UpdateChambers(string state)
-		{
-			ChambersRepresentedIn = ParliamentData.FindChambers(state);
-		}
 
+
+		private Registration _registrationInfo = new Registration();
         public Registration RegistrationInfo 
         {
 			get { return _registrationInfo; }
@@ -60,17 +55,6 @@ namespace RightToAskClient.Models
 	        {
 		        return RegistrationInfo.findElectorateGivenPredicate(chamberPair => chamberPair.chamber == ParliamentData.Chamber.Australian_House_Of_Representatives);
 	        }
-	        
-	        /*
-	        var houseOfRepsElectoratePair = registrationInfo.electorates.Find(chamberPair =>
-		        chamberPair.chamber == ParliamentData.Chamber.Australian_House_Of_Representatives);
-	        if (houseOfRepsElectoratePair is null)
-	        {
-		        return "";
-	        }
-
-	        return houseOfRepsElectoratePair.region;
-	        */
         }
 
         public string StateLowerHouseElectorate
@@ -79,16 +63,6 @@ namespace RightToAskClient.Models
 	        {
 		        return RegistrationInfo.findElectorateGivenPredicate(chamberPair => ParliamentData.IsLowerHouseChamber(chamberPair.chamber)); 
 	        }
-	        /*
-	        var electoratePair = registrationInfo.electorates.Find(chamberPair =>
-		        ParliamentData.IsLowerHouseChamber(chamberPair.chamber));
-	        if (electoratePair is null)
-	        {
-		        return "";
-	        }
-
-	        return electoratePair.region;
-	        */
         }
 
         /*
@@ -144,9 +118,25 @@ namespace RightToAskClient.Models
 			}
 		}
 
+		// TODO Consider fixing this so that it looks up the user and knows its other
+		// attributes.
+		public Person(string user)
+		{
+			RegistrationInfo = new Registration() { uid = user };
+		}
+
+		protected Person()
+		{
+		}
+		 
 		public override string GetName()
 		{
 			return _registrationInfo.display_name;
+		}
+		
+		public void UpdateChambers(string state)
+		{
+			ChambersRepresentedIn = ParliamentData.FindChambers(state);
 		}
     }
 

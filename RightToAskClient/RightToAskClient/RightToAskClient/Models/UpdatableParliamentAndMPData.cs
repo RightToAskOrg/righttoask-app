@@ -92,6 +92,7 @@ namespace RightToAskClient.Models
 				//return;
 			}
 
+			// TODO I believe this makes it wait a long time. Consider *not* awaiting this call.
 			success = await TryInitialisingFromServer();
 			if (String.IsNullOrEmpty(success.Err))
 			{
@@ -125,6 +126,7 @@ namespace RightToAskClient.Models
 			
 			_allMPsData = success.Ok;
 			_isInitialised = true;
+			// TODO this seem to be called twice. Prob don't need both.
 			QuestionViewModel.Instance.UpdateMPButtons();
 			return new Result<bool>() { Ok = true };
 		}

@@ -13,7 +13,7 @@ namespace RightToAskClient.Models
 		private ObservableCollection<MP> _selectedAskingMPsMine = new ObservableCollection<MP>();
 		private ObservableCollection<Authority> _selectedAuthorities = new ObservableCollection<Authority>();
 		private ObservableCollection<string> _selectedAskingCommittee = new ObservableCollection<string>();
-		private ObservableCollection<Entity> _selectedAskingUsers = new ObservableCollection<Entity>();
+		private ObservableCollection<Person?> _selectedAskingUsers = new ObservableCollection<Person?>();
 
 		public ObservableCollection<Authority> SelectedAuthorities
 		{
@@ -81,7 +81,7 @@ namespace RightToAskClient.Models
 			}
 		}
 
-		public ObservableCollection<Entity> SelectedAskingUsers
+		public ObservableCollection<Person?> SelectedAskingUsers
 		{
 			get => _selectedAskingUsers;
 			set

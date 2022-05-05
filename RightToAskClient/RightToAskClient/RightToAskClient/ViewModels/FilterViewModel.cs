@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml;
 using Xamarin.CommunityToolkit.ObjectModel;
 using RightToAskClient.Resx;
 using Xamarin.Forms;
@@ -28,7 +29,7 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _committeeText, value);
         }
 
-        public List<Entity> OtherRightToAskUserList = new List<Entity>();
+        public List<Person> OtherRightToAskUserList = new List<Person>();
         private string _otherRightToAskUserText = "";
         public string OtherRightToAskUserText
         {
@@ -188,34 +189,29 @@ namespace RightToAskClient.ViewModels
             CommitteeList = FilterChoices.SelectedAskingCommittee.ToList();
 
             // create strings from those lists
+            /*
             SelectedAskingMPsText = CreateTextGivenListMPs(SelectedAskingMPsList);
             SelectedAnsweringMPsText = CreateTextGivenListMPs(SelectedAnsweringMPsList);
             SelectedAskingMyMPsText = CreateTextGivenListMPs(SelectedAskingMyMPsList);
             SelectedAnsweringMyMPsText = CreateTextGivenListMPs(SelectedAnsweringMyMPsList);
             PublicAuthoritiesText = CreateTextGivenListPAs(PublicAuthoritiesList);
+            OtherRightToAskUserText = CreateTextGivenListPeople(OtherRightToAskUserList);
+            */
+            SelectedAskingMPsText = CreateTextGivenListEntities(SelectedAskingMPsList);
+            SelectedAnsweringMPsText = CreateTextGivenListEntities(SelectedAnsweringMPsList);
+            SelectedAskingMyMPsText = CreateTextGivenListEntities(SelectedAskingMyMPsList);
+            SelectedAnsweringMyMPsText = CreateTextGivenListEntities(SelectedAnsweringMyMPsList);
+            PublicAuthoritiesText = CreateTextGivenListEntities(PublicAuthoritiesList);
             OtherRightToAskUserText = CreateTextGivenListEntities(OtherRightToAskUserList);
             CommitteeText = CreateTextGivenListCommittees(CommitteeList);
         }
 
-        public string CreateTextGivenListMPs(List<MP> mpList)
+        public string CreateTextGivenListEntities(IEnumerable<Entity> entityList)
         {
-            string text = "";
-            for (int i = 0; i < mpList.Count; i++)
-            {
-                text += mpList[i].ShortestName;
-                if (i == mpList.Count - 1)
-                {
-                    // no comma + space
-                    continue;
-                }
-                else
-                {
-                    text += ", ";
-                }
-            }
-            return text;
+            return String.Join(", ", entityList.Select(e => e.ShortestName));
         }
 
+        // TODO merge into CreateTextGivenListEntities.
         public string CreateTextGivenListCommittees(List<string> committeeList)
         {
             string text = "";
@@ -223,44 +219,6 @@ namespace RightToAskClient.ViewModels
             {
                 text += committeeList[i].ToString();
                 if (i == committeeList.Count - 1)
-                {
-                    // no comma + space
-                    continue;
-                }
-                else
-                {
-                    text += ", ";
-                }
-            }
-            return text;
-        }
-
-        public string CreateTextGivenListPAs(List<Authority> paList)
-        {
-            string text = "";
-            for (int i = 0; i < paList.Count; i++)
-            {
-                text += paList[i].ShortestName;
-                if (i == paList.Count - 1)
-                {
-                    // no comma + space
-                    continue;
-                }
-                else
-                {
-                    text += ", ";
-                }
-            }
-            return text;
-        }
-
-        public string CreateTextGivenListEntities(List<Entity> userList)
-        {
-            string text = "";
-            for (int i = 0; i < userList.Count; i++)
-            {
-                text += userList[i].ShortestName;
-                if (i == userList.Count - 1)
                 {
                     // no comma + space
                     continue;
