@@ -105,8 +105,7 @@ namespace UnitTests
 
         [Theory]
         [InlineData("FromReg1")]
-        [InlineData("UpdateFilters")]
-        [InlineData("MainPage")]
+        [InlineData("Test")]
         public void MessagingCenterTest(string message)
         {
             bool messageReceived = false;
@@ -117,6 +116,23 @@ namespace UnitTests
             });
 
             var mockMessageSendingService = new MockMessageSendingService(message);
+
+            Assert.True(messageReceived);
+        }
+
+        [Theory]
+        [InlineData("FromReg1")]
+        [InlineData("Test")]
+        public void MessagingCenterTest2(string message)
+        {
+            bool messageReceived = false;
+
+            MessagingCenter.Subscribe<MockMessageSendingService>(this, message, (sender) =>
+            {
+                messageReceived = true;
+            });
+
+            var mockMessageSendingService = new MockMessageSendingService("FromReg1");
 
             Assert.True(messageReceived);
         }
