@@ -6,10 +6,13 @@ using RightToAskClient.Resx;
 using RightToAskClient.Views;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using RightToAskClient.Annotations;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -28,7 +31,7 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _question, value);
         }
 
-        public NewQuestionServerSend _serverQuestionUpdates = new NewQuestionServerSend();
+        public QuestionSendToServer _serverQuestionUpdates = new QuestionSendToServer();
 
         private bool _isNewQuestion;
         public bool IsNewQuestion
@@ -151,6 +154,37 @@ namespace RightToAskClient.ViewModels
         }
         public bool NeedToFindAsker => App.ReadingContext.Filters.SelectedAnsweringMPs.IsNullOrEmpty();
 
+        private RTAPermissions _whoShouldAnswerItPermissions = RTAPermissions.NoChange;
+
+        public RTAPermissions WhoShouldAnswerItPermissions
+        {
+            get => _whoShouldAnswerItPermissions;
+            set
+            {
+                // It should only be set when it changes, not set to 'no change'
+                Debug.Assert(value != RTAPermissions.NoChange);
+
+                _whoShouldAnswerItPermissions = value;
+                //Question.OthersCanAddAnswerers = value == RTAPermissions.Others;
+                //_serverQuestionUpdates.who_should_answer_the_question_permissions = value;
+            }
+        }
+
+        private RTAPermissions _whoShouldAskItPermissions = RTAPermissions.NoChange;
+        public RTAPermissions WhoShouldAskItPermissions
+        {
+            get => _whoShouldAskItPermissions;
+            set
+            {
+                // It should only be set when it changes, not set to 'no change'
+                Debug.Assert(value != RTAPermissions.NoChange);
+                
+                _whoShouldAskItPermissions = value;
+                //Question.OthersCanAddAskers = value == RTAPermissions.Others;
+                //_serverQuestionUpdates.who_should_ask_the_question_permissions = value;
+            }
+        }
+
         public QuestionViewModel()
         {
             // set defaults
@@ -230,19 +264,31 @@ namespace RightToAskClient.ViewModels
                 // then navigate to the reading page
                 await Shell.Current.GoToAsync(nameof(ReadingPage));
             });
-            UpvoteCommand = new Command(() =>
+            UpvoteCommand = new AsyncCommand(async () =>
             {
-                if (Question.AlreadyUpvoted)
+                if (App.ReadingContext.ThisParticipant.IsRegistered)
                 {
-                    Question.UpVotes--;
-                    Question.AlreadyUpvoted = false;
-                    UpvoteButtonText = AppResources.UpvoteButtonText;
+                    if (Question.AlreadyUpvoted)
+                    {
+                        Question.UpVotes--;
+                        Question.AlreadyUpvoted = false;
+                        UpvoteButtonText = AppResources.UpvoteButtonText;
+                    }
+                    else
+                    {
+                        Question.UpVotes++;
+                        Question.AlreadyUpvoted = true;
+                        UpvoteButtonText = AppResources.UpvotedButtonText;
+                    }
                 }
                 else
                 {
-                    Question.UpVotes++;
-                    Question.AlreadyUpvoted = true;
-                    UpvoteButtonText = AppResources.UpvotedButtonText;
+                    string message = AppResources.CreateAccountPopUpText;
+                    bool registerNow = await App.Current.MainPage.DisplayAlert(AppResources.MakeAccountQuestionText, message, AppResources.OKText, AppResources.NotNowAnswerText);
+                    if (registerNow)
+                    {
+                        await Shell.Current.GoToAsync($"{nameof(RegisterPage1)}");
+                    }
                 }
             });
             SaveAnswerCommand = new Command(() =>
@@ -302,7 +348,7 @@ namespace RightToAskClient.ViewModels
         public IAsyncCommand BackCommand { get; }
         public Command SaveQuestionCommand { get; }
         public IAsyncCommand SelectCommitteeButtonCommand { get; }
-        public Command UpvoteCommand { get; }
+        public IAsyncCommand UpvoteCommand { get; }
         public Command SaveAnswerCommand { get; }
         public Command EditAnswerCommand { get; }
         public IAsyncCommand OptionACommand { get; }
@@ -321,14 +367,16 @@ namespace RightToAskClient.ViewModels
             AnotherUserButtonText = AppResources.AnotherUserButtonText;
             NotSureWhoShouldRaiseButtonText = AppResources.NotSureButtonText;
             SelectButtonText = AppResources.SelectButtonText;
-            ReportLabelText = AppResources.MPDataStillInitializing;
+            ReportLabelText = "";
+            // TODO not sure whether either of these is the right default - suggest not setting either?
             App.ReadingContext.DraftQuestion = Question.QuestionText;
             Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.uid;
         }
 
         public void ReinitQuestionUpdates()
         {
-            _serverQuestionUpdates = new NewQuestionServerSend();
+            _serverQuestionUpdates = new QuestionSendToServer();
+            Question.ReinitQuestionUpdates();
         }
 
         public void OnButtonPressed(int buttonId)
@@ -435,19 +483,41 @@ namespace RightToAskClient.ViewModels
 
         private async void SubmitNewQuestionButton_OnClicked()
         {
+            await doRegistrationCheck();
+            
+            if (App.ReadingContext.ThisParticipant.IsRegistered)
+            {
+                // This isn't necessary unless the person has just registered, but is necessary if they have.
+                QuestionViewModel.Instance.Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.uid;
+                
+                SendNewQuestionToServer();
+            }
+        }
+        
+        // TODO Consider permissions for question editing.
+        private async void EditQuestionButton_OnClicked()
+        {
+            await doRegistrationCheck();
+
+            if (App.ReadingContext.ThisParticipant.IsRegistered)
+            {
+                sendQuestionEditToServer();
+            }
+
+        }
+
+        private async Task doRegistrationCheck()
+        {
             if (!App.ReadingContext.ThisParticipant.IsRegistered)
             {
-                string message = "You need to make an account to publish or vote on questions";
+                string message = AppResources.CreateAccountPopUpText;
                 bool registerNow
-                    = await App.Current.MainPage.DisplayAlert("Make an account?", message, "OK", "Not now");
+                    = await App.Current.MainPage.DisplayAlert(AppResources.MakeAccountQuestionText, message, AppResources.OKText, AppResources.NotNowAnswerText);
 
                 if (registerNow)
                 {
-                    // var reg = new Registration();
                     RegisterPage1 registrationPage = new RegisterPage1();
-                    registrationPage.Disappearing += setSuggester;
 
-                    Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.display_name;
                     // Commenting-out this instruction means that the person has to push
                     // the 'publish question' button again after they've registered 
                     // their account. This seems natural to me, but is worth checking
@@ -455,108 +525,127 @@ namespace RightToAskClient.ViewModels
                     // registrationPage.Disappearing += saveQuestion;
 
                     await App.Current.MainPage.Navigation.PushAsync(registrationPage);
-                    //await Shell.Current.GoToAsync($"{nameof(RegisterPage1)}");
                 }
-            }
-            else
-            {
-                SaveQuestion();
             }
         }
 
-        private async void EditQuestionButton_OnClicked()
+        // For uploading a new question
+        // This should be called only if the person is already registered.
+        private async void SendNewQuestionToServer()
         {
-            (bool isValid, string errorMessage) successfulSubmission = await SendQuestionUpdatesToServer();
+            // This isn't supposed to be called for unregistered participants.
+            if (!App.ReadingContext.ThisParticipant.IsRegistered) return;
+
+            // Insert the question into our own list even if it doesn't upload.
+            App.ReadingContext.ExistingQuestions.Insert(0, Question);
+
+            (bool isValid, string errorMessage) successfulSubmission = await BuildSignAndUploadNewQuestion();
+
             if (!successfulSubmission.isValid)
             {
-                ReportLabelText = "Could not update question: " + successfulSubmission.errorMessage;
+                // await App.Current.MainPage.DisplayAlert("Error", successfulSubmission.errorMessage, "", "OK");
+                ReportLabelText =  "Error uploading new question: " + successfulSubmission.errorMessage;
+                return;
             }
-            else
+            
+            // Reset the draft question only if it didn't upload correctly.
+            App.ReadingContext.DraftQuestion = "";
+            
+            //FIXME update version, just like for edits.
+
+            bool goHome =
+                await App.Current.MainPage.DisplayAlert("Question published!", "", "Home", "Write another one");
+            if (goHome)
             {
-                await App.Current.MainPage.DisplayAlert(AppResources.QuestionEditSuccessfulPopupText, "", "OK");
+                await App.Current.MainPage.Navigation.PopToRootAsync();
             }
-        }
-
-        private void setSuggester(object sender, EventArgs e)
-        {
-            QuestionViewModel.Instance.Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.uid;
-        }
-
-        private async void SaveQuestion()
-        {
-            // I have confirmed that we no longer need to set the QuestionSuggester here, as we have it being done on the details page.
-            if (App.ReadingContext.ThisParticipant.IsRegistered)
+            else // Pop back to readingpage. TODO: fix the context so that it doesn't think you're drafting
+                // a question.  Possibly the right thing to do is pop everything and then push a reading page.
             {
-                App.ReadingContext.ExistingQuestions.Insert(0, Question);
-                (bool isValid, string errorMessage) successfulSubmission = await SubmitQuestionToServer();
-                App.ReadingContext.DraftQuestion = "";
-
-                if (!successfulSubmission.isValid)
-                {
-                    await App.Current.MainPage.DisplayAlert("Error", successfulSubmission.errorMessage, "", "OK");
-                    return;
-                }
-
-                bool goHome = await App.Current.MainPage.DisplayAlert("Question published!", "", "Home", "Write another one");
-
-                if (goHome)
-                {
-                    await App.Current.MainPage.Navigation.PopToRootAsync();
-                    //await Shell.Current.GoToAsync($"///{nameof(MainPage)}");
-                }
-                else // Pop back to readingpage. TODO: fix the context so that it doesn't think you're drafting
-                     // a question.  Possibly the right thing to do is pop everything and then push a reading page.
-                {
-                    //await Navigation.PopAsync();
-                    await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
-                }
+                //await Navigation.PopAsync();
+                await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
             }
         }
 
-        private async Task<(bool isValid, string message)> SubmitQuestionToServer()
+        private async void sendQuestionEditToServer()
         {
-            // TODO: Obviously later this uploadable question will have more of the 
-            // other data. Just getting it working for now.
-            //NewQuestionCommand uploadableQuestion = new NewQuestionCommand()
-            //{
-            //    question_text = Question.QuestionText,
-            //};
-            NewQuestionServerSend uploadableQuestion = new NewQuestionServerSend()
+            // This isn't supposed to be called for unregistered participants.
+            if (!App.ReadingContext.ThisParticipant.IsRegistered) return;
+            
+            (bool isValid, string errorMessage) successfulSubmission = await BuildSignAndUploadQuestionUpdates();
+            
+            if (!successfulSubmission.isValid)
             {
-                question_text = Question.QuestionText,
-                background = Question.Background,
-                //is_followup_to = Question.IsFollowupTo
-            };
-
-            ClientSignedUnparsed signedQuestion 
-                = App.ReadingContext.ThisParticipant.SignMessage(uploadableQuestion);
-
-            if (!String.IsNullOrEmpty(signedQuestion.signature))
+                // await App.Current.MainPage.DisplayAlert("Error editing question", successfulSubmission.errorMessage, "OK");
+                ReportLabelText =  "Error editing question: " + successfulSubmission.errorMessage;
+                return;
+            }
+            
+            // Success - reinitialize question state and make sure we've got the most up to date version.
+            Question.ReinitQuestionUpdates();
+            
+            // FIXME at the moment, the version isn't been correctly updated.
+            // TODO: Here, we'll need to ensure we've got the right version (from the server - get it returned from
+            // BuildSignAndUpload... 
+            bool goHome =
+                await App.Current.MainPage.DisplayAlert("Question edited!", "", "Home", "Keep editing");
+            if (goHome)
             {
-            Result<bool> httpResponse = await RTAClient.RegisterNewQuestion(signedQuestion);
+                await App.Current.MainPage.Navigation.PopToRootAsync();
+            }
+        }
+
+        private async Task<(bool isValid, string message)> BuildSignAndUploadNewQuestion()
+        {
+            var serverQuestion = new QuestionSendToServer(Question);
+            setQuestionEditPermissions(serverQuestion);
+            TranscribeQuestionFiltersForUpload(serverQuestion);
+
+            Result<bool> httpResponse = await RTAClient.RegisterNewQuestion(serverQuestion);
             return RTAClient.ValidateHttpResponse(httpResponse, "Question Upload");
-            }
-            else
-            {
-                return (false, "Client signing error.");
-            }
         }
 
-        private async Task<(bool isValid, string message)> SendQuestionUpdatesToServer()
+        private async Task<(bool isValid, string message)> BuildSignAndUploadQuestionUpdates()
         {
-            // needs these two fields in the message payload
-            _serverQuestionUpdates.question_id = Question.QuestionId;
-            _serverQuestionUpdates.version = Question.Version;
-            ClientSignedUnparsed signedQuestionEdit = App.ReadingContext.ThisParticipant.SignMessageWithOptions(_serverQuestionUpdates);
-            if (!String.IsNullOrEmpty(signedQuestionEdit.signature))
-            {
-                Result<bool> httpResponse = await RTAClient.UpdateExistingQuestion(signedQuestionEdit);
-                return RTAClient.ValidateHttpResponse(httpResponse, "Question Upload");
-            }
-            else
-            {
-                return (false, "Client signing error.");
-            }
+            var serverQuestionUpdates = Question.Updates;
+            setQuestionEditPermissions(serverQuestionUpdates);
+            
+            // needs these two fields in the message payload for updates, but not for new questions.
+            serverQuestionUpdates.question_id = Question.QuestionId;
+            serverQuestionUpdates.version = Question.Version;
+
+            Result<bool> httpResponse = await RTAClient.UpdateExistingQuestion(serverQuestionUpdates);
+            return RTAClient.ValidateHttpResponse(httpResponse, "Question Edit");
+        }
+       
+        private void setQuestionEditPermissions(QuestionSendToServer serverQuestionUpdates)
+        {
+            serverQuestionUpdates.who_should_answer_the_question_permissions = _whoShouldAnswerItPermissions;
+            serverQuestionUpdates.who_should_ask_the_question_permissions = _whoShouldAskItPermissions;
+        }
+        
+        // Interprets the current filters into the right form for server upload.
+        // This clearly doesn't work for *updates* - it simply reports the current settings
+        // regardless of whether they have been altered.
+        private void TranscribeQuestionFiltersForUpload(QuestionSendToServer currentQuestionForUpload)
+        {
+            // We take the (duplicate-removing) union of selected MPs, because at the moment the UI doesn't remove 
+            // your MPs from the 'other MPs' list and the user may have selected the same MP in both categories.
+            var MPAnswerers = Question.Filters.SelectedAnsweringMPs.Union(Question.Filters.SelectedAnsweringMPsMine);
+            var MPanswerersServerData = MPAnswerers.Select(mp => new PersonID(new MPId(mp)));
+            
+            // Add authorities, guaranteed not to be duplicates.
+            List<PersonID> answerers = MPanswerersServerData.
+                Concat(Question.Filters.SelectedAuthorities.Select(a => new PersonID(a))).ToList();
+            currentQuestionForUpload.entity_who_should_answer_the_question = answerers;
+
+            // Entities who should raise the question - currently just MPs.
+            // TODO add committees, other users, etc.
+            var MPAskers = Question.Filters.SelectedAskingMPs.Union(Question.Filters.SelectedAskingMPsMine);
+            var MPAskersServerData = MPAskers.Select(mp => new PersonID(new MPId(mp)));
+
+            List<PersonID> askers = MPAskersServerData.ToList();
+            currentQuestionForUpload.mp_who_should_ask_the_question = askers;
         }
     }
 }

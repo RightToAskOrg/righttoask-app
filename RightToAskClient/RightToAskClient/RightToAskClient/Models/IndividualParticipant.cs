@@ -67,11 +67,6 @@ namespace RightToAskClient.Models
 			return _signatureService.SignMessage(message, RegistrationInfo.uid );
 		}
 
-		public ClientSignedUnparsed SignMessageWithOptions<T>(T message)
-		{
-			return _signatureService.SignMessageWithOptions(message, RegistrationInfo.uid);
-		}
-
 		public string MyPublicKey()
 		{
 			return RegistrationInfo.public_key;

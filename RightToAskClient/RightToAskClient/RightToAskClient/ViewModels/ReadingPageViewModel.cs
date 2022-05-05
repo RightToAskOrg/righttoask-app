@@ -84,8 +84,8 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _questionIds, value);
         }
 
-        private List<NewQuestionServerReceive> _serverQuestions = new List<NewQuestionServerReceive>();
-        public List<NewQuestionServerReceive> ServerQuestions
+        private List<QuestionReceiveFromServer> _serverQuestions = new List<QuestionReceiveFromServer>();
+        public List<QuestionReceiveFromServer> ServerQuestions
         {
             get => _serverQuestions;
             set => SetProperty(ref _serverQuestions, value);
@@ -98,8 +98,24 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _isRefreshing, value);
         }
 
+        private string _keyword = "";
+        public string Keyword
+        {
+            get => _keyword;
+            set
+            {
+                bool changed = SetProperty(ref _keyword, value);
+                if (changed)
+                {
+                    App.ReadingContext.Filters.SearchKeyword = _keyword;
+                }
+            }
+        }
+
         public ReadingPageViewModel()
         {
+            Keyword = App.ReadingContext.Filters.SearchKeyword;
+
             if (!string.IsNullOrEmpty(App.ReadingContext.DraftQuestion))
             {
                 DraftQuestion = App.ReadingContext.DraftQuestion;
@@ -186,28 +202,29 @@ namespace RightToAskClient.ViewModels
         {
             // Tag the new question with the authorities that have been selected.
             // ObservableCollection<Entity> questionAnswerers;
-            var questionAnswerers = new ObservableCollection<Entity>(App.ReadingContext.Filters.SelectedAuthorities);
+
+            /* var questionAnswerers = new ObservableCollection<Entity>(App.ReadingContext.Filters.SelectedAuthorities);
 
             foreach (var answeringMP in App.ReadingContext.Filters.SelectedAnsweringMPs)
             {
                 questionAnswerers.Add(answeringMP);
-            }
+            } */
 
             IndividualParticipant thisParticipant = App.ReadingContext.ThisParticipant;
 
+            // Set up new question in preparation for upload. 
+            // The filters are what the user has chosen through the flow.
             Question newQuestion = new Question
             {
                 QuestionText = App.ReadingContext.DraftQuestion,
-                // TODO: Enforce registration before question-suggesting.
                 QuestionSuggester = (thisParticipant.IsRegistered) ? thisParticipant.RegistrationInfo.uid : "Anonymous user",
-                QuestionAnswerers = questionAnswerers,
+                Filters = App.ReadingContext.Filters, 
                 DownVotes = 0,
                 UpVotes = 0
             };
 
             QuestionViewModel.Instance.Question = newQuestion;
             QuestionViewModel.Instance.IsNewQuestion = true;
-            //await Navigation.PushAsync(questionDetailPage);
             await Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
         }
         private async void OnDiscardButtonClicked()
@@ -262,7 +279,7 @@ namespace RightToAskClient.ViewModels
                 foreach (string questionId in QuestionIds)
                 {
                     // pull the individual question from the server by id
-                    NewQuestionServerReceive temp;
+                    QuestionReceiveFromServer temp;
                     try
                     {
                         var data = await RTAClient.GetQuestionById(questionId);
@@ -285,8 +302,12 @@ namespace RightToAskClient.ViewModels
                     }
                 }
                 // convert the ServerQuestions to a Displayable format
-                foreach (NewQuestionServerReceive serverQuestion in ServerQuestions)
+                foreach (QuestionReceiveFromServer serverQuestion in ServerQuestions)
                 {
+                    // FIXME: The use of this constructor seems to break things.
+                    Question temp = new Question(serverQuestion);
+                    
+                    /*
                     Question temp = new Question()
                     {
                         QuestionId = serverQuestion.question_id ?? "",
@@ -296,9 +317,13 @@ namespace RightToAskClient.ViewModels
                         Background = serverQuestion.background ?? "",
                         //UploadTimestamp = serverQuestion.timestamp,
                         //ExpiryDate = serverQuestion.last_modified,
-                        //QuestionAsker = serverQuestion.who_should_ask_the_question_permissions,
-                        //QuestionAnswerers = serverQuestion.who_should_answer_the_question_permissions,
+                        //QuestionAsker = TODO
+                        OthersCanAddAnswerers = serverQuestion.who_should_answer_the_question_permissions == RTAPermissions.Others,
+                        //QuestionAnswerers = TODO
+                        OthersCanAddAskers = serverQuestion.who_should_ask_the_question_permissions == RTAPermissions.Others
                     };
+                    */
+                    
                     QuestionsToDisplay.Add(temp);
                 }
                 IsRefreshing = false;
@@ -306,7 +331,9 @@ namespace RightToAskClient.ViewModels
             // after getting the list of questions, remove the ids for dismissed questions, and set the upvoted status of liked ones
             for(int i = 0; i < App.ReadingContext.ThisParticipant.RemovedQuestionIDs.Count; i++)
             {
-                Question temp = QuestionsToDisplay.ToList().Where(q => q.QuestionId == App.ReadingContext.ThisParticipant.RemovedQuestionIDs[i]).FirstOrDefault();
+                Question temp = QuestionsToDisplay.ToList()
+                    .Where(q => q.QuestionId == App.ReadingContext.ThisParticipant.RemovedQuestionIDs[i])
+                    .FirstOrDefault();
                 if(temp != null)
                 {
                     QuestionsToDisplay.Remove(temp);
