@@ -46,6 +46,16 @@ namespace RightToAskClient.Models
         {
         }
 
+        public MP(string _firstname, string _lastname, ElectorateWithChamber _electorateWithChamber, string _email, string _role, string _party)
+        {
+            first_name = _firstname;
+            surname = _lastname;
+            electorate = _electorateWithChamber;
+            email = _email;
+            role = _role;
+            party = _party;
+        }
+
         // TODO Consider adding lookup of other attributes such as ministerial roles from MP.json.
         public MP(MPId serverMP)
         {

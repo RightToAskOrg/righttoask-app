@@ -198,6 +198,65 @@ namespace UnitTests
         }
 
         [Fact]
+        // Might want to separate this out into 4 separate tests?
+        public void ValidRegistrationTest()
+        {
+            // arrange
+            // valid registration
+            Registration validRegistration = new Registration();
+            validRegistration.uid = "testUid01";
+            validRegistration.public_key = "fakeButValidPublicKey";
+
+            // valid registration with valid electorate
+            ElectorateWithChamber electorateWithChamber = new ElectorateWithChamber(ParliamentData.Chamber.Vic_Legislative_Council, "VIC");
+            Registration validRegistrationWithValidElectorate = new Registration();
+            validRegistrationWithValidElectorate.uid = "TestUId02";
+            validRegistrationWithValidElectorate.public_key = "fakeButValidPublicKey2";
+            validRegistrationWithValidElectorate.electorates.Add(electorateWithChamber);
+
+            // valid registration with invalid electorate
+            ElectorateWithChamber invalidElectorateWithChamber = new ElectorateWithChamber(ParliamentData.Chamber.Vic_Legislative_Council, "QLD");
+            Registration validRegistrationWithInvalidElectorate = new Registration();
+            validRegistrationWithInvalidElectorate.uid = "TestUId02";
+            validRegistrationWithInvalidElectorate.public_key = "fakeButValidPublicKey2";
+            validRegistrationWithInvalidElectorate.electorates.Add(invalidElectorateWithChamber);
+
+            // invalid registration
+            Registration invalidRegistration = new Registration();
+
+            // act
+            bool isValidRegistration = validRegistration.Validate();
+            bool isValidRegistrationWithValidElectorate = validRegistrationWithValidElectorate.Validate();
+            bool isValidRegistrationWithInvalidElectorate = validRegistrationWithInvalidElectorate.Validate(); // electorate shows up as valid
+            bool isInvalidRegistration = invalidRegistration.Validate();
+            bool validElectorate = electorateWithChamber.Validate();
+            bool invalidElectorate = invalidElectorateWithChamber.Validate(); // electorate shows up as valid
+
+            // assert
+            Assert.True(isValidRegistration);
+            Assert.True(!string.IsNullOrEmpty(validRegistration.uid));
+            Assert.True(!string.IsNullOrEmpty(validRegistration.public_key));
+            Assert.False(validRegistration.electorates?.Any());
+
+            Assert.True(isValidRegistrationWithValidElectorate);
+            Assert.True(!string.IsNullOrEmpty(validRegistrationWithValidElectorate.uid));
+            Assert.True(!string.IsNullOrEmpty(validRegistrationWithValidElectorate.public_key));
+            Assert.True(validRegistrationWithValidElectorate.electorates?.Any());
+            Assert.True(validElectorate);
+
+            Assert.False(isValidRegistrationWithInvalidElectorate);
+            Assert.True(!string.IsNullOrEmpty(validRegistrationWithValidElectorate.uid));
+            Assert.True(!string.IsNullOrEmpty(validRegistrationWithValidElectorate.public_key));
+            Assert.True(validRegistrationWithValidElectorate.electorates?.Any());
+            Assert.False(invalidElectorate);
+
+            Assert.False(isInvalidRegistration);
+            Assert.True(string.IsNullOrEmpty(validRegistration.uid));
+            Assert.True(string.IsNullOrEmpty(validRegistration.public_key));
+            Assert.False(validRegistration.electorates?.Any());
+        }
+
+        [Fact]
         public void FindParliamentDataTest()
         {
             // arrange
