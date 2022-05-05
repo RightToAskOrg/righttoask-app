@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml;
 using Xamarin.CommunityToolkit.ObjectModel;
 using RightToAskClient.Resx;
 using Xamarin.Forms;
@@ -209,27 +210,8 @@ namespace RightToAskClient.ViewModels
         {
             return String.Join(", ", entityList.Select(e => e.ShortestName));
         }
-            
 
-        public string CreateTextGivenListMPs(List<MP> mpList)
-        {
-            string text = "";
-            for (int i = 0; i < mpList.Count; i++)
-            {
-                text += mpList[i].ShortestName;
-                if (i == mpList.Count - 1)
-                {
-                    // no comma + space
-                    continue;
-                }
-                else
-                {
-                    text += ", ";
-                }
-            }
-            return text;
-        }
-
+        // TODO merge into CreateTextGivenListEntities.
         public string CreateTextGivenListCommittees(List<string> committeeList)
         {
             string text = "";
@@ -237,44 +219,6 @@ namespace RightToAskClient.ViewModels
             {
                 text += committeeList[i].ToString();
                 if (i == committeeList.Count - 1)
-                {
-                    // no comma + space
-                    continue;
-                }
-                else
-                {
-                    text += ", ";
-                }
-            }
-            return text;
-        }
-
-        public string CreateTextGivenListPAs(List<Authority> paList)
-        {
-            string text = "";
-            for (int i = 0; i < paList.Count; i++)
-            {
-                text += paList[i].ShortestName;
-                if (i == paList.Count - 1)
-                {
-                    // no comma + space
-                    continue;
-                }
-                else
-                {
-                    text += ", ";
-                }
-            }
-            return text;
-        }
-
-        public string CreateTextGivenListPeople(List<Person> userList)
-        {
-            string text = "";
-            for (int i = 0; i < userList.Count; i++)
-            {
-                text += userList[i].ShortestName;
-                if (i == userList.Count - 1)
                 {
                     // no comma + space
                     continue;
