@@ -5,6 +5,7 @@ using RightToAskClient.ViewModels;
 using RightToAskClient.Views;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using Xamarin.Forms;
@@ -198,62 +199,117 @@ namespace UnitTests
         }
 
         [Fact]
-        // Might want to separate this out into 4 separate tests?
+        public void ValidPersonTest()
+        {
+            // arrange
+            Person person = new Person("testUserId");
+
+            // create a registration ??? this causes the test to pass, but do we need to change the constructor for person?
+            Registration registration = new Registration() { uid = "testUserId", public_key = "fakePublicKey" };
+            person.RegistrationInfo = registration;
+
+            // act
+            bool isValid = person.Validate();
+
+            // assert
+            Assert.True(isValid);
+            Assert.NotNull(person.RegistrationInfo);
+            Assert.True(!string.IsNullOrEmpty(person.RegistrationInfo.uid));
+            Assert.True(!string.IsNullOrEmpty(person.RegistrationInfo.public_key)); // needed for a valid registration and thus a valid person as well
+        }
+
+        [Fact]
+        public void InvalidPersonTest()
+        {
+            // arrange
+            Person person = new Person("invalidUser");
+
+            // act
+            bool isValid = person.Validate();
+
+            // assert
+            Assert.False(isValid); 
+            Assert.NotNull(person.RegistrationInfo);
+            Assert.True(!string.IsNullOrEmpty(person.RegistrationInfo.uid));
+            Assert.True(string.IsNullOrEmpty(person.RegistrationInfo.public_key));
+        }
+
+        [Fact]
         public void ValidRegistrationTest()
         {
             // arrange
-            // valid registration
             Registration validRegistration = new Registration();
             validRegistration.uid = "testUid01";
             validRegistration.public_key = "fakeButValidPublicKey";
 
-            // valid registration with valid electorate
-            ElectorateWithChamber electorateWithChamber = new ElectorateWithChamber(ParliamentData.Chamber.Vic_Legislative_Council, "VIC");
-            Registration validRegistrationWithValidElectorate = new Registration();
-            validRegistrationWithValidElectorate.uid = "TestUId02";
-            validRegistrationWithValidElectorate.public_key = "fakeButValidPublicKey2";
-            validRegistrationWithValidElectorate.electorates.Add(electorateWithChamber);
-
-            // valid registration with invalid electorate
-            ElectorateWithChamber invalidElectorateWithChamber = new ElectorateWithChamber(ParliamentData.Chamber.Vic_Legislative_Council, "QLD");
-            Registration validRegistrationWithInvalidElectorate = new Registration();
-            validRegistrationWithInvalidElectorate.uid = "TestUId02";
-            validRegistrationWithInvalidElectorate.public_key = "fakeButValidPublicKey2";
-            validRegistrationWithInvalidElectorate.electorates.Add(invalidElectorateWithChamber);
-
-            // invalid registration
-            Registration invalidRegistration = new Registration();
-
             // act
             bool isValidRegistration = validRegistration.Validate();
-            bool isValidRegistrationWithValidElectorate = validRegistrationWithValidElectorate.Validate();
-            bool isValidRegistrationWithInvalidElectorate = validRegistrationWithInvalidElectorate.Validate(); // electorate shows up as valid
-            bool isInvalidRegistration = invalidRegistration.Validate();
-            bool validElectorate = electorateWithChamber.Validate();
-            bool invalidElectorate = invalidElectorateWithChamber.Validate(); // electorate shows up as valid
 
             // assert
             Assert.True(isValidRegistration);
             Assert.True(!string.IsNullOrEmpty(validRegistration.uid));
             Assert.True(!string.IsNullOrEmpty(validRegistration.public_key));
             Assert.False(validRegistration.electorates?.Any());
+        }
 
+        [Fact]
+        public void ValidRegistrationWithValidElectorateTest()
+        {
+            // arrange
+            ElectorateWithChamber electorateWithChamber = new ElectorateWithChamber(ParliamentData.Chamber.Vic_Legislative_Council, "VIC");
+            Registration validRegistrationWithValidElectorate = new Registration();
+            validRegistrationWithValidElectorate.uid = "TestUId02";
+            validRegistrationWithValidElectorate.public_key = "fakeButValidPublicKey2";
+            validRegistrationWithValidElectorate.electorates = new ObservableCollection<ElectorateWithChamber>() { electorateWithChamber };
+            // act
+            bool isValidRegistrationWithValidElectorate = validRegistrationWithValidElectorate.Validate();
+            bool validElectorate = electorateWithChamber.Validate();
+
+            // assert
             Assert.True(isValidRegistrationWithValidElectorate);
             Assert.True(!string.IsNullOrEmpty(validRegistrationWithValidElectorate.uid));
             Assert.True(!string.IsNullOrEmpty(validRegistrationWithValidElectorate.public_key));
             Assert.True(validRegistrationWithValidElectorate.electorates?.Any());
             Assert.True(validElectorate);
+        }
 
+        [Fact]
+        public void ValidRegistrationWithInvalidElectorateTest()
+        {
+            // arrange
+            // empty region should be invalid
+            ElectorateWithChamber invalidElectorateWithChamber = new ElectorateWithChamber(ParliamentData.Chamber.Vic_Legislative_Council, "");
+            Registration validRegistrationWithInvalidElectorate = new Registration();
+            validRegistrationWithInvalidElectorate.uid = "TestUId02";
+            validRegistrationWithInvalidElectorate.public_key = "fakeButValidPublicKey2";
+            validRegistrationWithInvalidElectorate.electorates = new ObservableCollection<ElectorateWithChamber>() { invalidElectorateWithChamber };
+
+            // act
+            bool isValidRegistrationWithInvalidElectorate = validRegistrationWithInvalidElectorate.Validate();
+            bool invalidElectorate = invalidElectorateWithChamber.Validate();
+
+            // assert
             Assert.False(isValidRegistrationWithInvalidElectorate);
-            Assert.True(!string.IsNullOrEmpty(validRegistrationWithValidElectorate.uid));
-            Assert.True(!string.IsNullOrEmpty(validRegistrationWithValidElectorate.public_key));
-            Assert.True(validRegistrationWithValidElectorate.electorates?.Any());
+            Assert.True(!string.IsNullOrEmpty(validRegistrationWithInvalidElectorate.uid));
+            Assert.True(!string.IsNullOrEmpty(validRegistrationWithInvalidElectorate.public_key));
+            Assert.True(validRegistrationWithInvalidElectorate.electorates?.Any());
             Assert.False(invalidElectorate);
+        }
 
+        [Fact]
+        public void InvalidRegistrationTest()
+        {
+            // arrange
+            Registration invalidRegistration = new Registration();
+
+            // act
+            bool isInvalidRegistration = invalidRegistration.Validate();
+
+            // assert
             Assert.False(isInvalidRegistration);
-            Assert.True(string.IsNullOrEmpty(validRegistration.uid));
-            Assert.True(string.IsNullOrEmpty(validRegistration.public_key));
-            Assert.False(validRegistration.electorates?.Any());
+            Assert.True(string.IsNullOrEmpty(invalidRegistration.uid));
+            Assert.True(string.IsNullOrEmpty(invalidRegistration.public_key));
+            Assert.False(invalidRegistration.electorates?.Any());
         }
 
         [Fact]

@@ -138,6 +138,11 @@ namespace RightToAskClient.Models
 		{
 			ChambersRepresentedIn = ParliamentData.FindChambers(state);
 		}
+
+		public bool Validate()
+        {
+			return RegistrationInfo.Validate();
+        }
     }
 
 }
