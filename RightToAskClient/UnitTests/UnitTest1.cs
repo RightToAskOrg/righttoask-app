@@ -50,19 +50,66 @@ namespace UnitTests
 
         // ListToString Converter Tests
         [Fact]
-        public void CreateTextGivenListMPsTest()
+        public void CreateTextGivenListEntitiesTest()
         {
             // arrange data
             ElectorateWithChamber electorateWithChamber = new ElectorateWithChamber(ParliamentData.Chamber.Vic_Legislative_Council, "VIC");
-            MP validMP = new MP("firstname", "lastname", electorateWithChamber, "email", "role", "party");
+            #region create MP data
+            MP validMP = new MP()
+            {
+                first_name = "firstname",
+                surname = "lastname",
+                electorate = electorateWithChamber,
+                email = "email",
+                role = "role",
+                party = "party"
+            };
+            MP validMP2 = new MP()
+            {
+                first_name = "firstname2",
+                surname = "lastname2",
+                electorate = electorateWithChamber,
+                email = "email2",
+                role = "role2",
+                party = "party2"
+            };
+            MP validMP3 = new MP()
+            {
+                first_name = "firstname3",
+                surname = "lastname3",
+                electorate = electorateWithChamber,
+                email = "email3",
+                role = "role3",
+                party = "party3"
+            };
+            #endregion
 
             List<MP> mps = new List<MP>
             {
-
+                validMP,
+                validMP2,
+                validMP3
             };
 
+            // act
             FilterViewModel vm = new FilterViewModel();
-            //vm.CreateTextGivenListMPs();
+            string result = vm.CreateTextGivenListEntities(mps);
+
+            // assert
+            Assert.True(!string.IsNullOrEmpty(result));
+        }
+
+        [Fact]
+        public void ReinitDataTest()
+        {
+            FilterViewModel vm = new FilterViewModel();
+            FilterChoices filters = new FilterChoices(); // need to test for filterchoices first
+            filters.SearchKeyword = "test";
+
+            vm.ReinitData();
+
+            Assert.True(!string.IsNullOrEmpty(filters.SearchKeyword));
+            Assert.True(!string.IsNullOrEmpty(vm.Keyword));
         }
 
         // Boolean Converter Test

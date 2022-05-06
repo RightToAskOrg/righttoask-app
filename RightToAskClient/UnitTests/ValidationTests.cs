@@ -1,4 +1,5 @@
 ﻿using RightToAskClient.Models;
+using RightToAskClient.Models.ServerCommsData;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,7 +15,14 @@ namespace UnitTests
         public void ValidMPTest()
         {
             ElectorateWithChamber electorateWithChamber = new ElectorateWithChamber(ParliamentData.Chamber.Vic_Legislative_Council, "VIC");
-            MP validMP = new MP("firstname", "lastname", electorateWithChamber, "email", "role", "party");
+            MP validMP = new MP()
+            { first_name = "firstname",
+              surname = "lastname",
+              electorate = electorateWithChamber,
+              email = "email",
+              role = "role",
+              party = "party"
+            };
 
             Assert.NotNull(validMP);
             Assert.NotNull(electorateWithChamber);
@@ -34,7 +42,7 @@ namespace UnitTests
             Person person = new Person("testUserId");
 
             // create a registration ??? this causes the test to pass, but do we need to change the constructor for person?
-            Registration registration = new Registration() { uid = "testUserId", public_key = "fakePublicKey" };
+            Registration registration = new Registration(new ServerUser() { uid = "testUserId", public_key = "fakePublicKey", state = ParliamentData.State.QLD }) ;
             person.RegistrationInfo = registration;
 
             // act
@@ -180,6 +188,44 @@ namespace UnitTests
             Assert.False(invalid);
             Assert.True(!string.IsNullOrEmpty(validQuestion.QuestionId));
             Assert.True(!string.IsNullOrEmpty(validQuestion.QuestionText));
+        }
+
+        // Test Address
+        [Fact]
+        public void TestValidAddress()
+        {
+            // arrange
+            Address address = new Address();
+            address.StreetNumberAndName = "12 pitt street";
+            address.CityOrSuburb = "Sydney";
+            address.Postcode = "2000";
+
+            // act
+            Result<bool> isValid = address.SeemsValid();
+
+            // assert
+            Assert.True(isValid.Ok);
+            Assert.True(string.IsNullOrEmpty(isValid.Err));
+            Assert.True(!string.IsNullOrEmpty(address.StreetNumberAndName));
+            Assert.True(!string.IsNullOrEmpty(address.CityOrSuburb));
+            Assert.True(!string.IsNullOrEmpty(address.Postcode));
+        }
+
+        [Fact]
+        public void TestInvalidAddress()
+        {
+            // arrange
+            Address address = new Address();
+
+            // act
+            Result<bool> isValid = address.SeemsValid();
+
+            // assert
+            Assert.False(isValid.Ok);
+            Assert.True(!string.IsNullOrEmpty(isValid.Err));
+            Assert.True(string.IsNullOrEmpty(address.StreetNumberAndName));
+            Assert.True(string.IsNullOrEmpty(address.CityOrSuburb));
+            Assert.True(string.IsNullOrEmpty(address.Postcode));
         }
     }
 }

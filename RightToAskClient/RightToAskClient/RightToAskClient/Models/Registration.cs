@@ -133,7 +133,7 @@ namespace RightToAskClient.Models
         {
             bool isValid = false;
             // needs to have a uid and public key
-            if (!string.IsNullOrEmpty(uid) && !string.IsNullOrEmpty(public_key))
+            if (!string.IsNullOrEmpty(uid) && !string.IsNullOrEmpty(public_key) && !string.IsNullOrEmpty(state))
             {
                 if (electorates.Any())
                 {
