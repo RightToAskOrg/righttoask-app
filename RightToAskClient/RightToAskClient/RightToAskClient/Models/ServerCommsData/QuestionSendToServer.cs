@@ -80,5 +80,28 @@ namespace RightToAskClient.Models.ServerCommsData
             //TODO: Add other structures.
         }
 
+        public bool ValidateNewQuestion()
+        {
+            bool isValid = false;
+            // just needs question text for new questions
+            if (!string.IsNullOrEmpty(question_text))
+            {
+                isValid = true;
+            }
+            return isValid;
+        }
+
+        public bool ValidateUpdateQuestion()
+        {
+            bool isValid = false;
+            // needs more fields to update an existing question
+            if (!string.IsNullOrEmpty(question_text)
+                && !string.IsNullOrEmpty(question_id)
+                && !string.IsNullOrEmpty(version))
+            {
+                isValid = true;
+            }
+            return isValid;
+        }
     }
 }

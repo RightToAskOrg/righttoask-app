@@ -40,9 +40,7 @@ namespace UnitTests
         {
             // arrange
             Person person = new Person("testUserId");
-
-            // create a registration ??? this causes the test to pass, but do we need to change the constructor for person?
-            Registration registration = new Registration(new ServerUser() { uid = "testUserId", public_key = "fakePublicKey", state = ParliamentData.State.QLD }) ;
+            Registration registration = new Registration(new ServerUser() { uid = "testUserId", public_key = "fakePublicKey", state = ParliamentData.State.QLD });
             person.RegistrationInfo = registration;
 
             // act
@@ -72,12 +70,179 @@ namespace UnitTests
         }
 
         [Fact]
+        public void ValidServerUserTest()
+        {
+            // arrange
+            ServerUser serverUser = new ServerUser() { uid = "testUserId", public_key = "fakePublicKey", state = ParliamentData.State.QLD };
+            
+            // act
+            bool isValid = serverUser.Validate();
+
+            // assert
+            Assert.True(isValid);
+            Assert.True(!string.IsNullOrEmpty(serverUser.uid));
+            Assert.True(!string.IsNullOrEmpty(serverUser.public_key));
+            Assert.True(!string.IsNullOrEmpty(serverUser.state));
+        }
+
+        [Fact]
+        public void InvalidServerUserTest()
+        {
+            // arrange
+            ServerUser invalidServerUser = new ServerUser() { uid = "testUserId", state = ParliamentData.State.QLD };
+
+            // act
+            bool isValid = invalidServerUser.Validate();
+
+            // assert
+            Assert.False(isValid);
+            Assert.True(!string.IsNullOrEmpty(invalidServerUser.uid));
+            Assert.True(string.IsNullOrEmpty(invalidServerUser.public_key));
+            Assert.True(!string.IsNullOrEmpty(invalidServerUser.state));
+        }
+
+        [Fact]
+        public void ValidIndividualParticipantWithValidRegistrationTest()
+        {
+            // arrange
+            IndividualParticipant ip = new IndividualParticipant();
+            ip.IsRegistered = true;
+            Registration registration = new Registration(new ServerUser() { uid = "testUserId", public_key = "fakePublicKey", state = ParliamentData.State.QLD });
+            ip.RegistrationInfo = registration;
+
+            // act
+            bool isValid = ip.Validate();
+
+            // assert
+            Assert.True(isValid);
+            Assert.NotNull(ip.RegistrationInfo);
+            Assert.True(!string.IsNullOrEmpty(ip.RegistrationInfo.uid));
+            Assert.True(!string.IsNullOrEmpty(ip.RegistrationInfo.public_key));
+            //Assert.True(!string.IsNullOrEmpty(ip.RegistrationInfo.State)); // state is in a weird setup where it never seems to actually get set
+        }
+
+        [Fact]
+        public void ValidIndividualParticipantWithInvalidRegistrationTest()
+        {
+            // arrange
+            IndividualParticipant ip = new IndividualParticipant();
+            ip.IsRegistered = true;
+            Registration invalidRegistration = new Registration(new ServerUser() { uid = "testUserId", state = ParliamentData.State.QLD });
+            ip.RegistrationInfo = invalidRegistration;
+
+            // act
+            bool isValid = ip.Validate();
+
+            // assert
+            Assert.False(isValid);
+            Assert.NotNull(ip.RegistrationInfo);
+            Assert.True(!string.IsNullOrEmpty(ip.RegistrationInfo.uid));
+            Assert.True(string.IsNullOrEmpty(ip.RegistrationInfo.public_key));
+            //Assert.True(!string.IsNullOrEmpty(ip.RegistrationInfo.State));
+        }
+
+        [Fact]
+        public void ValidIndividualParticipantWithoutRegistrationButKnownMPsTest()
+        {
+            // arrange
+            IndividualParticipant ip = new IndividualParticipant();
+            ip.IsRegistered = false;
+            ip.MPsKnown = true;
+
+            // act
+            bool isValid = ip.Validate();
+
+            // assert
+            Assert.True(isValid);
+            Assert.NotNull(ip.RegistrationInfo); // always has a default registration info object created. Generates public key
+            Assert.True(ip.MPsKnown);
+            Assert.False(ip.IsRegistered);
+            Assert.True(string.IsNullOrEmpty(ip.RegistrationInfo.uid));
+            Assert.True(!string.IsNullOrEmpty(ip.RegistrationInfo.public_key));
+            //Assert.True(!string.IsNullOrEmpty(ip.RegistrationInfo.State));
+        }
+
+        [Fact]
+        public void InvalidIndividualParticipantTest()
+        {
+            // arrange
+            IndividualParticipant ip = new IndividualParticipant();
+            ip.IsRegistered = false;
+            ip.MPsKnown = false;
+            ip.RegistrationInfo.SelectedStateAsIndex = 0;
+
+            // act
+            bool isValid = ip.Validate();
+
+            // assert
+            Assert.False(isValid);
+            Assert.NotNull(ip.RegistrationInfo); // always has a default registration info object created. Generates public key
+            Assert.False(ip.MPsKnown);
+            Assert.False(ip.IsRegistered);
+            Assert.True(string.IsNullOrEmpty(ip.RegistrationInfo.uid));
+            Assert.True(!string.IsNullOrEmpty(ip.RegistrationInfo.public_key));
+            Assert.NotEqual(-1, ip.RegistrationInfo.SelectedStateAsIndex);
+        }
+
+        [Fact]
+        public void ValidateNewServerQuestionTest()
+        {
+            // arrange
+            QuestionSendToServer serverQuestion = new QuestionSendToServer() { question_text = "test question text for validation methods." };
+
+            // act
+            bool validFirstTimeQuestion = serverQuestion.ValidateNewQuestion();
+            bool validUpdateQuestion = serverQuestion.ValidateUpdateQuestion();
+
+            // assert
+            Assert.True(validFirstTimeQuestion);
+            Assert.False(validUpdateQuestion);
+        }
+
+        [Fact]
+        public void ValidateUpdateServerQuestionTest()
+        {
+            // arrange
+            QuestionSendToServer serverQuestion = new QuestionSendToServer()
+            {
+                question_text = "test question text for validation methods.",
+                question_id = "fakeQuestionId",
+                version = "fakeVersion"
+            };
+
+            // act
+            bool validFirstTimeQuestion = serverQuestion.ValidateNewQuestion();
+            bool validUpdateQuestion = serverQuestion.ValidateUpdateQuestion();
+
+            // assert
+            Assert.True(validFirstTimeQuestion);
+            Assert.True(validUpdateQuestion);
+        }
+
+        [Fact]
+        public void ValidateQuestionReceiveFromServerTest()
+        {
+            // arrange
+            QuestionReceiveFromServer question = new QuestionReceiveFromServer() { question_id = "fakeQuestionId", question_text = "fakeQuestionTest", author = "fakeAuthor", version = "fakeVersion"};
+            QuestionReceiveFromServer invalidQuestion = new QuestionReceiveFromServer();
+
+            // act
+            bool isValid = question.Validate();
+            bool isInvalid = invalidQuestion.Validate();
+
+            // assert
+            Assert.True(isValid);
+            Assert.False(isInvalid);
+        }
+
+        [Fact]
         public void ValidRegistrationTest()
         {
             // arrange
             Registration validRegistration = new Registration();
             validRegistration.uid = "testUid01";
             validRegistration.public_key = "fakeButValidPublicKey";
+            validRegistration.SelectedStateAsIndex = 0;
 
             // act
             bool isValidRegistration = validRegistration.Validate();

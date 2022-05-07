@@ -100,14 +100,24 @@ namespace UnitTests
         }
 
         [Fact]
-        public void ReinitDataTest()
+        public void SendNewQuestionToServerTest()
         {
+            // Not sure how I want to go about testing for this and other server related communications yet
+        }
+
+        [Fact]
+        public void ReinitDataTest() // Function Test
+        {
+            // arrange
             FilterViewModel vm = new FilterViewModel();
-            FilterChoices filters = new FilterChoices(); // need to test for filterchoices first
+            FilterChoices filters = new FilterChoices(); // need to test for filterchoices first?
             filters.SearchKeyword = "test";
+            App.ReadingContext.Filters.SearchKeyword = filters.SearchKeyword;
 
-            vm.ReinitData();
+            // act
+            vm.ReinitData(); // this should set vm.Keyword
 
+            // assert
             Assert.True(!string.IsNullOrEmpty(filters.SearchKeyword));
             Assert.True(!string.IsNullOrEmpty(vm.Keyword));
         }
