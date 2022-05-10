@@ -14,7 +14,7 @@ namespace UnitTests
         [Fact]
         public void ValidMPTest()
         {
-            ElectorateWithChamber electorateWithChamber = new ElectorateWithChamber(ParliamentData.Chamber.Vic_Legislative_Council, "VIC");
+            ElectorateWithChamber electorateWithChamber = new ElectorateWithChamber(ParliamentData.Chamber.Vic_Legislative_Council, ParliamentData.State.VIC);
             MP validMP = new MP()
             { first_name = "firstname",
               surname = "lastname",
@@ -345,8 +345,8 @@ namespace UnitTests
             Question invalidQuestion = new Question();
 
             // act
-            bool isValid = validQuestion.Validate();
-            bool invalid = invalidQuestion.Validate();
+            bool isValid = validQuestion.ValidateNewQuestion();
+            bool invalid = invalidQuestion.ValidateNewQuestion();
 
             // assert
             Assert.True(isValid);
@@ -391,6 +391,38 @@ namespace UnitTests
             Assert.True(string.IsNullOrEmpty(address.StreetNumberAndName));
             Assert.True(string.IsNullOrEmpty(address.CityOrSuburb));
             Assert.True(string.IsNullOrEmpty(address.Postcode));
+        }
+
+        [Fact]
+        public void ValidateFiltersTest()
+        {
+            // arrange
+            FilterChoices filters = new FilterChoices();
+            filters.SelectedAnsweringMPs = new ObservableCollection<MP>();
+            ElectorateWithChamber electorateWithChamber = new ElectorateWithChamber(ParliamentData.Chamber.Vic_Legislative_Council, ParliamentData.State.VIC);
+            MP validMP = new MP()
+            {
+                first_name = "firstname",
+                surname = "lastname",
+                electorate = electorateWithChamber,
+                email = "email",
+                role = "role",
+                party = "party"
+            };
+            filters.SelectedAnsweringMPs.Add(validMP);
+            filters.SearchKeyword = "test";
+            //filters.SelectedAuthorities = new ObservableCollection<Authority>();
+
+            // act
+            bool isValidElectorate = electorateWithChamber.Validate();
+            bool isValidMP = validMP.Validate();
+            bool isValidFilters = filters.Validate();
+
+            // assert
+            Assert.True(isValidElectorate);
+            Assert.True(isValidMP);
+            Assert.True(isValidFilters);
+            Assert.True(!string.IsNullOrEmpty(filters.SearchKeyword));
         }
     }
 }

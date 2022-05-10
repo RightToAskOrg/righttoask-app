@@ -379,7 +379,7 @@ namespace RightToAskClient.ViewModels
             Question.ReinitQuestionUpdates();
         }
 
-        public void OnButtonPressed(int buttonId)
+        private void OnButtonPressed(int buttonId)
         {
             RaisedByOptionSelected = true;
             switch (buttonId)
@@ -489,8 +489,11 @@ namespace RightToAskClient.ViewModels
             {
                 // This isn't necessary unless the person has just registered, but is necessary if they have.
                 QuestionViewModel.Instance.Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.uid;
-                
-                SendNewQuestionToServer();
+                bool validQuestion = Question.ValidateNewQuestion();
+                if (validQuestion)
+                {
+                    SendNewQuestionToServer();
+                }                
             }
         }
         
@@ -501,7 +504,11 @@ namespace RightToAskClient.ViewModels
 
             if (App.ReadingContext.ThisParticipant.IsRegistered)
             {
-                sendQuestionEditToServer();
+                bool validQuestion = Question.ValidateUpdateQuestion();
+                if (validQuestion) 
+                {
+                    sendQuestionEditToServer();
+                }                
             }
 
         }

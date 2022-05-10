@@ -91,5 +91,15 @@ namespace RightToAskClient.Models
         {
             return AuthorityName + NickNameIfPresent();
         }
+
+        public bool Validate()
+        {
+            bool isValid = false;
+            if (!string.IsNullOrEmpty(AuthorityName))
+            {
+                isValid = true;
+            }
+            return isValid;
+        }
     }
 }

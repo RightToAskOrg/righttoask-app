@@ -408,12 +408,24 @@ namespace RightToAskClient.Models
         }
 
         //validation
-        public bool Validate()
+        public bool ValidateNewQuestion()
         {
             bool isValid = false;
-            // must have an Id string, and question text
-            if (!string.IsNullOrEmpty(QuestionId)
-                && !string.IsNullOrEmpty(QuestionText))
+            // just needs question text for new questions
+            if (!string.IsNullOrEmpty(QuestionText))
+            {
+                isValid = true;
+            }
+            return isValid;
+        }
+
+        public bool ValidateUpdateQuestion()
+        {
+            bool isValid = false;
+            // needs more fields to update an existing question
+            if (!string.IsNullOrEmpty(QuestionText)
+                && !string.IsNullOrEmpty(QuestionId)
+                && !string.IsNullOrEmpty(Version))
             {
                 isValid = true;
             }
