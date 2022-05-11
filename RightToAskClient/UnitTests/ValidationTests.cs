@@ -1,4 +1,5 @@
-﻿using RightToAskClient.Models;
+﻿using RightToAskClient;
+using RightToAskClient.Models;
 using RightToAskClient.Models.ServerCommsData;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace UnitTests
     public class ValidationTests
     {
         [Fact]
-        public void ValidMPTest()
+        public MP ValidMPTest()
         {
             ElectorateWithChamber electorateWithChamber = new ElectorateWithChamber(ParliamentData.Chamber.Vic_Legislative_Council, ParliamentData.State.VIC);
             MP validMP = new MP()
@@ -33,6 +34,7 @@ namespace UnitTests
             Assert.True(validMP.email.Any());
             Assert.True(validMP.role.Any());
             Assert.True(validMP.party.Any());
+            return validMP;
         }
 
         [Fact]
@@ -258,7 +260,7 @@ namespace UnitTests
         public void ValidRegistrationWithValidElectorateTest()
         {
             // arrange
-            ElectorateWithChamber electorateWithChamber = new ElectorateWithChamber(ParliamentData.Chamber.Vic_Legislative_Council, "VIC");
+            ElectorateWithChamber electorateWithChamber = new ElectorateWithChamber(ParliamentData.Chamber.Vic_Legislative_Council, ParliamentData.State.VIC);
             Registration validRegistrationWithValidElectorate = new Registration();
             validRegistrationWithValidElectorate.uid = "TestUId02";
             validRegistrationWithValidElectorate.public_key = "fakeButValidPublicKey2";
@@ -394,7 +396,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public void ValidateFiltersTest()
+        public FilterChoices ValidateFiltersTest()
         {
             // arrange
             FilterChoices filters = new FilterChoices();
@@ -423,6 +425,24 @@ namespace UnitTests
             Assert.True(isValidMP);
             Assert.True(isValidFilters);
             Assert.True(!string.IsNullOrEmpty(filters.SearchKeyword));
+            return filters;
+        }
+
+        [Fact]
+        public void ValidateClientSignedUnparsedTest()
+        {
+            // Arrange
+            ClientSignedUnparsed csu = new ClientSignedUnparsed();
+            csu.message = "fakeMessageToSend";
+            csu.signature = ""; // what does the signature actually need to be to get it to pass?
+            csu.user = "testUserID";
+            App.ReadingContext.ThisParticipant.RegistrationInfo.uid = "testUserID";
+
+            // Act
+            bool isValid = csu.Validate();
+
+            // Assert
+            Assert.True(isValid);
         }
     }
 }

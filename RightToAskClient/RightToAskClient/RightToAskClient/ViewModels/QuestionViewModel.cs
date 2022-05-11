@@ -31,7 +31,12 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _question, value);
         }
 
-        public QuestionSendToServer _serverQuestionUpdates = new QuestionSendToServer();
+        private QuestionSendToServer _serverQuestionUpdates = new QuestionSendToServer();
+        public QuestionSendToServer ServerQuestionUpdates
+        {
+            get => _serverQuestionUpdates;
+            set => SetProperty(ref _serverQuestionUpdates, value);
+        }
 
         private bool _isNewQuestion;
         public bool IsNewQuestion
@@ -375,7 +380,7 @@ namespace RightToAskClient.ViewModels
 
         public void ReinitQuestionUpdates()
         {
-            _serverQuestionUpdates = new QuestionSendToServer();
+            ServerQuestionUpdates = new QuestionSendToServer();
             Question.ReinitQuestionUpdates();
         }
 

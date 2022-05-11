@@ -27,7 +27,7 @@ namespace RightToAskClient.Models
             set
             {
                 SetProperty(ref _questionText, value);
-                QuestionViewModel.Instance._serverQuestionUpdates.question_text = _questionText;
+                QuestionViewModel.Instance.ServerQuestionUpdates.question_text = _questionText;
                 _updates.question_text = _questionText;
             }
         }
@@ -51,7 +51,7 @@ namespace RightToAskClient.Models
             set
             {
                 SetProperty(ref _background, value);
-                QuestionViewModel.Instance._serverQuestionUpdates.background = _background;
+                QuestionViewModel.Instance.ServerQuestionUpdates.background = _background;
                 _updates.background = _background;
             }
         }
@@ -85,7 +85,7 @@ namespace RightToAskClient.Models
             set
             {
                 SetProperty(ref _questionId, value);
-                QuestionViewModel.Instance._serverQuestionUpdates.question_id = _questionId;
+                QuestionViewModel.Instance.ServerQuestionUpdates.question_id = _questionId;
             }
         }
         private string _version = "";
@@ -95,7 +95,7 @@ namespace RightToAskClient.Models
             set
             {
                 SetProperty(ref _version, value);
-                QuestionViewModel.Instance._serverQuestionUpdates.version = _version;
+                QuestionViewModel.Instance.ServerQuestionUpdates.version = _version;
             }
         }
 
@@ -164,7 +164,7 @@ namespace RightToAskClient.Models
             set
             {
                 SetProperty(ref _hansardLink, value);
-                QuestionViewModel.Instance._serverQuestionUpdates.hansard_link = _hansardLink;
+                QuestionViewModel.Instance.ServerQuestionUpdates.hansard_link = _hansardLink;
             }
         }
 

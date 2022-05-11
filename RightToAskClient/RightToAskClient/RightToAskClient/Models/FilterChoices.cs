@@ -14,7 +14,7 @@ namespace RightToAskClient.Models
         private ObservableCollection<MP> _selectedAskingMPsMine = new ObservableCollection<MP>();
         private ObservableCollection<Authority> _selectedAuthorities = new ObservableCollection<Authority>();
         private ObservableCollection<string> _selectedAskingCommittee = new ObservableCollection<string>();
-        private ObservableCollection<Person?> _selectedAskingUsers = new ObservableCollection<Person?>();
+        private ObservableCollection<Person> _selectedAskingUsers = new ObservableCollection<Person>();
 
         public ObservableCollection<Authority> SelectedAuthorities
         {
@@ -82,7 +82,7 @@ namespace RightToAskClient.Models
             }
         }
 
-        public ObservableCollection<Person?> SelectedAskingUsers
+        public ObservableCollection<Person> SelectedAskingUsers
         {
             get => _selectedAskingUsers;
             set
@@ -165,15 +165,19 @@ namespace RightToAskClient.Models
                     }
                 }
             }
-            if (SelectedAskingUsers.Any())
+            if(SelectedAskingUsers != null)
             {
-                for (int i = 0; i < SelectedAskingUsers.Count; i++)
+                if (SelectedAskingUsers.Any())
                 {
-                    if (SelectedAskingUsers[i] != null)
+                    for (int i = 0; i < SelectedAskingUsers.Count-1; i++)
                     {
-                        if (SelectedAskingUsers[i].Validate())
+                        if (SelectedAskingUsers[i] != null)
                         {
-                            hasInvalidData = true;
+                            bool temp = SelectedAskingUsers[i].Validate();
+                            if (SelectedAskingUsers[i].Validate())
+                            {
+                                hasInvalidData = true;
+                            }
                         }
                     }
                 }

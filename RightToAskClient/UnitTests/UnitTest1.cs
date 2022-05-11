@@ -15,6 +15,9 @@ namespace UnitTests
 {
     public class UnitTest1
     {
+        // properties 
+        public ValidationTests vTests = new ValidationTests();
+
         // Sample Tests
         #region Sample Tests
         [Fact]
@@ -100,18 +103,12 @@ namespace UnitTests
         }
 
         [Fact]
-        public void SendNewQuestionToServerTest()
-        {
-            // Not sure how I want to go about testing for this and other server related communications yet
-        }
-
-        [Fact]
-        public void ReinitDataTest() // Function Test
+        public void ReinitDataTest() // Function Test - Filter ViewModel
         {
             // arrange
             FilterViewModel vm = new FilterViewModel();
-            FilterChoices filters = new FilterChoices(); // need to test for filterchoices first?
-            filters.SearchKeyword = "test";
+            FilterChoices filters = vTests.ValidateFiltersTest();
+            filters.SearchKeyword = "changed Keyword";
             App.ReadingContext.Filters.SearchKeyword = filters.SearchKeyword;
 
             // act
@@ -119,7 +116,12 @@ namespace UnitTests
 
             // assert
             Assert.True(!string.IsNullOrEmpty(filters.SearchKeyword));
+            Assert.Equal("changed Keyword", filters.SearchKeyword);
             Assert.True(!string.IsNullOrEmpty(vm.Keyword));
+            Assert.NotNull(filters.SelectedAnsweringMPs);
+            Assert.True(filters.SelectedAnsweringMPs.Any());
+            Assert.NotNull(filters.SelectedAnsweringMPs[0]);
+            Assert.True(!string.IsNullOrEmpty(vm.SelectedAnsweringMPsList.ToString()));
         }
 
         // Boolean Converter Test
