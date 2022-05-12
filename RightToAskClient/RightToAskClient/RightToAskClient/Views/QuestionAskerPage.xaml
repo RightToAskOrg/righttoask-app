@@ -32,7 +32,7 @@
                             <Label Grid.Row="0" Text="{xct:Translate MyMPButtonText}" Style="{StaticResource HeaderButtonText}"/>
                             <Label Grid.Row="1" Text="Your MP, perhaps a special session for constituent questions" Style="{StaticResource BodyButtonText}"/>
                             <Button Grid.RowSpan="2" Style="{StaticResource TransparentSquareButton}" 
-                                Command="{Binding RaisedOptionSelectedCommand}" CommandParameter="1" IsVisible="{Binding DisplayFindCommitteeButton}"/>
+                                Command="{Binding MyMPRaiseCommand}" CommandParameter="1" IsVisible="{Binding DisplayFindCommitteeButton}"/>
                         </Grid>
                     </Frame>
                     <Frame Grid.Row="1" Grid.Column="0" Style="{StaticResource InvisibleButtonFrame}">

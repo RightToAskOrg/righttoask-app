@@ -196,6 +196,10 @@ namespace RightToAskClient.ViewModels
             ResetInstance();
 
             // commands
+            FindCommitteesCommand = new Command(() =>
+            {
+                OnFindCommitteeButtonClicked();
+            });
             RaisedOptionSelectedCommand = new Command<string>((string buttonId) => 
             {
                 int buttonIdNum = 0;
@@ -343,6 +347,9 @@ namespace RightToAskClient.ViewModels
         }
 
         public Command<string> RaisedOptionSelectedCommand { get; }
+        public Command FindCommitteesCommand { get; }
+        private Command _myMPRaiseCommand;
+        public Command MyMPRaiseCommand => _myMPRaiseCommand ??= new Command(OnMyMPRaiseButtonClicked);
         public IAsyncCommand ProceedToReadingPageCommand { get; }
         public IAsyncCommand NavigateForwardCommand { get; }
         public IAsyncCommand OtherPublicAuthorityButtonCommand { get; }
@@ -412,6 +419,7 @@ namespace RightToAskClient.ViewModels
         // methods for selecting who will raise your question
         private void OnFindCommitteeButtonClicked()
         {
+            RaisedByOptionSelected = true;
             DisplayFindCommitteeButton = false;
             DisplaySenateEstimatesSection = true;
             SenateEstimatesAppearanceText =

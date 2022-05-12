@@ -432,17 +432,29 @@ namespace UnitTests
         public void ValidateClientSignedUnparsedTest()
         {
             // Arrange
-            ClientSignedUnparsed csu = new ClientSignedUnparsed();
-            csu.message = "fakeMessageToSend";
-            csu.signature = ""; // what does the signature actually need to be to get it to pass?
-            csu.user = "testUserID";
-            App.ReadingContext.ThisParticipant.RegistrationInfo.uid = "testUserID";
+            App.ReadingContext.ThisParticipant.RegistrationInfo.uid = "TestUID10";
+            var csu = App.ReadingContext.ThisParticipant.SignMessage("fakeMessageToSend");
 
             // Act
             bool isValid = csu.Validate();
 
             // Assert
             Assert.True(isValid);
+        }
+
+        [Fact]
+        public void ValidateClientSignedUnparsedFailTest()
+        {
+            // Arrange
+            App.ReadingContext.ThisParticipant.RegistrationInfo.uid = "TestUID10";
+            var csu = App.ReadingContext.ThisParticipant.SignMessage("fakeMessageToSend");
+            csu.message = "changedMessage";
+
+            // Act
+            bool isValid = csu.Validate();
+
+            // Assert
+            Assert.False(isValid);
         }
     }
 }

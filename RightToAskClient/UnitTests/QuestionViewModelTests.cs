@@ -1,6 +1,7 @@
 ﻿using RightToAskClient;
 using RightToAskClient.Models;
 using RightToAskClient.ViewModels;
+using System;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using Xunit;
@@ -31,6 +32,69 @@ namespace UnitTests
         public QuestionViewModelTests()
         {
 
+        }
+
+        [Fact]
+        public void RaisedOptionSelected0Command()
+        {
+            // arrange
+            Button button = new Button()
+            {
+                Command = vm.RaisedOptionSelectedCommand,
+                CommandParameter = 0
+            };
+
+            // act
+            button.Command.Execute(null);
+            string result = String.Join(" ", App.ReadingContext.Filters.SelectedAuthorities) + " is appearing at Senate Estimates tomorrow";
+
+            // assert
+            Assert.Equal(result, vm.SenateEstimatesAppearanceText);
+        }
+
+        [Fact]
+        public void RaisedOptionSelected1Command()
+        {
+            // arrange
+            //ParliamentData.MPAndOtherData.IsInitialised = true;
+            Button button = new Button()
+            {
+                Command = vm.RaisedOptionSelectedCommand,
+                CommandParameter = "1"
+            };
+
+            // act
+            button.Command.Execute(null);
+            bool messageReceived = false;
+            MessagingCenter.Subscribe<QuestionViewModel>(this, "GoToReadingPage", (sender) =>
+            {
+                messageReceived = true;
+            });
+
+            // assert
+            Assert.True(messageReceived);
+        }
+
+        [Fact]
+        public void RaisedOptionSelected1FailCommand()
+        {
+            // arrange
+            Button button = new Button()
+            {
+                Command = vm.RaisedOptionSelectedCommand,
+                CommandParameter = 1
+            };
+
+            // act
+            button.Command.Execute(null);
+            bool messageReceived = false;
+            MessagingCenter.Subscribe<QuestionViewModel>(this, "GoToReadingPage", (sender) =>
+            {
+                messageReceived = true;
+            });
+
+            // assert
+            Assert.True(messageReceived);
         }
 
         [Fact]

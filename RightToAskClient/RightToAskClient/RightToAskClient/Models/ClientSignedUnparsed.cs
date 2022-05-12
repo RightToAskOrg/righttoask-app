@@ -1,4 +1,6 @@
+using Org.BouncyCastle.Crypto.Parameters;
 using RightToAskClient.CryptoUtils;
+using RightToAskClient.HttpClients;
 using System;
 using System.Text.Json.Serialization;
 
@@ -23,7 +25,8 @@ namespace RightToAskClient.Models
             if (user == App.ReadingContext.ThisParticipant.RegistrationInfo.uid)
             {
                 byte[] signaturebytes = Convert.FromBase64String(signature);
-                bool validSig = ServerSignatureVerificationService.VerifySignature(message, signaturebytes, ServerSignatureVerificationService.ServerPublicKey);
+                var ClientPublicKey = new Ed25519PublicKeyParameters(Convert.FromBase64String(App.ReadingContext.ThisParticipant.RegistrationInfo.public_key));
+                bool validSig = ServerSignatureVerificationService.VerifySignature(message, signaturebytes, ClientPublicKey);
                 if (validSig)
                 {
                     hasInvalidData = false;
