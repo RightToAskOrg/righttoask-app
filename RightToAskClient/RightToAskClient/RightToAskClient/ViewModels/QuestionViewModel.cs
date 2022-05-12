@@ -191,12 +191,6 @@ namespace RightToAskClient.ViewModels
             ResetInstance();
 
             // commands
-            RaisedOptionSelectedCommand = new Command<string>((string buttonId) => 
-            {
-                int buttonIdNum = 0;
-                Int32.TryParse(buttonId, out buttonIdNum);
-                OnButtonPressed(buttonIdNum);
-            });
             ProceedToReadingPageCommand = new AsyncCommand(async() => 
             {
                 await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
@@ -337,7 +331,16 @@ namespace RightToAskClient.ViewModels
             });
         }
 
-        public Command<string> RaisedOptionSelectedCommand { get; }
+        private Command? _findCommitteeCommand;
+        public Command FindCommitteeCommand => _findCommitteeCommand ??= new Command(OnFindCommitteeButtonClicked);
+        private Command? _myMpRaiseCommand;
+        public Command MyMPRaiseCommand => _myMpRaiseCommand ??= new Command(OnMyMPRaiseButtonClicked);
+        private Command? _otherMPRaiseCommand;
+        public Command OtherMPRaiseCommand => _otherMPRaiseCommand ??= new Command(OnOtherMPRaiseButtonClicked);
+        private Command? _userShouldRaiseCommand;
+        public Command UserShouldRaiseCommand => _userShouldRaiseCommand ??= new Command(UserShouldRaiseButtonClicked);
+        private Command? _notSureWhoShouldRaiseCommand;
+        public Command NotSureWhoShouldRaiseCommand => _notSureWhoShouldRaiseCommand ??= new Command(NotSureWhoShouldRaiseButtonClicked);
         public IAsyncCommand ProceedToReadingPageCommand { get; }
         public IAsyncCommand NavigateForwardCommand { get; }
         public IAsyncCommand OtherPublicAuthorityButtonCommand { get; }
@@ -379,34 +382,10 @@ namespace RightToAskClient.ViewModels
             Question.ReinitQuestionUpdates();
         }
 
-        public void OnButtonPressed(int buttonId)
-        {
-            RaisedByOptionSelected = true;
-            switch (buttonId)
-            {
-                case 0:
-                    OnFindCommitteeButtonClicked();
-                    break;
-                case 1:
-                    OnMyMPRaiseButtonClicked();
-                    break;
-                case 2:
-                    OnOtherMPRaiseButtonClicked();
-                    break;
-                case 3:
-                    UserShouldRaiseButtonClicked();
-                    break;
-                case 4:
-                    NotSureWhoShouldRaiseButtonClicked();
-                    break;
-                default:
-                    break;
-            }
-        }
-
         // methods for selecting who will raise your question
         private void OnFindCommitteeButtonClicked()
         {
+            RaisedByOptionSelected = true;
             DisplayFindCommitteeButton = false;
             DisplaySenateEstimatesSection = true;
             SenateEstimatesAppearanceText =
@@ -418,6 +397,7 @@ namespace RightToAskClient.ViewModels
         // Executing. That shouldn't be a problem, though, because it is invisible and therefore unclickable.
         private async void OnMyMPRaiseButtonClicked()
         {
+            RaisedByOptionSelected = true;
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
                 await NavigationUtils.PushMyAskingMPsExploringPage().ContinueWith((_) =>
@@ -441,6 +421,7 @@ namespace RightToAskClient.ViewModels
 
         private async void NotSureWhoShouldRaiseButtonClicked()
         {
+            RaisedByOptionSelected = true;
             NotSureWhoShouldRaiseButtonText = "Not implemented yet";
             await Shell.Current.GoToAsync(nameof(ReadingPage));
         }
@@ -448,12 +429,14 @@ namespace RightToAskClient.ViewModels
         // TODO: Implement an ExporingPage constructor for people.
         private async void UserShouldRaiseButtonClicked()
         {
+            RaisedByOptionSelected = true;
             AnotherUserButtonText = "Not Implemented Yet";
             await Shell.Current.GoToAsync(nameof(ReadingPage));
         }
 
         private async void OnOtherMPRaiseButtonClicked()
         {
+            RaisedByOptionSelected = true;
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
                 await NavigationUtils.PushAskingMPsExploringPageAsync().ContinueWith((_) =>
