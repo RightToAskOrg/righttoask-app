@@ -35,13 +35,12 @@ namespace UnitTests
         }
 
         [Fact]
-        public void RaisedOptionSelected0Command()
+        public void FindCommitteeCommandTest()
         {
             // arrange
             Button button = new Button()
             {
-                Command = vm.RaisedOptionSelectedCommand,
-                CommandParameter = 0
+                Command = vm.FindCommitteeCommand
             };
 
             // act
@@ -52,15 +51,50 @@ namespace UnitTests
             Assert.Equal(result, vm.SenateEstimatesAppearanceText);
         }
 
+        // TODO : Check server connection for at least being able to retreive data for unit testing purposes
         [Fact]
-        public void RaisedOptionSelected1Command()
+        public void QuestionSuggesterCommandTest()
+        {
+            // arrange
+            vm.Question.QuestionSuggester = "fakeTestUID"; // Even with a correct UID "TestUID01" trying to reach a server fails
+            Button button = new Button()
+            {
+                Command = vm.QuestionSuggesterCommand
+            };
+            vm.ReportLabelText = "";
+
+            // act
+            button.Command.Execute(null);
+
+            // assert
+            Assert.True(!string.IsNullOrEmpty(vm.ReportLabelText));
+        }
+
+        [Fact]
+        public void EditQuestionCommandTest()
+        {
+            // arrange
+            App.ReadingContext.ThisParticipant.IsRegistered = false;
+            Button button = new Button()
+            {
+                Command = vm.EditAnswerCommand
+            };
+
+            // act
+            button.Command.Execute(null);
+
+            // assert
+            Assert.True(!string.IsNullOrEmpty(vm.ReportLabelText));
+        }
+
+        [Fact]
+        public void MyMPRaiseCommandTest()
         {
             // arrange
             //ParliamentData.MPAndOtherData.IsInitialised = true;
             Button button = new Button()
             {
-                Command = vm.RaisedOptionSelectedCommand,
-                CommandParameter = "1"
+                Command = vm.MyMPRaiseCommand
             };
 
             // act
@@ -70,31 +104,142 @@ namespace UnitTests
             {
                 messageReceived = true;
             });
+
+            // assert
+            Assert.False(messageReceived);
+            Assert.True(vm.ShowReportLabel);
+            Assert.False(vm.EnableMyMPShouldRaiseButton);
+            Assert.False(vm.EnableAnotherMPShouldRaiseButton);
+            Assert.Equal(ParliamentData.MPAndOtherData.ErrorMessage, vm.ReportLabelText);
+            Assert.False(vm.RaisedByOptionSelected);
+        }
+
+        [Fact]
+        public void OtherMPRaiseCommandTest()
+        {
+            // arrange
+            //ParliamentData.MPAndOtherData.IsInitialised = true; // can't set, so check the other method's properties
+            Button button = new Button()
+            {
+                Command = vm.OtherMPRaiseCommand
+            };
+
+            // act
+            bool messageReceived = false;
+            MessagingCenter.Subscribe<QuestionViewModel>(this, "GoToReadingPage", (sender) =>
+            {
+                messageReceived = true;
+            });
+            button.Command.Execute(null);
+
+            // assert
+            Assert.False(messageReceived);
+            Assert.True(vm.ShowReportLabel);
+            Assert.False(vm.EnableMyMPShouldRaiseButton);
+            Assert.False(vm.EnableAnotherMPShouldRaiseButton);
+            Assert.Equal(ParliamentData.MPAndOtherData.ErrorMessage, vm.ReportLabelText);
+            Assert.False(vm.RaisedByOptionSelected);
+        }
+
+        [Fact]
+        public void AnsweredByMyMPCommandTest()
+        {
+            // arrange
+            Button button = new Button()
+            {
+                Command = vm.AnsweredByMyMPCommand
+            };
+
+            // act
+            bool messageReceived = false;
+            MessagingCenter.Subscribe<QuestionViewModel>(this, "GoToReadingPage", (sender) =>
+            {
+                messageReceived = true;
+            });
+            button.Command.Execute(null);
 
             // assert
             Assert.True(messageReceived);
         }
 
         [Fact]
-        public void RaisedOptionSelected1FailCommand()
+        public void AnsweredByMyMPCommandFailTest()
         {
             // arrange
             Button button = new Button()
             {
-                Command = vm.RaisedOptionSelectedCommand,
-                CommandParameter = 1
+                Command = vm.AnsweredByMyMPCommand
+            };
+
+            // act
+            bool messageReceived = false;
+            MessagingCenter.Subscribe<QuestionViewModel>(this, "WrongMessage", (sender) =>
+            {
+                messageReceived = true;
+            });
+            button.Command.Execute(null);
+
+            // assert
+            Assert.False(messageReceived);
+        }
+
+        [Fact]
+        public void AnsweredByOtherMPCommandOptionBTest()
+        {
+            // arrange
+            Button button = new Button()
+            {
+                Command = vm.AnsweredByOtherMPCommandOptionB
+            };
+
+            // act
+            bool messageReceived = false;
+            MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionB", (sender) =>
+            {
+                messageReceived = true;
+            });
+            button.Command.Execute(null);
+
+            // assert
+            Assert.True(messageReceived);
+        }
+
+        [Fact]
+        public void AnsweredByOtherMPCommandOptionBFailTest()
+        {
+            // arrange
+            Button button = new Button()
+            {
+                Command = vm.AnsweredByOtherMPCommandOptionB
+            };
+
+            // act
+            bool messageReceived = false;
+            MessagingCenter.Subscribe<QuestionViewModel>(this, "WrongMessage", (sender) =>
+            {
+                messageReceived = true;
+            });
+            button.Command.Execute(null);
+
+            // assert
+            Assert.False(messageReceived);
+        }
+
+        [Fact]
+        public void UserShouldRaiseCommandTest()
+        {
+            // arrange
+            Button button = new Button()
+            {
+                Command = vm.UserShouldRaiseCommand
             };
 
             // act
             button.Command.Execute(null);
-            bool messageReceived = false;
-            MessagingCenter.Subscribe<QuestionViewModel>(this, "GoToReadingPage", (sender) =>
-            {
-                messageReceived = true;
-            });
 
-            // assert
-            Assert.True(messageReceived);
+            // assert -- fails due to crash on shell navigation, but otherwise true
+            Assert.Equal("Not Implemented Yet", vm.AnotherUserButtonText);
+            Assert.True(vm.RaisedByOptionSelected);
         }
 
         [Fact]

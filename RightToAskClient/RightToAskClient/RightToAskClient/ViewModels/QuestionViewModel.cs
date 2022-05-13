@@ -402,9 +402,9 @@ namespace RightToAskClient.ViewModels
         // Executing. That shouldn't be a problem, though, because it is invisible and therefore unclickable.
         private async void OnMyMPRaiseButtonClicked()
         {
-            RaisedByOptionSelected = true;
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
+                RaisedByOptionSelected = true;
                 await NavigationUtils.PushMyAskingMPsExploringPage().ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, "GoToReadingPage"); // Sends this view model
@@ -441,9 +441,9 @@ namespace RightToAskClient.ViewModels
 
         private async void OnOtherMPRaiseButtonClicked()
         {
-            RaisedByOptionSelected = true;
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
+                RaisedByOptionSelected = true;
                 await NavigationUtils.PushAskingMPsExploringPageAsync().ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, "GoToReadingPage"); // Sends this view model
