@@ -141,7 +141,7 @@
             <Style x:Key="GreenSearchBar" TargetType="SearchBar">
                 <Setter Property="BackgroundColor" Value="{StaticResource FrameColor}"></Setter>
                 <Setter Property="MinimumWidthRequest" Value="200"></Setter>
-                <Setter Property="TextColor" Value="{StaticResource TextColorDark}"></Setter>
+                <Setter Property="TextColor" Value="{StaticResource TextColor}"></Setter>
                 <Setter Property="PlaceholderColor" Value="{StaticResource TextColorGray}"></Setter>
             </Style>
             <Style x:Key="GreenFrame" TargetType="Frame">
