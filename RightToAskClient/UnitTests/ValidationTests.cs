@@ -238,7 +238,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public void ValidRegistrationTest()
+        public Registration ValidRegistrationTest()
         {
             // arrange
             Registration validRegistration = new Registration();
@@ -254,6 +254,7 @@ namespace UnitTests
             Assert.True(!string.IsNullOrEmpty(validRegistration.uid));
             Assert.True(!string.IsNullOrEmpty(validRegistration.public_key));
             Assert.False(validRegistration.electorates?.Any());
+            return validRegistration;
         }
 
         [Fact]
@@ -359,7 +360,7 @@ namespace UnitTests
 
         // Test Address
         [Fact]
-        public void TestValidAddress()
+        public Address TestValidAddress()
         {
             // arrange
             Address address = new Address();
@@ -376,6 +377,7 @@ namespace UnitTests
             Assert.True(!string.IsNullOrEmpty(address.StreetNumberAndName));
             Assert.True(!string.IsNullOrEmpty(address.CityOrSuburb));
             Assert.True(!string.IsNullOrEmpty(address.Postcode));
+            return address;
         }
 
         [Fact]
