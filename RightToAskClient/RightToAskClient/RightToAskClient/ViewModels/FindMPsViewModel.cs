@@ -145,6 +145,7 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _doneButtonText, value);
         }
         private bool _launchMPsSelectionPageNext;
+        private bool _goToReadingPage = false;
         #endregion
 
         // constructor
@@ -159,6 +160,10 @@ namespace RightToAskClient.ViewModels
             {
                 _launchMPsSelectionPageNext = false;
             });
+            MessagingCenter.Subscribe<QuestionViewModel>(this, "GoToReadingPage", (sender) =>
+            {
+                _goToReadingPage = true;
+            });
 
             // commands
             MPsButtonCommand = new AsyncCommand(async () =>
@@ -167,10 +172,22 @@ namespace RightToAskClient.ViewModels
                 {
                     string message = "These are your MPs.  Select the one(s) who should answer the question";
                     var mpsExploringPage = new ExploringPage(App.ReadingContext.ThisParticipant.GroupedMPs, App.ReadingContext.Filters.SelectedAskingMPs, message);
+                    if (_goToReadingPage)
+                    {
+                        await App.Current.MainPage.Navigation.PushAsync(mpsExploringPage).ContinueWith((_) => 
+                        {
+                            MessagingCenter.Send<FindMPsViewModel>(this, "GoToReadingPage");
+                        });
+                    }
+                    else
+                    {
+                        await App.Current.MainPage.Navigation.PushAsync(mpsExploringPage);
+                    }
                     await App.Current.MainPage.Navigation.PushAsync(mpsExploringPage);
                     _launchMPsSelectionPageNext = false;
                     DoneButtonText = AppResources.DoneButtonText;
                     MessagingCenter.Send<FindMPsViewModel, bool>(this, "PreviousPage", true);
+
                 }
                 else
                 {

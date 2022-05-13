@@ -232,10 +232,20 @@ namespace RightToAskClient.ViewModels
             // It will pop back to here.
             AnsweredByMyMPCommand = new AsyncCommand(async () =>
             {
-                await NavigationUtils.PushMyAnsweringMPsExploringPage().ContinueWith((_) =>
+                if (App.ReadingContext.ThisParticipant.MPsKnown)
                 {
-                    MessagingCenter.Send(this, "GoToReadingPage"); // Sends this view model
-                });
+                    await NavigationUtils.PushMyAnsweringMPsExploringPage().ContinueWith((_) =>
+                    {
+                        MessagingCenter.Send(this, "GoToReadingPage"); // Sends this view model
+                    });
+                }
+                else
+                {
+                    await Shell.Current.GoToAsync(nameof(RegisterPage2)).ContinueWith((_) => 
+                    {
+                        MessagingCenter.Send(this, "GoToReadingPage");
+                    });
+                }
             });
             AnsweredByOtherMPCommand = new AsyncCommand(async () =>
             {

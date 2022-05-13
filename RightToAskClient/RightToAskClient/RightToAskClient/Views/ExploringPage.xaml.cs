@@ -69,6 +69,11 @@ namespace RightToAskClient.Views
 				GoToReadingPageNext = true;
 				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "GoToReadingPage");
 			});
+			MessagingCenter.Subscribe<FindMPsViewModel>(this, "GoToReadingPage", (sender) =>
+			{
+				GoToReadingPageNext = true;
+				MessagingCenter.Unsubscribe<FindMPsViewModel>(this, "GoToReadingPage");
+			});
 			MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionB", (sender) =>
 			{
 				OptionB = true;
@@ -104,6 +109,11 @@ namespace RightToAskClient.Views
 			{
 				GoToReadingPageNext = true;
 				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "GoToReadingPage");
+			});
+			MessagingCenter.Subscribe<FindMPsViewModel>(this, "GoToReadingPage", (sender) =>
+			{
+				GoToReadingPageNext = true;
+				MessagingCenter.Unsubscribe<FindMPsViewModel>(this, "GoToReadingPage");
 			});
 			MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionB", (sender) =>
 			{
@@ -151,6 +161,11 @@ namespace RightToAskClient.Views
 			{
 				GoToReadingPageNext = true;
 				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "GoToReadingPage");
+			});
+			MessagingCenter.Subscribe<FindMPsViewModel>(this, "GoToReadingPage", (sender) =>
+			{
+				GoToReadingPageNext = true;
+				MessagingCenter.Unsubscribe<FindMPsViewModel>(this, "GoToReadingPage");
 			});
 			MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionB", (sender) =>
 			{
