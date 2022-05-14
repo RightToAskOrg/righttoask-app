@@ -219,8 +219,10 @@ namespace RightToAskClient.ViewModels
             });
             OtherPublicAuthorityButtonCommand = new AsyncCommand(async () =>
             {
+                var selectableList = new SelectableList<Authority>(ParliamentData.AllAuthorities, App.ReadingContext.Filters.SelectedAuthorities); 
                 var exploringPageToSearchAuthorities
-                    = new ExploringPageWithSearch(App.ReadingContext.Filters.SelectedAuthorities, "Choose authorities");
+                    // FIXME: Now deleted. Re-include message. = new ExploringPageWithSearch(App.ReadingContext.Filters.SelectedAuthorities, "Choose authorities");
+                    = new SelectableListPage(selectableList, "Choose authorities");
                 await Shell.Current.Navigation.PushAsync(exploringPageToSearchAuthorities).ContinueWith((_) => 
                 {
                     MessagingCenter.Send(this, "OptionB"); // Sends this view model

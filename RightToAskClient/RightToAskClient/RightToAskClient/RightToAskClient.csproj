@@ -95,6 +95,7 @@
     <None Remove="Resources\PublicServerKey" />
     <None Remove="Views\" />
     <None Remove="sqlite-net-pcl" />
+    <None Remove="ViewModels\Registration1ViewModel.cs.old" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
@@ -118,6 +119,7 @@
     <Compile Remove="Models\MPsInChamber.cs" />
     <Compile Remove="Models\TodoItem.cs" />
     <Compile Remove="Views\AuthoritiesRTKCategories.xaml.cs" />
+    <Compile Remove="Views\ListSelection.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Views\SecondPage_old.xaml" />

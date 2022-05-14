@@ -2,31 +2,41 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using RightToAskClient.Models;
-using RightToAskClient.ViewModels;
+using RightToAskClient.Views;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
-/*
- * Inputs a list of tags to be displayed in a way that allows the user
- * to select some.
- * allEntities is the complete list of possible entities for selection.
- * selectedEntities stores the list of selected Tags, to be updated when the page is popped.
- * 
- * Optionally inputs a message to display at the top of the page.
- *
- * Constructors are either a single unstructured list of entities,
- * or a list of lists, each with their own header and selectable set.
- *
- * Inherited classes ExploringPageWithSearch and ExploringPageWithPreselections
- * add a searchbar and a separate list of prior-selected items.
- */
-namespace RightToAskClient.Views
+// xaml code-behind can't be generic, but View Models can be.
+namespace RightToAskClient.ViewModels
 {
-	public partial class ExploringPage 
-	{
+    public class SelectableListViewModel : BaseViewModel
+    {
+		private readonly object _entityLists;
 		protected readonly ObservableCollection<Entity> AllEntities = new ObservableCollection<Entity>();
-		protected readonly ObservableCollection<Tag<Entity>> SelectableEntities;
-		
+
+		private ObservableCollection<Tag<Entity>> _selectableEntities;
+
+		public ObservableCollection<Tag<Entity>> SelectableEntities
+		{
+			get => _selectableEntities;
+			private set => SetProperty(ref _selectableEntities, value);
+		}
+
+		private string _introText;
+
+		public string IntroText
+		{
+			get => _introText;
+			set => SetProperty(ref _introText, value);
+		}
+		protected readonly IEnumerable<Entity> allEntities;
+
+		public IAsyncCommand DoneButtonCommand { get;  }
+		public IAsyncCommand HomeButtonCommand { get;  }
+			
+			// DoneButton.Clicked += DoneAuthoritiesButton_OnClicked;
 		// TODO: I would like to be able to use the type system to avoid this doubling-up, but 
 		// I can't figure out how to do it. The roles of these three selected-lists are almost the
 		// same regardless of their type (Authority, MP or Person), but they need to be
@@ -43,14 +53,15 @@ namespace RightToAskClient.Views
 		public bool GoToReadingPageNext = false;
 		public bool OptionB = false;
 
-		public ExploringPage(ObservableCollection<MP> allEntities, 
+		/*
+		public SelectableListPage(ObservableCollection<MP> allEntities, 
 			ObservableCollection<MP> selectedEntities, string message="")
 		{
 			InitializeComponent();
 			
 			SelectedMPs = selectedEntities;
 			AllEntities = new ObservableCollection<Entity>(allEntities);
-			SelectableEntities = wrapInTags(AllEntities, selectedEntities);
+			SelectableEntities = wrapInTags(allEntities, selectedEntities);
 			DoneButton.Clicked += DoneMPsButton_OnClicked;
             HomeButton.Clicked += HomeButton_Clicked;
 			
@@ -75,21 +86,35 @@ namespace RightToAskClient.Views
 				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionB");
 			});
 		}
+		*/
 
-        /* This constructor is only used for Authorities, and hence assumed that the list to be selected from
+		/* This constructor is only used for Authorities, and hence assumed that the list to be selected from
 		 * consists of the complete list of authorities.
+		 * The page updates authorityLists.SelectedEntities.
 		 */
-        public ExploringPage(ObservableCollection<Authority> selectedEntities, string message) 
+        public SelectableListViewModel(SelectableList<Authority> authorityLists , string message) 
 		{
-			InitializeComponent();
+			// InitializeComponent();
 
-			SelectedAuthorities = selectedEntities;
-			AllEntities = new ObservableCollection<Entity>(ParliamentData.AllAuthorities);
-			SelectableEntities = wrapInTags(AllEntities, selectedEntities);
-			DoneButton.Clicked += DoneAuthoritiesButton_OnClicked;
-			HomeButton.Clicked += HomeButton_Clicked;
+			SelectedAuthorities = new ObservableCollection<Authority>(authorityLists.SelectedEntities);
+			AllEntities = new ObservableCollection<Entity>(authorityLists.AllEntities); 
+			SelectableEntities = wrapInTags(AllEntities,  authorityLists.SelectedEntities);
+			// DoneButton.Clicked += DoneAuthoritiesButton_OnClicked;
+			// HomeButton.Clicked += HomeButton_Clicked;
 
-			SetUpSelectableEntitiesAndIntroText(message);
+            DoneButtonCommand = new AsyncCommand(async () =>
+            {
+                DoneAuthoritiesButton_OnClicked(
+	                () => UpdateSelectedList<Authority>(authorityLists)       
+	                );
+            });
+            HomeButtonCommand = new AsyncCommand(async () =>
+            {
+                HomeButton_Clicked();
+            });
+            
+			// /
+			// SetUpSelectableEntitiesAndIntroText(message);
 
 			MessagingCenter.Subscribe<FindMPsViewModel, bool>(this, "PreviousPage", (sender, arg) =>
 			{
@@ -112,7 +137,8 @@ namespace RightToAskClient.Views
 			});
 		}
 
-		public ExploringPage(IEnumerable<IGrouping<ParliamentData.Chamber, MP>> groupedMPs, ObservableCollection<MP> selectedMPs, string message)
+        /*
+		public SelectableListPage(IEnumerable<IGrouping<ParliamentData.Chamber, MP>> groupedMPs, ObservableCollection<MP> selectedMPs, string message)
 		{
 			InitializeComponent();
 			
@@ -158,8 +184,9 @@ namespace RightToAskClient.Views
 				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionB");
 			});
 		}
+		*/
 
-		private async void HomeButton_Clicked(object sender, EventArgs e)
+		private async void HomeButton_Clicked()
 		{
 			string? result = await Shell.Current.DisplayActionSheet("Are you sure you want to go home? You will lose any unsaved questions.", "Cancel", "Yes, I'm sure.");
 			if (result == "Yes, I'm sure.")
@@ -167,12 +194,14 @@ namespace RightToAskClient.Views
 				await App.Current.MainPage.Navigation.PopToRootAsync();
 			}
 		}
+		/*
 		private void SetUpSelectableEntitiesAndIntroText(string message)
 		{
-			IntroText.Text = message;
-			AuthorityListView.BindingContext = SelectableEntities;
-			AuthorityListView.ItemsSource = SelectableEntities;
+			// IntroText.Text = message;
+			// AuthorityListView.BindingContext = SelectableEntities;
+			// AuthorityListView.ItemsSource = SelectableEntities;
 		}
+		*/
 		private class TaggedGroupedEntities : ObservableCollection<Tag<Entity>>
 		{
 			public TaggedGroupedEntities(ParliamentData.Chamber chamber, ObservableCollection<Tag<Entity>> entityGroup) : base(entityGroup)
@@ -199,6 +228,7 @@ namespace RightToAskClient.Views
 		// list it's updating. Can't really see a way round that unfortunately.
 		// TODO The DoneXButton_OnClicked functions could be unified because the if(camefromreg2page) 
 		// only applies to MPs and could be harmlessly included in the general function.
+		/*
 		async void DoneMPsButton_OnClicked(object sender, EventArgs e)
 		{
 			UpdateSelectedList(SelectedMPs);
@@ -218,14 +248,15 @@ namespace RightToAskClient.Views
 			}
             else
             {
-				await Navigation.PopAsync(); // single pop
+				await Shell.Current.Navigation.PopAsync(); // single pop
 			}
 			MessagingCenter.Send(this, "UpdateFilters");
 		}
-		
-		async void DoneAuthoritiesButton_OnClicked(object sender, EventArgs e)
+		*/
+
+		private async void DoneAuthoritiesButton_OnClicked(Action updateAction)
 		{
-			UpdateSelectedList(SelectedAuthorities);
+			updateAction();
 			if (OptionB)
             {
 				await Shell.Current.GoToAsync(nameof(QuestionAskerPage));
@@ -237,7 +268,7 @@ namespace RightToAskClient.Views
 			}
             else
             {
-				await Navigation.PopAsync();
+				await Shell.Current.Navigation.PopAsync();
 			}
 			MessagingCenter.Send(this, "UpdateFilters");
 		}
@@ -250,41 +281,51 @@ namespace RightToAskClient.Views
 		}
 		*/
 
-		private void UpdateSelectedList<T>(ObservableCollection<T> selectedEntities) where T:Entity
+		private void UpdateSelectedList<T>(SelectableList<T> entities) where T:Entity
 		{
+			var newSelectedEntities = new List<T>();
+			
 			var toBeIncluded = SelectableEntities.Where(w => w.Selected).Select(t => t.TagEntity);	
 			foreach (Entity selectedEntity in toBeIncluded)
 			{
-				if (!selectedEntities.Contains(selectedEntity))
+				// There shouldn't be duplicates, but check just in case.
+				if (!newSelectedEntities.Contains(selectedEntity))
 				{
 					if (selectedEntity is T s)
 					{
-						selectedEntities.Add(s);
-                        OnPropertyChanged("SelectedAuthorities");
-                        OnPropertyChanged("SelectedMPs");
-						OnPropertyChanged("SelectedPeople");
+						// FIXME This won't work because it makes a new list
+						newSelectedEntities.Append(s);
+						// OnPropertyChanged("SelectedAuthorities");
+						// OnPropertyChanged("SelectedMPs");
+						// OnPropertyChanged("SelectedPeople");
 					}
 				}
 			}
 			
+			/*
 			var toBeRemoved = SelectableEntities.Where(w => !w.Selected).Select(t => t.TagEntity);
 			foreach (Entity notSelectedEntity in toBeRemoved)
 			{
 				if (notSelectedEntity is T s)
 				{
-					selectedEntities.Remove(s);
-					OnPropertyChanged("SelectedAuthorities");
-					OnPropertyChanged("SelectedMPs");
-					OnPropertyChanged("SelectedPeople");
+					// FIXME This won't work because it makes a new list
+					selectedEntities.ToList().Remove(s);
+					// OnPropertyChanged("SelectedAuthorities");
+					// OnPropertyChanged("SelectedMPs");
+					// OnPropertyChanged("SelectedPeople");
 				}
 			}
+			*/
+
+			// There shouldn't be any duplicates, but this will remove them just in case.
+			entities.SelectedEntities = newSelectedEntities.Distinct().ToList();
 		}
 		
 		
 	    // Wrap the entities in tags, with Selected toggled according to whether the entity
 	    // is in the selectedEntities list or not.
-	    private ObservableCollection<Tag<Entity>> wrapInTags<T>(ObservableCollection<Entity>
-		 	entities, ObservableCollection<T> selectedEntities) where T : Entity
+	    private ObservableCollection<Tag<Entity>> wrapInTags<T>(IEnumerable<Entity>
+		 	entities, IEnumerable<T> selectedEntities) where T : Entity
 		{
 			return new ObservableCollection<Tag<Entity>>(entities.Select
 				(a => a.WrapInTag(selectedEntities.Contains(a)))

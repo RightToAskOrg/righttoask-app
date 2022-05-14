@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:extensions="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:local="clr-namespace:RightToAskClient"
+             xmlns:viewModels="clr-namespace:RightToAskClient.ViewModels;assembly=RightToAskClient"
+             x:Class="RightToAskClient.Views.SelectableListPage"
+             x:DataType="viewModels:SelectableListViewModel"
+             Title="Select the ones you want">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="HomeButton" Text="{xct:Translate HomeButtonText}" 
+                     IconImageSource="{extensions:ImageResource RightToAskClient.Images.home4.png}"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+		<StackLayout x:Name="MainLayout" x:FieldModifier="protected" HorizontalOptions="Center" VerticalOptions="Start">
+			<Label x:Name="IntroText" Text = "{Binding IntroText}" />
+			<ScrollView x:Name="ParentScrollView">
+				<ListView x:Name="AuthorityListView" ItemsSource="{Binding SelectableEntities}" x:FieldModifier="protected" VerticalOptions="FillAndExpand" SelectionMode="None" HasUnevenRows="True" ItemTapped="OnEntity_Selected"
+					ItemTemplate="{StaticResource SelectableDataTemplate }">
+				</ListView>
+			</ScrollView>	
+			<Button x:Name="DoneButton" Command = "{Binding }" Style="{StaticResource DoneButton}" /> 
+		</StackLayout>
+    </ContentPage.Content>
+</ContentPage>

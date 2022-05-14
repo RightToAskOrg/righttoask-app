@@ -22,11 +22,14 @@ using Xamarin.Forms;
  */
 namespace RightToAskClient.Views
 {
-	public partial class ExploringPage 
+	public partial class SelectableListPage 
 	{
+		private readonly object _entityLists;
 		protected readonly ObservableCollection<Entity> AllEntities = new ObservableCollection<Entity>();
 		protected readonly ObservableCollection<Tag<Entity>> SelectableEntities;
-		
+
+		protected readonly IEnumerable<Entity> allEntities;
+
 		// TODO: I would like to be able to use the type system to avoid this doubling-up, but 
 		// I can't figure out how to do it. The roles of these three selected-lists are almost the
 		// same regardless of their type (Authority, MP or Person), but they need to be
@@ -43,19 +46,18 @@ namespace RightToAskClient.Views
 		public bool GoToReadingPageNext = false;
 		public bool OptionB = false;
 
-		public ExploringPage(ObservableCollection<MP> allEntities, 
+		/*
+		public SelectableListPage(ObservableCollection<MP> allEntities, 
 			ObservableCollection<MP> selectedEntities, string message="")
 		{
 			InitializeComponent();
 			
 			SelectedMPs = selectedEntities;
 			AllEntities = new ObservableCollection<Entity>(allEntities);
-			SelectableEntities = wrapInTags(AllEntities, selectedEntities);
+			SelectableEntities = wrapInTags(allEntities, selectedEntities);
 			DoneButton.Clicked += DoneMPsButton_OnClicked;
             HomeButton.Clicked += HomeButton_Clicked;
 			
-			SetUpSelectableEntitiesAndIntroText(message);
-
 			MessagingCenter.Subscribe<FindMPsViewModel, bool>(this, "PreviousPage", (sender, arg) =>
 			{
 				if (arg)
@@ -75,22 +77,17 @@ namespace RightToAskClient.Views
 				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionB");
 			});
 		}
+		*/
 
         /* This constructor is only used for Authorities, and hence assumed that the list to be selected from
 		 * consists of the complete list of authorities.
 		 */
-        public ExploringPage(ObservableCollection<Authority> selectedEntities, string message) 
+        public SelectableListPage(SelectableList<Authority> authorityLists , string message) 
 		{
 			InitializeComponent();
+			BindingContext = new SelectableListViewModel(authorityLists, message);
 
-			SelectedAuthorities = selectedEntities;
-			AllEntities = new ObservableCollection<Entity>(ParliamentData.AllAuthorities);
-			SelectableEntities = wrapInTags(AllEntities, selectedEntities);
-			DoneButton.Clicked += DoneAuthoritiesButton_OnClicked;
-			HomeButton.Clicked += HomeButton_Clicked;
-
-			SetUpSelectableEntitiesAndIntroText(message);
-
+			/*
 			MessagingCenter.Subscribe<FindMPsViewModel, bool>(this, "PreviousPage", (sender, arg) =>
 			{
 				if (arg)
@@ -110,9 +107,10 @@ namespace RightToAskClient.Views
 				OptionB = true;
 				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionB");
 			});
+			*/
 		}
 
-		public ExploringPage(IEnumerable<IGrouping<ParliamentData.Chamber, MP>> groupedMPs, ObservableCollection<MP> selectedMPs, string message)
+		public SelectableListPage(IEnumerable<IGrouping<ParliamentData.Chamber, MP>> groupedMPs, ObservableCollection<MP> selectedMPs, string message)
 		{
 			InitializeComponent();
 			
@@ -166,12 +164,6 @@ namespace RightToAskClient.Views
 			{
 				await App.Current.MainPage.Navigation.PopToRootAsync();
 			}
-		}
-		private void SetUpSelectableEntitiesAndIntroText(string message)
-		{
-			IntroText.Text = message;
-			AuthorityListView.BindingContext = SelectableEntities;
-			AuthorityListView.ItemsSource = SelectableEntities;
 		}
 		private class TaggedGroupedEntities : ObservableCollection<Tag<Entity>>
 		{
@@ -250,7 +242,7 @@ namespace RightToAskClient.Views
 		}
 		*/
 
-		private void UpdateSelectedList<T>(ObservableCollection<T> selectedEntities) where T:Entity
+		private void UpdateSelectedList<T>(IEnumerable<T> selectedEntities) where T:Entity
 		{
 			var toBeIncluded = SelectableEntities.Where(w => w.Selected).Select(t => t.TagEntity);	
 			foreach (Entity selectedEntity in toBeIncluded)
@@ -259,7 +251,8 @@ namespace RightToAskClient.Views
 				{
 					if (selectedEntity is T s)
 					{
-						selectedEntities.Add(s);
+						// FIXME This won't work because it makes a new list
+						selectedEntities.ToList().Add(s);
                         OnPropertyChanged("SelectedAuthorities");
                         OnPropertyChanged("SelectedMPs");
 						OnPropertyChanged("SelectedPeople");
@@ -272,7 +265,8 @@ namespace RightToAskClient.Views
 			{
 				if (notSelectedEntity is T s)
 				{
-					selectedEntities.Remove(s);
+					// FIXME This won't work because it makes a new list
+					selectedEntities.ToList().Remove(s);
 					OnPropertyChanged("SelectedAuthorities");
 					OnPropertyChanged("SelectedMPs");
 					OnPropertyChanged("SelectedPeople");
@@ -283,8 +277,8 @@ namespace RightToAskClient.Views
 		
 	    // Wrap the entities in tags, with Selected toggled according to whether the entity
 	    // is in the selectedEntities list or not.
-	    private ObservableCollection<Tag<Entity>> wrapInTags<T>(ObservableCollection<Entity>
-		 	entities, ObservableCollection<T> selectedEntities) where T : Entity
+	    private ObservableCollection<Tag<Entity>> wrapInTags<T>(IEnumerable<Entity>
+		 	entities, IEnumerable<T> selectedEntities) where T : Entity
 		{
 			return new ObservableCollection<Tag<Entity>>(entities.Select
 				(a => a.WrapInTag(selectedEntities.Contains(a)))
