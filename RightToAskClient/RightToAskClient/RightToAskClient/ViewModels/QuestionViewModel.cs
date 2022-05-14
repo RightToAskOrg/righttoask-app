@@ -6,6 +6,7 @@ using RightToAskClient.Resx;
 using RightToAskClient.Views;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -223,6 +224,8 @@ namespace RightToAskClient.ViewModels
                 var exploringPageToSearchAuthorities
                     // FIXME: Now deleted. Re-include message. = new ExploringPageWithSearch(App.ReadingContext.Filters.SelectedAuthorities, "Choose authorities");
                     = new SelectableListPage(selectableList, "Choose authorities");
+                App.ReadingContext.Filters.SelectedAuthorities =
+                    new ObservableCollection<Authority>(selectableList.SelectedEntities);
                 await Shell.Current.Navigation.PushAsync(exploringPageToSearchAuthorities).ContinueWith((_) => 
                 {
                     MessagingCenter.Send(this, "OptionB"); // Sends this view model

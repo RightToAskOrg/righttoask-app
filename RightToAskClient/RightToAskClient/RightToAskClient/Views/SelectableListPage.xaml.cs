@@ -110,6 +110,7 @@ namespace RightToAskClient.Views
 			*/
 		}
 
+        /*
 		public SelectableListPage(IEnumerable<IGrouping<ParliamentData.Chamber, MP>> groupedMPs, ObservableCollection<MP> selectedMPs, string message)
 		{
 			InitializeComponent();
@@ -156,7 +157,9 @@ namespace RightToAskClient.Views
 				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionB");
 			});
 		}
+		*/
 
+        // TODO Let's make one of these, somewhere, instead of repeating it on every page.
 		private async void HomeButton_Clicked(object sender, EventArgs e)
 		{
 			string? result = await Shell.Current.DisplayActionSheet("Are you sure you want to go home? You will lose any unsaved questions.", "Cancel", "Yes, I'm sure.");
@@ -165,6 +168,7 @@ namespace RightToAskClient.Views
 				await App.Current.MainPage.Navigation.PopToRootAsync();
 			}
 		}
+		
 		private class TaggedGroupedEntities : ObservableCollection<Tag<Entity>>
 		{
 			public TaggedGroupedEntities(ParliamentData.Chamber chamber, ObservableCollection<Tag<Entity>> entityGroup) : base(entityGroup)
@@ -175,6 +179,9 @@ namespace RightToAskClient.Views
 			public string Chamber { get;  }
 		}
 
+		/* It wold probably be more elegantly MVVM if this was in the ViewModel rather than the code-behind, but I
+		 * can't figure out how to bind an ItemTappedEvent.
+		 */
 		protected void OnEntity_Selected(object sender, ItemTappedEventArgs e)
 		{
 			if (e.Item is Tag<Entity> tag)
@@ -215,6 +222,7 @@ namespace RightToAskClient.Views
 			MessagingCenter.Send(this, "UpdateFilters");
 		}
 		
+		/*
 		async void DoneAuthoritiesButton_OnClicked(object sender, EventArgs e)
 		{
 			UpdateSelectedList(SelectedAuthorities);
@@ -233,6 +241,7 @@ namespace RightToAskClient.Views
 			}
 			MessagingCenter.Send(this, "UpdateFilters");
 		}
+		*/
 			
 		/*
 		async void DonePeopleButton_OnClicked(object sender, EventArgs e)

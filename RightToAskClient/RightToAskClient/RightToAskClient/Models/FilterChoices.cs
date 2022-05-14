@@ -18,6 +18,7 @@ namespace RightToAskClient.Models
 		public ObservableCollection<Authority> SelectedAuthorities
 		{
 			get => _selectedAuthorities;
+			set => _selectedAuthorities = value;
 		}
 
 		public string SearchKeyword

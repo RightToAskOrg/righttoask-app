@@ -31,12 +31,22 @@ namespace RightToAskClient.ViewModels
 			get => _introText;
 			set => SetProperty(ref _introText, value);
 		}
+
+		private string _titleText;
+
+		public string TitleText
+		{
+			get => _titleText;
+			set => SetProperty(ref _titleText, value);
+		}
 		protected readonly IEnumerable<Entity> allEntities;
 
 		public IAsyncCommand DoneButtonCommand { get;  }
-		public IAsyncCommand HomeButtonCommand { get;  }
-			
-			// DoneButton.Clicked += DoneAuthoritiesButton_OnClicked;
+		// public IAsyncCommand HomeButtonCommand { get;  }
+		// public Command<(object,ItemTappedEventArgs)> EntitySelectedCommand { get;  }
+		// public EventHandler<ItemTappedEventArgs> EntitySelectedEventHandler { get; }
+
+		// DoneButton.Clicked += DoneAuthoritiesButton_OnClicked;
 		// TODO: I would like to be able to use the type system to avoid this doubling-up, but 
 		// I can't figure out how to do it. The roles of these three selected-lists are almost the
 		// same regardless of their type (Authority, MP or Person), but they need to be
@@ -102,17 +112,25 @@ namespace RightToAskClient.ViewModels
 			// DoneButton.Clicked += DoneAuthoritiesButton_OnClicked;
 			// HomeButton.Clicked += HomeButton_Clicked;
 
+			_titleText = message;
             DoneButtonCommand = new AsyncCommand(async () =>
             {
                 DoneAuthoritiesButton_OnClicked(
 	                () => UpdateSelectedList<Authority>(authorityLists)       
 	                );
             });
+            /*
             HomeButtonCommand = new AsyncCommand(async () =>
             {
                 HomeButton_Clicked();
             });
-            
+            */
+            /*
+            EntitySelectedEventHandler = new EventHandler<ItemTappedEventArgs>((o, e) =>
+	        {
+		        OnEntity_Selected(o, e);
+	        });
+	        */
 			// /
 			// SetUpSelectableEntitiesAndIntroText(message);
 
@@ -186,6 +204,7 @@ namespace RightToAskClient.ViewModels
 		}
 		*/
 
+        /*
 		private async void HomeButton_Clicked()
 		{
 			string? result = await Shell.Current.DisplayActionSheet("Are you sure you want to go home? You will lose any unsaved questions.", "Cancel", "Yes, I'm sure.");
@@ -194,6 +213,7 @@ namespace RightToAskClient.ViewModels
 				await App.Current.MainPage.Navigation.PopToRootAsync();
 			}
 		}
+		*/
 		/*
 		private void SetUpSelectableEntitiesAndIntroText(string message)
 		{
@@ -294,7 +314,7 @@ namespace RightToAskClient.ViewModels
 					if (selectedEntity is T s)
 					{
 						// FIXME This won't work because it makes a new list
-						newSelectedEntities.Append(s);
+						newSelectedEntities.Add(s);
 						// OnPropertyChanged("SelectedAuthorities");
 						// OnPropertyChanged("SelectedMPs");
 						// OnPropertyChanged("SelectedPeople");
