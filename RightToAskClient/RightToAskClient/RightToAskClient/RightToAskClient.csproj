@@ -120,6 +120,7 @@
     <Compile Remove="Models\TodoItem.cs" />
     <Compile Remove="Views\AuthoritiesRTKCategories.xaml.cs" />
     <Compile Remove="Views\ListSelection.cs" />
+    <Compile Remove="Controls\FilterDisplayTableView.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Views\SecondPage_old.xaml" />

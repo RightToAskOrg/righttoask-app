@@ -9,6 +9,9 @@ using Xamarin.Forms.Xaml;
 /* This page provides a view of all the authorities, with the already-selected ones at the top and
  * the (presumably much longer) list of unselected ones in a separate section below. Any of them can be searched or toggled.
  */
+// FIXME. Delete - no longer used.
+// But first copy the pre-selections code (along with the searchbar from ExploringPageWithSearch) into
+// SelectableListViewModel / SelectableListPage.
 namespace RightToAskClient.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]

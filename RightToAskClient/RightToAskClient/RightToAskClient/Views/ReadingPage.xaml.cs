@@ -11,7 +11,7 @@ namespace RightToAskClient.Views
 {
     public partial class ReadingPage : ContentPage
     {
-        private FilterDisplayTableView _ttestableView;
+        // private FilterDisplayTableView _ttestableView;
         //private ClickableEntityListView<Authority> _clickableEntityListView;
 
         // default constructor required for flyout page item
@@ -20,10 +20,11 @@ namespace RightToAskClient.Views
             InitializeComponent();
             HomeButton.Clicked += HomeButton_Clicked;
 
-            _ttestableView = new FilterDisplayTableView();
-            WholePage.Children.Insert(1, _ttestableView);
+            // _ttestableView = new FilterDisplayTableView();
+            // WholePage.Children.Insert(1, _ttestableView);
 
-            OnHideFilters();
+            // No longer showing filters here.
+            // OnHideFilters();
         }
 
         protected override void OnDisappearing()
@@ -42,22 +43,28 @@ namespace RightToAskClient.Views
             }
         }
 
+        /*
         private void OnShowFilters(object sender, EventArgs e)
         {
             _ttestableView.IsVisible = true;
             //FilterShower.IsVisible = false;
         }
+        */
 
+        /*
         private void OnHideFilters()
         {
             _ttestableView.IsVisible = false;
             //FilterShower.IsVisible = true;
         }
+        */
 
+        /*
         private void Questions_Scrolled(object sender, ScrolledEventArgs e)
         {
             OnHideFilters();
         }
+        */
 
         // Note: it's possible that this would be better with an ItemTapped event instead.
         private async void Question_Selected(object sender, ItemTappedEventArgs e)

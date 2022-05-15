@@ -18,7 +18,7 @@ namespace RightToAskClient.ViewModels
         public static FilterViewModel Instance => _instance ??= new FilterViewModel();
 
         // properties
-        public FilterDisplayTableView FilterDisplay = new FilterDisplayTableView();
+        // public FilterDisplayTableView FilterDisplay = new FilterDisplayTableView();
         public FilterChoices FilterChoices => App.ReadingContext.Filters;
 
         public List<string> CommitteeList = new List<string>();
@@ -110,10 +110,12 @@ namespace RightToAskClient.ViewModels
             {
                 ReinitData();
             });
+            /*
             MessagingCenter.Subscribe<ExploringPageWithSearchAndPreSelections>(this, "UpdateFilters", (sender) =>
             {
                 ReinitData();
             });
+            */
 
             MessagingCenter.Subscribe<MainPageViewModel>(this, "MainPage", (sender) =>
             {
@@ -252,7 +254,8 @@ namespace RightToAskClient.ViewModels
             string message = "Choose others to add";
 
             var departmentExploringPage
-             = new ExploringPageWithSearchAndPreSelections(App.ReadingContext.Filters.SelectedAuthorities, message);
+                // = new ExploringPageWithSearchAndPreSelections(App.ReadingContext.Filters.SelectedAuthorities, message);
+                = new SelectableListPage(App.ReadingContext.Filters.AuthorityLists, message);
             await App.Current.MainPage.Navigation.PushAsync(departmentExploringPage);
         }
 
