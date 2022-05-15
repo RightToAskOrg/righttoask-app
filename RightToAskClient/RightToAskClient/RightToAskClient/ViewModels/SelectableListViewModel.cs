@@ -118,6 +118,7 @@ namespace RightToAskClient.ViewModels
                 DoneAuthoritiesButton_OnClicked(
 	                () => UpdateSelectedList<Authority>(authorityLists)       
 	                );
+				MessagingCenter.Send(this, "UpdateFilters");
             });
             /*
             HomeButtonCommand = new AsyncCommand(async () =>
@@ -290,7 +291,7 @@ namespace RightToAskClient.ViewModels
             {
 				await Shell.Current.Navigation.PopAsync();
 			}
-			MessagingCenter.Send(this, "UpdateFilters");
+			// MessagingCenter.Send(this, "UpdateFilters");
 		}
 			
 		/*
@@ -339,6 +340,11 @@ namespace RightToAskClient.ViewModels
 
 			// There shouldn't be any duplicates, but this will remove them just in case.
 			entities.SelectedEntities = newSelectedEntities.Distinct().ToList();
+                    // Update the selected authorities as identified in the SelectableListPage.
+                    // FIXME Unfortunately this doesn't ever seem to get called.
+                    // App.ReadingContext.Filters.SelectedAuthorities =
+                    // new ObservableCollection<Authority>(selectableList.SelectedEntities);
+			// MessagingCenter.Send(this, "UpdateFilters");
 		}
 		
 		

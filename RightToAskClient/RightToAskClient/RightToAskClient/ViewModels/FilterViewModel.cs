@@ -94,6 +94,14 @@ namespace RightToAskClient.ViewModels
 
         public FilterViewModel()
         {
+            MessagingCenter.Subscribe<QuestionViewModel>(this, "UpdateFilters", (sender) =>
+            {
+                ReinitData();
+            });
+            MessagingCenter.Subscribe<SelectableListViewModel>(this, "UpdateFilters", (sender) =>
+            {
+                ReinitData();
+            });
             MessagingCenter.Subscribe<ExploringPage>(this, "UpdateFilters", (sender) =>
             {
                 ReinitData();

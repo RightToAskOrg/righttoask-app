@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -15,10 +16,19 @@ namespace RightToAskClient.Models
 		private ObservableCollection<string> _selectedAskingCommittee = new ObservableCollection<string>();
 		private ObservableCollection<Person?> _selectedAskingUsers = new ObservableCollection<Person?>();
 
+		// Express each FilterChoice as a pair of lists: the whole list from which things are seleced,
+		// and the list of selections.
+		private SelectableList<Authority> _authorityLists
+			= new SelectableList<Authority>(ParliamentData.AllAuthorities, new List<Authority>());
+
+		public SelectableList<Authority> AuthorityLists
+		{
+			get => _authorityLists;
+		}
 		public ObservableCollection<Authority> SelectedAuthorities
 		{
-			get => _selectedAuthorities;
-			set => _selectedAuthorities = value;
+			get => new ObservableCollection<Authority>(_authorityLists.SelectedEntities);
+			set => _authorityLists.SelectedEntities = value;
 		}
 
 		public string SearchKeyword
