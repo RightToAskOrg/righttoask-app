@@ -98,6 +98,25 @@ namespace RightToAskClient.ViewModels
 		}
 		*/
 
+		public SelectableListViewModel(SelectableList<MP> mpLists, string message)
+		{
+			SelectedMPs = new ObservableCollection<MP>(mpLists.SelectedEntities);
+			AllEntities = new ObservableCollection<Entity>(mpLists.AllEntities); 
+			SelectableEntities = wrapInTags(AllEntities,  mpLists.SelectedEntities);
+			
+			_titleText = message;
+            DoneButtonCommand = new AsyncCommand(async () =>
+            {
+                DoneAuthoritiesButton_OnClicked(
+	                () => UpdateSelectedList<MP>(mpLists)       
+	                );
+				MessagingCenter.Send(this, "UpdateFilters");
+            });
+
+            SubscribeToTheRightMessages();
+		}
+
+
 		/* This constructor is only used for Authorities, and hence assumed that the list to be selected from
 		 * consists of the complete list of authorities.
 		 * The page updates authorityLists.SelectedEntities.
@@ -120,21 +139,10 @@ namespace RightToAskClient.ViewModels
 	                );
 				MessagingCenter.Send(this, "UpdateFilters");
             });
-            /*
-            HomeButtonCommand = new AsyncCommand(async () =>
-            {
-                HomeButton_Clicked();
-            });
-            */
-            /*
-            EntitySelectedEventHandler = new EventHandler<ItemTappedEventArgs>((o, e) =>
-	        {
-		        OnEntity_Selected(o, e);
-	        });
-	        */
-			// /
-			// SetUpSelectableEntitiesAndIntroText(message);
+            
+			SubscribeToTheRightMessages();
 
+			/*
 			MessagingCenter.Subscribe<FindMPsViewModel, bool>(this, "PreviousPage", (sender, arg) =>
 			{
 				if (arg)
@@ -154,6 +162,7 @@ namespace RightToAskClient.ViewModels
 				OptionB = true;
 				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionB");
 			});
+			*/
 		}
 
         /*
@@ -223,6 +232,27 @@ namespace RightToAskClient.ViewModels
 			// AuthorityListView.ItemsSource = SelectableEntities;
 		}
 		*/
+		private void SubscribeToTheRightMessages()
+		{
+			MessagingCenter.Subscribe<FindMPsViewModel, bool>(this, "PreviousPage", (sender, arg) =>
+			{
+				if (arg)
+				{
+					CameFromReg2Page = true;
+				}
+				MessagingCenter.Unsubscribe<FindMPsViewModel, bool>(this, "PreviousPage");
+			});
+			MessagingCenter.Subscribe<QuestionViewModel>(this, "GoToReadingPage", (sender) =>
+			{
+				GoToReadingPageNext = true;
+				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "GoToReadingPage");
+			});
+			MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionB", (sender) =>
+			{
+				OptionB = true;
+				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionB");
+			});
+		}
 		private class TaggedGroupedEntities : ObservableCollection<Tag<Entity>>
 		{
 			public TaggedGroupedEntities(ParliamentData.Chamber chamber, ObservableCollection<Tag<Entity>> entityGroup) : base(entityGroup)

@@ -37,12 +37,15 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _otherRightToAskUserText, value);
         }
 
-        public List<Authority> PublicAuthoritiesList = new List<Authority>();
-        private string _publicAuthoritiesText = "";
+        // public List<Authority> PublicAuthoritiesList = new List<Authority>();
+        // private string _publicAuthoritiesText = "";
+        // VT Note to Matt: See how I've refactored this so that there's no need to update -
+        // it isn't really a separate data structure at all, just a formatted way of reading
+        // the SelectedAuthorities.
         public string PublicAuthoritiesText
         {
-            get => _publicAuthoritiesText;
-            set => SetProperty(ref _publicAuthoritiesText, value);
+            get => CreateTextGivenListEntities(FilterChoices.SelectedAuthorities.ToList());
+            // private set => SetProperty(ref _publicAuthoritiesText, value);
         }
 
         public List<MP> SelectedAnsweringMyMPsList = new List<MP>();
@@ -194,7 +197,7 @@ namespace RightToAskClient.ViewModels
             SelectedAnsweringMPsList = FilterChoices.SelectedAnsweringMPs.ToList();
             SelectedAskingMyMPsList = FilterChoices.SelectedAskingMPsMine.ToList();
             SelectedAnsweringMyMPsList = FilterChoices.SelectedAnsweringMPsMine.ToList();
-            PublicAuthoritiesList = FilterChoices.SelectedAuthorities.ToList();
+            // PublicAuthoritiesList = FilterChoices.SelectedAuthorities.ToList();
             OtherRightToAskUserList = FilterChoices.SelectedAskingUsers.ToList();
             CommitteeList = FilterChoices.SelectedAskingCommittee.ToList();
 
@@ -211,7 +214,12 @@ namespace RightToAskClient.ViewModels
             SelectedAnsweringMPsText = CreateTextGivenListEntities(SelectedAnsweringMPsList);
             SelectedAskingMyMPsText = CreateTextGivenListEntities(SelectedAskingMyMPsList);
             SelectedAnsweringMyMPsText = CreateTextGivenListEntities(SelectedAnsweringMyMPsList);
-            PublicAuthoritiesText = CreateTextGivenListEntities(PublicAuthoritiesList);
+            // PublicAuthoritiesText = CreateTextGivenListEntities(PublicAuthoritiesList);
+            // This line is necessary for updating the views.
+            // TODO Ideally, we shouldn't have to do this manually,
+            // but I don't see a more elegant way at the moment.
+            // I tried raising it in SelectableList.cs but that didn't work.
+            OnPropertyChanged("PublicAuthoritiesText");
             OtherRightToAskUserText = CreateTextGivenListEntities(OtherRightToAskUserList);
             CommitteeText = CreateTextGivenListCommittees(CommitteeList);
         }
@@ -263,7 +271,7 @@ namespace RightToAskClient.ViewModels
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
-                await NavigationUtils.PushAnsweringMPsExploringPage();
+                await NavigationUtils.PushAnsweringMPsNotMineSelectableListPage();
             }
         }
 

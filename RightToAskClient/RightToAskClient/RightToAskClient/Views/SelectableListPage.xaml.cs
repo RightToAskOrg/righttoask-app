@@ -110,6 +110,12 @@ namespace RightToAskClient.Views
 			*/
 		}
 
+        public SelectableListPage(SelectableList<MP> MPLists, string message)
+        {
+			InitializeComponent();
+			BindingContext = new SelectableListViewModel(MPLists, message);
+        }
+
         /*
 		public SelectableListPage(IEnumerable<IGrouping<ParliamentData.Chamber, MP>> groupedMPs, ObservableCollection<MP> selectedMPs, string message)
 		{

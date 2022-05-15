@@ -6,12 +6,14 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using RightToAskClient.Annotations;
 using RightToAskClient.Views;
 
 namespace RightToAskClient.Models
 {
 
-    public class SelectableList<T> where T: Entity
+    public class SelectableList<T> : INotifyPropertyChanged where T: Entity
     {
         private IEnumerable<T> _allEntities;
 
@@ -23,12 +25,14 @@ namespace RightToAskClient.Models
 
         private IEnumerable<T> _selectedEntities;
 
-        // TODO Consider whether this should raise PropertyChanged.
+        // TODO Consider whether this should raise OnPropertyChanged for
+        // specific other data, e.g. PublicAuthoritiesText. 
         public IEnumerable<T> SelectedEntities
         {
             get => _selectedEntities;
             set {
                 _selectedEntities = value;
+                OnPropertyChanged();
             }
         }
         
@@ -39,6 +43,14 @@ namespace RightToAskClient.Models
         {
             _allEntities = allEntities;
             _selectedEntities = selectedEntities ?? new ObservableCollection<T>();
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

@@ -37,6 +37,7 @@ namespace RightToAskClient
         {
            // ResetAppData(); // Toggle this line in and out as needed instead of resetting the emulator every time
             ParliamentData.MPAndOtherData.TryInit();
+            ReadingContext.Filters.InitSelectableLists();
             // get account info from preferences
             var registrationPref = Preferences.Get("RegistrationInfo", "");
             if (!string.IsNullOrEmpty(registrationPref))

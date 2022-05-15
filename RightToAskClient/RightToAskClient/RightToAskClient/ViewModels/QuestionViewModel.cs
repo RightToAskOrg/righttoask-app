@@ -221,10 +221,9 @@ namespace RightToAskClient.ViewModels
             OtherPublicAuthorityButtonCommand = new AsyncCommand(async () =>
             {
                 // var selectableList = new SelectableList<Authority>(ParliamentData.AllAuthorities, App.ReadingContext.Filters.SelectedAuthorities); 
-                var exploringPageToSearchAuthorities
-                    // FIXME: Now deleted. Re-include message. = new ExploringPageWithSearch(App.ReadingContext.Filters.SelectedAuthorities, "Choose authorities");
+                var PageToSearchAuthorities
                     = new SelectableListPage(App.ReadingContext.Filters.AuthorityLists, "Choose authorities");
-                await Shell.Current.Navigation.PushAsync(exploringPageToSearchAuthorities).ContinueWith((_) => 
+                await Shell.Current.Navigation.PushAsync(PageToSearchAuthorities).ContinueWith((_) => 
                 {
                     MessagingCenter.Send(this, "OptionB"); // Sends this view model
                 });
@@ -242,14 +241,14 @@ namespace RightToAskClient.ViewModels
             });
             AnsweredByOtherMPCommand = new AsyncCommand(async () =>
             {
-                await NavigationUtils.PushAnsweringMPsExploringPage().ContinueWith((_) =>
+                await NavigationUtils.PushAnsweringMPsNotMineSelectableListPage().ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, "GoToReadingPage"); // Sends this view model
                 });
             });
             AnsweredByOtherMPCommandOptionB = new AsyncCommand(async () =>
             {
-                await NavigationUtils.PushAnsweringMPsExploringPage().ContinueWith((_) =>
+                await NavigationUtils.PushAnsweringMPsNotMineSelectableListPage().ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, "OptionB"); // Sends this view model
                 });
@@ -464,7 +463,7 @@ namespace RightToAskClient.ViewModels
 
         private async void OnAnswerByOtherMPButtonClicked(object sender, EventArgs e)
         {
-            await NavigationUtils.PushAnsweringMPsExploringPage();
+            await NavigationUtils.PushAnsweringMPsNotMineSelectableListPage();
         }
 
         private async void SubmitNewQuestionButton_OnClicked()

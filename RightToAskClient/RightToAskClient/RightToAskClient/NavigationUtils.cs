@@ -60,11 +60,13 @@ namespace RightToAskClient
             }
         }
 
-        public static async Task PushAnsweringMPsExploringPage()
+        public static async Task PushAnsweringMPsNotMineSelectableListPage()
         {
             string message = "Here is the complete list of MPs - select which one(s) should answer";
-            ExploringPageWithSearch mpsPage
-                = new ExploringPageWithSearch(ParliamentData.AllMPs, App.ReadingContext.Filters.SelectedAnsweringMPs, message);
+            SelectableListPage mpsPage =
+                new SelectableListPage(App.ReadingContext.Filters.OtherMPAnsweringLists, message);
+            // ExploringPageWithSearch mpsPage
+            //     = new ExploringPageWithSearch(ParliamentData.AllMPs, App.ReadingContext.Filters.SelectedAnsweringMPs, message);
             await Application.Current.MainPage.Navigation.PushAsync(mpsPage);
             //await Shell.Current.GoToAsync($"{nameof(ExploringPageWithSearch)}");
         }
