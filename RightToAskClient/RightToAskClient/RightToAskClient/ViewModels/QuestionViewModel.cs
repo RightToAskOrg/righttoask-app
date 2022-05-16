@@ -441,7 +441,7 @@ namespace RightToAskClient.ViewModels
             RaisedByOptionSelected = true;
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
-                await NavigationUtils.PushAskingMPsExploringPageAsync().ContinueWith((_) =>
+                await NavigationUtils.PushAskingMPsNotMineSelectableListPageAsync().ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, "GoToReadingPage"); // Sends this view model
                 });

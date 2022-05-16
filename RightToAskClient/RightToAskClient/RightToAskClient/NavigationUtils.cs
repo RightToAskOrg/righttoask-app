@@ -71,12 +71,14 @@ namespace RightToAskClient
             //await Shell.Current.GoToAsync($"{nameof(ExploringPageWithSearch)}");
         }
 
-        public static async Task PushAskingMPsExploringPageAsync()
+        public static async Task PushAskingMPsNotMineSelectableListPageAsync()
         {
             string message =
                 "Here is the complete list of MPs - select which one(s) should raise your question in Parliament";
-            ExploringPageWithSearch mpsPage
-                = new ExploringPageWithSearch(ParliamentData.AllMPs, App.ReadingContext.Filters.SelectedAskingMPs, message);
+            SelectableListPage mpsPage =
+                new SelectableListPage(App.ReadingContext.Filters.OtherMPAskingLists, message);
+            // ExploringPageWithSearch mpsPage
+            //    = new ExploringPageWithSearch(ParliamentData.AllMPs, App.ReadingContext.Filters.SelectedAskingMPs, message);
             await Application.Current.MainPage.Navigation.PushAsync(mpsPage);
             //await Shell.Current.GoToAsync($"{nameof(ExploringPageWithSearch)}");
         }

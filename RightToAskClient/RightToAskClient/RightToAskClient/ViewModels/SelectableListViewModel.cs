@@ -107,7 +107,7 @@ namespace RightToAskClient.ViewModels
 			_titleText = message;
             DoneButtonCommand = new AsyncCommand(async () =>
             {
-                DoneAuthoritiesButton_OnClicked(
+                DoneButton_OnClicked(
 	                () => UpdateSelectedList<MP>(mpLists)       
 	                );
 				MessagingCenter.Send(this, "UpdateFilters");
@@ -134,7 +134,7 @@ namespace RightToAskClient.ViewModels
 			_titleText = message;
             DoneButtonCommand = new AsyncCommand(async () =>
             {
-                DoneAuthoritiesButton_OnClicked(
+                DoneButton_OnClicked(
 	                () => UpdateSelectedList<Authority>(authorityLists)       
 	                );
 				MessagingCenter.Send(this, "UpdateFilters");
@@ -263,6 +263,8 @@ namespace RightToAskClient.ViewModels
 			public string Chamber { get;  }
 		}
 
+		// TODO consider whether this can be here in the ViewModel rather than in the code-behind (where
+		// it is now). 
 		protected void OnEntity_Selected(object sender, ItemTappedEventArgs e)
 		{
 			if (e.Item is Tag<Entity> tag)
@@ -305,7 +307,7 @@ namespace RightToAskClient.ViewModels
 		}
 		*/
 
-		private async void DoneAuthoritiesButton_OnClicked(Action updateAction)
+		private async void DoneButton_OnClicked(Action updateAction)
 		{
 			updateAction();
 			if (OptionB)
@@ -344,7 +346,6 @@ namespace RightToAskClient.ViewModels
 				{
 					if (selectedEntity is T s)
 					{
-						// FIXME This won't work because it makes a new list
 						newSelectedEntities.Add(s);
 						// OnPropertyChanged("SelectedAuthorities");
 						// OnPropertyChanged("SelectedMPs");

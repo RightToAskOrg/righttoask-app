@@ -279,7 +279,7 @@ namespace RightToAskClient.ViewModels
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
-                await NavigationUtils.PushAskingMPsExploringPageAsync();
+                await NavigationUtils.PushAskingMPsNotMineSelectableListPageAsync();
             }
         }
 

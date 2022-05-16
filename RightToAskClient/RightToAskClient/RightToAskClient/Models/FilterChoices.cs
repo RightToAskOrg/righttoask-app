@@ -141,6 +141,7 @@ namespace RightToAskClient.Models
         // It's still helpful for them to use the constructor because if this data structure
         // is initialized after the MP read-in, the constructor should suffice.
         // TODO add code to update all Committees too.
+        // TODO also add your MPs. Possibly in a separate function because it happens later.
         public void InitSelectableLists()
         {
 	        _answeringMPsListNotMine = new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
