@@ -13,96 +13,81 @@ namespace RightToAskClient.ViewModels
 {
     public class SelectableListViewModel : BaseViewModel
     {
-		private readonly object _entityLists;
-		protected readonly ObservableCollection<Entity> AllEntities = new ObservableCollection<Entity>();
+		// private readonly object _entityLists;
+		// protected readonly ObservableCollection<Entity> AllEntities = new ObservableCollection<Entity>();
 
-		private ObservableCollection<Tag<Entity>> _selectableEntities;
-
+		private ObservableCollection<Tag<Entity>> _selectableEntities = new ObservableCollection<Tag<Entity>>();
 		public ObservableCollection<Tag<Entity>> SelectableEntities
 		{
 			get => _selectableEntities;
 			private set => SetProperty(ref _selectableEntities, value);
 		}
 
-		private string _introText;
-
+		private string _introText = "";
 		public string IntroText
 		{
 			get => _introText;
 			set => SetProperty(ref _introText, value);
 		}
 
-		private string _titleText;
-
+		private string _titleText = "";
 		public string TitleText
 		{
 			get => _titleText;
 			set => SetProperty(ref _titleText, value);
 		}
-		protected readonly IEnumerable<Entity> allEntities;
+
+		// Only relevant for groups of MPs
+		private bool _enableGrouping = false;
+
+		public bool EnableGrouping
+		{
+			get => _enableGrouping;
+		}
+		private Binding _groupDisplay = new Binding("Chamber");
+		public Binding GroupDisplay
+		{
+			get => _groupDisplay;
+		} 
 
 		public IAsyncCommand DoneButtonCommand { get;  }
 		// public IAsyncCommand HomeButtonCommand { get;  }
 		// public Command<(object,ItemTappedEventArgs)> EntitySelectedCommand { get;  }
 		// public EventHandler<ItemTappedEventArgs> EntitySelectedEventHandler { get; }
 
-		// DoneButton.Clicked += DoneAuthoritiesButton_OnClicked;
-		// TODO: I would like to be able to use the type system to avoid this doubling-up, but 
-		// I can't figure out how to do it. The roles of these three selected-lists are almost the
-		// same regardless of their type (Authority, MP or Person), but they need to be
-		// separate lists, and the code needs to know which one it's got, because we insert 
-		// into them and I can't figure out how to do that elegantly in a consistently generic way.
-		// It only matters for editing the selected elements at return time  - see OnDoneButton_Clicked (*)
-		// below - if we could return a 
-		// generic from this class, it would work easily, but I don't think we can.
-		protected ObservableCollection<Authority> SelectedAuthorities = new ObservableCollection<Authority>();
-		protected ObservableCollection<MP> SelectedMPs = new ObservableCollection<MP>();
-		protected ObservableCollection<Person> SelectedPeople = new ObservableCollection<Person>();
+		// protected ObservableCollection<Authority> SelectedAuthorities = new ObservableCollection<Authority>();
+		// protected ObservableCollection<MP> SelectedMPs = new ObservableCollection<MP>();
+		// protected ObservableCollection<Person> SelectedPeople = new ObservableCollection<Person>();
 
+		// TODO These are just copy-pasted from the old code-behind. Might need a bit more thought.
 		public bool CameFromReg2Page = false;
 		public bool GoToReadingPageNext = false;
 		public bool OptionB = false;
 
-		/*
-		public SelectableListPage(ObservableCollection<MP> allEntities, 
-			ObservableCollection<MP> selectedEntities, string message="")
-		{
-			InitializeComponent();
-			
-			SelectedMPs = selectedEntities;
-			AllEntities = new ObservableCollection<Entity>(allEntities);
-			SelectableEntities = wrapInTags(allEntities, selectedEntities);
-			DoneButton.Clicked += DoneMPsButton_OnClicked;
-            HomeButton.Clicked += HomeButton_Clicked;
-			
-			SetUpSelectableEntitiesAndIntroText(message);
 
-			MessagingCenter.Subscribe<FindMPsViewModel, bool>(this, "PreviousPage", (sender, arg) =>
-			{
-				if (arg)
-                {
-					CameFromReg2Page = true;
-				}
-				MessagingCenter.Unsubscribe<FindMPsViewModel, bool>(this, "PreviousPage");
-			});
-			MessagingCenter.Subscribe<QuestionViewModel>(this, "GoToReadingPage", (sender) =>
-			{
-				GoToReadingPageNext = true;
-				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "GoToReadingPage");
-			});
-			MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionB", (sender) =>
-			{
-				OptionB = true;
-				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionB");
-			});
+
+        public SelectableListViewModel(SelectableList<Authority> authorityLists , string message) 
+		{
+			// SelectedAuthorities = new ObservableCollection<Authority>(authorityLists.SelectedEntities);
+			// AllEntities = new ObservableCollection<Entity>(authorityLists.AllEntities); 
+			SelectableEntities = wrapInTags(new ObservableCollection<Entity>(authorityLists.AllEntities),  
+								authorityLists.SelectedEntities);
+
+			_titleText = message;
+            DoneButtonCommand = new AsyncCommand(async () =>
+            {
+                DoneButton_OnClicked(
+	                () => UpdateSelectedList<Authority>(authorityLists)       
+	                );
+				MessagingCenter.Send(this, "UpdateFilters");
+            });
+            
+			SubscribeToTheRightMessages();
 		}
-		*/
 
 		public SelectableListViewModel(SelectableList<MP> mpLists, string message)
 		{
-			SelectedMPs = new ObservableCollection<MP>(mpLists.SelectedEntities);
-			AllEntities = new ObservableCollection<Entity>(mpLists.AllEntities); 
-			SelectableEntities = wrapInTags(AllEntities,  mpLists.SelectedEntities);
+			SelectableEntities = wrapInTags(new ObservableCollection<Entity>(mpLists.AllEntities),  mpLists.SelectedEntities);
 			
 			_titleText = message;
             DoneButtonCommand = new AsyncCommand(async () =>
@@ -115,55 +100,44 @@ namespace RightToAskClient.ViewModels
 
             SubscribeToTheRightMessages();
 		}
+		
+		// MPs are grouped only for display, but stored in simple (flat) lists.
+		// If the grouping boolean is set, group the MPs by chamber before display, and set the
+		// bindable GroupingEnabled on.
+        public SelectableListViewModel(SelectableList<MP> mpLists, string message, bool grouping)
+        {
+	        _enableGrouping = grouping;
+	        if (grouping)
+	        {
+		        var groupedMPs = mpLists.AllEntities.GroupBy(mp => mp.electorate.chamber);
+		        List<TaggedGroupedEntities> groupedMPsWithTags = new List<TaggedGroupedEntities>();
+		        foreach (IGrouping<ParliamentData.Chamber, MP> group in groupedMPs)
+		        {
+			        groupedMPsWithTags.Add(new TaggedGroupedEntities(
+				        group.Key,
+				        wrapInTags(new ObservableCollection<Entity>(group), mpLists.SelectedEntities)
+			        ));
+		        }
 
-
-		/* This constructor is only used for Authorities, and hence assumed that the list to be selected from
-		 * consists of the complete list of authorities.
-		 * The page updates authorityLists.SelectedEntities.
-		 */
-        public SelectableListViewModel(SelectableList<Authority> authorityLists , string message) 
-		{
-			// InitializeComponent();
-
-			SelectedAuthorities = new ObservableCollection<Authority>(authorityLists.SelectedEntities);
-			AllEntities = new ObservableCollection<Entity>(authorityLists.AllEntities); 
-			SelectableEntities = wrapInTags(AllEntities,  authorityLists.SelectedEntities);
-			// DoneButton.Clicked += DoneAuthoritiesButton_OnClicked;
-			// HomeButton.Clicked += HomeButton_Clicked;
-
+		        SelectableEntities =
+			        new ObservableCollection<Tag<Entity>>(groupedMPsWithTags.SelectMany(x => x).ToList());
+	        } 
+	        else
+	        {
+				SelectableEntities = wrapInTags(new ObservableCollection<Entity>(mpLists.AllEntities),  mpLists.SelectedEntities);
+	        }
+	        
 			_titleText = message;
             DoneButtonCommand = new AsyncCommand(async () =>
             {
                 DoneButton_OnClicked(
-	                () => UpdateSelectedList<Authority>(authorityLists)       
+	                () => UpdateSelectedList<MP>(mpLists)       
 	                );
 				MessagingCenter.Send(this, "UpdateFilters");
             });
             
 			SubscribeToTheRightMessages();
-
-			/*
-			MessagingCenter.Subscribe<FindMPsViewModel, bool>(this, "PreviousPage", (sender, arg) =>
-			{
-				if (arg)
-				{
-					CameFromReg2Page = true;
-				}
-				MessagingCenter.Unsubscribe<FindMPsViewModel, bool>(this, "PreviousPage");
-			});
-
-			MessagingCenter.Subscribe<QuestionViewModel>(this, "GoToReadingPage", (sender) =>
-			{
-				GoToReadingPageNext = true;
-				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "GoToReadingPage");
-			});
-			MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionB", (sender) =>
-			{
-				OptionB = true;
-				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionB");
-			});
-			*/
-		}
+        }
 
         /*
 		public SelectableListPage(IEnumerable<IGrouping<ParliamentData.Chamber, MP>> groupedMPs, ObservableCollection<MP> selectedMPs, string message)

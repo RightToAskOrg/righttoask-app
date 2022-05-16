@@ -19,7 +19,8 @@
 			<ScrollView x:Name="ParentScrollView">
 				<ListView x:Name="AuthorityListView" ItemsSource="{Binding SelectableEntities}" 
 				    x:FieldModifier="protected" VerticalOptions="FillAndExpand" SelectionMode="None" 
-				    HasUnevenRows="True" ItemTapped="OnEntity_Selected"
+				    HasUnevenRows="True" ItemTapped="OnEntity_Selected" 
+				    IsGroupingEnabled = "{Binding EnableGrouping}" GroupDisplayBinding="{Binding GroupDisplay}"
 					ItemTemplate="{StaticResource SelectableDataTemplate }">
 				</ListView>
 			</ScrollView>	

@@ -13,7 +13,7 @@ using RightToAskClient.Views;
 namespace RightToAskClient.Models
 {
 
-    public class SelectableList<T> : INotifyPropertyChanged where T: Entity
+    public class SelectableList<T> : INotifyPropertyChanged // where T: Entity
     {
         private IEnumerable<T> _allEntities;
 

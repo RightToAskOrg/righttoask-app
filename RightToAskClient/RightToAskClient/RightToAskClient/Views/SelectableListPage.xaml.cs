@@ -39,17 +39,13 @@ namespace RightToAskClient.Views
 			BindingContext = new SelectableListViewModel(authorityLists, message);
 		}
 
-        public SelectableListPage(SelectableList<MP> MPLists, string message)
+        public SelectableListPage(SelectableList<MP> MPLists, string message, bool grouping)
         {
 			InitializeComponent();
-			BindingContext = new SelectableListViewModel(MPLists, message);
+			BindingContext = new SelectableListViewModel(MPLists, message, grouping);
         }
 
         /*
-		public SelectableListPage(IEnumerable<IGrouping<ParliamentData.Chamber, MP>> groupedMPs, ObservableCollection<MP> selectedMPs, string message)
-		{
-			InitializeComponent();
-			
 			IntroText.Text = message;
 			this.SelectedMPs = selectedMPs;
 			DoneButton.Clicked += DoneMPsButton_OnClicked;
