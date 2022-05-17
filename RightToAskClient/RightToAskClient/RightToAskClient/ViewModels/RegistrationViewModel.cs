@@ -338,7 +338,7 @@ namespace RightToAskClient.ViewModels
         // Show and label different buttons according to whether we're registering
         // as a new user, editing our own existing profile, 
         // or viewing someone else's profile.
-        public void ShowTheRightButtonsAsync(string name)
+        private void ShowTheRightButtonsAsync(string name)
         {
             if (App.ReadingContext.IsReadingOnly)
             {
