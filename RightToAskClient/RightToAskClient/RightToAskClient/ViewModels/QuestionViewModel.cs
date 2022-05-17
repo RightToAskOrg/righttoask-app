@@ -153,7 +153,7 @@ namespace RightToAskClient.ViewModels
         {
             OnPropertyChanged("MPButtonsEnabled"); // called by the UpdatableParliamentAndMPData class to update this variable in real time
         }
-        public bool NeedToFindAsker => App.ReadingContext.Filters.SelectedAnsweringMPs.IsNullOrEmpty();
+        public bool NeedToFindAsker => App.ReadingContext.Filters.SelectedAnsweringMPsNotMine.IsNullOrEmpty();
 
         private RTAPermissions _whoShouldAnswerItPermissions = RTAPermissions.NoChange;
 
@@ -616,7 +616,7 @@ namespace RightToAskClient.ViewModels
         {
             // We take the (duplicate-removing) union of selected MPs, because at the moment the UI doesn't remove 
             // your MPs from the 'other MPs' list and the user may have selected the same MP in both categories.
-            var MPAnswerers = Question.Filters.SelectedAnsweringMPs.Union(Question.Filters.SelectedAnsweringMPsMine);
+            var MPAnswerers = Question.Filters.SelectedAnsweringMPsNotMine.Union(Question.Filters.SelectedAnsweringMPsMine);
             var MPanswerersServerData = MPAnswerers.Select(mp => new PersonID(new MPId(mp)));
             
             // Add authorities, guaranteed not to be duplicates.
@@ -626,7 +626,7 @@ namespace RightToAskClient.ViewModels
 
             // Entities who should raise the question - currently just MPs.
             // TODO add committees, other users, etc.
-            var MPAskers = Question.Filters.SelectedAskingMPs.Union(Question.Filters.SelectedAskingMPsMine);
+            var MPAskers = Question.Filters.SelectedAskingMPsNotMine.Union(Question.Filters.SelectedAskingMPsMine);
             var MPAskersServerData = MPAskers.Select(mp => new PersonID(new MPId(mp)));
 
             List<PersonID> askers = MPAskersServerData.ToList();

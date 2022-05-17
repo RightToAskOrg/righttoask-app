@@ -18,61 +18,74 @@ namespace RightToAskClient.Models
 
 		// Express each FilterChoice as a pair of lists: the whole list from which things are seleced,
 		// and the list of selections.
-		private SelectableList<Authority> _authorityLists;
-			// = new SelectableList<Authority>(ParliamentData.AllAuthorities, new List<Authority>());
-
+		private SelectableList<Authority> _authorityLists
+			= new SelectableList<Authority>(new List<Authority>(), new List<Authority>());
+			
 		public SelectableList<Authority> AuthorityLists
 		{
 			get => _authorityLists;
 		}
-		
-		private SelectableList<MP> _answeringMPsListNotMine;
-			// = new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
-
-		public SelectableList<MP> OtherMPAnsweringLists
-		{
-			get => _answeringMPsListNotMine;
-		}
-
-		private SelectableList<MP> _askingMPsListNotMine;
-			// = new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
-
-		public SelectableList<MP> OtherMPAskingLists
-		{
-			get => _askingMPsListNotMine;
-		}
-
-		// TODO (for Matt): do likewise with MPs lists.
-		// The 'other-MP' lists should be settable at initialization.
-		// The MyMPs lists might need to wait until registration.
-
 		public ObservableCollection<Authority> SelectedAuthorities
 		{
 			get => new ObservableCollection<Authority>(_authorityLists.SelectedEntities);
 			set => _authorityLists.SelectedEntities = value;
 		}
-
-		public string SearchKeyword
+		
+		private SelectableList<MP> _answeringMPsListMine 
+			= new SelectableList<MP>(new List<MP>(), new List<MP>());
+		public SelectableList<MP> AnsweringMPsListsMine
 		{
-			get => _searchKeyword;
+			get => _answeringMPsListMine;
+		}
+		public ObservableCollection<MP> SelectedAnsweringMPsMine
+		{
+			get => new ObservableCollection<MP>(_answeringMPsListMine.SelectedEntities);
 			set
 			{
-				_searchKeyword = value;
+				_answeringMPsListMine.SelectedEntities = value;
 				OnPropertyChanged();
 			}
 		}
 
+		private SelectableList<MP> _askingMPsListMine
+			= new SelectableList<MP>(new List<MP>(), new List<MP>());
+		public SelectableList<MP> AskingMPsListsMine
+		{
+			get => _askingMPsListMine;
+		}
 		public ObservableCollection<MP> SelectedAskingMPsMine
 		{
-			get => _selectedAskingMPsMine;
+			get =>  new ObservableCollection<MP>(_askingMPsListMine.SelectedEntities);
 			set
 			{
-				_selectedAskingMPsMine = value;
+				_askingMPsListMine.SelectedEntities = value;
 				OnPropertyChanged();
 			}
 		}
 		
-		public ObservableCollection<MP> SelectedAskingMPs
+		private SelectableList<MP> _answeringMPsListNotMine
+			= new SelectableList<MP>(new List<MP>(), new List<MP>());
+		public SelectableList<MP> AnsweringMPsListsNotMine
+		{
+			get => _answeringMPsListNotMine;
+		}
+		public ObservableCollection<MP> SelectedAnsweringMPsNotMine
+		{
+			get => new ObservableCollection<MP>(_answeringMPsListNotMine.SelectedEntities);
+			set
+			{
+				_answeringMPsListNotMine.SelectedEntities = value;
+				OnPropertyChanged();
+			}
+		}
+
+		private SelectableList<MP> _askingMPsListNotMine
+			= new SelectableList<MP>(new List<MP>(), new List<MP>());
+		public SelectableList<MP> AskingMPsListsNotMine
+		{
+			get => _askingMPsListNotMine;
+		}
+		public ObservableCollection<MP> SelectedAskingMPsNotMine
 		{
 			get =>  new ObservableCollection<MP>(_askingMPsListNotMine.SelectedEntities);
 			set
@@ -82,23 +95,17 @@ namespace RightToAskClient.Models
 			}
 		}
 
-		
+		// TODO (for Matt): do likewise with MPs lists.
+		// The 'other-MP' lists should be settable at initialization.
+		// The MyMPs lists might need to wait until registration.
 
-		public ObservableCollection<MP> SelectedAnsweringMPsMine
+
+		public string SearchKeyword
 		{
-			get => _selectedAnsweringMPsMine;
+			get => _searchKeyword;
 			set
 			{
-				_selectedAnsweringMPsMine = value;
-				OnPropertyChanged();
-			}
-		}
-		public ObservableCollection<MP> SelectedAnsweringMPs
-		{
-			get => new ObservableCollection<MP>(_answeringMPsListNotMine.SelectedEntities);
-			set
-			{
-				_answeringMPsListNotMine.SelectedEntities = value;
+				_searchKeyword = value;
 				OnPropertyChanged();
 			}
 		}

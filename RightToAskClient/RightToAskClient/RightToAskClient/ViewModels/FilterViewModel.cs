@@ -193,8 +193,8 @@ namespace RightToAskClient.ViewModels
             Keyword = App.ReadingContext.Filters.SearchKeyword;
 
             // get lists of data
-            SelectedAskingMPsList = FilterChoices.SelectedAskingMPs.ToList();
-            SelectedAnsweringMPsList = FilterChoices.SelectedAnsweringMPs.ToList();
+            SelectedAskingMPsList = FilterChoices.SelectedAskingMPsNotMine.ToList();
+            SelectedAnsweringMPsList = FilterChoices.SelectedAnsweringMPsNotMine.ToList();
             SelectedAskingMyMPsList = FilterChoices.SelectedAskingMPsMine.ToList();
             SelectedAnsweringMyMPsList = FilterChoices.SelectedAnsweringMPsMine.ToList();
             // PublicAuthoritiesList = FilterChoices.SelectedAuthorities.ToList();
@@ -202,14 +202,6 @@ namespace RightToAskClient.ViewModels
             CommitteeList = FilterChoices.SelectedAskingCommittee.ToList();
 
             // create strings from those lists
-            /*
-            SelectedAskingMPsText = CreateTextGivenListMPs(SelectedAskingMPsList);
-            SelectedAnsweringMPsText = CreateTextGivenListMPs(SelectedAnsweringMPsList);
-            SelectedAskingMyMPsText = CreateTextGivenListMPs(SelectedAskingMyMPsList);
-            SelectedAnsweringMyMPsText = CreateTextGivenListMPs(SelectedAnsweringMyMPsList);
-            PublicAuthoritiesText = CreateTextGivenListPAs(PublicAuthoritiesList);
-            OtherRightToAskUserText = CreateTextGivenListPeople(OtherRightToAskUserList);
-            */
             SelectedAskingMPsText = CreateTextGivenListEntities(SelectedAskingMPsList);
             SelectedAnsweringMPsText = CreateTextGivenListEntities(SelectedAnsweringMPsList);
             SelectedAskingMyMPsText = CreateTextGivenListEntities(SelectedAskingMyMPsList);

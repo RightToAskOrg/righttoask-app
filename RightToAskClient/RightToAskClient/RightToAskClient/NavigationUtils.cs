@@ -64,7 +64,7 @@ namespace RightToAskClient
         {
             string message = "Here is the complete list of MPs - select which one(s) should answer";
             SelectableListPage mpsPage =
-                new SelectableListPage(App.ReadingContext.Filters.OtherMPAnsweringLists, message, false);
+                new SelectableListPage(App.ReadingContext.Filters.AnsweringMPsListsNotMine, message, false);
             // ExploringPageWithSearch mpsPage
             //     = new ExploringPageWithSearch(ParliamentData.AllMPs, App.ReadingContext.Filters.SelectedAnsweringMPs, message);
             await Application.Current.MainPage.Navigation.PushAsync(mpsPage);
@@ -76,7 +76,7 @@ namespace RightToAskClient
             string message =
                 "Here is the complete list of MPs - select which one(s) should raise your question in Parliament";
             SelectableListPage mpsPage =
-                new SelectableListPage(App.ReadingContext.Filters.OtherMPAskingLists, message, false);
+                new SelectableListPage(App.ReadingContext.Filters.AskingMPsListsNotMine, message, false);
             // ExploringPageWithSearch mpsPage
             //    = new ExploringPageWithSearch(ParliamentData.AllMPs, App.ReadingContext.Filters.SelectedAskingMPs, message);
             await Application.Current.MainPage.Navigation.PushAsync(mpsPage);

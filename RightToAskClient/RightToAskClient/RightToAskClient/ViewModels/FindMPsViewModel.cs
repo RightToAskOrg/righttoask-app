@@ -166,7 +166,7 @@ namespace RightToAskClient.ViewModels
                 if (_launchMPsSelectionPageNext)
                 {
                     string message = "These are your MPs.  Select the one(s) who should answer the question";
-                    var mpsExploringPage = new ExploringPage(App.ReadingContext.ThisParticipant.GroupedMPs, App.ReadingContext.Filters.SelectedAskingMPs, message);
+                    var mpsExploringPage = new ExploringPage(App.ReadingContext.ThisParticipant.GroupedMPs, App.ReadingContext.Filters.SelectedAskingMPsNotMine, message);
                     await App.Current.MainPage.Navigation.PushAsync(mpsExploringPage);
                     _launchMPsSelectionPageNext = false;
                     DoneButtonText = AppResources.DoneButtonText;
