@@ -304,25 +304,7 @@ namespace RightToAskClient.ViewModels
                 // convert the ServerQuestions to a Displayable format
                 foreach (QuestionReceiveFromServer serverQuestion in ServerQuestions)
                 {
-                    // FIXME: The use of this constructor seems to break things.
                     Question temp = new Question(serverQuestion);
-                    
-                    /*
-                    Question temp = new Question()
-                    {
-                        QuestionId = serverQuestion.question_id ?? "",
-                        QuestionText = serverQuestion.question_text ?? "",
-                        QuestionSuggester = serverQuestion.author ?? "",
-                        Version = serverQuestion.version ?? "",
-                        Background = serverQuestion.background ?? "",
-                        //UploadTimestamp = serverQuestion.timestamp,
-                        //ExpiryDate = serverQuestion.last_modified,
-                        //QuestionAsker = TODO
-                        OthersCanAddAnswerers = serverQuestion.who_should_answer_the_question_permissions == RTAPermissions.Others,
-                        //QuestionAnswerers = TODO
-                        OthersCanAddAskers = serverQuestion.who_should_ask_the_question_permissions == RTAPermissions.Others
-                    };
-                    */
                     
                     QuestionsToDisplay.Add(temp);
                 }

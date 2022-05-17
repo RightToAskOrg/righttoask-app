@@ -17,10 +17,9 @@
 		<StackLayout x:Name="MainLayout" x:FieldModifier="protected" HorizontalOptions="Center" VerticalOptions="Start">
 			<Label x:Name="IntroText" Text = "{Binding IntroText}" />
 			<ScrollView x:Name="ParentScrollView">
-				<ListView x:Name="AuthorityListView" ItemsSource="{Binding SelectableEntities}" 
+				<ListView x:Name="SelectableListView" 
 				    x:FieldModifier="protected" VerticalOptions="FillAndExpand" SelectionMode="None" 
 				    HasUnevenRows="True" ItemTapped="OnEntity_Selected" 
-				    IsGroupingEnabled = "{Binding EnableGrouping}" GroupDisplayBinding="{Binding GroupDisplay}"
 					ItemTemplate="{StaticResource SelectableDataTemplate }">
 				</ListView>
 			</ScrollView>	

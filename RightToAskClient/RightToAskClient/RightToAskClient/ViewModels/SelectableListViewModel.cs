@@ -16,13 +16,28 @@ namespace RightToAskClient.ViewModels
 		// private readonly object _entityLists;
 		// protected readonly ObservableCollection<Entity> AllEntities = new ObservableCollection<Entity>();
 
-		private ObservableCollection<Tag<Entity>> _selectableEntities = new ObservableCollection<Tag<Entity>>();
+		private ObservableCollection<Tag<Entity>> _selectableEntities = new ObservableCollection<Tag<Entity>>(); 
 		public ObservableCollection<Tag<Entity>> SelectableEntities
 		{
 			get => _selectableEntities;
-			private set => SetProperty(ref _selectableEntities, value);
+			private set
+			{
+				_selectableEntities = value;
+				OnPropertyChanged();
+			}
 		}
 
+		private ObservableCollection<TaggedGroupedEntities> _selectableGroupedEntities; 
+		public ObservableCollection<TaggedGroupedEntities> SelectableGroupedEntities
+		{
+			get => _selectableGroupedEntities;
+			private set
+			{
+				_selectableGroupedEntities = value;
+				OnPropertyChanged();
+			}
+		}
+		
 		private string _introText = "";
 		public string IntroText
 		{
@@ -37,13 +52,6 @@ namespace RightToAskClient.ViewModels
 			set => SetProperty(ref _titleText, value);
 		}
 
-		// Only relevant for groups of MPs
-		private bool _enableGrouping = false;
-
-		public bool EnableGrouping
-		{
-			get => _enableGrouping;
-		}
 		private Binding _groupDisplay = new Binding("Chamber");
 		public Binding GroupDisplay
 		{
@@ -102,11 +110,9 @@ namespace RightToAskClient.ViewModels
 		}
 		
 		// MPs are grouped only for display, but stored in simple (flat) lists.
-		// If the grouping boolean is set, group the MPs by chamber before display, and set the
-		// bindable GroupingEnabled on.
+		// If the grouping boolean is set, group the MPs by chamber before display. 
         public SelectableListViewModel(SelectableList<MP> mpLists, string message, bool grouping)
         {
-	        _enableGrouping = grouping;
 	        if (grouping)
 	        {
 		        var groupedMPs = mpLists.AllEntities.GroupBy(mp => mp.electorate.chamber);
@@ -119,8 +125,10 @@ namespace RightToAskClient.ViewModels
 			        ));
 		        }
 
-		        SelectableEntities =
-			        new ObservableCollection<Tag<Entity>>(groupedMPsWithTags.SelectMany(x => x).ToList());
+		        // For display in groups
+		        SelectableGroupedEntities = new ObservableCollection<TaggedGroupedEntities>(groupedMPsWithTags);
+		        // For setting the selected/unselected ones 
+		        SelectableEntities = new ObservableCollection<Tag<Entity>>(groupedMPsWithTags.SelectMany(x => x).ToList());
 	        } 
 	        else
 	        {
@@ -139,73 +147,6 @@ namespace RightToAskClient.ViewModels
 			SubscribeToTheRightMessages();
         }
 
-        /*
-		public SelectableListPage(IEnumerable<IGrouping<ParliamentData.Chamber, MP>> groupedMPs, ObservableCollection<MP> selectedMPs, string message)
-		{
-			InitializeComponent();
-			
-			IntroText.Text = message;
-			this.SelectedMPs = selectedMPs;
-			DoneButton.Clicked += DoneMPsButton_OnClicked;
-			HomeButton.Clicked += HomeButton_Clicked;
-
-			AuthorityListView.IsGroupingEnabled = true;
-
-			List<TaggedGroupedEntities> groupedMPsWithTags = new List<TaggedGroupedEntities>();
-			foreach(IGrouping<ParliamentData.Chamber, MP> group in groupedMPs)
-			{
-				groupedMPsWithTags.Add(new TaggedGroupedEntities(
-					group.Key,
-					wrapInTags(new ObservableCollection<Entity>(group), selectedMPs)
-				));
-			}
-			AuthorityListView.BindingContext = groupedMPsWithTags;
-			AuthorityListView.GroupDisplayBinding = new Binding("Chamber");
-			AuthorityListView.ItemsSource = groupedMPsWithTags;
-			
-			// Flat list for the purposes of updating/saving selectableMPs 
-			//	= new ObservableCollection<Tag<MP>>(groupedMPsWithTags.SelectMany(x => x).ToList());
-			SelectableEntities	= new ObservableCollection<Tag<Entity>>(groupedMPsWithTags.SelectMany(x => x).ToList());
-
-			MessagingCenter.Subscribe<FindMPsViewModel, bool>(this, "PreviousPage", (sender, arg) =>
-			{
-				if (arg)
-				{
-					CameFromReg2Page = true;
-				}
-				MessagingCenter.Unsubscribe<FindMPsViewModel, bool>(this, "PreviousPage");
-			});
-			MessagingCenter.Subscribe<QuestionViewModel>(this, "GoToReadingPage", (sender) =>
-			{
-				GoToReadingPageNext = true;
-				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "GoToReadingPage");
-			});
-			MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionB", (sender) =>
-			{
-				OptionB = true;
-				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionB");
-			});
-		}
-		*/
-
-        /*
-		private async void HomeButton_Clicked()
-		{
-			string? result = await Shell.Current.DisplayActionSheet("Are you sure you want to go home? You will lose any unsaved questions.", "Cancel", "Yes, I'm sure.");
-			if (result == "Yes, I'm sure.")
-			{
-				await App.Current.MainPage.Navigation.PopToRootAsync();
-			}
-		}
-		*/
-		/*
-		private void SetUpSelectableEntitiesAndIntroText(string message)
-		{
-			// IntroText.Text = message;
-			// AuthorityListView.BindingContext = SelectableEntities;
-			// AuthorityListView.ItemsSource = SelectableEntities;
-		}
-		*/
 		private void SubscribeToTheRightMessages()
 		{
 			MessagingCenter.Subscribe<FindMPsViewModel, bool>(this, "PreviousPage", (sender, arg) =>
@@ -227,7 +168,8 @@ namespace RightToAskClient.ViewModels
 				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionB");
 			});
 		}
-		private class TaggedGroupedEntities : ObservableCollection<Tag<Entity>>
+
+		public class TaggedGroupedEntities : ObservableCollection<Tag<Entity>>
 		{
 			public TaggedGroupedEntities(ParliamentData.Chamber chamber, ObservableCollection<Tag<Entity>> entityGroup) : base(entityGroup)
 			{
@@ -250,37 +192,6 @@ namespace RightToAskClient.ViewModels
 		// TODO Consider whether the semantics of 'back' should be different from
 		// 'done', i.e. whether 'back' should undo.
 		// Also consider whether this should raise a warning if neither of the types match.
-		// 
-		// TODO: The code here is inelegant, because it really does need to know the type of the  '
-		// list it's updating. Can't really see a way round that unfortunately.
-		// TODO The DoneXButton_OnClicked functions could be unified because the if(camefromreg2page) 
-		// only applies to MPs and could be harmlessly included in the general function.
-		/*
-		async void DoneMPsButton_OnClicked(object sender, EventArgs e)
-		{
-			UpdateSelectedList(SelectedMPs);
-            if (CameFromReg2Page)
-            {
-				CameFromReg2Page = false;
-				await Shell.Current.GoToAsync("../.."); // double pop
-			}
-			else if (GoToReadingPageNext && !OptionB)
-            {
-				//SelectedOptionA = false;
-				await Shell.Current.GoToAsync(nameof(ReadingPage));
-            }
-			else if (OptionB)
-            {
-				await Shell.Current.GoToAsync(nameof(QuestionAskerPage));
-			}
-            else
-            {
-				await Shell.Current.Navigation.PopAsync(); // single pop
-			}
-			MessagingCenter.Send(this, "UpdateFilters");
-		}
-		*/
-
 		private async void DoneButton_OnClicked(Action updateAction)
 		{
 			updateAction();
@@ -300,14 +211,6 @@ namespace RightToAskClient.ViewModels
 			// MessagingCenter.Send(this, "UpdateFilters");
 		}
 			
-		/*
-		async void DonePeopleButton_OnClicked(object sender, EventArgs e)
-		{
-			UpdateSelectedList(selectableEntities, selectedPeople);
-			await Navigation.PopAsync();
-		}
-		*/
-
 		private void UpdateSelectedList<T>(SelectableList<T> entities) where T:Entity
 		{
 			var newSelectedEntities = new List<T>();
@@ -328,28 +231,8 @@ namespace RightToAskClient.ViewModels
 				}
 			}
 			
-			/*
-			var toBeRemoved = SelectableEntities.Where(w => !w.Selected).Select(t => t.TagEntity);
-			foreach (Entity notSelectedEntity in toBeRemoved)
-			{
-				if (notSelectedEntity is T s)
-				{
-					// FIXME This won't work because it makes a new list
-					selectedEntities.ToList().Remove(s);
-					// OnPropertyChanged("SelectedAuthorities");
-					// OnPropertyChanged("SelectedMPs");
-					// OnPropertyChanged("SelectedPeople");
-				}
-			}
-			*/
-
 			// There shouldn't be any duplicates, but this will remove them just in case.
 			entities.SelectedEntities = newSelectedEntities.Distinct().ToList();
-                    // Update the selected authorities as identified in the SelectableListPage.
-                    // FIXME Unfortunately this doesn't ever seem to get called.
-                    // App.ReadingContext.Filters.SelectedAuthorities =
-                    // new ObservableCollection<Authority>(selectableList.SelectedEntities);
-			// MessagingCenter.Send(this, "UpdateFilters");
 		}
 		
 		

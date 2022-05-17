@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -36,59 +37,23 @@ namespace RightToAskClient.Views
         public SelectableListPage(SelectableList<Authority> authorityLists , string message) 
 		{
 			InitializeComponent();
-			BindingContext = new SelectableListViewModel(authorityLists, message);
+			var vm = new SelectableListViewModel(authorityLists, message);
+			BindingContext = vm;
+			
+			SelectableListView.ItemsSource = vm.SelectableEntities;
+			SelectableListView.IsGroupingEnabled = false;
 		}
 
         public SelectableListPage(SelectableList<MP> MPLists, string message, bool grouping)
         {
 			InitializeComponent();
-			BindingContext = new SelectableListViewModel(MPLists, message, grouping);
-        }
-
-        /*
-			IntroText.Text = message;
-			this.SelectedMPs = selectedMPs;
-			DoneButton.Clicked += DoneMPsButton_OnClicked;
-			HomeButton.Clicked += HomeButton_Clicked;
-
-			AuthorityListView.IsGroupingEnabled = true;
-
-			List<TaggedGroupedEntities> groupedMPsWithTags = new List<TaggedGroupedEntities>();
-			foreach(IGrouping<ParliamentData.Chamber, MP> group in groupedMPs)
-			{
-				groupedMPsWithTags.Add(new TaggedGroupedEntities(
-					group.Key,
-					wrapInTags(new ObservableCollection<Entity>(group), selectedMPs)
-				));
-			}
-			AuthorityListView.BindingContext = groupedMPsWithTags;
-			AuthorityListView.GroupDisplayBinding = new Binding("Chamber");
-			AuthorityListView.ItemsSource = groupedMPsWithTags;
+			var vm = new SelectableListViewModel(MPLists, message, grouping);
+			BindingContext = vm;	
 			
-			// Flat list for the purposes of updating/saving selectableMPs 
-			//	= new ObservableCollection<Tag<MP>>(groupedMPsWithTags.SelectMany(x => x).ToList());
-			SelectableEntities	= new ObservableCollection<Tag<Entity>>(groupedMPsWithTags.SelectMany(x => x).ToList());
-
-			MessagingCenter.Subscribe<FindMPsViewModel, bool>(this, "PreviousPage", (sender, arg) =>
-			{
-				if (arg)
-				{
-					CameFromReg2Page = true;
-				}
-				MessagingCenter.Unsubscribe<FindMPsViewModel, bool>(this, "PreviousPage");
-			});
-			MessagingCenter.Subscribe<QuestionViewModel>(this, "GoToReadingPage", (sender) =>
-			{
-				GoToReadingPageNext = true;
-				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "GoToReadingPage");
-			});
-			MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionB", (sender) =>
-			{
-				OptionB = true;
-				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionB");
-			});
-		}
-		*/
+			SelectableListView.ItemsSource = grouping ? (IEnumerable)vm.SelectableGroupedEntities : vm.SelectableEntities;
+			SelectableListView.IsGroupingEnabled = grouping;
+			SelectableListView.GroupDisplayBinding = vm.GroupDisplay;
+        }
 
         // TODO Just use the one in BaseViewModel. 
 		private async void HomeButton_Clicked(object sender, EventArgs e)
@@ -100,17 +65,7 @@ namespace RightToAskClient.Views
 			}
 		}
 		
-		private class TaggedGroupedEntities : ObservableCollection<Tag<Entity>>
-		{
-			public TaggedGroupedEntities(ParliamentData.Chamber chamber, ObservableCollection<Tag<Entity>> entityGroup) : base(entityGroup)
-			{
-				Chamber = chamber.ToString();
-			}
-
-			public string Chamber { get;  }
-		}
-
-		/* It wold probably be more elegantly MVVM if this was in the ViewModel rather than the code-behind, but I
+		/* TODO It wold probably be more elegantly MVVM if this was in the ViewModel rather than the code-behind, but I
 		 * can't figure out how to bind an ItemTappedEvent.
 		 */
 		protected void OnEntity_Selected(object sender, ItemTappedEventArgs e)

@@ -36,10 +36,8 @@ namespace RightToAskClient
         protected override void OnStart()
         {
            // ResetAppData(); // Toggle this line in and out as needed instead of resetting the emulator every time
-           // FIXME TryInit is there's no guarantee that it has finished by the time this resets..
-           // This isn't the right way to do this...
             ParliamentData.MPAndOtherData.TryInit();
-            // ReadingContext.Filters.InitSelectableLists();
+            
             // get account info from preferences
             var registrationPref = Preferences.Get("RegistrationInfo", "");
             if (!string.IsNullOrEmpty(registrationPref))

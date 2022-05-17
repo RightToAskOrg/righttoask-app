@@ -163,11 +163,27 @@ namespace RightToAskClient.ViewModels
             // commands
             MPsButtonCommand = new AsyncCommand(async () =>
             {
+                // FIXME I'm pretty sure this is where our navigation bug is.
+                // We might get here via Option A from the flow options page, in which case
+                //    - initialize the MP SearchableListPage with AnsweringMPsListsMine and
+                //    - after that, navigate forward to a ReadingPage;
+                // we might get here via Option B from the QuestionAskerPage, in which case
+                //    - initialize the MP SearchableListPage with AskingMPsListsMine and
+                //    - after that, navigate forward to a ReadingPage;
+                // TODO we may need to fix both keeping track of the option and also the forward navigation.
                 if (_launchMPsSelectionPageNext)
                 {
+                    // If we've come here via Option A from the flow options page, do this:
                     string message = "These are your MPs.  Select the one(s) who should answer the question";
-                    var mpsExploringPage = new ExploringPage(App.ReadingContext.ThisParticipant.GroupedMPs, App.ReadingContext.Filters.SelectedAskingMPsNotMine, message);
-                    await App.Current.MainPage.Navigation.PushAsync(mpsExploringPage);
+                    var mpsSearchableListPage = new SelectableListPage(App.ReadingContext.Filters.AnsweringMPsListsMine, message, true);
+                    
+                    // If we've come here via Option B from the QuestionAskerPage, do this:
+                    // string message = "These are your MPs.  Select the one(s) who should raise the question in Parliament";
+                    // var mpsSearchableListPage = new SelectableListPage(App.ReadingContext.Filters.AnsweringMPsListsMine, message, true);
+                    
+                    
+                    // TODO fix up navigation options.
+                    await App.Current.MainPage.Navigation.PushAsync(mpsSearchableListPage);
                     _launchMPsSelectionPageNext = false;
                     DoneButtonText = AppResources.DoneButtonText;
                     MessagingCenter.Send<FindMPsViewModel, bool>(this, "PreviousPage", true);

@@ -20,7 +20,12 @@ namespace RightToAskClient.Models
 
         public IEnumerable<T> AllEntities
         {
-            get => _allEntities ;
+            get => _allEntities;
+            set
+            {
+                _allEntities = value;
+                OnPropertyChanged();
+            }
         }
 
         private IEnumerable<T> _selectedEntities;

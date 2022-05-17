@@ -9,9 +9,9 @@ namespace RightToAskClient.Models
 	{
 		private string _searchKeyword = "";
 		// private ObservableCollection<MP> _selectedAnsweringMPs = new ObservableCollection<MP>();
-		private ObservableCollection<MP> _selectedAnsweringMPsMine = new ObservableCollection<MP>();
+		// private ObservableCollection<MP> _selectedAnsweringMPsMine = new ObservableCollection<MP>();
 		// private ObservableCollection<MP> _selectedAskingMPs = new ObservableCollection<MP>();
-		private ObservableCollection<MP> _selectedAskingMPsMine = new ObservableCollection<MP>();
+		// private ObservableCollection<MP> _selectedAskingMPsMine = new ObservableCollection<MP>();
 		// private ObservableCollection<Authority> _selectedAuthorities = new ObservableCollection<Authority>();
 		private ObservableCollection<string> _selectedAskingCommittee = new ObservableCollection<string>();
 		private ObservableCollection<Person?> _selectedAskingUsers = new ObservableCollection<Person?>();
@@ -154,6 +154,16 @@ namespace RightToAskClient.Models
 	        _answeringMPsListNotMine = new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
 	        _askingMPsListNotMine =  new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
 	        _authorityLists = new SelectableList<Authority>(ParliamentData.AllAuthorities, new List<Authority>());
+        }
+
+        // Update the list of my MPs. Note that it's a tiny bit unclear whether we should remove
+        // any selected MPs who are (now) not yours. At the moment, I have simply left it as it is,
+        // which means that if a person starts drafting a question, then changes their electorate details,
+        // it's still possible for the question to go to 'my MP' when that person is their previous MP.
+        public void UpdateMyMPLists(List<MP> myMPs)
+        {
+	        _answeringMPsListMine.AllEntities = myMPs;
+	        _askingMPsListMine.AllEntities = myMPs; 
         }
 	}
 }
