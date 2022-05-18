@@ -72,7 +72,11 @@ namespace RightToAskClient.ViewModels
 		public bool GoToReadingPageNext = false;
 		public bool OptionB = false;
 
+		// empty default constructor for the singletons -- we can populate the data after the initial instantiation
+		public SelectableListViewModel()
+        {
 
+        }
 
         public SelectableListViewModel(SelectableList<Authority> authorityLists , string message) 
 		{

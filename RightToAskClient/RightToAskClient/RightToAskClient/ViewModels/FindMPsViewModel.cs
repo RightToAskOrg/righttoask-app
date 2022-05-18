@@ -164,7 +164,7 @@ namespace RightToAskClient.ViewModels
             MPsButtonCommand = new AsyncCommand(async () =>
             {
                 // FIXME I'm pretty sure this is where our navigation bug is.
-                // We might get here via Option A from the flow options page, in which case
+                // We might get here via Option A from the flow options page or MyMPsShouldAnswer from the AdvancedSearchPage, in which case
                 //    - initialize the MP SearchableListPage with AnsweringMPsListsMine and
                 //    - after that, navigate forward to a ReadingPage;
                 // we might get here via Option B from the QuestionAskerPage, in which case
@@ -177,9 +177,9 @@ namespace RightToAskClient.ViewModels
                     string message = "These are your MPs.  Select the one(s) who should answer the question";
                     var mpsSearchableListPage = new SelectableListPage(App.ReadingContext.Filters.AnsweringMPsListsMine, message, true);
                     
-                    // If we've come here via Option B from the QuestionAskerPage, do this:
+                    // If we've come here via Option B from the QuestionAskerPage or if we came from MyMPShouldAnswer section of AdvancedSearchPage, do this:
                     // string message = "These are your MPs.  Select the one(s) who should raise the question in Parliament";
-                    // var mpsSearchableListPage = new SelectableListPage(App.ReadingContext.Filters.AnsweringMPsListsMine, message, true);
+                    // var mpsSearchableListPage = new SelectableListPage(App.ReadingContext.Filters.AskingMPsListsMine, message, true);
                     
                     
                     // TODO fix up navigation options.

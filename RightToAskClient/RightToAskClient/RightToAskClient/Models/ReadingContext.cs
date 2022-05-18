@@ -1,3 +1,4 @@
+using RightToAskClient.ViewModels;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -7,8 +8,8 @@ namespace RightToAskClient.Models
 	public class ReadingContext : INotifyPropertyChanged
 	{
 		private bool _isReadingOnly;
-		public bool IsReadingOnly 
-		{ 
+		public bool IsReadingOnly
+		{
 			get => _isReadingOnly;
 			set
 			{
@@ -17,21 +18,39 @@ namespace RightToAskClient.Models
 			}
 		}
 
+		public event PropertyChangedEventHandler? PropertyChanged;
 
-        public event PropertyChangedEventHandler? PropertyChanged;
+		public ReadingContext()
+		{
+			//InitializeDefaultQuestions(); // Needed to remove pre-existing questions to prevent a crash with the new server question models setup
+		}
+		public void OnPropertyChanged([CallerMemberName] string propertyName = "")
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
 
-        public ReadingContext()
-        {
-	        //InitializeDefaultQuestions(); // Needed to remove pre-existing questions to prevent a crash with the new server question models setup
-        }
-        public void OnPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        
 		// Things about this user.
 		// These selections are made at registration, or at 'complete registration.'
-		public IndividualParticipant ThisParticipant { get; set; } = new IndividualParticipant();
+		public IndividualParticipant ThisParticipant { get; set; }
+
+		// Singletons for the SelectableListViewModel pages
+		//private static SelectableListViewModel? _myAskingMPsInstance;
+		//public static SelectableListViewModel MyAskingMPsInstance => _myAskingMPsInstance ??= new SelectableListViewModel();
+		//private static SelectableListViewModel? _myAnsweringMPsInstance;
+		//public static SelectableListViewModel MyAnsweringMPsInstance => _myAnsweringMPsInstance ??= new SelectableListViewModel();
+		//private static SelectableListViewModel? _otherAskingMPsInstance;
+		//public static SelectableListViewModel OtherAskingMPsInstance => _otherAskingMPsInstance ??= new SelectableListViewModel();
+		//private static SelectableListViewModel? _otherAnsweringMPsInstance;
+		//public static SelectableListViewModel OtherAnsweringMPsInstance => _otherAnsweringMPsInstance ??= new SelectableListViewModel();
+		// We might not need singletons at all.
+		//private SelectableListViewModel _myAskingMPsListVM = new SelectableListViewModel();
+		public SelectableListViewModel MyAskingMPsInstance { get; set; } = new SelectableListViewModel();
+		public SelectableListViewModel MyAnsweringMPsInstance { get; set; } = new SelectableListViewModel();
+		public SelectableListViewModel OtherAskingMPsInstance { get; set; } = new SelectableListViewModel();
+		public SelectableListViewModel OtherAnsweringMPsInstance { get; set; } = new SelectableListViewModel();
+		public SelectableListViewModel PublicAuthoritiesInstance { get; set; } = new SelectableListViewModel();
+		public SelectableListViewModel OtherRightToAskUserInstance { get; set; } = new SelectableListViewModel();
+		public SelectableListViewModel CommitteesInstance { get; set; } = new SelectableListViewModel();
 
 		// Things about the current search, draft question or other action.
 		// TODO: Possibly this needs to use getValue and setValue to that property changes
