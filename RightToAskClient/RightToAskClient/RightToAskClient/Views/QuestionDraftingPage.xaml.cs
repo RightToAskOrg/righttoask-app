@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using RightToAskClient.Models;
 using RightToAskClient.Resx;
 using RightToAskClient.ViewModels;
+using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.Forms;
 
 namespace RightToAskClient.Views
@@ -19,6 +20,7 @@ namespace RightToAskClient.Views
             QuestionViewModel.Instance.ResetInstance();
 
             BindingContext = QuestionViewModel.Instance;
+            ((QuestionViewModel)BindingContext).Page = this;
             if (App.ReadingContext.IsReadingOnly)
             {
                 Title = AppResources.FindQuestionsTitle;
@@ -58,6 +60,11 @@ namespace RightToAskClient.Views
                 }
             });
             return true; // otherwise do nothing
+        }
+
+        private void PopupButtonClicked(object sender, EventArgs e)
+        {
+            Navigation.ShowPopup(new InfoPopup());
         }
     }
 }

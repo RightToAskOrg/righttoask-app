@@ -1,5 +1,7 @@
 ﻿using Xamarin.Forms;
 using Xamarin.CommunityToolkit.ObjectModel;
+using RightToAskClient.Views;
+using Xamarin.CommunityToolkit.Extensions;
 
 namespace RightToAskClient.ViewModels
 {
@@ -17,6 +19,12 @@ namespace RightToAskClient.ViewModels
                 {
                     await App.Current.MainPage.Navigation.PopToRootAsync();
                 }
+            });
+            InfoPopupCommand = new AsyncCommand(async () =>
+            {
+                //Page.Navigation.ShowPopup(new InfoPopup());
+                var popup = new InfoPopup();
+                _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
             });
         }
 
@@ -43,5 +51,6 @@ namespace RightToAskClient.ViewModels
 
         // commands
         public IAsyncCommand HomeButtonCommand { get; }
+        public IAsyncCommand InfoPopupCommand { get; }
     }
 }

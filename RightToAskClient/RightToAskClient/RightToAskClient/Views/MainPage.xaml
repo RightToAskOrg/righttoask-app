@@ -11,7 +11,11 @@
     <ContentPage.BindingContext>
         <vm:MainPageViewModel/>
     </ContentPage.BindingContext>
-        <ContentPage.Content>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel" 
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.home4.png}" Priority="0"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
         <StackLayout VerticalOptions="FillAndExpand" Margin="10">
             <Label Text="Make your political questions have an impact" Style="{StaticResource Header1}" HorizontalTextAlignment="Center"/>
             <BoxView />
