@@ -318,13 +318,6 @@
   <data name="QuestionDetailsTitle" xml:space="preserve">
     <value>Question Details</value>
   </data>
-  <!--
-  <data name="QuestionAnswererHeaderText" xml:space="preserve">
-    <value>To be answered by:</value>
-  </data>
-  <data name="QuestionAskerHeaderText" xml:space="preserve">
-    <value>To be raised in parliament by:</value>
-  </data> -->
   <data name="QuestionHeaderText" xml:space="preserve">
     <value>Question: </value>
   </data>
@@ -542,7 +535,7 @@
     <value>Make an account?</value>
   </data>
   <data name="NotNowAnswerText" xml:space="preserve">
-	  <value>Not now</value>
+    <value>Not now</value>
   </data>
   <data name="EmptyQuestionCollectionViewString" xml:space="preserve">
     <value>Unable to Connect to Server or No Questions Available.</value>
@@ -576,5 +569,8 @@
   </data>
   <data name="QuestionFrameThumbsUpAccessibilityText" xml:space="preserve">
     <value>Shows an image of a thumbs up icon that is highlighted green if you have already liked this question, or is not highlighted if you have not upvoted it. There is a tally number of total number of upvotes this question has to the right of this icon.</value>
+  </data>
+  <data name="QuestionDraftingPagePopupText" xml:space="preserve">
+    <value>New Popup Test for Drafting Question</value>
   </data>
 </root>

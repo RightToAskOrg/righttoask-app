@@ -12,9 +12,10 @@ namespace RightToAskClient.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class InfoPopup : Popup
     {
-        public InfoPopup()
+        public InfoPopup(string message)
         {
             InitializeComponent();
+            popupText.Text = message;
         }
     }
 }

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:extensions="http://xamarin.com/schemas/2020/toolkit"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:local="clr-namespace:RightToAskClient"
-             xmlns:viewModels="clr-namespace:RightToAskClient.ViewModels;assembly=RightToAskClient"
+             xmlns:vm="clr-namespace:RightToAskClient.ViewModels;assembly=RightToAskClient"
              x:Class="RightToAskClient.Views.SelectableListPage"
-             x:DataType="viewModels:SelectableListViewModel"
+             x:DataType="vm:SelectableListViewModel"
              Title="{Binding TitleText}">
     <ContentPage.ToolbarItems>
-        <ToolbarItem x:Name="HomeButton" Text="{xct:Translate HomeButtonText}" 
-                     Clicked="HomeButton_Clicked"
-                     IconImageSource="{extensions:ImageResource RightToAskClient.Images.home4.png}"/>
+        <ToolbarItem x:Name="HomeButton" Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.home4.png}"/>
+        <ToolbarItem Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.help_75.png}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
 		<StackLayout x:Name="MainLayout" x:FieldModifier="protected" HorizontalOptions="Center" VerticalOptions="Start">

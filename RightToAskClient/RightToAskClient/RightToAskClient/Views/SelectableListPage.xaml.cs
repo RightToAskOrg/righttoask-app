@@ -54,16 +54,6 @@ namespace RightToAskClient.Views
 			SelectableListView.IsGroupingEnabled = grouping;
 			SelectableListView.GroupDisplayBinding = vm.GroupDisplay;
         }
-
-        // TODO Just use the one in BaseViewModel. 
-		private async void HomeButton_Clicked(object sender, EventArgs e)
-		{
-			string? result = await Shell.Current.DisplayActionSheet("Are you sure you want to go home? You will lose any unsaved questions.", "Cancel", "Yes, I'm sure.");
-			if (result == "Yes, I'm sure.")
-			{
-				await App.Current.MainPage.Navigation.PopToRootAsync();
-			}
-		}
 		
 		/* TODO It wold probably be more elegantly MVVM if this was in the ViewModel rather than the code-behind, but I
 		 * can't figure out how to bind an ItemTappedEvent.

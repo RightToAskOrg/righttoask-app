@@ -3,8 +3,15 @@
            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
            xmlns:xct="clr-namespace:Xamarin.CommunityToolkit.UI.Views;assembly=Xamarin.CommunityToolkit"
            x:Class="RightToAskClient.Views.InfoPopup"
-           Size="300,300">
-    <StackLayout>
-        <Label Text="PopupText" VerticalOptions="Center" VerticalTextAlignment="Center"/>
+           Size="300,300"
+           Color="Transparent"><!--***NOTE*** xct:Popup uses Color property to set what would normally be the BackgroundColor for most properties-->
+    <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent">
+        <Frame CornerRadius="30" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
+               BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}">
+            <Label x:Name="popupText" Text="Loading..." VerticalOptions="Center" VerticalTextAlignment="Center" 
+                   HorizontalOptions="Center" HorizontalTextAlignment="Center"
+                   TextColor="{AppThemeBinding Light={StaticResource TextColor}, 
+                   Dark={StaticResource TextColorDark}}"/>
+        </Frame>        
     </StackLayout>
 </xct:Popup>

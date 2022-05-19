@@ -12,6 +12,7 @@ namespace RightToAskClient.ViewModels
         // constructor
         public BaseViewModel()
         {
+            PopupLabelText = "TestText";
             HomeButtonCommand = new AsyncCommand(async () =>
             {
                 string? result = await Shell.Current.DisplayActionSheet("Are you sure you want to go home? You will lose any unsaved questions.", "Cancel", "Yes, I'm sure.");
@@ -23,7 +24,7 @@ namespace RightToAskClient.ViewModels
             InfoPopupCommand = new AsyncCommand(async () =>
             {
                 //Page.Navigation.ShowPopup(new InfoPopup());
-                var popup = new InfoPopup();
+                var popup = new InfoPopup(PopupLabelText);
                 _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
             });
         }
@@ -40,6 +41,13 @@ namespace RightToAskClient.ViewModels
         {
             get => title;
             set => SetProperty(ref title, value);
+        }
+
+        private string _popupLabelText = "";
+        public string PopupLabelText
+        {
+            get => _popupLabelText;
+            set => SetProperty(ref _popupLabelText, value);
         }
 
         private string _reportLabelText = "";

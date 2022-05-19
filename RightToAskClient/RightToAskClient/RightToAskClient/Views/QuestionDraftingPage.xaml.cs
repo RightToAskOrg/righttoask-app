@@ -20,7 +20,7 @@ namespace RightToAskClient.Views
             QuestionViewModel.Instance.ResetInstance();
 
             BindingContext = QuestionViewModel.Instance;
-            ((QuestionViewModel)BindingContext).Page = this;
+            //((QuestionViewModel)BindingContext).Page = this;
             if (App.ReadingContext.IsReadingOnly)
             {
                 Title = AppResources.FindQuestionsTitle;
@@ -30,6 +30,7 @@ namespace RightToAskClient.Views
             {
                 QuestionViewModel.Instance.IsReadingOnly = false;
                 Title = AppResources.DraftMyQuestionTitle;
+                QuestionViewModel.Instance.PopupLabelText = AppResources.QuestionDraftingPagePopupText;
             }
         }
 
@@ -60,11 +61,6 @@ namespace RightToAskClient.Views
                 }
             });
             return true; // otherwise do nothing
-        }
-
-        private void PopupButtonClicked(object sender, EventArgs e)
-        {
-            Navigation.ShowPopup(new InfoPopup());
         }
     }
 }

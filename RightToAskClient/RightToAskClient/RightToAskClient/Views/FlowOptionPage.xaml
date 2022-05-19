@@ -10,6 +10,8 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel" 
                      IconImageSource="{local:ImageResource RightToAskClient.Images.home4.png}" Priority="0"/>
+        <ToolbarItem Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.help_75.png}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>        
         <Grid RowDefinitions="*,*" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="30">

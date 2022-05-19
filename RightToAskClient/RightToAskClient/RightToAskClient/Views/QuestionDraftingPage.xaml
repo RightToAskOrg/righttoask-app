@@ -9,17 +9,16 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
                      IconImageSource="{local:ImageResource RightToAskClient.Images.home4.png}"/>
-        <ToolbarItem Text="Popup" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel"/>
-        <!--IconImageSource="{local:ImageResource RightToAskClient.Images.home4.png}"-->
+        <ToolbarItem Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.help_75.png}"/>
     </ContentPage.ToolbarItems>
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding BackCommand}"
                             IconOverride="back.png" />
     </Shell.BackButtonBehavior>
     <ContentPage.Content>
-		<StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand"
+        <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand"
 		             Padding="30">
-            <Button Text="Show Popup" Clicked="PopupButtonClicked"/>
             <StackLayout Orientation="Vertical" x:Name="QuestionDraftingBox" IsVisible="{Binding IsReadingOnly, Converter={StaticResource Key=cnvInvert}}">
 				<Label Text="{xct:Translate MyQuestionTitleText}" Style="{StaticResource Header2}" />
                 <Editor Completed="Question_Entered" MaxLength="280"  HeightRequest="200" WidthRequest="320"
