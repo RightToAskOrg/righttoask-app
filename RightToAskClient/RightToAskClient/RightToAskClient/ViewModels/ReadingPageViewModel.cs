@@ -114,6 +114,7 @@ namespace RightToAskClient.ViewModels
 
         public ReadingPageViewModel()
         {
+            PopupLabelText = AppResources.ReadingPageHeader1;
             Keyword = App.ReadingContext.Filters.SearchKeyword;
 
             if (!string.IsNullOrEmpty(App.ReadingContext.DraftQuestion))

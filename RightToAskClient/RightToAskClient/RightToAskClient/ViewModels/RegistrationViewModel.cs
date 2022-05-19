@@ -258,10 +258,12 @@ namespace RightToAskClient.ViewModels
                 // SelectedStateAsIndex = Preferences.Get("StateID", -1);
                 ShowUpdateAccountButton = App.ReadingContext.ThisParticipant.IsRegistered;
                 Title = App.ReadingContext.ThisParticipant.IsRegistered ? AppResources.EditYourAccountTitle : AppResources.CreateAccountTitle;
+                PopupLabelText = App.ReadingContext.ThisParticipant.IsRegistered ? AppResources.EditAccountPopupText : AppResources.CreateNewAccountPopupText;
             }
             else
             {
                 Title = AppResources.UserProfileTitle;
+                PopupLabelText = AppResources.OtherUserProfilePopupText;
             }
 
             // commands
@@ -411,6 +413,7 @@ namespace RightToAskClient.ViewModels
                         ShowUpdateAccountButton = true;
                         CanEditUID = false;
                         Title = AppResources.EditYourAccountTitle;
+                        PopupLabelText = AppResources.EditAccountPopupText;
                         // pop back to the QuestionDetailsPage after the account is created
                         await App.Current.MainPage.Navigation.PopAsync();
                     }
@@ -437,19 +440,19 @@ namespace RightToAskClient.ViewModels
         {
             // Shouldn't be updating a non-existent user. 
             Debug.Assert(App.ReadingContext.ThisParticipant.IsRegistered);
-            
-                Result<bool> httpResponse = await RTAClient.UpdateExistingUser(_registrationUpdates);
-                var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
-                ReportLabelText = httpValidation.message;
-                if (httpValidation.isValid)
-                {
-                    UpdateLocalRegistrationInfo();
-                }
-                else
-                {
-                    // IsRegistered flags in both Readingcontext and Preferences default to false.
-                    Debug.WriteLine("HttpValidationError: " + httpValidation.message);
-                }
+
+            Result<bool> httpResponse = await RTAClient.UpdateExistingUser(_registrationUpdates);
+            var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
+            ReportLabelText = httpValidation.message;
+            if (httpValidation.isValid)
+            {
+                UpdateLocalRegistrationInfo();
+            }
+            else
+            {
+                // IsRegistered flags in both Readingcontext and Preferences default to false.
+                Debug.WriteLine("HttpValidationError: " + httpValidation.message);
+            }
         }
 
         private void UpdateLocalRegistrationInfo()
@@ -457,8 +460,8 @@ namespace RightToAskClient.ViewModels
             App.ReadingContext.ThisParticipant.RegistrationInfo = _registration;
             App.ReadingContext.ThisParticipant.IsRegistered = true;
             Preferences.Set("IsRegistered",
-                App.ReadingContext.ThisParticipant.IsRegistered); // save the registration to preferences
-        } 
+            App.ReadingContext.ThisParticipant.IsRegistered); // save the registration to preferences
+        }
 
         private async void PromptUser(string message)
         {

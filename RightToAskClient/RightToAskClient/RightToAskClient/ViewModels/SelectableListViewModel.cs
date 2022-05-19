@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using RightToAskClient.Models;
+using RightToAskClient.Resx;
 using RightToAskClient.Views;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
@@ -82,7 +83,8 @@ namespace RightToAskClient.ViewModels
 								authorityLists.SelectedEntities);
 
 			_titleText = message;
-            DoneButtonCommand = new AsyncCommand(async () =>
+			PopupLabelText = AppResources.SelectableListAuthoritiesPopupText;
+			DoneButtonCommand = new AsyncCommand(async () =>
             {
                 DoneButton_OnClicked(
 	                () => UpdateSelectedList<Authority>(authorityLists)       
@@ -98,7 +100,8 @@ namespace RightToAskClient.ViewModels
 			SelectableEntities = wrapInTags(new ObservableCollection<Entity>(mpLists.AllEntities),  mpLists.SelectedEntities);
 			
 			_titleText = message;
-            DoneButtonCommand = new AsyncCommand(async () =>
+			PopupLabelText = AppResources.SelectableListMPsPopupText;
+			DoneButtonCommand = new AsyncCommand(async () =>
             {
                 DoneButton_OnClicked(
 	                () => UpdateSelectedList<MP>(mpLists)       
@@ -136,7 +139,8 @@ namespace RightToAskClient.ViewModels
 	        }
 	        
 			_titleText = message;
-            DoneButtonCommand = new AsyncCommand(async () =>
+			PopupLabelText = AppResources.SelectableListMPsPopupText;
+			DoneButtonCommand = new AsyncCommand(async () =>
             {
                 DoneButton_OnClicked(
 	                () => UpdateSelectedList<MP>(mpLists)       

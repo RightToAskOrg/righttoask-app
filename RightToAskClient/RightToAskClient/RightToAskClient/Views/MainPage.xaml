@@ -12,12 +12,12 @@
         <vm:MainPageViewModel/>
     </ContentPage.BindingContext>
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel" 
-                     IconImageSource="{local:ImageResource RightToAskClient.Images.home4.png}" Priority="0"/>
+        <ToolbarItem Text="{xct:Translate InfoPopupButtonText}" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.help_75.png}" Priority="0"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout VerticalOptions="FillAndExpand" Margin="10">
-            <Label Text="Make your political questions have an impact" Style="{StaticResource Header1}" HorizontalTextAlignment="Center"/>
+            <Label Text="{xct:Translate MainPageHeadingText}" Style="{StaticResource Header1}" HorizontalTextAlignment="Center"/>
             <BoxView />
             <Grid RowDefinitions="auto,*,*,*" ColumnDefinitions="*,*,*,*,*" VerticalOptions="FillAndExpand">
                 <StackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Margin="0" Padding="0" Spacing="0">

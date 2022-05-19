@@ -1,4 +1,5 @@
-﻿using RightToAskClient.ViewModels;
+﻿using RightToAskClient.Resx;
+using RightToAskClient.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace RightToAskClient.Views
             InitializeComponent();
 
             BindingContext = QuestionViewModel.Instance;
+            QuestionViewModel.Instance.PopupLabelText = AppResources.AnswerQuestionOptionsPopupText;
         }
     }
 }

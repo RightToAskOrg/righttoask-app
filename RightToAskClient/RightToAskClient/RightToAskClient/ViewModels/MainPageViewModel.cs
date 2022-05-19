@@ -1,4 +1,5 @@
-﻿using RightToAskClient.Views;
+﻿using RightToAskClient.Resx;
+using RightToAskClient.Views;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
@@ -23,6 +24,7 @@ namespace RightToAskClient.ViewModels
 
         public MainPageViewModel()
         {
+            PopupLabelText = AppResources.MainPagePopupText;
             // commands
             Top10ButtonCommand = new AsyncCommand(async () =>
             {

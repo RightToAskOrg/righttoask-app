@@ -20,7 +20,6 @@ namespace RightToAskClient.Views
             QuestionViewModel.Instance.ResetInstance();
 
             BindingContext = QuestionViewModel.Instance;
-            //((QuestionViewModel)BindingContext).Page = this;
             if (App.ReadingContext.IsReadingOnly)
             {
                 Title = AppResources.FindQuestionsTitle;

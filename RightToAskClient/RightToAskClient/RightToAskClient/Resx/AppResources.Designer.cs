@@ -61,6 +61,15 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to AboutPagePopupText.
+        /// </summary>
+        internal static string AboutPagePopupText {
+            get {
+                return ResourceManager.GetString("AboutPagePopupText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to sign user update message.
         /// </summary>
         internal static string AccountUpdateSigningError {
@@ -111,6 +120,15 @@ namespace RightToAskClient.Resx {
         internal static string AnswererPermissions {
             get {
                 return ResourceManager.GetString("AnswererPermissions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AnswerQuestionOptionsPopupText.
+        /// </summary>
+        internal static string AnswerQuestionOptionsPopupText {
+            get {
+                return ResourceManager.GetString("AnswerQuestionOptionsPopupText", resourceCulture);
             }
         }
         
@@ -214,6 +232,15 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CreateNewAccountPopupText.
+        /// </summary>
+        internal static string CreateNewAccountPopupText {
+            get {
+                return ResourceManager.GetString("CreateNewAccountPopupText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Direct my question.
         /// </summary>
         internal static string DirectMyQuestionTitle {
@@ -304,6 +331,15 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to EditAccountPopupText.
+        /// </summary>
+        internal static string EditAccountPopupText {
+            get {
+                return ResourceManager.GetString("EditAccountPopupText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit Your Profile.
         /// </summary>
         internal static string EditProfileButtonText {
@@ -385,6 +421,15 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to FiltersPopupText.
+        /// </summary>
+        internal static string FiltersPopupText {
+            get {
+                return ResourceManager.GetString("FiltersPopupText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Find a Committee.
         /// </summary>
         internal static string FindCommitteeButtonText {
@@ -399,6 +444,15 @@ namespace RightToAskClient.Resx {
         internal static string FindElectoratesButtonText {
             get {
                 return ResourceManager.GetString("FindElectoratesButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FindMPsPopupText.
+        /// </summary>
+        internal static string FindMPsPopupText {
+            get {
+                return ResourceManager.GetString("FindMPsPopupText", resourceCulture);
             }
         }
         
@@ -466,6 +520,15 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Information Popup Button.
+        /// </summary>
+        internal static string InfoPopupButtonText {
+            get {
+                return ResourceManager.GetString("InfoPopupButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Keep for upload.
         /// </summary>
         internal static string KeepQuestionButtonText {
@@ -525,6 +588,24 @@ namespace RightToAskClient.Resx {
         internal static string MainPageHeaderText {
             get {
                 return ResourceManager.GetString("MainPageHeaderText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Make your political questions have an impact.
+        /// </summary>
+        internal static string MainPageHeadingText {
+            get {
+                return ResourceManager.GetString("MainPageHeadingText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MainPagePopupText.
+        /// </summary>
+        internal static string MainPagePopupText {
+            get {
+                return ResourceManager.GetString("MainPagePopupText", resourceCulture);
             }
         }
         
@@ -808,6 +889,15 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to OtherUserProfilePopupText.
+        /// </summary>
+        internal static string OtherUserProfilePopupText {
+            get {
+                return ResourceManager.GetString("OtherUserProfilePopupText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0}&apos;s Profile.
         /// </summary>
         internal static string OtherUserProfileTitle {
@@ -840,6 +930,24 @@ namespace RightToAskClient.Resx {
         internal static string PublishQuestionButtonText {
             get {
                 return ResourceManager.GetString("PublishQuestionButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to QuestionAskerPopupText.
+        /// </summary>
+        internal static string QuestionAskerPopupText {
+            get {
+                return ResourceManager.GetString("QuestionAskerPopupText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to QuestionDetailPopupText.
+        /// </summary>
+        internal static string QuestionDetailPopupText {
+            get {
+                return ResourceManager.GetString("QuestionDetailPopupText", resourceCulture);
             }
         }
         
@@ -1119,6 +1227,24 @@ namespace RightToAskClient.Resx {
         internal static string SeeQuestionsButtonText {
             get {
                 return ResourceManager.GetString("SeeQuestionsButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SelectableListAuthoritiesPopupText.
+        /// </summary>
+        internal static string SelectableListAuthoritiesPopupText {
+            get {
+                return ResourceManager.GetString("SelectableListAuthoritiesPopupText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SelectableListMPsPopupText.
+        /// </summary>
+        internal static string SelectableListMPsPopupText {
+            get {
+                return ResourceManager.GetString("SelectableListMPsPopupText", resourceCulture);
             }
         }
         

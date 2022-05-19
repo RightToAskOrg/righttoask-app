@@ -150,10 +150,11 @@ namespace RightToAskClient.ViewModels
         // constructor
         public FindMPsViewModel()
         {
+            PopupLabelText = AppResources.FindMPsPopupText;
             ShowSkipButton = false;
             ShowAddressStack = false;
             ShowKnowElectoratesFrame = false;
-            _launchMPsSelectionPageNext = true;            
+            _launchMPsSelectionPageNext = true;
 
             MessagingCenter.Subscribe<RegistrationViewModel>(this, "FromReg1", (sender) =>
             {

@@ -573,4 +573,46 @@
   <data name="QuestionDraftingPagePopupText" xml:space="preserve">
     <value>New Popup Test for Drafting Question</value>
   </data>
+  <data name="AboutPagePopupText" xml:space="preserve">
+    <value>AboutPagePopupText</value>
+  </data>
+  <data name="AnswerQuestionOptionsPopupText" xml:space="preserve">
+    <value>AnswerQuestionOptionsPopupText</value>
+  </data>
+  <data name="CreateNewAccountPopupText" xml:space="preserve">
+    <value>CreateNewAccountPopupText</value>
+  </data>
+  <data name="EditAccountPopupText" xml:space="preserve">
+    <value>EditAccountPopupText</value>
+  </data>
+  <data name="FiltersPopupText" xml:space="preserve">
+    <value>FiltersPopupText</value>
+  </data>
+  <data name="FindMPsPopupText" xml:space="preserve">
+    <value>FindMPsPopupText</value>
+  </data>
+  <data name="InfoPopupButtonText" xml:space="preserve">
+    <value>Information Popup Button</value>
+  </data>
+  <data name="MainPageHeadingText" xml:space="preserve">
+    <value>Make your political questions have an impact</value>
+  </data>
+  <data name="MainPagePopupText" xml:space="preserve">
+    <value>MainPagePopupText</value>
+  </data>
+  <data name="OtherUserProfilePopupText" xml:space="preserve">
+    <value>OtherUserProfilePopupText</value>
+  </data>
+  <data name="QuestionAskerPopupText" xml:space="preserve">
+    <value>QuestionAskerPopupText</value>
+  </data>
+  <data name="QuestionDetailPopupText" xml:space="preserve">
+    <value>QuestionDetailPopupText</value>
+  </data>
+  <data name="SelectableListAuthoritiesPopupText" xml:space="preserve">
+    <value>SelectableListAuthoritiesPopupText</value>
+  </data>
+  <data name="SelectableListMPsPopupText" xml:space="preserve">
+    <value>SelectableListMPsPopupText</value>
+  </data>
 </root>
