@@ -405,6 +405,7 @@ namespace RightToAskClient.ViewModels
                 await NavigationUtils.PushMyAskingMPsExploringPage().ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, "GoToReadingPage"); // Sends this view model
+                    MessagingCenter.Send(this, "OptionBAskingNow");
                 });
             }
             else

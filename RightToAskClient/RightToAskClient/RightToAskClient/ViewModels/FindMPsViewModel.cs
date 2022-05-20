@@ -160,7 +160,12 @@ namespace RightToAskClient.ViewModels
             {
                 _launchMPsSelectionPageNext = false;
             });
+            // TODO Not sure we ever use this.
             MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionBGoToAskingPageNext", sender =>
+            {
+                _optionB = true;
+            });
+            MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionBAskingNow", sender =>
             {
                 _optionB = true;
             });
