@@ -21,40 +21,40 @@
                 <Grid RowDefinitions="*,*,auto" ColumnDefinitions="*,*" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                     <Frame Grid.Row="0" Grid.Column="0" Style="{StaticResource InvisibleButtonFrame}">
                         <Grid RowDefinitions="*,*" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                            <Label Grid.Row="0" Text="{xct:Translate FindCommitteeButtonText}" Style="{StaticResource HeaderButtonText}"/>
-                            <Label Grid.Row="1" Text="A Parliamentary Committee, such as Senate Estimates" Style="{StaticResource BodyButtonText}"/>
+                            <Label Grid.Row="0" TextColor="Black" Text="{xct:Translate FindCommitteeButtonText}" Style="{StaticResource HeaderButtonText}"/>
+                            <Label Grid.Row="1" TextColor="Black" Text="A Parliamentary Committee, such as Senate Estimates" Style="{StaticResource BodyButtonText}"/>
                             <Button Grid.RowSpan="2" Style="{StaticResource TransparentSquareButton}" 
                                 Command="{Binding SelectCommitteeButtonCommand}" IsVisible="{Binding DisplayFindCommitteeButton}"/>
                         </Grid>
                     </Frame>
                     <Frame Grid.Row="0" Grid.Column="1" Style="{StaticResource InvisibleButtonFrame}">
                         <Grid RowDefinitions="*,*">
-                            <Label Grid.Row="0" Text="{xct:Translate MyMPButtonText}" Style="{StaticResource HeaderButtonText}"/>
-                            <Label Grid.Row="1" Text="Your MP, perhaps a special session for constituent questions" Style="{StaticResource BodyButtonText}"/>
+                            <Label Grid.Row="0" TextColor="Black" Text="{xct:Translate MyMPButtonText}" Style="{StaticResource HeaderButtonText}"/>
+                            <Label Grid.Row="1" TextColor="Black" Text="Your MP, perhaps a special session for constituent questions" Style="{StaticResource BodyButtonText}"/>
                             <Button Grid.RowSpan="2" Style="{StaticResource TransparentSquareButton}" 
                                 Command="{Binding RaisedOptionSelectedCommand}" CommandParameter="1" IsVisible="{Binding DisplayFindCommitteeButton}"/>
                         </Grid>
                     </Frame>
                     <Frame Grid.Row="1" Grid.Column="0" Style="{StaticResource InvisibleButtonFrame}">
                         <Grid RowDefinitions="*,*">
-                            <Label Grid.Row="0" Text="{xct:Translate AnotherMPButtonText}" Style="{StaticResource HeaderButtonText}"/>
-                            <Label Grid.Row="1" Text="Blank here." Style="{StaticResource BodyButtonText}"/>
+                            <Label Grid.Row="0" TextColor="Black" Text="{xct:Translate AnotherMPButtonText}" Style="{StaticResource HeaderButtonText}"/>
+                            <Label Grid.Row="1" TextColor="Black" Text="Blank here." Style="{StaticResource BodyButtonText}"/>
                             <Button Grid.RowSpan="2" Style="{StaticResource TransparentSquareButton}" 
                                 Command="{Binding RaisedOptionSelectedCommand}" CommandParameter="2" IsVisible="{Binding DisplayFindCommitteeButton}"/>
                         </Grid>
                     </Frame>
                     <Frame Grid.Row="1" Grid.Column="1" Style="{StaticResource InvisibleButtonFrame}">
                         <Grid RowDefinitions="*,*">
-                            <Label Grid.Row="0" Text="{xct:Translate AnotherUserButtonText}" Style="{StaticResource HeaderButtonText}"/>
-                            <Label Grid.Row="1" Text="Blank here." Style="{StaticResource BodyButtonText}"/>
+                            <Label Grid.Row="0" TextColor="Black" Text="{xct:Translate AnotherUserButtonText}" Style="{StaticResource HeaderButtonText}"/>
+                            <Label Grid.Row="1" TextColor="Black" Text="Blank here." Style="{StaticResource BodyButtonText}"/>
                             <Button Grid.RowSpan="2" Style="{StaticResource TransparentSquareButton}" 
                                 Command="{Binding RaisedOptionSelectedCommand}" CommandParameter="3" IsVisible="{Binding DisplayFindCommitteeButton}"/>
                         </Grid>
                     </Frame>
                     <Frame Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource InvisibleButtonFrame}">
                         <Grid RowDefinitions="*,*">
-                            <Label Grid.Row="0" Text="{xct:Translate NotSureButtonText}" Style="{StaticResource HeaderButtonText}"/>
-                            <Label Grid.Row="1" Text="{xct:Translate Step2BodyText7}" Style="{StaticResource BodyButtonText}"/>
+                            <Label Grid.Row="0" TextColor="Black" Text="{xct:Translate NotSureButtonText}" Style="{StaticResource HeaderButtonText}"/>
+                            <Label Grid.Row="1" TextColor="Black" Text="{xct:Translate Step2BodyText7}" Style="{StaticResource BodyButtonText}"/>
                             <Button Grid.RowSpan="2" Style="{StaticResource TransparentSquareButton}" 
                                 Command="{Binding RaisedOptionSelectedCommand}" CommandParameter="4" IsVisible="{Binding DisplayFindCommitteeButton}"/>
                         </Grid>
