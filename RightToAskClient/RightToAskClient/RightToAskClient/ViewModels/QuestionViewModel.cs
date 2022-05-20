@@ -225,7 +225,7 @@ namespace RightToAskClient.ViewModels
                     = new SelectableListPage(App.ReadingContext.Filters.AuthorityLists, "Choose authorities");
                 await Shell.Current.Navigation.PushAsync(PageToSearchAuthorities).ContinueWith((_) => 
                 {
-                    MessagingCenter.Send(this, "OptionB"); // Sends this view model
+                    MessagingCenter.Send(this, "OptionBGoToAskingPageNext"); // Sends this view model
                 });
             });
             // If we already know the electorates (and hence responsible MPs), go
@@ -250,7 +250,7 @@ namespace RightToAskClient.ViewModels
             {
                 await NavigationUtils.PushAnsweringMPsNotMineSelectableListPage().ContinueWith((_) =>
                 {
-                    MessagingCenter.Send(this, "OptionB"); // Sends this view model
+                    MessagingCenter.Send(this, "OptionBGoToAskingPageNext"); // Sends this view model
                 });
             });
             SelectCommitteeButtonCommand = new AsyncCommand(async() => 

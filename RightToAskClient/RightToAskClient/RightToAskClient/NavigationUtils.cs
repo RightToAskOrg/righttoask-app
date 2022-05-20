@@ -20,6 +20,7 @@ namespace RightToAskClient
             //     App.ReadingContext.Filters.SelectedAnsweringMPsMine, message);
             // var nextPage = ListMPsFindFirstIfNotAlreadyKnown(mpsExploringPage);
 
+            //TODO** Seems unnecessary if our MPs are not initialized. But actually maybe it's not being pushed...
             var mpsSelectableListPage = new SelectableListPage(App.ReadingContext.Filters.AnsweringMPsListsMine, message, true);
             var nextPage = ListMPsFindFirstIfNotAlreadyKnown(mpsSelectableListPage);
             await Application.Current.MainPage.Navigation.PushAsync(nextPage);
