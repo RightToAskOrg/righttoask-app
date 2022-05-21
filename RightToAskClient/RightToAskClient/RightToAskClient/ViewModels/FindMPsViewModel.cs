@@ -144,7 +144,8 @@ namespace RightToAskClient.ViewModels
             get => _doneButtonText;
             set => SetProperty(ref _doneButtonText, value);
         }
-        private bool _launchMPsSelectionPageNext;
+        private bool _launchMPsSelectionPageNext = false;
+        private bool _optionB = false;
         #endregion
 
         // constructor
@@ -159,36 +160,57 @@ namespace RightToAskClient.ViewModels
             MessagingCenter.Subscribe<RegistrationViewModel>(this, "FromReg1", (sender) =>
             {
                 _launchMPsSelectionPageNext = false;
+                MessagingCenter.Unsubscribe<RegistrationViewModel>(this, "FromReg1");
+            });
+            // TODO Not sure we ever use this.
+            MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionBGoToAskingPageNext", sender =>
+            {
+                _optionB = true;
+                MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionBGoToAskingPageNext");
+            });
+            MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionBAskingNow", sender =>
+            {
+                _optionB = true;
+                MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionBAskingNow");
             });
 
             // commands
             MPsButtonCommand = new AsyncCommand(async () =>
             {
-                // FIXME I'm pretty sure this is where our navigation bug is.
+                SelectableListPage mpsSearchableListPage;
                 // We might get here via Option A from the flow options page, in which case
                 //    - initialize the MP SearchableListPage with AnsweringMPsListsMine and
                 //    - after that, navigate forward to a ReadingPage;
                 // we might get here via Option B from the QuestionAskerPage, in which case
                 //    - initialize the MP SearchableListPage with AskingMPsListsMine and
                 //    - after that, navigate forward to a ReadingPage;
-                // TODO we may need to fix both keeping track of the option and also the forward navigation.
                 if (_launchMPsSelectionPageNext)
                 {
-                    // If we've come here via Option A from the flow options page, do this:
-                    string message = "These are your MPs.  Select the one(s) who should answer the question";
-                    var mpsSearchableListPage = new SelectableListPage(App.ReadingContext.Filters.AnsweringMPsListsMine, message, true);
-                    
-                    // If we've come here via Option B from the QuestionAskerPage, do this:
-                    // string message = "These are your MPs.  Select the one(s) who should raise the question in Parliament";
-                    // var mpsSearchableListPage = new SelectableListPage(App.ReadingContext.Filters.AnsweringMPsListsMine, message, true);
-                    
-                    
-                    // TODO fix up navigation options.
+                    // Option B - our MP is asking the question
+                    if (_optionB)
+                    {
+                        string message =
+                            "These are your MPs.  Select the one(s) who should raise the question in Parliament";
+                        mpsSearchableListPage = new SelectableListPage(App.ReadingContext.Filters.AskingMPsListsMine,
+                            message, true);
+                    }
+                    // Option A - our MP should be answering the question.
+                    else
+                    {
+                        string message = "These are your MPs.  Select the one(s) who should answer the question";
+                        mpsSearchableListPage = new SelectableListPage(App.ReadingContext.Filters.AnsweringMPsListsMine,
+                            message, true);
+                    }
+
+                    MessagingCenter.Send(this, "GoToReadingPage");
+
                     await App.Current.MainPage.Navigation.PushAsync(mpsSearchableListPage);
                     _launchMPsSelectionPageNext = false;
+                    _optionB = false;
                     DoneButtonText = AppResources.DoneButtonText;
-                    MessagingCenter.Send<FindMPsViewModel, bool>(this, "PreviousPage", true);
+                    // MessagingCenter.Send<FindMPsViewModel, bool>(this, "PreviousPage", true);
                 }
+                // We are here from the registration page - no need to select any MPs
                 else
                 {
                     await App.Current.MainPage.Navigation.PopAsync();

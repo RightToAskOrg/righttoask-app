@@ -156,6 +156,16 @@ namespace RightToAskClient.Models
 	        _authorityLists = new SelectableList<Authority>(ParliamentData.AllAuthorities, new List<Authority>());
         }
 
+        public void RemoveAllSelections()
+        {
+	        _answeringMPsListNotMine.SelectedEntities = new List<MP>();
+	        _answeringMPsListMine.SelectedEntities = new List<MP>();
+	        _askingMPsListNotMine.SelectedEntities = new List<MP>();
+	        _askingMPsListMine.SelectedEntities = new List<MP>();
+	        _authorityLists.SelectedEntities = new List<Authority>();
+	        SearchKeyword = "";
+        }
+
         // Update the list of my MPs. Note that it's a tiny bit unclear whether we should remove
         // any selected MPs who are (now) not yours. At the moment, I have simply left it as it is,
         // which means that if a person starts drafting a question, then changes their electorate details,

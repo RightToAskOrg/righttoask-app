@@ -225,7 +225,7 @@ namespace RightToAskClient.ViewModels
                     = new SelectableListPage(App.ReadingContext.Filters.AuthorityLists, "Choose authorities");
                 await Shell.Current.Navigation.PushAsync(PageToSearchAuthorities).ContinueWith((_) => 
                 {
-                    MessagingCenter.Send(this, "OptionB"); // Sends this view model
+                    MessagingCenter.Send(this, "OptionBGoToAskingPageNext"); // Sends this view model
                 });
             });
             // If we already know the electorates (and hence responsible MPs), go
@@ -250,7 +250,7 @@ namespace RightToAskClient.ViewModels
             {
                 await NavigationUtils.PushAnsweringMPsNotMineSelectableListPage().ContinueWith((_) =>
                 {
-                    MessagingCenter.Send(this, "OptionB"); // Sends this view model
+                    MessagingCenter.Send(this, "OptionBGoToAskingPageNext"); // Sends this view model
                 });
             });
             SelectCommitteeButtonCommand = new AsyncCommand(async() => 
@@ -405,6 +405,7 @@ namespace RightToAskClient.ViewModels
                 await NavigationUtils.PushMyAskingMPsExploringPage().ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, "GoToReadingPage"); // Sends this view model
+                    MessagingCenter.Send(this, "OptionBAskingNow");
                 });
             }
             else
@@ -542,6 +543,7 @@ namespace RightToAskClient.ViewModels
                 await App.Current.MainPage.DisplayAlert("Question published!", "", "Home", "Write another one");
             if (goHome)
             {
+                App.ReadingContext.Filters.RemoveAllSelections();
                 await App.Current.MainPage.Navigation.PopToRootAsync();
             }
             else // Pop back to readingpage. TODO: fix the context so that it doesn't think you're drafting
