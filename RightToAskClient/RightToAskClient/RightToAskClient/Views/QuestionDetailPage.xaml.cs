@@ -7,6 +7,7 @@ using RightToAskClient.Models;
 using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.ViewModels;
 using Xamarin.Forms;
+using RightToAskClient.Resx;
 
 // This sets slightly different things to be visible depending on how we 
 // arrived here.
@@ -48,6 +49,7 @@ namespace RightToAskClient.Views
         {
             InitializeComponent();
             BindingContext = QuestionViewModel.Instance;
+            QuestionViewModel.Instance.PopupLabelText = AppResources.QuestionDetailPopupText;
             // default to false, then check if they should be true
             QuestionViewModel.Instance.CanEditBackground = false;
             QuestionViewModel.Instance.CanEditQuestion = false;

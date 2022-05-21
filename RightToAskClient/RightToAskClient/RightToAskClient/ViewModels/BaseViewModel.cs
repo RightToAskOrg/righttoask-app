@@ -1,5 +1,7 @@
 ﻿using Xamarin.Forms;
 using Xamarin.CommunityToolkit.ObjectModel;
+using RightToAskClient.Views;
+using Xamarin.CommunityToolkit.Extensions;
 
 namespace RightToAskClient.ViewModels
 {
@@ -10,6 +12,7 @@ namespace RightToAskClient.ViewModels
         // constructor
         public BaseViewModel()
         {
+            PopupLabelText = "TestText";
             HomeButtonCommand = new AsyncCommand(async () =>
             {
                 string? result = await Shell.Current.DisplayActionSheet("Are you sure you want to go home? You will lose any unsaved questions.", "Cancel", "Yes, I'm sure.");
@@ -17,6 +20,12 @@ namespace RightToAskClient.ViewModels
                 {
                     await App.Current.MainPage.Navigation.PopToRootAsync();
                 }
+            });
+            InfoPopupCommand = new AsyncCommand(async () =>
+            {
+                //Page.Navigation.ShowPopup(new InfoPopup());
+                var popup = new InfoPopup(PopupLabelText);
+                _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
             });
         }
 
@@ -34,6 +43,13 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref title, value);
         }
 
+        private string _popupLabelText = "";
+        public string PopupLabelText
+        {
+            get => _popupLabelText;
+            set => SetProperty(ref _popupLabelText, value);
+        }
+
         private string _reportLabelText = "";
         public string ReportLabelText
         {
@@ -43,5 +59,6 @@ namespace RightToAskClient.ViewModels
 
         // commands
         public IAsyncCommand HomeButtonCommand { get; }
+        public IAsyncCommand InfoPopupCommand { get; }
     }
 }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using RightToAskClient.Models;
 using RightToAskClient.Resx;
 using RightToAskClient.ViewModels;
+using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.Forms;
 
 namespace RightToAskClient.Views
@@ -28,6 +29,7 @@ namespace RightToAskClient.Views
             {
                 QuestionViewModel.Instance.IsReadingOnly = false;
                 Title = AppResources.DraftMyQuestionTitle;
+                QuestionViewModel.Instance.PopupLabelText = AppResources.QuestionDraftingPagePopupText;
             }
         }
 

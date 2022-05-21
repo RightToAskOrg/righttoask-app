@@ -97,6 +97,7 @@ namespace RightToAskClient.ViewModels
 
         public FilterViewModel()
         {
+            PopupLabelText = AppResources.FiltersPopupText;
             MessagingCenter.Subscribe<QuestionViewModel>(this, "UpdateFilters", (sender) =>
             {
                 ReinitData();
