@@ -375,7 +375,7 @@ namespace UnitTests
             MP answeringMP = new MP() { first_name = "firstname", surname = "testSurname", electorate = electorate };
             ObservableCollection<MP> mps = new ObservableCollection<MP>();
             mps.Add(answeringMP);
-            FilterChoices filters = new FilterChoices() { SelectedAnsweringMPs = mps};
+            FilterChoices filters = new FilterChoices() { SelectedAnsweringMPsMine = mps};
             vm.Question.Filters = filters;
 
             // act

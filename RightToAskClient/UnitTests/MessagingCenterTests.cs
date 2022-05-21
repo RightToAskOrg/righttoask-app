@@ -105,50 +105,51 @@ namespace UnitTests
         }
         #endregion
         #region "UpdateFilters" Message
-        [Fact]
-        public void ExploringPageDoneButtonTest()
-        {
-            // arrange
-            ObservableCollection<MP> selectedEntities = new ObservableCollection<MP>();
-            MP validMP = vTests.ValidMPTest();
-            selectedEntities.Add(validMP);
-            // mock the exploringPage - must call Xamarin.Forms.Init()
-            ExploringPage exploringPage = new ExploringPage(selectedEntities, selectedEntities, "fakeTitle");
-            Button button = (Button)exploringPage.FindByName("DoneButton");
-            bool messageSendingReached = false;
-            // act
-            // implement TestCommand
-            TestCommand = new Command(async () => 
-            {
-                //exploringPage.UpdateSelectedList(exploringPage.SelectedMPs);
-                if (exploringPage.CameFromReg2Page)
-                {
-                    exploringPage.CameFromReg2Page = false;
-                    await Shell.Current.GoToAsync("../.."); // double pop
-                }
-                else if (exploringPage.GoToReadingPageNext && !exploringPage.OptionB)
-                {
-                    //SelectedOptionA = false;
-                    await Shell.Current.GoToAsync(nameof(ReadingPage));
-                }
-                else if (exploringPage.OptionB)
-                {
-                    await Shell.Current.GoToAsync(nameof(QuestionAskerPage));
-                }
-                else
-                {
-                    //await Navigation.PopAsync(); // single pop
-                }
-                MessagingCenter.Send(this, "UpdateFilters");
-                messageSendingReached = true;
-            });
-            // set and execute the command
-            button.Command = TestCommand;
-            button.Command.Execute(null);
+        // This page is no longer used so this test is irrelevant
+        //[Fact]
+        //public void ExploringPageDoneButtonTest()
+        //{
+        //    // arrange
+        //    ObservableCollection<MP> selectedEntities = new ObservableCollection<MP>();
+        //    MP validMP = vTests.ValidMPTest();
+        //    selectedEntities.Add(validMP);
+        //    // mock the exploringPage - must call Xamarin.Forms.Init()
+        //    ExploringPage exploringPage = new ExploringPage(selectedEntities, selectedEntities, "fakeTitle");
+        //    Button button = (Button)exploringPage.FindByName("DoneButton");
+        //    bool messageSendingReached = false;
+        //    // act
+        //    // implement TestCommand
+        //    TestCommand = new Command(async () => 
+        //    {
+        //        //exploringPage.UpdateSelectedList(exploringPage.SelectedMPs);
+        //        if (exploringPage.CameFromReg2Page)
+        //        {
+        //            exploringPage.CameFromReg2Page = false;
+        //            await Shell.Current.GoToAsync("../.."); // double pop
+        //        }
+        //        else if (exploringPage.GoToReadingPageNext && !exploringPage.OptionB)
+        //        {
+        //            //SelectedOptionA = false;
+        //            await Shell.Current.GoToAsync(nameof(ReadingPage));
+        //        }
+        //        else if (exploringPage.OptionB)
+        //        {
+        //            await Shell.Current.GoToAsync(nameof(QuestionAskerPage));
+        //        }
+        //        else
+        //        {
+        //            //await Navigation.PopAsync(); // single pop
+        //        }
+        //        MessagingCenter.Send(this, "UpdateFilters");
+        //        messageSendingReached = true;
+        //    });
+        //    // set and execute the command
+        //    button.Command = TestCommand;
+        //    button.Command.Execute(null);
 
-            // assert?
-            Assert.True(messageSendingReached);
-        }
+        //    // assert?
+        //    Assert.True(messageSendingReached);
+        //}
 
         [Theory]
         [InlineData("UpdateFilters")]

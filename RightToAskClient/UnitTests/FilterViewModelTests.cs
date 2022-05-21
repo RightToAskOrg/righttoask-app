@@ -31,9 +31,8 @@ namespace UnitTests
             Assert.True(!string.IsNullOrEmpty(filters.SearchKeyword));
             Assert.Equal("changed Keyword", filters.SearchKeyword);
             Assert.True(!string.IsNullOrEmpty(vm.Keyword));
-            Assert.NotNull(filters.SelectedAnsweringMPs);
-            Assert.True(filters.SelectedAnsweringMPs.Any());
-            Assert.NotNull(filters.SelectedAnsweringMPs[0]);
+            Assert.NotNull(filters.SelectedAnsweringMPsMine);
+            Assert.False(filters.SelectedAnsweringMPsMine.Any());
             Assert.True(!string.IsNullOrEmpty(vm.SelectedAnsweringMPsList.ToString()));
         }
 

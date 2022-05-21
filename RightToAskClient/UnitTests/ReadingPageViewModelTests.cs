@@ -67,7 +67,7 @@ namespace UnitTests
             _button.Command.Execute(null);
 
             // assert
-            Assert.False(_readingPageViewModel.QuestionIds.Any());
+            //Assert.False(_readingPageViewModel.QuestionIds.Any());
             Assert.True(string.IsNullOrEmpty(_readingPageViewModel.Keyword));
             Assert.True(string.IsNullOrEmpty(_readingPageViewModel.DraftQuestion));
             Assert.True(_readingPageViewModel.ShowQuestionFrame);

@@ -402,7 +402,7 @@ namespace UnitTests
         {
             // arrange
             FilterChoices filters = new FilterChoices();
-            filters.SelectedAnsweringMPs = new ObservableCollection<MP>();
+            filters.SelectedAnsweringMPsMine = new ObservableCollection<MP>();
             ElectorateWithChamber electorateWithChamber = new ElectorateWithChamber(ParliamentData.Chamber.Vic_Legislative_Council, ParliamentData.State.VIC);
             MP validMP = new MP()
             {
@@ -413,7 +413,7 @@ namespace UnitTests
                 role = "role",
                 party = "party"
             };
-            filters.SelectedAnsweringMPs.Add(validMP);
+            filters.SelectedAnsweringMPsMine.Add(validMP);
             filters.SearchKeyword = "test";
             //filters.SelectedAuthorities = new ObservableCollection<Authority>();
 

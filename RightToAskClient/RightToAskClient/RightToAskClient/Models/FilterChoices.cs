@@ -166,23 +166,21 @@ namespace RightToAskClient.Models
 	        _answeringMPsListMine.AllEntities = myMPs;
 	        _askingMPsListMine.AllEntities = myMPs; 
         }
-	}
-        }
 
         public bool Validate()
         {
             bool isValid = false;
             bool hasInvalidData = false;
-            if (SelectedAnsweringMPs.Any())
-            {
-                foreach (MP mp in SelectedAnsweringMPs)
-                {
-                    if (!mp.Validate())
-                    {
-                        hasInvalidData = true;
-                    }
-                }
-            }
+            //if (SelectedAnsweringMPs.Any())
+            //{
+            //    foreach (MP mp in SelectedAnsweringMPs)
+            //    {
+            //        if (!mp.Validate())
+            //        {
+            //            hasInvalidData = true;
+            //        }
+            //    }
+            //}
             if (SelectedAnsweringMPsMine.Any())
             {
                 foreach (MP mp in SelectedAnsweringMPsMine)
@@ -193,16 +191,16 @@ namespace RightToAskClient.Models
                     }
                 }
             }
-            if (SelectedAskingMPs.Any())
-            {
-                foreach (MP mp in SelectedAskingMPs)
-                {
-                    if (!mp.Validate())
-                    {
-                        hasInvalidData = true;
-                    }
-                }
-            }
+            //if (SelectedAskingMPs.Any())
+            //{
+            //    foreach (MP mp in SelectedAskingMPs)
+            //    {
+            //        if (!mp.Validate())
+            //        {
+            //            hasInvalidData = true;
+            //        }
+            //    }
+            //}
             if (SelectedAskingMPsMine.Any())
             {
                 foreach (MP mp in SelectedAskingMPsMine)
@@ -233,7 +231,7 @@ namespace RightToAskClient.Models
                     }
                 }
             }
-            if(SelectedAskingUsers != null)
+            if (SelectedAskingUsers != null)
             {
                 if (SelectedAskingUsers.Any())
                 {
