@@ -543,6 +543,7 @@ namespace RightToAskClient.ViewModels
                 await App.Current.MainPage.DisplayAlert("Question published!", "", "Home", "Write another one");
             if (goHome)
             {
+                App.ReadingContext.Filters.RemoveAllSelections();
                 await App.Current.MainPage.Navigation.PopToRootAsync();
             }
             else // Pop back to readingpage. TODO: fix the context so that it doesn't think you're drafting
