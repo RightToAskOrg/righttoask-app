@@ -100,10 +100,10 @@
                         Command="{Binding DraftCommand}" IsVisible="{Binding ShowQuestionFrame, Converter={StaticResource Key=cnvInvert}}"/>-->
             </Grid>
             <!-- Question Flow Details-->
-            <Frame Style="{StaticResource GreenFrame}" Margin="0" Padding="10" IsVisible="{Binding ShowQuestionFrame}">
+            <Frame Style="{StaticResource InvertAppThemeFrame}" Margin="0" Padding="10" IsVisible="{Binding ShowQuestionFrame}">
                 <StackLayout Margin="0" Padding="0" Spacing="0">
                     <StackLayout Orientation="Horizontal" HeightRequest="35">
-                        <Label Text="{xct:Translate YourQuestionTitleText}" Style="{StaticResource LeftFrameTextMedium}" VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand"/>
+                        <Label Text="{xct:Translate YourQuestionTitleText}" Style="{StaticResource InvertFrameText}" VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand"/>
                         <Button Text="{xct:Translate DiscardDraftButtonText}" Style="{StaticResource DoneButton}" Command="{Binding DiscardButtonCommand}"/>
                         <Button Text="{xct:Translate KeepQuestionButtonText}" Style="{StaticResource DoneButton}"
                         Command="{Binding KeepQuestionButtonCommand}"/>
