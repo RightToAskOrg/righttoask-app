@@ -6,6 +6,7 @@ using RightToAskClient.Resx;
 using RightToAskClient.Views;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -157,7 +158,7 @@ namespace RightToAskClient.ViewModels
         {
             OnPropertyChanged("MPButtonsEnabled"); // called by the UpdatableParliamentAndMPData class to update this variable in real time
         }
-        public bool NeedToFindAsker => App.ReadingContext.Filters.SelectedAnsweringMPs.IsNullOrEmpty();
+        public bool NeedToFindAsker => App.ReadingContext.Filters.SelectedAnsweringMPsNotMine.IsNullOrEmpty();
 
         private RTAPermissions _whoShouldAnswerItPermissions = RTAPermissions.NoChange;
 
@@ -224,9 +225,10 @@ namespace RightToAskClient.ViewModels
             });
             OtherPublicAuthorityButtonCommand = new AsyncCommand(async () =>
             {
-                var exploringPageToSearchAuthorities
-                    = new ExploringPageWithSearch(App.ReadingContext.Filters.SelectedAuthorities, "Choose authorities");
-                await Shell.Current.Navigation.PushAsync(exploringPageToSearchAuthorities).ContinueWith((_) => 
+                // var selectableList = new SelectableList<Authority>(ParliamentData.AllAuthorities, App.ReadingContext.Filters.SelectedAuthorities); 
+                var PageToSearchAuthorities
+                    = new SelectableListPage(App.ReadingContext.Filters.AuthorityLists, "Choose authorities");
+                await Shell.Current.Navigation.PushAsync(PageToSearchAuthorities).ContinueWith((_) => 
                 {
                     MessagingCenter.Send(this, "OptionB"); // Sends this view model
                 });
@@ -244,14 +246,14 @@ namespace RightToAskClient.ViewModels
             });
             AnsweredByOtherMPCommand = new AsyncCommand(async () =>
             {
-                await NavigationUtils.PushAnsweringMPsExploringPage().ContinueWith((_) =>
+                await NavigationUtils.PushAnsweringMPsNotMineSelectableListPage().ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, "GoToReadingPage"); // Sends this view model
                 });
             });
             AnsweredByOtherMPCommandOptionB = new AsyncCommand(async () =>
             {
-                await NavigationUtils.PushAnsweringMPsExploringPage().ContinueWith((_) =>
+                await NavigationUtils.PushAnsweringMPsNotMineSelectableListPage().ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, "OptionB"); // Sends this view model
                 });
@@ -443,8 +445,7 @@ namespace RightToAskClient.ViewModels
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
-                RaisedByOptionSelected = true;
-                await NavigationUtils.PushAskingMPsExploringPageAsync().ContinueWith((_) =>
+                await NavigationUtils.PushAskingMPsNotMineSelectableListPageAsync().ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, "GoToReadingPage"); // Sends this view model
                 });
@@ -466,7 +467,7 @@ namespace RightToAskClient.ViewModels
 
         private async void OnAnswerByOtherMPButtonClicked(object sender, EventArgs e)
         {
-            await NavigationUtils.PushAnsweringMPsExploringPage();
+            await NavigationUtils.PushAnsweringMPsNotMineSelectableListPage();
         }
 
         private async void SubmitNewQuestionButton_OnClicked()
@@ -626,7 +627,7 @@ namespace RightToAskClient.ViewModels
         {
             // We take the (duplicate-removing) union of selected MPs, because at the moment the UI doesn't remove 
             // your MPs from the 'other MPs' list and the user may have selected the same MP in both categories.
-            var MPAnswerers = Question.Filters.SelectedAnsweringMPs.Union(Question.Filters.SelectedAnsweringMPsMine);
+            var MPAnswerers = Question.Filters.SelectedAnsweringMPsNotMine.Union(Question.Filters.SelectedAnsweringMPsMine);
             var MPanswerersServerData = MPAnswerers.Select(mp => new PersonID(new MPId(mp)));
             
             // Add authorities, guaranteed not to be duplicates.
@@ -636,7 +637,7 @@ namespace RightToAskClient.ViewModels
 
             // Entities who should raise the question - currently just MPs.
             // TODO add committees, other users, etc.
-            var MPAskers = Question.Filters.SelectedAskingMPs.Union(Question.Filters.SelectedAskingMPsMine);
+            var MPAskers = Question.Filters.SelectedAskingMPsNotMine.Union(Question.Filters.SelectedAskingMPsMine);
             var MPAskersServerData = MPAskers.Select(mp => new PersonID(new MPId(mp)));
 
             List<PersonID> askers = MPAskersServerData.ToList();

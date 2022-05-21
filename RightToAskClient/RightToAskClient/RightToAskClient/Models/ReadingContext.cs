@@ -59,50 +59,6 @@ namespace RightToAskClient.Models
 		// Existing things about the world.
 		public ObservableCollection<Question> ExistingQuestions { get; set; } = new ObservableCollection<Question>();
 		
-		// At the moment, this simply populates the reading context with a
-		// hardcoded set of "existing" questions.
-	//	private void InitializeDefaultQuestions()
-	//	{
-	//		ExistingQuestions.Add(
-	//			new Question
-	//			{
-	//				QuestionText = "What is the error rate of the Senate Scanning solution?",
-	//				QuestionSuggester = "Alice",
-	//				QuestionAsker = "",
-	//				DownVotes = 1,
-	//				UpVotes = 2
-	//			});
-	//		ExistingQuestions.Add(
-	//			new Question
-	//			{
-	//				QuestionText = "What is the monthly payment to AWS for COVIDSafe?",
-	//				QuestionSuggester = "Bob",
-	//				QuestionAsker = "",
-	//				DownVotes = 3,
-	//				UpVotes = 1
-	//			});
-	//		ExistingQuestions.Add(
-	//			new Question
-	//			{
-	//				QuestionText =
-	//					"Why did the ABC decide against an opt-in consent model for data sharing with Facebook and Google?",
-	//				QuestionSuggester = "Chloe",
-	//				QuestionAsker = "",
-	//				DownVotes = 1,
-	//				UpVotes = 2
-	//			});
-	//		ExistingQuestions.Add(
-	//			new Question
-	//			{
-	//				QuestionText =
-	//					"What is the government's position on the right of school children to strike for climate?",
-	//				QuestionSuggester = "Darius",
-	//				DownVotes = 1,
-	//				UpVotes = 2
-	//			});
-	//}
-
-
 		// TODO This ToString doesn't really properly convey the state of
 		// the ReadingContext, e.g. doesn't reflect registering or knowing your
 		// MPs.

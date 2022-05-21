@@ -78,6 +78,8 @@ namespace RightToAskClient.Models
 		
 		// Returns true if initialisation is successful, i.e. no errors.
 		// or there are no changes since last time.
+		// TODO This isn't very elegantly structured - redo so the init of other data structures
+		// isn't repeated.
 		public async void TryInit()
 		{
 			if (_isInitialised) return;
@@ -88,7 +90,8 @@ namespace RightToAskClient.Models
 			if (String.IsNullOrEmpty(success.Err))
 			{
 				_isInitialised = true;
-				QuestionViewModel.Instance.UpdateMPButtons();
+				QuestionViewModel.Instance.UpdateMPButtons(); 
+				App.ReadingContext.Filters.InitSelectableLists();
 				//return;
 			}
 
@@ -98,6 +101,7 @@ namespace RightToAskClient.Models
 			{
 				_isInitialised = true;
 				QuestionViewModel.Instance.UpdateMPButtons();
+				App.ReadingContext.Filters.InitSelectableLists();
 				return;
 			}
 			
@@ -109,6 +113,7 @@ namespace RightToAskClient.Models
 			{
 				_isInitialised = true;
 				QuestionViewModel.Instance.UpdateMPButtons();
+				App.ReadingContext.Filters.InitSelectableLists();
 				return;
 			}
 

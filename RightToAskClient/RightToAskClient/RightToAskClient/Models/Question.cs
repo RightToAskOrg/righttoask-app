@@ -126,13 +126,13 @@ namespace RightToAskClient.Models
         }
 
         public string QuestionAnswerers => "" 
-            + String.Join(", ",Filters.SelectedAnsweringMPs.Select(mp => mp.ShortestName))
+            + String.Join(", ",Filters.SelectedAnsweringMPsNotMine.Select(mp => mp.ShortestName))
             + String.Join(", ",Filters.SelectedAnsweringMPsMine.Select(mp => mp.ShortestName))
             + String.Join(", ",Filters.SelectedAuthorities.Select(a => a.ShortestName));
 
         // The MPs or committee who are meant to ask the question
         public string QuestionAskers => ""
-            + String.Join(", ", Filters.SelectedAskingMPs.Select(mp => mp.ShortestName))
+            + String.Join(", ", Filters.SelectedAskingMPsNotMine.Select(mp => mp.ShortestName))
             + String.Join(", ", Filters.SelectedAskingMPsMine.Select(mp => mp.ShortestName));
         // TODO add:
             // + String.Join(",",Filters.SelectedAskingCommittee.Select(... ))
@@ -348,11 +348,11 @@ namespace RightToAskClient.Models
                             Filters.SelectedAnsweringMPsMine, App.ReadingContext.ThisParticipant.MyMPs))
                         {
                             // otherwise, try to find it in AllMPs
-                            if (!CanFindInListBThenAddToListA<MP>(entity.AsMP, Filters.SelectedAnsweringMPs,
+                            if (!CanFindInListBThenAddToListA<MP>(entity.AsMP, Filters.SelectedAnsweringMPsNotMine,
                                 ParliamentData.AllMPs))
                             {
                                 // If all else fails, add the bare-bones MP record we received.
-                                Filters.SelectedAnsweringMPs.Add(entity.AsMP);
+                                Filters.SelectedAnsweringMPsNotMine.Add(entity.AsMP);
                             }
                         }
                     }
@@ -378,11 +378,11 @@ namespace RightToAskClient.Models
                                 Filters.SelectedAskingMPsMine, App.ReadingContext.ThisParticipant.MyMPs))
                         {
                             // otherwise, try to find it in AllMPs
-                            if (!CanFindInListBThenAddToListA<MP>(entity.AsMP, Filters.SelectedAskingMPs,
+                            if (!CanFindInListBThenAddToListA<MP>(entity.AsMP, Filters.SelectedAskingMPsNotMine,
                                 ParliamentData.AllMPs))
                             {
                                 // If all else fails, add bare-bones MP data we got from the server.
-                                Filters.SelectedAskingMPs.Add(entity.AsMP);
+                                Filters.SelectedAskingMPsNotMine.Add(entity.AsMP);
                             }
                         }
                     }
