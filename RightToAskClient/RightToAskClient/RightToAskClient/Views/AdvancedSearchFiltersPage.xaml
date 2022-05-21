@@ -22,16 +22,17 @@
         <ScrollView>
             <StackLayout>
                 <!--Standard Search Frame-->
-                <Frame Style="{StaticResource GreenFrame}">
+                <Frame Style="{StaticResource AppThemeFramePadding}">
                     <StackLayout>
                         <Label Text="Question Details" Style="{StaticResource LeftMedium}"/>
-                        <SearchBar Placeholder="{xct:Translate SearchBarPlaceholderText}" Text="{Binding Keyword}" SearchCommand="{Binding SearchCommand}"/>
+                        <SearchBar Placeholder="{xct:Translate SearchBarPlaceholderText}" Text="{Binding Keyword}" 
+                                   Style="{StaticResource GreenSearchBar}" SearchCommand="{Binding SearchCommand}"/>
                         <Label Text="Seach with These Filters?" />
                         <Button Text="Go" Command="{Binding SearchCommand}"/>
                     </StackLayout>
                 </Frame>
                 <!--Answered By Frame-->
-                <Frame Style="{StaticResource GreenFrame}">
+                <Frame Style="{StaticResource AppThemeFramePadding}">
                     <xct:Expander>
                         <xct:Expander.Header>                            
                             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
@@ -95,7 +96,7 @@
                     </xct:Expander>
                 </Frame>
                 <!--Raised By Frame-->
-                <Frame Style="{StaticResource GreenFrame}">
+                <Frame Style="{StaticResource AppThemeFramePadding}">
                     <xct:Expander>
                         <xct:Expander.Header>
                             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
@@ -171,7 +172,7 @@
                     </xct:Expander>
                 </Frame>
                 <!--Written By Frame-->
-                <Frame Style="{StaticResource GreenFrame}">
+                <Frame Style="{StaticResource AppThemeFramePadding}">
                     <xct:Expander>
                         <xct:Expander.Header>
                             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
