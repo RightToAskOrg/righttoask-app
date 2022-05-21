@@ -49,45 +49,47 @@
                     </Grid>
                 </StackLayout>
             </Frame>
-            <Label Text="{Binding Heading1}" Style="{StaticResource Header1}" HorizontalTextAlignment="Center"/>
-            <Label Text="{xct:Translate ReadingPageHeader1}" Style="{StaticResource Header2}" HorizontalTextAlignment="Center"/>
             <!--Questions Scroll View with Floating Draft Button-->
             <Grid RowDefinitions="*,*" ColumnDefinitions="*,*" VerticalOptions="FillAndExpand">
                 <RefreshView Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="2" IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
                     <ScrollView VerticalOptions="FillAndExpand">
-                        <CollectionView x:Name="QuestionList" ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None" 
+                        <StackLayout><!--Heading text moved inside of the scrollview to have it scroll off the page-->
+                            <Label Text="{Binding Heading1}" Style="{StaticResource Header1}" HorizontalTextAlignment="Center"/>
+                            <Label Text="{xct:Translate ReadingPageHeader1}" Style="{StaticResource Header2}" HorizontalTextAlignment="Center"/>
+                            <CollectionView x:Name="QuestionList" ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None" 
                                         SelectedItem="{Binding SelectedQuestion}" VerticalOptions="FillAndExpand">
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate x:DataType="models:Question">
-                                    <SwipeView VerticalOptions="FillAndExpand" BackgroundColor="Transparent">
-                                        <SwipeView.RightItems>
-                                            <SwipeItem Text="Dismiss" IconImageSource="{local:ImageResource RightToAskClient.Images.trash_delete_48.png}" 
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="models:Question">
+                                        <SwipeView VerticalOptions="FillAndExpand" BackgroundColor="Transparent">
+                                            <SwipeView.RightItems>
+                                                <SwipeItem Text="Dismiss" IconImageSource="{local:ImageResource RightToAskClient.Images.trash_delete_48.png}" 
                                                        BackgroundColor="{StaticResource AlertColor}" 
                                                        Command="{Binding Path=BindingContext.RemoveQuestionCommand, Source={x:Reference ReadingPageName}}" 
                                                        CommandParameter="{Binding .}"/>
-                                        </SwipeView.RightItems>
-                                        <!--<SwipeView.LeftItems>
+                                            </SwipeView.RightItems>
+                                            <!--<SwipeView.LeftItems>
                                             <SwipeItem Text="Dismiss" IconImageSource="{local:ImageResource RightToAskClient.Images.trash_delete_48.png}" 
                                                        BackgroundColor="{StaticResource AlertColor}" 
                                                        Command="{Binding Path=BindingContext.RemoveQuestionCommand, Source={x:Reference ReadingPageName}}" 
                                                        CommandParameter="{Binding .}"/>
                                         </SwipeView.LeftItems>-->
-                                        <views:QuestionDisplayCard/>
-                                    </SwipeView>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                            <CollectionView.EmptyView>
-                                <views:EmptyCollectionView/>
-                            </CollectionView.EmptyView>
-                            <CollectionView.EmptyViewTemplate>
-                                <DataTemplate>
-                                    <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                                        <Label Text="{xct:Translate EmptyQuestionCollectionViewString}" Style="{StaticResource HeaderButtonText}" 
+                                            <views:QuestionDisplayCard/>
+                                        </SwipeView>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                                <CollectionView.EmptyView>
+                                    <views:EmptyCollectionView/>
+                                </CollectionView.EmptyView>
+                                <CollectionView.EmptyViewTemplate>
+                                    <DataTemplate>
+                                        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                            <Label Text="{xct:Translate EmptyQuestionCollectionViewString}" Style="{StaticResource HeaderButtonText}" 
                                                VerticalOptions="Start" Margin="0,100,0,0"/>
-                                    </StackLayout>
-                                </DataTemplate>
-                            </CollectionView.EmptyViewTemplate>
-                        </CollectionView>
+                                        </StackLayout>
+                                    </DataTemplate>
+                                </CollectionView.EmptyViewTemplate>
+                            </CollectionView>
+                        </StackLayout>
                     </ScrollView>
                 </RefreshView>
                 <ImageButton Grid.Row="1" Grid.Column="1" VerticalOptions="End" HorizontalOptions="End" Margin="10" 
