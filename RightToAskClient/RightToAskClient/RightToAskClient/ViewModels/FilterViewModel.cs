@@ -100,18 +100,22 @@ namespace RightToAskClient.ViewModels
             MessagingCenter.Subscribe<QuestionViewModel>(this, "UpdateFilters", (sender) =>
             {
                 ReinitData();
+                MessagingCenter.Unsubscribe<QuestionViewModel>(this, "UpdateFilters");
             });
             MessagingCenter.Subscribe<SelectableListViewModel>(this, "UpdateFilters", (sender) =>
             {
                 ReinitData();
+                MessagingCenter.Unsubscribe<SelectableListViewModel>(this, "UpdateFilters");
             });
             MessagingCenter.Subscribe<ExploringPage>(this, "UpdateFilters", (sender) =>
             {
                 ReinitData();
+                MessagingCenter.Unsubscribe<ExploringPage>(this, "UpdateFilters");
             });
             MessagingCenter.Subscribe<ExploringPageWithSearch>(this, "UpdateFilters", (sender) =>
             {
                 ReinitData();
+                MessagingCenter.Unsubscribe<ExploringPageWithSearch>(this, "UpdateFilters");
             });
             /*
             MessagingCenter.Subscribe<ExploringPageWithSearchAndPreSelections>(this, "UpdateFilters", (sender) =>

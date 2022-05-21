@@ -159,15 +159,18 @@ namespace RightToAskClient.ViewModels
             MessagingCenter.Subscribe<RegistrationViewModel>(this, "FromReg1", (sender) =>
             {
                 _launchMPsSelectionPageNext = false;
+                MessagingCenter.Unsubscribe<RegistrationViewModel>(this, "FromReg1");
             });
             // TODO Not sure we ever use this.
             MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionBGoToAskingPageNext", sender =>
             {
                 _optionB = true;
+                MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionBGoToAskingPageNext");
             });
             MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionBAskingNow", sender =>
             {
                 _optionB = true;
+                MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionBAskingNow");
             });
 
             // commands
