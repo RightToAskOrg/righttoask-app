@@ -198,6 +198,12 @@
                 <Setter Property="Margin" Value="0"></Setter>
                 <Setter Property="Padding" Value="0"></Setter>
             </Style>
+            <Style x:Key="QuestionButtonText" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource TextColorGray}"></Setter>
+                <Setter Property="FontSize" Value="Small"></Setter>
+                <Setter Property="VerticalOptions" Value="Center"></Setter>
+                <Setter Property="FontSize" Value="Small"></Setter>
+            </Style>
             <Style x:Key="StagnantColor" TargetType="Label">
                 <Setter Property="TextColor" Value="{StaticResource Primary}"></Setter>
             </Style>
