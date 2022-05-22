@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
@@ -144,6 +145,11 @@ namespace RightToAskClient.ViewModels
             }
             // get questions from the server
             LoadQuestions();
+            if (!App.ReadingContext.DontShowFirstTimeReadingPopup)
+            {
+                var popup = new ReadingPagePopup(this);
+                _ = App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+            }
 
             KeepQuestionButtonCommand = new AsyncCommand(async () =>
             {
