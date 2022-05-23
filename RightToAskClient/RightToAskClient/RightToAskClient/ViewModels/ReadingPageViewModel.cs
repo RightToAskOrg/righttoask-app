@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace RightToAskClient.ViewModels
@@ -32,6 +33,21 @@ namespace RightToAskClient.ViewModels
         {
             get => _showSearchFrame;
             set => SetProperty(ref _showSearchFrame, value);
+        }
+
+        private bool _dontShowFirstTimeReadingPopup = false;
+        public bool DontShowFirstTimeReadingPopup
+        {
+            get => _dontShowFirstTimeReadingPopup;
+            set
+            {
+                var changed = SetProperty(ref _dontShowFirstTimeReadingPopup, value);
+                if (changed)
+                {
+                    Preferences.Set("DontShowFirstTimeReadingPopup", value);
+                    App.ReadingContext.DontShowFirstTimeReadingPopup = value;
+                }
+            }
         }
 
         private string heading1 = string.Empty;
@@ -180,7 +196,7 @@ namespace RightToAskClient.ViewModels
             {
                 ShowSearchFrame = !ShowSearchFrame; // just toggle it
             });
-            ShowFiltersCommand = new AsyncCommand(async() =>
+            ShowFiltersCommand = new AsyncCommand(async () =>
             {
                 await Shell.Current.GoToAsync(nameof(AdvancedSearchFiltersPage));
             });
@@ -190,7 +206,7 @@ namespace RightToAskClient.ViewModels
                 if (!App.ReadingContext.ThisParticipant.RemovedQuestionIDs.Contains(questionToRemove.QuestionId))
                 {
                     App.ReadingContext.ThisParticipant.RemovedQuestionIDs.Add(questionToRemove.QuestionId);
-                }                
+                }
                 QuestionsToDisplay.Remove(questionToRemove);
             });
         }
@@ -225,7 +241,7 @@ namespace RightToAskClient.ViewModels
             {
                 QuestionText = App.ReadingContext.DraftQuestion,
                 QuestionSuggester = (thisParticipant.IsRegistered) ? thisParticipant.RegistrationInfo.uid : "Anonymous user",
-                Filters = App.ReadingContext.Filters, 
+                Filters = App.ReadingContext.Filters,
                 DownVotes = 0,
                 UpVotes = 0
             };
@@ -239,7 +255,7 @@ namespace RightToAskClient.ViewModels
             App.ReadingContext.DraftQuestion = "";
             ShowQuestionFrame = false;
 
-            bool goHome = await App.Current.MainPage.DisplayAlert("Draft discarded", 
+            bool goHome = await App.Current.MainPage.DisplayAlert("Draft discarded",
                AppResources.FocusSupportReport, "Home", "Related questions");
             if (goHome)
             {
@@ -312,28 +328,28 @@ namespace RightToAskClient.ViewModels
                 foreach (QuestionReceiveFromServer serverQuestion in ServerQuestions)
                 {
                     Question temp = new Question(serverQuestion);
-                    
+
                     QuestionsToDisplay.Add(temp);
                 }
                 IsRefreshing = false;
             }
             // after getting the list of questions, remove the ids for dismissed questions, and set the upvoted status of liked ones
-            for(int i = 0; i < App.ReadingContext.ThisParticipant.RemovedQuestionIDs.Count; i++)
+            for (int i = 0; i < App.ReadingContext.ThisParticipant.RemovedQuestionIDs.Count; i++)
             {
                 Question temp = QuestionsToDisplay.ToList()
                     .Where(q => q.QuestionId == App.ReadingContext.ThisParticipant.RemovedQuestionIDs[i])
                     .FirstOrDefault();
-                if(temp != null)
+                if (temp != null)
                 {
                     QuestionsToDisplay.Remove(temp);
                 }
             }
             // set previously upvoted questions
-            foreach(Question q in QuestionsToDisplay)
+            foreach (Question q in QuestionsToDisplay)
             {
-                foreach(string qID in App.ReadingContext.ThisParticipant.UpvotedQuestionIDs)
+                foreach (string qID in App.ReadingContext.ThisParticipant.UpvotedQuestionIDs)
                 {
-                    if(q.QuestionId == qID)
+                    if (q.QuestionId == qID)
                     {
                         q.AlreadyUpvoted = true;
                     }

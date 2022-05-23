@@ -18,7 +18,7 @@
                    Dark={StaticResource TextColorDark}}"/>
                 <StackLayout Orientation="Horizontal">
                     <Label Text="Don't show this again: " VerticalOptions="Center"/>
-                    <CheckBox IsChecked="{Binding DontShowFirstTimeReadingPopup}" x:DataType="models:ReadingContext"/>
+                    <CheckBox IsChecked="{Binding DontShowFirstTimeReadingPopup}"/>
                 </StackLayout>
             </StackLayout>
         </Frame>
