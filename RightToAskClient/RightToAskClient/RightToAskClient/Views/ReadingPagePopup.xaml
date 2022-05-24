@@ -20,6 +20,9 @@
                     <Label Text="Don't show this again: " VerticalOptions="Center"/>
                     <CheckBox IsChecked="{Binding DontShowFirstTimeReadingPopup}"/>
                 </StackLayout>
+                <Grid RowDefinitions="*,*" ColumnDefinitions="*,*">
+                    <Button Grid.Row="1" Grid.Column="1" Text="{xct:Translate OKText}" Clicked="Button_Clicked"/>
+                </Grid>
             </StackLayout>
         </Frame>
     </StackLayout>
