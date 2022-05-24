@@ -154,7 +154,12 @@ namespace RightToAskClient.ViewModels
         private bool _optionB = false;
 
         public string BaseMapURL { get; set; } = "https://www.abc.net.au/res/sites/news-projects/interactive-electorateboundaries-2/5.0.0/?kml=/dat/news/elections/federal/2022/guide/kml/{0}.kml";
-        public string MapURL { get; set; }
+        private string _mapURL;
+        public string MapURL
+        {
+            get => _mapURL;
+            set => SetProperty(ref _mapURL, value);
+        }
         #endregion
 
         // constructor
@@ -166,6 +171,13 @@ namespace RightToAskClient.ViewModels
             ShowKnowElectoratesFrame = false;
             ShowMapFrame = false;
             _launchMPsSelectionPageNext = true;
+
+            if (!string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.CommonwealthElectorate))
+            {
+                ShowMapFrame = true;
+                string electorateString = ConvertElectorateToURLForm(App.ReadingContext.ThisParticipant.CommonwealthElectorate);
+                ShowMapOfElectorate(electorateString);
+            }
 
             MessagingCenter.Subscribe<RegistrationViewModel>(this, "FromReg1", (sender) =>
             {
@@ -323,17 +335,30 @@ namespace RightToAskClient.ViewModels
                     SaveAddress();
                 }
                 ShowSkipButton = false;
-                ShowMapFrame = true;
                 if (!string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.CommonwealthElectorate))
                 {
-                    ShowMapOfElectorate();
+                    ShowMapFrame = true;
+                    ShowKnowElectoratesFrame = false;
+                    ShowAddressStack = false;
+                    string electorateString = ConvertElectorateToURLForm(App.ReadingContext.ThisParticipant.CommonwealthElectorate);
+                    ShowMapOfElectorate(electorateString);
                 }
             }
         }
 
-        private void ShowMapOfElectorate()
+        private string ConvertElectorateToURLForm(string electorate)
         {
-            string electorateURL = string.Format(BaseMapURL, App.ReadingContext.ThisParticipant.CommonwealthElectorate);
+            string part1 = electorate.Substring(0, 1);
+            string part2 = electorate.Substring(1, electorate.Length - 1);
+            string part3 = part1.ToUpper();
+            string part4 = part2.ToLower();
+            string result = part3 + part4;
+            return result;
+        }
+
+        private void ShowMapOfElectorate(string electorateString)
+        {
+            string electorateURL = string.Format(BaseMapURL, electorateString);
             string sydneyTest = string.Format(BaseMapURL, "Sydney");
             MapURL = electorateURL;
         }
