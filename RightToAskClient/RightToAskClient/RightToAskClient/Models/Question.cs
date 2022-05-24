@@ -338,7 +338,6 @@ namespace RightToAskClient.Models
                             ParliamentData.AllAuthorities))
                         {
                             // otherwise, add the authority we just constructed/received
-                            // FIXME This line not working.
                             Filters.SelectedAuthorities.Add(entity.AsAuthority);
                         }
                     }
@@ -375,7 +374,6 @@ namespace RightToAskClient.Models
                     else if (entity.AsMP != null)
                     {
                         // If the MP is one of mine, add it to AskingMPsMine
-                        // FIXME This search also apparently not working.
                         if (!CanFindInListBThenAddToListA<MP>(entity.AsMP,
                                 Filters.SelectedAskingMPsMine, App.ReadingContext.ThisParticipant.MyMPs))
                         {
