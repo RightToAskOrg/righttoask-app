@@ -171,6 +171,12 @@
                 <Setter Property="BorderColor" Value="{StaticResource FrameColor}"></Setter>
                 <Setter Property="Padding" Value="5"></Setter>
             </Style>
+            <Style x:Key="InvertAppThemeFrame" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource WindowBackgroundColorDark}, Dark={StaticResource WindowBackgroundColor}}"></Setter>
+                <Setter Property="CornerRadius" Value="0"></Setter>
+                <Setter Property="BorderColor" Value="{StaticResource FrameColor}"></Setter>
+                <Setter Property="Padding" Value="0"></Setter>
+            </Style>
             <Style x:Key="AppThemeFrame" TargetType="Frame">
                 <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}"></Setter>
                 <Setter Property="CornerRadius" Value="0"></Setter>
@@ -179,6 +185,11 @@
             </Style>
             <Style x:Key="TransparentSwipeView" TargetType="SwipeView">
                 <Setter Property="BackgroundColor" Value="Transparent"></Setter>
+            </Style>
+            <Style x:Key="InvertFrameText" TargetType="Label">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColorDark}, Dark={StaticResource TextColor}}"></Setter>
+                <Setter Property="FontSize" Value="Medium"></Setter>
+                <Setter Property="HorizontalOptions" Value="Start"></Setter>
             </Style>
             <Style x:Key="Header1" TargetType="Label">
                 <Setter Property="TextColor" Value="{StaticResource HeadingTextColor }"></Setter>
