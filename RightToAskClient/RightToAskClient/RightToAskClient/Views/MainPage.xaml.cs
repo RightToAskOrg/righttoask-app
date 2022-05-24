@@ -13,6 +13,7 @@ namespace RightToAskClient.Views
         {
             InitializeComponent();
           
+            // TODO: Remove this before release? Users won't want to see an alert popup on screen like this if they can't do anything about it, right?
             // If we don't have a server public key, then there was something wrong with our initialization file.
             // Although this is not a useful message for users, it's a sufficiently useful message for developers
             // that it's worth producing here.

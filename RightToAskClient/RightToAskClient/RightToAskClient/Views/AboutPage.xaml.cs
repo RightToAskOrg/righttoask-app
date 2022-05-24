@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RightToAskClient.Resx;
+using RightToAskClient.ViewModels;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -19,6 +20,8 @@ namespace RightToAskClient.Views
         public AboutPage()
         {
             InitializeComponent();
+            var vm = (BaseViewModel)BindingContext;
+            vm.PopupLabelText = AppResources.AboutPagePopupText;
         }
 
         protected override bool OnBackButtonPressed()

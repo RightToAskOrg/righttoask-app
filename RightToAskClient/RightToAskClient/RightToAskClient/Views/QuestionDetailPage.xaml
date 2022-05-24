@@ -14,6 +14,8 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
                      IconImageSource="{local:ImageResource RightToAskClient.Images.home4.png}"/>
+        <ToolbarItem Text="{xct:Translate InfoPopupButtonText}" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.help_75.png}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
 	    <ScrollView>
@@ -27,7 +29,6 @@
 			    <Label Text="{Binding Question.QuestionAnswerers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
 			    <StackLayout Orientation="Horizontal">
 			    <Label Text="{xct:Translate AnswererPermissions}" Style="{StaticResource LeftSmall}" />
-			    <!-- FIXME Can't quite figure out how to make these checkboxes part of the BindingContext. -->
 			    <!-- <CheckBox IsChecked="{Binding Question.OthersCanAddAnswerers}" CheckedChanged = "{Binding AnswererPermissionsChangedCommand}" /> -->
                     <CheckBox IsChecked="{Binding Question.OthersCanAddAnswerers}"/>
                     <!--CheckedChanged = "AnswererPermissionsChangedCommandPlaceholder"-->

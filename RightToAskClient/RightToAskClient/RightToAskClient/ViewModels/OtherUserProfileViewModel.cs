@@ -55,6 +55,7 @@ namespace RightToAskClient.ViewModels
             OtherUserState = "Did Not Get User's State";
             OtherUserEmail = "No Email Found";
             ElectoratesDisplayString = "No Electorates Found";
+            PopupLabelText = AppResources.OtherUserProfilePopupText;
 
             // populate fields based on passsed in user
             MessagingCenter.Subscribe<QuestionViewModel, ServerUser>(this, "OtherUser", (sender, arg) =>

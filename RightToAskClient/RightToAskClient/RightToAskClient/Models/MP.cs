@@ -70,6 +70,16 @@ namespace RightToAskClient.Models
                    && first_name == other.first_name
                    && electorate.Equals(other.electorate);
         }
+        
+        // First names can be complicated, so call them the same MP if they have
+        // the same surname and the same electorate.
+        public override bool DataEquals(object other)
+        {
+            var mp = other as MP;
+            return (mp != null) && surname == mp.surname
+                // && first_name == mp.first_name
+                && electorate.Equals(mp.electorate);
+        }
 
         public override string ToString()
         {

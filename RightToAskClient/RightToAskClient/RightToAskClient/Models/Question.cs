@@ -395,15 +395,15 @@ namespace RightToAskClient.Models
         // such as MP in which the equality operator is true if identifying fields (but not necessarily
         // all fields) are equal.
         // Returns true if the item was found
-        private bool CanFindInListBThenAddToListA<T>(T item, IEnumerable<T> listA, IEnumerable<T> listB)
+        private bool CanFindInListBThenAddToListA<T>(T item, List<T> listA, ObservableCollection<T> listB)  where T: Entity
         {
-            T possibleItem = listB.ToList().Find(t => t != null && t.Equals(item));
+            T possibleItem = listB.ToList().Find(t => t != null && t.DataEquals(item));
             if (possibleItem is null)
             {
                 return false;
             }
             
-            listA.ToList().Add(possibleItem);
+            listA.Add(possibleItem);
             return true;
         }
     }

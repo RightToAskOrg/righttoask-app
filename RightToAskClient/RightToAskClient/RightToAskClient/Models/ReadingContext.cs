@@ -1,10 +1,11 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace RightToAskClient.Models
 {
-	public class ReadingContext : INotifyPropertyChanged
+	public class ReadingContext : ObservableObject
 	{
 		private bool _isReadingOnly;
 		public bool IsReadingOnly 
@@ -17,8 +18,14 @@ namespace RightToAskClient.Models
 			}
 		}
 
+		private bool _dontShowFirstTimeReadingPopup = false;
+		public bool DontShowFirstTimeReadingPopup
+		{
+			get => _dontShowFirstTimeReadingPopup;
+			set => SetProperty(ref _dontShowFirstTimeReadingPopup, value);
+		}
 
-        public event PropertyChangedEventHandler? PropertyChanged;
+		public event PropertyChangedEventHandler? PropertyChanged;
 
         public ReadingContext()
         {

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using RightToAskClient.Models;
+using RightToAskClient.Resx;
 using RightToAskClient.Views;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
@@ -69,8 +70,8 @@ namespace RightToAskClient.ViewModels
 
 		// TODO These are just copy-pasted from the old code-behind. Might need a bit more thought.
 		public bool CameFromReg2Page = false;
-		public bool GoToReadingPageNext = false;
-		public bool OptionB = false;
+		public bool GoToReadingPageFinally = false;
+		public bool GoToAskingPageNext = false;
 
 
 
@@ -82,7 +83,8 @@ namespace RightToAskClient.ViewModels
 								authorityLists.SelectedEntities);
 
 			_titleText = message;
-            DoneButtonCommand = new AsyncCommand(async () =>
+			PopupLabelText = AppResources.SelectableListAuthoritiesPopupText;
+			DoneButtonCommand = new AsyncCommand(async () =>
             {
                 DoneButton_OnClicked(
 	                () => UpdateSelectedList<Authority>(authorityLists)       
@@ -98,7 +100,8 @@ namespace RightToAskClient.ViewModels
 			SelectableEntities = wrapInTags(new ObservableCollection<Entity>(mpLists.AllEntities),  mpLists.SelectedEntities);
 			
 			_titleText = message;
-            DoneButtonCommand = new AsyncCommand(async () =>
+			PopupLabelText = AppResources.SelectableListMPsPopupText;
+			DoneButtonCommand = new AsyncCommand(async () =>
             {
                 DoneButton_OnClicked(
 	                () => UpdateSelectedList<MP>(mpLists)       
@@ -136,7 +139,8 @@ namespace RightToAskClient.ViewModels
 	        }
 	        
 			_titleText = message;
-            DoneButtonCommand = new AsyncCommand(async () =>
+			PopupLabelText = AppResources.SelectableListMPsPopupText;
+			DoneButtonCommand = new AsyncCommand(async () =>
             {
                 DoneButton_OnClicked(
 	                () => UpdateSelectedList<MP>(mpLists)       
@@ -157,15 +161,20 @@ namespace RightToAskClient.ViewModels
 				}
 				MessagingCenter.Unsubscribe<FindMPsViewModel, bool>(this, "PreviousPage");
 			});
+			MessagingCenter.Subscribe<FindMPsViewModel>(this, "GoToReadingPage", (sender) =>
+			{
+				GoToReadingPageFinally = true;
+				MessagingCenter.Unsubscribe<FindMPsViewModel>(this, "GoToReadingPage");
+			});
 			MessagingCenter.Subscribe<QuestionViewModel>(this, "GoToReadingPage", (sender) =>
 			{
-				GoToReadingPageNext = true;
+				GoToReadingPageFinally = true;
 				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "GoToReadingPage");
 			});
-			MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionB", (sender) =>
+			MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionBGoToAskingPageNext", (sender) =>
 			{
-				OptionB = true;
-				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionB");
+				GoToAskingPageNext = true;
+				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionBGoToAskingPageNext");
 			});
 		}
 
@@ -195,15 +204,17 @@ namespace RightToAskClient.ViewModels
 		private async void DoneButton_OnClicked(Action updateAction)
 		{
 			updateAction();
-			if (OptionB)
+			// Option B. We've finished choosing who should answer it, so now find out who should ask it.
+			if (GoToAskingPageNext)
             {
 				await Shell.Current.GoToAsync(nameof(QuestionAskerPage));
             }
-			else if (GoToReadingPageNext && !OptionB)
+			// Either Option A, or Option B and we've finished finding out who should ask it.
+			else if (GoToReadingPageFinally)
 			{
-				//SelectedOptionA = false;
 				await Shell.Current.GoToAsync(nameof(ReadingPage));
 			}
+			// For Advanced Search outside the main flow. Pop back to wherever we came from (i.e. the advance search page).
             else
             {
 				await Shell.Current.Navigation.PopAsync();

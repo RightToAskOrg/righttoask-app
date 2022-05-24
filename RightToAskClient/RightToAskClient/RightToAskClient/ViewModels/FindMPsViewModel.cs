@@ -30,6 +30,12 @@ namespace RightToAskClient.ViewModels
             get => _showFindMPsButton;
             set => SetProperty(ref _showFindMPsButton, value);
         }
+        private bool _showMapFrame = false;
+        public bool ShowMapFrame
+        {
+            get => _showMapFrame;
+            set => SetProperty(ref _showMapFrame, value);
+        }
         private bool _showSkipButton = false;
         public bool ShowSkipButton
         {
@@ -144,50 +150,88 @@ namespace RightToAskClient.ViewModels
             get => _doneButtonText;
             set => SetProperty(ref _doneButtonText, value);
         }
-        private bool _launchMPsSelectionPageNext;
+        private bool _launchMPsSelectionPageNext = false;
+        private bool _optionB = false;
+
+        private string _mapURL = "";
+        public string MapURL
+        {
+            get => _mapURL;
+            private set => SetProperty(ref _mapURL, value);
+        }
         #endregion
 
         // constructor
         public FindMPsViewModel()
         {
+            PopupLabelText = AppResources.FindMPsPopupText;
             ShowSkipButton = false;
             ShowAddressStack = false;
             ShowKnowElectoratesFrame = false;
-            _launchMPsSelectionPageNext = true;            
+            ShowMapFrame = false;
+            _launchMPsSelectionPageNext = true;
+
+            if (!string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.CommonwealthElectorate))
+            {
+                ShowMapFrame = true;
+                string electorateString = ConvertElectorateToURLForm(App.ReadingContext.ThisParticipant.CommonwealthElectorate);
+                ShowMapOfElectorate(electorateString);
+            }
 
             MessagingCenter.Subscribe<RegistrationViewModel>(this, "FromReg1", (sender) =>
             {
                 _launchMPsSelectionPageNext = false;
+                MessagingCenter.Unsubscribe<RegistrationViewModel>(this, "FromReg1");
+            });
+            // TODO Not sure we ever use this.
+            MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionBGoToAskingPageNext", sender =>
+            {
+                _optionB = true;
+                MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionBGoToAskingPageNext");
+            });
+            MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionBAskingNow", sender =>
+            {
+                _optionB = true;
+                MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionBAskingNow");
             });
 
             // commands
             MPsButtonCommand = new AsyncCommand(async () =>
             {
-                // FIXME I'm pretty sure this is where our navigation bug is.
+                SelectableListPage mpsSearchableListPage;
                 // We might get here via Option A from the flow options page, in which case
                 //    - initialize the MP SearchableListPage with AnsweringMPsListsMine and
                 //    - after that, navigate forward to a ReadingPage;
                 // we might get here via Option B from the QuestionAskerPage, in which case
                 //    - initialize the MP SearchableListPage with AskingMPsListsMine and
                 //    - after that, navigate forward to a ReadingPage;
-                // TODO we may need to fix both keeping track of the option and also the forward navigation.
                 if (_launchMPsSelectionPageNext)
                 {
-                    // If we've come here via Option A from the flow options page, do this:
-                    string message = "These are your MPs.  Select the one(s) who should answer the question";
-                    var mpsSearchableListPage = new SelectableListPage(App.ReadingContext.Filters.AnsweringMPsListsMine, message, true);
-                    
-                    // If we've come here via Option B from the QuestionAskerPage, do this:
-                    // string message = "These are your MPs.  Select the one(s) who should raise the question in Parliament";
-                    // var mpsSearchableListPage = new SelectableListPage(App.ReadingContext.Filters.AnsweringMPsListsMine, message, true);
-                    
-                    
-                    // TODO fix up navigation options.
+                    // Option B - our MP is asking the question
+                    if (_optionB)
+                    {
+                        string message =
+                            "These are your MPs.  Select the one(s) who should raise the question in Parliament";
+                        mpsSearchableListPage = new SelectableListPage(App.ReadingContext.Filters.AskingMPsListsMine,
+                            message, true);
+                    }
+                    // Option A - our MP should be answering the question.
+                    else
+                    {
+                        string message = "These are your MPs.  Select the one(s) who should answer the question";
+                        mpsSearchableListPage = new SelectableListPage(App.ReadingContext.Filters.AnsweringMPsListsMine,
+                            message, true);
+                    }
+
+                    MessagingCenter.Send(this, "GoToReadingPage");
+
                     await App.Current.MainPage.Navigation.PushAsync(mpsSearchableListPage);
                     _launchMPsSelectionPageNext = false;
+                    _optionB = false;
                     DoneButtonText = AppResources.DoneButtonText;
-                    MessagingCenter.Send<FindMPsViewModel, bool>(this, "PreviousPage", true);
+                    // MessagingCenter.Send<FindMPsViewModel, bool>(this, "PreviousPage", true);
                 }
+                // We are here from the registration page - no need to select any MPs
                 else
                 {
                     await App.Current.MainPage.Navigation.PopAsync();
@@ -290,7 +334,31 @@ namespace RightToAskClient.ViewModels
                     SaveAddress();
                 }
                 ShowSkipButton = false;
+                if (!string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.CommonwealthElectorate))
+                {
+                    ShowMapFrame = true;
+                    ShowKnowElectoratesFrame = false;
+                    ShowAddressStack = false;
+                    string electorateString = ConvertElectorateToURLForm(App.ReadingContext.ThisParticipant.CommonwealthElectorate);
+                    ShowMapOfElectorate(electorateString);
+                }
             }
+        }
+
+        private string ConvertElectorateToURLForm(string electorate)
+        {
+            string part1 = electorate.Substring(0, 1);
+            string part2 = electorate.Substring(1, electorate.Length - 1);
+            string part3 = part1.ToUpper();
+            string part4 = part2.ToLower();
+            string result = part3 + part4;
+            return result;
+        }
+
+        private void ShowMapOfElectorate(string electorateString)
+        {
+            string electorateURL = string.Format(Constants.MapBaseURL, electorateString);
+            MapURL = electorateURL;
         }
 
         private void AddElectorates(GeoscapeAddressFeature addressData)
