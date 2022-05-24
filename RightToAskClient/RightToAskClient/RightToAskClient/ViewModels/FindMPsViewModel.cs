@@ -153,12 +153,11 @@ namespace RightToAskClient.ViewModels
         private bool _launchMPsSelectionPageNext = false;
         private bool _optionB = false;
 
-        public string BaseMapURL { get; set; } = "https://www.abc.net.au/res/sites/news-projects/interactive-electorateboundaries-2/5.0.0/?kml=/dat/news/elections/federal/2022/guide/kml/{0}.kml";
-        private string _mapURL;
+        private string _mapURL = "";
         public string MapURL
         {
             get => _mapURL;
-            set => SetProperty(ref _mapURL, value);
+            private set => SetProperty(ref _mapURL, value);
         }
         #endregion
 
@@ -358,8 +357,7 @@ namespace RightToAskClient.ViewModels
 
         private void ShowMapOfElectorate(string electorateString)
         {
-            string electorateURL = string.Format(BaseMapURL, electorateString);
-            string sydneyTest = string.Format(BaseMapURL, "Sydney");
+            string electorateURL = string.Format(Constants.MapBaseURL, electorateString);
             MapURL = electorateURL;
         }
 
