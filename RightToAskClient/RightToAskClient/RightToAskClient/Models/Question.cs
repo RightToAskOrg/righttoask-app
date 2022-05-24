@@ -338,6 +338,7 @@ namespace RightToAskClient.Models
                             ParliamentData.AllAuthorities))
                         {
                             // otherwise, add the authority we just constructed/received
+                            // FIXME This line not working.
                             Filters.SelectedAuthorities.Add(entity.AsAuthority);
                         }
                     }
@@ -374,6 +375,7 @@ namespace RightToAskClient.Models
                     else if (entity.AsMP != null)
                     {
                         // If the MP is one of mine, add it to AskingMPsMine
+                        // FIXME This search also apparently not working.
                         if (!CanFindInListBThenAddToListA<MP>(entity.AsMP,
                                 Filters.SelectedAskingMPsMine, App.ReadingContext.ThisParticipant.MyMPs))
                         {
@@ -395,15 +397,15 @@ namespace RightToAskClient.Models
         // such as MP in which the equality operator is true if identifying fields (but not necessarily
         // all fields) are equal.
         // Returns true if the item was found
-        private bool CanFindInListBThenAddToListA<T>(T item, IEnumerable<T> listA, IEnumerable<T> listB)
+        private bool CanFindInListBThenAddToListA<T>(T item, List<T> listA, ObservableCollection<T> listB)  where T: Entity
         {
-            T possibleItem = listB.ToList().Find(t => t != null && t.Equals(item));
+            T possibleItem = listB.ToList().Find(t => t != null && t.DataEquals(item));
             if (possibleItem is null)
             {
                 return false;
             }
             
-            listA.ToList().Add(possibleItem);
+            listA.Add(possibleItem);
             return true;
         }
     }

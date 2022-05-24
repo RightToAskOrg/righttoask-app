@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace RightToAskClient.Models
@@ -25,9 +26,9 @@ namespace RightToAskClient.Models
 		{
 			get => _authorityLists;
 		}
-		public ObservableCollection<Authority> SelectedAuthorities
+		public List<Authority> SelectedAuthorities
 		{
-			get => new ObservableCollection<Authority>(_authorityLists.SelectedEntities);
+			get => _authorityLists.SelectedEntities as List<Authority> ?? new List<Authority>();
 			set => _authorityLists.SelectedEntities = value;
 		}
 		
@@ -37,9 +38,9 @@ namespace RightToAskClient.Models
 		{
 			get => _answeringMPsListMine;
 		}
-		public ObservableCollection<MP> SelectedAnsweringMPsMine
+		public List<MP> SelectedAnsweringMPsMine
 		{
-			get => new ObservableCollection<MP>(_answeringMPsListMine.SelectedEntities);
+			get => _answeringMPsListMine.SelectedEntities as List<MP> ?? new List<MP>();
 			set
 			{
 				_answeringMPsListMine.SelectedEntities = value;
@@ -53,9 +54,9 @@ namespace RightToAskClient.Models
 		{
 			get => _askingMPsListMine;
 		}
-		public ObservableCollection<MP> SelectedAskingMPsMine
+		public List<MP> SelectedAskingMPsMine
 		{
-			get =>  new ObservableCollection<MP>(_askingMPsListMine.SelectedEntities);
+			get => _askingMPsListMine.SelectedEntities as List<MP> ?? new List<MP>();
 			set
 			{
 				_askingMPsListMine.SelectedEntities = value;
@@ -69,9 +70,9 @@ namespace RightToAskClient.Models
 		{
 			get => _answeringMPsListNotMine;
 		}
-		public ObservableCollection<MP> SelectedAnsweringMPsNotMine
+		public List<MP> SelectedAnsweringMPsNotMine
 		{
-			get => new ObservableCollection<MP>(_answeringMPsListNotMine.SelectedEntities);
+			get => _answeringMPsListNotMine.SelectedEntities as List<MP> ?? new List<MP>();
 			set
 			{
 				_answeringMPsListNotMine.SelectedEntities = value;
@@ -85,9 +86,9 @@ namespace RightToAskClient.Models
 		{
 			get => _askingMPsListNotMine;
 		}
-		public ObservableCollection<MP> SelectedAskingMPsNotMine
+		public List<MP> SelectedAskingMPsNotMine
 		{
-			get =>  new ObservableCollection<MP>(_askingMPsListNotMine.SelectedEntities);
+			get =>  _askingMPsListNotMine.SelectedEntities as List<MP> ?? new List<MP>();
 			set
 			{
 				_askingMPsListNotMine.SelectedEntities = value;

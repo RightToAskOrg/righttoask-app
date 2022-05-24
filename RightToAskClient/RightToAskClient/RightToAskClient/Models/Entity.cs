@@ -11,7 +11,8 @@ namespace RightToAskClient.Models
     {
         public abstract string GetName();
         public abstract string ShortestName { get; }
-        
+
+        public abstract bool DataEquals(object obj);
         public Tag<Entity> WrapInTag(bool selected = false)
         {
             return new Tag<Entity>(this, selected);
