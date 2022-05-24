@@ -70,6 +70,9 @@ namespace RightToAskClient
             {
                 ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsIndex = stateID;
             }
+
+            // set popup bool
+            ReadingContext.DontShowFirstTimeReadingPopup = Preferences.Get("DontShowFirstTimeReadingPopup", false);
         }
 
         protected override void OnSleep()
