@@ -21,7 +21,7 @@
     </ContentPage.BindingContext>
         <ContentPage.Content>
 	    <ScrollView Margin="0" Padding="0">
-            <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" Spacing="0" BackgroundColor="Yellow">
+            <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" Spacing="0">
                 <Label Text="{xct:Translate MPsHeaderText1}" FontSize="Medium" HorizontalOptions="Center" />
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
                     <Label Text="{xct:Translate MPsHeaderText2}" FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center" />
