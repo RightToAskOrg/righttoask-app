@@ -169,7 +169,7 @@
     <value>Direct my question</value>
   </data>
   <data name="DiscardDraftButtonText" xml:space="preserve">
-    <value>Bin - already here!</value>
+    <value>Discard</value>
   </data>
   <data name="DisplayNameHeaderText" xml:space="preserve">
     <value>Display Name</value>
@@ -235,7 +235,7 @@
     <value>Home</value>
   </data>
   <data name="KeepQuestionButtonText" xml:space="preserve">
-    <value>Keep for upload</value>
+    <value>Publish</value>
   </data>
   <data name="KeywordEntryPlaceholderText" xml:space="preserve">
     <value>Keyword</value>
