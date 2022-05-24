@@ -433,10 +433,6 @@ namespace RightToAskClient.Resx {
             }
         }
         
-        /// <summary>
-        ///   Looks up a localized string similar to Read and upvote questions.
-        /// </summary>
-        internal static string MainPageSubheader1Text {
         internal static string MPAnswerFilterLabelText {
             get {
                 return ResourceManager.GetString("MPAnswerFilterLabelText", resourceCulture);
@@ -532,7 +528,10 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("OtherMPRaiseFilterLabelText", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0}&apos;s Profile.
+        /// </summary>
         internal static string OtherUserProfileTitle {
             get {
                 return ResourceManager.GetString("OtherUserProfileTitle", resourceCulture);
@@ -556,8 +555,12 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("PublishQuestionButtonText", resourceCulture);
             }
         }
-        
-        internal static string QuestionDetailsTitle {
+
+        /// <summary>
+        ///   Looks up a localized string similar to Question Details.
+        /// </summary>
+        internal static string QuestionDetailsTitle
+        {
             get {
                 return ResourceManager.GetString("QuestionDetailsTitle", resourceCulture);
             }
@@ -628,8 +631,12 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("SeeQuestionsButtonText", resourceCulture);
             }
         }
-        
-        internal static string SelectButtonText {
+
+        /// <summary>
+        ///   Looks up a localized string similar to Select.
+        /// </summary>
+        internal static string SelectButtonText
+        {
             get {
                 return ResourceManager.GetString("SelectButtonText", resourceCulture);
             }
@@ -653,7 +660,7 @@ namespace RightToAskClient.Resx {
             }
         }
         
-        internal static string ServerConfigErrorText {
+
         /// <summary>
         ///   Looks up a localized string similar to OtherUserProfilePopupText.
         /// </summary>
@@ -662,11 +669,9 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("OtherUserProfilePopupText", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0}&apos;s Profile.
-        /// </summary>
-        internal static string OtherUserProfileTitle {
+
+        internal static string ServerConfigErrorText
+        {
             get {
                 return ResourceManager.GetString("ServerConfigErrorText", resourceCulture);
             }
@@ -708,10 +713,6 @@ namespace RightToAskClient.Resx {
             }
         }
         
-        /// <summary>
-        ///   Looks up a localized string similar to Question Details.
-        /// </summary>
-        internal static string QuestionDetailsTitle {
         internal static string StateHeaderText {
             get {
                 return ResourceManager.GetString("StateHeaderText", resourceCulture);
@@ -727,10 +728,6 @@ namespace RightToAskClient.Resx {
             }
         }
         
-        /// <summary>
-        ///   Looks up a localized string similar to Question was edited successfully..
-        /// </summary>
-        internal static string QuestionEditSuccessfulPopupText {
         internal static string Step2BodyText1 {
             get {
                 return ResourceManager.GetString("Step2BodyText1", resourceCulture);
@@ -856,14 +853,22 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("ViewOtherUserProfile", resourceCulture);
             }
         }
-        
-        internal static string WebNavigationWarning {
+
+        /// <summary>
+        ///   Looks up a localized string similar to This link is outside Right To Ask .
+        /// </summary>
+        internal static string WebNavigationWarning
+        {
             get {
                 return ResourceManager.GetString("WebNavigationWarning", resourceCulture);
             }
         }
-        
-        internal static string WebNavigationRequest {
+
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to open it in a web browser?.
+        /// </summary>
+        internal static string WebNavigationRequest
+        {
             get {
                 return ResourceManager.GetString("WebNavigationRequest", resourceCulture);
             }
@@ -880,8 +885,12 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("EditQuestionButtonText", resourceCulture);
             }
         }
-        
-        internal static string QuestionEditSuccessfulPopupText {
+
+        /// <summary>
+        ///   Looks up a localized string similar to Question was edited successfully..
+        /// </summary>
+        internal static string QuestionEditSuccessfulPopupText
+        {
             get {
                 return ResourceManager.GetString("QuestionEditSuccessfulPopupText", resourceCulture);
             }
@@ -923,10 +932,6 @@ namespace RightToAskClient.Resx {
             }
         }
         
-        /// <summary>
-        ///   Looks up a localized string similar to Select.
-        /// </summary>
-        internal static string SelectButtonText {
         internal static string OptionAText2 {
             get {
                 return ResourceManager.GetString("OptionAText2", resourceCulture);
@@ -986,8 +991,12 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("DraftImageAccessibilityNameText", resourceCulture);
             }
         }
-        
-        internal static string MainPageSubheader1Text {
+
+        /// <summary>
+        ///   Looks up a localized string similar to Read and upvote questions.
+        /// </summary>
+        internal static string MainPageSubheader1Text
+        {
             get {
                 return ResourceManager.GetString("MainPageSubheader1Text", resourceCulture);
             }
@@ -1107,24 +1116,14 @@ namespace RightToAskClient.Resx {
             }
         }
         
-        /// <summary>
-        ///   Looks up a localized string similar to Do you want to open it in a web browser?.
-        /// </summary>
-        internal static string WebNavigationRequest {
         internal static string QuestionFrameFlagButtonAccessibilityTextRed {
             get {
-                return ResourceManager.GetString("WebNavigationRequest", resourceCulture);
                 return ResourceManager.GetString("QuestionFrameFlagButtonAccessibilityTextRed", resourceCulture);
             }
         }
         
-        /// <summary>
-        ///   Looks up a localized string similar to This link is outside Right To Ask .
-        /// </summary>
-        internal static string WebNavigationWarning {
         internal static string QuestionFrameShareButtonAccessibilityName {
             get {
-                return ResourceManager.GetString("WebNavigationWarning", resourceCulture);
                 return ResourceManager.GetString("QuestionFrameShareButtonAccessibilityName", resourceCulture);
             }
         }
