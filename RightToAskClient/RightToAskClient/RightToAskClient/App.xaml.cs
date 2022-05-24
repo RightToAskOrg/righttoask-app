@@ -35,7 +35,7 @@ namespace RightToAskClient
 
         protected override void OnStart()
         {
-            //ResetAppData(); // Toggle this line in and out as needed instead of resetting the emulator every time
+            // ResetAppData(); // Toggle this line in and out as needed instead of resetting the emulator every time
             ParliamentData.MPAndOtherData.TryInit();
             
             // get account info from preferences

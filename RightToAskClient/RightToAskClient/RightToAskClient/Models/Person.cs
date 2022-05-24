@@ -138,6 +138,11 @@ namespace RightToAskClient.Models
 		{
 			ChambersRepresentedIn = ParliamentData.FindChambers(state);
 		}
+        public override bool DataEquals(object other)
+        {
+            var person = other as Person;
+            return (person != null) && RegistrationInfo.uid == person.RegistrationInfo.uid;
+        }
     }
 
 }
