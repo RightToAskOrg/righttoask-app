@@ -20,8 +20,8 @@
         <vm:FindMPsViewModel/>
     </ContentPage.BindingContext>
         <ContentPage.Content>
-	    <ScrollView>
-            <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
+	    <ScrollView Margin="0" Padding="0">
+            <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" Spacing="0" BackgroundColor="Yellow">
                 <Label Text="{xct:Translate MPsHeaderText1}" FontSize="Medium" HorizontalOptions="Center" />
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
                     <Label Text="{xct:Translate MPsHeaderText2}" FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center" />
@@ -60,7 +60,6 @@
                         </Picker>
                     </StackLayout>
                 </Frame>
-
                 <Frame Style="{StaticResource SubtleFrame}" IsVisible="{Binding ShowAddressStack}">
                     <StackLayout Margin="20">
                         <Label Text="{xct:Translate StreetHeaderText}" Style="{StaticResource LeftFrameText}"/>
@@ -78,6 +77,11 @@
                              					    your MP is more likely to listen to you if you tell them your address. RightToAsk does not learn 
                              					    your address. Your address will not leave your phone unless you decide to share it with your MP" />
 			            -->
+                    </StackLayout>
+                </Frame>
+                <Frame Margin="0" Padding="0" BackgroundColor="Green" IsVisible="{Binding ShowMapFrame}">
+                    <StackLayout Margin="0" Padding="0" Spacing="0" BackgroundColor="red">
+                        <WebView Source="{Binding MapURL}" WidthRequest="300" HeightRequest="400" Margin="0" BackgroundColor="Purple"/>
                     </StackLayout>
                 </Frame>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">

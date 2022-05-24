@@ -30,6 +30,12 @@ namespace RightToAskClient.ViewModels
             get => _showFindMPsButton;
             set => SetProperty(ref _showFindMPsButton, value);
         }
+        private bool _showMapFrame = false;
+        public bool ShowMapFrame
+        {
+            get => _showMapFrame;
+            set => SetProperty(ref _showMapFrame, value);
+        }
         private bool _showSkipButton = false;
         public bool ShowSkipButton
         {
@@ -146,6 +152,9 @@ namespace RightToAskClient.ViewModels
         }
         private bool _launchMPsSelectionPageNext = false;
         private bool _optionB = false;
+
+        public string BaseMapURL { get; set; } = "https://www.abc.net.au/res/sites/news-projects/interactive-electorateboundaries-2/5.0.0/?kml=/dat/news/elections/federal/2022/guide/kml/{0}.kml";
+        public string MapURL { get; set; }
         #endregion
 
         // constructor
@@ -155,6 +164,7 @@ namespace RightToAskClient.ViewModels
             ShowSkipButton = false;
             ShowAddressStack = false;
             ShowKnowElectoratesFrame = false;
+            ShowMapFrame = false;
             _launchMPsSelectionPageNext = true;
 
             MessagingCenter.Subscribe<RegistrationViewModel>(this, "FromReg1", (sender) =>
@@ -313,7 +323,19 @@ namespace RightToAskClient.ViewModels
                     SaveAddress();
                 }
                 ShowSkipButton = false;
+                ShowMapFrame = true;
+                if (!string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.CommonwealthElectorate))
+                {
+                    ShowMapOfElectorate();
+                }
             }
+        }
+
+        private void ShowMapOfElectorate()
+        {
+            string electorateURL = string.Format(BaseMapURL, App.ReadingContext.ThisParticipant.CommonwealthElectorate);
+            string sydneyTest = string.Format(BaseMapURL, "Sydney");
+            MapURL = electorateURL;
         }
 
         private void AddElectorates(GeoscapeAddressFeature addressData)
