@@ -35,6 +35,22 @@ namespace RightToAskClient.Views
         public RegisterPage2()
         {
             InitializeComponent();
+//            testWebView.Source = "https://www.abc.net.au/res/sites/news-projects/interactive-electorateboundaries-2/5.0.0/?kml=/dat/news/elections/federal/2022/guide/kml/Sydney.kml";
+//            var htmlSource = new HtmlWebViewSource();
+//            htmlSource.Html = @"<div class=""map maplibregl-map mapboxgl - map"">
+//<div class=""maplibregl - canvas - container mapboxgl - canvas - container maplibregl - interactive mapboxgl - interactive maplibregl - touch - drag - pan mapboxgl - touch - drag - pan maplibregl - touch - zoom - rotate mapboxgl - touch - zoom - rotate"">
+//<canvas class=""maplibregl - canvas mapboxgl - canvas"" tabindex=""0"" aria-label=""Map"" role=""region"" width=""150"" height=""492"" style=""width: 150px; height: 492px; ""></canvas></div><div class=""maplibregl - control - container mapboxgl - control - container"">
+//<div class=""maplibregl - ctrl - top - left mapboxgl - ctrl - top - left""></div><div class=""maplibregl - ctrl - top - right mapboxgl - ctrl - top - right""></div><div class=""maplibregl - ctrl - bottom - left mapboxgl - ctrl - bottom - left"">
+//<div class=""maplibregl - ctrl maplibregl - ctrl - group mapboxgl - ctrl mapboxgl - ctrl - group""><button class=""maplibregl - ctrl - zoom -in mapboxgl - ctrl - zoom -in"" type=""button"" title=""Zoom in"" aria-label=""Zoom in"" aria-disabled=""false"">
+//<span class=""maplibregl - ctrl - icon mapboxgl - ctrl - icon"" aria-hidden=""true""></span></button><button class=""maplibregl - ctrl - zoom -out mapboxgl - ctrl - zoom -out"" type=""button"" title=""Zoom out"" aria-label=""Zoom out"" aria-disabled=""false"">
+//<span class=""maplibregl - ctrl - icon mapboxgl - ctrl - icon"" aria-hidden=""true""></span></button><button class=""maplibregl - ctrl - compass mapboxgl - ctrl - compass"" type=""button"" title=""Reset bearing to north"" aria-label=""Reset bearing to north"">
+//<span class=""maplibregl - ctrl - icon mapboxgl - ctrl - icon"" aria-hidden=""true"" style=""transform: rotate(0deg); ""></span></button></div><div class=""maplibregl - ctrl mapboxgl - ctrl"" style=""display: none; "">
+//<a class=""maplibregl - ctrl - logo mapboxgl - ctrl - logo maplibregl - compact mapboxgl - compact"" target=""_blank"" rel=""noopener nofollow"" href=""https://maplibre.org/"" aria-label=""Mapbox logo"">
+//</a></div></div><div class=""maplibregl-ctrl-bottom-right mapboxgl-ctrl-bottom-right""><div class=""maplibregl-ctrl maplibregl-ctrl-attrib mapboxgl-ctrl mapboxgl-ctrl-attrib maplibregl-compact mapboxgl-compact"">
+//<button class=""maplibregl-ctrl-attrib-button mapboxgl-ctrl-attrib-button"" type=""button"" title=""Toggle attribution"" aria-label=""Toggle attribution""></button>
+//<div class=""maplibregl-ctrl-attrib-inner mapboxgl-ctrl-attrib-inner"" role=""list"">© ABC | <a href=""https://www.openmaptiles.org/"" target=""_blank"">© OpenMapTiles</a> 
+//<a href=""https://www.openstreetmap.org/copyright"" target=""_blank"">© OpenStreetMap contributors</a></div></div></div></div></div>";
+//            testWebView.Source = htmlSource.Html;
         }
     }
 }

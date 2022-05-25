@@ -79,11 +79,12 @@
 			            -->
                     </StackLayout>
                 </Frame>
+                <!--<WebView x:Name="testWebView" WidthRequest="300" HeightRequest="400" Margin="0" BackgroundColor="Pink"/>-->
                 <Frame Margin="0" Padding="0" IsVisible="{Binding ShowMapFrame}">                    
                     <StackLayout Margin="0" Padding="0" Spacing="0">
                         <!--Webview has default padding in its underlying html that is proving difficult to remove-->
                         <!--<Label Text="Your Currently Selected Electorate: " Padding="0" Margin="0"/>-->
-                        <WebView Source="{Binding MapURL}" WidthRequest="300" HeightRequest="400" Margin="0"/>
+                        <WebView Source="{Binding MapURL}" MinimumWidthRequest="500" HeightRequest="400" Margin="0"/>
                     </StackLayout>
                 </Frame>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
