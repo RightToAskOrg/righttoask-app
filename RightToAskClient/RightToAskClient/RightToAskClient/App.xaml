@@ -97,6 +97,12 @@
                 <Setter Property="CornerRadius" Value="20"></Setter>
                 <Setter Property="HeightRequest" Value="40"></Setter>
             </Style>
+            <Style x:Key="TallGreenButton" TargetType="Button">
+                <Setter Property="TextColor" Value="White"></Setter>
+                <Setter Property="BackgroundColor" Value="{StaticResource ButtonColor}"></Setter>
+                <Setter Property="CornerRadius" Value="10"></Setter>
+                <Setter Property="HeightRequest" Value="60"></Setter>
+            </Style>
             <Style x:Key="RedButton" TargetType="Button" ApplyToDerivedTypes="True">
                 <Setter Property="BackgroundColor" Value="{StaticResource AlertColor}"></Setter>
             </Style>

@@ -615,4 +615,13 @@
   <data name="SelectableListMPsPopupText" xml:space="preserve">
     <value>SelectableListMPsPopupText</value>
   </data>
+  <data name="AccountUpdateSuccessResponseText" xml:space="preserve">
+    <value>Your account was successfully updated!</value>
+  </data>
+  <data name="NoAccountChangesDetectedAlertText" xml:space="preserve">
+    <value>No Changes were made and thus there are no changes to update on your account. Suggestion: try updating your display name.</value>
+  </data>
+  <data name="NoAccountChangesDetectedTitle" xml:space="preserve">
+    <value>No Changes Found</value>
+  </data>
 </root>

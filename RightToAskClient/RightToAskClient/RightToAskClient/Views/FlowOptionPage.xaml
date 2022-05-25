@@ -16,28 +16,28 @@
     <ContentPage.Content>        
         <Grid RowDefinitions="*,*" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="30">
             <Frame Style="{StaticResource InvisibleButtonFrame}" Grid.Row="0">
-                <Grid RowDefinitions="*,*,*" ColumnDefinitions="*,*">
+                <Grid RowDefinitions="Auto,*,Auto" ColumnDefinitions="*,*">
                     <Grid RowDefinitions="auto,auto" Grid.Row="0" Grid.ColumnSpan="2">
                         <Label Grid.Row="0" Text="{xct:Translate OptionAText1}" Style="{StaticResource CenterFrameTextLarge}"/>
                         <Label Grid.Row="1" Text="{xct:Translate OptionAText2}" Style="{StaticResource CenterFrameTextLarge}"/>
                     </Grid>
-                    <Label Grid.Row="1" Grid.ColumnSpan="2" Text="{xct:Translate OptionAText3}" Style="{StaticResource CenterFrameTextSmall}" VerticalOptions="Center"/>
-                    <Button Grid.Row="2" Grid.Column="0" Text="{xct:Translate MyMPButtonText}" Style="{StaticResource GreenButton}" 
+                    <!--<Label Grid.Row="1" Grid.ColumnSpan="2" Text="{xct:Translate OptionAText3}" Style="{StaticResource CenterFrameTextSmall}" VerticalOptions="Center"/>-->
+                    <Button Grid.Row="2" Grid.Column="0" Text="{xct:Translate MyMPButtonText}" Style="{StaticResource TallGreenButton}" 
                             Command="{Binding AnsweredByMyMPCommand}" Margin="10"/>
-                    <Button Grid.Row="2" Grid.Column="1" Text="{xct:Translate AnotherMPButtonText}" Style="{StaticResource GreenButton}" 
+                    <Button Grid.Row="2" Grid.Column="1" Text="{xct:Translate AnotherMPButtonText}" Style="{StaticResource TallGreenButton}" 
                             Command="{Binding AnsweredByOtherMPCommand}" Margin="10"/>
                 </Grid>
             </Frame>
             <Frame Style="{StaticResource InvisibleButtonFrame}" Grid.Row="1">
-                <Grid RowDefinitions="*,*,*" ColumnDefinitions="*,*">
+                <Grid RowDefinitions="Auto,*,Auto" ColumnDefinitions="*,*">
                     <Grid RowDefinitions="auto,auto" Grid.Row="0" Grid.ColumnSpan="2">
                         <Label Grid.Row="0" Text="{xct:Translate OptionBText1}" Style="{StaticResource CenterFrameTextLarge}"/>
                         <Label Grid.Row="1" Text="{xct:Translate OptionBText2}" Style="{StaticResource CenterFrameTextLarge}"/>
                     </Grid>
-                    <Label Grid.Row="1" Grid.ColumnSpan="2" Text="{xct:Translate OptionBText3}" Style="{StaticResource CenterFrameTextSmall}" VerticalOptions="Center"/>
-                    <Button Grid.Row="2" Grid.Column="0" Text="{xct:Translate AnotherMPButtonText}" Style="{StaticResource GreenButton}" 
+                    <!--<Label Grid.Row="1" Grid.ColumnSpan="2" Text="{xct:Translate OptionBText3}" Style="{StaticResource CenterFrameTextSmall}" VerticalOptions="Center"/>-->
+                    <Button Grid.Row="2" Grid.Column="0" Text="{xct:Translate AnotherMPButtonText}" Style="{StaticResource TallGreenButton}" 
                             Command="{Binding AnsweredByOtherMPCommandOptionB}" Margin="10"/>
-                    <Button Grid.Row="2" Grid.Column="1" Text="{xct:Translate PublicAuthorityButtonText}" Style="{StaticResource GreenButton}"
+                    <Button Grid.Row="2" Grid.Column="1" Text="{xct:Translate PublicAuthorityButtonText}" Style="{StaticResource TallGreenButton}"
                             Command="{Binding OtherPublicAuthorityButtonCommand}" Margin="10"/>
                 </Grid>
             </Frame>
