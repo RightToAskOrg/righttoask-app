@@ -70,6 +70,15 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your account was created successfully!.
+        /// </summary>
+        internal static string AccountCreationSuccessResponseText {
+            get {
+                return ResourceManager.GetString("AccountCreationSuccessResponseText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to sign user update message.
         /// </summary>
         internal static string AccountUpdateSigningError {

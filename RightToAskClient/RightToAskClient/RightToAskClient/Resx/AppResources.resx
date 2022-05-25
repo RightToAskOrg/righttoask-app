@@ -624,4 +624,7 @@
   <data name="NoAccountChangesDetectedTitle" xml:space="preserve">
     <value>No Changes Found</value>
   </data>
+  <data name="AccountCreationSuccessResponseText" xml:space="preserve">
+    <value>Your account was created successfully!</value>
+  </data>
 </root>

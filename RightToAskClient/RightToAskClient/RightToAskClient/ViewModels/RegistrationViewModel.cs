@@ -396,27 +396,20 @@ namespace RightToAskClient.ViewModels
                 // see if we need to push the electorates page or if we push the server account things
                 if (!App.ReadingContext.ThisParticipant.MPsKnown)
                 {
-                    NavigateToFindMPsPage();
+                    // if MPs have not been found for this user yet, prompt to find them
+                    string? result = await Shell.Current.DisplayActionSheet("Would you like to find your MPs? You can always change them later.", "Skip for now.", "Yes");
+                    if (result == "Yes")
+                    {
+                        NavigateToFindMPsPage();
+                    }
+                    else
+                    {
+                        await SendNewUserToServer();
+                    }
                 }
                 else
                 {
-                    SaveToPreferences();
-
-                    Result<bool> httpResponse = await RTAClient.RegisterNewUser(_registration);
-                    var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
-                    ReportLabelText = httpValidation.message;
-                    if (httpValidation.isValid)
-                    {
-                        UpdateLocalRegistrationInfo();
-
-                        // Now we're registered, we can't change our UID - we can only update the other fields.
-                        ShowUpdateAccountButton = true;
-                        CanEditUID = false;
-                        Title = AppResources.EditYourAccountTitle;
-                        PopupLabelText = AppResources.EditAccountPopupText;
-                        // pop back to the QuestionDetailsPage after the account is created
-                        await App.Current.MainPage.Navigation.PopAsync();
-                    }
+                    await SendNewUserToServer();
                 }
             }
             else
@@ -425,6 +418,31 @@ namespace RightToAskClient.ViewModels
                 {
                     PromptUser(regTest);
                 }
+            }
+        }
+
+        private async Task SendNewUserToServer()
+        {
+            SaveToPreferences();
+
+            Result<bool> httpResponse = await RTAClient.RegisterNewUser(_registration);
+            var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
+            ReportLabelText = httpValidation.message;
+            if (httpValidation.isValid)
+            {
+                UpdateLocalRegistrationInfo();
+                // if the response seemed successful, put it in more common terms for the user.
+                if (ReportLabelText.Contains("Success"))
+                {
+                    ReportLabelText = AppResources.AccountCreationSuccessResponseText;
+                }
+                // Now we're registered, we can't change our UID - we can only update the other fields.
+                ShowUpdateAccountButton = true;
+                CanEditUID = false;
+                Title = AppResources.EditYourAccountTitle;
+                PopupLabelText = AppResources.EditAccountPopupText;
+                // pop back to the QuestionDetailsPage after the account is created
+                await App.Current.MainPage.Navigation.PopAsync();
             }
         }
 
@@ -467,7 +485,7 @@ namespace RightToAskClient.ViewModels
                     if (ReportLabelText.Contains("Success"))
                     {
                         ReportLabelText = AppResources.AccountUpdateSuccessResponseText;
-                    }                    
+                    }
                     UpdateLocalRegistrationInfo();
                 }
                 else
