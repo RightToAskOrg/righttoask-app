@@ -17,24 +17,12 @@ namespace RightToAskClient
         {
             string message = "These are your MPs.  Select the one(s) who should answer the question";
 
-            //bool fromFiltersPage = false;
-            // messaging center instances are invalid in static class
-            //MessagingCenter.Subscribe<FindMPsViewModel>(this, "FromFiltersPage", (sender) =>
-            //{
-            //    fromFiltersPage = true;
-            //    MessagingCenter.Unsubscribe<FindMPsViewModel, bool>(this, "FromFiltersPage");
-            //});
-
             //TODO** Seems unnecessary if our MPs are not initialized. 
             // Below, don't make the pages that are never used. The code is (somewhat redundant but)
             // correct but names are confusing.
             var mpsSelectableListPage = new SelectableListPage(App.ReadingContext.Filters.AnsweringMPsListsMine, message, true);
             var nextPage = ListMPsFindFirstIfNotAlreadyKnown(mpsSelectableListPage);
             await Application.Current.MainPage.Navigation.PushAsync(nextPage);
-            //await Application.Current.MainPage.Navigation.PushAsync(nextPage).ContinueWith((_) =>
-            //{
-            //    MessagingCenter.Send<MainPageViewModel>(this, "MainPage");
-            //});
         }
 
         public static async Task PushMyAskingMPsExploringPage()

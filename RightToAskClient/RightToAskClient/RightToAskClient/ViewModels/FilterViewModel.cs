@@ -9,6 +9,7 @@ using System.Xml;
 using Xamarin.CommunityToolkit.ObjectModel;
 using RightToAskClient.Resx;
 using Xamarin.Forms;
+using System.Threading.Tasks;
 
 namespace RightToAskClient.ViewModels
 {
@@ -137,28 +138,38 @@ namespace RightToAskClient.ViewModels
             // commands
             AnsweringMPsFilterCommand = new Command(() =>
             {
-                MessagingCenter.Send<FilterViewModel>(this, "FromFiltersPage");
-                EditSelectedAnsweringMPsClicked();
+                _ = EditSelectedAnsweringMPsClicked().ContinueWith((_) =>
+                  {
+                      MessagingCenter.Send(this, "FromFiltersPage"); // Sends this view model
+                });
             });
             AskingMPsFilterCommand = new Command(() =>
             {
-                MessagingCenter.Send<FilterViewModel>(this, "FromFiltersPage");
-                EditSelectedAskingMPsClicked();
+                _ = EditSelectedAskingMPsClicked().ContinueWith((_) =>
+                  {
+                      MessagingCenter.Send(this, "FromFiltersPage");
+                  });
             });
             AnsweringAuthoritiesFilterCommand = new Command(() =>
             {
-                MessagingCenter.Send<FilterViewModel>(this, "FromFiltersPage");
-                EditAuthoritiesClicked();
+                _ = EditAuthoritiesClicked().ContinueWith((_) =>
+                  {
+                      MessagingCenter.Send(this, "FromFiltersPage");
+                  });
             });
             OtherAnsweringMPsFilterCommand = new Command(() =>
             {
-                MessagingCenter.Send<FilterViewModel>(this, "FromFiltersPage");
-                EditOtherSelectedAnsweringMPsClicked();
+                _ = EditOtherSelectedAnsweringMPsClicked().ContinueWith((_) =>
+                  {
+                      MessagingCenter.Send(this, "FromFiltersPage");
+                  });
             });
             OtherAskingMPsFilterCommand = new Command(() =>
             {
-                MessagingCenter.Send<FilterViewModel>(this, "FromFiltersPage");
-                EditOtherSelectedAskingMPsClicked();
+                _ = EditOtherSelectedAskingMPsClicked().ContinueWith((_) =>
+                  {
+                      MessagingCenter.Send(this, "FromFiltersPage");
+                  });
             });
             RightToAskUserCommand = new Command(() =>
             {
@@ -251,7 +262,7 @@ namespace RightToAskClient.ViewModels
             return text;
         }
 
-        private async void EditSelectedAnsweringMPsClicked()
+        private async Task EditSelectedAnsweringMPsClicked()
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
@@ -259,7 +270,7 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        private async void EditAuthoritiesClicked()
+        private async Task EditAuthoritiesClicked()
         {
             string message = "Choose others to add";
 
@@ -269,7 +280,7 @@ namespace RightToAskClient.ViewModels
             await App.Current.MainPage.Navigation.PushAsync(departmentExploringPage);
         }
 
-        private async void EditOtherSelectedAnsweringMPsClicked()
+        private async Task EditOtherSelectedAnsweringMPsClicked()
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
@@ -277,7 +288,7 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        private async void EditOtherSelectedAskingMPsClicked()
+        private async Task EditOtherSelectedAskingMPsClicked()
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
@@ -285,7 +296,7 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        private async void EditSelectedAskingMPsClicked()
+        private async Task EditSelectedAskingMPsClicked()
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
