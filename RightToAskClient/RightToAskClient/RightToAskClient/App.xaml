@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:helpers="clr-namespace:RightToAskClient.Helpers"
              x:Class="RightToAskClient.App">
     <Application.Resources>
@@ -109,7 +110,13 @@
             <Style x:Key="DoneButton" TargetType="Button" ApplyToDerivedTypes="True">
                 <Setter Property="BackgroundColor" Value="{StaticResource DarkButtonColor}"></Setter>
                 <Setter Property="TextColor" Value="White"></Setter>
-                <Setter Property="Text" Value="Next"></Setter>
+                <Setter Property="Text" Value="{xct:Translate DoneButtonText}"></Setter>
+                <Setter Property="HorizontalOptions" Value="End"></Setter>
+            </Style>
+            <Style x:Key="NextButton" TargetType="Button" ApplyToDerivedTypes="True">
+                <Setter Property="BackgroundColor" Value="{StaticResource DarkButtonColor}"></Setter>
+                <Setter Property="TextColor" Value="White"></Setter>
+                <Setter Property="Text" Value="{xct:Translate NextButtonText}"></Setter>
                 <Setter Property="HorizontalOptions" Value="End"></Setter>
             </Style>
             <Style x:Key="SaveButton" TargetType="Button" ApplyToDerivedTypes="True">

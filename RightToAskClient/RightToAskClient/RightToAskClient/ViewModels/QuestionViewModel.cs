@@ -17,6 +17,7 @@ using RightToAskClient.Annotations;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using Xamarin.CommunityToolkit.Extensions;
 
 namespace RightToAskClient.ViewModels
 {
@@ -88,6 +89,13 @@ namespace RightToAskClient.ViewModels
         {
             get => _enableAnotherMPShouldRaiseButton;
             set => SetProperty(ref _enableAnotherMPShouldRaiseButton, value);
+        }
+
+        private bool _goHome;
+        public bool GoHome
+        {
+            get => _goHome;
+            set => SetProperty(ref _goHome, value);
         }
 
         private bool _showReportLabel;
@@ -536,12 +544,14 @@ namespace RightToAskClient.ViewModels
             
             // Reset the draft question only if it didn't upload correctly.
             App.ReadingContext.DraftQuestion = "";
-            
+
             //FIXME update version, just like for edits.
 
-            bool goHome =
-                await App.Current.MainPage.DisplayAlert("Question published!", "", "Home", "Write another one");
-            if (goHome)
+            var popup = new QuestionPublishedPopup();
+            _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+            //bool goHome =
+            //    await App.Current.MainPage.DisplayAlert("Question published!", "", "Home", "Write another one");
+            if (GoHome)
             {
                 App.ReadingContext.Filters.RemoveAllSelections();
                 await App.Current.MainPage.Navigation.PopToRootAsync();

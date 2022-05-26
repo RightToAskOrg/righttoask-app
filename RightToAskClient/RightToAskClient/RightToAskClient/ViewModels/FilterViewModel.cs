@@ -137,22 +137,27 @@ namespace RightToAskClient.ViewModels
             // commands
             AnsweringMPsFilterCommand = new Command(() =>
             {
+                MessagingCenter.Send<FilterViewModel>(this, "FromFiltersPage");
                 EditSelectedAnsweringMPsClicked();
             });
             AskingMPsFilterCommand = new Command(() =>
             {
+                MessagingCenter.Send<FilterViewModel>(this, "FromFiltersPage");
                 EditSelectedAskingMPsClicked();
             });
             AnsweringAuthoritiesFilterCommand = new Command(() =>
             {
+                MessagingCenter.Send<FilterViewModel>(this, "FromFiltersPage");
                 EditAuthoritiesClicked();
             });
             OtherAnsweringMPsFilterCommand = new Command(() =>
             {
+                MessagingCenter.Send<FilterViewModel>(this, "FromFiltersPage");
                 EditOtherSelectedAnsweringMPsClicked();
             });
             OtherAskingMPsFilterCommand = new Command(() =>
             {
+                MessagingCenter.Send<FilterViewModel>(this, "FromFiltersPage");
                 EditOtherSelectedAskingMPsClicked();
             });
             RightToAskUserCommand = new Command(() =>

@@ -23,7 +23,7 @@
 					ItemTemplate="{StaticResource SelectableDataTemplate }">
 				</ListView>
 			</ScrollView>	
-			<Button x:Name="DoneButton" Command = "{Binding DoneButtonCommand}" Style="{StaticResource DoneButton}" /> 
+			<Button Text="{Binding DoneButtonText}" Command="{Binding DoneButtonCommand}" Style="{StaticResource DoneButton}" /> 
 		</StackLayout>
     </ContentPage.Content>
 </ContentPage>

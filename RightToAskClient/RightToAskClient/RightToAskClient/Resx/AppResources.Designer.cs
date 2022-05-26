@@ -529,6 +529,15 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Go Home.
+        /// </summary>
+        internal static string GoHomeButtonText {
+            get {
+                return ResourceManager.GetString("GoHomeButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Home.
         /// </summary>
         internal static string HomeButtonText {
@@ -1105,6 +1114,15 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Question successfully published!.
+        /// </summary>
+        internal static string QuestionPublishedPopupText {
+            get {
+                return ResourceManager.GetString("QuestionPublishedPopupText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Question Writer:.
         /// </summary>
         internal static string QuestionWriterHeaderText {
@@ -1578,6 +1596,15 @@ namespace RightToAskClient.Resx {
         internal static string WhoShouldAnswerTitle {
             get {
                 return ResourceManager.GetString("WhoShouldAnswerTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Write Another One.
+        /// </summary>
+        internal static string WriteAnotherQuestionButtonText {
+            get {
+                return ResourceManager.GetString("WriteAnotherQuestionButtonText", resourceCulture);
             }
         }
         

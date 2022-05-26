@@ -627,4 +627,13 @@
   <data name="AccountCreationSuccessResponseText" xml:space="preserve">
     <value>Your account was created successfully!</value>
   </data>
+  <data name="GoHomeButtonText" xml:space="preserve">
+    <value>Go Home</value>
+  </data>
+  <data name="QuestionPublishedPopupText" xml:space="preserve">
+    <value>Question successfully published!</value>
+  </data>
+  <data name="WriteAnotherQuestionButtonText" xml:space="preserve">
+    <value>Write Another One</value>
+  </data>
 </root>

@@ -57,7 +57,14 @@ namespace RightToAskClient.ViewModels
 		public Binding GroupDisplay
 		{
 			get => _groupDisplay;
-		} 
+		}
+
+		private string _doneButtonText = AppResources.NextButtonText;
+		public string DoneButtonText
+		{
+			get => _doneButtonText;
+			set => SetProperty(ref _doneButtonText, value);
+		}
 
 		public IAsyncCommand DoneButtonCommand { get;  }
 		// public IAsyncCommand HomeButtonCommand { get;  }
@@ -175,6 +182,11 @@ namespace RightToAskClient.ViewModels
 			{
 				GoToAskingPageNext = true;
 				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionBGoToAskingPageNext");
+			});
+			MessagingCenter.Subscribe<FilterViewModel>(this, "FromFiltersPage", (sender) =>
+			{
+				DoneButtonText = AppResources.DoneButtonText;
+				MessagingCenter.Unsubscribe<FilterViewModel>(this, "FromFiltersPage");
 			});
 		}
 
