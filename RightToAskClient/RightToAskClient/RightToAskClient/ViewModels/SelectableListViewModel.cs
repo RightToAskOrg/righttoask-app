@@ -235,9 +235,10 @@ namespace RightToAskClient.ViewModels
 		        SelectableEntities = new ObservableCollection<Tag<Entity>>(groupedMPsWithTags.SelectMany(x => x).ToList());
 	        } 
 	        else
-	        {
-				SelectableEntities = wrapInTags(new ObservableCollection<Entity>(mpLists.AllEntities),  mpLists.SelectedEntities);
-	        }
+			{
+				SelectableEntities = wrapInTags(new ObservableCollection<Entity>(mpLists.AllEntities),
+					mpLists.SelectedEntities);
+			}
 	        
 			_titleText = message;
 			PopupLabelText = AppResources.SelectableListMPsPopupText;
@@ -367,7 +368,7 @@ namespace RightToAskClient.ViewModels
 		 	entities, IEnumerable<T> selectedEntities) where T : Entity
 		{
 			return new ObservableCollection<Tag<Entity>>(entities.Select
-				(a => a.WrapInTag(selectedEntities.Contains(a)))
+				(a => a.WrapInTag(selectedEntities.Contains(a))).OrderByDescending(t => t.Selected)
 			);
 		}
 	}
