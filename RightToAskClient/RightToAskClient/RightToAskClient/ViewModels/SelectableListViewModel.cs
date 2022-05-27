@@ -38,6 +38,12 @@ namespace RightToAskClient.ViewModels
 				OnPropertyChanged();
 			}
 		}
+
+		// The already-selected ones, for display at the top.
+		public IEnumerable<Tag<Entity>> PreSelectedEntities
+		{
+			get => SelectableEntities.Where(te => te.Selected);
+		}
 		
 		private string _introText = "";
 		public string IntroText

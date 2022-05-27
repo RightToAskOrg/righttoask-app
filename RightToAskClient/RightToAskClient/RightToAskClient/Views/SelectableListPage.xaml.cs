@@ -39,7 +39,8 @@ namespace RightToAskClient.Views
 			InitializeComponent();
 			var vm = new SelectableListViewModel(authorityLists, message);
 			BindingContext = vm;
-			
+
+			// PreselectListView.ItemsSource = vm.PreSelectedEntities;
 			SelectableListView.ItemsSource = vm.SelectableEntities;
 			SelectableListView.IsGroupingEnabled = false;
 
@@ -59,6 +60,7 @@ namespace RightToAskClient.Views
 			var vm = new SelectableListViewModel(MPLists, message, grouping);
 			BindingContext = vm;	
 			
+			// PreselectListView.ItemsSource = vm.PreSelectedEntities;
 			SelectableListView.ItemsSource = grouping ? (IEnumerable)vm.SelectableGroupedEntities : vm.SelectableEntities;
 			SelectableListView.IsGroupingEnabled = grouping;
 			SelectableListView.GroupDisplayBinding = vm.GroupDisplay;
@@ -78,6 +80,7 @@ namespace RightToAskClient.Views
 		// Sets up the page, mostly by inserting a list for selected items at the beginning.
 		// Returns a pointer to the new ListView, so that its ItemSource can be set according to
 		// type of data.
+		// TODO (VT) - pretty sure you don't need this any more - see Xaml.
 		private ListView setUpPage()
 		{
 			Label alreadySelected = new Label()
