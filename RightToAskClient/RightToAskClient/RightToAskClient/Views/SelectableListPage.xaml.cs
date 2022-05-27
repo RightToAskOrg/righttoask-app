@@ -42,6 +42,15 @@ namespace RightToAskClient.Views
 			
 			SelectableListView.ItemsSource = vm.SelectableEntities;
 			SelectableListView.IsGroupingEnabled = false;
+
+            if (authorityLists.SelectedEntities.Any())
+            {
+				var selectionsListView = setUpPage();
+				selectionsListView.ItemsSource = authorityLists.SelectedEntities;
+			}
+			// Note this overrides the base setting of AuthorityListView.ItemsSource, which 
+			// otherwise includes both selected and non-selected items.
+			//AuthorityListView.ItemsSource = authorityLists.AllEntities;
 		}
 
         public SelectableListPage(SelectableList<MP> MPLists, string message, bool grouping)
@@ -64,6 +73,28 @@ namespace RightToAskClient.Views
 			{
 				tag.Toggle();
 			}
+		}
+
+		// Sets up the page, mostly by inserting a list for selected items at the beginning.
+		// Returns a pointer to the new ListView, so that its ItemSource can be set according to
+		// type of data.
+		private ListView setUpPage()
+		{
+			Label alreadySelected = new Label()
+			{
+				Text = "Already selected",
+			};
+
+			MainLayout.Children.Insert(1, alreadySelected);
+
+			ListView selections = new ListView()
+			{
+				ItemTemplate = (DataTemplate)Application.Current.Resources["SelectableDataTemplate"]
+			};
+			selections.ItemTapped += OnEntity_Selected;
+
+			MainLayout.Children.Insert(2, selections);
+			return selections;
 		}
 	}
 }

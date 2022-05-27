@@ -636,4 +636,10 @@
   <data name="WriteAnotherQuestionButtonText" xml:space="preserve">
     <value>Write Another One</value>
   </data>
+  <data name="GoButtonText" xml:space="preserve">
+    <value>Go</value>
+  </data>
+  <data name="UserNameHeaderText" xml:space="preserve">
+    <value>Username</value>
+  </data>
 </root>

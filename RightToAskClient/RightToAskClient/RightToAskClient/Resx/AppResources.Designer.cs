@@ -529,6 +529,15 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Go.
+        /// </summary>
+        internal static string GoButtonText {
+            get {
+                return ResourceManager.GetString("GoButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Go Home.
         /// </summary>
         internal static string GoHomeButtonText {
@@ -1551,6 +1560,15 @@ namespace RightToAskClient.Resx {
         internal static string UpvotesHeaderText {
             get {
                 return ResourceManager.GetString("UpvotesHeaderText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Username.
+        /// </summary>
+        internal static string UserNameHeaderText {
+            get {
+                return ResourceManager.GetString("UserNameHeaderText", resourceCulture);
             }
         }
         

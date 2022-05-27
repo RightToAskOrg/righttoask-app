@@ -107,17 +107,20 @@ namespace RightToAskClient.ViewModels
             MessagingCenter.Subscribe<SelectableListViewModel>(this, "UpdateFilters", (sender) =>
             {
                 ReinitData();
-                MessagingCenter.Unsubscribe<SelectableListViewModel>(this, "UpdateFilters");
+                // Normally we'd want to unsubscribe to prevent multiple instances of the subscriber from happening,
+                // but because these listeners happen when popping back to this page from a selectableList page we want to keep the listener/subscriber
+                // active to update all of the lists/filters on this page with the newly selected data
+                //MessagingCenter.Unsubscribe<SelectableListViewModel>(this, "UpdateFilters");
             });
             MessagingCenter.Subscribe<ExploringPage>(this, "UpdateFilters", (sender) =>
             {
                 ReinitData();
-                MessagingCenter.Unsubscribe<ExploringPage>(this, "UpdateFilters");
+                //MessagingCenter.Unsubscribe<ExploringPage>(this, "UpdateFilters");
             });
             MessagingCenter.Subscribe<ExploringPageWithSearch>(this, "UpdateFilters", (sender) =>
             {
                 ReinitData();
-                MessagingCenter.Unsubscribe<ExploringPageWithSearch>(this, "UpdateFilters");
+                //MessagingCenter.Unsubscribe<ExploringPageWithSearch>(this, "UpdateFilters");
             });
             /*
             MessagingCenter.Subscribe<ExploringPageWithSearchAndPreSelections>(this, "UpdateFilters", (sender) =>

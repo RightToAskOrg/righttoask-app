@@ -30,7 +30,7 @@
                         <SearchBar Placeholder="{xct:Translate SearchBarPlaceholderText}" Text="{Binding Keyword}" 
                                    Style="{StaticResource GreenSearchBar}" SearchCommand="{Binding SearchCommand}"/>
                         <Label Text="Seach with These Filters?" />
-                        <Button Text="Go" Command="{Binding SearchCommand}"/>
+                        <Button Text="{xct:Translate GoButtonText}" Command="{Binding SearchCommand}"/>
                     </StackLayout>
                 </Frame>
                 <!--Answered By Frame-->
