@@ -615,4 +615,7 @@
   <data name="SelectableListMPsPopupText" xml:space="preserve">
     <value>SelectableListMPsPopupText</value>
   </data>
+  <data name="SubmitPINButtonText" xml:space="preserve">
+    <value>Enter the 6-digit code that was sent to their official email address</value>
+  </data>
 </root>
