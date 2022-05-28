@@ -29,16 +29,8 @@
                     </Grid>
                 </StackLayout>
             </Frame>
-            <Label x:Name="IntroText" Text = "{Binding IntroText}" />
-			<ScrollView x:Name="PreselectedScrollView">
-				<ListView x:Name="PreselectListView" 
-				    x:FieldModifier="protected" VerticalOptions="FillAndExpand" SelectionMode="None" 
-				    ItemsSource="{Binding PreSelectedEntities}"
-				    HasUnevenRows="True" ItemTapped="OnEntity_Selected" 
-					ItemTemplate="{StaticResource SelectableDataTemplate }">
-				</ListView>
-			</ScrollView>	
-			<ScrollView x:Name="ParentScrollView">
+            <Label x:Name="IntroText" Text = "{Binding IntroText}" Style="{StaticResource Header2}"/>
+            <ScrollView x:Name="ParentScrollView">
 				<ListView x:Name="SelectableListView" 
 				    x:FieldModifier="protected" VerticalOptions="FillAndExpand" SelectionMode="None" 
 				    HasUnevenRows="True" ItemTapped="OnEntity_Selected" 

@@ -35,7 +35,7 @@
                 </Frame>
                 <!--Answered By Frame-->
                 <Frame Style="{StaticResource AppThemeFramePadding}">
-                    <xct:Expander>
+                    <xct:Expander ForceUpdateSizeCommand="{Binding ForceUpdateSizeCommand}">
                         <xct:Expander.Header>                            
                             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                                 <Label Text="Answered By" Style="{StaticResource LeftMedium}" TextColor="{StaticResource Primary}"/>

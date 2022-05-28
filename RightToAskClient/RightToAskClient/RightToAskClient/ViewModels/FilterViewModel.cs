@@ -197,6 +197,10 @@ namespace RightToAskClient.ViewModels
                     await App.Current.MainPage.Navigation.PopAsync();
                 }
             });
+            ForceUpdateSizeCommand = new Command(() =>
+            {
+                ReinitData();
+            });
         }
 
         // commands
@@ -209,6 +213,7 @@ namespace RightToAskClient.ViewModels
         public Command NotSureCommand { get; }
         public Command SearchCommand { get; }
         public IAsyncCommand BackCommand { get; }
+        public Command ForceUpdateSizeCommand { get; }
 
         // helper methods
         public void ReinitData()

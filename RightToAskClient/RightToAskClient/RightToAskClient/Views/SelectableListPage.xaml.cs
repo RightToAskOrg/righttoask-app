@@ -39,16 +39,8 @@ namespace RightToAskClient.Views
 			InitializeComponent();
 			var vm = new SelectableListViewModel(authorityLists, message);
 			BindingContext = vm;
-
-			// PreselectListView.ItemsSource = vm.PreSelectedEntities;
 			SelectableListView.ItemsSource = vm.SelectableEntities;
 			SelectableListView.IsGroupingEnabled = false;
-
-            if (authorityLists.SelectedEntities.Any())
-            {
-				var selectionsListView = setUpPage();
-				selectionsListView.ItemsSource = authorityLists.SelectedEntities;
-			}
 			// Note this overrides the base setting of AuthorityListView.ItemsSource, which 
 			// otherwise includes both selected and non-selected items.
 			//AuthorityListView.ItemsSource = authorityLists.AllEntities;
@@ -59,8 +51,6 @@ namespace RightToAskClient.Views
 			InitializeComponent();
 			var vm = new SelectableListViewModel(MPLists, message, grouping);
 			BindingContext = vm;	
-			
-			// PreselectListView.ItemsSource = vm.PreSelectedEntities;
 			SelectableListView.ItemsSource = grouping ? (IEnumerable)vm.SelectableGroupedEntities : vm.SelectableEntities;
 			SelectableListView.IsGroupingEnabled = grouping;
 			SelectableListView.GroupDisplayBinding = vm.GroupDisplay;
@@ -75,29 +65,6 @@ namespace RightToAskClient.Views
 			{
 				tag.Toggle();
 			}
-		}
-
-		// Sets up the page, mostly by inserting a list for selected items at the beginning.
-		// Returns a pointer to the new ListView, so that its ItemSource can be set according to
-		// type of data.
-		// TODO (VT) - pretty sure you don't need this any more - see Xaml.
-		private ListView setUpPage()
-		{
-			Label alreadySelected = new Label()
-			{
-				Text = "Already selected",
-			};
-
-			MainLayout.Children.Insert(1, alreadySelected);
-
-			ListView selections = new ListView()
-			{
-				ItemTemplate = (DataTemplate)Application.Current.Resources["SelectableDataTemplate"]
-			};
-			selections.ItemTapped += OnEntity_Selected;
-
-			MainLayout.Children.Insert(2, selections);
-			return selections;
 		}
 	}
 }

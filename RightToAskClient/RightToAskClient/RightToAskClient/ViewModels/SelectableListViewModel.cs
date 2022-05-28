@@ -116,10 +116,11 @@ namespace RightToAskClient.ViewModels
 			Keyword = App.ReadingContext.Filters.SearchKeyword;
 			// SelectedAuthorities = new ObservableCollection<Authority>(authorityLists.SelectedEntities);
 			// AllEntities = new ObservableCollection<Entity>(authorityLists.AllEntities); 
-			SelectableEntities = wrapInTags(new ObservableCollection<Entity>(authorityLists.AllEntities),  
+			SelectableEntities = WrapInTagsAndSortPreselections(new ObservableCollection<Entity>(authorityLists.AllEntities),  
 								authorityLists.SelectedEntities);
 
-			_titleText = message;
+			_titleText = "Authorities";
+			IntroText = message;
 			PopupLabelText = AppResources.SelectableListAuthoritiesPopupText;
 			DoneButtonCommand = new AsyncCommand(async () =>
             {
@@ -139,59 +140,13 @@ namespace RightToAskClient.ViewModels
 			SubscribeToTheRightMessages();
 		}
 
-		//public SelectableListViewModel(SelectableList<Authority> authorityLists, string message, bool grouping)
-		//{
-		//	Keyword = App.ReadingContext.Filters.SearchKeyword;
-		//	// SelectedAuthorities = new ObservableCollection<Authority>(authorityLists.SelectedEntities);
-		//	// AllEntities = new ObservableCollection<Entity>(authorityLists.AllEntities); 
-		//	SelectableEntities = wrapInTags(new ObservableCollection<Entity>(authorityLists.AllEntities),
-		//						authorityLists.SelectedEntities);
-
-		//	if (grouping)
-		//	{
-		//		var groupedAuthorities = authorityLists.AllEntities.GroupBy(auth=> auth.AuthorityName);
-		//		List<TaggedGroupedEntities> groupedAuthoritiesWithTags = new List<TaggedGroupedEntities>();
-		//		foreach (IGrouping<ParliamentData.Chamber, Authority> group in groupedAuthorities)
-		//		{
-		//			groupedAuthoritiesWithTags.Add(new TaggedGroupedEntities(
-		//				group.Key,
-		//				wrapInTags(new ObservableCollection<Entity>(group), authorityLists.SelectedEntities)
-		//			));
-		//		}
-
-		//		// For display in groups
-		//		SelectableGroupedEntities = new ObservableCollection<TaggedGroupedEntities>(groupedAuthoritiesWithTags);
-		//		// For setting the selected/unselected ones 
-		//		SelectableEntities = new ObservableCollection<Tag<Entity>>(groupedAuthoritiesWithTags.SelectMany(x => x).ToList());
-		//	}
-		//	else
-		//	{
-		//		SelectableEntities = wrapInTags(new ObservableCollection<Entity>(authorityLists.AllEntities), authorityLists.SelectedEntities);
-		//	}
-
-		//	_titleText = message;
-		//	PopupLabelText = AppResources.SelectableListAuthoritiesPopupText;
-		//	DoneButtonCommand = new AsyncCommand(async () =>
-		//	{
-		//		DoneButton_OnClicked(
-		//			() => UpdateSelectedList<Authority>(authorityLists)
-		//			);
-		//		MessagingCenter.Send(this, "UpdateFilters");
-		//	});
-		//	SearchToolbarCommand = new Command(() =>
-		//	{
-		//		ShowSearchFrame = !ShowSearchFrame; // just toggle it
-		//	});
-
-		//	SubscribeToTheRightMessages();
-		//}
-
 		public SelectableListViewModel(SelectableList<MP> mpLists, string message)
 		{
 			Keyword = App.ReadingContext.Filters.SearchKeyword;
-			SelectableEntities = wrapInTags(new ObservableCollection<Entity>(mpLists.AllEntities),  mpLists.SelectedEntities);
+			SelectableEntities = WrapInTagsAndSortPreselections(new ObservableCollection<Entity>(mpLists.AllEntities),  mpLists.SelectedEntities);
 			
-			_titleText = message;
+			_titleText = "MPs";
+			IntroText = message;
 			PopupLabelText = AppResources.SelectableListMPsPopupText;
 			DoneButtonCommand = new AsyncCommand(async () =>
             {
@@ -225,7 +180,7 @@ namespace RightToAskClient.ViewModels
 		        {
 			        groupedMPsWithTags.Add(new TaggedGroupedEntities(
 				        group.Key,
-				        wrapInTags(new ObservableCollection<Entity>(group), mpLists.SelectedEntities)
+				        WrapInTagsAndSortPreselections(new ObservableCollection<Entity>(group), mpLists.SelectedEntities)
 			        ));
 		        }
 
@@ -236,11 +191,12 @@ namespace RightToAskClient.ViewModels
 	        } 
 	        else
 			{
-				SelectableEntities = wrapInTags(new ObservableCollection<Entity>(mpLists.AllEntities),
+				SelectableEntities = WrapInTagsAndSortPreselections(new ObservableCollection<Entity>(mpLists.AllEntities),
 					mpLists.SelectedEntities);
 			}
 	        
-			_titleText = message;
+			_titleText = "Grouped MPs";
+			IntroText = message;
 			PopupLabelText = AppResources.SelectableListMPsPopupText;
 			DoneButtonCommand = new AsyncCommand(async () =>
             {
@@ -364,7 +320,7 @@ namespace RightToAskClient.ViewModels
 		
 	    // Wrap the entities in tags, with Selected toggled according to whether the entity
 	    // is in the selectedEntities list or not.
-	    private ObservableCollection<Tag<Entity>> wrapInTags<T>(IEnumerable<Entity>
+	    private ObservableCollection<Tag<Entity>> WrapInTagsAndSortPreselections<T>(IEnumerable<Entity>
 		 	entities, IEnumerable<T> selectedEntities) where T : Entity
 		{
 			return new ObservableCollection<Tag<Entity>>(entities.Select
