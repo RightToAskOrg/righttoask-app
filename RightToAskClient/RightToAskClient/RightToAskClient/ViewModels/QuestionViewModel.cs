@@ -53,7 +53,14 @@ namespace RightToAskClient.ViewModels
         public bool RaisedByOptionSelected
         {
             get => _raisedByOptionSelected;
-            set => SetProperty(ref _raisedByOptionSelected, value);
+            set
+            {
+                SetProperty(ref _raisedByOptionSelected, value);
+                if (_raisedByOptionSelected)
+                {
+                    Question.AnswerInApp = false;
+                }
+            }
         }
 
         private bool _displayFindCommitteeButton;
@@ -228,6 +235,7 @@ namespace RightToAskClient.ViewModels
             });
             OtherPublicAuthorityButtonCommand = new AsyncCommand(async () =>
             {
+                Question.AnswerInApp = false;
                 // var selectableList = new SelectableList<Authority>(ParliamentData.AllAuthorities, App.ReadingContext.Filters.SelectedAuthorities); 
                 var PageToSearchAuthorities
                     = new SelectableListPage(App.ReadingContext.Filters.AuthorityLists, "Choose authorities");
@@ -242,6 +250,7 @@ namespace RightToAskClient.ViewModels
             // It will pop back to here.
             AnsweredByMyMPCommand = new AsyncCommand(async () =>
             {
+                Question.AnswerInApp = true;
                 await NavigationUtils.PushMyAnsweringMPsExploringPage().ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, "GoToReadingPage"); // Sends this view model
@@ -249,6 +258,7 @@ namespace RightToAskClient.ViewModels
             });
             AnsweredByOtherMPCommand = new AsyncCommand(async () =>
             {
+                Question.AnswerInApp = true;
                 await NavigationUtils.PushAnsweringMPsNotMineSelectableListPage().ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, "GoToReadingPage"); // Sends this view model
@@ -256,6 +266,7 @@ namespace RightToAskClient.ViewModels
             });
             AnsweredByOtherMPCommandOptionB = new AsyncCommand(async () =>
             {
+                Question.AnswerInApp = false;
                 await NavigationUtils.PushAnsweringMPsNotMineSelectableListPage().ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, "OptionBGoToAskingPageNext"); // Sends this view model

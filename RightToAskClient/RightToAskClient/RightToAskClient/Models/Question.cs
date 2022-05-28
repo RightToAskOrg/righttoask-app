@@ -216,7 +216,7 @@ namespace RightToAskClient.Models
         }
 
         // chosen by route of option A or B to answer in app or raise in parliament
-        private bool _answerInApp = true;
+        private bool _answerInApp = false;
         public bool AnswerInApp
         {
             get => _answerInApp;
