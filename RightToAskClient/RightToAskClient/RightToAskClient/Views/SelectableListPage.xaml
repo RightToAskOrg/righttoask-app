@@ -31,7 +31,7 @@
             </Frame>
             <Label x:Name="IntroText" Text = "{Binding IntroText}" Style="{StaticResource Header2}"/>
             <ScrollView x:Name="ParentScrollView">
-				<ListView x:Name="SelectableListView" 
+				<ListView ItemsSource="{Binding SelectableEntities}"
 				    x:FieldModifier="protected" VerticalOptions="FillAndExpand" SelectionMode="None" 
 				    HasUnevenRows="True" ItemTapped="OnEntity_Selected" 
 					ItemTemplate="{StaticResource SelectableDataTemplate }">

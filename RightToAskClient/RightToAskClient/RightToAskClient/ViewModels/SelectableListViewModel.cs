@@ -21,11 +21,7 @@ namespace RightToAskClient.ViewModels
 		public ObservableCollection<Tag<Entity>> SelectableEntities
 		{
 			get => _selectableEntities;
-			private set
-			{
-				_selectableEntities = value;
-				OnPropertyChanged();
-			}
+			private set => SetProperty(ref _selectableEntities, value);
 		}
 
 		private ObservableCollection<TaggedGroupedEntities> _selectableGroupedEntities; 
@@ -136,6 +132,7 @@ namespace RightToAskClient.ViewModels
 			ApplySearchCommand = new Command(() => 
 			{
 				// TODO: actually write a method to search through the list of entities
+				SelectableEntities = GetSearchResults(_keyword);
 			});
 			SubscribeToTheRightMessages();
 		}
@@ -162,6 +159,7 @@ namespace RightToAskClient.ViewModels
 			ApplySearchCommand = new Command(() =>
 			{
 				// TODO: actually write a method to search through the list of entities
+				SelectableEntities = GetSearchResults(_keyword);
 			});
 
 			SubscribeToTheRightMessages();
@@ -212,6 +210,7 @@ namespace RightToAskClient.ViewModels
 			ApplySearchCommand = new Command(() =>
 			{
 				// TODO: actually write a method to search through the list of entities
+				SelectableEntities = GetSearchResults(_keyword);
 			});
 
 			SubscribeToTheRightMessages();
@@ -326,6 +325,22 @@ namespace RightToAskClient.ViewModels
 			return new ObservableCollection<Tag<Entity>>(entities.Select
 				(a => a.WrapInTag(selectedEntities.Contains(a))).OrderByDescending(t => t.Selected)
 			);
+		}
+
+		//private void OnKeywordChanged(object sender, TextChangedEventArgs e)
+		//{
+		//	_searchingFor = e.NewTextValue;
+		//	if (!String.IsNullOrWhiteSpace(_searchingFor))
+		//	{
+		//		ObservableCollection<Tag<Entity>> listToDisplay = GetSearchResults(_searchingFor);
+		//		AuthorityListView.ItemsSource = listToDisplay;
+		//	}
+		//}
+
+		private ObservableCollection<Tag<Entity>> GetSearchResults(string queryString)
+		{
+			return new ObservableCollection<Tag<Entity>>(
+						SelectableEntities.Where(f => f.NameContains(queryString)));
 		}
 	}
 }
