@@ -8,7 +8,7 @@
              x:DataType="vm:RegistrationViewModel">
     <ContentView.Content>
         <StackLayout>
-            <Label Text="{xct:Translate UIDHeaderText}" Style="{StaticResource LeftSmall}"/>
+            <Label Text="{xct:Translate UserNameHeaderText}" Style="{StaticResource LeftSmall}"/>
             <Entry Text="{Binding UserID}" Placeholder="{xct:Translate UIDPlaceholderText}" 
                    Style="{StaticResource NormalEntry}" IsEnabled="{Binding CanEditUID}"/>
             <Label Text="{xct:Translate DisplayNameHeaderText}" Style="{StaticResource LeftSmall}"/>

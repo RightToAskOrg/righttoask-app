@@ -82,6 +82,7 @@ namespace RightToAskClient
         protected override void OnResume()
         {
         }
+        // maybe port this into a content View instead?
         private void SetTheStyles()
         {
             var selectableDataTemplate = new DataTemplate(() =>
@@ -98,11 +99,11 @@ namespace RightToAskClient
                 };
 
                 var nameLabel = new Label { FontAttributes = FontAttributes.Bold };
-                var selectedToggle = new Switch();
+                var selectedToggle = new CheckBox();
 
                 // nameLabel.SetBinding(Label.TextProperty, "TagEntity.NickName");
                 nameLabel.SetBinding(Label.TextProperty, "TagEntity");
-                selectedToggle.SetBinding(Switch.IsToggledProperty, "Selected");
+                selectedToggle.SetBinding(CheckBox.IsCheckedProperty, "Selected");
                 selectedToggle.HorizontalOptions = LayoutOptions.End;
                 selectedToggle.VerticalOptions = LayoutOptions.Center;
 

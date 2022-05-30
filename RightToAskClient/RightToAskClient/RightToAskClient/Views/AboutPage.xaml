@@ -15,10 +15,14 @@
                      IconImageSource="{local:ImageResource RightToAskClient.Images.help_75.png}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout>
-            <StackLayout Orientation="Horizontal">
-                <Button Text="Back" HorizontalOptions="StartAndExpand" Clicked="OnBackButtonClicked" />
-                <Button Text="Forward" HorizontalOptions="EndAndExpand" Clicked="OnForwardButtonClicked" />
+        <StackLayout Spacing="0">
+            <StackLayout Orientation="Horizontal" Margin="0">
+                <ImageButton Source="{local:ImageResource RightToAskClient.Images.arrow_back_48.png}" 
+                             BackgroundColor="Transparent" WidthRequest="25" HeightRequest="25"
+                             HorizontalOptions="StartAndExpand" Clicked="OnBackButtonClicked" />
+                <ImageButton Source="{local:ImageResource RightToAskClient.Images.arrow_forward_48.png}" 
+                             BackgroundColor="Transparent" WidthRequest="25" HeightRequest="25"
+                             HorizontalOptions="EndAndExpand" Clicked="OnForwardButtonClicked" />
             </StackLayout>
             <WebView x:Name="webView" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
                      Source="https://righttoask.democracydevelopers.org.au/what-it-does/"

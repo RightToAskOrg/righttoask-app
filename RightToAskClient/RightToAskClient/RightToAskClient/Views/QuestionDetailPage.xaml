@@ -28,16 +28,19 @@
 			    <Label Text="{xct:Translate WhoShouldAnswerTitle}" Style="{StaticResource LeftSmall}" />
 			    <Label Text="{Binding Question.QuestionAnswerers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
 			    <StackLayout Orientation="Horizontal">
-			    <Label Text="{xct:Translate AnswererPermissions}" Style="{StaticResource LeftSmall}" />
-			    <!-- <CheckBox IsChecked="{Binding Question.OthersCanAddAnswerers}" CheckedChanged = "{Binding AnswererPermissionsChangedCommand}" /> -->
+                    <Label Text="{xct:Translate AnswererPermissions}" Style="{StaticResource LeftSmall}" />
                     <CheckBox IsChecked="{Binding Question.OthersCanAddAnswerers}"/>
-                    <!--CheckedChanged = "AnswererPermissionsChangedCommandPlaceholder"-->
-			    </StackLayout>
-			    <Label Text="{xct:Translate OptionBText4}" Style="{StaticResource LeftSmall}" />
-			    <Label Text="{Binding Question.QuestionAskers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
-			    <!-- Ask the user whether they allow other users to add QuestionAskers. (Y/N) -->
-			    <Label Text="{xct:Translate AskerPermissions}" Style="{StaticResource LeftSmall}" />
-                <CheckBox IsChecked="{Binding Question.OthersCanAddAskers}"/>
+                </StackLayout>
+                <!--Question Askers/Option B things-->
+                <StackLayout IsVisible="{Binding Question.AnswerInApp, Converter={StaticResource Key=cnvInvert}}">
+                    <Label Text="{xct:Translate OptionBText4}" Style="{StaticResource LeftSmall}" />
+                    <Label Text="{Binding Question.QuestionAskers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
+                    <!-- Ask the user whether they allow other users to add QuestionAskers. (Y/N) -->
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="{xct:Translate AskerPermissions}" Style="{StaticResource LeftSmall}"/>
+                        <CheckBox IsChecked="{Binding Question.OthersCanAddAskers}"/>
+                    </StackLayout>
+                </StackLayout>
                 <!--CheckedChanged = "AskerPermissionsChangedCommandPlaceholder"-->
 			    <Label Text="{xct:Translate QuestionWriterHeaderText}" Style="{StaticResource LeftSmall}" />
 			    <Label Text="{Binding Question.QuestionSuggester, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />

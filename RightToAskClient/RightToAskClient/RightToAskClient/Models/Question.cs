@@ -14,11 +14,20 @@ using Xamarin.Forms;
 
 namespace RightToAskClient.Models
 {
+    public enum QuestionDetailsStatus
+    {
+        NewQuestion,
+        OtherUserQuestion,
+        UpdateMyQuestion
+    }
+
     public class Question : ObservableObject
     {
         private int _upVotes;
         private int _downVotes;
         private QuestionSendToServer _updates = new QuestionSendToServer();
+
+        public QuestionDetailsStatus Status { get; set; }
 
         private string _questionText = "";
         public string QuestionText
@@ -204,6 +213,14 @@ namespace RightToAskClient.Models
         {
             get => _hasAnswer;
             set => SetProperty(ref _hasAnswer, value);
+        }
+
+        // chosen by route of option A or B to answer in app or raise in parliament
+        private bool _answerInApp = false;
+        public bool AnswerInApp
+        {
+            get => _answerInApp;
+            set => SetProperty(ref _answerInApp, value);
         }
 
         /*

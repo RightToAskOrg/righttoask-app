@@ -30,12 +30,12 @@
                         <SearchBar Placeholder="{xct:Translate SearchBarPlaceholderText}" Text="{Binding Keyword}" 
                                    Style="{StaticResource GreenSearchBar}" SearchCommand="{Binding SearchCommand}"/>
                         <Label Text="Seach with These Filters?" />
-                        <Button Text="Go" Command="{Binding SearchCommand}"/>
+                        <Button Text="{xct:Translate GoButtonText}" Command="{Binding SearchCommand}"/>
                     </StackLayout>
                 </Frame>
                 <!--Answered By Frame-->
                 <Frame Style="{StaticResource AppThemeFramePadding}">
-                    <xct:Expander>
+                    <xct:Expander ForceUpdateSizeCommand="{Binding ForceUpdateSizeCommand}">
                         <xct:Expander.Header>                            
                             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                                 <Label Text="Answered By" Style="{StaticResource LeftMedium}" TextColor="{StaticResource Primary}"/>

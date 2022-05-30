@@ -25,6 +25,8 @@
   <ItemGroup>
     <None Remove="Data\" />
     <None Remove="Images\account_balance_48.png" />
+    <None Remove="Images\arrow_back_48.png" />
+    <None Remove="Images\arrow_forward_48.png" />
     <None Remove="Images\assured_workload_48.png" />
     <None Remove="Images\BookStack.png" />
     <None Remove="Images\book_stack.png" />
@@ -132,6 +134,8 @@
     <EmbeddedResource Remove="Views\PickerPage.xaml" />
     <None Remove="Resources\VicLegislativeAssemblymembers.csv" />
     <EmbeddedResource Include="Images\account_balance_48.png" />
+    <EmbeddedResource Include="Images\arrow_back_48.png" />
+    <EmbeddedResource Include="Images\arrow_forward_48.png" />
     <EmbeddedResource Include="Images\assured_workload_48.png" />
     <EmbeddedResource Include="Images\book_stack.png" />
     <EmbeddedResource Include="Images\calendar_checkmark.png" />
@@ -259,6 +263,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\QuestionDisplayCard.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\QuestionPublishedPopup.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\ReadingPagePopup.xaml">

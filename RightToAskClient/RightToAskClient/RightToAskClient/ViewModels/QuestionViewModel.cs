@@ -17,6 +17,7 @@ using RightToAskClient.Annotations;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using Xamarin.CommunityToolkit.Extensions;
 
 namespace RightToAskClient.ViewModels
 {
@@ -52,7 +53,14 @@ namespace RightToAskClient.ViewModels
         public bool RaisedByOptionSelected
         {
             get => _raisedByOptionSelected;
-            set => SetProperty(ref _raisedByOptionSelected, value);
+            set
+            {
+                SetProperty(ref _raisedByOptionSelected, value);
+                if (_raisedByOptionSelected)
+                {
+                    Question.AnswerInApp = false;
+                }
+            }
         }
 
         private bool _displayFindCommitteeButton;
@@ -88,6 +96,13 @@ namespace RightToAskClient.ViewModels
         {
             get => _enableAnotherMPShouldRaiseButton;
             set => SetProperty(ref _enableAnotherMPShouldRaiseButton, value);
+        }
+
+        private bool _goHome;
+        public bool GoHome
+        {
+            get => _goHome;
+            set => SetProperty(ref _goHome, value);
         }
 
         private bool _showReportLabel;
@@ -220,6 +235,7 @@ namespace RightToAskClient.ViewModels
             });
             OtherPublicAuthorityButtonCommand = new AsyncCommand(async () =>
             {
+                Question.AnswerInApp = false;
                 // var selectableList = new SelectableList<Authority>(ParliamentData.AllAuthorities, App.ReadingContext.Filters.SelectedAuthorities); 
                 var PageToSearchAuthorities
                     = new SelectableListPage(App.ReadingContext.Filters.AuthorityLists, "Choose authorities");
@@ -234,6 +250,7 @@ namespace RightToAskClient.ViewModels
             // It will pop back to here.
             AnsweredByMyMPCommand = new AsyncCommand(async () =>
             {
+                Question.AnswerInApp = true;
                 await NavigationUtils.PushMyAnsweringMPsExploringPage().ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, "GoToReadingPage"); // Sends this view model
@@ -241,6 +258,7 @@ namespace RightToAskClient.ViewModels
             });
             AnsweredByOtherMPCommand = new AsyncCommand(async () =>
             {
+                Question.AnswerInApp = true;
                 await NavigationUtils.PushAnsweringMPsNotMineSelectableListPage().ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, "GoToReadingPage"); // Sends this view model
@@ -248,6 +266,7 @@ namespace RightToAskClient.ViewModels
             });
             AnsweredByOtherMPCommandOptionB = new AsyncCommand(async () =>
             {
+                Question.AnswerInApp = false;
                 await NavigationUtils.PushAnsweringMPsNotMineSelectableListPage().ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, "OptionBGoToAskingPageNext"); // Sends this view model
@@ -536,12 +555,14 @@ namespace RightToAskClient.ViewModels
             
             // Reset the draft question only if it didn't upload correctly.
             App.ReadingContext.DraftQuestion = "";
-            
+
             //FIXME update version, just like for edits.
 
-            bool goHome =
-                await App.Current.MainPage.DisplayAlert("Question published!", "", "Home", "Write another one");
-            if (goHome)
+            var popup = new QuestionPublishedPopup();
+            _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+            //bool goHome =
+            //    await App.Current.MainPage.DisplayAlert("Question published!", "", "Home", "Write another one");
+            if (GoHome)
             {
                 App.ReadingContext.Filters.RemoveAllSelections();
                 await App.Current.MainPage.Navigation.PopToRootAsync();

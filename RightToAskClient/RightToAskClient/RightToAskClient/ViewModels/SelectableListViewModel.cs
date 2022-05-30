@@ -21,11 +21,7 @@ namespace RightToAskClient.ViewModels
 		public ObservableCollection<Tag<Entity>> SelectableEntities
 		{
 			get => _selectableEntities;
-			private set
-			{
-				_selectableEntities = value;
-				OnPropertyChanged();
-			}
+			private set => SetProperty(ref _selectableEntities, value);
 		}
 
 		private ObservableCollection<TaggedGroupedEntities> _selectableGroupedEntities; 
@@ -37,6 +33,12 @@ namespace RightToAskClient.ViewModels
 				_selectableGroupedEntities = value;
 				OnPropertyChanged();
 			}
+		}
+
+		// The already-selected ones, for display at the top.
+		public IEnumerable<Tag<Entity>> PreSelectedEntities
+		{
+			get => SelectableEntities.Where(te => te.Selected);
 		}
 		
 		private string _introText = "";
@@ -57,9 +59,39 @@ namespace RightToAskClient.ViewModels
 		public Binding GroupDisplay
 		{
 			get => _groupDisplay;
-		} 
+		}
 
-		public IAsyncCommand DoneButtonCommand { get;  }
+		private string _doneButtonText = AppResources.NextButtonText;
+		public string DoneButtonText
+		{
+			get => _doneButtonText;
+			set => SetProperty(ref _doneButtonText, value);
+		}
+
+		private bool _showSearchFrame = false;
+		public bool ShowSearchFrame
+		{
+			get => _showSearchFrame;
+			set => SetProperty(ref _showSearchFrame, value);
+		}
+
+		private string _keyword = "";
+		public string Keyword
+		{
+			get => _keyword;
+			set
+			{
+				bool changed = SetProperty(ref _keyword, value);
+				if (changed)
+				{
+					App.ReadingContext.Filters.SearchKeyword = _keyword;
+				}
+			}
+		}
+
+		public IAsyncCommand DoneButtonCommand { get; }
+		public Command SearchToolbarCommand { get; }
+		public Command ApplySearchCommand { get; }
 		// public IAsyncCommand HomeButtonCommand { get;  }
 		// public Command<(object,ItemTappedEventArgs)> EntitySelectedCommand { get;  }
 		// public EventHandler<ItemTappedEventArgs> EntitySelectedEventHandler { get; }
@@ -77,12 +109,14 @@ namespace RightToAskClient.ViewModels
 
         public SelectableListViewModel(SelectableList<Authority> authorityLists , string message) 
 		{
+			Keyword = App.ReadingContext.Filters.SearchKeyword;
 			// SelectedAuthorities = new ObservableCollection<Authority>(authorityLists.SelectedEntities);
 			// AllEntities = new ObservableCollection<Entity>(authorityLists.AllEntities); 
-			SelectableEntities = wrapInTags(new ObservableCollection<Entity>(authorityLists.AllEntities),  
+			SelectableEntities = WrapInTagsAndSortPreselections(new ObservableCollection<Entity>(authorityLists.AllEntities),  
 								authorityLists.SelectedEntities);
 
-			_titleText = message;
+			_titleText = "Authorities";
+			IntroText = message;
 			PopupLabelText = AppResources.SelectableListAuthoritiesPopupText;
 			DoneButtonCommand = new AsyncCommand(async () =>
             {
@@ -91,15 +125,25 @@ namespace RightToAskClient.ViewModels
 	                );
 				MessagingCenter.Send(this, "UpdateFilters");
             });
-            
+			SearchToolbarCommand = new Command(() =>
+			{
+				ShowSearchFrame = !ShowSearchFrame; // just toggle it
+			});
+			ApplySearchCommand = new Command(() => 
+			{
+				// TODO: actually write a method to search through the list of entities
+				SelectableEntities = GetSearchResults(_keyword);
+			});
 			SubscribeToTheRightMessages();
 		}
 
 		public SelectableListViewModel(SelectableList<MP> mpLists, string message)
 		{
-			SelectableEntities = wrapInTags(new ObservableCollection<Entity>(mpLists.AllEntities),  mpLists.SelectedEntities);
+			Keyword = App.ReadingContext.Filters.SearchKeyword;
+			SelectableEntities = WrapInTagsAndSortPreselections(new ObservableCollection<Entity>(mpLists.AllEntities),  mpLists.SelectedEntities);
 			
-			_titleText = message;
+			_titleText = "MPs";
+			IntroText = message;
 			PopupLabelText = AppResources.SelectableListMPsPopupText;
 			DoneButtonCommand = new AsyncCommand(async () =>
             {
@@ -108,15 +152,25 @@ namespace RightToAskClient.ViewModels
 	                );
 				MessagingCenter.Send(this, "UpdateFilters");
             });
+			SearchToolbarCommand = new Command(() =>
+			{
+				ShowSearchFrame = !ShowSearchFrame; // just toggle it
+			});
+			ApplySearchCommand = new Command(() =>
+			{
+				// TODO: actually write a method to search through the list of entities
+				SelectableEntities = GetSearchResults(_keyword);
+			});
 
-            SubscribeToTheRightMessages();
+			SubscribeToTheRightMessages();
 		}
 		
 		// MPs are grouped only for display, but stored in simple (flat) lists.
 		// If the grouping boolean is set, group the MPs by chamber before display. 
         public SelectableListViewModel(SelectableList<MP> mpLists, string message, bool grouping)
         {
-	        if (grouping)
+			Keyword = App.ReadingContext.Filters.SearchKeyword;
+			if (grouping)
 	        {
 		        var groupedMPs = mpLists.AllEntities.GroupBy(mp => mp.electorate.chamber);
 		        List<TaggedGroupedEntities> groupedMPsWithTags = new List<TaggedGroupedEntities>();
@@ -124,7 +178,7 @@ namespace RightToAskClient.ViewModels
 		        {
 			        groupedMPsWithTags.Add(new TaggedGroupedEntities(
 				        group.Key,
-				        wrapInTags(new ObservableCollection<Entity>(group), mpLists.SelectedEntities)
+				        WrapInTagsAndSortPreselections(new ObservableCollection<Entity>(group), mpLists.SelectedEntities)
 			        ));
 		        }
 
@@ -134,11 +188,13 @@ namespace RightToAskClient.ViewModels
 		        SelectableEntities = new ObservableCollection<Tag<Entity>>(groupedMPsWithTags.SelectMany(x => x).ToList());
 	        } 
 	        else
-	        {
-				SelectableEntities = wrapInTags(new ObservableCollection<Entity>(mpLists.AllEntities),  mpLists.SelectedEntities);
-	        }
+			{
+				SelectableEntities = WrapInTagsAndSortPreselections(new ObservableCollection<Entity>(mpLists.AllEntities),
+					mpLists.SelectedEntities);
+			}
 	        
-			_titleText = message;
+			_titleText = "Grouped MPs";
+			IntroText = message;
 			PopupLabelText = AppResources.SelectableListMPsPopupText;
 			DoneButtonCommand = new AsyncCommand(async () =>
             {
@@ -147,7 +203,16 @@ namespace RightToAskClient.ViewModels
 	                );
 				MessagingCenter.Send(this, "UpdateFilters");
             });
-            
+			SearchToolbarCommand = new Command(() =>
+			{
+				ShowSearchFrame = !ShowSearchFrame; // just toggle it
+			});
+			ApplySearchCommand = new Command(() =>
+			{
+				// TODO: actually write a method to search through the list of entities
+				SelectableEntities = GetSearchResults(_keyword);
+			});
+
 			SubscribeToTheRightMessages();
         }
 
@@ -175,6 +240,11 @@ namespace RightToAskClient.ViewModels
 			{
 				GoToAskingPageNext = true;
 				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionBGoToAskingPageNext");
+			});
+			MessagingCenter.Subscribe<FilterViewModel>(this, "FromFiltersPage", (sender) =>
+			{
+				DoneButtonText = AppResources.DoneButtonText;
+				MessagingCenter.Unsubscribe<FilterViewModel>(this, "FromFiltersPage");
 			});
 		}
 
@@ -219,7 +289,7 @@ namespace RightToAskClient.ViewModels
             {
 				await Shell.Current.Navigation.PopAsync();
 			}
-			// MessagingCenter.Send(this, "UpdateFilters");
+			MessagingCenter.Send(this, "UpdateFilters");
 		}
 			
 		private void UpdateSelectedList<T>(SelectableList<T> entities) where T:Entity
@@ -249,12 +319,28 @@ namespace RightToAskClient.ViewModels
 		
 	    // Wrap the entities in tags, with Selected toggled according to whether the entity
 	    // is in the selectedEntities list or not.
-	    private ObservableCollection<Tag<Entity>> wrapInTags<T>(IEnumerable<Entity>
+	    private ObservableCollection<Tag<Entity>> WrapInTagsAndSortPreselections<T>(IEnumerable<Entity>
 		 	entities, IEnumerable<T> selectedEntities) where T : Entity
 		{
 			return new ObservableCollection<Tag<Entity>>(entities.Select
-				(a => a.WrapInTag(selectedEntities.Contains(a)))
+				(a => a.WrapInTag(selectedEntities.Contains(a))).OrderByDescending(t => t.Selected)
 			);
+		}
+
+		//private void OnKeywordChanged(object sender, TextChangedEventArgs e)
+		//{
+		//	_searchingFor = e.NewTextValue;
+		//	if (!String.IsNullOrWhiteSpace(_searchingFor))
+		//	{
+		//		ObservableCollection<Tag<Entity>> listToDisplay = GetSearchResults(_searchingFor);
+		//		AuthorityListView.ItemsSource = listToDisplay;
+		//	}
+		//}
+
+		private ObservableCollection<Tag<Entity>> GetSearchResults(string queryString)
+		{
+			return new ObservableCollection<Tag<Entity>>(
+						SelectableEntities.Where(f => f.NameContains(queryString)));
 		}
 	}
 }

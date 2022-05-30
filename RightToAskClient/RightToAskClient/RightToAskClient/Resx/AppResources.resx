@@ -615,4 +615,31 @@
   <data name="SelectableListMPsPopupText" xml:space="preserve">
     <value>SelectableListMPsPopupText</value>
   </data>
+  <data name="AccountUpdateSuccessResponseText" xml:space="preserve">
+    <value>Your account was successfully updated!</value>
+  </data>
+  <data name="NoAccountChangesDetectedAlertText" xml:space="preserve">
+    <value>No Changes were made and thus there are no changes to update on your account. Suggestion: try updating your display name.</value>
+  </data>
+  <data name="NoAccountChangesDetectedTitle" xml:space="preserve">
+    <value>No Changes Found</value>
+  </data>
+  <data name="AccountCreationSuccessResponseText" xml:space="preserve">
+    <value>Your account was created successfully!</value>
+  </data>
+  <data name="GoHomeButtonText" xml:space="preserve">
+    <value>Go Home</value>
+  </data>
+  <data name="QuestionPublishedPopupText" xml:space="preserve">
+    <value>Question successfully published!</value>
+  </data>
+  <data name="WriteAnotherQuestionButtonText" xml:space="preserve">
+    <value>Write Another One</value>
+  </data>
+  <data name="GoButtonText" xml:space="preserve">
+    <value>Go</value>
+  </data>
+  <data name="UserNameHeaderText" xml:space="preserve">
+    <value>Username</value>
+  </data>
 </root>
