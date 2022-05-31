@@ -24,7 +24,21 @@ namespace RightToAskClient.ViewModels
 			private set => SetProperty(ref _selectableEntities, value);
 		}
 
-		private ObservableCollection<TaggedGroupedEntities> _selectableGroupedEntities; 
+		private ObservableCollection<Tag<Entity>> _filteredSelectableEntities = new ObservableCollection<Tag<Entity>>();
+		public ObservableCollection<Tag<Entity>> FilteredSelectableEntities
+		{
+			get => _filteredSelectableEntities;
+			private set => SetProperty(ref _filteredSelectableEntities, value);
+		}
+
+		private bool _showFilteredResults = false;
+		public bool ShowFilteredResults
+		{
+			get => _showFilteredResults;
+			set => SetProperty(ref _showFilteredResults, value);
+		}
+
+    private ObservableCollection<TaggedGroupedEntities> _selectableGroupedEntities; 
 		public ObservableCollection<TaggedGroupedEntities> SelectableGroupedEntities
 		{
 			get => _selectableGroupedEntities;
@@ -85,7 +99,28 @@ namespace RightToAskClient.ViewModels
 				if (changed)
 				{
 					App.ReadingContext.Filters.SearchKeyword = _keyword;
-				}
+                }
+				FilteredSelectableEntities = GetSearchResults(_keyword);
+				//ShowFilteredResults = !string.IsNullOrEmpty(_keyword);
+				// after clearing the filtered list away and putting if off screen, update the original list with selected toggles
+     //           if (string.IsNullOrEmpty(_keyword))
+     //           {
+					//foreach(Tag<Entity> selectedEntity in FilteredSelectableEntities)
+     //               {
+     //                   if (selectedEntity.Selected)
+     //                   {
+					//		Tag<Entity> temp = SelectableEntities.Where(e => e.TagEntity == selectedEntity.TagEntity).SingleOrDefault();
+					//		if(!temp.Selected)
+					//		temp.Toggle();
+     //                   }
+     //                   else
+     //                   {
+					//		Tag<Entity> temp = SelectableEntities.Where(e => e.TagEntity == selectedEntity.TagEntity).SingleOrDefault();
+					//		if (temp.Selected)
+					//			temp.Toggle();
+					//	}
+     //               }
+     //           }
 			}
 		}
 
@@ -132,7 +167,7 @@ namespace RightToAskClient.ViewModels
 			ApplySearchCommand = new Command(() => 
 			{
 				// TODO: actually write a method to search through the list of entities
-				SelectableEntities = GetSearchResults(_keyword);
+				FilteredSelectableEntities = GetSearchResults(_keyword);
 			});
 			SubscribeToTheRightMessages();
 		}
@@ -159,7 +194,7 @@ namespace RightToAskClient.ViewModels
 			ApplySearchCommand = new Command(() =>
 			{
 				// TODO: actually write a method to search through the list of entities
-				SelectableEntities = GetSearchResults(_keyword);
+				FilteredSelectableEntities = GetSearchResults(_keyword);
 			});
 
 			SubscribeToTheRightMessages();
@@ -210,7 +245,7 @@ namespace RightToAskClient.ViewModels
 			ApplySearchCommand = new Command(() =>
 			{
 				// TODO: actually write a method to search through the list of entities
-				SelectableEntities = GetSearchResults(_keyword);
+				FilteredSelectableEntities = GetSearchResults(_keyword);
 			});
 
 			SubscribeToTheRightMessages();
@@ -273,6 +308,8 @@ namespace RightToAskClient.ViewModels
 		// Also consider whether this should raise a warning if neither of the types match.
 		private async void DoneButton_OnClicked(Action updateAction)
 		{
+			// reset keyword search filter
+			Keyword = "";
 			updateAction();
 			// Option B. We've finished choosing who should answer it, so now find out who should ask it.
 			if (GoToAskingPageNext)

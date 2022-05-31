@@ -31,13 +31,22 @@
             </Frame>
             <Label x:Name="IntroText" Text = "{Binding IntroText}" Style="{StaticResource Header2}"/>
             <ScrollView x:Name="ParentScrollView">
-				<ListView ItemsSource="{Binding SelectableEntities}"
+                <ListView ItemsSource="{Binding FilteredSelectableEntities}"
 				    x:FieldModifier="protected" VerticalOptions="FillAndExpand" SelectionMode="None" 
 				    HasUnevenRows="True" ItemTapped="OnEntity_Selected" 
 					ItemTemplate="{StaticResource SelectableDataTemplate }">
 				</ListView>
-			</ScrollView>	
-			<Button Text="{Binding DoneButtonText}" Command="{Binding DoneButtonCommand}" Style="{StaticResource DoneButton}" /> 
+			</ScrollView>
+            <!--For Searching-->
+            <!--
+            <ScrollView IsVisible="{Binding ShowFilteredResults}" BackgroundColor="Yellow">
+                <ListView ItemsSource="{Binding FilteredSelectableEntities}"
+				    x:FieldModifier="protected" VerticalOptions="FillAndExpand" SelectionMode="None" 
+				    HasUnevenRows="True" ItemTapped="OnEntity_Selected" 
+					ItemTemplate="{StaticResource SelectableDataTemplate }">
+                </ListView>
+            </ScrollView>-->
+            <Button Text="{Binding DoneButtonText}" Command="{Binding DoneButtonCommand}" Style="{StaticResource DoneButton}" /> 
 		</StackLayout>
     </ContentPage.Content>
 </ContentPage>
