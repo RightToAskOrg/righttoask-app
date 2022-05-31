@@ -57,6 +57,10 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _reportLabelText, value);
         }
 
+        // booleans for feedback from generic popup button presses
+        public bool CancelButtonClicked { get; set; } = false;
+        public bool ApproveButtonClicked { get; set; } = false;
+
         // commands
         public IAsyncCommand HomeButtonCommand { get; }
         public IAsyncCommand InfoPopupCommand { get; }

@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xct:Popup xmlns="http://xamarin.com/schemas/2014/forms"
+           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+           xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+           x:Class="RightToAskClient.Views.TwoButtonPopup"
+           Size="300,200"
+           Color="Transparent">
+    <Frame CornerRadius="30" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
+               BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}">
+        <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent">
+            <Label x:Name="mainMessage" VerticalOptions="StartAndExpand" VerticalTextAlignment="Center" 
+                   HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource Header1}"
+                   TextColor="{AppThemeBinding Light={StaticResource TextColor}, 
+                   Dark={StaticResource TextColorDark}}"/>
+            <Grid ColumnDefinitions="*,*" VerticalOptions="End">
+                <Button x:Name="cancelButton" Grid.Column="0" Clicked="CancelButtonClicked" HeightRequest="75"/>
+                <Button x:Name="approveButton" Grid.Column="1" Clicked="ApproveButtonClicked" HeightRequest="75"/>
+            </Grid>
+        </StackLayout>
+    </Frame>
+</xct:Popup>

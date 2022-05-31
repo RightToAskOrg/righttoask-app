@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -295,7 +296,9 @@ namespace RightToAskClient.ViewModels
 
             if (String.IsNullOrEmpty(state))
             {
-                await App.Current.MainPage.DisplayAlert(AppResources.SelectStateWarningText, "", "OK");
+                //await App.Current.MainPage.DisplayAlert(AppResources.SelectStateWarningText, "", "OK");
+                var popup = new OneButtonPopup(AppResources.SelectStateWarningText, AppResources.OKText);
+                _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
                 return;
             }
 
