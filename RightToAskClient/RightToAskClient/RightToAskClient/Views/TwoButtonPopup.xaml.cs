@@ -17,11 +17,12 @@ namespace RightToAskClient.Views
         BaseViewModel baseViewModel;
         //ObservableObject model;
         // constructor for ViewModels
-        public TwoButtonPopup(BaseViewModel vm, string popupText, string cancelMessage, string approveMessage)
+        public TwoButtonPopup(BaseViewModel vm, string popupTitle, string popupText, string cancelMessage, string approveMessage)
         {
             InitializeComponent();
             baseViewModel = vm;
             BindingContext = vm;
+            mainTitle.Text = popupTitle;
             mainMessage.Text = popupText;
             cancelButton.Text = cancelMessage;
             approveButton.Text = approveMessage;

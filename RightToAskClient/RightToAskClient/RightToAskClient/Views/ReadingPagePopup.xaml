@@ -7,6 +7,7 @@
              x:DataType="viewmodels:ReadingPageViewModel"
              x:Class="RightToAskClient.Views.ReadingPagePopup"
              Size="300,300"
+             IsLightDismissEnabled="False"
              Color="Transparent">
     <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent">
         <Frame CornerRadius="30" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 

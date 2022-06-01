@@ -17,5 +17,10 @@ namespace RightToAskClient.Views
             InitializeComponent();
             popupText.Text = message;
         }
+
+        private void okButton_Clicked(object sender, EventArgs e)
+        {
+            Dismiss("Dismissed");
+        }
     }
 }

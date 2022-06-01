@@ -4,6 +4,7 @@
            xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
            x:Class="RightToAskClient.Views.QuestionPublishedPopup"
            Size="300,200"
+           IsLightDismissEnabled="False"
            Color="Transparent">
     <Frame CornerRadius="30" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
                BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}">

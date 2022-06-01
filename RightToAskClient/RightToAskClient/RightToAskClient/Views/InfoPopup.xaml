@@ -1,17 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <xct:Popup xmlns="http://xamarin.com/schemas/2014/forms"
            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-           xmlns:xct="clr-namespace:Xamarin.CommunityToolkit.UI.Views;assembly=Xamarin.CommunityToolkit"
+           xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
            x:Class="RightToAskClient.Views.InfoPopup"
            Size="300,300"
+           IsLightDismissEnabled="False"
            Color="Transparent"><!--***NOTE*** xct:Popup uses Color property to set what would normally be the BackgroundColor for most properties-->
-    <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent">
-        <Frame CornerRadius="30" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
-               BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}">
+    <Frame CornerRadius="30" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
+        BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}">
+        <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent">
             <Label x:Name="popupText" Text="Loading..." VerticalOptions="Center" VerticalTextAlignment="Center" 
                    HorizontalOptions="Center" HorizontalTextAlignment="Center"
                    TextColor="{AppThemeBinding Light={StaticResource TextColor}, 
                    Dark={StaticResource TextColorDark}}"/>
-        </Frame>        
-    </StackLayout>
+            <Grid ColumnDefinitions="*,*" VerticalOptions="EndAndExpand">
+                <Button x:Name="okButton" Text="{xct:Translate OKText}" Grid.Column="1" Clicked="okButton_Clicked" HeightRequest="50" Style="{StaticResource GreenButton}"/>
+            </Grid>
+        </StackLayout>
+    </Frame>        
 </xct:Popup>
