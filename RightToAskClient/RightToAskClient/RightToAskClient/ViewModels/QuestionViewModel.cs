@@ -328,11 +328,7 @@ namespace RightToAskClient.ViewModels
             });
             BackCommand = new AsyncCommand(async () =>
             {
-                string? result = await Shell.Current.DisplayActionSheet("Are you sure you want to go back? You will lose any unsaved questions.", "Cancel", "Yes, I'm sure.");
-                if (result == "Yes, I'm sure.")
-                {
-                    _ = await Shell.Current.Navigation.PopAsync();
-                }
+                HomeButtonCommand.Execute(null); // just inherit the functionality of the home button from BaseViewModel
             });
             OptionACommand = new AsyncCommand(async () =>
             {

@@ -669,4 +669,28 @@
   <data name="StayOnCurrentPageButtonText" xml:space="preserve">
     <value>Stay</value>
   </data>
+  <data name="GoHomePopupText" xml:space="preserve">
+    <value>Are you sure you want to go home? You will lose any unsaved questions.</value>
+  </data>
+  <data name="GoHomePopupTitle" xml:space="preserve">
+    <value>Return to the Homepage?</value>
+  </data>
+  <data name="ImSureButtonText" xml:space="preserve">
+    <value>Yes, I'm sure.</value>
+  </data>
+  <data name="MPsPopupText" xml:space="preserve">
+    <value>Would you like to find your MPs? You can always change them later.</value>
+  </data>
+  <data name="MPsPopupTitle" xml:space="preserve">
+    <value>Find your MPs?</value>
+  </data>
+  <data name="NavigationPopupTitle" xml:space="preserve">
+    <value>You are navigating away from RightToAsk.</value>
+  </data>
+  <data name="SkipButtonText" xml:space="preserve">
+    <value>Skip for now.</value>
+  </data>
+  <data name="YesButtonText" xml:space="preserve">
+    <value>Yes</value>
+  </data>
 </root>

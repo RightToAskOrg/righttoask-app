@@ -400,8 +400,9 @@ namespace RightToAskClient.ViewModels
                 if (!App.ReadingContext.ThisParticipant.MPsKnown)
                 {
                     // if MPs have not been found for this user yet, prompt to find them
-                    string? result = await Shell.Current.DisplayActionSheet("Would you like to find your MPs? You can always change them later.", "Skip for now.", "Yes");
-                    if (result == "Yes")
+                    var popup = new TwoButtonPopup(this, AppResources.MPsPopupTitle, AppResources.MPsPopupText, AppResources.SkipButtonText, AppResources.YesButtonText);
+                    _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                    if (ApproveButtonClicked)
                     {
                         NavigateToFindMPsPage();
                     }

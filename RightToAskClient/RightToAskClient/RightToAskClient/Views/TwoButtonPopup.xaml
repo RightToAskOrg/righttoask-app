@@ -8,19 +8,21 @@
            Color="Transparent">
     <Frame CornerRadius="30" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
                BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}">
-        <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent">
-            <Label x:Name="mainTitle" VerticalOptions="StartAndExpand" VerticalTextAlignment="Center" 
+        <ScrollView>
+            <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent">
+                <Label x:Name="mainTitle" VerticalOptions="StartAndExpand" VerticalTextAlignment="Center" 
                    HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource Header1}"
                    TextColor="{AppThemeBinding Light={StaticResource TextColor}, 
                    Dark={StaticResource TextColorDark}}"/>
-            <Label x:Name="mainMessage" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" 
+                <Label x:Name="mainMessage" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" 
                    HorizontalOptions="Center" HorizontalTextAlignment="Start" Style="{StaticResource LeftFrameTextMedium}"
                    TextColor="{AppThemeBinding Light={StaticResource TextColor}, 
                    Dark={StaticResource TextColorDark}}"/>
-            <Grid ColumnDefinitions="*,*" VerticalOptions="End">
-                <Button x:Name="cancelButton" Grid.Column="0" Clicked="CancelButtonClicked" HeightRequest="75" Style="{StaticResource GreenButton}"/>
-                <Button x:Name="approveButton" Grid.Column="1" Clicked="ApproveButtonClicked" HeightRequest="75" Style="{StaticResource GreenButton}"/>
-            </Grid>
-        </StackLayout>
+                <Grid ColumnDefinitions="*,*" VerticalOptions="End">
+                    <Button x:Name="cancelButton" Grid.Column="0" Clicked="CancelButtonClicked" HeightRequest="75" Style="{StaticResource GreenButton}"/>
+                    <Button x:Name="approveButton" Grid.Column="1" Clicked="ApproveButtonClicked" HeightRequest="75" Style="{StaticResource GreenButton}"/>
+                </Grid>
+            </StackLayout>
+        </ScrollView>
     </Frame>
 </xct:Popup>
