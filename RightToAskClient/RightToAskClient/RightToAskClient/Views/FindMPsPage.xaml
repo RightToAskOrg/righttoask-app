@@ -13,13 +13,15 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
                      IconImageSource="{local:ImageResource RightToAskClient.Images.home4.png}"/>
+        <ToolbarItem Text="{xct:Translate InfoPopupButtonText}" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.help_75.png}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.BindingContext>
         <vm:FindMPsViewModel/>
     </ContentPage.BindingContext>
         <ContentPage.Content>
-	    <ScrollView>
-            <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
+	    <ScrollView Margin="0" Padding="0">
+            <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" Spacing="0">
                 <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"/>
                 <Label Text="{xct:Translate MPsHeaderText1}" FontSize="Medium" HorizontalOptions="Center" />
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
@@ -79,14 +81,11 @@
 			            -->
                     </StackLayout>
                 </Frame>
-                <!--Electorates Found Frame-->
-                <Frame Style="{StaticResource SubtleFrame}" IsVisible="{Binding ShowElectoratesFrame}">
-                    <StackLayout Margin="20">
-                        <Label Text="Electorates Found!" Style="{StaticResource LeftFrameText}"/>
-                        <Label Text="{Binding FederalElectorateDisplayText, StringFormat='Federal Electorate: {0}'}" Style="{StaticResource LeftFrameText}"/>
-                        <Label Text="{Binding StateLowerHouseElectorateDisplayText, StringFormat='State Lower House Electorate: {0}'}" Style="{StaticResource LeftFrameText}"/>
-                        <!--<WebView x:Name="ElectorateMap" Source="https://www.abc.net.au/res/sites/news-projects/interactive-electorateboundaries-2/5.0.0/?kml=/dat/news/elections/federal/2022/guide/kml/Redist-Cooper.kml" WidthRequest="250" HeightRequest="500"/>-->
-                        <WebView x:Name="ElectorateMap" Source="https://arcg.is/1mOuKq" WidthRequest="250" HeightRequest="250"/>
+                <Frame Margin="0" Padding="0" IsVisible="{Binding ShowMapFrame}">                    
+                    <StackLayout Margin="0" Padding="0" Spacing="0">
+                        <!--Webview has default padding in its underlying html that is proving difficult to remove-->
+                        <!--<Label Text="Your Currently Selected Electorate: " Padding="0" Margin="0"/>-->
+                        <WebView Source="{Binding MapURL}" WidthRequest="300" HeightRequest="400" Margin="0"/>
                     </StackLayout>
                 </Frame>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">

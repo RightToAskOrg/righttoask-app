@@ -27,6 +27,7 @@ namespace RightToAskClient.HttpClients
         private static string UserListUrl = BaseUrl + "/get_user_list";
         private static string QuestionListUrl = BaseUrl + "/get_question_list";
         private static string QuestionUrl = BaseUrl + "/get_question";
+        private static string UserUrl = BaseUrl + "/get_user";
         // TODO At the moment, this is not used, because we don't have a cert chain for the server Public Key.
         // Instead, the public key itself is hardcoded.
         // private static string ServerPubKeyUrl = BaseUrl + "/get_server_public_key_spki";
@@ -104,22 +105,28 @@ namespace RightToAskClient.HttpClients
             return await Client.DoGetResultRequest<List<string>>(QuestionListUrl);
         }
 
-        public static async Task<Result<NewQuestionServerReceive>> GetQuestionById(string questionId)
+        public static async Task<Result<QuestionReceiveFromServer>> GetQuestionById(string questionId)
         {
             string GetQuestionUrl = QuestionUrl + "?question_id=" + questionId;
-            return await Client.DoGetResultRequest<NewQuestionServerReceive>(GetQuestionUrl);
+            return await Client.DoGetResultRequest<QuestionReceiveFromServer>(GetQuestionUrl);
+        }
+
+        public static async Task<Result<ServerUser>> GetUserById(string userId)
+        {
+            string GetUserUrl = UserUrl + "?uid=" + userId;
+            return await Client.DoGetResultRequest<ServerUser>(GetUserUrl);
         }
 
         // TODO refactor to use SignAndSendDataToServer 
-        public static async Task<Result<bool>> RegisterNewQuestion(ClientSignedUnparsed newQuestion)
+        public static async Task<Result<bool>> RegisterNewQuestion(QuestionSendToServer newQuestion)
         {
-            return await SendDataToServer<ClientSignedUnparsed>(newQuestion, "question", QnUrl);
+            return await SignAndSendDataToServer<QuestionSendToServer>(newQuestion, "question", QnUrl,"Error publishing New Question");
         }
 
         // TODO refactor to use SignAndSendDataToServer 
-        public static async Task<Result<bool>> UpdateExistingQuestion(ClientSignedUnparsed existingQuestion)
+        public static async Task<Result<bool>> UpdateExistingQuestion(QuestionSendToServer existingQuestion)
         {
-            return await SendDataToServer<ClientSignedUnparsed>(existingQuestion, "question", EditQnUrl);
+            return await SignAndSendDataToServer<QuestionSendToServer>(existingQuestion, "question", EditQnUrl, "Error editing question");
         }
 
         // Sign a message (data) with this user's key, then upload to the specified url. 
@@ -191,7 +198,7 @@ namespace RightToAskClient.HttpClients
                 return (false, messageTopic + ": Failure.");
             }
 
-            return (false, "Server error" + response.Err);
+            return (false, "Server error: " + response.Err);
         }
 
         // maybe overload this to get both a response boolean and data back
@@ -205,7 +212,7 @@ namespace RightToAskClient.HttpClients
                 }
                 return (false, messageTopic + ": Failure.");
             }
-            return (false, "Server error" + response.Err);
+            return (false, "Server error: " + response.Err);
         }
 
         // Tries to read server config, returns the url if there's a valid configuration file

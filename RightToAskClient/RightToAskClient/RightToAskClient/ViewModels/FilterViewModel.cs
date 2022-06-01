@@ -5,7 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml;
+using Xamarin.CommunityToolkit.ObjectModel;
+using RightToAskClient.Resx;
 using Xamarin.Forms;
+using System.Threading.Tasks;
 
 namespace RightToAskClient.ViewModels
 {
@@ -15,7 +19,7 @@ namespace RightToAskClient.ViewModels
         public static FilterViewModel Instance => _instance ??= new FilterViewModel();
 
         // properties
-        public FilterDisplayTableView FilterDisplay = new FilterDisplayTableView();
+        // public FilterDisplayTableView FilterDisplay = new FilterDisplayTableView();
         public FilterChoices FilterChoices => App.ReadingContext.Filters;
 
         public List<string> CommitteeList = new List<string>();
@@ -26,7 +30,7 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _committeeText, value);
         }
 
-        public List<Entity> OtherRightToAskUserList = new List<Entity>();
+        public List<Person> OtherRightToAskUserList = new List<Person>();
         private string _otherRightToAskUserText = "";
         public string OtherRightToAskUserText
         {
@@ -34,12 +38,15 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _otherRightToAskUserText, value);
         }
 
-        public List<Authority> PublicAuthoritiesList = new List<Authority>();
-        private string _publicAuthoritiesText = "";
+        // public List<Authority> PublicAuthoritiesList = new List<Authority>();
+        // private string _publicAuthoritiesText = "";
+        // VT Note to Matt: See how I've refactored this so that there's no need to update -
+        // it isn't really a separate data structure at all, just a formatted way of reading
+        // the SelectedAuthorities.
         public string PublicAuthoritiesText
         {
-            get => _publicAuthoritiesText;
-            set => SetProperty(ref _publicAuthoritiesText, value);
+            get => CreateTextGivenListEntities(FilterChoices.SelectedAuthorities.ToList());
+            // private set => SetProperty(ref _publicAuthoritiesText, value);
         }
 
         public List<MP> SelectedAnsweringMyMPsList = new List<MP>();
@@ -73,44 +80,99 @@ namespace RightToAskClient.ViewModels
             get => _selectedAnsweringMPs;
             set => SetProperty(ref _selectedAnsweringMPs, value);
         }
+        public bool CameFromMainPage = false;
+
+        private string _keyword = "";
+        public string Keyword
+        {
+            get => _keyword;
+            set
+            {
+                bool changed = SetProperty(ref _keyword, value);
+                if (changed)
+                {
+                    App.ReadingContext.Filters.SearchKeyword = _keyword;
+                }
+            }
+        }
 
         public FilterViewModel()
         {
+            PopupLabelText = AppResources.FiltersPopupText;
+            MessagingCenter.Subscribe<QuestionViewModel>(this, "UpdateFilters", (sender) =>
+            {
+                ReinitData();
+                MessagingCenter.Unsubscribe<QuestionViewModel>(this, "UpdateFilters");
+            });
+            MessagingCenter.Subscribe<SelectableListViewModel>(this, "UpdateFilters", (sender) =>
+            {
+                ReinitData();
+                // Normally we'd want to unsubscribe to prevent multiple instances of the subscriber from happening,
+                // but because these listeners happen when popping back to this page from a selectableList page we want to keep the listener/subscriber
+                // active to update all of the lists/filters on this page with the newly selected data
+                //MessagingCenter.Unsubscribe<SelectableListViewModel>(this, "UpdateFilters");
+            });
             MessagingCenter.Subscribe<ExploringPage>(this, "UpdateFilters", (sender) =>
             {
                 ReinitData();
+                //MessagingCenter.Unsubscribe<ExploringPage>(this, "UpdateFilters");
             });
             MessagingCenter.Subscribe<ExploringPageWithSearch>(this, "UpdateFilters", (sender) =>
             {
                 ReinitData();
+                //MessagingCenter.Unsubscribe<ExploringPageWithSearch>(this, "UpdateFilters");
             });
+            /*
             MessagingCenter.Subscribe<ExploringPageWithSearchAndPreSelections>(this, "UpdateFilters", (sender) =>
             {
                 ReinitData();
             });
-            Title = "Advanced Search Page Filters";
+            */
+
+            MessagingCenter.Subscribe<MainPageViewModel>(this, "MainPage", (sender) =>
+            {
+                CameFromMainPage = true;
+                MessagingCenter.Unsubscribe<MainPageViewModel>(this, "MainPage");
+            });
+
+            Title = AppResources.AdvancedSearchButtonText; 
             ReinitData(); // to set the display strings
 
             // commands
             AnsweringMPsFilterCommand = new Command(() =>
             {
-                EditSelectedAnsweringMPsClicked();
+                _ = EditSelectedAnsweringMPsClicked().ContinueWith((_) =>
+                  {
+                      MessagingCenter.Send(this, "FromFiltersPage"); // Sends this view model
+                });
             });
             AskingMPsFilterCommand = new Command(() =>
             {
-                EditSelectedAskingMPsClicked();
+                _ = EditSelectedAskingMPsClicked().ContinueWith((_) =>
+                  {
+                      MessagingCenter.Send(this, "FromFiltersPage");
+                  });
             });
             AnsweringAuthoritiesFilterCommand = new Command(() =>
             {
-                EditAuthoritiesClicked();
+                _ = EditAuthoritiesClicked().ContinueWith((_) =>
+                  {
+                      MessagingCenter.Send(this, "FromFiltersPage");
+                  });
             });
             OtherAnsweringMPsFilterCommand = new Command(() =>
             {
-                EditOtherSelectedAnsweringMPsClicked();
+                _ = EditOtherSelectedAnsweringMPsClicked().ContinueWith((_) =>
+                  {
+                      MessagingCenter.Send(this, "FromFiltersPage");
+                  });
             });
             OtherAskingMPsFilterCommand = new Command(() =>
             {
-                EditOtherSelectedAskingMPsClicked();
+                _ = EditOtherSelectedAskingMPsClicked().ContinueWith((_) =>
+                  {
+                      MessagingCenter.Send(this, "FromFiltersPage");
+                  });
             });
             RightToAskUserCommand = new Command(() =>
             {
@@ -124,6 +186,21 @@ namespace RightToAskClient.ViewModels
             {
                 ApplyFiltersAndSearch();
             });
+            BackCommand = new AsyncCommand(async () =>
+            {
+                if (CameFromMainPage)
+                {
+                    await App.Current.MainPage.Navigation.PopToRootAsync();
+                }
+                else
+                {
+                    await App.Current.MainPage.Navigation.PopAsync();
+                }
+            });
+            ForceUpdateSizeCommand = new Command(() =>
+            {
+                ReinitData();
+            });
         }
 
         // commands
@@ -135,48 +212,45 @@ namespace RightToAskClient.ViewModels
         public Command RightToAskUserCommand { get; }
         public Command NotSureCommand { get; }
         public Command SearchCommand { get; }
+        public IAsyncCommand BackCommand { get; }
+        public Command ForceUpdateSizeCommand { get; }
 
         // helper methods
         public void ReinitData()
         {
+            // set the keyword
+            Keyword = App.ReadingContext.Filters.SearchKeyword;
+
             // get lists of data
-            SelectedAskingMPsList = FilterChoices.SelectedAskingMPs.ToList();
-            SelectedAnsweringMPsList = FilterChoices.SelectedAnsweringMPs.ToList();
+            SelectedAskingMPsList = FilterChoices.SelectedAskingMPsNotMine.ToList();
+            SelectedAnsweringMPsList = FilterChoices.SelectedAnsweringMPsNotMine.ToList();
             SelectedAskingMyMPsList = FilterChoices.SelectedAskingMPsMine.ToList();
             SelectedAnsweringMyMPsList = FilterChoices.SelectedAnsweringMPsMine.ToList();
-            PublicAuthoritiesList = FilterChoices.SelectedAuthorities.ToList();
+            // PublicAuthoritiesList = FilterChoices.SelectedAuthorities.ToList();
             OtherRightToAskUserList = FilterChoices.SelectedAskingUsers.ToList();
             CommitteeList = FilterChoices.SelectedAskingCommittee.ToList();
 
             // create strings from those lists
-            SelectedAskingMPsText = CreateTextGivenListMPs(SelectedAskingMPsList);
-            SelectedAnsweringMPsText = CreateTextGivenListMPs(SelectedAnsweringMPsList);
-            SelectedAskingMyMPsText = CreateTextGivenListMPs(SelectedAskingMyMPsList);
-            SelectedAnsweringMyMPsText = CreateTextGivenListMPs(SelectedAnsweringMyMPsList);
-            PublicAuthoritiesText = CreateTextGivenListPAs(PublicAuthoritiesList);
+            SelectedAskingMPsText = CreateTextGivenListEntities(SelectedAskingMPsList);
+            SelectedAnsweringMPsText = CreateTextGivenListEntities(SelectedAnsweringMPsList);
+            SelectedAskingMyMPsText = CreateTextGivenListEntities(SelectedAskingMyMPsList);
+            SelectedAnsweringMyMPsText = CreateTextGivenListEntities(SelectedAnsweringMyMPsList);
+            // PublicAuthoritiesText = CreateTextGivenListEntities(PublicAuthoritiesList);
+            // This line is necessary for updating the views.
+            // TODO Ideally, we shouldn't have to do this manually,
+            // but I don't see a more elegant way at the moment.
+            // I tried raising it in SelectableList.cs but that didn't work.
+            OnPropertyChanged("PublicAuthoritiesText");
             OtherRightToAskUserText = CreateTextGivenListEntities(OtherRightToAskUserList);
             CommitteeText = CreateTextGivenListCommittees(CommitteeList);
         }
 
-        public string CreateTextGivenListMPs(List<MP> mpList)
+        public string CreateTextGivenListEntities(IEnumerable<Entity> entityList)
         {
-            string text = "";
-            for (int i = 0; i < mpList.Count; i++)
-            {
-                text += mpList[i].ShortestName;
-                if (i == mpList.Count - 1)
-                {
-                    // no comma + space
-                    continue;
-                }
-                else
-                {
-                    text += ", ";
-                }
-            }
-            return text;
+            return String.Join(", ", entityList.Select(e => e.ShortestName));
         }
 
+        // TODO merge into CreateTextGivenListEntities.
         public string CreateTextGivenListCommittees(List<string> committeeList)
         {
             string text = "";
@@ -196,45 +270,7 @@ namespace RightToAskClient.ViewModels
             return text;
         }
 
-        public string CreateTextGivenListPAs(List<Authority> paList)
-        {
-            string text = "";
-            for (int i = 0; i < paList.Count; i++)
-            {
-                text += paList[i].ShortestName;
-                if (i == paList.Count - 1)
-                {
-                    // no comma + space
-                    continue;
-                }
-                else
-                {
-                    text += ", ";
-                }
-            }
-            return text;
-        }
-
-        public string CreateTextGivenListEntities(List<Entity> userList)
-        {
-            string text = "";
-            for (int i = 0; i < userList.Count; i++)
-            {
-                text += userList[i].ShortestName;
-                if (i == userList.Count - 1)
-                {
-                    // no comma + space
-                    continue;
-                }
-                else
-                {
-                    text += ", ";
-                }
-            }
-            return text;
-        }
-
-        private async void EditSelectedAnsweringMPsClicked()
+        private async Task EditSelectedAnsweringMPsClicked()
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
@@ -242,32 +278,33 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        private async void EditAuthoritiesClicked()
+        private async Task EditAuthoritiesClicked()
         {
             string message = "Choose others to add";
 
             var departmentExploringPage
-             = new ExploringPageWithSearchAndPreSelections(App.ReadingContext.Filters.SelectedAuthorities, message);
+                // = new ExploringPageWithSearchAndPreSelections(App.ReadingContext.Filters.SelectedAuthorities, message);
+                = new SelectableListPage(App.ReadingContext.Filters.AuthorityLists, message);
             await App.Current.MainPage.Navigation.PushAsync(departmentExploringPage);
         }
 
-        private async void EditOtherSelectedAnsweringMPsClicked()
+        private async Task EditOtherSelectedAnsweringMPsClicked()
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
-                await NavigationUtils.PushAnsweringMPsExploringPage();
+                await NavigationUtils.PushAnsweringMPsNotMineSelectableListPage();
             }
         }
 
-        private async void EditOtherSelectedAskingMPsClicked()
+        private async Task EditOtherSelectedAskingMPsClicked()
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
-                await NavigationUtils.PushAskingMPsExploringPageAsync();
+                await NavigationUtils.PushAskingMPsNotMineSelectableListPageAsync();
             }
         }
 
-        private async void EditSelectedAskingMPsClicked()
+        private async Task EditSelectedAskingMPsClicked()
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
@@ -278,8 +315,14 @@ namespace RightToAskClient.ViewModels
         private async void ApplyFiltersAndSearch()
         {
             // TODO apply filters to the list of questions
-            //await Shell.Current.GoToAsync(nameof(ReadingPage));
-            await App.Current.MainPage.Navigation.PopAsync();
+            if (CameFromMainPage)
+            {
+                await Shell.Current.GoToAsync(nameof(ReadingPage));
+            }
+            else
+            {
+                await App.Current.MainPage.Navigation.PopAsync();
+            }
         }
     }
 }

@@ -30,6 +30,12 @@ namespace RightToAskClient.ViewModels
             get => _showFindMPsButton;
             set => SetProperty(ref _showFindMPsButton, value);
         }
+        private bool _showMapFrame = false;
+        public bool ShowMapFrame
+        {
+            get => _showMapFrame;
+            set => SetProperty(ref _showMapFrame, value);
+        }
         private bool _showSkipButton = false;
         public bool ShowSkipButton
         {
@@ -156,6 +162,15 @@ namespace RightToAskClient.ViewModels
             get => _doneButtonText;
             set => SetProperty(ref _doneButtonText, value);
         }
+        private bool _launchMPsSelectionPageNext = false;
+        private bool _optionB = false;
+
+        private string _mapURL = "";
+        public string MapURL
+        {
+            get => _mapURL;
+            private set => SetProperty(ref _mapURL, value);
+        }
         private bool _promptAddressSave = false;
         public bool PromptAddressSave
         {
@@ -199,39 +214,74 @@ namespace RightToAskClient.ViewModels
         // constructor
         public FindMPsViewModel()
         {
+            PopupLabelText = AppResources.FindMPsPopupText;
             ShowSkipButton = false;
             ShowAddressStack = false;
             ShowKnowElectoratesFrame = false;
-            ShowStateOnly = string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.RegistrationInfo.State);
-            _launchMPsSelectionPageNext = true;            
+            ShowMapFrame = false;
+            _launchMPsSelectionPageNext = true;
 
-            MessagingCenter.Subscribe<Registration1ViewModel>(this, "FromReg1", (sender) =>
+            if (!string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.CommonwealthElectorate))
+            {
+                ShowMapFrame = true;
+                string electorateString = ConvertElectorateToURLForm(App.ReadingContext.ThisParticipant.CommonwealthElectorate);
+                ShowMapOfElectorate(electorateString);
+            }
+
+            MessagingCenter.Subscribe<RegistrationViewModel>(this, "FromReg1", (sender) =>
             {
                 _launchMPsSelectionPageNext = false;
+                MessagingCenter.Unsubscribe<RegistrationViewModel>(this, "FromReg1");
+            });
+            // TODO Not sure we ever use this.
+            MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionBGoToAskingPageNext", sender =>
+            {
+                _optionB = true;
+                MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionBGoToAskingPageNext");
+            });
+            MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionBAskingNow", sender =>
+            {
+                _optionB = true;
+                MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionBAskingNow");
             });
 
             // commands
             MPsButtonCommand = new AsyncCommand(async () =>
             {
-                if (App.ReadingContext.ThisParticipant.AddressUpdated) // PromptAddressSave
-                {
-                    bool saveThisAddress = await App.Current.MainPage.DisplayAlert("Save Address?",
-                        "Do you want to save your address on this device? Right To Ask will not learn your address.",
-                        "OK - Save address on this device", "No thanks");
-                    if (saveThisAddress)
-                    {
-                        SaveAddress();
-                    }
-                }
+                SelectableListPage mpsSearchableListPage;
+                // We might get here via Option A from the flow options page, in which case
+                //    - initialize the MP SearchableListPage with AnsweringMPsListsMine and
+                //    - after that, navigate forward to a ReadingPage;
+                // we might get here via Option B from the QuestionAskerPage, in which case
+                //    - initialize the MP SearchableListPage with AskingMPsListsMine and
+                //    - after that, navigate forward to a ReadingPage;
                 if (_launchMPsSelectionPageNext)
                 {
-                    string message = "These are your MPs.  Select the one(s) who should answer the question";
-                    var mpsExploringPage = new ExploringPage(App.ReadingContext.ThisParticipant.GroupedMPs, App.ReadingContext.Filters.SelectedAskingMPs, message);
-                    await App.Current.MainPage.Navigation.PushAsync(mpsExploringPage);
+                    // Option B - our MP is asking the question
+                    if (_optionB)
+                    {
+                        string message =
+                            "These are your MPs.  Select the one(s) who should raise the question in Parliament";
+                        mpsSearchableListPage = new SelectableListPage(App.ReadingContext.Filters.AskingMPsListsMine,
+                            message, true);
+                    }
+                    // Option A - our MP should be answering the question.
+                    else
+                    {
+                        string message = "These are your MPs.  Select the one(s) who should answer the question";
+                        mpsSearchableListPage = new SelectableListPage(App.ReadingContext.Filters.AnsweringMPsListsMine,
+                            message, true);
+                    }
+
+                    MessagingCenter.Send(this, "GoToReadingPage");
+
+                    await App.Current.MainPage.Navigation.PushAsync(mpsSearchableListPage);
                     _launchMPsSelectionPageNext = false;
+                    _optionB = false;
                     DoneButtonText = AppResources.DoneButtonText;
-                    MessagingCenter.Send<FindMPsViewModel, bool>(this, "PreviousPage", true);
+                    // MessagingCenter.Send<FindMPsViewModel, bool>(this, "PreviousPage", true);
                 }
+                // We are here from the registration page - no need to select any MPs
                 else
                 {
                     await App.Current.MainPage.Navigation.PopAsync();
@@ -339,27 +389,43 @@ namespace RightToAskClient.ViewModels
                     ShowFindMPsButton = true;
                     ReportLabelText = "";
 
-                    ShowElectoratesFrame = true;
+                bool saveThisAddress = await App.Current.MainPage.DisplayAlert("Electorates found!",
+                    // "State Assembly Electorate: "+thisParticipant.SelectedLAStateElectorate+"\n"
+                    // +"State Legislative Council Electorate: "+thisParticipant.SelectedLCStateElectorate+"\n"
+                    "Federal electorate: " + App.ReadingContext.ThisParticipant.CommonwealthElectorate + "\n" +
+                    "State lower house electorate: " + App.ReadingContext.ThisParticipant.StateLowerHouseElectorate + "\n" +
+                    "Do you want to save your address on this device? Right To Ask will not learn your address.",
+                    "OK - Save address on this device", "No thanks");
+                if (saveThisAddress)
+                {
+                    SaveAddress();
+                }
+                ShowSkipButton = false;
+                if (!string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.CommonwealthElectorate))
+                {
+                    ShowMapFrame = true;
+                    ShowKnowElectoratesFrame = false;
                     ShowAddressStack = false;
-
-                    //bool saveThisAddress = await App.Current.MainPage.DisplayAlert("Electorates found!",
-                    //    // "State Assembly Electorate: "+thisParticipant.SelectedLAStateElectorate+"\n"
-                    //    // +"State Legislative Council Electorate: "+thisParticipant.SelectedLCStateElectorate+"\n"
-                    //    "Federal electorate: " + App.ReadingContext.ThisParticipant.CommonwealthElectorate + "\n" +
-                    //    "State lower house electorate: " + App.ReadingContext.ThisParticipant.StateLowerHouseElectorate + "\n" +
-                    //    "Do you want to save your address on this device? Right To Ask will not learn your address.",
-                    //    "OK - Save address on this device", "No thanks");
-                    //if (saveThisAddress)
-                    //{
-                    //    SaveAddress();
-                    //}
-                    FederalElectorateDisplayText = App.ReadingContext.ThisParticipant.CommonwealthElectorate;
-                    StateLowerHouseElectorateDisplayText = App.ReadingContext.ThisParticipant.StateLowerHouseElectorate;
-
-                    ShowSkipButton = false;
-                    IsBusy = false;
+                    string electorateString = ConvertElectorateToURLForm(App.ReadingContext.ThisParticipant.CommonwealthElectorate);
+                    ShowMapOfElectorate(electorateString);
                 }
             }
+        }
+
+        private string ConvertElectorateToURLForm(string electorate)
+        {
+            string part1 = electorate.Substring(0, 1);
+            string part2 = electorate.Substring(1, electorate.Length - 1);
+            string part3 = part1.ToUpper();
+            string part4 = part2.ToLower();
+            string result = part3 + part4;
+            return result;
+        }
+
+        private void ShowMapOfElectorate(string electorateString)
+        {
+            string electorateURL = string.Format(Constants.MapBaseURL, electorateString);
+            MapURL = electorateURL;
         }
 
         private void AddElectorates(GeoscapeAddressFeature addressData)

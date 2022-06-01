@@ -35,8 +35,9 @@ namespace RightToAskClient
 
         protected override void OnStart()
         {
-            //Preferences.Clear(); // Toggle this line in and out as needed instead of resetting the emulator every time
+            // ResetAppData(); // Toggle this line in and out as needed instead of resetting the emulator every time
             ParliamentData.MPAndOtherData.TryInit();
+            
             // get account info from preferences
             var registrationPref = Preferences.Get("RegistrationInfo", "");
             if (!string.IsNullOrEmpty(registrationPref))
@@ -69,6 +70,9 @@ namespace RightToAskClient
             {
                 ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsIndex = stateID;
             }
+
+            // set popup bool
+            ReadingContext.DontShowFirstTimeReadingPopup = Preferences.Get("DontShowFirstTimeReadingPopup", false);
         }
 
         protected override void OnSleep()
@@ -78,6 +82,7 @@ namespace RightToAskClient
         protected override void OnResume()
         {
         }
+        // maybe port this into a content View instead?
         private void SetTheStyles()
         {
             var selectableDataTemplate = new DataTemplate(() =>
@@ -94,11 +99,11 @@ namespace RightToAskClient
                 };
 
                 var nameLabel = new Label { FontAttributes = FontAttributes.Bold };
-                var selectedToggle = new Switch();
+                var selectedToggle = new CheckBox();
 
                 // nameLabel.SetBinding(Label.TextProperty, "TagEntity.NickName");
                 nameLabel.SetBinding(Label.TextProperty, "TagEntity");
-                selectedToggle.SetBinding(Switch.IsToggledProperty, "Selected");
+                selectedToggle.SetBinding(CheckBox.IsCheckedProperty, "Selected");
                 selectedToggle.HorizontalOptions = LayoutOptions.End;
                 selectedToggle.VerticalOptions = LayoutOptions.Center;
 
@@ -110,6 +115,14 @@ namespace RightToAskClient
                 return new Xamarin.Forms.ViewCell { View = grid };
             });
             Resources.Add("SelectableDataTemplate", selectableDataTemplate);
+        }
+
+        // method for resetting the data in the application. Needs to be run when we re-initiliaze the databases on the server
+        private void ResetAppData()
+        {
+            // clear the preferences, which holds the user's account registration info
+            Preferences.Clear();
+            // TODO: wipe the crypto/signing key
         }
     }
 }

@@ -5,13 +5,15 @@
              xmlns:models="clr-namespace:RightToAskClient.Models"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              x:Class="RightToAskClient.Views.UserAccountInfoView"
-             x:DataType="vm:Registration1ViewModel">
+             x:DataType="vm:RegistrationViewModel">
     <ContentView.Content>
         <StackLayout>
-            <Label Text="{xct:Translate UIDHeaderText}" Style="{StaticResource LeftSmall}"/>
-            <Entry Text="{Binding UserID}" Placeholder="{xct:Translate UIDPlaceholderText}" Style="{StaticResource NormalEntry}" IsEnabled="{Binding CanEditUID}"/>
+            <Label Text="{xct:Translate UserNameHeaderText}" Style="{StaticResource LeftSmall}"/>
+            <Entry Text="{Binding UserID}" Placeholder="{xct:Translate UIDPlaceholderText}" 
+                   Style="{StaticResource NormalEntry}" IsEnabled="{Binding CanEditUID}"/>
             <Label Text="{xct:Translate DisplayNameHeaderText}" Style="{StaticResource LeftSmall}"/>
-            <Entry Text="{Binding DisplayName}" Placeholder="{xct:Translate DisplayNamePlaceholderText}" Style="{StaticResource NormalEntry}"/>
+            <Entry Text="{Binding DisplayName}" Placeholder="{xct:Translate DisplayNamePlaceholderText}" 
+                   Style="{StaticResource NormalEntry}"/>
             <Label Text="{xct:Translate StateHeaderText}" Style="{StaticResource LeftSmall}"/>
             <Picker Title="{Binding State,  StringFormat='{0:F0}'}"
                     ItemsSource="{Binding StateList}"
@@ -19,7 +21,8 @@
 			        SelectedIndex="{Binding SelectedStateAsIndex}">
             </Picker>
             <Label Text="{xct:Translate ElectoratesHeaderText}" Style="{StaticResource LeftSmall}"/>
-            <CollectionView ItemsSource="{Binding Electorates}" SelectionMode="Single" SelectedItem="{Binding SelectedElectorateWithChamber}">
+            <CollectionView ItemsSource="{Binding Electorates}" SelectionMode="Single" 
+                            SelectedItem="{Binding SelectedElectorateWithChamber}">
             <!-- <CollectionView ItemsSource="{Binding Registration.electorates}" SelectionMode="Single" SelectedItem="{Binding SelectedElectorateWithChamber}">-->
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:ElectorateWithChamber">

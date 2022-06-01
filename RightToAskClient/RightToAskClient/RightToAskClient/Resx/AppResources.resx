@@ -132,8 +132,17 @@
   <data name="AnotherUserButtonText" xml:space="preserve">
     <value>Another RightToAsk User</value>
   </data>
+  <data name="AnswererPermissions" xml:space="preserve">
+    <value>Allow other users to add more people to answer the question?</value>
+  </data>
+  <data name="ApproveAnswerText" xml:space="preserve">
+    <value>Approve this answer?</value>
+  </data>
   <data name="ApplicationTitle" xml:space="preserve">
     <value>Right To Ask</value>
+  </data>
+  <data name="AskerPermissions" xml:space="preserve">
+    <value>Allow other users to add more people to raise the question?</value>
   </data>
   <data name="AuthorityFilterLabelText" xml:space="preserve">
     <value>Authorities who should answer the question</value>
@@ -210,6 +219,15 @@
   <data name="FindQuestionsTitle" xml:space="preserve">
     <value>Find Questions</value>
   </data>
+  <data name="FocusSupportInstructionReadingOnly" xml:space="preserve">
+    <value>Support questions you care about</value>
+  </data>
+  <data name="FocusSupportInstructionQuestionDrafting" xml:space="preserve">
+    <value>Is a similar question here already? If you can, focus support by upvoting an old question, not sending a new one</value>
+  </data>
+  <data name="FocusSupportReport" xml:space="preserve">
+    <value>You saved time and focused support by upvoting a similar question</value>
+  </data>
   <data name="FollowButtonText" xml:space="preserve">
     <value>Follow {0}</value>
   </data>
@@ -217,7 +235,7 @@
     <value>Home</value>
   </data>
   <data name="KeepQuestionButtonText" xml:space="preserve">
-    <value>Keep for Upload</value>
+    <value>Publish</value>
   </data>
   <data name="KeywordEntryPlaceholderText" xml:space="preserve">
     <value>Keyword</value>
@@ -307,7 +325,10 @@
     <value>Question Writer:</value>
   </data>
   <data name="ReadingPageHeader1" xml:space="preserve">
-    <value>Upvote good questions, or click for more detail</value>
+    <value>Upvote good questions, or tap for more detail. Swipe left to dismiss uninteresting ones.</value>
+  </data>
+  <data name="ReadingPageQuestionDraftingHeader1" xml:space="preserve">
+    <value>Upvote good questions, or tap for more detail. Swipe left to discard uninteresting ones.</value>
   </data>
   <data name="ReadQuestionsTitle" xml:space="preserve">
     <value>Read Questions</value>
@@ -393,8 +414,8 @@
   <data name="ToBeAnsweredByText" xml:space="preserve">
     <value>To be answered by</value>
   </data>
-  <data name="TrendingNowButtonText" xml:space="preserve">
-    <value>Trending Now</value>
+  <data name="TrendingButtonText" xml:space="preserve">
+    <value>Trending</value>
   </data>
   <data name="UIDHeaderText" xml:space="preserve">
     <value>UID</value>
@@ -503,5 +524,122 @@
   </data>
   <data name="SearchButtonText" xml:space="preserve">
     <value>Search</value>
+  </data>
+  <data name="YourQuestionTitleText" xml:space="preserve">
+    <value>Your Question</value>
+  </data>
+  <data name="CreateAccountPopUpText" xml:space="preserve">
+    <value>You need to make an account to publish or vote on questions</value>
+  </data>
+  <data name="MakeAccountQuestionText" xml:space="preserve">
+    <value>Make an account?</value>
+  </data>
+  <data name="NotNowAnswerText" xml:space="preserve">
+    <value>Not now</value>
+  </data>
+  <data name="EmptyQuestionCollectionViewString" xml:space="preserve">
+    <value>Unable to Connect to Server or No Questions Available.</value>
+  </data>
+  <data name="SearchFrameSubtext" xml:space="preserve">
+    <value>by keyword or other filters</value>
+  </data>
+  <data name="QuestionFrameAnswerButtonAccessibilityName" xml:space="preserve">
+    <value>Shows an icon of a historical looking building, such as a government building.</value>
+  </data>
+  <data name="QuestionFrameAnswerButtonAccessibilityText" xml:space="preserve">
+    <value>This button indicates that you can answer the question by clicking here. There is no checkmark on this icon, which means that there are no other answers to this question yet. The icon is also not highlighted, which means you have not yet answered this question.</value>
+  </data>
+  <data name="QuestionFrameFlagButtonAccessibilityName" xml:space="preserve">
+    <value>Icon for a button that depicts a flag.</value>
+  </data>
+  <data name="QuestionFrameFlagButtonAccessibilityText" xml:space="preserve">
+    <value>This button indicates that you can flag or report the question by clicking here. It is currently not highlighted, which means you have not chosen to report this question.</value>
+  </data>
+  <data name="QuestionFrameFlagButtonAccessibilityTextRed" xml:space="preserve">
+    <value>This button indicates that you can flag or report the question by clicking here. It is currently highlighted in a redish brown color, indicating that you have already reported this question. Re-activating this button will undo and remove the report.</value>
+  </data>
+  <data name="QuestionFrameShareButtonAccessibilityName" xml:space="preserve">
+    <value>Share button image. Visually represented by 3 dots connected by 2 lines forming a less than sign pointing towards the left.</value>
+  </data>
+  <data name="QuestionFrameShareButtonAccessibilityText" xml:space="preserve">
+    <value>This button is to indicate that you can share this question on social media or with other people through messaging applications on your device by copying the text through this share feature.</value>
+  </data>
+  <data name="QuestionFrameThumbsUpAccessibilityName" xml:space="preserve">
+    <value>Thumbs Up Icon or Upvote Button.</value>
+  </data>
+  <data name="QuestionFrameThumbsUpAccessibilityText" xml:space="preserve">
+    <value>Shows an image of a thumbs up icon that is highlighted green if you have already liked this question, or is not highlighted if you have not upvoted it. There is a tally number of total number of upvotes this question has to the right of this icon.</value>
+  </data>
+  <data name="QuestionDraftingPagePopupText" xml:space="preserve">
+    <value>New Popup Test for Drafting Question</value>
+  </data>
+  <data name="AboutPagePopupText" xml:space="preserve">
+    <value>AboutPagePopupText</value>
+  </data>
+  <data name="AnswerQuestionOptionsPopupText" xml:space="preserve">
+    <value>AnswerQuestionOptionsPopupText</value>
+  </data>
+  <data name="CreateNewAccountPopupText" xml:space="preserve">
+    <value>CreateNewAccountPopupText</value>
+  </data>
+  <data name="EditAccountPopupText" xml:space="preserve">
+    <value>EditAccountPopupText</value>
+  </data>
+  <data name="FiltersPopupText" xml:space="preserve">
+    <value>FiltersPopupText</value>
+  </data>
+  <data name="FindMPsPopupText" xml:space="preserve">
+    <value>FindMPsPopupText</value>
+  </data>
+  <data name="InfoPopupButtonText" xml:space="preserve">
+    <value>Information Popup Button</value>
+  </data>
+  <data name="MainPageHeadingText" xml:space="preserve">
+    <value>Make your political questions have an impact</value>
+  </data>
+  <data name="MainPagePopupText" xml:space="preserve">
+    <value>MainPagePopupText</value>
+  </data>
+  <data name="OtherUserProfilePopupText" xml:space="preserve">
+    <value>OtherUserProfilePopupText</value>
+  </data>
+  <data name="QuestionAskerPopupText" xml:space="preserve">
+    <value>QuestionAskerPopupText</value>
+  </data>
+  <data name="QuestionDetailPopupText" xml:space="preserve">
+    <value>QuestionDetailPopupText</value>
+  </data>
+  <data name="SelectableListAuthoritiesPopupText" xml:space="preserve">
+    <value>SelectableListAuthoritiesPopupText</value>
+  </data>
+  <data name="SelectableListMPsPopupText" xml:space="preserve">
+    <value>SelectableListMPsPopupText</value>
+  </data>
+  <data name="AccountUpdateSuccessResponseText" xml:space="preserve">
+    <value>Your account was successfully updated!</value>
+  </data>
+  <data name="NoAccountChangesDetectedAlertText" xml:space="preserve">
+    <value>No Changes were made and thus there are no changes to update on your account. Suggestion: try updating your display name.</value>
+  </data>
+  <data name="NoAccountChangesDetectedTitle" xml:space="preserve">
+    <value>No Changes Found</value>
+  </data>
+  <data name="AccountCreationSuccessResponseText" xml:space="preserve">
+    <value>Your account was created successfully!</value>
+  </data>
+  <data name="GoHomeButtonText" xml:space="preserve">
+    <value>Go Home</value>
+  </data>
+  <data name="QuestionPublishedPopupText" xml:space="preserve">
+    <value>Question successfully published!</value>
+  </data>
+  <data name="WriteAnotherQuestionButtonText" xml:space="preserve">
+    <value>Write Another One</value>
+  </data>
+  <data name="GoButtonText" xml:space="preserve">
+    <value>Go</value>
+  </data>
+  <data name="UserNameHeaderText" xml:space="preserve">
+    <value>Username</value>
   </data>
 </root>

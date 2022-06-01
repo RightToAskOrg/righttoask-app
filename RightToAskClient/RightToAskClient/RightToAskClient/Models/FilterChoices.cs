@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace RightToAskClient.Models
@@ -7,18 +9,97 @@ namespace RightToAskClient.Models
 	public class FilterChoices : INotifyPropertyChanged
 	{
 		private string _searchKeyword = "";
-		private ObservableCollection<MP> _selectedAnsweringMPs = new ObservableCollection<MP>();
-		private ObservableCollection<MP> _selectedAnsweringMPsMine = new ObservableCollection<MP>();
-		private ObservableCollection<MP> _selectedAskingMPs = new ObservableCollection<MP>();
-		private ObservableCollection<MP> _selectedAskingMPsMine = new ObservableCollection<MP>();
-		private ObservableCollection<Authority> _selectedAuthorities = new ObservableCollection<Authority>();
+		// private ObservableCollection<MP> _selectedAnsweringMPs = new ObservableCollection<MP>();
+		// private ObservableCollection<MP> _selectedAnsweringMPsMine = new ObservableCollection<MP>();
+		// private ObservableCollection<MP> _selectedAskingMPs = new ObservableCollection<MP>();
+		// private ObservableCollection<MP> _selectedAskingMPsMine = new ObservableCollection<MP>();
+		// private ObservableCollection<Authority> _selectedAuthorities = new ObservableCollection<Authority>();
 		private ObservableCollection<string> _selectedAskingCommittee = new ObservableCollection<string>();
-		private ObservableCollection<Entity> _selectedAskingUsers = new ObservableCollection<Entity>();
+		private ObservableCollection<Person?> _selectedAskingUsers = new ObservableCollection<Person?>();
 
-		public ObservableCollection<Authority> SelectedAuthorities
+		// Express each FilterChoice as a pair of lists: the whole list from which things are seleced,
+		// and the list of selections.
+		private SelectableList<Authority> _authorityLists
+			= new SelectableList<Authority>(new List<Authority>(), new List<Authority>());
+			
+		public SelectableList<Authority> AuthorityLists
 		{
-			get => _selectedAuthorities;
+			get => _authorityLists;
 		}
+		public List<Authority> SelectedAuthorities
+		{
+			get => _authorityLists.SelectedEntities as List<Authority> ?? new List<Authority>();
+			set => _authorityLists.SelectedEntities = value;
+		}
+		
+		private SelectableList<MP> _answeringMPsListMine 
+			= new SelectableList<MP>(new List<MP>(), new List<MP>());
+		public SelectableList<MP> AnsweringMPsListsMine
+		{
+			get => _answeringMPsListMine;
+		}
+		public List<MP> SelectedAnsweringMPsMine
+		{
+			get => _answeringMPsListMine.SelectedEntities as List<MP> ?? new List<MP>();
+			set
+			{
+				_answeringMPsListMine.SelectedEntities = value;
+				OnPropertyChanged();
+			}
+		}
+
+		private SelectableList<MP> _askingMPsListMine
+			= new SelectableList<MP>(new List<MP>(), new List<MP>());
+		public SelectableList<MP> AskingMPsListsMine
+		{
+			get => _askingMPsListMine;
+		}
+		public List<MP> SelectedAskingMPsMine
+		{
+			get => _askingMPsListMine.SelectedEntities as List<MP> ?? new List<MP>();
+			set
+			{
+				_askingMPsListMine.SelectedEntities = value;
+				OnPropertyChanged();
+			}
+		}
+		
+		private SelectableList<MP> _answeringMPsListNotMine
+			= new SelectableList<MP>(new List<MP>(), new List<MP>());
+		public SelectableList<MP> AnsweringMPsListsNotMine
+		{
+			get => _answeringMPsListNotMine;
+		}
+		public List<MP> SelectedAnsweringMPsNotMine
+		{
+			get => _answeringMPsListNotMine.SelectedEntities as List<MP> ?? new List<MP>();
+			set
+			{
+				_answeringMPsListNotMine.SelectedEntities = value;
+				OnPropertyChanged();
+			}
+		}
+
+		private SelectableList<MP> _askingMPsListNotMine
+			= new SelectableList<MP>(new List<MP>(), new List<MP>());
+		public SelectableList<MP> AskingMPsListsNotMine
+		{
+			get => _askingMPsListNotMine;
+		}
+		public List<MP> SelectedAskingMPsNotMine
+		{
+			get =>  _askingMPsListNotMine.SelectedEntities as List<MP> ?? new List<MP>();
+			set
+			{
+				_askingMPsListNotMine.SelectedEntities = value;
+				OnPropertyChanged();
+			}
+		}
+
+		// TODO (for Matt): do likewise with MPs lists.
+		// The 'other-MP' lists should be settable at initialization.
+		// The MyMPs lists might need to wait until registration.
+
 
 		public string SearchKeyword
 		{
@@ -26,47 +107,6 @@ namespace RightToAskClient.Models
 			set
 			{
 				_searchKeyword = value;
-				OnPropertyChanged();
-			}
-		}
-
-		public ObservableCollection<MP> SelectedAskingMPsMine
-		{
-			get => _selectedAskingMPsMine;
-			set
-			{
-				_selectedAskingMPsMine = value;
-				OnPropertyChanged();
-			}
-		}
-		
-		public ObservableCollection<MP> SelectedAskingMPs
-		{
-			get => _selectedAskingMPs;
-			set
-			{
-				_selectedAskingMPs = value;
-				OnPropertyChanged();
-			}
-		}
-
-		
-
-		public ObservableCollection<MP> SelectedAnsweringMPsMine
-		{
-			get => _selectedAnsweringMPsMine;
-			set
-			{
-				_selectedAnsweringMPsMine = value;
-				OnPropertyChanged();
-			}
-		}
-		public ObservableCollection<MP> SelectedAnsweringMPs
-		{
-			get => _selectedAnsweringMPs;
-			set
-			{
-				_selectedAnsweringMPs = value;
 				OnPropertyChanged();
 			}
 		}
@@ -81,7 +121,7 @@ namespace RightToAskClient.Models
 			}
 		}
 
-		public ObservableCollection<Entity> SelectedAskingUsers
+		public ObservableCollection<Person?> SelectedAskingUsers
 		{
 			get => _selectedAskingUsers;
 			set
@@ -89,6 +129,11 @@ namespace RightToAskClient.Models
 				_selectedAskingUsers = value;
 				OnPropertyChanged();
 			}
+		}
+
+		public FilterChoices()
+		{
+			InitSelectableLists();
 		}
 		public event PropertyChangedEventHandler? PropertyChanged;
         
@@ -98,6 +143,38 @@ namespace RightToAskClient.Models
             {
                 PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+
+        // This is necessary on startup because of the need to update the AllMPs list.
+        // It's still helpful for them to use the constructor because if this data structure
+        // is initialized after the MP read-in, the constructor should suffice.
+        // TODO add code to update all Committees too.
+        // TODO also add your MPs. Possibly in a separate function because it happens later.
+        public void InitSelectableLists()
+        {
+	        _answeringMPsListNotMine = new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
+	        _askingMPsListNotMine =  new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
+	        _authorityLists = new SelectableList<Authority>(ParliamentData.AllAuthorities, new List<Authority>());
+        }
+
+        public void RemoveAllSelections()
+        {
+	        _answeringMPsListNotMine.SelectedEntities = new List<MP>();
+	        _answeringMPsListMine.SelectedEntities = new List<MP>();
+	        _askingMPsListNotMine.SelectedEntities = new List<MP>();
+	        _askingMPsListMine.SelectedEntities = new List<MP>();
+	        _authorityLists.SelectedEntities = new List<Authority>();
+	        SearchKeyword = "";
+        }
+
+        // Update the list of my MPs. Note that it's a tiny bit unclear whether we should remove
+        // any selected MPs who are (now) not yours. At the moment, I have simply left it as it is,
+        // which means that if a person starts drafting a question, then changes their electorate details,
+        // it's still possible for the question to go to 'my MP' when that person is their previous MP.
+        public void UpdateMyMPLists(List<MP> myMPs)
+        {
+	        _answeringMPsListMine.AllEntities = myMPs;
+	        _askingMPsListMine.AllEntities = myMPs; 
         }
 	}
 }

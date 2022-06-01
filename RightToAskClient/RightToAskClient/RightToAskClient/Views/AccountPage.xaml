@@ -4,13 +4,18 @@
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:views="clr-namespace:RightToAskClient.Views"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
+             xmlns:local="clr-namespace:RightToAskClient"
              x:Class="RightToAskClient.Views.AccountPage"
-             x:DataType="vm:Registration1ViewModel"
+             x:DataType="vm:RegistrationViewModel"
              Shell.FlyoutBehavior="Flyout"
              Title="{Binding Title}">
     <ContentPage.BindingContext>
-        <vm:Registration1ViewModel />
+        <vm:RegistrationViewModel />
     </ContentPage.BindingContext>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{xct:Translate InfoPopupButtonText}" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.help_75.png}"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout Margin="20">
             <views:UserAccountInfoView/>

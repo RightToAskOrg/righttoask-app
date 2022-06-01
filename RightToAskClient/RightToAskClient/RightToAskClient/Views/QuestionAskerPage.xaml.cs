@@ -1,5 +1,6 @@
 using System;
 using RightToAskClient.Models;
+using RightToAskClient.Resx;
 using RightToAskClient.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -13,6 +14,7 @@ namespace RightToAskClient.Views
         {
             InitializeComponent();
             BindingContext = QuestionViewModel.Instance;
+            QuestionViewModel.Instance.PopupLabelText = AppResources.QuestionAskerPopupText;
         }
     }
 }

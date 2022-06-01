@@ -210,6 +210,8 @@ namespace RightToAskClient.Views
 		// 
 		// TODO: The code here is inelegant, because it really does need to know the type of the  '
 		// list it's updating. Can't really see a way round that unfortunately.
+		// TODO The DoneXButton_OnClicked functions could be unified because the if(camefromreg2page) 
+		// only applies to MPs and could be harmlessly included in the general function.
 		async void DoneMPsButton_OnClicked(object sender, EventArgs e)
 		{
 			UpdateSelectedList(SelectedMPs);

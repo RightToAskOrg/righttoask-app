@@ -68,11 +68,6 @@ namespace RightToAskClient.Models
 			return _signatureService.SignMessage(message, RegistrationInfo.uid );
 		}
 
-		public ClientSignedUnparsed SignMessageWithOptions<T>(T message)
-		{
-			return _signatureService.SignMessageWithOptions(message, RegistrationInfo.uid);
-		}
-
 		public string MyPublicKey()
 		{
 			return RegistrationInfo.public_key;
@@ -87,6 +82,7 @@ namespace RightToAskClient.Models
 		// This stores a flat list of MPs, not sorted or structured by Electorate.
 		// It also refreshes the MPs according to the current list of electorates so,
 		// for example, if an electorate is removed, the MPs representing it will disappear.
+		// Also updates this participant's My-MP filter lists.
 		public void UpdateMPs()
 		{
 			var mps = new List<MP>();
@@ -99,6 +95,7 @@ namespace RightToAskClient.Models
 			}
 
 			_myMPs = new ObservableCollection<MP>(mps);
+			App.ReadingContext.Filters.UpdateMyMPLists(mps);
 		}
 		
         // TODO: Do some validity checking to ensure that you're not adding inconsistent

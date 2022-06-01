@@ -1,4 +1,5 @@
-﻿using RightToAskClient.HttpClients;
+﻿using RightToAskClient.Helpers;
+using RightToAskClient.HttpClients;
 using RightToAskClient.Models;
 using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Resx;
@@ -9,7 +10,10 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace RightToAskClient.ViewModels
@@ -31,6 +35,27 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _showSearchFrame, value);
         }
 
+        private bool _dontShowFirstTimeReadingPopup = false;
+        public bool DontShowFirstTimeReadingPopup
+        {
+            get => _dontShowFirstTimeReadingPopup;
+            set
+            {
+                var changed = SetProperty(ref _dontShowFirstTimeReadingPopup, value);
+                if (changed)
+                {
+                    Preferences.Set("DontShowFirstTimeReadingPopup", value);
+                    App.ReadingContext.DontShowFirstTimeReadingPopup = value;
+                }
+            }
+        }
+
+        private string heading1 = string.Empty;
+        public string Heading1
+        {
+            get => heading1;
+            set => SetProperty(ref heading1, value);
+        }
         private string _draftQuestion = "";
         public string DraftQuestion
         {
@@ -76,8 +101,8 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _questionIds, value);
         }
 
-        private List<NewQuestionServerReceive> _serverQuestions = new List<NewQuestionServerReceive>();
-        public List<NewQuestionServerReceive> ServerQuestions
+        private List<QuestionReceiveFromServer> _serverQuestions = new List<QuestionReceiveFromServer>();
+        public List<QuestionReceiveFromServer> ServerQuestions
         {
             get => _serverQuestions;
             set => SetProperty(ref _serverQuestions, value);
@@ -90,8 +115,25 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _isRefreshing, value);
         }
 
+        private string _keyword = "";
+        public string Keyword
+        {
+            get => _keyword;
+            set
+            {
+                bool changed = SetProperty(ref _keyword, value);
+                if (changed)
+                {
+                    App.ReadingContext.Filters.SearchKeyword = _keyword;
+                }
+            }
+        }
+
         public ReadingPageViewModel()
         {
+            PopupLabelText = AppResources.ReadingPageHeader1;
+            Keyword = App.ReadingContext.Filters.SearchKeyword;
+
             if (!string.IsNullOrEmpty(App.ReadingContext.DraftQuestion))
             {
                 DraftQuestion = App.ReadingContext.DraftQuestion;
@@ -101,6 +143,7 @@ namespace RightToAskClient.ViewModels
             if (App.ReadingContext.IsReadingOnly)
             {
                 ShowQuestionFrame = false;
+                Heading1 = AppResources.FocusSupportInstructionReadingOnly;
                 if (App.ReadingContext.TopTen)
                 {
                     Title = AppResources.RecentQuestionsTitle;
@@ -112,11 +155,17 @@ namespace RightToAskClient.ViewModels
             }
             else
             {
+                Heading1 = AppResources.FocusSupportInstructionQuestionDrafting;
                 Title = AppResources.SimilarQuestionsTitle;
                 ShowQuestionFrame = true;
             }
             // get questions from the server
             LoadQuestions();
+            if (!App.ReadingContext.DontShowFirstTimeReadingPopup)
+            {
+                var popup = new ReadingPagePopup(this);
+                _ = App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+            }
 
             KeepQuestionButtonCommand = new AsyncCommand(async () =>
             {
@@ -130,15 +179,24 @@ namespace RightToAskClient.ViewModels
             {
                 LoadQuestions();
             });
-            DraftCommand = new Command(() =>
+            DraftCommand = new AsyncCommand(async () =>
             {
-                ShowQuestionFrame = true;
+                //ShowQuestionFrame = true; // navigate to the draft page instead of just showing the frame on this page
+                App.ReadingContext.IsReadingOnly = false;
+                await Shell.Current.PopGoToAsync($"{nameof(SecondPage)}");
+                //Device.BeginInvokeOnMainThread(async () =>  // needed for the UI operation to be invoked on the main thread
+                //{
+                //    await App.Current.MainPage.Navigation.PopToRootAsync().ContinueWith(async (_) => {
+
+                //        await Shell.Current.GoToAsync($"{nameof(SecondPage)}");
+                //    });
+                //});
             });
             SearchToolbarCommand = new Command(() =>
             {
                 ShowSearchFrame = !ShowSearchFrame; // just toggle it
             });
-            ShowFiltersCommand = new AsyncCommand(async() =>
+            ShowFiltersCommand = new AsyncCommand(async () =>
             {
                 await Shell.Current.GoToAsync(nameof(AdvancedSearchFiltersPage));
             });
@@ -148,7 +206,7 @@ namespace RightToAskClient.ViewModels
                 if (!App.ReadingContext.ThisParticipant.RemovedQuestionIDs.Contains(questionToRemove.QuestionId))
                 {
                     App.ReadingContext.ThisParticipant.RemovedQuestionIDs.Add(questionToRemove.QuestionId);
-                }                
+                }
                 QuestionsToDisplay.Remove(questionToRemove);
             });
         }
@@ -157,7 +215,7 @@ namespace RightToAskClient.ViewModels
         public IAsyncCommand KeepQuestionButtonCommand { get; }
         public IAsyncCommand DiscardButtonCommand { get; }
         public Command RefreshCommand { get; }
-        public Command DraftCommand { get; }
+        public IAsyncCommand DraftCommand { get; }
         public Command SearchToolbarCommand { get; }
         public Command<Question> RemoveQuestionCommand { get; }
         public IAsyncCommand ShowFiltersCommand { get; }
@@ -167,28 +225,29 @@ namespace RightToAskClient.ViewModels
         {
             // Tag the new question with the authorities that have been selected.
             // ObservableCollection<Entity> questionAnswerers;
-            var questionAnswerers = new ObservableCollection<Entity>(App.ReadingContext.Filters.SelectedAuthorities);
+
+            /* var questionAnswerers = new ObservableCollection<Entity>(App.ReadingContext.Filters.SelectedAuthorities);
 
             foreach (var answeringMP in App.ReadingContext.Filters.SelectedAnsweringMPs)
             {
                 questionAnswerers.Add(answeringMP);
-            }
+            } */
 
             IndividualParticipant thisParticipant = App.ReadingContext.ThisParticipant;
 
+            // Set up new question in preparation for upload. 
+            // The filters are what the user has chosen through the flow.
             Question newQuestion = new Question
             {
                 QuestionText = App.ReadingContext.DraftQuestion,
-                // TODO: Enforce registration before question-suggesting.
                 QuestionSuggester = (thisParticipant.IsRegistered) ? thisParticipant.RegistrationInfo.uid : "Anonymous user",
-                QuestionAnswerers = questionAnswerers,
+                Filters = App.ReadingContext.Filters,
                 DownVotes = 0,
                 UpVotes = 0
             };
 
             QuestionViewModel.Instance.Question = newQuestion;
             QuestionViewModel.Instance.IsNewQuestion = true;
-            //await Navigation.PushAsync(questionDetailPage);
             await Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
         }
         private async void OnDiscardButtonClicked()
@@ -196,9 +255,8 @@ namespace RightToAskClient.ViewModels
             App.ReadingContext.DraftQuestion = "";
             ShowQuestionFrame = false;
 
-            bool goHome = await App.Current.MainPage.DisplayAlert("Draft discarded", 
-                "Save time and focus support by voting on a similar question", 
-                "Home", "Related questions");
+            bool goHome = await App.Current.MainPage.DisplayAlert("Draft discarded",
+               AppResources.FocusSupportReport, "Home", "Related questions");
             if (goHome)
             {
                 await App.Current.MainPage.Navigation.PopToRootAsync();
@@ -244,7 +302,7 @@ namespace RightToAskClient.ViewModels
                 foreach (string questionId in QuestionIds)
                 {
                     // pull the individual question from the server by id
-                    NewQuestionServerReceive temp;
+                    QuestionReceiveFromServer temp;
                     try
                     {
                         var data = await RTAClient.GetQuestionById(questionId);
@@ -267,39 +325,31 @@ namespace RightToAskClient.ViewModels
                     }
                 }
                 // convert the ServerQuestions to a Displayable format
-                foreach (NewQuestionServerReceive serverQuestion in ServerQuestions)
+                foreach (QuestionReceiveFromServer serverQuestion in ServerQuestions)
                 {
-                    Question temp = new Question()
-                    {
-                        QuestionId = serverQuestion.question_id ?? "",
-                        QuestionText = serverQuestion.question_text ?? "",
-                        QuestionSuggester = serverQuestion.author ?? "",
-                        Version = serverQuestion.version ?? "",
-                        Background = serverQuestion.background ?? "",
-                        //UploadTimestamp = serverQuestion.timestamp,
-                        //ExpiryDate = serverQuestion.last_modified,
-                        //QuestionAsker = serverQuestion.who_should_ask_the_question_permissions,
-                        //QuestionAnswerers = serverQuestion.who_should_answer_the_question_permissions,
-                    };
+                    Question temp = new Question(serverQuestion);
+
                     QuestionsToDisplay.Add(temp);
                 }
                 IsRefreshing = false;
             }
             // after getting the list of questions, remove the ids for dismissed questions, and set the upvoted status of liked ones
-            for(int i = 0; i < App.ReadingContext.ThisParticipant.RemovedQuestionIDs.Count; i++)
+            for (int i = 0; i < App.ReadingContext.ThisParticipant.RemovedQuestionIDs.Count; i++)
             {
-                Question temp = QuestionsToDisplay.ToList().Where(q => q.QuestionId == App.ReadingContext.ThisParticipant.RemovedQuestionIDs[i]).FirstOrDefault();
-                if(temp != null)
+                Question temp = QuestionsToDisplay.ToList()
+                    .Where(q => q.QuestionId == App.ReadingContext.ThisParticipant.RemovedQuestionIDs[i])
+                    .FirstOrDefault();
+                if (temp != null)
                 {
                     QuestionsToDisplay.Remove(temp);
                 }
             }
             // set previously upvoted questions
-            foreach(Question q in QuestionsToDisplay)
+            foreach (Question q in QuestionsToDisplay)
             {
-                foreach(string qID in App.ReadingContext.ThisParticipant.UpvotedQuestionIDs)
+                foreach (string qID in App.ReadingContext.ThisParticipant.UpvotedQuestionIDs)
                 {
-                    if(q.QuestionId == qID)
+                    if (q.QuestionId == qID)
                     {
                         q.AlreadyUpvoted = true;
                     }

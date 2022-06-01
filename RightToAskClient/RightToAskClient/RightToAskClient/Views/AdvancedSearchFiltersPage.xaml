@@ -8,17 +8,34 @@
              Title="{Binding Title}"
              x:DataType="vm:FilterViewModel">
     <ContentPage.ToolbarItems>
-        <ToolbarItem x:Name="HomeButton" Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
-                     IconImageSource="{local:ImageResource RightToAskClient.Images.home1.png}"/>
+        <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.home4.png}"/>
+        <ToolbarItem Text="{xct:Translate InfoPopupButtonText}" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.help_75.png}"/>
     </ContentPage.ToolbarItems>
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding BackCommand}"
+                            IconOverride="back.png" />
+    </Shell.BackButtonBehavior>
     <ContentPage.BindingContext>
         <vm:FilterViewModel/>
     </ContentPage.BindingContext>
         <ContentPage.Content>
         <ScrollView>
             <StackLayout>
-                <Frame Style="{StaticResource GreenFrame}">
-                    <xct:Expander>
+                <!--Standard Search Frame-->
+                <Frame Style="{StaticResource AppThemeFramePadding}">
+                    <StackLayout>
+                        <Label Text="Question Details" Style="{StaticResource LeftMedium}"/>
+                        <SearchBar Placeholder="{xct:Translate SearchBarPlaceholderText}" Text="{Binding Keyword}" 
+                                   Style="{StaticResource GreenSearchBar}" SearchCommand="{Binding SearchCommand}"/>
+                        <Label Text="Seach with These Filters?" />
+                        <Button Text="{xct:Translate GoButtonText}" Command="{Binding SearchCommand}"/>
+                    </StackLayout>
+                </Frame>
+                <!--Answered By Frame-->
+                <Frame Style="{StaticResource AppThemeFramePadding}">
+                    <xct:Expander ForceUpdateSizeCommand="{Binding ForceUpdateSizeCommand}">
                         <xct:Expander.Header>                            
                             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                                 <Label Text="Answered By" Style="{StaticResource LeftMedium}" TextColor="{StaticResource Primary}"/>
@@ -70,11 +87,18 @@
                                         </Label.GestureRecognizers>
                                     </Label>
                                 </StackLayout>
+                                <Grid ColumnDefinitions="auto,*,*,*">
+                                    <Label Grid.Column="0" Text="Answer Staus?" VerticalOptions="Center"/>
+                                    <Button Grid.Column="1" Text="Not Answered" FontSize="Micro"/>
+                                    <Button Grid.Column="2" Text="Partially Answered" FontSize="Micro"/>
+                                    <Button Grid.Column="3" Text="Fully Answered" FontSize="Micro"/>
+                                </Grid>
                             </StackLayout>
                         </xct:Expander.Content>
                     </xct:Expander>
                 </Frame>
-                <Frame Style="{StaticResource GreenFrame}">
+                <!--Raised By Frame-->
+                <Frame Style="{StaticResource AppThemeFramePadding}">
                     <xct:Expander>
                         <xct:Expander.Header>
                             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
@@ -149,7 +173,8 @@
                         </xct:Expander.Content>
                     </xct:Expander>
                 </Frame>
-                <Frame Style="{StaticResource GreenFrame}">
+                <!--Written By Frame-->
+                <Frame Style="{StaticResource AppThemeFramePadding}">
                     <xct:Expander>
                         <xct:Expander.Header>
                             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
@@ -178,20 +203,6 @@
                             </StackLayout>
                         </xct:Expander.Content>
                     </xct:Expander>
-                </Frame>
-                <Frame Style="{StaticResource GreenFrame}">
-                    <StackLayout>
-                        <Label Text="Question Details" Style="{StaticResource LeftMedium}"/>
-                        <SearchBar Placeholder="Keyword"/>
-                        <Grid ColumnDefinitions="auto,*,*,*">
-                            <Label Grid.Column="0" Text="Answer Staus?" VerticalOptions="Center"/>
-                            <Button Grid.Column="1" Text="Not Answered" FontSize="Micro"/>
-                            <Button Grid.Column="2" Text="Partially Answered" FontSize="Micro"/>
-                            <Button Grid.Column="3" Text="Fully Answered" FontSize="Micro"/>
-                        </Grid>
-                        <Label Text="Seach with These Filters?" />
-                        <Button Text="Go" Command="{Binding SearchCommand}"/>
-                    </StackLayout>
                 </Frame>
             </StackLayout>
         </ScrollView>

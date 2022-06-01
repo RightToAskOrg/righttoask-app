@@ -13,18 +13,33 @@ namespace RightToAskClient.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AdvancedSearchFiltersPage : ContentPage
     {
+        public bool CameFromMainPage = false;
         public AdvancedSearchFiltersPage()
         {
             //vm = new ReadingPageViewModel();
             //vm.Title = "Advanced Search Filters";
             //BindingContext = vm;
             InitializeComponent();
+
+            MessagingCenter.Subscribe<MainPageViewModel>(this, "MainPage", (sender) =>
+            {
+                CameFromMainPage = true;
+                MessagingCenter.Unsubscribe<MainPageViewModel>(this, "MainPage");
+            });
         }
-        //public AdvancedSearchFiltersPage(ReadingPageViewModel readingPageVM)
-        //{
-        //    vm = readingPageVM;
-        //    vm.Title = "Advanced Search Filters";
-        //    BindingContext = vm;
-        //}
+
+        // android back button override
+        protected override bool OnBackButtonPressed()
+        {
+            if (CameFromMainPage)
+            {
+                App.Current.MainPage.Navigation.PopToRootAsync();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

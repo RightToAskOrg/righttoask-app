@@ -4,11 +4,18 @@
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              x:Class="RightToAskClient.Views.OtherUserProfilePage"
+             xmlns:local="clr-namespace:RightToAskClient"
              Title="{Binding Title}">
     <ContentPage.BindingContext>
         <vm:OtherUserProfileViewModel/>
     </ContentPage.BindingContext>
-        <ContentPage.Content>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.home4.png}"/>
+        <ToolbarItem Text="{xct:Translate InfoPopupButtonText}" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.help_75.png}"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
         <StackLayout Margin="20">
             <Label Text="{xct:Translate UIDHeaderText}" Style="{StaticResource LeftSmall}"/>
             <Label Text="{Binding OtherUserUID}" Style="{StaticResource LeftMedium}" Margin="0,0,0,20"/>
@@ -16,8 +23,13 @@
             <Label Text="{Binding OtherUserDisplayName}" Style="{StaticResource LeftMedium}" Margin="0,0,0,20"/>
             <Label Text="{xct:Translate StateHeaderText}" Style="{StaticResource LeftSmall}"/>
             <Label Text="{Binding OtherUserState}"  Style="{StaticResource LeftMedium}" Margin="0,0,0,20"/>
+            <!--
+            Probably don't want to display other users' emails.
             <Label Text="{xct:Translate EmailTitle}" Style="{StaticResource LeftSmall}"/>
             <Label Text="{Binding OtherUserEmail}"  Style="{StaticResource LeftMedium}" Margin="0,0,0,20"/>
+            -->
+            <Label Text="{xct:Translate ElectoratesHeaderText}" Style="{StaticResource LeftSmall}"/>
+            <Label Text="{Binding ElectoratesDisplayString}" Style="{StaticResource LeftMedium}" Margin="0,0,0,20"/>
             <!--Maybe add a list of their other submitted questions below-->
         </StackLayout>
     </ContentPage.Content>
