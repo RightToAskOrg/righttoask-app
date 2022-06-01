@@ -20,13 +20,9 @@
             <!--Search Frame-->
             <Frame Style="{StaticResource AppThemeGreenFrame}" Margin="0" Padding="0" IsVisible="{Binding ShowSearchFrame}">
                 <StackLayout>
-                    <!--<Label Text="Search" Style="{StaticResource LeftMedium}"/>-->
-                    <Grid ColumnDefinitions="*,*,*,auto" MinimumHeightRequest="30">
-                        <SearchBar Grid.Column="0" Grid.ColumnSpan="3" Placeholder="{xct:Translate SearchBarPlaceholderText}" Text="{Binding Keyword}"
-                           Style="{StaticResource GreenSearchBar}" HorizontalOptions="Start" 
+                    <SearchBar Placeholder="{xct:Translate SearchBarPlaceholderText}" Text="{Binding Keyword}"
+                           Style="{StaticResource GreenSearchBar}" HorizontalOptions="FillAndExpand" 
                            Margin="0"/>
-                        <Button Grid.Column="3" Style="{StaticResource GreenButton}" Command="{Binding ApplySearchCommand}" Text="{xct:Translate GoButtonText}"/>
-                    </Grid>
                 </StackLayout>
             </Frame>
             <Label x:Name="IntroText" Text = "{Binding IntroText}" Style="{StaticResource Header2}"/>
@@ -35,17 +31,8 @@
 				    x:FieldModifier="protected" VerticalOptions="FillAndExpand" SelectionMode="None" 
 				    HasUnevenRows="True" ItemTapped="OnEntity_Selected" 
 					ItemTemplate="{StaticResource SelectableDataTemplate }">
-				</ListView>
-			</ScrollView>
-            <!--For Searching-->
-            <!--
-            <ScrollView IsVisible="{Binding ShowFilteredResults}" BackgroundColor="Yellow">
-                <ListView ItemsSource="{Binding FilteredSelectableEntities}"
-				    x:FieldModifier="protected" VerticalOptions="FillAndExpand" SelectionMode="None" 
-				    HasUnevenRows="True" ItemTapped="OnEntity_Selected" 
-					ItemTemplate="{StaticResource SelectableDataTemplate }">
                 </ListView>
-            </ScrollView>-->
+            </ScrollView>
             <Button Text="{Binding DoneButtonText}" Command="{Binding DoneButtonCommand}" Style="{StaticResource DoneButton}" /> 
 		</StackLayout>
     </ContentPage.Content>

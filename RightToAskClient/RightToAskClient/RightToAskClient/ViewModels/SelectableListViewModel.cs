@@ -101,32 +101,11 @@ namespace RightToAskClient.ViewModels
 					App.ReadingContext.Filters.SearchKeyword = _keyword;
                 }
 				FilteredSelectableEntities = GetSearchResults(_keyword);
-				//ShowFilteredResults = !string.IsNullOrEmpty(_keyword);
-				// after clearing the filtered list away and putting if off screen, update the original list with selected toggles
-     //           if (string.IsNullOrEmpty(_keyword))
-     //           {
-					//foreach(Tag<Entity> selectedEntity in FilteredSelectableEntities)
-     //               {
-     //                   if (selectedEntity.Selected)
-     //                   {
-					//		Tag<Entity> temp = SelectableEntities.Where(e => e.TagEntity == selectedEntity.TagEntity).SingleOrDefault();
-					//		if(!temp.Selected)
-					//		temp.Toggle();
-     //                   }
-     //                   else
-     //                   {
-					//		Tag<Entity> temp = SelectableEntities.Where(e => e.TagEntity == selectedEntity.TagEntity).SingleOrDefault();
-					//		if (temp.Selected)
-					//			temp.Toggle();
-					//	}
-     //               }
-     //           }
 			}
 		}
 
 		public IAsyncCommand DoneButtonCommand { get; }
 		public Command SearchToolbarCommand { get; }
-		public Command ApplySearchCommand { get; }
 		// public IAsyncCommand HomeButtonCommand { get;  }
 		// public Command<(object,ItemTappedEventArgs)> EntitySelectedCommand { get;  }
 		// public EventHandler<ItemTappedEventArgs> EntitySelectedEventHandler { get; }
@@ -164,11 +143,6 @@ namespace RightToAskClient.ViewModels
 			{
 				ShowSearchFrame = !ShowSearchFrame; // just toggle it
 			});
-			ApplySearchCommand = new Command(() => 
-			{
-				// TODO: actually write a method to search through the list of entities
-				FilteredSelectableEntities = GetSearchResults(_keyword);
-			});
 			SubscribeToTheRightMessages();
 		}
 
@@ -191,12 +165,6 @@ namespace RightToAskClient.ViewModels
 			{
 				ShowSearchFrame = !ShowSearchFrame; // just toggle it
 			});
-			ApplySearchCommand = new Command(() =>
-			{
-				// TODO: actually write a method to search through the list of entities
-				FilteredSelectableEntities = GetSearchResults(_keyword);
-			});
-
 			SubscribeToTheRightMessages();
 		}
 		
@@ -242,12 +210,6 @@ namespace RightToAskClient.ViewModels
 			{
 				ShowSearchFrame = !ShowSearchFrame; // just toggle it
 			});
-			ApplySearchCommand = new Command(() =>
-			{
-				// TODO: actually write a method to search through the list of entities
-				FilteredSelectableEntities = GetSearchResults(_keyword);
-			});
-
 			SubscribeToTheRightMessages();
         }
 
@@ -363,16 +325,6 @@ namespace RightToAskClient.ViewModels
 				(a => a.WrapInTag(selectedEntities.Contains(a))).OrderByDescending(t => t.Selected)
 			);
 		}
-
-		//private void OnKeywordChanged(object sender, TextChangedEventArgs e)
-		//{
-		//	_searchingFor = e.NewTextValue;
-		//	if (!String.IsNullOrWhiteSpace(_searchingFor))
-		//	{
-		//		ObservableCollection<Tag<Entity>> listToDisplay = GetSearchResults(_searchingFor);
-		//		AuthorityListView.ItemsSource = listToDisplay;
-		//	}
-		//}
 
 		private ObservableCollection<Tag<Entity>> GetSearchResults(string queryString)
 		{
