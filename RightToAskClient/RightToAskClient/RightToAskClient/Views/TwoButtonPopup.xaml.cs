@@ -24,8 +24,10 @@ namespace RightToAskClient.Views
             BindingContext = vm;
             mainTitle.Text = popupTitle;
             mainMessage.Text = popupText;
-            cancelButton.Text = cancelMessage;
-            approveButton.Text = approveMessage;
+            //cancelButton.Text = cancelMessage;
+            //approveButton.Text = approveMessage;
+            cancelText.Text = cancelMessage;
+            approveText.Text = approveMessage;
         }
 
         // constructor for Models -- The incoming Model must have boolean property to store the result of the button clicks
