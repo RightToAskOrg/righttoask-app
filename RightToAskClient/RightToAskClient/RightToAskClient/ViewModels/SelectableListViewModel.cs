@@ -24,7 +24,21 @@ namespace RightToAskClient.ViewModels
 			private set => SetProperty(ref _selectableEntities, value);
 		}
 
-		private ObservableCollection<TaggedGroupedEntities> _selectableGroupedEntities; 
+		private ObservableCollection<Tag<Entity>> _filteredSelectableEntities = new ObservableCollection<Tag<Entity>>();
+		public ObservableCollection<Tag<Entity>> FilteredSelectableEntities
+		{
+			get => _filteredSelectableEntities;
+			private set => SetProperty(ref _filteredSelectableEntities, value);
+		}
+
+		private bool _showFilteredResults = false;
+		public bool ShowFilteredResults
+		{
+			get => _showFilteredResults;
+			set => SetProperty(ref _showFilteredResults, value);
+		}
+
+    private ObservableCollection<TaggedGroupedEntities> _selectableGroupedEntities; 
 		public ObservableCollection<TaggedGroupedEntities> SelectableGroupedEntities
 		{
 			get => _selectableGroupedEntities;
@@ -85,13 +99,13 @@ namespace RightToAskClient.ViewModels
 				if (changed)
 				{
 					App.ReadingContext.Filters.SearchKeyword = _keyword;
-				}
+                }
+				FilteredSelectableEntities = GetSearchResults(_keyword);
 			}
 		}
 
 		public IAsyncCommand DoneButtonCommand { get; }
 		public Command SearchToolbarCommand { get; }
-		public Command ApplySearchCommand { get; }
 		// public IAsyncCommand HomeButtonCommand { get;  }
 		// public Command<(object,ItemTappedEventArgs)> EntitySelectedCommand { get;  }
 		// public EventHandler<ItemTappedEventArgs> EntitySelectedEventHandler { get; }
@@ -129,11 +143,6 @@ namespace RightToAskClient.ViewModels
 			{
 				ShowSearchFrame = !ShowSearchFrame; // just toggle it
 			});
-			ApplySearchCommand = new Command(() => 
-			{
-				// TODO: actually write a method to search through the list of entities
-				SelectableEntities = GetSearchResults(_keyword);
-			});
 			SubscribeToTheRightMessages();
 		}
 
@@ -156,12 +165,6 @@ namespace RightToAskClient.ViewModels
 			{
 				ShowSearchFrame = !ShowSearchFrame; // just toggle it
 			});
-			ApplySearchCommand = new Command(() =>
-			{
-				// TODO: actually write a method to search through the list of entities
-				SelectableEntities = GetSearchResults(_keyword);
-			});
-
 			SubscribeToTheRightMessages();
 		}
 		
@@ -207,12 +210,6 @@ namespace RightToAskClient.ViewModels
 			{
 				ShowSearchFrame = !ShowSearchFrame; // just toggle it
 			});
-			ApplySearchCommand = new Command(() =>
-			{
-				// TODO: actually write a method to search through the list of entities
-				SelectableEntities = GetSearchResults(_keyword);
-			});
-
 			SubscribeToTheRightMessages();
         }
 
@@ -273,6 +270,8 @@ namespace RightToAskClient.ViewModels
 		// Also consider whether this should raise a warning if neither of the types match.
 		private async void DoneButton_OnClicked(Action updateAction)
 		{
+			// reset keyword search filter
+			Keyword = "";
 			updateAction();
 			// Option B. We've finished choosing who should answer it, so now find out who should ask it.
 			if (GoToAskingPageNext)
@@ -326,16 +325,6 @@ namespace RightToAskClient.ViewModels
 				(a => a.WrapInTag(selectedEntities.Contains(a))).OrderByDescending(t => t.Selected)
 			);
 		}
-
-		//private void OnKeywordChanged(object sender, TextChangedEventArgs e)
-		//{
-		//	_searchingFor = e.NewTextValue;
-		//	if (!String.IsNullOrWhiteSpace(_searchingFor))
-		//	{
-		//		ObservableCollection<Tag<Entity>> listToDisplay = GetSearchResults(_searchingFor);
-		//		AuthorityListView.ItemsSource = listToDisplay;
-		//	}
-		//}
 
 		private ObservableCollection<Tag<Entity>> GetSearchResults(string queryString)
 		{
