@@ -281,6 +281,7 @@ namespace RightToAskClient.ViewModels
             });
             UpvoteCommand = new AsyncCommand(async () =>
             {
+                await DoRegistrationCheck();
                 if (App.ReadingContext.ThisParticipant.IsRegistered)
                 {
                     if (Question.AlreadyUpvoted)
@@ -294,15 +295,6 @@ namespace RightToAskClient.ViewModels
                         Question.UpVotes++;
                         Question.AlreadyUpvoted = true;
                         UpvoteButtonText = AppResources.UpvotedButtonText;
-                    }
-                }
-                else
-                {
-                    string message = AppResources.CreateAccountPopUpText;
-                    bool registerNow = await App.Current.MainPage.DisplayAlert(AppResources.MakeAccountQuestionText, message, AppResources.OKText, AppResources.NotNowAnswerText);
-                    if (registerNow)
-                    {
-                        await Shell.Current.GoToAsync($"{nameof(RegisterPage1)}");
                     }
                 }
             });
@@ -336,11 +328,7 @@ namespace RightToAskClient.ViewModels
             });
             BackCommand = new AsyncCommand(async () =>
             {
-                string? result = await Shell.Current.DisplayActionSheet("Are you sure you want to go back? You will lose any unsaved questions.", "Cancel", "Yes, I'm sure.");
-                if (result == "Yes, I'm sure.")
-                {
-                    _ = await Shell.Current.Navigation.PopAsync();
-                }
+                HomeButtonCommand.Execute(null); // just inherit the functionality of the home button from BaseViewModel
             });
             OptionACommand = new AsyncCommand(async () =>
             {
@@ -488,7 +476,7 @@ namespace RightToAskClient.ViewModels
 
         private async void SubmitNewQuestionButton_OnClicked()
         {
-            await doRegistrationCheck();
+            await DoRegistrationCheck();
             
             if (App.ReadingContext.ThisParticipant.IsRegistered)
             {
@@ -502,7 +490,7 @@ namespace RightToAskClient.ViewModels
         // TODO Consider permissions for question editing.
         private async void EditQuestionButton_OnClicked()
         {
-            await doRegistrationCheck();
+            await DoRegistrationCheck();
 
             if (App.ReadingContext.ThisParticipant.IsRegistered)
             {
@@ -511,25 +499,18 @@ namespace RightToAskClient.ViewModels
 
         }
 
-        private async Task doRegistrationCheck()
+        private async Task DoRegistrationCheck()
         {
             if (!App.ReadingContext.ThisParticipant.IsRegistered)
             {
-                string message = AppResources.CreateAccountPopUpText;
-                bool registerNow
-                    = await App.Current.MainPage.DisplayAlert(AppResources.MakeAccountQuestionText, message, AppResources.OKText, AppResources.NotNowAnswerText);
-
-                if (registerNow)
+                //string message = AppResources.CreateAccountPopUpText;
+                //bool registerNow
+                //    = await App.Current.MainPage.DisplayAlert(AppResources.MakeAccountQuestionText, message, AppResources.OKText, AppResources.NotNowAnswerText);
+                var popup = new TwoButtonPopup(QuestionViewModel.Instance, AppResources.MakeAccountQuestionText, AppResources.CreateAccountPopUpText, AppResources.CancelButtonText, AppResources.OKText);
+                _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                if (ApproveButtonClicked)
                 {
-                    RegisterPage1 registrationPage = new RegisterPage1();
-
-                    // Commenting-out this instruction means that the person has to push
-                    // the 'publish question' button again after they've registered 
-                    // their account. This seems natural to me, but is worth checking
-                    // with users.
-                    // registrationPage.Disappearing += saveQuestion;
-
-                    await App.Current.MainPage.Navigation.PushAsync(registrationPage);
+                    await Shell.Current.GoToAsync($"{nameof(RegisterPage1)}");
                 }
             }
         }
@@ -548,7 +529,6 @@ namespace RightToAskClient.ViewModels
 
             if (!successfulSubmission.isValid)
             {
-                // await App.Current.MainPage.DisplayAlert("Error", successfulSubmission.errorMessage, "", "OK");
                 ReportLabelText =  "Error uploading new question: " + successfulSubmission.errorMessage;
                 return;
             }
@@ -560,8 +540,6 @@ namespace RightToAskClient.ViewModels
 
             var popup = new QuestionPublishedPopup();
             _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
-            //bool goHome =
-            //    await App.Current.MainPage.DisplayAlert("Question published!", "", "Home", "Write another one");
             if (GoHome)
             {
                 App.ReadingContext.Filters.RemoveAllSelections();
@@ -585,7 +563,10 @@ namespace RightToAskClient.ViewModels
             if (!successfulSubmission.isValid)
             {
                 // await App.Current.MainPage.DisplayAlert("Error editing question", successfulSubmission.errorMessage, "OK");
-                ReportLabelText =  "Error editing question: " + successfulSubmission.errorMessage;
+                string message = string.Format(AppResources.EditQuestionErrorText, successfulSubmission.errorMessage);
+                var popup2 = new OneButtonPopup(message, AppResources.OKText);
+                _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup2);
+                ReportLabelText = "Error editing question: " + successfulSubmission.errorMessage;
                 return;
             }
             
@@ -595,9 +576,9 @@ namespace RightToAskClient.ViewModels
             // FIXME at the moment, the version isn't been correctly updated.
             // TODO: Here, we'll need to ensure we've got the right version (from the server - get it returned from
             // BuildSignAndUpload... 
-            bool goHome =
-                await App.Current.MainPage.DisplayAlert("Question edited!", "", "Home", "Keep editing");
-            if (goHome)
+            var popup = new TwoButtonPopup(QuestionViewModel.Instance, AppResources.QuestionEditSuccessfulPopupTitle, AppResources.QuestionEditSuccessfulPopupText, AppResources.StayOnCurrentPageButtonText, AppResources.GoHomeButtonText);
+            _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+            if (ApproveButtonClicked)
             {
                 await App.Current.MainPage.Navigation.PopToRootAsync();
             }

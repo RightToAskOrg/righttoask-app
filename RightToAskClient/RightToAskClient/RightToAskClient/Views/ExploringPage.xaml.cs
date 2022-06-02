@@ -161,11 +161,11 @@ namespace RightToAskClient.Views
 
 		private async void HomeButton_Clicked(object sender, EventArgs e)
 		{
-			string? result = await Shell.Current.DisplayActionSheet("Are you sure you want to go home? You will lose any unsaved questions.", "Cancel", "Yes, I'm sure.");
-			if (result == "Yes, I'm sure.")
-			{
-				await App.Current.MainPage.Navigation.PopToRootAsync();
-			}
+			//string? result = await Shell.Current.DisplayActionSheet("Are you sure you want to go home? You will lose any unsaved questions.", "Cancel", "Yes, I'm sure.");
+			//if (result == "Yes, I'm sure.")
+			//{
+			//	await App.Current.MainPage.Navigation.PopToRootAsync();
+			//}
 		}
 		private void SetUpSelectableEntitiesAndIntroText(string message)
 		{

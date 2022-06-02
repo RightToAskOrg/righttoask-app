@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using RightToAskClient.HttpClients;
 using RightToAskClient.Models;
 using RightToAskClient.Resx;
+using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.Forms;
 
 namespace RightToAskClient.Views
@@ -19,7 +20,9 @@ namespace RightToAskClient.Views
             // that it's worth producing here.
             if (String.IsNullOrEmpty(RTAClient.ServerPublicKey))
             {
-                DisplayAlert(AppResources.ServerConfigErrorText, AppResources.ServerConfigErrorRecommendation, "", "OK");
+                //DisplayAlert(AppResources.ServerConfigErrorText, AppResources.ServerConfigErrorRecommendation, "", "OK");
+                var popup = new OneButtonPopup(AppResources.ServerConfigErrorRecommendation, AppResources.OKText);
+                App.Current.MainPage.Navigation.ShowPopupAsync(popup);
             }
         }
     }

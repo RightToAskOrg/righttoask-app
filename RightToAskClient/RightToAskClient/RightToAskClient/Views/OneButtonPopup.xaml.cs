@@ -10,12 +10,13 @@ using Xamarin.Forms.Xaml;
 namespace RightToAskClient.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class InfoPopup : Popup
+    public partial class OneButtonPopup : Popup
     {
-        public InfoPopup(string message)
+        public OneButtonPopup(string message, string buttonText)
         {
             InitializeComponent();
-            popupText.Text = message;
+            mainMessage.Text = message;
+            okButton.Text = buttonText;
         }
 
         private void okButton_Clicked(object sender, EventArgs e)

@@ -40,7 +40,10 @@ namespace RightToAskClient.Models
                 _updates.question_text = _questionText;
             }
         }
-        
+
+        // needed for getting a bool result back from the generic popups
+        public bool PopupResponse { get; set; } = false;
+
         // Lists the updates that have occurred since construction.
         public QuestionSendToServer Updates => _updates; 
         
@@ -266,6 +269,8 @@ namespace RightToAskClient.Models
                 else
                 {
                     string message = AppResources.CreateAccountPopUpText;
+                    //var popup = new TwoButtonPopup();// this instance uses a model instead of a VM
+                    //_ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
                     bool registerNow = await App.Current.MainPage.DisplayAlert(AppResources.MakeAccountQuestionText, message, AppResources.OKText, AppResources.NotNowAnswerText);
                     if (registerNow)
                     {
