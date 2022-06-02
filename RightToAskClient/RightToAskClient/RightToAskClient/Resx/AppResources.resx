@@ -644,6 +644,7 @@
   </data>
   <data name="NoSearchResultsFoundText" xml:space="preserve">
     <value>No results found for the entered keyword.</value>
+  </data>
   <data name="DraftDiscardedPopupTitle" xml:space="preserve">
     <value>Draft discarded.</value>
   </data>
