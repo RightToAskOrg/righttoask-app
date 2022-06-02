@@ -907,6 +907,15 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No results found for the entered keyword..
+        /// </summary>
+        internal static string NoSearchResultsFoundText {
+            get {
+                return ResourceManager.GetString("NoSearchResultsFoundText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not now.
         /// </summary>
         internal static string NotNowAnswerText {

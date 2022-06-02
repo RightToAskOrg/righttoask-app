@@ -642,6 +642,8 @@
   <data name="UserNameHeaderText" xml:space="preserve">
     <value>Username</value>
   </data>
+  <data name="NoSearchResultsFoundText" xml:space="preserve">
+    <value>No results found for the entered keyword.</value>
   <data name="DraftDiscardedPopupTitle" xml:space="preserve">
     <value>Draft discarded.</value>
   </data>
