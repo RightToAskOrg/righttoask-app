@@ -359,33 +359,33 @@ namespace RightToAskClient.ViewModels
 
                 string state = App.ReadingContext.ThisParticipant.RegistrationInfo.State;
 
-            if (String.IsNullOrEmpty(state))
-            {
-                var popup = new OneButtonPopup(AppResources.SelectStateWarningText, AppResources.OKText);
-                _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
-                return;
-            }
-
-            Result<bool> addressValidation = _address.SeemsValid();
-            if (!String.IsNullOrEmpty(addressValidation.Err))
-            {
-                var popup = new OneButtonPopup(addressValidation.Err, AppResources.OKText);
-                _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
-                return;
-            }
-
-                httpResponse = await GeoscapeClient.GetFirstAddressData(_address + " " + state);
-
-            if (httpResponse != null)
-            {
-                if (httpResponse.Err != null)
+                if (String.IsNullOrEmpty(state))
                 {
-                    ReportLabelText = httpResponse.Err;
-                    // maybe display a popup if Electorates were not found
-                    var popup = new OneButtonPopup(AppResources.ElectoratesNotFoundErrorText, AppResources.OKText);
+                    var popup = new OneButtonPopup(AppResources.SelectStateWarningText, AppResources.OKText);
                     _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
                     return;
                 }
+
+                Result<bool> addressValidation = _address.SeemsValid();
+                if (!String.IsNullOrEmpty(addressValidation.Err))
+                {
+                    var popup = new OneButtonPopup(addressValidation.Err, AppResources.OKText);
+                    _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                    return;
+                }
+
+                httpResponse = await GeoscapeClient.GetFirstAddressData(_address + " " + state);
+
+                if (httpResponse != null)
+                {
+                    if (httpResponse.Err != null)
+                    {
+                        ReportLabelText = httpResponse.Err;
+                        // maybe display a popup if Electorates were not found
+                        var popup = new OneButtonPopup(AppResources.ElectoratesNotFoundErrorText, AppResources.OKText);
+                        _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                        return;
+                    }
 
                     // Now we know everything is good.
                     var bestAddress = httpResponse.Ok;
@@ -393,24 +393,25 @@ namespace RightToAskClient.ViewModels
                     ShowFindMPsButton = true;
                     ReportLabelText = "";
 
-                //bool saveThisAddress = await App.Current.MainPage.DisplayAlert("Electorates found!",
-                //    // "State Assembly Electorate: "+thisParticipant.SelectedLAStateElectorate+"\n"
-                //    // +"State Legislative Council Electorate: "+thisParticipant.SelectedLCStateElectorate+"\n"
-                //    "Federal electorate: " + App.ReadingContext.ThisParticipant.CommonwealthElectorate + "\n" +
-                //    "State lower house electorate: " + App.ReadingContext.ThisParticipant.StateLowerHouseElectorate + "\n" +
-                //    "Do you want to save your address on this device? Right To Ask will not learn your address.",
-                //    "OK - Save address on this device", "No thanks");
+                    //bool saveThisAddress = await App.Current.MainPage.DisplayAlert("Electorates found!",
+                    //    // "State Assembly Electorate: "+thisParticipant.SelectedLAStateElectorate+"\n"
+                    //    // +"State Legislative Council Electorate: "+thisParticipant.SelectedLCStateElectorate+"\n"
+                    //    "Federal electorate: " + App.ReadingContext.ThisParticipant.CommonwealthElectorate + "\n" +
+                    //    "State lower house electorate: " + App.ReadingContext.ThisParticipant.StateLowerHouseElectorate + "\n" +
+                    //    "Do you want to save your address on this device? Right To Ask will not learn your address.",
+                    //    "OK - Save address on this device", "No thanks");
 
-                // just save the address all the time now
-                SaveAddress();
-                ShowSkipButton = false;
-                if (!string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.CommonwealthElectorate))
-                {
-                    ShowMapFrame = true;
-                    ShowKnowElectoratesFrame = false;
-                    ShowAddressStack = false;
-                    string electorateString = ConvertElectorateToURLForm(App.ReadingContext.ThisParticipant.CommonwealthElectorate);
-                    ShowMapOfElectorate(electorateString);
+                    // just save the address all the time now
+                    SaveAddress();
+                    ShowSkipButton = false;
+                    if (!string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.CommonwealthElectorate))
+                    {
+                        ShowMapFrame = true;
+                        ShowKnowElectoratesFrame = false;
+                        ShowAddressStack = false;
+                        string electorateString = ConvertElectorateToURLForm(App.ReadingContext.ThisParticipant.CommonwealthElectorate);
+                        ShowMapOfElectorate(electorateString);
+                    }
                 }
             }
         }
