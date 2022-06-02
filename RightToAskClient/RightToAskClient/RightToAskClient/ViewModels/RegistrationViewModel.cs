@@ -12,6 +12,7 @@ using RightToAskClient.Models;
 using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Resx;
 using RightToAskClient.Views;
+using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -240,7 +241,7 @@ namespace RightToAskClient.ViewModels
             ReportLabelText = "";
             ShowUpdateAccountButton = App.ReadingContext.ThisParticipant.IsRegistered;
 
-            ShowTheRightButtonsAsync(_registration.display_name);
+            _ = ShowTheRightButtonsAsync(_registration.display_name);
             RegisterMPButtonText = AppResources.RegisterMPAccountButtonText;
             RegisterOrgButtonText = AppResources.RegisterOrganisationAccountButtonText;
             CanEditUID = !App.ReadingContext.ThisParticipant.IsRegistered;
@@ -340,7 +341,7 @@ namespace RightToAskClient.ViewModels
         // Show and label different buttons according to whether we're registering
         // as a new user, editing our own existing profile, 
         // or viewing someone else's profile.
-        public void ShowTheRightButtonsAsync(string name)
+        public async Task ShowTheRightButtonsAsync(string name)
         {
             if (App.ReadingContext.IsReadingOnly)
             {
@@ -374,9 +375,11 @@ namespace RightToAskClient.ViewModels
                 {
                     if (App.ReadingContext.ThisParticipant.MPsKnown)
                     {
-                        _ = Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Electorates already selected",
-                            "You have already selected your electorates - you can change them if you like",
-                            "OK");
+                        //_ = Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Electorates already selected",
+                        //    "You have already selected your electorates - you can change them if you like",
+                        //    "OK");
+                        var popup = new OneButtonPopup(AppResources.ElectoratesAlreadySelectedText, AppResources.OKText);
+                        _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
                     }
                     ShowRegisterCitizenButton = false;
                 }
@@ -397,8 +400,9 @@ namespace RightToAskClient.ViewModels
                 if (!App.ReadingContext.ThisParticipant.MPsKnown)
                 {
                     // if MPs have not been found for this user yet, prompt to find them
-                    string? result = await Shell.Current.DisplayActionSheet("Would you like to find your MPs? You can always change them later.", "Skip for now.", "Yes");
-                    if (result == "Yes")
+                    var popup = new TwoButtonPopup(this, AppResources.MPsPopupTitle, AppResources.MPsPopupText, AppResources.SkipButtonText, AppResources.YesButtonText);
+                    _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                    if (ApproveButtonClicked)
                     {
                         NavigateToFindMPsPage();
                     }
@@ -496,7 +500,9 @@ namespace RightToAskClient.ViewModels
             }
             else
             {
-                await App.Current.MainPage.DisplayAlert(AppResources.NoAccountChangesDetectedTitle, AppResources.NoAccountChangesDetectedAlertText, AppResources.OKText);
+                //await App.Current.MainPage.DisplayAlert(AppResources.NoAccountChangesDetectedTitle, AppResources.NoAccountChangesDetectedAlertText, AppResources.OKText);
+                var popup = new OneButtonPopup(AppResources.NoAccountChangesDetectedAlertText, AppResources.OKText);
+                _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
             }
         }
 
@@ -510,7 +516,9 @@ namespace RightToAskClient.ViewModels
 
         private async void PromptUser(string message)
         {
-            await App.Current.MainPage.DisplayAlert("Registration incomplete", message, "OK");
+            //await App.Current.MainPage.DisplayAlert("Registration incomplete", message, "OK");
+            var popup = new OneButtonPopup(message, AppResources.OKText);
+            _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
         }
         #endregion
     }

@@ -2,6 +2,7 @@
 using Xamarin.CommunityToolkit.ObjectModel;
 using RightToAskClient.Views;
 using Xamarin.CommunityToolkit.Extensions;
+using RightToAskClient.Resx;
 
 namespace RightToAskClient.ViewModels
 {
@@ -15,8 +16,9 @@ namespace RightToAskClient.ViewModels
             PopupLabelText = "TestText";
             HomeButtonCommand = new AsyncCommand(async () =>
             {
-                string? result = await Shell.Current.DisplayActionSheet("Are you sure you want to go home? You will lose any unsaved questions.", "Cancel", "Yes, I'm sure.");
-                if (result == "Yes, I'm sure.")
+                var popup = new TwoButtonPopup(this, AppResources.GoHomePopupTitle, AppResources.GoHomePopupText, AppResources.CancelButtonText, AppResources.ImSureButtonText);
+                _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                if (ApproveButtonClicked)
                 {
                     await App.Current.MainPage.Navigation.PopToRootAsync();
                 }
@@ -56,6 +58,10 @@ namespace RightToAskClient.ViewModels
             get => _reportLabelText;
             set => SetProperty(ref _reportLabelText, value);
         }
+
+        // booleans for feedback from generic popup button presses
+        public bool CancelButtonClicked { get; set; } = false;
+        public bool ApproveButtonClicked { get; set; } = false;
 
         // commands
         public IAsyncCommand HomeButtonCommand { get; }

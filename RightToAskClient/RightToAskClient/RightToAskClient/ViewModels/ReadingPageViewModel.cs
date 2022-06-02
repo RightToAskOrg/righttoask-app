@@ -255,9 +255,9 @@ namespace RightToAskClient.ViewModels
             App.ReadingContext.DraftQuestion = "";
             ShowQuestionFrame = false;
 
-            bool goHome = await App.Current.MainPage.DisplayAlert("Draft discarded",
-               AppResources.FocusSupportReport, "Home", "Related questions");
-            if (goHome)
+            var popup = new TwoButtonPopup(QuestionViewModel.Instance, AppResources.DraftDiscardedPopupTitle, AppResources.FocusSupportReport, AppResources.RelatedQuestionsButtonText, AppResources.GoHomeButtonText);
+            _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+            if (ApproveButtonClicked)
             {
                 await App.Current.MainPage.Navigation.PopToRootAsync();
             }

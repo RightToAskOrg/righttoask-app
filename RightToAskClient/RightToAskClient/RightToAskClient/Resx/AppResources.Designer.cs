@@ -313,6 +313,15 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Draft discarded..
+        /// </summary>
+        internal static string DraftDiscardedPopupTitle {
+            get {
+                return ResourceManager.GetString("DraftDiscardedPopupTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This image is to help show that you draft your questions by clicking here..
         /// </summary>
         internal static string DraftImageAccessibilityHelpText {
@@ -376,11 +385,38 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error editing question: {0}.
+        /// </summary>
+        internal static string EditQuestionErrorText {
+            get {
+                return ResourceManager.GetString("EditQuestionErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit Your Account.
         /// </summary>
         internal static string EditYourAccountTitle {
             get {
                 return ResourceManager.GetString("EditYourAccountTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have already selected your electorates - you can change them if you like.
+        /// </summary>
+        internal static string ElectoratesAlreadySelectedText {
+            get {
+                return ResourceManager.GetString("ElectoratesAlreadySelectedText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Electorates already selected..
+        /// </summary>
+        internal static string ElectoratesAlreadySelectedTitle {
+            get {
+                return ResourceManager.GetString("ElectoratesAlreadySelectedTitle", resourceCulture);
             }
         }
         
@@ -399,6 +435,15 @@ namespace RightToAskClient.Resx {
         internal static string ElectoratesKnownHeaderText {
             get {
                 return ResourceManager.GetString("ElectoratesKnownHeaderText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Electorates were not found..
+        /// </summary>
+        internal static string ElectoratesNotFoundErrorText {
+            get {
+                return ResourceManager.GetString("ElectoratesNotFoundErrorText", resourceCulture);
             }
         }
         
@@ -547,11 +592,38 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to go home? You will lose any unsaved questions..
+        /// </summary>
+        internal static string GoHomePopupText {
+            get {
+                return ResourceManager.GetString("GoHomePopupText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Return to the Homepage?.
+        /// </summary>
+        internal static string GoHomePopupTitle {
+            get {
+                return ResourceManager.GetString("GoHomePopupTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Home.
         /// </summary>
         internal static string HomeButtonText {
             get {
                 return ResourceManager.GetString("HomeButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes, I&apos;m sure..
+        /// </summary>
+        internal static string ImSureButtonText {
+            get {
+                return ResourceManager.GetString("ImSureButtonText", resourceCulture);
             }
         }
         
@@ -745,6 +817,24 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Would you like to find your MPs? You can always change them later..
+        /// </summary>
+        internal static string MPsPopupText {
+            get {
+                return ResourceManager.GetString("MPsPopupText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Find your MPs?.
+        /// </summary>
+        internal static string MPsPopupTitle {
+            get {
+                return ResourceManager.GetString("MPsPopupTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to My MP.
         /// </summary>
         internal static string MyMPButtonText {
@@ -777,6 +867,15 @@ namespace RightToAskClient.Resx {
         internal static string NavigateOKText {
             get {
                 return ResourceManager.GetString("NavigateOKText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are navigating away from RightToAsk..
+        /// </summary>
+        internal static string NavigationPopupTitle {
+            get {
+                return ResourceManager.GetString("NavigationPopupTitle", resourceCulture);
             }
         }
         
@@ -1033,6 +1132,15 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Question Edited!.
+        /// </summary>
+        internal static string QuestionEditSuccessfulPopupTitle {
+            get {
+                return ResourceManager.GetString("QuestionEditSuccessfulPopupTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Shows an icon of a historical looking building, such as a government building..
         /// </summary>
         internal static string QuestionFrameAnswerButtonAccessibilityName {
@@ -1240,6 +1348,24 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Registration incomplete.
+        /// </summary>
+        internal static string RegistrationIncompleteTitleText {
+            get {
+                return ResourceManager.GetString("RegistrationIncompleteTitleText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Related Questions.
+        /// </summary>
+        internal static string RelatedQuestionsButtonText {
+            get {
+                return ResourceManager.GetString("RelatedQuestionsButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save Answer.
         /// </summary>
         internal static string SaveAnswerButtonText {
@@ -1366,6 +1492,15 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Skip for now..
+        /// </summary>
+        internal static string SkipButtonText {
+            get {
+                return ResourceManager.GetString("SkipButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Skip this step.
         /// </summary>
         internal static string SkipStepButton {
@@ -1389,6 +1524,15 @@ namespace RightToAskClient.Resx {
         internal static string StateHeaderText {
             get {
                 return ResourceManager.GetString("StateHeaderText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stay.
+        /// </summary>
+        internal static string StayOnCurrentPageButtonText {
+            get {
+                return ResourceManager.GetString("StayOnCurrentPageButtonText", resourceCulture);
             }
         }
         
@@ -1623,6 +1767,15 @@ namespace RightToAskClient.Resx {
         internal static string WriteAnotherQuestionButtonText {
             get {
                 return ResourceManager.GetString("WriteAnotherQuestionButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        internal static string YesButtonText {
+            get {
+                return ResourceManager.GetString("YesButtonText", resourceCulture);
             }
         }
         

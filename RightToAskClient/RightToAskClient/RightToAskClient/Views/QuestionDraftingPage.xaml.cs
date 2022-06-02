@@ -53,10 +53,11 @@ namespace RightToAskClient.Views
         {
             Device.BeginInvokeOnMainThread(async () =>
             {
-                string? result = await Shell.Current.DisplayActionSheet("Are you sure you want to go back? You will lose any unsaved questions.", "Cancel", "Yes, I'm sure.");
-                if (result == "Yes, I'm sure.")
+                var popup = new TwoButtonPopup(QuestionViewModel.Instance, AppResources.GoHomePopupTitle, AppResources.GoHomePopupText, AppResources.CancelButtonText, AppResources.ImSureButtonText);
+                _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                if (QuestionViewModel.Instance.ApproveButtonClicked)
                 {
-                    _ = await Shell.Current.Navigation.PopAsync(); // pop
+                    await App.Current.MainPage.Navigation.PopToRootAsync();
                 }
             });
             return true; // otherwise do nothing
