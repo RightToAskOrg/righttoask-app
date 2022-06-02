@@ -413,6 +413,7 @@ namespace RightToAskClient.ViewModels
 
         private string ConvertElectorateToURLForm(string electorate)
         {
+            //if(ParliamentData.FederalElectoratesAsStates.Contains(electorate))
             string part1 = electorate.Substring(0, 1);
             string part2 = electorate.Substring(1, electorate.Length - 1);
             string part3 = part1.ToUpper();

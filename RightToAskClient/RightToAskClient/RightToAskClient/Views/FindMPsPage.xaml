@@ -22,10 +22,10 @@
         <ContentPage.Content>
 	    <ScrollView Margin="0" Padding="0">
             <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" Spacing="0">
-                <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"/>
+                <!--<ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"/>-->
                 <!--<Label Text="{xct:Translate MPsHeaderText1}" Style="{StaticResource Header1}" />-->
                 <!--Label Choice Option Frames-->
-                <StackLayout Orientation="Horizontal" IsVisible="{Binding ShowStateOnly, Converter={StaticResource Key=cnvInvert}}">
+                <StackLayout Orientation="Horizontal" IsVisible="{Binding ShowStateOnly, Converter={StaticResource Key=cnvInvert}}" Margin="10">
                     <!--<Frame Style="{StaticResource GreenFrame}">
                         <Label Text="{xct:Translate ElectoratesKnownHeaderText}" Style="{StaticResource Header1}" VerticalOptions="Center">
                             <Label.GestureRecognizers>
@@ -34,7 +34,7 @@
                         </Label>
                     </Frame>-->
                     <Button Text="Manually" Style="{StaticResource GreenButton}" Command="{Binding KnowElectoratesCommand}"/>
-                    <Label Text="Or" WidthRequest="150" FontSize="Large"
+                    <Label Text="Or" WidthRequest="25" FontSize="Large"
 					       HorizontalOptions="Center" VerticalOptions="Center" />
                     <Button Text="Look Up" Style="{StaticResource GreenButton}" Command="{Binding LookupElectoratesCommand}"/>
                     <!--<Frame Style="{StaticResource GreenFrame}">
@@ -47,15 +47,16 @@
                 </StackLayout>
                 <!--Map Display-->
                 <Frame Margin="0" Padding="0" IsVisible="{Binding ShowMapFrame}" WidthRequest="150">
-                    <AbsoluteLayout Margin="0" Padding="0">
+                    <StackLayout Margin="0" Padding="0">
                         <!--Webview has default padding in its underlying html that is proving difficult to remove-->
                         <!--<Label Text="Your Currently Selected Electorate: " Padding="0" Margin="0"/>-->
-                        <WebView Source="{Binding MapURL}" WidthRequest="150" HeightRequest="150" Margin="0" AbsoluteLayout.LayoutBounds="0,150,150,0"/>
-                    </AbsoluteLayout>
+                        <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"/>
+                        <WebView Source="{Binding MapURL}" WidthRequest="300" HeightRequest="250" Margin="0"/>
+                    </StackLayout>
                 </Frame>
                 <!--Known Electorates Section-->
                 <Frame Style="{StaticResource SubtleFrame}" IsVisible="{Binding ShowKnowElectoratesFrame}">
-                    <StackLayout Margin="20">
+                    <StackLayout Margin="2" Spacing="0">
                         <!--State Selector/Picker-->
                         <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Margin="1,0,0,0">
                             <Label Text="{xct:Translate MPsHeaderText2}" FontSize="Medium" HorizontalOptions="Start" VerticalOptions="Center" />
@@ -63,38 +64,36 @@
 					        Style="{StaticResource CenterFramePicker}" SelectedIndex="{Binding SelectedState}">
                             </Picker>
                         </StackLayout>
-                        <Picker Style="{StaticResource LeftFramePicker}" Title="{Binding StateLAElectoratePickerTitle}" ItemsSource="{Binding AllStateLAElectorates}"
+                        <Picker Margin="0" Style="{StaticResource LeftFramePicker}" Title="{Binding StateLAElectoratePickerTitle}" ItemsSource="{Binding AllStateLAElectorates}"
                                 SelectedIndex="{Binding SelectedStateLAElectorate}" MinimumWidthRequest="200">
                         </Picker>
-                        <Picker Style="{StaticResource LeftFramePicker}" Title="{Binding StateLCElectoratePickerTitle}" ItemsSource="{Binding AllStateLCElectorates}"
+                        <Picker Margin="0" Style="{StaticResource LeftFramePicker}" Title="{Binding StateLCElectoratePickerTitle}" ItemsSource="{Binding AllStateLCElectorates}"
 				            SelectedIndex ="{Binding SelectedStateLCElectorate}" MinimumWidthRequest="200">
                         </Picker>
-                        <Picker Style="{StaticResource LeftFramePicker}" Title="{Binding FederalElectoratePickerTitle}" ItemsSource="{Binding AllFederalElectorates}"
+                        <Picker Margin="0" Style="{StaticResource LeftFramePicker}" Title="{Binding FederalElectoratePickerTitle}" ItemsSource="{Binding AllFederalElectorates}"
                                 SelectedIndex="{Binding SelectedFederalElectorate}" MinimumWidthRequest="200">
                         </Picker>
                     </StackLayout>
                 </Frame>
                 <!--Address Lookup Stack-->
                 <Frame Style="{StaticResource SubtleFrame}" IsVisible="{Binding ShowAddressStack}">
-                    <StackLayout Margin="20">
+                    <StackLayout Margin="2" Spacing="0">
                         <!--State Selector/Picker-->
-                        <StackLayout Orientation="Horizontal" HorizontalOptions="Start">
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Margin="0" Padding="0">
                             <Label Text="{xct:Translate MPsHeaderText2}" FontSize="Medium" HorizontalOptions="Start" VerticalOptions="Center" />
                             <Picker Title="{Binding StatePickerTitle}" ItemsSource="{Binding StatePicker}" 
 					        Style="{StaticResource CenterFramePicker}" SelectedIndex="{Binding SelectedState}">
                             </Picker>
                         </StackLayout>
-                        <Label Text="{xct:Translate StreetHeaderText}" Style="{StaticResource LeftFrameText}"/>
-                        <Entry Placeholder="{xct:Translate StreetHeaderText}" Text="{Binding Address.StreetNumberAndName}" Style="{StaticResource LeftFrameEntry}"/>
-                        <Label Text="{xct:Translate CitySuburbHeaderText}" Style="{StaticResource LeftFrameText}"/>
+                        <Label Text="{xct:Translate StreetHeaderText}" Style="{StaticResource LeftFrameText}" Margin="0" Padding="0"/>
+                        <Entry Placeholder="{xct:Translate StreetHeaderText}" Text="{Binding Address.StreetNumberAndName}" Style="{StaticResource LeftFrameEntry}" Margin="0"/>
+                        <Label Text="{xct:Translate CitySuburbHeaderText}" Style="{StaticResource LeftFrameText}" Margin="0" Padding="0"/>
                         <Entry Placeholder="{xct:Translate CitySuburbHeaderText}" Text="{Binding Address.CityOrSuburb}" Style="{StaticResource LeftFrameEntry}"/>
-                        <Label Text="{xct:Translate PostcodeHeaderText}" Style="{StaticResource LeftFrameText}"/>
-                        <Entry Placeholder="{xct:Translate PostcodeHeaderText}" Text="{Binding Address.Postcode}" Style="{StaticResource LeftFrameEntry}"/>
-                        <StackLayout Orientation="Vertical" HorizontalOptions="Center">
-                            <Button Text="{xct:Translate FindMyElectoratesButtonText}" HorizontalOptions="Center" Style="{StaticResource GreenButton}" Command="{Binding SubmitAddressButtonCommand}" />
-                            <Label x:Name="ReportLabel" Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}"/>
-                            <!--<ActivityIndicator IsRunning="{Binding IsBusy}"/>-->
-                        </StackLayout>
+                        <Label Text="{xct:Translate PostcodeHeaderText}" Style="{StaticResource LeftFrameText}" Margin="0" Padding="0"/>
+                        <Grid ColumnDefinitions="*,*">
+                            <Entry Grid.Column="0" Placeholder="{xct:Translate PostcodeHeaderText}" Text="{Binding Address.Postcode}" Style="{StaticResource LeftFrameEntry}"/>
+                            <Button Grid.Column="1" Text="{xct:Translate LocateButtonText}" Style="{StaticResource GreenButton}" Command="{Binding SubmitAddressButtonCommand}"/>
+                        </Grid>
                         <!--
 				            <Label FontSize="Small" Text="(i) If you are on the electoral roll,
                              					    your MP is more likely to listen to you if you tell them your address. RightToAsk does not learn 

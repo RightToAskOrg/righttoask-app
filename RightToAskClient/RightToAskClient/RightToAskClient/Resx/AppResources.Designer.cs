@@ -601,6 +601,15 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Locate.
+        /// </summary>
+        internal static string LocateButtonText {
+            get {
+                return ResourceManager.GetString("LocateButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to I need to look them up.
         /// </summary>
         internal static string LookupElectoratesHeaderText {
