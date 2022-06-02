@@ -207,8 +207,6 @@ namespace RightToAskClient.ViewModels
             get => _mapUrl;
             set => SetProperty(ref _mapUrl, value);
         }
-
-        private bool _launchMPsSelectionPageNext;
         #endregion
 
         // constructor
@@ -389,25 +387,26 @@ namespace RightToAskClient.ViewModels
                     ShowFindMPsButton = true;
                     ReportLabelText = "";
 
-                bool saveThisAddress = await App.Current.MainPage.DisplayAlert("Electorates found!",
-                    // "State Assembly Electorate: "+thisParticipant.SelectedLAStateElectorate+"\n"
-                    // +"State Legislative Council Electorate: "+thisParticipant.SelectedLCStateElectorate+"\n"
-                    "Federal electorate: " + App.ReadingContext.ThisParticipant.CommonwealthElectorate + "\n" +
-                    "State lower house electorate: " + App.ReadingContext.ThisParticipant.StateLowerHouseElectorate + "\n" +
-                    "Do you want to save your address on this device? Right To Ask will not learn your address.",
-                    "OK - Save address on this device", "No thanks");
-                if (saveThisAddress)
-                {
-                    SaveAddress();
-                }
-                ShowSkipButton = false;
-                if (!string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.CommonwealthElectorate))
-                {
-                    ShowMapFrame = true;
-                    ShowKnowElectoratesFrame = false;
-                    ShowAddressStack = false;
-                    string electorateString = ConvertElectorateToURLForm(App.ReadingContext.ThisParticipant.CommonwealthElectorate);
-                    ShowMapOfElectorate(electorateString);
+                    bool saveThisAddress = await App.Current.MainPage.DisplayAlert("Electorates found!",
+                        // "State Assembly Electorate: "+thisParticipant.SelectedLAStateElectorate+"\n"
+                        // +"State Legislative Council Electorate: "+thisParticipant.SelectedLCStateElectorate+"\n"
+                        "Federal electorate: " + App.ReadingContext.ThisParticipant.CommonwealthElectorate + "\n" +
+                        "State lower house electorate: " + App.ReadingContext.ThisParticipant.StateLowerHouseElectorate + "\n" +
+                        "Do you want to save your address on this device? Right To Ask will not learn your address.",
+                        "OK - Save address on this device", "No thanks");
+                    if (saveThisAddress)
+                    {
+                        SaveAddress();
+                    }
+                    ShowSkipButton = false;
+                    if (!string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.CommonwealthElectorate))
+                    {
+                        ShowMapFrame = true;
+                        ShowKnowElectoratesFrame = false;
+                        ShowAddressStack = false;
+                        string electorateString = ConvertElectorateToURLForm(App.ReadingContext.ThisParticipant.CommonwealthElectorate);
+                        ShowMapOfElectorate(electorateString);
+                    }
                 }
             }
         }
@@ -468,6 +467,13 @@ namespace RightToAskClient.ViewModels
             if (!String.IsNullOrEmpty(AllFederalElectorates[SelectedFederalElectorate]))
             {
                 App.ReadingContext.ThisParticipant.AddHouseOfRepsElectorate(AllFederalElectorates[SelectedFederalElectorate]);
+                // actually show the map in real time
+                if (!string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.CommonwealthElectorate))
+                {
+                    ShowMapFrame = true;
+                    string electorateString = ConvertElectorateToURLForm(App.ReadingContext.ThisParticipant.CommonwealthElectorate);
+                    ShowMapOfElectorate(electorateString);
+                }
                 RevealNextStepIfElectoratesKnown();
             }
         }

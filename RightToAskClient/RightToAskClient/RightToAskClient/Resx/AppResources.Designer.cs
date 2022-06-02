@@ -466,7 +466,7 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to FindMPsPopupText.
+        ///   Looks up a localized string similar to Your MPs are defined by where you live..
         /// </summary>
         internal static string FindMPsPopupText {
             get {
