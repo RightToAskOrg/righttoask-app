@@ -2,6 +2,7 @@
 <xct:Popup xmlns="http://xamarin.com/schemas/2014/forms"
            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
            xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+           xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
            x:Class="RightToAskClient.Views.TwoButtonPopup"
            Size="300,210"
            IsLightDismissEnabled="False"
@@ -22,20 +23,22 @@
                 </StackLayout>
             </ScrollView>
             <Grid ColumnDefinitions="*,*" VerticalOptions="End">
-                <Label x:Name="cancelText" Grid.Column="0" TextColor="{StaticResource AlertColor}" FontSize="Small" 
+                <!--<Label x:Name="cancelText" Grid.Column="0" TextColor="{StaticResource AlertColor}" FontSize="Small" 
                        VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" HorizontalOptions="Center">
-                    <!--<Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding AnsweringMPsFilterCommand}"/>
-                    </Label.GestureRecognizers>-->
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ApproveCommand}" x:DataType="vm:BaseViewModel"/>
+                    </Label.GestureRecognizers>
                 </Label>
                 <Label x:Name="approveText" Grid.Column="1" TextColor="{StaticResource TextColorGreen}" FontSize="Small" 
                        VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" HorizontalOptions="Center">
-                    <!--<Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding AnsweringMPsFilterCommand}"/>
-                    </Label.GestureRecognizers>-->
-                </Label>
-                <!--<Button x:Name="cancelButton" Grid.Column="0" Clicked="CancelButtonClicked" HeightRequest="50" Style="{StaticResource GreenButton}"/>-->
-                <!--<Button x:Name="approveButton" Grid.Column="1" Clicked="ApproveButtonClicked" HeightRequest="50" Style="{StaticResource GreenButton}"/>-->
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding CancelCommand}" x:DataType="vm:BaseViewModel"/>
+                    </Label.GestureRecognizers>
+                </Label>-->
+                <Button x:Name="cancelButton" Grid.Column="0" Clicked="CancelButtonClicked" FontSize="Small" 
+                        TextColor="{StaticResource AlertColor}" HeightRequest="50" BackgroundColor="Transparent" Margin="0" Padding="0" HorizontalOptions="FillAndExpand"/>
+                <Button x:Name="approveButton" Grid.Column="1" Clicked="ApproveButtonClicked" FontSize="Small" 
+                        TextColor="{StaticResource TextColorGreen}" HeightRequest="50" BackgroundColor="Transparent" Margin="0" Padding="0" HorizontalOptions="FillAndExpand"/>
             </Grid>
         </StackLayout>
     </Frame>
