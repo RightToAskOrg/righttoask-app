@@ -25,32 +25,17 @@
                 <!--<ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"/>-->
                 <!--<Label Text="{xct:Translate MPsHeaderText1}" Style="{StaticResource Header1}" />-->
                 <!--Label Choice Option Frames-->
-                <StackLayout Orientation="Horizontal" IsVisible="{Binding ShowStateOnly, Converter={StaticResource Key=cnvInvert}}" Margin="10">
-                    <!--<Frame Style="{StaticResource GreenFrame}">
-                        <Label Text="{xct:Translate ElectoratesKnownHeaderText}" Style="{StaticResource Header1}" VerticalOptions="Center">
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding KnowElectoratesCommand}"/>
-                            </Label.GestureRecognizers>
-                        </Label>
-                    </Frame>-->
-                    <Button Text="Manually" Style="{StaticResource GreenButton}" Command="{Binding KnowElectoratesCommand}"/>
-                    <Label Text="Or" WidthRequest="25" FontSize="Large"
+                <Grid ColumnDefinitions="*,*,*" Margin="0,10,0,0">
+                    <Button Grid.Column="0" Text="Manually" Style="{StaticResource GreenButton}" Command="{Binding KnowElectoratesCommand}" HorizontalOptions="End"/>
+                    <Label Grid.Column="1" Text="Or" WidthRequest="25" FontSize="Large"
 					       HorizontalOptions="Center" VerticalOptions="Center" />
-                    <Button Text="Look Up" Style="{StaticResource GreenButton}" Command="{Binding LookupElectoratesCommand}"/>
-                    <!--<Frame Style="{StaticResource GreenFrame}">
-                        <Label Text="{xct:Translate LookupElectoratesHeaderText}" Style="{StaticResource Header2}" VerticalOptions="Center">
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding LookupElectoratesCommand}"/>
-                            </Label.GestureRecognizers>
-                        </Label>
-                    </Frame>-->
-                </StackLayout>
+                    <Button Grid.Column="2" Text="Look Up" Style="{StaticResource GreenButton}" Command="{Binding LookupElectoratesCommand}" HorizontalOptions="Start"/>
+                </Grid>
                 <!--Map Display-->
                 <Frame Margin="0" Padding="0" IsVisible="{Binding ShowMapFrame}" WidthRequest="150">
                     <StackLayout Margin="0" Padding="0">
                         <!--Webview has default padding in its underlying html that is proving difficult to remove-->
                         <!--<Label Text="Your Currently Selected Electorate: " Padding="0" Margin="0"/>-->
-                        <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"/>
                         <WebView Source="{Binding MapURL}" WidthRequest="300" HeightRequest="250" Margin="0"/>
                     </StackLayout>
                 </Frame>

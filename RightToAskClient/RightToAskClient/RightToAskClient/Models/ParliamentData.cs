@@ -256,8 +256,24 @@ namespace RightToAskClient.Models
 				return new List<ElectorateWithChamber>();
 			}
 
-			return new List<ElectorateWithChamber>(){new ElectorateWithChamber(chamber.Ok, region)};
+            return new List<ElectorateWithChamber>() { new ElectorateWithChamber(chamber.Ok, region) };
 		}
+
+		// Used because the Geoscape API returns electorates in all Uppercase, which messes with the URL for the webview that displays the map of electorates
+		public static string ConvertGeoscapeElectorateToStandard(string state, string electorate)
+		{
+			List<string> options = ListElectoratesInHouseOfReps(state);
+			string result = "";
+			for (int i = 0; i < options.Count - 1; i++)
+			{
+				if (options[i].ToUpper() == electorate.ToUpper())
+				{
+					result = options[i];
+				}
+			}
+			return result;
+		}
+
 		public static List<string> ListElectoratesInHouseOfReps(string state)
 		{
 			if (MPAndOtherData.IsInitialised)

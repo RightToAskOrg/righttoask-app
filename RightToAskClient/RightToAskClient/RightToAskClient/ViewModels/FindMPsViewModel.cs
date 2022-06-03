@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -220,10 +221,13 @@ namespace RightToAskClient.ViewModels
             ShowMapFrame = false;
             _launchMPsSelectionPageNext = true;
 
+            // set the state index pickers
+            SelectedState = App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsIndex;
+
             if (!string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.CommonwealthElectorate))
             {
                 ShowMapFrame = true;
-                string electorateString = ConvertElectorateToURLForm(App.ReadingContext.ThisParticipant.CommonwealthElectorate);
+                string electorateString = ParliamentData.ConvertGeoscapeElectorateToStandard(App.ReadingContext.ThisParticipant.RegistrationInfo.State, App.ReadingContext.ThisParticipant.CommonwealthElectorate);
                 ShowMapOfElectorate(electorateString);
             }
 
@@ -354,7 +358,7 @@ namespace RightToAskClient.ViewModels
             }
             if (PostcodeIsValid)
             {
-                IsBusy = true;
+                IsBusy = true; // no longer displaying the activity indicator since the webview shows that it is being updated
                 Result<GeoscapeAddressFeature> httpResponse;
 
                 string state = App.ReadingContext.ThisParticipant.RegistrationInfo.State;
@@ -409,22 +413,11 @@ namespace RightToAskClient.ViewModels
                         ShowMapFrame = true;
                         ShowKnowElectoratesFrame = false;
                         ShowAddressStack = false;
-                        string electorateString = ConvertElectorateToURLForm(App.ReadingContext.ThisParticipant.CommonwealthElectorate);
+                        string electorateString = ParliamentData.ConvertGeoscapeElectorateToStandard(state, App.ReadingContext.ThisParticipant.CommonwealthElectorate);
                         ShowMapOfElectorate(electorateString);
                     }
                 }
             }
-        }
-
-        private string ConvertElectorateToURLForm(string electorate)
-        {
-            //if(ParliamentData.FederalElectoratesAsStates.Contains(electorate))
-            string part1 = electorate.Substring(0, 1);
-            string part2 = electorate.Substring(1, electorate.Length - 1);
-            string part3 = part1.ToUpper();
-            string part4 = part2.ToLower();
-            string result = part3 + part4;
-            return result;
         }
 
         private void ShowMapOfElectorate(string electorateString)
@@ -477,8 +470,8 @@ namespace RightToAskClient.ViewModels
                 if (!string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.CommonwealthElectorate))
                 {
                     ShowMapFrame = true;
-                    string electorateString = ConvertElectorateToURLForm(App.ReadingContext.ThisParticipant.CommonwealthElectorate);
-                    ShowMapOfElectorate(electorateString);
+                    //string electorateString = ConvertElectorateToURLForm(App.ReadingContext.ThisParticipant.CommonwealthElectorate);
+                    ShowMapOfElectorate(App.ReadingContext.ThisParticipant.CommonwealthElectorate);
                 }
                 RevealNextStepIfElectoratesKnown();
             }

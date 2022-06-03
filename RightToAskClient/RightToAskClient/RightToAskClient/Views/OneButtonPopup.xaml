@@ -13,7 +13,9 @@
                    HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource Header1}"
                    TextColor="{AppThemeBinding Light={StaticResource TextColor}, 
                    Dark={StaticResource TextColorDark}}"/>
-            <Button x:Name="okButton" Clicked="okButton_Clicked" HeightRequest="75" VerticalOptions="End"/>
+            <Grid ColumnDefinitions="*,*" VerticalOptions="End">
+                <Button x:Name="okButton" Grid.Column="1" Clicked="okButton_Clicked" HeightRequest="50" Style="{StaticResource GreenButton}"/>
+            </Grid>
         </StackLayout>
     </Frame>
 </xct:Popup>
