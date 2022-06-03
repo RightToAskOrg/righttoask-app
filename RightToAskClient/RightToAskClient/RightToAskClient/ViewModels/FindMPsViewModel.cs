@@ -350,8 +350,9 @@ namespace RightToAskClient.ViewModels
 
             if (!PostcodeIsValid)
             {
-                string? result = await Shell.Current.DisplayActionSheet("This postcode seems invalid for this area. Would you like to proceed anyways?", "Cancel", "Yes, I'm sure.");
-                if (result == "Yes, I'm sure.")
+                var popup = new TwoButtonPopup(this, AppResources.InvalidPostcodePopupTitle, AppResources.InvalidPostcodePopupText, AppResources.CancelButtonText, AppResources.ImSureButtonText);
+                _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                if (ApproveButtonClicked)
                 {
                     PostcodeIsValid = true;
                 }
@@ -404,6 +405,11 @@ namespace RightToAskClient.ViewModels
                     //    "State lower house electorate: " + App.ReadingContext.ThisParticipant.StateLowerHouseElectorate + "\n" +
                     //    "Do you want to save your address on this device? Right To Ask will not learn your address.",
                     //    "OK - Save address on this device", "No thanks");
+                    string electoratePopupTitle = "Electorates Found!";
+                    string electoratePopupText = "Federal electorate: " + App.ReadingContext.ThisParticipant.CommonwealthElectorate +
+                        "\n" + "State lower house electorate: " + App.ReadingContext.ThisParticipant.StateLowerHouseElectorate;
+                    var electoratesFoundPopup = new OneButtonPopup(electoratePopupTitle, electoratePopupText, AppResources.OKText);
+                    _ = await App.Current.MainPage.Navigation.ShowPopupAsync(electoratesFoundPopup);
 
                     // just save the address all the time now
                     SaveAddress();

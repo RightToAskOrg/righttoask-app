@@ -637,6 +637,24 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This postcode seems invalid for this area. Would you like to proceed anyways?.
+        /// </summary>
+        internal static string InvalidPostcodePopupText {
+            get {
+                return ResourceManager.GetString("InvalidPostcodePopupText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid Postcode.
+        /// </summary>
+        internal static string InvalidPostcodePopupTitle {
+            get {
+                return ResourceManager.GetString("InvalidPostcodePopupTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Publish.
         /// </summary>
         internal static string KeepQuestionButtonText {
