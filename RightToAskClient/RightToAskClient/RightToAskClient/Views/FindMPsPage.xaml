@@ -49,15 +49,17 @@
 					        Style="{StaticResource CenterFramePicker}" SelectedIndex="{Binding SelectedState}">
                             </Picker>
                         </StackLayout>
-                        <Picker Margin="0" Style="{StaticResource LeftFramePicker}" Title="{Binding StateLAElectoratePickerTitle}" ItemsSource="{Binding AllStateLAElectorates}"
+                        <StackLayout Margin="0" Padding="0" Spacing="0" IsVisible="{Binding ShowStateOnly, Converter={StaticResource Key=cnvInvert}}">
+                            <Picker Margin="0" Style="{StaticResource LeftFramePicker}" Title="{Binding StateLAElectoratePickerTitle}" ItemsSource="{Binding AllStateLAElectorates}"
                                 SelectedIndex="{Binding SelectedStateLAElectorate}" MinimumWidthRequest="200">
-                        </Picker>
-                        <Picker Margin="0" Style="{StaticResource LeftFramePicker}" Title="{Binding StateLCElectoratePickerTitle}" ItemsSource="{Binding AllStateLCElectorates}"
+                            </Picker>
+                            <Picker Margin="0" Style="{StaticResource LeftFramePicker}" Title="{Binding StateLCElectoratePickerTitle}" ItemsSource="{Binding AllStateLCElectorates}"
 				            SelectedIndex ="{Binding SelectedStateLCElectorate}" MinimumWidthRequest="200">
-                        </Picker>
-                        <Picker Margin="0" Style="{StaticResource LeftFramePicker}" Title="{Binding FederalElectoratePickerTitle}" ItemsSource="{Binding AllFederalElectorates}"
+                            </Picker>
+                            <Picker Margin="0" Style="{StaticResource LeftFramePicker}" Title="{Binding FederalElectoratePickerTitle}" ItemsSource="{Binding AllFederalElectorates}"
                                 SelectedIndex="{Binding SelectedFederalElectorate}" MinimumWidthRequest="200">
-                        </Picker>
+                            </Picker>
+                        </StackLayout>
                     </StackLayout>
                 </Frame>
                 <!--Address Lookup Stack-->
@@ -70,15 +72,17 @@
 					        Style="{StaticResource CenterFramePicker}" SelectedIndex="{Binding SelectedState}">
                             </Picker>
                         </StackLayout>
-                        <Label Text="{xct:Translate StreetHeaderText}" Style="{StaticResource LeftFrameText}" Margin="0" Padding="0"/>
-                        <Entry Placeholder="{xct:Translate StreetHeaderText}" Text="{Binding Address.StreetNumberAndName}" Style="{StaticResource LeftFrameEntry}" Margin="0"/>
-                        <Label Text="{xct:Translate CitySuburbHeaderText}" Style="{StaticResource LeftFrameText}" Margin="0" Padding="0"/>
-                        <Entry Placeholder="{xct:Translate CitySuburbHeaderText}" Text="{Binding Address.CityOrSuburb}" Style="{StaticResource LeftFrameEntry}"/>
-                        <Label Text="{xct:Translate PostcodeHeaderText}" Style="{StaticResource LeftFrameText}" Margin="0" Padding="0"/>
-                        <Grid ColumnDefinitions="*,*">
-                            <Entry Grid.Column="0" Placeholder="{xct:Translate PostcodeHeaderText}" Text="{Binding Address.Postcode}" Style="{StaticResource LeftFrameEntry}"/>
-                            <Button Grid.Column="1" Text="{xct:Translate LocateButtonText}" Style="{StaticResource GreenButton}" Command="{Binding SubmitAddressButtonCommand}"/>
-                        </Grid>
+                        <StackLayout Margin="0" Padding="0" Spacing="0" IsVisible="{Binding ShowStateOnly, Converter={StaticResource Key=cnvInvert}}">
+                            <Label Text="{xct:Translate StreetHeaderText}" Style="{StaticResource LeftFrameText}" Margin="0" Padding="0"/>
+                            <Entry Placeholder="{xct:Translate StreetHeaderText}" Text="{Binding Address.StreetNumberAndName}" Style="{StaticResource LeftFrameEntry}" Margin="0"/>
+                            <Label Text="{xct:Translate CitySuburbHeaderText}" Style="{StaticResource LeftFrameText}" Margin="0" Padding="0"/>
+                            <Entry Placeholder="{xct:Translate CitySuburbHeaderText}" Text="{Binding Address.CityOrSuburb}" Style="{StaticResource LeftFrameEntry}"/>
+                            <Label Text="{xct:Translate PostcodeHeaderText}" Style="{StaticResource LeftFrameText}" Margin="0" Padding="0"/>
+                            <Grid ColumnDefinitions="*,*">
+                                <Entry Grid.Column="0" Placeholder="{xct:Translate PostcodeHeaderText}" Text="{Binding Address.Postcode}" Style="{StaticResource LeftFrameEntry}"/>
+                                <Button Grid.Column="1" Text="{xct:Translate LocateButtonText}" Style="{StaticResource GreenButton}" Command="{Binding SubmitAddressButtonCommand}"/>
+                            </Grid>
+                        </StackLayout>
                         <!--
 				            <Label FontSize="Small" Text="(i) If you are on the electoral roll,
                              					    your MP is more likely to listen to you if you tell them your address. RightToAsk does not learn 

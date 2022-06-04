@@ -44,7 +44,7 @@ namespace RightToAskClient.ViewModels
             get => _showSkipButton;
             set => SetProperty(ref _showSkipButton, value);
         }
-        private bool _showStateOnly = false;
+        private bool _showStateOnly = true;
         public bool ShowStateOnly
         {
             get => _showStateOnly;
@@ -394,26 +394,36 @@ namespace RightToAskClient.ViewModels
 
                     // Now we know everything is good.
                     var bestAddress = httpResponse.Ok;
-                    AddElectorates(bestAddress);
-                    ShowFindMPsButton = true;
-                    ReportLabelText = "";
+                    // needs a federal electorate to be valid
+                    if (!string.IsNullOrEmpty(bestAddress?.Properties?.CommonwealthElectorate?.ToString()))
+                    {
+                        AddElectorates(bestAddress);
+                        ShowFindMPsButton = true;
+                        ReportLabelText = "";
 
-                    //bool saveThisAddress = await App.Current.MainPage.DisplayAlert("Electorates found!",
-                    //    // "State Assembly Electorate: "+thisParticipant.SelectedLAStateElectorate+"\n"
-                    //    // +"State Legislative Council Electorate: "+thisParticipant.SelectedLCStateElectorate+"\n"
-                    //    "Federal electorate: " + App.ReadingContext.ThisParticipant.CommonwealthElectorate + "\n" +
-                    //    "State lower house electorate: " + App.ReadingContext.ThisParticipant.StateLowerHouseElectorate + "\n" +
-                    //    "Do you want to save your address on this device? Right To Ask will not learn your address.",
-                    //    "OK - Save address on this device", "No thanks");
-                    string electoratePopupTitle = "Electorates Found!";
-                    string electoratePopupText = "Federal electorate: " + App.ReadingContext.ThisParticipant.CommonwealthElectorate +
-                        "\n" + "State lower house electorate: " + App.ReadingContext.ThisParticipant.StateLowerHouseElectorate;
-                    var electoratesFoundPopup = new OneButtonPopup(electoratePopupTitle, electoratePopupText, AppResources.OKText);
-                    _ = await App.Current.MainPage.Navigation.ShowPopupAsync(electoratesFoundPopup);
+                        //bool saveThisAddress = await App.Current.MainPage.DisplayAlert("Electorates found!",
+                        //    // "State Assembly Electorate: "+thisParticipant.SelectedLAStateElectorate+"\n"
+                        //    // +"State Legislative Council Electorate: "+thisParticipant.SelectedLCStateElectorate+"\n"
+                        //    "Federal electorate: " + App.ReadingContext.ThisParticipant.CommonwealthElectorate + "\n" +
+                        //    "State lower house electorate: " + App.ReadingContext.ThisParticipant.StateLowerHouseElectorate + "\n" +
+                        //    "Do you want to save your address on this device? Right To Ask will not learn your address.",
+                        //    "OK - Save address on this device", "No thanks");
+                        string electoratePopupTitle = "Electorates Found!";
+                        string electoratePopupText = "Federal electorate: " + App.ReadingContext.ThisParticipant.CommonwealthElectorate +
+                            "\n" + "State lower house electorate: " + App.ReadingContext.ThisParticipant.StateLowerHouseElectorate;
+                        var electoratesFoundPopup = new OneButtonPopup(electoratePopupTitle, electoratePopupText, AppResources.OKText);
+                        _ = await App.Current.MainPage.Navigation.ShowPopupAsync(electoratesFoundPopup);
 
-                    // just save the address all the time now
-                    SaveAddress();
+                        // just save the address all the time now if it returned a valid electorate
+                        SaveAddress();
+                    }
+                    else
+                    {
+                        var electoratesNotFoundPopup = new OneButtonPopup("Electorates not Found", "Please reformat the address and try again.", AppResources.OKText);
+                        _ = await App.Current.MainPage.Navigation.ShowPopupAsync(electoratesNotFoundPopup);
+                    }
                     ShowSkipButton = false;
+                    // display the map if we stored the Federal Electorate properly
                     if (!string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.CommonwealthElectorate))
                     {
                         ShowMapFrame = true;
