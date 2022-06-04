@@ -11,6 +11,7 @@ using RightToAskClient.Resx;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using Xamarin.CommunityToolkit.Extensions;
 
 namespace RightToAskClient.Models
 {
@@ -226,6 +227,19 @@ namespace RightToAskClient.Models
             set => SetProperty(ref _answerInApp, value);
         }
 
+        // booleans stored for new style popups
+        private bool _approveClicked = false;
+        public bool ApproveClicked
+        {
+            get => _approveClicked;
+            set => SetProperty(ref _approveClicked, value);
+        }
+        private bool _cancelClicked = false;
+        public bool CancelClicked
+        {
+            get => _cancelClicked;
+            set => SetProperty(ref _cancelClicked, value);
+        }
         /*
         public override string ToString ()
         {
@@ -269,13 +283,17 @@ namespace RightToAskClient.Models
                 else
                 {
                     string message = AppResources.CreateAccountPopUpText;
-                    //var popup = new TwoButtonPopup();// this instance uses a model instead of a VM
-                    //_ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
-                    bool registerNow = await App.Current.MainPage.DisplayAlert(AppResources.MakeAccountQuestionText, message, AppResources.OKText, AppResources.NotNowAnswerText);
-                    if (registerNow)
+                    var popup = new TwoButtonPopup(this, AppResources.MakeAccountQuestionText, message, AppResources.NotNowAnswerText, AppResources.OKText); // this instance uses a model instead of a VM
+                    _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                    if (ApproveClicked)
                     {
                         await Shell.Current.GoToAsync($"{nameof(RegisterPage1)}");
                     }
+                    //bool registerNow = await App.Current.MainPage.DisplayAlert(AppResources.MakeAccountQuestionText, message, AppResources.OKText, AppResources.NotNowAnswerText);
+                    //if (registerNow)
+                    //{
+                    //    await Shell.Current.GoToAsync($"{nameof(RegisterPage1)}");
+                    //}
                 }
             });
             QuestionDetailsCommand = new Command(() =>
@@ -305,11 +323,23 @@ namespace RightToAskClient.Models
                     App.ReadingContext.ThisParticipant.ReportedQuestionIDs.Remove(QuestionId);
                 }
             });
+            PopupApproveCommand = new Command(() =>
+            {
+                ApproveClicked = true;
+                CancelClicked = false;
+            });
+            PopupCancelCommand = new Command(() =>
+            {
+                CancelClicked = true;
+                ApproveClicked = false;
+            });
         }
 
         // commands
         public Command UpvoteCommand { get; }
         public Command ReportCommand { get; }
+        public Command PopupApproveCommand { get; }
+        public Command PopupCancelCommand { get; }
         public Command QuestionDetailsCommand { get; }
         public IAsyncCommand ShareCommand { get; }
         
