@@ -7,7 +7,7 @@
              x:Class="RightToAskClient.Views.UserAccountInfoView"
              x:DataType="vm:RegistrationViewModel">
     <ContentView.Content>
-        <StackLayout>
+        <StackLayout VerticalOptions="Start">
             <Label Text="{xct:Translate UIDHeaderText}" Style="{StaticResource LeftSmall}"/>
             <Entry Text="{Binding UserID}" Placeholder="{xct:Translate UIDPlaceholderText}" 
                    Style="{StaticResource NormalEntry}" IsEnabled="{Binding CanEditUID}"/>
@@ -21,7 +21,10 @@
 			        SelectedIndex="{Binding SelectedStateAsIndex}">
             </Picker>
             <Label Text="{xct:Translate EditableElectoratesHeaderText}" Style="{StaticResource LeftSmall}"/>
+            <!-- The height request is a kludge because otherwise the CollectionView takes up all the rest of the page -->
+            <!-- rather than resizing to fit just the number of elements it has -->
             <CollectionView ItemsSource="{Binding Electorates}" SelectionMode="Single" 
+                            HeightRequest="80" 
                             SelectedItem="{Binding SelectedElectorateWithChamber}">
             <!-- <CollectionView ItemsSource="{Binding Registration.electorates}" SelectionMode="Single" SelectedItem="{Binding SelectedElectorateWithChamber}">-->
                 <CollectionView.ItemTemplate>

@@ -153,6 +153,9 @@
   <data name="CancelButtonText" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="ChooseParliamentaryEmailDomain" xml:space="preserve">
+    <value>Parliamentary email domain</value>
+  </data>
   <data name="CitySuburbHeaderText" xml:space="preserve">
     <value>City or suburb</value>
   </data>
@@ -202,7 +205,7 @@
     <value>I know my electorates already</value>
   </data>
   <data name="EmailEntry" xml:space="preserve">
-    <value>Please enter the MP's official email address</value>
+    <value>Please enter the MP's official email address for validation</value>
   </data>
   <data name="EmailTitle" xml:space="preserve">
     <value>Email</value>
@@ -239,6 +242,9 @@
   </data>
   <data name="HomeButtonText" xml:space="preserve">
     <value>Home</value>
+  </data>
+  <data name="IAmAStaffer" xml:space="preserve">
+    <value>I am their staffer</value>
   </data>
   <data name="KeepQuestionButtonText" xml:space="preserve">
     <value>Publish</value>
@@ -369,6 +375,9 @@
   <data name="SelectStateWarningText" xml:space="preserve">
     <value>Please choose a state</value>
   </data>
+  <data name="SendVerificationPIN" xml:space="preserve">
+    <value>Email verification code</value>
+  </data>
   <data name="ServerConfigErrorRecommendation" xml:space="preserve">
     <value>Check your serverconfig.json file.</value>
   </data>
@@ -380,9 +389,6 @@
   </data>
   <data name="SkipStepButton" xml:space="preserve">
     <value>Skip this step</value>
-  </data>
-  <data name="IAmAStaffer" xml:space="preserve">
-    <value>I am a staffer</value>
   </data>
   <data name="StartDraftingButtonText" xml:space="preserve">
     <value>Start Drafting</value>

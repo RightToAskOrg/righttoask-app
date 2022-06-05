@@ -33,7 +33,13 @@ namespace RightToAskClient.ViewModels
 
         // If registered as representing an MP.
         // 
-        private MP? _MPrepresenting;
+        private string _MPrepresentingName = "";
+        public string MPRepresentingName
+        {
+            get => _MPrepresentingName;
+            private set => SetProperty(ref _MPrepresentingName, value);
+        } 
+        
         private List<MP> _selectedMPsForRegistration = new List<MP>();
         // This is initialized properly in the constructor, if we're looking at our own account.
         private SelectableList<MP> _selectableMPList = new SelectableList<MP>(new List<MP>(), new List<MP>());
@@ -319,8 +325,8 @@ namespace RightToAskClient.ViewModels
             });
             SubmitMPRegistrationPINCommand = new Command(() =>
             {
-                SaveToMPRegistrationToPreferences();
                 SendMPRegistrationToServer();
+                SaveMPRegistrationToPreferences();
             });
             UpdateMPsButtonCommand = new Command(() =>
             {
@@ -331,6 +337,7 @@ namespace RightToAskClient.ViewModels
             RegisterMPButtonCommand = new AsyncCommand(async () =>
             {
                 SelectMPForRegistration();
+                StoreMPRegistration();
             });
             RegisterOrgButtonCommand = new Command(() =>
             {
@@ -516,13 +523,25 @@ namespace RightToAskClient.ViewModels
             Console.WriteLine("The PIN to send to the server is "+MPRegistrationPIN);
         }
 
-        private void SaveToMPRegistrationToPreferences()
+        // TODO - save to preferences.
+        private void SaveMPRegistrationToPreferences()
+        {
+
+        }
+
+        private void StoreMPRegistration()
         {
             List<MP> selections = _selectableMPList.SelectedEntities as List<MP>;
-            string msg = selections is null || selections.Count > 1
-                ? "Oops, no selections"
-                : selections[0].ShortestName; 
+            int numSelections = selections.Any() ? selections.Count() : 0;
+            string msg = numSelections switch
+            {
+                0 => "Oops, no selections",
+                1 => selections[0].ShortestName,
+                _ => "You can only register as one MP at a time",
+            };
+                
             Console.WriteLine("The MP registration to save to preferences is "+msg);
+            MPRepresentingName = msg; 
         }
 
 
@@ -530,12 +549,14 @@ namespace RightToAskClient.ViewModels
         // https://docs.microsoft.com/en-us/dotnet/standard/base-types/how-to-verify-that-strings-are-in-valid-email-format
         private async void SelectMPForRegistration()
         {
-            ShowRegisterMPReportLabel = true;
-            
             var PageToSearchMPs
                     = new SelectableListPage(_selectableMPList, "Select the MP you represent", false);
+            
             await Shell.Current.Navigation.PushAsync(PageToSearchMPs);
+            
+            ShowRegisterMPReportLabel = true;
         }
+
         private async void PromptUser(string message)
         {
             await App.Current.MainPage.DisplayAlert("Registration incomplete", message, "OK");

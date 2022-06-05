@@ -117,6 +117,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string ChooseParliamentaryEmailDomain {
+            get {
+                return ResourceManager.GetString("ChooseParliamentaryEmailDomain", resourceCulture);
+            }
+        }
+        
         internal static string CitySuburbHeaderText {
             get {
                 return ResourceManager.GetString("CitySuburbHeaderText", resourceCulture);
@@ -288,6 +294,12 @@ namespace RightToAskClient.Resx {
         internal static string HomeButtonText {
             get {
                 return ResourceManager.GetString("HomeButtonText", resourceCulture);
+            }
+        }
+        
+        internal static string IAmAStaffer {
+            get {
+                return ResourceManager.GetString("IAmAStaffer", resourceCulture);
             }
         }
         
@@ -549,6 +561,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string SendVerificationPIN {
+            get {
+                return ResourceManager.GetString("SendVerificationPIN", resourceCulture);
+            }
+        }
+        
         internal static string ServerConfigErrorRecommendation {
             get {
                 return ResourceManager.GetString("ServerConfigErrorRecommendation", resourceCulture);
@@ -570,12 +588,6 @@ namespace RightToAskClient.Resx {
         internal static string SkipStepButton {
             get {
                 return ResourceManager.GetString("SkipStepButton", resourceCulture);
-            }
-        }
-        
-        internal static string IAmAStaffer {
-            get {
-                return ResourceManager.GetString("IAmAStaffer", resourceCulture);
             }
         }
         
