@@ -192,11 +192,17 @@
   <data name="EditYourAccountTitle" xml:space="preserve">
     <value>Edit Your Account</value>
   </data>
+  <data name="EditableElectoratesHeaderText" xml:space="preserve">
+    <value>Electorates (tap to edit):</value>
+  </data>
   <data name="ElectoratesHeaderText" xml:space="preserve">
     <value>Electorates:</value>
   </data>
   <data name="ElectoratesKnownHeaderText" xml:space="preserve">
     <value>I know my electorates already</value>
+  </data>
+  <data name="EmailEntry" xml:space="preserve">
+    <value>Please enter the MP's official email address</value>
   </data>
   <data name="EmailTitle" xml:space="preserve">
     <value>Email</value>
@@ -263,6 +269,9 @@
   </data>
   <data name="MPRaiseFilterLabelText" xml:space="preserve">
     <value>My MPs who should raise the question in Parliament</value>
+  </data>
+  <data name="MPRegistrationOptionText" xml:space="preserve">
+    <value>Are you an MP or staffer?</value>
   </data>
   <data name="MPsHeaderText1" xml:space="preserve">
     <value>Your MPs are defined by where you live</value>
@@ -337,7 +346,7 @@
     <value>Recent Questions</value>
   </data>
   <data name="RegisterMPAccountButtonText" xml:space="preserve">
-    <value>Register MP Account</value>
+    <value>Register as an MP</value>
   </data>
   <data name="RegisterOrganisationAccountButtonText" xml:space="preserve">
     <value>Register Organisation Account</value>
@@ -371,6 +380,9 @@
   </data>
   <data name="SkipStepButton" xml:space="preserve">
     <value>Skip this step</value>
+  </data>
+  <data name="IAmAStaffer" xml:space="preserve">
+    <value>I am a staffer</value>
   </data>
   <data name="StartDraftingButtonText" xml:space="preserve">
     <value>Start Drafting</value>
@@ -414,6 +426,9 @@
   <data name="ToBeAnsweredByText" xml:space="preserve">
     <value>To be answered by</value>
   </data>
+  <data name="ThatsMe" xml:space="preserve">
+    <value>That's me</value>
+  </data>
   <data name="TrendingButtonText" xml:space="preserve">
     <value>Trending</value>
   </data>
@@ -435,6 +450,9 @@
   <data name="UpvotesHeaderText" xml:space="preserve">
     <value>Upvotes: </value>
   </data>
+  <data name="UserName" xml:space="preserve">
+    <value>Username</value>
+  </data>
   <data name="UserProfileTitle" xml:space="preserve">
     <value>User Profile</value>
   </data>
@@ -443,6 +461,9 @@
   </data>
   <data name="WebNavigationWarning" xml:space="preserve">
     <value>This link is outside Right To Ask </value>
+  </data>
+  <data name="YouHaveChosen" xml:space="preserve">
+    <value>You have chosen</value>
   </data>
   <data name="WebNavigationRequest" xml:space="preserve">
     <value>Do you want to open it in a web browser?</value>

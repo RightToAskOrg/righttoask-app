@@ -4,6 +4,14 @@ using System.Text.Json.Serialization;
 
 /* These match the data type in PersonID.
  * It is expected that only one field will be non-empty.
+ * Having multiple fields allows us to read the Rust data structure
+ * pub enum PersonID {
+    User(UserUID),
+    MP(MPId),
+    Organisation(OrgID),
+    Committee(CommitteeId),
+ * }
+ * despite C# not having parameterised enums.
  * Used for sending arrays/lists of people/entitites to ask
  * and raise questions.
  * */

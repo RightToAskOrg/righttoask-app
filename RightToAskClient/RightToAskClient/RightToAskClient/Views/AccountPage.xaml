@@ -5,6 +5,7 @@
              xmlns:views="clr-namespace:RightToAskClient.Views"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              xmlns:local="clr-namespace:RightToAskClient"
+             xmlns:models="clr-namespace:RightToAskClient.Models;assembly=RightToAskClient"
              x:Class="RightToAskClient.Views.AccountPage"
              x:DataType="vm:RegistrationViewModel"
              Shell.FlyoutBehavior="Flyout"
@@ -25,14 +26,29 @@
                     <Button Text="{xct:Translate CompleteAccountCreationButtonText}" Style="{StaticResource DoneButton}" Command="{Binding SaveButtonCommand}" HorizontalOptions="Center" IsVisible="{Binding ShowUpdateAccountButton, Converter={StaticResource Key=cnvInvert}}"/>
                 </StackLayout>
             </StackLayout>
-            <Button Text="{xct:Translate UpdateMPsButtonText}" Style="{StaticResource DoneButton}" Command="{Binding UpdateMPsButtonCommand}" IsVisible="{Binding ShowUpdateAccountButton}"/>
+            <!-- This button seems redundant because you can tap on the electorates to edit -->
+            <!-- <Button Text="{xct:Translate UpdateMPsButtonText}" Style="{StaticResource DoneButton}" Command="{Binding UpdateMPsButtonCommand}" IsVisible="{Binding ShowUpdateAccountButton}"/> -->
             <Button Text="{xct:Translate UpdateAccountButtonText}" Command="{Binding UpdateAccountButtonCommand}" Style="{StaticResource DoneButton}" IsVisible="{Binding ShowUpdateAccountButton}"/>
+            <Label Text="{xct:Translate MPRegistrationOptionText}" />
             <Label Text="{Binding RegisterMPReportLabelText}" IsVisible="{Binding ShowRegisterMPReportLabel}" />
             <Button Text="{Binding RegisterMPButtonText}" Command="{Binding RegisterMPButtonCommand}" IsVisible="{Binding ShowRegisterMPButton}" Style="{StaticResource DoneButton}" HorizontalOptions="Center"/>
+            <Label Text="{xct:Translate YouHaveChosen}" IsVisible="{Binding ShowRegisterMPReportLabel}" />
+            <StackLayout Orientation="Horizontal" IsVisible="{Binding ShowRegisterMPReportLabel}" >
+                <Label Text="{xct:Translate ThatsMe}"/>
+                <Switch></Switch>
+                <Label Text="{xct:Translate IAmAStaffer}"/>
+            </StackLayout>
+            <Label Text="{xct:Translate EmailEntry}" IsVisible="{Binding ShowRegisterMPReportLabel}" />
+            <StackLayout Orientation="Horizontal" IsVisible="{Binding ShowRegisterMPReportLabel}" >
+                <Entry Placeholder="{xct:Translate UserName}" Style="{StaticResource NormalEntry}" />
+                <Label Text=" @ " />
+                <!-- <Picker x:Name="DomainPicker" ItemsSource = "models:ParliamentData.Domains"></Picker> -->
+                <Picker x:Name="DomainPicker" ItemsSource = "models:ParliamentData.Domains"></Picker> 
+            </StackLayout>
             <Label Text="{xct:Translate SubmitPINButtonText}" IsVisible="{Binding ShowRegisterMPReportLabel}" />
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" IsVisible="{Binding ShowRegisterMPReportLabel}">
                 <Entry Text="{Binding MPRegistrationPIN}" Style="{StaticResource NormalEntry}" Placeholder="______" />
-                <Button Command="{Binding SubmitMPRegistrationButtonCommand}" Text="{xct:Translate DoneButtonText}" Style="{StaticResource DoneButton}" />
+                <Button Command="{Binding SubmitMPRegistrationPINCommand}" Text="{xct:Translate DoneButtonText}" Style="{StaticResource DoneButton}" />
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

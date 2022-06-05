@@ -317,7 +317,7 @@ namespace RightToAskClient.ViewModels
                 SaveToPreferences();
                 SendUpdatedUserToServer();
             });
-            SubmitMPRegistrationButtonCommand = new Command(() =>
+            SubmitMPRegistrationPINCommand = new Command(() =>
             {
                 SaveToMPRegistrationToPreferences();
                 SendMPRegistrationToServer();
@@ -365,7 +365,7 @@ namespace RightToAskClient.ViewModels
         // commands
         public Command SaveButtonCommand { get; }
         public Command UpdateAccountButtonCommand { get; }
-        public Command SubmitMPRegistrationButtonCommand { get; }
+        public Command SubmitMPRegistrationPINCommand { get; }
         public Command UpdateMPsButtonCommand { get; }
         public AsyncCommand RegisterMPButtonCommand { get; }
         public Command RegisterOrgButtonCommand { get; }
@@ -526,6 +526,8 @@ namespace RightToAskClient.ViewModels
         }
 
 
+        // TODO Add email validation as from
+        // https://docs.microsoft.com/en-us/dotnet/standard/base-types/how-to-verify-that-strings-are-in-valid-email-format
         private async void SelectMPForRegistration()
         {
             ShowRegisterMPReportLabel = true;

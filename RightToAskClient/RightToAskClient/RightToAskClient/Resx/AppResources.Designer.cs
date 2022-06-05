@@ -195,6 +195,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string EditableElectoratesHeaderText {
+            get {
+                return ResourceManager.GetString("EditableElectoratesHeaderText", resourceCulture);
+            }
+        }
+        
         internal static string ElectoratesHeaderText {
             get {
                 return ResourceManager.GetString("ElectoratesHeaderText", resourceCulture);
@@ -204,6 +210,12 @@ namespace RightToAskClient.Resx {
         internal static string ElectoratesKnownHeaderText {
             get {
                 return ResourceManager.GetString("ElectoratesKnownHeaderText", resourceCulture);
+            }
+        }
+        
+        internal static string EmailEntry {
+            get {
+                return ResourceManager.GetString("EmailEntry", resourceCulture);
             }
         }
         
@@ -336,6 +348,12 @@ namespace RightToAskClient.Resx {
         internal static string MPRaiseFilterLabelText {
             get {
                 return ResourceManager.GetString("MPRaiseFilterLabelText", resourceCulture);
+            }
+        }
+        
+        internal static string MPRegistrationOptionText {
+            get {
+                return ResourceManager.GetString("MPRegistrationOptionText", resourceCulture);
             }
         }
         
@@ -555,6 +573,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string IAmAStaffer {
+            get {
+                return ResourceManager.GetString("IAmAStaffer", resourceCulture);
+            }
+        }
+        
         internal static string StartDraftingButtonText {
             get {
                 return ResourceManager.GetString("StartDraftingButtonText", resourceCulture);
@@ -639,6 +663,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string ThatsMe {
+            get {
+                return ResourceManager.GetString("ThatsMe", resourceCulture);
+            }
+        }
+        
         internal static string TrendingButtonText {
             get {
                 return ResourceManager.GetString("TrendingButtonText", resourceCulture);
@@ -681,6 +711,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string UserName {
+            get {
+                return ResourceManager.GetString("UserName", resourceCulture);
+            }
+        }
+        
         internal static string UserProfileTitle {
             get {
                 return ResourceManager.GetString("UserProfileTitle", resourceCulture);
@@ -696,6 +732,12 @@ namespace RightToAskClient.Resx {
         internal static string WebNavigationWarning {
             get {
                 return ResourceManager.GetString("WebNavigationWarning", resourceCulture);
+            }
+        }
+        
+        internal static string YouHaveChosen {
+            get {
+                return ResourceManager.GetString("YouHaveChosen", resourceCulture);
             }
         }
         

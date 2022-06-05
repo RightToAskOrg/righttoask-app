@@ -20,7 +20,7 @@
                     Style="{StaticResource LeftPicker}"
 			        SelectedIndex="{Binding SelectedStateAsIndex}">
             </Picker>
-            <Label Text="{xct:Translate ElectoratesHeaderText}" Style="{StaticResource LeftSmall}"/>
+            <Label Text="{xct:Translate EditableElectoratesHeaderText}" Style="{StaticResource LeftSmall}"/>
             <CollectionView ItemsSource="{Binding Electorates}" SelectionMode="Single" 
                             SelectedItem="{Binding SelectedElectorateWithChamber}">
             <!-- <CollectionView ItemsSource="{Binding Registration.electorates}" SelectionMode="Single" SelectedItem="{Binding SelectedElectorateWithChamber}">-->

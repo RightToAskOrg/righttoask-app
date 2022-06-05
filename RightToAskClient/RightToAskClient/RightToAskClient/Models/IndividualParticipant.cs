@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using RightToAskClient.CryptoUtils;
+using RightToAskClient.Models.ServerCommsData;
 
 // This class represents a person who uses the
 // system and is not an MP or org representative.

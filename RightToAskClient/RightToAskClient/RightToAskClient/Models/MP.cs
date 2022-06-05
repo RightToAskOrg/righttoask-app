@@ -61,6 +61,11 @@ namespace RightToAskClient.Models
             return first_name + " " + surname;
         }
 
+        public string BadgeName()
+        {
+            return first_name + " " + surname + "@" + ParliamentData.GetDomain(electorate.chamber);
+        }
+        
         // Note that this is *not* complete equality of the whole data structure. 
         // In particular, it omits to check roles, parties and email, on the assumption
         // that these things may change and we still want to consider it to be the same MP.

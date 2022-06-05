@@ -28,6 +28,8 @@ namespace RightToAskClient.HttpClients
         private static string QuestionListUrl = BaseUrl + "/get_question_list";
         private static string QuestionUrl = BaseUrl + "/get_question";
         private static string UserUrl = BaseUrl + "/get_user";
+        private static string EmailValidationUrl = BaseUrl + "/request_email_validation";
+        
         // TODO At the moment, this is not used, because we don't have a cert chain for the server Public Key.
         // Instead, the public key itself is hardcoded.
         // private static string ServerPubKeyUrl = BaseUrl + "/get_server_public_key_spki";
@@ -117,17 +119,19 @@ namespace RightToAskClient.HttpClients
             return await Client.DoGetResultRequest<ServerUser>(GetUserUrl);
         }
 
-        // TODO refactor to use SignAndSendDataToServer 
         public static async Task<Result<bool>> RegisterNewQuestion(QuestionSendToServer newQuestion)
         {
             return await SignAndSendDataToServer<QuestionSendToServer>(newQuestion, "question", QnUrl,"Error publishing New Question");
         }
 
-        // TODO refactor to use SignAndSendDataToServer 
         public static async Task<Result<bool>> UpdateExistingQuestion(QuestionSendToServer existingQuestion)
         {
             return await SignAndSendDataToServer<QuestionSendToServer>(existingQuestion, "question", EditQnUrl, "Error editing question");
         }
+
+        /*
+         * public static async Task<Result<bool>> RequestEmailValidation()
+         */
 
         // Sign a message (data) with this user's key, then upload to the specified url. 
         // "description" and "error string" are for reporting errors in upload and signing resp.
