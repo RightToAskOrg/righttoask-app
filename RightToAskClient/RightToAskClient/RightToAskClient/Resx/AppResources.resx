@@ -696,4 +696,7 @@
   <data name="YesButtonText" xml:space="preserve">
     <value>Yes</value>
   </data>
+  <data name="BackgroundPageTitle" xml:space="preserve">
+    <value>Add Background</value>
+  </data>
 </root>

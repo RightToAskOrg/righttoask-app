@@ -196,6 +196,15 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Background.
+        /// </summary>
+        internal static string BackgroundPageTitle {
+            get {
+                return ResourceManager.GetString("BackgroundPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         internal static string CancelButtonText {

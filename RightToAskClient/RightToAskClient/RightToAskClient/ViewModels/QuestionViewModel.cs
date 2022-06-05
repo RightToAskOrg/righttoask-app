@@ -338,6 +338,11 @@ namespace RightToAskClient.ViewModels
             {
                 await Shell.Current.GoToAsync($"{nameof(QuestionAskerPage)}");
             });
+            ToMetadataPageCommand = new AsyncCommand(async () =>
+            {
+                // TODO: Switch this to be the metadata page after it is created.
+                await Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
+            });
         }
 
         private Command? _findCommitteeCommand;
@@ -365,6 +370,7 @@ namespace RightToAskClient.ViewModels
         public Command EditAnswerCommand { get; }
         public IAsyncCommand OptionACommand { get; }
         public IAsyncCommand OptionBCommand { get; }
+        public IAsyncCommand ToMetadataPageCommand { get; }
 
         public void ResetInstance()
         {
