@@ -17,8 +17,10 @@
                    HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource Header2}"
                    TextColor="{AppThemeBinding Light={StaticResource TextColor}, 
                    Dark={StaticResource TextColorDark}}"/>
-            <Grid ColumnDefinitions="*,*" VerticalOptions="End">
-                <Button x:Name="okButton" Grid.Column="1" Clicked="okButton_Clicked" HeightRequest="50" Style="{StaticResource GreenButton}"/>
+            <Grid ColumnDefinitions="*,*" VerticalOptions="EndAndExpand">
+                <Button x:Name="okButton" Grid.Column="1" Clicked="okButton_Clicked" FontSize="Small" 
+                        TextColor="{StaticResource TextColorGreen}" HeightRequest="50" BackgroundColor="Transparent" Margin="0" 
+                        Padding="0" HorizontalOptions="FillAndExpand"/>
             </Grid>
         </StackLayout>
     </Frame>
