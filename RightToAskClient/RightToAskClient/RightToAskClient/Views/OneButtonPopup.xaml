@@ -13,7 +13,11 @@
                    HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource Header1}"
                    TextColor="{AppThemeBinding Light={StaticResource TextColor}, 
                    Dark={StaticResource TextColorDark}}"/>
-            <Button x:Name="okButton" Clicked="okButton_Clicked" HeightRequest="75" VerticalOptions="End"/>
+            <Grid ColumnDefinitions="*,*" VerticalOptions="EndAndExpand">
+                <Button x:Name="okButton" Grid.Column="1" Clicked="okButton_Clicked" FontSize="Small" 
+                        TextColor="{StaticResource TextColorGreen}" HeightRequest="50" BackgroundColor="Transparent" Margin="0" 
+                        Padding="0" HorizontalOptions="FillAndExpand"/>
+            </Grid>
         </StackLayout>
     </Frame>
 </xct:Popup>

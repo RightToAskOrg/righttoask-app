@@ -13,9 +13,11 @@
                    HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource Header1}"
                    TextColor="{AppThemeBinding Light={StaticResource TextColor}, 
                    Dark={StaticResource TextColorDark}}"/>
-            <Grid ColumnDefinitions="*,*" VerticalOptions="End">
-                <Button Grid.Column="0" Text="{xct:Translate WriteAnotherQuestionButtonText}" Clicked="WriteAnotherButtonClicked" HeightRequest="75"/>
-                <Button Grid.Column="1" Text="{xct:Translate GoHomeButtonText}" Clicked="GoHomeButtonClicked" HeightRequest="75"/>
+            <Grid ColumnDefinitions="*,*" VerticalOptions="End" BackgroundColor="Transparent">
+                <Button Text="{xct:Translate WriteAnotherQuestionButtonText}" Grid.Column="0" Clicked="WriteAnotherButtonClicked" FontSize="Small" 
+                        TextColor="{StaticResource AlertColor}" HeightRequest="50" BackgroundColor="Transparent" Margin="0" Padding="0" HorizontalOptions="FillAndExpand"/>
+                <Button Text="{xct:Translate GoHomeButtonText}" Grid.Column="1" Clicked="GoHomeButtonClicked" FontSize="Small" 
+                        TextColor="{StaticResource TextColorGreen}" HeightRequest="50" BackgroundColor="Transparent" Margin="0" Padding="0" HorizontalOptions="FillAndExpand"/>
             </Grid>
         </StackLayout>
     </Frame>
