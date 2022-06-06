@@ -25,6 +25,7 @@ namespace RightToAskClient.Models
 		}
 		public bool IsRegistered { get; set; }
 		public bool MPsKnown { get; set; }
+		public bool AddressUpdated { get; set; }
 
 		// needs to be accessible on a few pages and VMs so I put it here
 		public List<string> UpvotedQuestionIDs { get; set; } = new List<string>();

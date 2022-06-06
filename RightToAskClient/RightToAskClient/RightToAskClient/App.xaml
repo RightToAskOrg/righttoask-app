@@ -315,6 +315,7 @@
             </Style>
             <Style x:Key="LeftFrameEntry" TargetType="Entry">
                 <Setter Property="PlaceholderColor" Value="{StaticResource TextColorGreen}"></Setter>
+                <Setter Property="TextColor" Value="{StaticResource TextColor}"></Setter>
                 <Setter Property="FontSize" Value="Medium"></Setter>
                 <Setter Property="HorizontalOptions" Value="Start"></Setter>
             </Style>

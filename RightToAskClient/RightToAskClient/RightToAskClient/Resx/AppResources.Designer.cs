@@ -511,7 +511,7 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to FindMPsPopupText.
+        ///   Looks up a localized string similar to Your MPs are defined by where you live..
         /// </summary>
         internal static string FindMPsPopupText {
             get {
@@ -637,6 +637,24 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This postcode seems invalid for this area. Would you like to proceed anyways?.
+        /// </summary>
+        internal static string InvalidPostcodePopupText {
+            get {
+                return ResourceManager.GetString("InvalidPostcodePopupText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid Postcode.
+        /// </summary>
+        internal static string InvalidPostcodePopupTitle {
+            get {
+                return ResourceManager.GetString("InvalidPostcodePopupTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Publish.
         /// </summary>
         internal static string KeepQuestionButtonText {
@@ -669,6 +687,15 @@ namespace RightToAskClient.Resx {
         internal static string LinkAnswerPlaceholderText {
             get {
                 return ResourceManager.GetString("LinkAnswerPlaceholderText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Locate.
+        /// </summary>
+        internal static string LocateButtonText {
+            get {
+                return ResourceManager.GetString("LocateButtonText", resourceCulture);
             }
         }
         

@@ -9,8 +9,12 @@
     <Frame CornerRadius="30" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
                BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}">
         <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent">
-            <Label x:Name="mainMessage" VerticalOptions="StartAndExpand" VerticalTextAlignment="Center" 
+            <Label x:Name="mainTitle" VerticalOptions="StartAndExpand" VerticalTextAlignment="Center" 
                    HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource Header1}"
+                   TextColor="{AppThemeBinding Light={StaticResource TextColor}, 
+                   Dark={StaticResource TextColorDark}}"/>
+            <Label x:Name="mainMessage" VerticalOptions="StartAndExpand" VerticalTextAlignment="Center" 
+                   HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource Header2}"
                    TextColor="{AppThemeBinding Light={StaticResource TextColor}, 
                    Dark={StaticResource TextColorDark}}"/>
             <Grid ColumnDefinitions="*,*" VerticalOptions="EndAndExpand">

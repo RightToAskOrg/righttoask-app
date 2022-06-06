@@ -589,7 +589,7 @@
     <value>FiltersPopupText</value>
   </data>
   <data name="FindMPsPopupText" xml:space="preserve">
-    <value>FindMPsPopupText</value>
+    <value>Your MPs are defined by where you live.</value>
   </data>
   <data name="InfoPopupButtonText" xml:space="preserve">
     <value>Information Popup Button</value>
@@ -695,5 +695,14 @@
   </data>
   <data name="YesButtonText" xml:space="preserve">
     <value>Yes</value>
+  </data>
+  <data name="LocateButtonText" xml:space="preserve">
+    <value>Locate</value>
+  </data>
+  <data name="InvalidPostcodePopupText" xml:space="preserve">
+    <value>This postcode seems invalid for this area. Would you like to proceed anyways?</value>
+  </data>
+  <data name="InvalidPostcodePopupTitle" xml:space="preserve">
+    <value>Invalid Postcode</value>
   </data>
 </root>

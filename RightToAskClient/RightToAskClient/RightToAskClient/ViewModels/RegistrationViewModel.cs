@@ -256,7 +256,7 @@ namespace RightToAskClient.ViewModels
             // TODO Clarify meaning of ReadingOnly - looks like it has a few different uses.
             if (!App.ReadingContext.IsReadingOnly)
             {
-                // SelectedStateAsIndex = Preferences.Get("StateID", -1);
+                SelectedStateAsIndex = Preferences.Get("StateID", -1);
                 ShowUpdateAccountButton = App.ReadingContext.ThisParticipant.IsRegistered;
                 Title = App.ReadingContext.ThisParticipant.IsRegistered ? AppResources.EditYourAccountTitle : AppResources.CreateAccountTitle;
                 PopupLabelText = App.ReadingContext.ThisParticipant.IsRegistered ? AppResources.EditAccountPopupText : AppResources.CreateNewAccountPopupText;
@@ -373,14 +373,15 @@ namespace RightToAskClient.ViewModels
                 }
                 else
                 {
-                    if (App.ReadingContext.ThisParticipant.MPsKnown)
-                    {
-                        //_ = Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Electorates already selected",
-                        //    "You have already selected your electorates - you can change them if you like",
-                        //    "OK");
-                        var popup = new OneButtonPopup(AppResources.ElectoratesAlreadySelectedText, AppResources.OKText);
-                        _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
-                    }
+                    // Deemed unnecessary
+                    //if (App.ReadingContext.ThisParticipant.MPsKnown)
+                    //{
+                    //    //_ = Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Electorates already selected",
+                    //    //    "You have already selected your electorates - you can change them if you like",
+                    //    //    "OK");
+                    //    var popup = new OneButtonPopup(AppResources.ElectoratesAlreadySelectedText, AppResources.OKText);
+                    //    _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                    //}
                     ShowRegisterCitizenButton = false;
                 }
             }

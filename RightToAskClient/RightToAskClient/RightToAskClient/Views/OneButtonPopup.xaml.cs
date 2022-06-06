@@ -15,6 +15,16 @@ namespace RightToAskClient.Views
         public OneButtonPopup(string message, string buttonText)
         {
             InitializeComponent();
+            mainTitle.IsVisible = false;
+            mainMessage.Text = message;
+            okButton.Text = buttonText;
+        }
+
+        public OneButtonPopup(string title, string message, string buttonText)
+        {
+            InitializeComponent();
+            mainTitle.IsVisible = true;
+            mainTitle.Text = title;
             mainMessage.Text = message;
             okButton.Text = buttonText;
         }

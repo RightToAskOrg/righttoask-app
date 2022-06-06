@@ -22,55 +22,66 @@
         <ContentPage.Content>
 	    <ScrollView Margin="0" Padding="0">
             <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" Spacing="0">
-                <Label Text="{xct:Translate MPsHeaderText1}" FontSize="Medium" HorizontalOptions="Center" />
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                    <Label Text="{xct:Translate MPsHeaderText2}" FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center" />
-                    <Picker Title="{Binding StatePickerTitle}" ItemsSource="{Binding StatePicker}" 
-					        Style="{StaticResource CenterFramePicker}" SelectedIndex="{Binding SelectedState}">
-                    </Picker>
-                </StackLayout>
-                <StackLayout Orientation="Horizontal">
-                    <Frame Style="{StaticResource GreenFrame}">
-                        <Label Text="{xct:Translate ElectoratesKnownHeaderText}" Style="{StaticResource Header1}" VerticalOptions="Center">
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding KnowElectoratesCommand}"/>
-                            </Label.GestureRecognizers>
-                        </Label>
-                    </Frame>
-                    <Label Text="Or" WidthRequest="150" FontSize="Large"
+                <!--<ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"/>-->
+                <!--<Label Text="{xct:Translate MPsHeaderText1}" Style="{StaticResource Header1}" />-->
+                <!--Label Choice Option Frames-->
+                <Grid ColumnDefinitions="*,*,*" Margin="0,10,0,0">
+                    <Button Grid.Column="0" Text="Manually" Style="{StaticResource GreenButton}" Command="{Binding KnowElectoratesCommand}" HorizontalOptions="End"/>
+                    <Label Grid.Column="1" Text="Or" WidthRequest="25" FontSize="Large"
 					       HorizontalOptions="Center" VerticalOptions="Center" />
-                    <Frame Style="{StaticResource GreenFrame}">
-                        <Label Text="{xct:Translate LookupElectoratesHeaderText}" Style="{StaticResource Header1}" VerticalOptions="Center">
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding LookupElectoratesCommand}"/>
-                            </Label.GestureRecognizers>
-                        </Label>
-                    </Frame>
-                </StackLayout>
-                <Frame Style="{StaticResource SubtleFrame}" IsVisible="{Binding ShowKnowElectoratesFrame}">
-                    <StackLayout Orientation="Vertical">
-                        <Picker Style="{StaticResource LeftFramePicker}" Title="{Binding StateLAElectoratePickerTitle}" ItemsSource="{Binding AllStateLAElectorates}"
-                                SelectedIndex="{Binding SelectedStateLAElectorate}" MinimumWidthRequest="200">
-                        </Picker>
-                        <Picker Style="{StaticResource LeftFramePicker}" Title="{Binding StateLCElectoratePickerTitle}" ItemsSource="{Binding AllStateLCElectorates}"
-				            SelectedIndex ="{Binding SelectedStateLCElectorate}" MinimumWidthRequest="200">
-                        </Picker>
-                        <Picker Style="{StaticResource LeftFramePicker}" Title="{Binding FederalElectoratePickerTitle}" ItemsSource="{Binding AllFederalElectorates}"
-                                SelectedIndex="{Binding SelectedFederalElectorate}" MinimumWidthRequest="200">
-                        </Picker>
+                    <Button Grid.Column="2" Text="Look Up" Style="{StaticResource GreenButton}" Command="{Binding LookupElectoratesCommand}" HorizontalOptions="Start"/>
+                </Grid>
+                <!--Map Display-->
+                <Frame Margin="0" Padding="0" IsVisible="{Binding ShowMapFrame}" WidthRequest="150">
+                    <StackLayout Margin="0" Padding="0">
+                        <!--Webview has default padding in its underlying html that is proving difficult to remove-->
+                        <!--<Label Text="Your Currently Selected Electorate: " Padding="0" Margin="0"/>-->
+                        <WebView Source="{Binding MapURL}" WidthRequest="300" HeightRequest="250" Margin="0"/>
                     </StackLayout>
                 </Frame>
+                <!--Known Electorates Section-->
+                <Frame Style="{StaticResource SubtleFrame}" IsVisible="{Binding ShowKnowElectoratesFrame}">
+                    <StackLayout Margin="2" Spacing="0">
+                        <!--State Selector/Picker-->
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Margin="1,0,0,0">
+                            <Label Text="{xct:Translate MPsHeaderText2}" FontSize="Medium" HorizontalOptions="Start" VerticalOptions="Center" />
+                            <Picker Title="{Binding StatePickerTitle}" ItemsSource="{Binding StatePicker}" 
+					        Style="{StaticResource CenterFramePicker}" SelectedIndex="{Binding SelectedState}">
+                            </Picker>
+                        </StackLayout>
+                        <StackLayout Margin="0" Padding="0" Spacing="0" IsVisible="{Binding ShowStateOnly, Converter={StaticResource Key=cnvInvert}}">
+                            <Picker Margin="0" Style="{StaticResource LeftFramePicker}" Title="{Binding StateLAElectoratePickerTitle}" ItemsSource="{Binding AllStateLAElectorates}"
+                                SelectedIndex="{Binding SelectedStateLAElectorate}" MinimumWidthRequest="200">
+                            </Picker>
+                            <Picker Margin="0" Style="{StaticResource LeftFramePicker}" Title="{Binding StateLCElectoratePickerTitle}" ItemsSource="{Binding AllStateLCElectorates}"
+				            SelectedIndex ="{Binding SelectedStateLCElectorate}" MinimumWidthRequest="200">
+                            </Picker>
+                            <Picker Margin="0" Style="{StaticResource LeftFramePicker}" Title="{Binding FederalElectoratePickerTitle}" ItemsSource="{Binding AllFederalElectorates}"
+                                SelectedIndex="{Binding SelectedFederalElectorate}" MinimumWidthRequest="200">
+                            </Picker>
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+                <!--Address Lookup Stack-->
                 <Frame Style="{StaticResource SubtleFrame}" IsVisible="{Binding ShowAddressStack}">
-                    <StackLayout Margin="20">
-                        <Label Text="{xct:Translate StreetHeaderText}" Style="{StaticResource LeftFrameText}"/>
-                        <Entry Placeholder="{xct:Translate StreetHeaderText}" Text="{Binding Address.StreetNumberAndName}" Style="{StaticResource LeftFrameEntry}"/>
-                        <Label Text="{xct:Translate CitySuburbHeaderText}" Style="{StaticResource LeftFrameText}"/>
-                        <Entry Placeholder="{xct:Translate CitySuburbHeaderText}" Text="{Binding Address.CityOrSuburb}" Style="{StaticResource LeftFrameEntry}"/>
-                        <Label Text="{xct:Translate PostcodeHeaderText}" Style="{StaticResource LeftFrameText}"/>
-                        <Entry Placeholder="{xct:Translate PostcodeHeaderText}" Text="{Binding Address.Postcode}" Style="{StaticResource LeftFrameEntry}"/>
-                        <StackLayout Orientation="Vertical" HorizontalOptions="Center">
-                            <Button Text="{xct:Translate FindMyElectoratesButtonText}" HorizontalOptions="Center" Style="{StaticResource GreenButton}" Command="{Binding SubmitAddressButtonCommand}" />
-                            <Label x:Name="ReportLabel" Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}"/>
+                    <StackLayout Margin="2" Spacing="0">
+                        <!--State Selector/Picker-->
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Margin="0" Padding="0">
+                            <Label Text="{xct:Translate MPsHeaderText2}" FontSize="Medium" HorizontalOptions="Start" VerticalOptions="Center" />
+                            <Picker Title="{Binding StatePickerTitle}" ItemsSource="{Binding StatePicker}" 
+					        Style="{StaticResource CenterFramePicker}" SelectedIndex="{Binding SelectedState}">
+                            </Picker>
+                        </StackLayout>
+                        <StackLayout Margin="0" Padding="0" Spacing="0" IsVisible="{Binding ShowStateOnly, Converter={StaticResource Key=cnvInvert}}">
+                            <Label Text="{xct:Translate StreetHeaderText}" Style="{StaticResource LeftFrameText}" Margin="0" Padding="0"/>
+                            <Entry Placeholder="{xct:Translate StreetHeaderText}" Text="{Binding Address.StreetNumberAndName}" Style="{StaticResource LeftFrameEntry}" Margin="0"/>
+                            <Label Text="{xct:Translate CitySuburbHeaderText}" Style="{StaticResource LeftFrameText}" Margin="0" Padding="0"/>
+                            <Entry Placeholder="{xct:Translate CitySuburbHeaderText}" Text="{Binding Address.CityOrSuburb}" Style="{StaticResource LeftFrameEntry}"/>
+                            <Label Text="{xct:Translate PostcodeHeaderText}" Style="{StaticResource LeftFrameText}" Margin="0" Padding="0"/>
+                            <Grid ColumnDefinitions="*,*">
+                                <Entry Grid.Column="0" Placeholder="{xct:Translate PostcodeHeaderText}" Text="{Binding Address.Postcode}" Style="{StaticResource LeftFrameEntry}"/>
+                                <Button Grid.Column="1" Text="{xct:Translate LocateButtonText}" Style="{StaticResource GreenButton}" Command="{Binding SubmitAddressButtonCommand}"/>
+                            </Grid>
                         </StackLayout>
                         <!--
 				            <Label FontSize="Small" Text="(i) If you are on the electoral roll,
@@ -79,13 +90,7 @@
 			            -->
                     </StackLayout>
                 </Frame>
-                <Frame Margin="0" Padding="0" IsVisible="{Binding ShowMapFrame}">                    
-                    <StackLayout Margin="0" Padding="0" Spacing="0">
-                        <!--Webview has default padding in its underlying html that is proving difficult to remove-->
-                        <!--<Label Text="Your Currently Selected Electorate: " Padding="0" Margin="0"/>-->
-                        <WebView Source="{Binding MapURL}" WidthRequest="300" HeightRequest="400" Margin="0"/>
-                    </StackLayout>
-                </Frame>
+                <!--Done Button-->
                 <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
                     <Button Style="{StaticResource GreenButton}" Text="{xct:Translate SkipStepButton}" Command="{Binding SkipButtonCommand}" IsVisible="{Binding ShowSkipButton}"/>
                     <Button HorizontalOptions="End" Style="{StaticResource DoneButton}" Text="{Binding DoneButtonText}" Command="{Binding MPsButtonCommand}" IsVisible="{Binding ShowFindMPsButton}" />
