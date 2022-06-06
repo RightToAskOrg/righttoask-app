@@ -59,6 +59,7 @@ namespace RightToAskClient.ViewModels
                 if (_raisedByOptionSelected)
                 {
                     Question.AnswerInApp = false;
+                    AnswerInApp = false;
                 }
             }
         }
@@ -161,6 +162,13 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _canEditQuestion, value);
         }
 
+        private bool _answerInApp = false;
+        public bool AnswerInApp
+        {
+            get => _answerInApp;
+            set => SetProperty(ref _answerInApp, value);
+        }
+
         public string QuestionSuggesterButtonText => QuestionViewModel.Instance.IsNewQuestion ? AppResources.EditProfileButtonText : String.Format(AppResources.ViewOtherUserProfile, QuestionViewModel.Instance.Question.QuestionSuggester);
 
         public bool MPButtonsEnabled => ParliamentData.MPAndOtherData.IsInitialised;
@@ -236,6 +244,7 @@ namespace RightToAskClient.ViewModels
             OtherPublicAuthorityButtonCommand = new AsyncCommand(async () =>
             {
                 Question.AnswerInApp = false;
+                AnswerInApp = false;
                 // var selectableList = new SelectableList<Authority>(ParliamentData.AllAuthorities, App.ReadingContext.Filters.SelectedAuthorities); 
                 var PageToSearchAuthorities
                     = new SelectableListPage(App.ReadingContext.Filters.AuthorityLists, "Choose authorities");
@@ -251,6 +260,7 @@ namespace RightToAskClient.ViewModels
             AnsweredByMyMPCommand = new AsyncCommand(async () =>
             {
                 Question.AnswerInApp = true;
+                AnswerInApp = true;
                 await NavigationUtils.PushMyAnsweringMPsExploringPage().ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, "GoToReadingPage"); // Sends this view model
@@ -259,6 +269,7 @@ namespace RightToAskClient.ViewModels
             AnsweredByOtherMPCommand = new AsyncCommand(async () =>
             {
                 Question.AnswerInApp = true;
+                AnswerInApp = true;
                 await NavigationUtils.PushAnsweringMPsNotMineSelectableListPage().ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, "GoToReadingPage"); // Sends this view model
@@ -267,12 +278,13 @@ namespace RightToAskClient.ViewModels
             AnsweredByOtherMPCommandOptionB = new AsyncCommand(async () =>
             {
                 Question.AnswerInApp = false;
+                AnswerInApp = false;
                 await NavigationUtils.PushAnsweringMPsNotMineSelectableListPage().ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, "OptionBGoToAskingPageNext"); // Sends this view model
                 });
             });
-            SelectCommitteeButtonCommand = new AsyncCommand(async() => 
+            SelectCommitteeButtonCommand = new AsyncCommand(async () =>
             {
                 App.ReadingContext.Filters.SelectedAskingCommittee.Add("Senate Estimates tomorrow");
                 SelectButtonText = AppResources.SelectedButtonText;
@@ -340,7 +352,10 @@ namespace RightToAskClient.ViewModels
             });
             ToMetadataPageCommand = new AsyncCommand(async () =>
             {
-                // TODO: Switch this to be the metadata page after it is created.
+                await Shell.Current.GoToAsync($"{nameof(MetadataPage)}");
+            });
+            ToDetailsPageCommand = new AsyncCommand(async () =>
+            {
                 await Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
             });
         }
@@ -371,6 +386,7 @@ namespace RightToAskClient.ViewModels
         public IAsyncCommand OptionACommand { get; }
         public IAsyncCommand OptionBCommand { get; }
         public IAsyncCommand ToMetadataPageCommand { get; }
+        public IAsyncCommand ToDetailsPageCommand { get; }
 
         public void ResetInstance()
         {

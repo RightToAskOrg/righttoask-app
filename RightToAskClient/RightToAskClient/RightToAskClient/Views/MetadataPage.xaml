@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
+             xmlns:local="clr-namespace:RightToAskClient"
+             x:Class="RightToAskClient.Views.MetadataPage"
+             x:DataType="vm:QuestionViewModel"
+             Title="Other Data">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.home4.png}"/>
+        <ToolbarItem Text="{xct:Translate InfoPopupButtonText}" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.help_75.png}"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout x:Name="WholePage" Margin="20">
+                <Label Text="{xct:Translate QuestionHeaderText}" Style="{StaticResource LeftSmall}" />
+                <Label Text="{Binding Question.QuestionText}" Style="{StaticResource LeftLarge}"
+			           IsVisible="{Binding CanEditQuestion, Converter={StaticResource Key=cnvInvert}}" />
+                <Editor Text="{Binding Question.QuestionText}" Style="{StaticResource NormalEditor}"
+			            IsVisible="{Binding CanEditQuestion}" />
+                <Label Text="{xct:Translate WhoShouldAnswerTitle}" Style="{StaticResource LeftSmall}" />
+                <Label Text="{Binding Question.QuestionAnswerers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="{xct:Translate AnswererPermissions}" Style="{StaticResource LeftSmall}" />
+                    <CheckBox IsChecked="{Binding Question.OthersCanAddAnswerers}"/>
+                </StackLayout>
+                <!--Question Askers/Option B things-->
+                <StackLayout IsVisible="{Binding AnswerInApp, Converter={StaticResource Key=cnvInvert}}">
+                    <Label Text="{xct:Translate OptionBText4}" Style="{StaticResource LeftSmall}" />
+                    <Label Text="{Binding Question.QuestionAskers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
+                    <!-- Ask the user whether they allow other users to add QuestionAskers. (Y/N) -->
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="{xct:Translate AskerPermissions}" Style="{StaticResource LeftSmall}"/>
+                        <CheckBox IsChecked="{Binding Question.OthersCanAddAskers}"/>
+                    </StackLayout>
+                </StackLayout>
+                <Button Text="{xct:Translate NextButtonText}" Style="{StaticResource DoneButton}"  Command="{Binding ToDetailsPageCommand}" HorizontalOptions="End"/>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

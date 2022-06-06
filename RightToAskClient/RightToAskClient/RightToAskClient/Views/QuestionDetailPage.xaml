@@ -32,7 +32,7 @@
                     <CheckBox IsChecked="{Binding Question.OthersCanAddAnswerers}"/>
                 </StackLayout>
                 <!--Question Askers/Option B things-->
-                <StackLayout IsVisible="{Binding Question.AnswerInApp, Converter={StaticResource Key=cnvInvert}}">
+                <StackLayout IsVisible="{Binding AnswerInApp, Converter={StaticResource Key=cnvInvert}}">
                     <Label Text="{xct:Translate OptionBText4}" Style="{StaticResource LeftSmall}" />
                     <Label Text="{Binding Question.QuestionAskers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
                     <!-- Ask the user whether they allow other users to add QuestionAskers. (Y/N) -->
