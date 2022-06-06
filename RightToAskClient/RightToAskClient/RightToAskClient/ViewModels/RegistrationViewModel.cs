@@ -38,11 +38,18 @@ namespace RightToAskClient.ViewModels
         {
             get => _MPrepresentingName;
             private set => SetProperty(ref _MPrepresentingName, value);
-        } 
+        }
+
+        private SelectableList<MP> _selectableMPList = new SelectableList<MP>(new List<MP>(), new List<MP>());
         
+        // If the person has stated that they are an MP or staffer, return that one (there should be only one).
+        // Otherwise, a new/blank one.
+        public MP MPRepresenting
+        {
+            get => _selectableMPList.SelectedEntities.Any() ? _selectableMPList.SelectedEntities.First() : new MP();
+        }
         private List<MP> _selectedMPsForRegistration = new List<MP>();
         // This is initialized properly in the constructor, if we're looking at our own account.
-        private SelectableList<MP> _selectableMPList = new SelectableList<MP>(new List<MP>(), new List<MP>());
 
         public void ReinitRegistrationUpdates()
         {
@@ -323,11 +330,6 @@ namespace RightToAskClient.ViewModels
                 SaveToPreferences();
                 SendUpdatedUserToServer();
             });
-            SubmitMPRegistrationPINCommand = new Command(() =>
-            {
-                SendMPRegistrationToServer();
-                SaveMPRegistrationToPreferences();
-            });
             UpdateMPsButtonCommand = new Command(() =>
             {
                 NavigateToFindMPsPage();
@@ -338,6 +340,18 @@ namespace RightToAskClient.ViewModels
             {
                 SelectMPForRegistration();
                 StoreMPRegistration();
+            });
+            SendMPVerificationEmailCommand = new Command(() =>
+            {
+                SendMPRegistrationToServer();
+            });
+            SubmitMPRegistrationPINCommand = new Command(() =>
+            {
+                var success = SendMPRegistrationPINToServer();
+                if (success)
+                {
+                    SaveMPRegistrationToPreferences();
+                }
             });
             RegisterOrgButtonCommand = new Command(() =>
             {
@@ -369,12 +383,14 @@ namespace RightToAskClient.ViewModels
         }
 
 
+
         // commands
         public Command SaveButtonCommand { get; }
         public Command UpdateAccountButtonCommand { get; }
+        public AsyncCommand RegisterMPButtonCommand { get; }
+        public Command SendMPVerificationEmailCommand { get; }
         public Command SubmitMPRegistrationPINCommand { get; }
         public Command UpdateMPsButtonCommand { get; }
-        public AsyncCommand RegisterMPButtonCommand { get; }
         public Command RegisterOrgButtonCommand { get; }
         public Command FollowButtonCommand { get; }
         public Command DMButtonCommand { get; }
@@ -520,13 +536,13 @@ namespace RightToAskClient.ViewModels
 
         private void SendMPRegistrationToServer()
         {
-            Console.WriteLine("The PIN to send to the server is "+MPRegistrationPIN);
+            Console.WriteLine("The MP registration to send to the server is "+MPRepresentingName);
         }
 
         // TODO - save to preferences.
         private void SaveMPRegistrationToPreferences()
         {
-
+            Console.WriteLine("The MP registration to save to preferences is "+MPRepresentingName);
         }
 
         private void StoreMPRegistration()
@@ -557,6 +573,11 @@ namespace RightToAskClient.ViewModels
             ShowRegisterMPReportLabel = true;
         }
 
+        private bool SendMPRegistrationPINToServer()
+        {
+            Console.WriteLine("The PIN to send to the server is "+MPRegistrationPIN);
+            return true;
+        }
         private async void PromptUser(string message)
         {
             await App.Current.MainPage.DisplayAlert("Registration incomplete", message, "OK");

@@ -51,7 +51,7 @@
                 <!-- <Picker x:Name="DomainPicker" ItemsSource = "models:ParliamentData.Domains"></Picker> -->
                 <Picker x:Name="DomainPicker" Title="{xct:Translate ChooseParliamentaryEmailDomain}" ></Picker> 
             </StackLayout>
-            <Button  Command ="{Binding SubmitMPRegistrationPINCommand}" IsVisible="{Binding ShowRegisterMPReportLabel}" Style="{StaticResource GreenButton}" Text="{xct:Translate SendVerificationPIN}"></Button>
+            <Button  Command ="{Binding SendMPVerificationEmailCommand}" IsVisible="{Binding ShowRegisterMPReportLabel}" Style="{StaticResource GreenButton}" Text="{xct:Translate SendVerificationPIN}"></Button>
             <Label Text="{xct:Translate SubmitPINButtonText}" IsVisible="{Binding ShowRegisterMPReportLabel}" />
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" IsVisible="{Binding ShowRegisterMPReportLabel}">
                 <Entry Text="{Binding MPRegistrationPIN}" Style="{StaticResource NormalEntry}" Placeholder="______" />
