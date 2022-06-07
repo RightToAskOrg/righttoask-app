@@ -16,7 +16,9 @@ namespace RightToAskClient.Views
         public MetadataPage()
         {
             InitializeComponent();
-            BindingContext = QuestionViewModel.Instance;
+            BindingContext = FilterViewModel.Instance;
+            // update the filters on the filtersViewModelInstance
+            // FilterViewModel.Instance.ReinitData();
         }
     }
 }

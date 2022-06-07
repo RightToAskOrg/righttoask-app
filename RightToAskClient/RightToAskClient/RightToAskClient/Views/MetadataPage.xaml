@@ -5,7 +5,7 @@
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              xmlns:local="clr-namespace:RightToAskClient"
              x:Class="RightToAskClient.Views.MetadataPage"
-             x:DataType="vm:QuestionViewModel"
+             x:DataType="vm:FilterViewModel"
              Title="Other Data">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
@@ -16,25 +16,100 @@
     <ContentPage.Content>
         <ScrollView>
             <StackLayout x:Name="WholePage" Margin="20">
-                <Label Text="{xct:Translate QuestionHeaderText}" Style="{StaticResource LeftSmall}" />
-                <Label Text="{Binding Question.QuestionText}" Style="{StaticResource LeftLarge}"
-			           IsVisible="{Binding CanEditQuestion, Converter={StaticResource Key=cnvInvert}}" />
-                <Editor Text="{Binding Question.QuestionText}" Style="{StaticResource NormalEditor}"
-			            IsVisible="{Binding CanEditQuestion}" />
-                <Label Text="{xct:Translate WhoShouldAnswerTitle}" Style="{StaticResource LeftSmall}" />
-                <Label Text="{Binding Question.QuestionAnswerers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
-                <StackLayout Orientation="Horizontal">
-                    <Label Text="{xct:Translate AnswererPermissions}" Style="{StaticResource LeftSmall}" />
-                    <CheckBox IsChecked="{Binding Question.OthersCanAddAnswerers}"/>
-                </StackLayout>
-                <!--Question Askers/Option B things-->
-                <StackLayout IsVisible="{Binding AnswerInApp, Converter={StaticResource Key=cnvInvert}}">
-                    <Label Text="{xct:Translate OptionBText4}" Style="{StaticResource LeftSmall}" />
-                    <Label Text="{Binding Question.QuestionAskers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
-                    <!-- Ask the user whether they allow other users to add QuestionAskers. (Y/N) -->
-                    <StackLayout Orientation="Horizontal">
-                        <Label Text="{xct:Translate AskerPermissions}" Style="{StaticResource LeftSmall}"/>
-                        <CheckBox IsChecked="{Binding Question.OthersCanAddAskers}"/>
+                <StackLayout>
+                    <!--<Label Text="Answered By" Style="{StaticResource LeftMedium}"/>-->
+                    <StackLayout Spacing="0" Margin="0" Padding="0">
+                        <Label Text="My MP">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding AnsweringMPsFilterCommand}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <Label Text="{Binding SelectedAnsweringMyMPsText}">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding AnsweringMPsFilterCommand}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </StackLayout>
+                    <StackLayout Spacing="0" Margin="0" Padding="0">
+                        <Label Text="Other MP">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding OtherAnsweringMPsFilterCommand}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <Label Text="{Binding SelectedAnsweringMPsText}">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding OtherAnsweringMPsFilterCommand}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </StackLayout>
+                    <StackLayout Spacing="0" Margin="0" Padding="0">
+                        <Label Text="Public Authority">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding AnsweringAuthoritiesFilterCommand}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <Label Text="{Binding PublicAuthoritiesText}">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding AnsweringAuthoritiesFilterCommand}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </StackLayout>
+                    <StackLayout>
+                        <StackLayout Spacing="0" Margin="0" Padding="0">
+                            <Label Text="My MP">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding AskingMPsFilterCommand}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Label Text="{Binding SelectedAskingMyMPsText}">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding AskingMPsFilterCommand}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </StackLayout>
+                        <StackLayout Spacing="0" Margin="0" Padding="0">
+                            <Label Text="Committee">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding NotSureCommand}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Label Text="{Binding CommitteeText}">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding NotSureCommand}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </StackLayout>
+                        <StackLayout Spacing="0" Margin="0" Padding="0">
+                            <Label Text="Other MP">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding OtherAskingMPsFilterCommand}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Label Text="{Binding SelectedAskingMPsText}">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding OtherAskingMPsFilterCommand}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </StackLayout>
+                        <StackLayout Spacing="0" Margin="0" Padding="0">
+                            <Label Text="Right to Ask Participant">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding RightToAskUserCommand}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Label Text="{Binding OtherRightToAskUserText}">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding RightToAskUserCommand}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </StackLayout>
+                        <StackLayout Spacing="0" Margin="0" Padding="0">
+                            <Label Text="Not Stated">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding NotSureCommand}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </StackLayout>
                     </StackLayout>
                 </StackLayout>
                 <Button Text="{xct:Translate NextButtonText}" Style="{StaticResource DoneButton}"  Command="{Binding ToDetailsPageCommand}" HorizontalOptions="End"/>

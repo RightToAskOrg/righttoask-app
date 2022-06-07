@@ -354,10 +354,6 @@ namespace RightToAskClient.ViewModels
             {
                 await Shell.Current.GoToAsync($"{nameof(MetadataPage)}");
             });
-            ToDetailsPageCommand = new AsyncCommand(async () =>
-            {
-                await Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
-            });
         }
 
         private Command? _findCommitteeCommand;
@@ -387,6 +383,8 @@ namespace RightToAskClient.ViewModels
         public IAsyncCommand OptionBCommand { get; }
         public IAsyncCommand ToMetadataPageCommand { get; }
         public IAsyncCommand ToDetailsPageCommand { get; }
+        public Command AnsweringMPsFilterCommand { get; }
+        public Command AskingMPsFilterCommand { get; }
 
         public void ResetInstance()
         {
