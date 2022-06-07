@@ -72,6 +72,7 @@ namespace RightToAskClient.ViewModels
 		public bool CameFromReg2Page = false;
 		public bool GoToReadingPageFinally = false;
 		public bool GoToAskingPageNext = false;
+		public bool RegisterMPAccount = false;
 
 
 
@@ -176,6 +177,14 @@ namespace RightToAskClient.ViewModels
 				GoToAskingPageNext = true;
 				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionBGoToAskingPageNext");
 			});
+			MessagingCenter.Subscribe<RegistrationViewModel, SelectableList<MP>>(this, "RegMPAccount", (sender, arg) => 
+			{
+				RegisterMPAccount = true;
+				var list = arg;
+				// Do something with the passed in list here
+				// SelectableEntities = (SelectableList<MP>)arg;
+				MessagingCenter.Unsubscribe<RegistrationViewModel>(this, "RegMPAccount");
+			});
 		}
 
 		public class TaggedGroupedEntities : ObservableCollection<Tag<Entity>>
@@ -214,8 +223,18 @@ namespace RightToAskClient.ViewModels
 			{
 				await Shell.Current.GoToAsync(nameof(ReadingPage));
 			}
+			else if (RegisterMPAccount)
+            {
+				await Shell.Current.GoToAsync(nameof(MPRegistrationVerificationPage)).ContinueWith((_) => 
+				{
+					// send a message to the MPRegistrationViewModel to pop back to the account page at the end
+					MessagingCenter.Send(this, "ReturnToAccountPage");
+				});
+				//var pageToRegisterSelectedMP = new MPRegistrationVerificationPage(_selectableMPList);
+				//await App.Current.MainPage.Navigation.PushAsync(pageToRegisterSelectedMP);
+			}
 			// For Advanced Search outside the main flow. Pop back to wherever we came from (i.e. the advance search page).
-            else
+			else
             {
 				await Shell.Current.Navigation.PopAsync();
 			}

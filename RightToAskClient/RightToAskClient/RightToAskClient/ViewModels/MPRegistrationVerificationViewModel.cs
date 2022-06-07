@@ -45,19 +45,32 @@ namespace RightToAskClient.ViewModels
             get => _mpRegistrationPIN;
             set => SetProperty(ref _mpRegistrationPIN, value);
         }
+
+        public bool ReturnToAccountPage = false;
+
         // constructor
         public MPRegistrationVerificationViewModel()
         {
             // TODO This page is responsible for storing MP reg somehow:
             // StoreMPRegistration();
-       
+            MessagingCenter.Subscribe<SelectableListViewModel>(this, "ReturnToAccountPage", (sender) =>
+            {
+                ReturnToAccountPage = true;
+                MessagingCenter.Unsubscribe<RegistrationViewModel>(this, "ReturnToAccountPage");
+            });
+
             SendMPVerificationEmailCommand = new Command(() => { SendMPRegistrationToServer(); });
-            SubmitMPRegistrationPINCommand = new Command(() =>
+            SubmitMPRegistrationPINCommand = new AsyncCommand(async () =>
             {
                 var success = SendMPRegistrationPINToServer();
                 if (success)
                 {
                     SaveMPRegistrationToPreferences();
+                }
+                // navigate back to account page
+                if (ReturnToAccountPage)
+                {
+                    await App.Current.MainPage.Navigation.PopToRootAsync();
                 }
             });
             /*
@@ -70,7 +83,7 @@ namespace RightToAskClient.ViewModels
         
         // commands
         public Command SendMPVerificationEmailCommand { get; }
-        public Command SubmitMPRegistrationPINCommand { get; }
+        public IAsyncCommand SubmitMPRegistrationPINCommand { get; }
         
         
         

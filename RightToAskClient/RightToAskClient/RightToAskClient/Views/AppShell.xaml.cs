@@ -23,6 +23,7 @@ namespace RightToAskClient
             Routing.RegisterRoute(nameof(OtherUserProfilePage), typeof(OtherUserProfilePage));
             Routing.RegisterRoute(nameof(FlowOptionPage), typeof(FlowOptionPage));
             Routing.RegisterRoute(nameof(AdvancedSearchFiltersPage), typeof(AdvancedSearchFiltersPage));
+            Routing.RegisterRoute(nameof(MPRegistrationVerificationPage), typeof(MPRegistrationVerificationPage));
         }
     }
 }
