@@ -2,6 +2,7 @@
 using RightToAskClient.Models;
 using RightToAskClient.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using Xunit;
@@ -373,7 +374,7 @@ namespace UnitTests
             // how do we want to include filters for a question into this test?
             ElectorateWithChamber electorate = new ElectorateWithChamber(ParliamentData.Chamber.ACT_Legislative_Assembly, ParliamentData.StatesAndTerritories[0]);
             MP answeringMP = new MP() { first_name = "firstname", surname = "testSurname", electorate = electorate };
-            ObservableCollection<MP> mps = new ObservableCollection<MP>();
+            List<MP> mps = new List<MP>();
             mps.Add(answeringMP);
             FilterChoices filters = new FilterChoices() { SelectedAnsweringMPsMine = mps};
             vm.Question.Filters = filters;

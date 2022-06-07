@@ -402,7 +402,7 @@ namespace UnitTests
         {
             // arrange
             FilterChoices filters = new FilterChoices();
-            filters.SelectedAnsweringMPsMine = new ObservableCollection<MP>();
+            filters.SelectedAnsweringMPsMine = new List<MP>();
             ElectorateWithChamber electorateWithChamber = new ElectorateWithChamber(ParliamentData.Chamber.Vic_Legislative_Council, ParliamentData.State.VIC);
             MP validMP = new MP()
             {
