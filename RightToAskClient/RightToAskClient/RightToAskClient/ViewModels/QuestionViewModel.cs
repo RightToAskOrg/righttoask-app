@@ -169,6 +169,8 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _answerInApp, value);
         }
 
+        public bool ShowEditQuestionButton => CanEditQuestion && !IsNewQuestion;
+
         public string QuestionSuggesterButtonText => QuestionViewModel.Instance.IsNewQuestion ? AppResources.EditProfileButtonText : String.Format(AppResources.ViewOtherUserProfile, QuestionViewModel.Instance.Question.QuestionSuggester);
 
         public bool MPButtonsEnabled => ParliamentData.MPAndOtherData.IsInitialised;

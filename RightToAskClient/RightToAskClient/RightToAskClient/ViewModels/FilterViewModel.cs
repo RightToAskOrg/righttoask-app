@@ -10,6 +10,7 @@ using Xamarin.CommunityToolkit.ObjectModel;
 using RightToAskClient.Resx;
 using Xamarin.Forms;
 using System.Threading.Tasks;
+using RightToAskClient.Models.ServerCommsData;
 
 namespace RightToAskClient.ViewModels
 {
@@ -36,6 +37,40 @@ namespace RightToAskClient.ViewModels
         {
             get => _otherRightToAskUserText;
             set => SetProperty(ref _otherRightToAskUserText, value);
+        }
+
+        // for the metadata page
+        private bool _othersCanAddAnswerers = false;
+        public bool OthersCanAddAnswerers
+        {
+            get => _othersCanAddAnswerers;
+            set
+            {
+                SetProperty(ref _othersCanAddAnswerers, value);
+                QuestionViewModel.Instance.WhoShouldAnswerItPermissions = _othersCanAddAnswerers ? RTAPermissions.Others : RTAPermissions.WriterOnly;
+            }
+        }
+
+        private bool _othersCanAddAskers = false;
+        public bool OthersCanAddAskers
+        {
+            get => _othersCanAddAskers;
+            set
+            {
+                SetProperty(ref _othersCanAddAskers, value);
+                QuestionViewModel.Instance.WhoShouldAskItPermissions = _othersCanAddAskers ? RTAPermissions.Others : RTAPermissions.WriterOnly;
+            }
+        }
+
+        private bool _answerInApp = false;
+        public bool AnswerInApp
+        {
+            get => QuestionViewModel.Instance.AnswerInApp;
+            set
+            {
+                SetProperty(ref _answerInApp, value);
+                QuestionViewModel.Instance.AnswerInApp = _answerInApp;
+            }
         }
 
         // public List<Authority> PublicAuthoritiesList = new List<Authority>();

@@ -53,22 +53,26 @@ namespace RightToAskClient.Views
             // default to false, then check if they should be true
             QuestionViewModel.Instance.CanEditBackground = false;
             QuestionViewModel.Instance.CanEditQuestion = false;
-            
+
             // TODO (Github issue # ). This logic isn't quite right if you haven't yet registered and are in the process
             // of drafting a question. If you're in the process of drafting but haven't yet registered, you should
             // be able to edit the background (first).
             // I think we want the IsNewQuestion flag
-            if (!string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.RegistrationInfo.uid))
+            // if in the question drafting stages, the question text and background is editable
+            if (QuestionViewModel.Instance.IsNewQuestion)
+            {
+                QuestionViewModel.Instance.CanEditQuestion = true;
+                QuestionViewModel.Instance.CanEditBackground = true;
+            }
+            // otherwise check to see if the user is the creator of the question to edit from the reading pages
+            else if (!string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.RegistrationInfo.uid))
             {
                 if (!string.IsNullOrEmpty(QuestionViewModel.Instance.Question.QuestionSuggester))
                 {
                     if (QuestionViewModel.Instance.Question.QuestionSuggester == App.ReadingContext.ThisParticipant.RegistrationInfo.uid)
                     {
                         QuestionViewModel.Instance.CanEditBackground = true;
-                        if (!QuestionViewModel.Instance.IsNewQuestion)
-                        {
-                            QuestionViewModel.Instance.CanEditQuestion = true;
-                        }
+                        QuestionViewModel.Instance.CanEditQuestion = true;
                     }
                 }
             }
