@@ -10,10 +10,11 @@ namespace RightToAskClient.ViewModels
     public class MPRegistrationVerificationViewModel : BaseViewModel
     {
         // #region Properties
+        public string Title = "Select the MP you are or you work for";
         
         // If registered as representing an MP.
         // 
-        private string _MPrepresentingName = "";
+        private string _MPrepresentingName = "This is a test MP name";
         public string MPRepresentingName
         {
             get => _MPrepresentingName;
@@ -21,6 +22,12 @@ namespace RightToAskClient.ViewModels
         }
 
         private SelectableList<MP> _selectableMPList = new SelectableList<MP>(new List<MP>(), new List<MP>());
+
+        public SelectableList<MP> SelectableMPList
+        {
+            get => _selectableMPList;
+            set => SetProperty(ref _selectableMPList, value);
+        }
         
         // If the person has stated that they are an MP or staffer, return that one (there should be only one).
         // Otherwise, a new/blank one.

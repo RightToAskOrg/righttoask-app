@@ -16,6 +16,10 @@ namespace RightToAskClient.Views
         public MPRegistrationVerificationPage(SelectableList<MP> selectableMpList)
         {
             InitializeComponent();
+
+            // TODO Not sure this is the best way to do this.
+            var mpRegViewModel = BindingContext as MPRegistrationVerificationViewModel;
+            mpRegViewModel.SelectableMPList = selectableMpList;
             
             DomainPicker.ItemsSource = ParliamentData.Domains;
         }

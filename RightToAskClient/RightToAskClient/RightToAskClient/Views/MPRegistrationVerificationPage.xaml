@@ -19,23 +19,24 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout Margin="20" VerticalOptions="Start">
-            <Label Text="{Binding MPRepresentingName}" IsVisible="{Binding ShowRegisterMPReportLabel}" />
-            <!-- <Label Text="{Binding Source = {Binding MPRepresentingName, StringFormat='{xct:Translate YouHaveChosen} {0}'}}" IsVisible="{Binding ShowRegisterMPReportLabel}" /> -->
-            <StackLayout Orientation="Horizontal" HorizontalOptions = "CenterAndExpand" IsVisible="{Binding ShowRegisterMPReportLabel}" >
+            <Label Text="{Binding MPRepresenting.ShortestName, StringFormat='You Have Chosen {0}'}" />
+            <!-- <Label Text="{Binding MPRepresentingName, StringFormat='{xct:Translate YouHaveChosen} {0}'}"/> -->
+            <Label Text="{Binding MPRepresentingName, StringFormat='You Have Chosen {0}'}"/>
+            <StackLayout Orientation="Horizontal" HorizontalOptions = "CenterAndExpand">
                 <Label Text="{xct:Translate ThatsMe}"/>
                 <Switch></Switch>
                 <Label Text="{xct:Translate IAmAStaffer}"/>
             </StackLayout>
-            <Label Text="{xct:Translate EmailEntry}" IsVisible="{Binding ShowRegisterMPReportLabel}" />
-            <StackLayout Orientation="Horizontal" IsVisible="{Binding ShowRegisterMPReportLabel}" >
+            <Label Text="{xct:Translate EmailEntry}"/>
+            <StackLayout Orientation="Horizontal">
                 <Entry Placeholder="{xct:Translate UserName}" Style="{StaticResource NormalEntry}" />
                 <Label Text=" @ " HorizontalOptions="Center"/>
                 <!-- <Picker x:Name="DomainPicker" ItemsSource = "models:ParliamentData.Domains"></Picker> -->
                 <Picker x:Name="DomainPicker" Title="{xct:Translate ChooseParliamentaryEmailDomain}" ></Picker> 
             </StackLayout>
-            <Button  Command ="{Binding SendMPVerificationEmailCommand}" IsVisible="{Binding ShowRegisterMPReportLabel}" Style="{StaticResource GreenButton}" Text="{xct:Translate SendVerificationPIN}"></Button>
-            <Label Text="{xct:Translate SubmitPINButtonText}" IsVisible="{Binding ShowRegisterMPReportLabel}" />
-            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" IsVisible="{Binding ShowRegisterMPReportLabel}">
+            <Button  Command ="{Binding SendMPVerificationEmailCommand}" Style="{StaticResource GreenButton}" Text="{xct:Translate SendVerificationPIN}"></Button>
+            <Label Text="{xct:Translate SubmitPINButtonText}"/>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
                 <Entry Text="{Binding MPRegistrationPIN}" Style="{StaticResource NormalEntry}" Placeholder="______" />
                 <Button Command="{Binding SubmitMPRegistrationPINCommand}" Text="{xct:Translate DoneButtonText}" Style="{StaticResource DoneButton}" />
             </StackLayout>
