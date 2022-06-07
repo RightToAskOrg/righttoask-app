@@ -8,8 +8,10 @@
              Title="{Binding Title}"
              x:DataType="vm:FilterViewModel">
     <ContentPage.ToolbarItems>
-        <ToolbarItem x:Name="HomeButton" Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
+        <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
                      IconImageSource="{local:ImageResource RightToAskClient.Images.home4.png}"/>
+        <ToolbarItem Text="{xct:Translate InfoPopupButtonText}" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.help_75.png}"/>
     </ContentPage.ToolbarItems>
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding BackCommand}"
@@ -22,17 +24,18 @@
         <ScrollView>
             <StackLayout>
                 <!--Standard Search Frame-->
-                <Frame Style="{StaticResource GreenFrame}">
+                <Frame Style="{StaticResource AppThemeFramePadding}">
                     <StackLayout>
                         <Label Text="Question Details" Style="{StaticResource LeftMedium}"/>
-                        <SearchBar Placeholder="{xct:Translate SearchBarPlaceholderText}" Text="{Binding Keyword}" SearchCommand="{Binding SearchCommand}"/>
+                        <SearchBar Placeholder="{xct:Translate SearchBarPlaceholderText}" Text="{Binding Keyword}" 
+                                   Style="{StaticResource GreenSearchBar}" SearchCommand="{Binding SearchCommand}"/>
                         <Label Text="Seach with These Filters?" />
-                        <Button Text="Go" Command="{Binding SearchCommand}"/>
+                        <Button Text="{xct:Translate GoButtonText}" Command="{Binding SearchCommand}"/>
                     </StackLayout>
                 </Frame>
                 <!--Answered By Frame-->
-                <Frame Style="{StaticResource GreenFrame}">
-                    <xct:Expander>
+                <Frame Style="{StaticResource AppThemeFramePadding}">
+                    <xct:Expander ForceUpdateSizeCommand="{Binding ForceUpdateSizeCommand}">
                         <xct:Expander.Header>                            
                             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                                 <Label Text="Answered By" Style="{StaticResource LeftMedium}" TextColor="{StaticResource Primary}"/>
@@ -95,7 +98,7 @@
                     </xct:Expander>
                 </Frame>
                 <!--Raised By Frame-->
-                <Frame Style="{StaticResource GreenFrame}">
+                <Frame Style="{StaticResource AppThemeFramePadding}">
                     <xct:Expander>
                         <xct:Expander.Header>
                             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
@@ -171,7 +174,7 @@
                     </xct:Expander>
                 </Frame>
                 <!--Written By Frame-->
-                <Frame Style="{StaticResource GreenFrame}">
+                <Frame Style="{StaticResource AppThemeFramePadding}">
                     <xct:Expander>
                         <xct:Expander.Header>
                             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">

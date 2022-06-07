@@ -9,6 +9,7 @@ using System.Xml;
 using Xamarin.CommunityToolkit.ObjectModel;
 using RightToAskClient.Resx;
 using Xamarin.Forms;
+using System.Threading.Tasks;
 
 namespace RightToAskClient.ViewModels
 {
@@ -97,21 +98,29 @@ namespace RightToAskClient.ViewModels
 
         public FilterViewModel()
         {
+            PopupLabelText = AppResources.FiltersPopupText;
             MessagingCenter.Subscribe<QuestionViewModel>(this, "UpdateFilters", (sender) =>
             {
                 ReinitData();
+                MessagingCenter.Unsubscribe<QuestionViewModel>(this, "UpdateFilters");
             });
             MessagingCenter.Subscribe<SelectableListViewModel>(this, "UpdateFilters", (sender) =>
             {
                 ReinitData();
+                // Normally we'd want to unsubscribe to prevent multiple instances of the subscriber from happening,
+                // but because these listeners happen when popping back to this page from a selectableList page we want to keep the listener/subscriber
+                // active to update all of the lists/filters on this page with the newly selected data
+                //MessagingCenter.Unsubscribe<SelectableListViewModel>(this, "UpdateFilters");
             });
             MessagingCenter.Subscribe<ExploringPage>(this, "UpdateFilters", (sender) =>
             {
                 ReinitData();
+                //MessagingCenter.Unsubscribe<ExploringPage>(this, "UpdateFilters");
             });
             MessagingCenter.Subscribe<ExploringPageWithSearch>(this, "UpdateFilters", (sender) =>
             {
                 ReinitData();
+                //MessagingCenter.Unsubscribe<ExploringPageWithSearch>(this, "UpdateFilters");
             });
             /*
             MessagingCenter.Subscribe<ExploringPageWithSearchAndPreSelections>(this, "UpdateFilters", (sender) =>
@@ -132,23 +141,38 @@ namespace RightToAskClient.ViewModels
             // commands
             AnsweringMPsFilterCommand = new Command(() =>
             {
-                EditSelectedAnsweringMPsClicked();
+                _ = EditSelectedAnsweringMPsClicked().ContinueWith((_) =>
+                  {
+                      MessagingCenter.Send(this, "FromFiltersPage"); // Sends this view model
+                });
             });
             AskingMPsFilterCommand = new Command(() =>
             {
-                EditSelectedAskingMPsClicked();
+                _ = EditSelectedAskingMPsClicked().ContinueWith((_) =>
+                  {
+                      MessagingCenter.Send(this, "FromFiltersPage");
+                  });
             });
             AnsweringAuthoritiesFilterCommand = new Command(() =>
             {
-                EditAuthoritiesClicked();
+                _ = EditAuthoritiesClicked().ContinueWith((_) =>
+                  {
+                      MessagingCenter.Send(this, "FromFiltersPage");
+                  });
             });
             OtherAnsweringMPsFilterCommand = new Command(() =>
             {
-                EditOtherSelectedAnsweringMPsClicked();
+                _ = EditOtherSelectedAnsweringMPsClicked().ContinueWith((_) =>
+                  {
+                      MessagingCenter.Send(this, "FromFiltersPage");
+                  });
             });
             OtherAskingMPsFilterCommand = new Command(() =>
             {
-                EditOtherSelectedAskingMPsClicked();
+                _ = EditOtherSelectedAskingMPsClicked().ContinueWith((_) =>
+                  {
+                      MessagingCenter.Send(this, "FromFiltersPage");
+                  });
             });
             RightToAskUserCommand = new Command(() =>
             {
@@ -173,6 +197,10 @@ namespace RightToAskClient.ViewModels
                     await App.Current.MainPage.Navigation.PopAsync();
                 }
             });
+            ForceUpdateSizeCommand = new Command(() =>
+            {
+                ReinitData();
+            });
         }
 
         // commands
@@ -185,6 +213,7 @@ namespace RightToAskClient.ViewModels
         public Command NotSureCommand { get; }
         public Command SearchCommand { get; }
         public IAsyncCommand BackCommand { get; }
+        public Command ForceUpdateSizeCommand { get; }
 
         // helper methods
         public void ReinitData()
@@ -241,7 +270,7 @@ namespace RightToAskClient.ViewModels
             return text;
         }
 
-        private async void EditSelectedAnsweringMPsClicked()
+        private async Task EditSelectedAnsweringMPsClicked()
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
@@ -249,7 +278,7 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        private async void EditAuthoritiesClicked()
+        private async Task EditAuthoritiesClicked()
         {
             string message = "Choose others to add";
 
@@ -259,7 +288,7 @@ namespace RightToAskClient.ViewModels
             await App.Current.MainPage.Navigation.PushAsync(departmentExploringPage);
         }
 
-        private async void EditOtherSelectedAnsweringMPsClicked()
+        private async Task EditOtherSelectedAnsweringMPsClicked()
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
@@ -267,7 +296,7 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        private async void EditOtherSelectedAskingMPsClicked()
+        private async Task EditOtherSelectedAskingMPsClicked()
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
@@ -275,7 +304,7 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        private async void EditSelectedAskingMPsClicked()
+        private async Task EditSelectedAskingMPsClicked()
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {

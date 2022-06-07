@@ -1,29 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:extensions="http://xamarin.com/schemas/2020/toolkit"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:local="clr-namespace:RightToAskClient"
-             xmlns:viewModels="clr-namespace:RightToAskClient.ViewModels;assembly=RightToAskClient"
+             xmlns:vm="clr-namespace:RightToAskClient.ViewModels;assembly=RightToAskClient"
              x:Class="RightToAskClient.Views.SelectableListPage"
-             x:DataType="viewModels:SelectableListViewModel"
+             x:DataType="vm:SelectableListViewModel"
              Title="{Binding TitleText}">
     <ContentPage.ToolbarItems>
-        <ToolbarItem x:Name="HomeButton" Text="{xct:Translate HomeButtonText}" 
-                     Clicked="HomeButton_Clicked"
-                     IconImageSource="{extensions:ImageResource RightToAskClient.Images.home4.png}"/>
+        <ToolbarItem Text="{xct:Translate SearchButtonText}" IconImageSource="{local:ImageResource RightToAskClient.Images.search_75.png}"
+                     Command="{Binding SearchToolbarCommand}"/>
+        <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.home4.png}"/>
+        <ToolbarItem Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.help_75.png}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
 		<StackLayout x:Name="MainLayout" x:FieldModifier="protected" HorizontalOptions="Center" VerticalOptions="Start">
-			<Label x:Name="IntroText" Text = "{Binding IntroText}" />
-			<ScrollView x:Name="ParentScrollView">
-				<ListView x:Name="SelectableListView" 
+            <!--Search Frame-->
+            <Frame Style="{StaticResource AppThemeGreenFrame}" Margin="0" Padding="0" IsVisible="{Binding ShowSearchFrame}">
+                <StackLayout>
+                    <SearchBar Placeholder="{xct:Translate SearchBarPlaceholderText}" Text="{Binding Keyword}"
+                           Style="{StaticResource GreenSearchBar}" HorizontalOptions="FillAndExpand" 
+                           Margin="0"/>
+                </StackLayout>
+            </Frame>
+            <Label x:Name="IntroText" Text = "{Binding IntroText}" Style="{StaticResource Header2}"/>
+            <ScrollView x:Name="ParentScrollView">
+                <ListView ItemsSource="{Binding FilteredSelectableEntities}"
 				    x:FieldModifier="protected" VerticalOptions="FillAndExpand" SelectionMode="None" 
 				    HasUnevenRows="True" ItemTapped="OnEntity_Selected" 
 					ItemTemplate="{StaticResource SelectableDataTemplate }">
-				</ListView>
-			</ScrollView>	
-			<Button x:Name="DoneButton" Command = "{Binding DoneButtonCommand}" Style="{StaticResource DoneButton}" /> 
+                </ListView>
+            </ScrollView>
+            <Button Text="{Binding DoneButtonText}" Command="{Binding DoneButtonCommand}" Style="{StaticResource DoneButton}" /> 
 		</StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -169,7 +169,7 @@
     <value>Direct my question</value>
   </data>
   <data name="DiscardDraftButtonText" xml:space="preserve">
-    <value>Bin - already here!</value>
+    <value>Discard</value>
   </data>
   <data name="DisplayNameHeaderText" xml:space="preserve">
     <value>Display Name</value>
@@ -235,7 +235,7 @@
     <value>Home</value>
   </data>
   <data name="KeepQuestionButtonText" xml:space="preserve">
-    <value>Keep for upload</value>
+    <value>Publish</value>
   </data>
   <data name="KeywordEntryPlaceholderText" xml:space="preserve">
     <value>Keyword</value>
@@ -318,13 +318,6 @@
   <data name="QuestionDetailsTitle" xml:space="preserve">
     <value>Question Details</value>
   </data>
-  <!--
-  <data name="QuestionAnswererHeaderText" xml:space="preserve">
-    <value>To be answered by:</value>
-  </data>
-  <data name="QuestionAskerHeaderText" xml:space="preserve">
-    <value>To be raised in parliament by:</value>
-  </data> -->
   <data name="QuestionHeaderText" xml:space="preserve">
     <value>Question: </value>
   </data>
@@ -542,7 +535,7 @@
     <value>Make an account?</value>
   </data>
   <data name="NotNowAnswerText" xml:space="preserve">
-	  <value>Not now</value>
+    <value>Not now</value>
   </data>
   <data name="EmptyQuestionCollectionViewString" xml:space="preserve">
     <value>Unable to Connect to Server or No Questions Available.</value>
@@ -576,5 +569,140 @@
   </data>
   <data name="QuestionFrameThumbsUpAccessibilityText" xml:space="preserve">
     <value>Shows an image of a thumbs up icon that is highlighted green if you have already liked this question, or is not highlighted if you have not upvoted it. There is a tally number of total number of upvotes this question has to the right of this icon.</value>
+  </data>
+  <data name="QuestionDraftingPagePopupText" xml:space="preserve">
+    <value>New Popup Test for Drafting Question</value>
+  </data>
+  <data name="AboutPagePopupText" xml:space="preserve">
+    <value>AboutPagePopupText</value>
+  </data>
+  <data name="AnswerQuestionOptionsPopupText" xml:space="preserve">
+    <value>AnswerQuestionOptionsPopupText</value>
+  </data>
+  <data name="CreateNewAccountPopupText" xml:space="preserve">
+    <value>CreateNewAccountPopupText</value>
+  </data>
+  <data name="EditAccountPopupText" xml:space="preserve">
+    <value>EditAccountPopupText</value>
+  </data>
+  <data name="FiltersPopupText" xml:space="preserve">
+    <value>FiltersPopupText</value>
+  </data>
+  <data name="FindMPsPopupText" xml:space="preserve">
+    <value>Your MPs are defined by where you live.</value>
+  </data>
+  <data name="InfoPopupButtonText" xml:space="preserve">
+    <value>Information Popup Button</value>
+  </data>
+  <data name="MainPageHeadingText" xml:space="preserve">
+    <value>Make your political questions have an impact</value>
+  </data>
+  <data name="MainPagePopupText" xml:space="preserve">
+    <value>MainPagePopupText</value>
+  </data>
+  <data name="OtherUserProfilePopupText" xml:space="preserve">
+    <value>OtherUserProfilePopupText</value>
+  </data>
+  <data name="QuestionAskerPopupText" xml:space="preserve">
+    <value>QuestionAskerPopupText</value>
+  </data>
+  <data name="QuestionDetailPopupText" xml:space="preserve">
+    <value>QuestionDetailPopupText</value>
+  </data>
+  <data name="SelectableListAuthoritiesPopupText" xml:space="preserve">
+    <value>SelectableListAuthoritiesPopupText</value>
+  </data>
+  <data name="SelectableListMPsPopupText" xml:space="preserve">
+    <value>SelectableListMPsPopupText</value>
+  </data>
+  <data name="AccountUpdateSuccessResponseText" xml:space="preserve">
+    <value>Your account was successfully updated!</value>
+  </data>
+  <data name="NoAccountChangesDetectedAlertText" xml:space="preserve">
+    <value>No Changes were made and thus there are no changes to update on your account. Suggestion: try updating your display name.</value>
+  </data>
+  <data name="NoAccountChangesDetectedTitle" xml:space="preserve">
+    <value>No Changes Found</value>
+  </data>
+  <data name="AccountCreationSuccessResponseText" xml:space="preserve">
+    <value>Your account was created successfully!</value>
+  </data>
+  <data name="GoHomeButtonText" xml:space="preserve">
+    <value>Go Home</value>
+  </data>
+  <data name="QuestionPublishedPopupText" xml:space="preserve">
+    <value>Question successfully published!</value>
+  </data>
+  <data name="WriteAnotherQuestionButtonText" xml:space="preserve">
+    <value>Write Another One</value>
+  </data>
+  <data name="GoButtonText" xml:space="preserve">
+    <value>Go</value>
+  </data>
+  <data name="UserNameHeaderText" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="NoSearchResultsFoundText" xml:space="preserve">
+    <value>No results found for the entered keyword.</value>
+  </data>
+  <data name="DraftDiscardedPopupTitle" xml:space="preserve">
+    <value>Draft discarded.</value>
+  </data>
+  <data name="EditQuestionErrorText" xml:space="preserve">
+    <value>Error editing question: {0}</value>
+  </data>
+  <data name="ElectoratesAlreadySelectedText" xml:space="preserve">
+    <value>You have already selected your electorates - you can change them if you like</value>
+  </data>
+  <data name="ElectoratesAlreadySelectedTitle" xml:space="preserve">
+    <value>Electorates already selected.</value>
+  </data>
+  <data name="ElectoratesNotFoundErrorText" xml:space="preserve">
+    <value>Electorates were not found.</value>
+  </data>
+  <data name="QuestionEditSuccessfulPopupTitle" xml:space="preserve">
+    <value>Question Edited!</value>
+  </data>
+  <data name="RegistrationIncompleteTitleText" xml:space="preserve">
+    <value>Registration incomplete</value>
+  </data>
+  <data name="RelatedQuestionsButtonText" xml:space="preserve">
+    <value>Related Questions</value>
+  </data>
+  <data name="StayOnCurrentPageButtonText" xml:space="preserve">
+    <value>Stay</value>
+  </data>
+  <data name="GoHomePopupText" xml:space="preserve">
+    <value>Are you sure you want to go home? You will lose any unsaved questions.</value>
+  </data>
+  <data name="GoHomePopupTitle" xml:space="preserve">
+    <value>Return to the Homepage?</value>
+  </data>
+  <data name="ImSureButtonText" xml:space="preserve">
+    <value>Yes, I'm sure.</value>
+  </data>
+  <data name="MPsPopupText" xml:space="preserve">
+    <value>Would you like to find your MPs? You can always change them later.</value>
+  </data>
+  <data name="MPsPopupTitle" xml:space="preserve">
+    <value>Find your MPs?</value>
+  </data>
+  <data name="NavigationPopupTitle" xml:space="preserve">
+    <value>You are navigating away from RightToAsk.</value>
+  </data>
+  <data name="SkipButtonText" xml:space="preserve">
+    <value>Skip for now.</value>
+  </data>
+  <data name="YesButtonText" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="LocateButtonText" xml:space="preserve">
+    <value>Locate</value>
+  </data>
+  <data name="InvalidPostcodePopupText" xml:space="preserve">
+    <value>This postcode seems invalid for this area. Would you like to proceed anyways?</value>
+  </data>
+  <data name="InvalidPostcodePopupTitle" xml:space="preserve">
+    <value>Invalid Postcode</value>
   </data>
 </root>

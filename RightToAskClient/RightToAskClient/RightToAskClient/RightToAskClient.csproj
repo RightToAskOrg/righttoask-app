@@ -25,6 +25,8 @@
   <ItemGroup>
     <None Remove="Data\" />
     <None Remove="Images\account_balance_48.png" />
+    <None Remove="Images\arrow_back_48.png" />
+    <None Remove="Images\arrow_forward_48.png" />
     <None Remove="Images\assured_workload_48.png" />
     <None Remove="Images\BookStack.png" />
     <None Remove="Images\book_stack.png" />
@@ -55,10 +57,13 @@
     <None Remove="Images\flag_48.png" />
     <None Remove="Images\glasses.png" />
     <None Remove="Images\half_roo.png" />
+    <None Remove="Images\help_48.png" />
+    <None Remove="Images\help_75.png" />
     <None Remove="Images\home1.png" />
     <None Remove="Images\home2.png" />
     <None Remove="Images\home3.png" />
     <None Remove="Images\home4.png" />
+    <None Remove="Images\info_48.png" />
     <None Remove="Images\LocationPin.png" />
     <None Remove="Images\location_pin.png" />
     <None Remove="Images\MessageBubble.png" />
@@ -129,6 +134,8 @@
     <EmbeddedResource Remove="Views\PickerPage.xaml" />
     <None Remove="Resources\VicLegislativeAssemblymembers.csv" />
     <EmbeddedResource Include="Images\account_balance_48.png" />
+    <EmbeddedResource Include="Images\arrow_back_48.png" />
+    <EmbeddedResource Include="Images\arrow_forward_48.png" />
     <EmbeddedResource Include="Images\assured_workload_48.png" />
     <EmbeddedResource Include="Images\book_stack.png" />
     <EmbeddedResource Include="Images\calendar_checkmark.png" />
@@ -154,10 +161,13 @@
     <EmbeddedResource Include="Images\flag_48.png" />
     <EmbeddedResource Include="Images\glasses.png" />
     <EmbeddedResource Include="Images\half_roo.png" />
+    <EmbeddedResource Include="Images\help_48.png" />
+    <EmbeddedResource Include="Images\help_75.png" />
     <EmbeddedResource Include="Images\home1.png" />
     <EmbeddedResource Include="Images\home2.png" />
     <EmbeddedResource Include="Images\home3.png" />
     <EmbeddedResource Include="Images\home4.png" />
+    <EmbeddedResource Include="Images\info_48.png" />
     <EmbeddedResource Include="Images\location_pin.png" />
     <EmbeddedResource Include="Images\message_bubble.png" />
     <EmbeddedResource Include="Images\open_book.png" />
@@ -213,6 +223,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
+    <Compile Update="Views\EmptySelectableListSearchView.xaml.cs">
+      <DependentUpon>EmptySelectableListSearchView.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\QuestionDraftingPage.xaml.cs">
       <DependentUpon>QuestionDraftingPage.xaml</DependentUpon>
     </Compile>
@@ -243,13 +256,31 @@
     <EmbeddedResource Update="Views\EmptyCollectionView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\EmptySelectableListSearchView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\FlowOptionPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\InfoPopup.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\OneButtonPopup.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\OtherUserProfilePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\QuestionDisplayCard.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\QuestionPublishedPopup.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\ReadingPagePopup.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\TwoButtonPopup.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\UserAccountInfoView.xaml">

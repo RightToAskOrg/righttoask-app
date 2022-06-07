@@ -39,9 +39,11 @@ namespace RightToAskClient.Views
 			InitializeComponent();
 			var vm = new SelectableListViewModel(authorityLists, message);
 			BindingContext = vm;
-			
-			SelectableListView.ItemsSource = vm.SelectableEntities;
-			SelectableListView.IsGroupingEnabled = false;
+			//SelectableListView.ItemsSource = vm.SelectableEntities;
+			//SelectableListView.IsGroupingEnabled = false;
+			// Note this overrides the base setting of AuthorityListView.ItemsSource, which 
+			// otherwise includes both selected and non-selected items.
+			//AuthorityListView.ItemsSource = authorityLists.AllEntities;
 		}
 
         public SelectableListPage(SelectableList<MP> MPLists, string message, bool grouping)
@@ -49,21 +51,10 @@ namespace RightToAskClient.Views
 			InitializeComponent();
 			var vm = new SelectableListViewModel(MPLists, message, grouping);
 			BindingContext = vm;	
-			
-			SelectableListView.ItemsSource = grouping ? (IEnumerable)vm.SelectableGroupedEntities : vm.SelectableEntities;
-			SelectableListView.IsGroupingEnabled = grouping;
-			SelectableListView.GroupDisplayBinding = vm.GroupDisplay;
+			//SelectableListView.ItemsSource = grouping ? (IEnumerable)vm.SelectableGroupedEntities : vm.SelectableEntities;
+			//SelectableListView.IsGroupingEnabled = grouping;
+			//SelectableListView.GroupDisplayBinding = vm.GroupDisplay;
         }
-
-        // TODO Just use the one in BaseViewModel. 
-		private async void HomeButton_Clicked(object sender, EventArgs e)
-		{
-			string? result = await Shell.Current.DisplayActionSheet("Are you sure you want to go home? You will lose any unsaved questions.", "Cancel", "Yes, I'm sure.");
-			if (result == "Yes, I'm sure.")
-			{
-				await App.Current.MainPage.Navigation.PopToRootAsync();
-			}
-		}
 		
 		/* TODO It wold probably be more elegantly MVVM if this was in the ViewModel rather than the code-behind, but I
 		 * can't figure out how to bind an ItemTappedEvent.

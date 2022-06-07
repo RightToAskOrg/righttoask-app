@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RightToAskClient.Resx;
+using RightToAskClient.ViewModels;
+using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -16,9 +18,12 @@ namespace RightToAskClient.Views
     {
         private static string appDomainString = "https://righttoask.democracydevelopers.org.au/";
         private static Uri appDomain = new Uri(appDomainString);
+        private BaseViewModel baseViewModel;
         public AboutPage()
         {
             InitializeComponent();
+            baseViewModel = (BaseViewModel)BindingContext;
+            baseViewModel.PopupLabelText = AppResources.AboutPagePopupText;
         }
 
         protected override bool OnBackButtonPressed()
@@ -62,17 +67,13 @@ namespace RightToAskClient.Views
                 e.Cancel = true;
 
                 // display an alert
-                string alertTitle = AppResources.WebNavigationWarning +"\n" + destination;
+                string alertText = AppResources.WebNavigationWarning + "\n" + destination;
                 string alertCancel = AppResources.CancelButtonText;
-                string alertDestruction = AppResources.NavigateOKText; 
-                //string[] alertButtons = { "Copy Link" };
-                //string? result = await Shell.Current.DisplayActionSheet(alertTitle, alertCancel, alertDestruction, alertButtons);
-                string? result = await Shell.Current.DisplayActionSheet(alertTitle, alertCancel, alertDestruction);
-                //if (result == "Copy Link")
-                //{
-                //    await Clipboard.SetTextAsync(destination);
-                //}
-                if(result == AppResources.NavigateOKText)
+                string alertConfirmation = AppResources.NavigateOKText;
+
+                var popup = new TwoButtonPopup(baseViewModel, AppResources.NavigationPopupTitle, alertText, alertCancel, alertConfirmation);
+                _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                if (baseViewModel.ApproveButtonClicked)
                 {
                     Uri browserDestination = new Uri(destination);
                     await OpenBrowser(browserDestination);

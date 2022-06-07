@@ -87,6 +87,12 @@ namespace RightToAskClient.Models
             return _authorityName == other.AuthorityName;
         }
 
+        public override bool DataEquals(object other)
+        {
+            var auth = other as Authority;
+            return (auth != null) && _authorityName == auth.AuthorityName;
+        }
+
         public override string ToString()
         {
             return AuthorityName + NickNameIfPresent();

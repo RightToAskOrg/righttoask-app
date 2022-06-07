@@ -6,9 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -30,11 +32,29 @@ namespace RightToAskClient.ViewModels
             get => _showFindMPsButton;
             set => SetProperty(ref _showFindMPsButton, value);
         }
+        private bool _showMapFrame = false;
+        public bool ShowMapFrame
+        {
+            get => _showMapFrame;
+            set => SetProperty(ref _showMapFrame, value);
+        }
         private bool _showSkipButton = false;
         public bool ShowSkipButton
         {
             get => _showSkipButton;
             set => SetProperty(ref _showSkipButton, value);
+        }
+        private bool _showStateOnly = true;
+        public bool ShowStateOnly
+        {
+            get => _showStateOnly;
+            set => SetProperty(ref _showStateOnly, value);
+        }
+        private bool _showElectoratesFrame = false;
+        public bool ShowElectoratesFrame
+        {
+            get => _showElectoratesFrame;
+            set => SetProperty(ref _showElectoratesFrame, value);
         }
         private bool _showKnowElectoratesFrame = false;
         public bool ShowKnowElectoratesFrame
@@ -144,50 +164,127 @@ namespace RightToAskClient.ViewModels
             get => _doneButtonText;
             set => SetProperty(ref _doneButtonText, value);
         }
-        private bool _launchMPsSelectionPageNext;
+        private bool _launchMPsSelectionPageNext = false;
+        private bool _optionB = false;
+
+        private string _mapURL = "";
+        public string MapURL
+        {
+            get => _mapURL;
+            private set => SetProperty(ref _mapURL, value);
+        }
+        private bool _promptAddressSave = false;
+        public bool PromptAddressSave
+        {
+            get => _promptAddressSave;
+            set => SetProperty(ref _promptAddressSave, value);
+        }
+        private bool _postcodeIsValid = false;
+        public bool PostcodeIsValid
+        {
+            get => _postcodeIsValid;
+            set => SetProperty(ref _postcodeIsValid, value);
+        }
+
+        // display properties for Electorates
+        private string _federalElectorateDisplayText = "";
+        //public string FederalElectorateDisplayText => App.ReadingContext.ThisParticipant.CommonwealthElectorate;
+        public string FederalElectorateDisplayText
+        {
+            get => _federalElectorateDisplayText;
+            set => SetProperty(ref _federalElectorateDisplayText, value);
+        }
+
+        private string _stateLowerHouseElectorateDisplayText = "";
+        //public string StateLowerHouseElectorateDisplayText => App.ReadingContext.ThisParticipant.StateLowerHouseElectorate;
+        public string StateLowerHouseElectorateDisplayText
+        {
+            get => _stateLowerHouseElectorateDisplayText;
+            set => SetProperty(ref _stateLowerHouseElectorateDisplayText, value);
+        }
+
+        private string _mapUrl = "https://www.aec.gov.au/profiles/vic/files/2021/2021-AEC-Victoria-A3-Holt-final.pdf";
+        public string MapUrl
+        {
+            get => _mapUrl;
+            set => SetProperty(ref _mapUrl, value);
+        }
         #endregion
 
         // constructor
         public FindMPsViewModel()
         {
+            PopupLabelText = AppResources.FindMPsPopupText;
             ShowSkipButton = false;
             ShowAddressStack = false;
             ShowKnowElectoratesFrame = false;
-            _launchMPsSelectionPageNext = true;            
+            ShowMapFrame = false;
+            _launchMPsSelectionPageNext = true;
+
+            // set the state index pickers
+            SelectedState = App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsIndex;
+
+            if (!string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.CommonwealthElectorate))
+            {
+                ShowMapFrame = true;
+                string electorateString = ParliamentData.ConvertGeoscapeElectorateToStandard(App.ReadingContext.ThisParticipant.RegistrationInfo.State, App.ReadingContext.ThisParticipant.CommonwealthElectorate);
+                ShowMapOfElectorate(electorateString);
+            }
 
             MessagingCenter.Subscribe<RegistrationViewModel>(this, "FromReg1", (sender) =>
             {
                 _launchMPsSelectionPageNext = false;
+                MessagingCenter.Unsubscribe<RegistrationViewModel>(this, "FromReg1");
+            });
+            // TODO Not sure we ever use this.
+            MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionBGoToAskingPageNext", sender =>
+            {
+                _optionB = true;
+                MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionBGoToAskingPageNext");
+            });
+            MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionBAskingNow", sender =>
+            {
+                _optionB = true;
+                MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionBAskingNow");
             });
 
             // commands
             MPsButtonCommand = new AsyncCommand(async () =>
             {
-                // FIXME I'm pretty sure this is where our navigation bug is.
+                SelectableListPage mpsSearchableListPage;
                 // We might get here via Option A from the flow options page, in which case
                 //    - initialize the MP SearchableListPage with AnsweringMPsListsMine and
                 //    - after that, navigate forward to a ReadingPage;
                 // we might get here via Option B from the QuestionAskerPage, in which case
                 //    - initialize the MP SearchableListPage with AskingMPsListsMine and
                 //    - after that, navigate forward to a ReadingPage;
-                // TODO we may need to fix both keeping track of the option and also the forward navigation.
                 if (_launchMPsSelectionPageNext)
                 {
-                    // If we've come here via Option A from the flow options page, do this:
-                    string message = "These are your MPs.  Select the one(s) who should answer the question";
-                    var mpsSearchableListPage = new SelectableListPage(App.ReadingContext.Filters.AnsweringMPsListsMine, message, true);
-                    
-                    // If we've come here via Option B from the QuestionAskerPage, do this:
-                    // string message = "These are your MPs.  Select the one(s) who should raise the question in Parliament";
-                    // var mpsSearchableListPage = new SelectableListPage(App.ReadingContext.Filters.AnsweringMPsListsMine, message, true);
-                    
-                    
-                    // TODO fix up navigation options.
+                    // Option B - our MP is asking the question
+                    if (_optionB)
+                    {
+                        string message =
+                            "These are your MPs.  Select the one(s) who should raise the question in Parliament";
+                        mpsSearchableListPage = new SelectableListPage(App.ReadingContext.Filters.AskingMPsListsMine,
+                            message, true);
+                    }
+                    // Option A - our MP should be answering the question.
+                    else
+                    {
+                        string message = "These are your MPs.  Select the one(s) who should answer the question";
+                        mpsSearchableListPage = new SelectableListPage(App.ReadingContext.Filters.AnsweringMPsListsMine,
+                            message, true);
+                    }
+
+                    MessagingCenter.Send(this, "GoToReadingPage");
+
                     await App.Current.MainPage.Navigation.PushAsync(mpsSearchableListPage);
                     _launchMPsSelectionPageNext = false;
+                    _optionB = false;
                     DoneButtonText = AppResources.DoneButtonText;
-                    MessagingCenter.Send<FindMPsViewModel, bool>(this, "PreviousPage", true);
+                    // MessagingCenter.Send<FindMPsViewModel, bool>(this, "PreviousPage", true);
                 }
+                // We are here from the registration page - no need to select any MPs
                 else
                 {
                     await App.Current.MainPage.Navigation.PopAsync();
@@ -208,12 +305,14 @@ namespace RightToAskClient.ViewModels
             {
                 ShowAddressStack = true;
                 ShowKnowElectoratesFrame = false;
+                ShowElectoratesFrame = false;
 
                 // set the address data if we have it
                 var addressPref = Preferences.Get("Address", "");
                 if (!string.IsNullOrEmpty(addressPref))
                 {
                     var addressObj = JsonSerializer.Deserialize<Address>(addressPref);
+                    //OldAddress = addressObj ?? new Address();
                     Address = addressObj ?? new Address();
                 }
             });
@@ -221,6 +320,7 @@ namespace RightToAskClient.ViewModels
             {
                 ShowKnowElectoratesFrame = true;
                 ShowAddressStack = false;
+                ShowElectoratesFrame = false;
             });
 
             // set the pickers to update their content lists here if state was already indicated elsewhere in the application
@@ -245,52 +345,101 @@ namespace RightToAskClient.ViewModels
         // If we know their state but not their Legislative Assembly or Council makeup, we can go on. 
         private async Task OnSubmitAddressButton_Clicked()
         {
-            Result<GeoscapeAddressFeature> httpResponse;
+            // see if we should prompt first
+            CheckPostcode();
 
-            string state = App.ReadingContext.ThisParticipant.RegistrationInfo.State;
-
-            if (String.IsNullOrEmpty(state))
+            if (!PostcodeIsValid)
             {
-                await App.Current.MainPage.DisplayAlert(AppResources.SelectStateWarningText, "", "OK");
-                return;
-            }
-
-            Result<bool> addressValidation = _address.SeemsValid();
-            if (!String.IsNullOrEmpty(addressValidation.Err))
-            {
-                await App.Current.MainPage.DisplayAlert(addressValidation.Err, "", "OK");
-                return;
-            }
-
-            httpResponse = await GeoscapeClient.GetFirstAddressData(_address + " " + state);
-
-            if (httpResponse != null)
-            {
-                if (httpResponse.Err != null)
+                var popup = new TwoButtonPopup(this, AppResources.InvalidPostcodePopupTitle, AppResources.InvalidPostcodePopupText, AppResources.CancelButtonText, AppResources.ImSureButtonText);
+                _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                if (ApproveButtonClicked)
                 {
-                    ReportLabelText = httpResponse.Err;
+                    PostcodeIsValid = true;
+                }
+            }
+            if (PostcodeIsValid)
+            {
+                IsBusy = true; // no longer displaying the activity indicator since the webview shows that it is being updated
+                Result<GeoscapeAddressFeature> httpResponse;
+
+                string state = App.ReadingContext.ThisParticipant.RegistrationInfo.State;
+
+                if (String.IsNullOrEmpty(state))
+                {
+                    var popup = new OneButtonPopup(AppResources.SelectStateWarningText, AppResources.OKText);
+                    _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
                     return;
                 }
 
-                // Now we know everything is good.
-                var bestAddress = httpResponse.Ok;
-                AddElectorates(bestAddress);
-                ShowFindMPsButton = true;
-                ReportLabelText = "";
-
-                bool saveThisAddress = await App.Current.MainPage.DisplayAlert("Electorates found!",
-                    // "State Assembly Electorate: "+thisParticipant.SelectedLAStateElectorate+"\n"
-                    // +"State Legislative Council Electorate: "+thisParticipant.SelectedLCStateElectorate+"\n"
-                    "Federal electorate: " + App.ReadingContext.ThisParticipant.CommonwealthElectorate + "\n" +
-                    "State lower house electorate: " + App.ReadingContext.ThisParticipant.StateLowerHouseElectorate + "\n" +
-                    "Do you want to save your address on this device? Right To Ask will not learn your address.",
-                    "OK - Save address on this device", "No thanks");
-                if (saveThisAddress)
+                Result<bool> addressValidation = _address.SeemsValid();
+                if (!String.IsNullOrEmpty(addressValidation.Err))
                 {
-                    SaveAddress();
+                    var popup = new OneButtonPopup(addressValidation.Err, AppResources.OKText);
+                    _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                    return;
                 }
-                ShowSkipButton = false;
+
+                httpResponse = await GeoscapeClient.GetFirstAddressData(_address + " " + state);
+
+                if (httpResponse != null)
+                {
+                    if (httpResponse.Err != null)
+                    {
+                        ReportLabelText = httpResponse.Err;
+                        // maybe display a popup if Electorates were not found
+                        var popup = new OneButtonPopup(AppResources.ElectoratesNotFoundErrorText, AppResources.OKText);
+                        _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                        return;
+                    }
+
+                    // Now we know everything is good.
+                    var bestAddress = httpResponse.Ok;
+                    // needs a federal electorate to be valid
+                    if (!string.IsNullOrEmpty(bestAddress?.Properties?.CommonwealthElectorate?.ToString()))
+                    {
+                        AddElectorates(bestAddress);
+                        ShowFindMPsButton = true;
+                        ReportLabelText = "";
+
+                        //bool saveThisAddress = await App.Current.MainPage.DisplayAlert("Electorates found!",
+                        //    // "State Assembly Electorate: "+thisParticipant.SelectedLAStateElectorate+"\n"
+                        //    // +"State Legislative Council Electorate: "+thisParticipant.SelectedLCStateElectorate+"\n"
+                        //    "Federal electorate: " + App.ReadingContext.ThisParticipant.CommonwealthElectorate + "\n" +
+                        //    "State lower house electorate: " + App.ReadingContext.ThisParticipant.StateLowerHouseElectorate + "\n" +
+                        //    "Do you want to save your address on this device? Right To Ask will not learn your address.",
+                        //    "OK - Save address on this device", "No thanks");
+                        string electoratePopupTitle = "Electorates Found!";
+                        string electoratePopupText = "Federal electorate: " + App.ReadingContext.ThisParticipant.CommonwealthElectorate +
+                            "\n" + "State lower house electorate: " + App.ReadingContext.ThisParticipant.StateLowerHouseElectorate;
+                        var electoratesFoundPopup = new OneButtonPopup(electoratePopupTitle, electoratePopupText, AppResources.OKText);
+                        _ = await App.Current.MainPage.Navigation.ShowPopupAsync(electoratesFoundPopup);
+
+                        // just save the address all the time now if it returned a valid electorate
+                        SaveAddress();
+                    }
+                    else
+                    {
+                        var electoratesNotFoundPopup = new OneButtonPopup("Electorates not Found", "Please reformat the address and try again.", AppResources.OKText);
+                        _ = await App.Current.MainPage.Navigation.ShowPopupAsync(electoratesNotFoundPopup);
+                    }
+                    ShowSkipButton = false;
+                    // display the map if we stored the Federal Electorate properly
+                    if (!string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.CommonwealthElectorate))
+                    {
+                        ShowMapFrame = true;
+                        ShowKnowElectoratesFrame = false;
+                        ShowAddressStack = false;
+                        string electorateString = ParliamentData.ConvertGeoscapeElectorateToStandard(state, App.ReadingContext.ThisParticipant.CommonwealthElectorate);
+                        ShowMapOfElectorate(electorateString);
+                    }
+                }
             }
+        }
+
+        private void ShowMapOfElectorate(string electorateString)
+        {
+            string electorateURL = string.Format(Constants.MapBaseURL, electorateString);
+            MapURL = electorateURL;
         }
 
         private void AddElectorates(GeoscapeAddressFeature addressData)
@@ -333,6 +482,13 @@ namespace RightToAskClient.ViewModels
             if (!String.IsNullOrEmpty(AllFederalElectorates[SelectedFederalElectorate]))
             {
                 App.ReadingContext.ThisParticipant.AddHouseOfRepsElectorate(AllFederalElectorates[SelectedFederalElectorate]);
+                // actually show the map in real time
+                if (!string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.CommonwealthElectorate))
+                {
+                    ShowMapFrame = true;
+                    //string electorateString = ConvertElectorateToURLForm(App.ReadingContext.ThisParticipant.CommonwealthElectorate);
+                    ShowMapOfElectorate(App.ReadingContext.ThisParticipant.CommonwealthElectorate);
+                }
                 RevealNextStepIfElectoratesKnown();
             }
         }
@@ -362,13 +518,124 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        void OnStatePickerSelectedIndexChanged()
+        private void OnStatePickerSelectedIndexChanged()
         {
             if (SelectedState != -1)
             {
                 App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsIndex = SelectedState;
                 App.ReadingContext.ThisParticipant.AddSenatorsFromState(App.ReadingContext.ThisParticipant.RegistrationInfo.State);
                 UpdateElectoratePickerSources(App.ReadingContext.ThisParticipant.RegistrationInfo.State);
+                ShowStateOnly = SelectedState == -1;
+            }
+        }
+
+        private void CheckPostcode()
+        {
+            switch (SelectedState)
+            {
+                // ACT
+                case 0:
+                    int postcode = 0; 
+                    int.TryParse(Address.Postcode, out postcode);
+                    if((postcode >= 2600 && postcode <= 2618) 
+                        || (postcode >= 2900 && postcode <= 2920))
+                    {
+                        PostcodeIsValid = true;
+                    }
+                    else
+                    {
+                        PostcodeIsValid = false;
+                    }
+                    break;
+                // NSW
+                case 1:
+                    int.TryParse(Address.Postcode, out postcode);
+                    if ((postcode >= 2000 && postcode <= 2599)
+                        || (postcode >= 2619 && postcode <= 2898)
+                        || (postcode >= 2921 && postcode <= 2999))
+                    {
+                        PostcodeIsValid = true;
+                    }
+                    else
+                    {
+                        PostcodeIsValid = false;
+                    }
+                    break;
+                // NT
+                case 2:
+                    int.TryParse(Address.Postcode, out postcode);
+                    if (postcode >= 0800 && postcode <= 0899)
+                    {
+                        PostcodeIsValid = true;
+                    }
+                    else
+                    {
+                        PostcodeIsValid = false;
+                    }
+                    break;
+                // QLD
+                case 3:
+                    int.TryParse(Address.Postcode, out postcode);
+                    if (postcode >= 4000 && postcode <= 4999)
+                    {
+                        PostcodeIsValid = true;
+                    }
+                    else
+                    {
+                        PostcodeIsValid = false;
+                    }
+                    break;
+                // SA
+                case 4:
+                    int.TryParse(Address.Postcode, out postcode);
+                    if (postcode >= 5000 && postcode <= 5799)
+                    {
+                        PostcodeIsValid = true;
+                    }
+                    else
+                    {
+                        PostcodeIsValid = false;
+                    }
+                    break;
+                // TAS
+                case 5:
+                    int.TryParse(Address.Postcode, out postcode);
+                    if (postcode >= 7000 && postcode <= 7799)
+                    {
+                        PostcodeIsValid = true;
+                    }
+                    else
+                    {
+                        PostcodeIsValid = false;
+                    }
+                    break;
+                // VIC
+                case 6:
+                    int.TryParse(Address.Postcode, out postcode);
+                    if (postcode >= 3000 && postcode <= 3999)
+                    {
+                        PostcodeIsValid = true;
+                    }
+                    else
+                    {
+                        PostcodeIsValid = false;
+                    }
+                    break;
+                // WA
+                case 7:
+                    int.TryParse(Address.Postcode, out postcode);
+                    if (postcode >= 6000 && postcode <= 6797)
+                    {
+                        PostcodeIsValid = true;
+                    }
+                    else
+                    {
+                        PostcodeIsValid = false;
+                    }
+                    break;
+                default:
+                    PostcodeIsValid = false;
+                    break;
             }
         }
         #endregion

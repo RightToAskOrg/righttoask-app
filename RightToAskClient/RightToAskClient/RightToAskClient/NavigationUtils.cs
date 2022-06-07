@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using RightToAskClient.Models;
+using RightToAskClient.ViewModels;
 using RightToAskClient.Views;
 using Xamarin.Forms;
 
@@ -12,14 +13,13 @@ namespace RightToAskClient
 {
     public static class NavigationUtils
     {
-
         public static async Task PushMyAnsweringMPsExploringPage()
         {
             string message = "These are your MPs.  Select the one(s) who should answer the question";
-            // var mpsExploringPage = new ExploringPage(App.ReadingContext.ThisParticipant.GroupedMPs,
-            //     App.ReadingContext.Filters.SelectedAnsweringMPsMine, message);
-            // var nextPage = ListMPsFindFirstIfNotAlreadyKnown(mpsExploringPage);
 
+            //TODO** Seems unnecessary if our MPs are not initialized. 
+            // Below, don't make the pages that are never used. The code is (somewhat redundant but)
+            // correct but names are confusing.
             var mpsSelectableListPage = new SelectableListPage(App.ReadingContext.Filters.AnsweringMPsListsMine, message, true);
             var nextPage = ListMPsFindFirstIfNotAlreadyKnown(mpsSelectableListPage);
             await Application.Current.MainPage.Navigation.PushAsync(nextPage);
@@ -29,19 +29,17 @@ namespace RightToAskClient
         {
             string message = "These are your MPs.  Select the one(s) who should raise the question in Parliament";
 
-            // var mpsExploringPage = new ExploringPage(App.ReadingContext.ThisParticipant.GroupedMPs,
-            //     App.ReadingContext.Filters.SelectedAskingMPsMine, message);
-            // await LaunchMPFindingAndSelectingPages(mpsExploringPage);
             var mpsSelectableListPage = new SelectableListPage(App.ReadingContext.Filters.AskingMPsListsMine, message, true);
             await LaunchMPFindingAndSelectingPages(mpsSelectableListPage);
         }
 
+        //
         private static async Task LaunchMPFindingAndSelectingPages(SelectableListPage mpsListPage)
         {
             var nextPage = ListMPsFindFirstIfNotAlreadyKnown(mpsListPage);
             await Application.Current.MainPage.Navigation.PushAsync(nextPage);
-            //await Shell.Current.GoToAsync($"{nameof(ExploringPage)}");
         }
+        
         /*
 		 * Either push the list of selectable MPs directly, or push a registration page,
 		 * instructed to push the MPs selection page after.
@@ -66,10 +64,7 @@ namespace RightToAskClient
             string message = "Here is the complete list of MPs - select which one(s) should answer";
             SelectableListPage mpsPage =
                 new SelectableListPage(App.ReadingContext.Filters.AnsweringMPsListsNotMine, message, false);
-            // ExploringPageWithSearch mpsPage
-            //     = new ExploringPageWithSearch(ParliamentData.AllMPs, App.ReadingContext.Filters.SelectedAnsweringMPs, message);
             await Application.Current.MainPage.Navigation.PushAsync(mpsPage);
-            //await Shell.Current.GoToAsync($"{nameof(ExploringPageWithSearch)}");
         }
 
         public static async Task PushAskingMPsNotMineSelectableListPageAsync()
@@ -78,10 +73,7 @@ namespace RightToAskClient
                 "Here is the complete list of MPs - select which one(s) should raise your question in Parliament";
             SelectableListPage mpsPage =
                 new SelectableListPage(App.ReadingContext.Filters.AskingMPsListsNotMine, message, false);
-            // ExploringPageWithSearch mpsPage
-            //    = new ExploringPageWithSearch(ParliamentData.AllMPs, App.ReadingContext.Filters.SelectedAskingMPs, message);
             await Application.Current.MainPage.Navigation.PushAsync(mpsPage);
-            //await Shell.Current.GoToAsync($"{nameof(ExploringPageWithSearch)}");
         }
     }
 }
