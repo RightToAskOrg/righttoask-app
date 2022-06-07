@@ -31,26 +31,6 @@ namespace RightToAskClient.ViewModels
         // with _registration.
         private ServerUser _registrationUpdates = new ServerUser();
 
-        // If registered as representing an MP.
-        // 
-        private string _MPrepresentingName = "";
-        public string MPRepresentingName
-        {
-            get => _MPrepresentingName;
-            private set => SetProperty(ref _MPrepresentingName, value);
-        }
-
-        private SelectableList<MP> _selectableMPList = new SelectableList<MP>(new List<MP>(), new List<MP>());
-        
-        // If the person has stated that they are an MP or staffer, return that one (there should be only one).
-        // Otherwise, a new/blank one.
-        public MP MPRepresenting
-        {
-            get => _selectableMPList.SelectedEntities.Any() ? _selectableMPList.SelectedEntities.First() : new MP();
-        }
-        private List<MP> _selectedMPsForRegistration = new List<MP>();
-        // This is initialized properly in the constructor, if we're looking at our own account.
-
         public void ReinitRegistrationUpdates()
         {
             _registrationUpdates = new ServerUser() { uid = _registration.uid };
@@ -126,14 +106,18 @@ namespace RightToAskClient.ViewModels
             get => _registration;
             set => SetProperty(ref _registration, value);
         }
-
-        private string _mpRegistrationPIN = "";
-
-        public string MPRegistrationPIN
+        
+        // This is for selecting MPs if you're registering as an MP or staffer account
+        private SelectableList<MP> _selectableMPList = new SelectableList<MP>(new List<MP>(), new List<MP>());
+        public string MPRepresentingName => "Placeholder MP name";
+        
+        private bool _showRegisterMPReportLabel = false;
+        public bool ShowRegisterMPReportLabel
         {
-            get => _mpRegistrationPIN;
-            set => SetProperty(ref _mpRegistrationPIN, value);
-        }
+            get => _showRegisterMPReportLabel;
+            set => SetProperty(ref _showRegisterMPReportLabel, value);
+        } 
+        
         private bool _showRegisterCitizenButton = false;
         public bool ShowRegisterCitizenButton
         {
@@ -171,35 +155,6 @@ namespace RightToAskClient.ViewModels
 
         public string RegisterMPButtonText { get; set; }
         
-        private string _registerMPReportLabelText = "";
-        public string RegisterMPReportLabelText
-        {
-            get
-            {
-                var selected = _selectableMPList.SelectedEntities;
-                if (selected.Count() > 1)
-                {
-                    _registerMPReportLabelText = "You must select exactly one MP. Please try again.";
-                } else if (selected.Count() == 0)
-                {
-                    _registerMPReportLabelText = "";
-                }
-                else
-                {
-                    _registerMPReportLabelText = "You selected" + selected.First().ShortestName;
-                }
-                return _registerMPReportLabelText;
-            }
-            // private set => SetProperty(ref _registerMPReportLabelText, value);
-        }
-
-        private bool _showRegisterMPReportLabel = false;
-        public bool ShowRegisterMPReportLabel
-        {
-            get => _showRegisterMPReportLabel;
-            set => SetProperty(ref _showRegisterMPReportLabel, value);
-        }
-
         private bool _showDoneButton = false;
         public bool ShowDoneButton
         {
@@ -321,6 +276,11 @@ namespace RightToAskClient.ViewModels
             }
 
             // commands
+            ChooseMPToRegisterButtonCommand = new AsyncCommand(async () =>
+            {
+                SelectMPForRegistration();
+                // StoreMPRegistration();
+            }); 
             SaveButtonCommand = new Command(() =>
             {
                 OnSaveButtonClicked();
@@ -335,27 +295,6 @@ namespace RightToAskClient.ViewModels
                 NavigateToFindMPsPage();
                 // Update the electorate-updates that will be sent to the server, based on what was updated by the MP-finding page.
                 _registrationUpdates.electorates = _registration.electorates;
-            });
-            RegisterMPButtonCommand = new AsyncCommand(async () =>
-            {
-                SelectMPForRegistration();
-                StoreMPRegistration();
-            });
-            SendMPVerificationEmailCommand = new Command(() =>
-            {
-                SendMPRegistrationToServer();
-            });
-            SubmitMPRegistrationPINCommand = new Command(() =>
-            {
-                var success = SendMPRegistrationPINToServer();
-                if (success)
-                {
-                    SaveMPRegistrationToPreferences();
-                }
-            });
-            RegisterOrgButtonCommand = new Command(() =>
-            {
-                RegisterOrgButtonText = "Registering not implemented yet";
             });
             FollowButtonCommand = new Command(() =>
             {
@@ -387,9 +326,7 @@ namespace RightToAskClient.ViewModels
         // commands
         public Command SaveButtonCommand { get; }
         public Command UpdateAccountButtonCommand { get; }
-        public AsyncCommand RegisterMPButtonCommand { get; }
-        public Command SendMPVerificationEmailCommand { get; }
-        public Command SubmitMPRegistrationPINCommand { get; }
+        public AsyncCommand ChooseMPToRegisterButtonCommand { get; }
         public Command UpdateMPsButtonCommand { get; }
         public Command RegisterOrgButtonCommand { get; }
         public Command FollowButtonCommand { get; }
@@ -534,31 +471,6 @@ namespace RightToAskClient.ViewModels
             App.ReadingContext.ThisParticipant.IsRegistered); // save the registration to preferences
         }
 
-        private void SendMPRegistrationToServer()
-        {
-            Console.WriteLine("The MP registration to send to the server is "+MPRepresentingName);
-        }
-
-        // TODO - save to preferences.
-        private void SaveMPRegistrationToPreferences()
-        {
-            Console.WriteLine("The MP registration to save to preferences is "+MPRepresentingName);
-        }
-
-        private void StoreMPRegistration()
-        {
-            List<MP> selections = _selectableMPList.SelectedEntities as List<MP>;
-            int numSelections = selections.Any() ? selections.Count() : 0;
-            string msg = numSelections switch
-            {
-                0 => "Oops, no selections",
-                1 => selections[0].ShortestName,
-                _ => "You can only register as one MP at a time",
-            };
-                
-            Console.WriteLine("The MP registration to save to preferences is "+msg);
-            MPRepresentingName = msg; 
-        }
 
 
         // TODO Add email validation as from
@@ -573,11 +485,7 @@ namespace RightToAskClient.ViewModels
             ShowRegisterMPReportLabel = true;
         }
 
-        private bool SendMPRegistrationPINToServer()
-        {
-            Console.WriteLine("The PIN to send to the server is "+MPRegistrationPIN);
-            return true;
-        }
+
         private async void PromptUser(string message)
         {
             await App.Current.MainPage.DisplayAlert("Registration incomplete", message, "OK");

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,19 +11,13 @@ using Xamarin.Forms.Xaml;
 namespace RightToAskClient.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AccountPage : ContentPage
+    public partial class MPRegistrationVerificationPage : ContentPage
     {
-        public AccountPage()
+        public MPRegistrationVerificationPage()
         {
             InitializeComponent();
             
-            var reg = BindingContext as RegistrationViewModel;
-            reg?.ReinitRegistrationUpdates();
-        }
-
-        protected override bool OnBackButtonPressed()
-        {
-            return true;
+            DomainPicker.ItemsSource = ParliamentData.Domains;
         }
     }
 }

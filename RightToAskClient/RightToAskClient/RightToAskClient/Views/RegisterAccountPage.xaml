@@ -30,11 +30,12 @@
                 </StackLayout>
             </StackLayout>
             <StackLayout Orientation="Horizontal" VerticalOptions="Center">
-                <Button Text="{Binding RegisterMPButtonText}" Command="{Binding RegisterMPButtonCommand}" IsVisible="{Binding ShowRegisterMPButton}" Style="{StaticResource DoneButton}" HorizontalOptions="Center"/>
+	            <!-- removing option to register MPs or orgs, except as a second step as part of the account settings.
+	            <Button Text="{Binding RegisterMPButtonText}" Command="{Binding ChooseMPToRegisterButtonCommand}" IsVisible="{Binding ShowRegisterMPButton}" Style="{StaticResource DoneButton}" HorizontalOptions="Center"/>
                 <Button Text="{Binding RegisterOrgButtonText}" Command="{Binding RegisterOrgButtonCommand}" IsVisible="{Binding ShowRegisterOrgButton}" Style="{StaticResource DoneButton}" HorizontalOptions="Center"/>
+                -->
                 <Button Text="{xct:Translate CancelButtonText}" Command="{Binding CancelButtonCommand}" IsVisible="{Binding ShowDoneButton}"/>
 			</StackLayout>
-            <Label Text="{Binding RegisterMPReportLabelText}" IsVisible="{Binding ShowRegisterMPReportLabel}" />
             <Button Text="{Binding FollowButtonText}" Style="{StaticResource GreenButton}" Command="{Binding FollowButtonCommand}" IsVisible="{Binding ShowFollowButton}" HorizontalOptions="Center"/>
             <Button Text="{Binding SeeQuestionsButtonText}" Style="{StaticResource GreenButton}"  IsVisible="{Binding ShowSeeQuestionsButton}" Command="{Binding SeeQuestionsButtonCommand}" HorizontalOptions="Center"/>
             <Button Text="{Binding DMButtonText}" Style="{StaticResource GreenButton}" IsVisible="{Binding ShowDMButton}" Command="{Binding DMButtonCommand}" HorizontalOptions="Center"/>
