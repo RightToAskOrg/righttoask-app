@@ -13,7 +13,7 @@ namespace RightToAskClient.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MPRegistrationVerificationPage : ContentPage
     {
-        public MPRegistrationVerificationPage()
+        public MPRegistrationVerificationPage(SelectableList<MP> selectableMpList)
         {
             InitializeComponent();
             

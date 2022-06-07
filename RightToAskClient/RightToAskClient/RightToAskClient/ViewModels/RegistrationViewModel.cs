@@ -477,10 +477,15 @@ namespace RightToAskClient.ViewModels
         // https://docs.microsoft.com/en-us/dotnet/standard/base-types/how-to-verify-that-strings-are-in-valid-email-format
         private async void SelectMPForRegistration()
         {
-            var PageToSearchMPs
+            var pageToSearchMPs
                     = new SelectableListPage(_selectableMPList, "Select the MP you represent", false);
-            
-            await Shell.Current.Navigation.PushAsync(PageToSearchMPs);
+
+            // FIXME this isn't the right way to do this - I want a two-page flow in which the user is first sent
+            // to pageToSearchMPs, and then on to pageToRegisterSelectedMP. Just need to think about how to pass on
+            // the info about which MP was selected.
+            var pageToRegisterSelectedMP = new MPRegistrationVerificationPage(_selectableMPList);
+            await Shell.Current.Navigation.PushAsync(pageToRegisterSelectedMP);
+            await Shell.Current.Navigation.PushAsync(pageToSearchMPs);
             
             ShowRegisterMPReportLabel = true;
         }
