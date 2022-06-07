@@ -204,45 +204,46 @@ namespace RightToAskClient.Models
 		 */
 		public static List<Chamber> FindChambers(string state)
 		{
-			var chambersForTheState = new List<Chamber>()
-			{
-				Chamber.Australian_House_Of_Representatives,
-				Chamber.Australian_Senate
-			};
+			var chambersForTheState = new List<Chamber>();
 
-			switch (state.ToUpper())
+			if (StatesAndTerritories.Contains(state))
 			{
-				case (State.ACT):
-					chambersForTheState.Add(Chamber.ACT_Legislative_Assembly);
-					break;
-				case (State.NSW):
-					chambersForTheState.Add(Chamber.NSW_Legislative_Assembly);
-					chambersForTheState.Add(Chamber.NSW_Legislative_Council);
-					break;
-				case (State.NT):
-					chambersForTheState.Add(Chamber.NT_Legislative_Assembly);
-					break;
-				case (State.QLD):
-					chambersForTheState.Add(Chamber.Qld_Legislative_Assembly);
-					break;
-				case (State.SA):
-					chambersForTheState.Add(Chamber.SA_House_Of_Assembly);
-					chambersForTheState.Add(Chamber.SA_Legislative_Council);
-					break;
-				case (State.VIC):
-					chambersForTheState.Add(Chamber.Vic_Legislative_Assembly);
-					chambersForTheState.Add(Chamber.Vic_Legislative_Council);
-					break;
-				case (State.TAS):
-					chambersForTheState.Add(Chamber.Tas_House_Of_Assembly);
-					chambersForTheState.Add(Chamber.Tas_Legislative_Council);
-					break;
-				case (State.WA):
-					chambersForTheState.Add(Chamber.WA_Legislative_Assembly);
-					chambersForTheState.Add(Chamber.WA_Legislative_Council);
-					break;
+				chambersForTheState.Add(Chamber.Australian_House_Of_Representatives);
+				chambersForTheState.Add(Chamber.Australian_Senate);
+
+				switch (state.ToUpper())
+				{
+					case (State.ACT):
+						chambersForTheState.Add(Chamber.ACT_Legislative_Assembly);
+						break;
+					case (State.NSW):
+						chambersForTheState.Add(Chamber.NSW_Legislative_Assembly);
+						chambersForTheState.Add(Chamber.NSW_Legislative_Council);
+						break;
+					case (State.NT):
+						chambersForTheState.Add(Chamber.NT_Legislative_Assembly);
+						break;
+					case (State.QLD):
+						chambersForTheState.Add(Chamber.Qld_Legislative_Assembly);
+						break;
+					case (State.SA):
+						chambersForTheState.Add(Chamber.SA_House_Of_Assembly);
+						chambersForTheState.Add(Chamber.SA_Legislative_Council);
+						break;
+					case (State.VIC):
+						chambersForTheState.Add(Chamber.Vic_Legislative_Assembly);
+						chambersForTheState.Add(Chamber.Vic_Legislative_Council);
+						break;
+					case (State.TAS):
+						chambersForTheState.Add(Chamber.Tas_House_Of_Assembly);
+						chambersForTheState.Add(Chamber.Tas_Legislative_Council);
+						break;
+					case (State.WA):
+						chambersForTheState.Add(Chamber.WA_Legislative_Assembly);
+						chambersForTheState.Add(Chamber.WA_Legislative_Council);
+						break;
+				}
 			}
-
 			return chambersForTheState;
 		}
 

@@ -158,5 +158,37 @@ namespace RightToAskClient.Models
 				UpdateElectorate(new ElectorateWithChamber(ParliamentData.Chamber.Australian_Senate, state));
 	        }
         }
+
+		public new bool Validate()
+        {
+			bool isValid = false;
+			// if they are registered, they need valid registration info
+            if (IsRegistered)
+            {
+				bool validSuper = base.Validate();
+                if (validSuper)
+                {
+					isValid = true;
+				}
+                else
+                {
+					isValid = false;
+                }
+            }
+			// if they are not registered, they could still have MPs known if they are in the process of creating their first question
+			// before  they have the chance to create an account
+            else if (!IsRegistered && MPsKnown)
+            {
+				if (RegistrationInfo.SelectedStateAsIndex != -1)
+                {
+					isValid = true;
+				}
+                else
+                {
+					isValid = false;
+                }
+            }
+			return isValid;
+        }
     }
 } 

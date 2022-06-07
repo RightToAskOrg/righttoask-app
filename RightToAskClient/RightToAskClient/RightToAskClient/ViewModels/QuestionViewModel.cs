@@ -33,7 +33,12 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _question, value);
         }
 
-        public QuestionSendToServer _serverQuestionUpdates = new QuestionSendToServer();
+        private QuestionSendToServer _serverQuestionUpdates = new QuestionSendToServer();
+        public QuestionSendToServer ServerQuestionUpdates
+        {
+            get => _serverQuestionUpdates;
+            set => SetProperty(ref _serverQuestionUpdates, value);
+        }
 
         private bool _isNewQuestion;
         public bool IsNewQuestion
@@ -387,7 +392,7 @@ namespace RightToAskClient.ViewModels
 
         public void ReinitQuestionUpdates()
         {
-            _serverQuestionUpdates = new QuestionSendToServer();
+            ServerQuestionUpdates = new QuestionSendToServer();
             Question.ReinitQuestionUpdates();
         }
 
@@ -406,9 +411,9 @@ namespace RightToAskClient.ViewModels
         // Executing. That shouldn't be a problem, though, because it is invisible and therefore unclickable.
         private async void OnMyMPRaiseButtonClicked()
         {
-            RaisedByOptionSelected = true;
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
+                RaisedByOptionSelected = true;
                 await NavigationUtils.PushMyAskingMPsExploringPage().ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, "GoToReadingPage"); // Sends this view model
@@ -446,7 +451,6 @@ namespace RightToAskClient.ViewModels
 
         private async void OnOtherMPRaiseButtonClicked()
         {
-            RaisedByOptionSelected = true;
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
                 await NavigationUtils.PushAskingMPsNotMineSelectableListPageAsync().ContinueWith((_) =>
@@ -482,8 +486,11 @@ namespace RightToAskClient.ViewModels
             {
                 // This isn't necessary unless the person has just registered, but is necessary if they have.
                 QuestionViewModel.Instance.Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.uid;
-                
-                SendNewQuestionToServer();
+                bool validQuestion = Question.ValidateNewQuestion();
+                if (validQuestion)
+                {
+                    SendNewQuestionToServer();
+                }                
             }
         }
         
@@ -494,7 +501,11 @@ namespace RightToAskClient.ViewModels
 
             if (App.ReadingContext.ThisParticipant.IsRegistered)
             {
-                sendQuestionEditToServer();
+                bool validQuestion = Question.ValidateUpdateQuestion();
+                if (validQuestion) 
+                {
+                    sendQuestionEditToServer();
+                }                
             }
 
         }
