@@ -6,6 +6,9 @@ using System.Security.Cryptography.X509Certificates;
 using RightToAskClient.CryptoUtils;
 using RightToAskClient.Models.ServerCommsData;
 
+using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Essentials;
+using Xamarin.Forms;
 // This class represents a person who uses the
 // system and is not an MP or org representative.
 namespace RightToAskClient.Models
@@ -24,8 +27,22 @@ namespace RightToAskClient.Models
 			initializeCryptographicKeys();
 			// _signatureService = await ClientSignatureGenerationService.CreateClientSignatureGenerationService();
 		}
+
 		public bool IsRegistered { get; set; }
 		public bool MPsKnown { get; set; }
+		public bool IsVerifiedMPAccount { get; set; }
+		public bool IsVerifiedMPStafferAccount { get; set; }
+
+		private MP _MPRegisteredAs = new MP();
+		public MP MPRegisteredAs { 
+			get => _MPRegisteredAs;
+			set
+			{
+				_MPRegisteredAs = value;
+				OnPropertyChanged();
+				OnPropertyChanged("RegisteredMP");
+			}
+		}
 
 		// needs to be accessible on a few pages and VMs so I put it here
 		public List<string> UpvotedQuestionIDs { get; set; } = new List<string>();

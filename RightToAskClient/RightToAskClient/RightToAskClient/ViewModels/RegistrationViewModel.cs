@@ -109,7 +109,9 @@ namespace RightToAskClient.ViewModels
         
         // This is for selecting MPs if you're registering as an MP or staffer account
         private SelectableList<MP> _selectableMPList = new SelectableList<MP>(new List<MP>(), new List<MP>());
-        public string MPRepresentingName => "Placeholder MP name";
+        public MP RegisteredMP { get; }
+        public bool ShowStafferLabel { get; set; }
+        public bool ShowExistingMPRegistrationLabel { get; set; } = false;
         
         private bool _showRegisterMPReportLabel = false;
         public bool ShowRegisterMPReportLabel
@@ -244,13 +246,17 @@ namespace RightToAskClient.ViewModels
         {
             // initialize defaults
             ReportLabelText = "";
-            ShowUpdateAccountButton = App.ReadingContext.ThisParticipant.IsRegistered;
-            ShowRegisterMPButton = App.ReadingContext.ThisParticipant.IsRegistered;
+            var me = App.ReadingContext.ThisParticipant;
+            ShowUpdateAccountButton = me.IsRegistered;
+            ShowRegisterMPButton = me.IsRegistered;
+            ShowExistingMPRegistrationLabel = me.IsVerifiedMPAccount || me.IsVerifiedMPStafferAccount;
+            ShowStafferLabel = me.IsVerifiedMPStafferAccount;
+            RegisteredMP = me.MPRegisteredAs;
             
             ShowTheRightButtonsAsync(_registration.display_name);
             RegisterMPButtonText = AppResources.RegisterMPAccountButtonText;
             RegisterOrgButtonText = AppResources.RegisterOrganisationAccountButtonText;
-            CanEditUID = !App.ReadingContext.ThisParticipant.IsRegistered;
+            CanEditUID = !me.IsRegistered;
 
             // uid should still be sent in the 'update' even though it doesn't change.
             _registrationUpdates.uid = _registration.uid;

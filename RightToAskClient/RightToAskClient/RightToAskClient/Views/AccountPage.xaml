@@ -35,8 +35,8 @@
             <Label Text="{xct:Translate MPRegistrationOptionText}" VerticalOptions="Center" />
             <Button Text="{Binding RegisterMPButtonText}" Command="{Binding ChooseMPToRegisterButtonCommand}" IsVisible="{Binding ShowRegisterMPButton}" Style="{StaticResource DoneButton}" HorizontalOptions="Center"/>
             </StackLayout>
-            <!-- <Label Text="{Binding RegisterMPReportLabelText}" IsVisible="{Binding ShowRegisterMPReportLabel}" /> -->
-            <Label Text="{Binding MPRepresentingName}" IsVisible="{Binding ShowRegisterMPReportLabel}" />
+            <Label Text="{Binding RegisteredMP.ShortestName, StringFormat='Registered MP account for {0}'}" IsVisible="{Binding ShowExistingMPRegistrationLabel}" />
+            <Label Text="Verified staffer" IsVisible="{Binding ShowStafferLabel}" />
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>
