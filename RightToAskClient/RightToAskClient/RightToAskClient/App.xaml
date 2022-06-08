@@ -66,6 +66,7 @@
             <Style TargetType="Label">
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, 
                    Dark={StaticResource TextColorDark}}"></Setter>
+                <Setter Property="FontFamily" Value="AppFont"/>
             </Style>
             <Style TargetType="Entry">
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColorGray}, 

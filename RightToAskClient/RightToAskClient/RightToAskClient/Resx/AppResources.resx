@@ -223,7 +223,7 @@
     <value>Support questions you care about</value>
   </data>
   <data name="FocusSupportInstructionQuestionDrafting" xml:space="preserve">
-    <value>Is a similar question here already? If you can, focus support by upvoting an old question, not sending a new one</value>
+    <value>If a similar question is already here, focus your support by up-voting it, not publishing a duplicate.</value>
   </data>
   <data name="FocusSupportReport" xml:space="preserve">
     <value>You saved time and focused support by upvoting a similar question</value>
@@ -325,16 +325,16 @@
     <value>Question Writer:</value>
   </data>
   <data name="ReadingPageHeader1" xml:space="preserve">
-    <value>Upvote good questions, or tap for more detail. Swipe left to dismiss uninteresting ones.</value>
+    <value>Up-vote good questions, or tap for more detail. Swipe left to dismiss uninteresting ones.</value>
   </data>
   <data name="ReadingPageQuestionDraftingHeader1" xml:space="preserve">
-    <value>Upvote good questions, or tap for more detail. Swipe left to discard uninteresting ones.</value>
+    <value>Up-vote good questions, or tap for more detail. Swipe left to discard uninteresting ones.</value>
   </data>
   <data name="ReadQuestionsTitle" xml:space="preserve">
     <value>Read Questions</value>
   </data>
   <data name="RecentQuestionsTitle" xml:space="preserve">
-    <value>Recent Questions</value>
+    <value>Questions</value>
   </data>
   <data name="RegisterMPAccountButtonText" xml:space="preserve">
     <value>Register MP Account</value>
@@ -430,10 +430,10 @@
     <value>+1</value>
   </data>
   <data name="UpvotedButtonText" xml:space="preserve">
-    <value>Undo Upvote</value>
+    <value>Undo Up-vote</value>
   </data>
   <data name="UpvotesHeaderText" xml:space="preserve">
-    <value>Upvotes: </value>
+    <value>Up-votes: </value>
   </data>
   <data name="UserProfileTitle" xml:space="preserve">
     <value>User Profile</value>
@@ -496,7 +496,7 @@
     <value>Image of a piece of paper with writing on it and a pencil pointing at and touching part of that page.</value>
   </data>
   <data name="MainPageSubheader1Text" xml:space="preserve">
-    <value>Read and upvote questions</value>
+    <value>Read and up-vote questions</value>
   </data>
   <data name="MainPageSubheader2Text" xml:space="preserve">
     <value>Write your own questions</value>
@@ -511,10 +511,10 @@
     <value>Trending now frame heading text.</value>
   </data>
   <data name="ReadAndUpvoteFrameSubtext" xml:space="preserve">
-    <value>Read and Upvote</value>
+    <value>Read and Up-vote</value>
   </data>
   <data name="ReadAndUpvoteImageAccessibilityHelpText" xml:space="preserve">
-    <value>The image of glasses is to convey the act of reading questions while the image of the checkbox is to show that you can also upvote questions after reading them if you choose to go to this section of the app.</value>
+    <value>The image of glasses is to convey the act of reading questions while the image of the checkbox is to show that you can also up-vote questions after reading them if you choose to go to this section of the app.</value>
   </data>
   <data name="ReadAndUpvoteImageAccessibilityNameText" xml:space="preserve">
     <value>Image of Glasses on the left and a checkmark in a box to the right.</value>
@@ -565,10 +565,10 @@
     <value>This button is to indicate that you can share this question on social media or with other people through messaging applications on your device by copying the text through this share feature.</value>
   </data>
   <data name="QuestionFrameThumbsUpAccessibilityName" xml:space="preserve">
-    <value>Thumbs Up Icon or Upvote Button.</value>
+    <value>Thumbs Up Icon or Up-vote Button.</value>
   </data>
   <data name="QuestionFrameThumbsUpAccessibilityText" xml:space="preserve">
-    <value>Shows an image of a thumbs up icon that is highlighted green if you have already liked this question, or is not highlighted if you have not upvoted it. There is a tally number of total number of upvotes this question has to the right of this icon.</value>
+    <value>Shows an image of a thumbs up icon that is highlighted green if you have already liked this question, or is not highlighted if you have not up-voted it. There is a tally number of total number of up-votes this question has to the right of this icon.</value>
   </data>
   <data name="QuestionDraftingPagePopupText" xml:space="preserve">
     <value>New Popup Test for Drafting Question</value>
@@ -707,5 +707,17 @@
   </data>
   <data name="InvalidPostcodePopupTitle" xml:space="preserve">
     <value>Invalid Postcode</value>
+  </data>
+  <data name="AnswerDisplayCardButtonText" xml:space="preserve">
+    <value>Answer</value>
+  </data>
+  <data name="ReportDisplayCardButtonText" xml:space="preserve">
+    <value>Flag</value>
+  </data>
+  <data name="ShareDisplayCardButtonText" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="UpvoteDisplayCardButtonText" xml:space="preserve">
+    <value>Up-vote</value>
   </data>
 </root>

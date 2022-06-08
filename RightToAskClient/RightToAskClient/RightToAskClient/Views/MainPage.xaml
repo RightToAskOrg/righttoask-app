@@ -17,7 +17,7 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout VerticalOptions="FillAndExpand" Margin="10">
-            <Label Text="{xct:Translate MainPageHeadingText}" Style="{StaticResource Header1}" HorizontalTextAlignment="Center"/>
+            <Label Text="{xct:Translate MainPageHeadingText}" FontFamily="DanceFont" Style="{StaticResource Header1}" HorizontalTextAlignment="Center"/>
             <BoxView />
             <Grid RowDefinitions="auto,*,*,*" ColumnDefinitions="*,*,*,*,*" VerticalOptions="FillAndExpand">
                 <StackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Margin="0" Padding="0" Spacing="0">

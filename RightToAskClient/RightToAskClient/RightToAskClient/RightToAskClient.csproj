@@ -48,6 +48,10 @@
     <None Remove="Images\CupOfSupplies.png" />
     <None Remove="Images\cup_of_supplies.png" />
     <None Remove="Images\edit_note_48.png" />
+    <None Remove="Images\EmuIcon_75.png" />
+    <None Remove="Images\emu_75.png" />
+    <None Remove="Images\Emu_Icon_Tall.PNG" />
+    <None Remove="Images\emu_tall.PNG" />
     <None Remove="Images\expand.png" />
     <None Remove="Images\expand_48.png" />
     <None Remove="Images\expand_96.png" />
@@ -97,6 +101,8 @@
     <None Remove="Images\WriteDraft.png" />
     <None Remove="Images\write_draft.png" />
     <None Remove="Models\" />
+    <None Remove="Resources\Fonts\DancingScript-VariableFont_wght.ttf" />
+    <None Remove="Resources\Fonts\Roboto-Black.ttf" />
     <None Remove="Resources\PublicServerKey" />
     <None Remove="Views\" />
     <None Remove="sqlite-net-pcl" />
@@ -152,6 +158,8 @@
     <EmbeddedResource Include="Images\contact_support_48.png" />
     <EmbeddedResource Include="Images\cup_of_supplies.png" />
     <EmbeddedResource Include="Images\edit_note_48.png" />
+    <EmbeddedResource Include="Images\emu_75.png" />
+    <EmbeddedResource Include="Images\emu_tall.PNG" />
     <EmbeddedResource Include="Images\expand.png" />
     <EmbeddedResource Include="Images\expand_48.png" />
     <EmbeddedResource Include="Images\expand_96.png" />
@@ -192,6 +200,8 @@
     <EmbeddedResource Include="Images\wireframe_roo_small.png" />
     <EmbeddedResource Include="Images\wireframe_roo_smaller.png" />
     <EmbeddedResource Include="Images\write_draft.png" />
+    <EmbeddedResource Include="Resources\Fonts\DancingScript-VariableFont_wght.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Roboto-Black.ttf" />
     <EmbeddedResource Include="Resources\VicLegislativeAssemblymembers.csv" />
     <None Remove="Resources\VicLegislativeCouncilmembers.csv" />
     <EmbeddedResource Include="Resources\VicLegislativeCouncilmembers.csv" />
