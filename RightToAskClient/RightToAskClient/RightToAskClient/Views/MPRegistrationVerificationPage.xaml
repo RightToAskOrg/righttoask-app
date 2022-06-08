@@ -20,8 +20,6 @@
     <ContentPage.Content>
         <StackLayout Margin="20" VerticalOptions="Start">
             <Label Text="{Binding MPRepresenting.ShortestName, StringFormat='You Have Chosen {0}'}" />
-            <!-- <Label Text="{Binding MPRepresentingName, StringFormat='{xct:Translate YouHaveChosen} {0}'}"/> -->
-            <Label Text="{Binding MPRepresentingName, StringFormat='You Have Chosen {0}'}"/>
             <StackLayout Orientation="Horizontal" HorizontalOptions = "CenterAndExpand">
                 <Label Text="{xct:Translate ThatsMe}"/>
                 <Switch></Switch>

@@ -31,9 +31,12 @@ namespace RightToAskClient.ViewModels
         
         // If the person has stated that they are an MP or staffer, return that one (there should be only one).
         // Otherwise, a new/blank one.
+        private MP _MPRepresenting = new MP();
         public MP MPRepresenting
         {
-            get => _selectableMPList.SelectedEntities.Any() ? _selectableMPList.SelectedEntities.First() : new MP();
+            get => _MPRepresenting;
+            private set => SetProperty(ref _MPRepresenting, value);
+            // get => _selectableMPList.SelectedEntities.Any() ? _selectableMPList.SelectedEntities.First() : new MP();
         }
         private List<MP> _selectedMPsForRegistration = new List<MP>();
         // This is initialized properly in the constructor, if we're looking at our own account.
@@ -52,9 +55,12 @@ namespace RightToAskClient.ViewModels
         public MPRegistrationVerificationViewModel()
         {
             // TODO This page is responsible for storing MP reg somehow:
+            // FIXME. We want to store the selected MP to some local variable before we do anything else.
+            // Indeed, we should probably change the type so it's just an MP rather than a SelectableList.
             // StoreMPRegistration();
-            MessagingCenter.Subscribe<SelectableListViewModel>(this, "ReturnToAccountPage", (sender) =>
+            MessagingCenter.Subscribe<SelectableListViewModel, MP>(this, "ReturnToAccountPage", (sender, arg) =>
             {
+                MPRepresenting = arg;
                 ReturnToAccountPage = true;
                 MessagingCenter.Unsubscribe<RegistrationViewModel>(this, "ReturnToAccountPage");
             });

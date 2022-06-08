@@ -480,9 +480,8 @@ namespace RightToAskClient.ViewModels
             var pageToSearchMPs
                     = new SelectableListPage(_selectableMPList, "Select the MP you represent", false);
 
-            // FIXME this isn't the right way to do this - I want a two-page flow in which the user is first sent
-            // to pageToSearchMPs, and then on to pageToRegisterSelectedMP. Just need to think about how to pass on
-            // the info about which MP was selected.
+            // The user is first sent to pageToSearchMPs, and then on to pageToRegisterSelectedMP.
+            // When done, they're popped all the way back here to the Account Page. 
             await Shell.Current.Navigation.PushAsync(pageToSearchMPs).ContinueWith(async (_) => 
             {
                 MessagingCenter.Send(this, "RegMPAccount", _selectableMPList);
