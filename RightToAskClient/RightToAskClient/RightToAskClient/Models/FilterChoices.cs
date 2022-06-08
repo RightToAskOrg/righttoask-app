@@ -111,15 +111,15 @@ namespace RightToAskClient.Models
 			}
 		}
 
-		public ObservableCollection<string> SelectedAskingCommittee
-		{
-			get => _selectedAskingCommittee;
-			set
-			{
-				_selectedAskingCommittee = value;
-				OnPropertyChanged();
-			}
-		}
+        public ObservableCollection<string> SelectedAskingCommittee
+        {
+            get => _selectedAskingCommittee;
+            set
+            {
+                _selectedAskingCommittee = value;
+                OnPropertyChanged();
+            }
+        }
 
 		public ObservableCollection<Person?> SelectedAskingUsers
 		{
@@ -176,5 +176,90 @@ namespace RightToAskClient.Models
 	        _answeringMPsListMine.AllEntities = myMPs;
 	        _askingMPsListMine.AllEntities = myMPs; 
         }
-	}
+
+        public bool Validate()
+        {
+            bool isValid = false;
+            bool hasInvalidData = false;
+            //if (SelectedAnsweringMPs.Any())
+            //{
+            //    foreach (MP mp in SelectedAnsweringMPs)
+            //    {
+            //        if (!mp.Validate())
+            //        {
+            //            hasInvalidData = true;
+            //        }
+            //    }
+            //}
+            if (SelectedAnsweringMPsMine.Any())
+            {
+                foreach (MP mp in SelectedAnsweringMPsMine)
+                {
+                    if (!mp.Validate())
+                    {
+                        hasInvalidData = true;
+                    }
+                }
+            }
+            //if (SelectedAskingMPs.Any())
+            //{
+            //    foreach (MP mp in SelectedAskingMPs)
+            //    {
+            //        if (!mp.Validate())
+            //        {
+            //            hasInvalidData = true;
+            //        }
+            //    }
+            //}
+            if (SelectedAskingMPsMine.Any())
+            {
+                foreach (MP mp in SelectedAskingMPsMine)
+                {
+                    if (!mp.Validate())
+                    {
+                        hasInvalidData = true;
+                    }
+                }
+            }
+            if (SelectedAuthorities.Any())
+            {
+                foreach (Authority auth in SelectedAuthorities)
+                {
+                    if (!auth.Validate())
+                    {
+                        hasInvalidData = true;
+                    }
+                }
+            }
+            if (SelectedAskingCommittee.Any())
+            {
+                foreach (string com in SelectedAskingCommittee)
+                {
+                    if (string.IsNullOrEmpty(com))
+                    {
+                        hasInvalidData = true;
+                    }
+                }
+            }
+            if (SelectedAskingUsers != null)
+            {
+                if (SelectedAskingUsers.Any())
+                {
+                    for (int i = 0; i < SelectedAskingUsers.Count-1; i++)
+                    {
+                        if (SelectedAskingUsers[i] != null)
+                        {
+                            bool temp = SelectedAskingUsers[i].Validate();
+                            if (SelectedAskingUsers[i].Validate())
+                            {
+                                hasInvalidData = true;
+                            }
+                        }
+                    }
+                }
+            }
+            isValid = !hasInvalidData;
+            return isValid;
+        }
+    }
 }

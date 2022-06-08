@@ -15,12 +15,6 @@ Check that the server is running by visiting
 [http://localhost:8099](
 http://localhost:8099) via your web browser. You should see a web page headed "Right To Ask API" and some html links.
 
-If you want to run the server remotely, make a json file called server.config in the Resources folder, with the following syntax:
-{"remoteServerUse":"true", 
- "url":"your-server-url-goes-here"}
-
-Set its build type to "embedded resource". If you want to use the local server again, simply set "remote server use" to "false".
-
 We'll need 2 files from the Right To Ask server:
 - MPs.json
 - PublicServerKey
@@ -38,6 +32,7 @@ Next, configure the app's server setup:
 "localServerPublicKey":"local-servers-base64-encoded-public-key-goes-here"}
 ```
 If you want to use a local server, set "remoteServerUse":false.
+It will then ignore the "url" field and default to localhost:8099.
 
 - The Right To Ask server's public key is printed on the command line when you run it. Alternatively, visit your server, (either localhost:8099 or the remote url) and under the "Info" section click on the 3rd link: "Get the server public key, base64 encoded 32 bytes ED25519". 
 - Copy the key with the quotation marks into the server.config file, either remoteServerPublicKey or localServerPublicKey as appropriate. 

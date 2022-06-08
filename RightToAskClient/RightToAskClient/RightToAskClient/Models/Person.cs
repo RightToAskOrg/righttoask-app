@@ -143,6 +143,11 @@ namespace RightToAskClient.Models
             var person = other as Person;
             return (person != null) && RegistrationInfo.uid == person.RegistrationInfo.uid;
         }
+
+		public bool Validate()
+        {
+			return RegistrationInfo.Validate();
+        }
     }
 
 }

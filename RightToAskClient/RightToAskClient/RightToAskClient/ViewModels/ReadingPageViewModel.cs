@@ -266,7 +266,7 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        private async void LoadQuestions()
+        public async void LoadQuestions()
         {
             Result<List<string>> httpResponse = await RTAClient.GetQuestionList();
             Result<bool> resultToValidate = new Result<bool>();

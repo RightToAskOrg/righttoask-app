@@ -12,19 +12,61 @@ namespace RightToAskClient.Models
         public string StreetNumberAndName
         {
             get => _streetNumberAndName;
-            set => SetProperty(ref _streetNumberAndName, value);
+            set
+            {
+                if (!string.IsNullOrEmpty(_streetNumberAndName))
+                {
+                    bool changed = SetProperty(ref _streetNumberAndName, value);
+                    if (changed)
+                    {
+                        App.ReadingContext.ThisParticipant.AddressUpdated = true;
+                    }
+                }
+                else
+                {
+                    _ = SetProperty(ref _streetNumberAndName, value);
+                }
+            }
         }
         private string _cityOrSuburb = "";
         public string CityOrSuburb
         {
             get => _cityOrSuburb;
-            set => SetProperty(ref _cityOrSuburb, value);
+            set
+            {
+                if (!string.IsNullOrEmpty(_cityOrSuburb))
+                {
+                    bool changed = SetProperty(ref _cityOrSuburb, value);
+                    if (changed)
+                    {
+                        App.ReadingContext.ThisParticipant.AddressUpdated = true;
+                    }
+                }
+                else
+                {
+                    _ = SetProperty(ref _cityOrSuburb, value);
+                }
+            }
         }
         private string _postCode = "";
         public string Postcode
         {
             get => _postCode;
-            set => SetProperty(ref _postCode, value);
+            set
+            {
+                if (!string.IsNullOrEmpty(_postCode))
+                {
+                    bool changed = SetProperty(ref _postCode, value);
+                    if (changed)
+                    {
+                        App.ReadingContext.ThisParticipant.AddressUpdated = true;
+                    }
+                }
+                else
+                {
+                    _ = SetProperty(ref _postCode, value);
+                }
+            }
         }
 
         public Result<bool> SeemsValid()

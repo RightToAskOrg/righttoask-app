@@ -66,6 +66,20 @@ namespace RightToAskClient.Models.ServerCommsData
         public List<Uri>? hansard_link { get; set; } 
         
         [JsonPropertyName("is_followup_to")]
-        public string? is_followup_to { get; set; } 
+        public string? is_followup_to { get; set; }
+        
+        public bool Validate()
+        {
+            bool isValid = false;
+            // might need to include timestamp as well
+            if (!string.IsNullOrEmpty(author)
+                && !string.IsNullOrEmpty(question_id)
+                && !string.IsNullOrEmpty(question_text)
+                && !string.IsNullOrEmpty(version))
+            {
+                isValid = true;
+            }
+            return isValid;
+        }
     }
 }

@@ -6,6 +6,7 @@
 	<style name="noPaddingButtonStyle" parent="android:Widget.Material.Button">
 		<item name="android:paddingLeft">0dp</item>
 		<item name="android:paddingRight">0dp</item>
+		<item name="android:textAllCaps">false</item>
 	</style>
 	<style name="MainTheme" parent="MainTheme.Base">
 		<!-- As of Xamarin.Forms 4.6 the theme has moved into the Forms binary -->

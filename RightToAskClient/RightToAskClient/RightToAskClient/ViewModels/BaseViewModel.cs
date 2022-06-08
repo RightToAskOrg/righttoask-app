@@ -29,6 +29,17 @@ namespace RightToAskClient.ViewModels
                 var popup = new InfoPopup(PopupLabelText);
                 _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
             });
+            ApproveCommand = new Command(() =>
+            {
+                ApproveButtonClicked = true;
+                CancelButtonClicked = false;
+                //Dismiss();
+            });
+            CancelCommand = new Command(() =>
+            {
+                ApproveButtonClicked = false;
+                CancelButtonClicked = true;
+            });
         }
 
         private bool _isBusy = false;
@@ -66,5 +77,7 @@ namespace RightToAskClient.ViewModels
         // commands
         public IAsyncCommand HomeButtonCommand { get; }
         public IAsyncCommand InfoPopupCommand { get; }
+        public Command ApproveCommand { get; set; }
+        public Command CancelCommand { get; set; }
     }
 }
