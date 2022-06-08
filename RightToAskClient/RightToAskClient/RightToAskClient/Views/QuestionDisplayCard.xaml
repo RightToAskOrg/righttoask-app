@@ -9,7 +9,8 @@
              x:DataType="models:Question">
   <ContentView.Content>
         <Frame Style="{StaticResource AppThemeFrame}" Padding="5" VerticalOptions="FillAndExpand">
-            <Grid RowDefinitions="auto,auto,auto" ColumnDefinitions="*,*,*,*" Padding="0" Margin="0" BackgroundColor="Transparent" RowSpacing="0" ColumnSpacing="0">
+            <Grid RowDefinitions="auto,auto,auto" ColumnDefinitions="auto,*,*,*" Padding="0" 
+                  HorizontalOptions="FillAndExpand" Margin="0" BackgroundColor="Transparent" RowSpacing="0" ColumnSpacing="0">
                 <Grid ColumnDefinitions="*,auto" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4">
                     <Label Grid.Row="0" Grid.Column="0" Text="{Binding QuestionAnswerers, StringFormat='To: {0}'}" Style="{StaticResource QuestionFrameCardText}" 
                            FontAttributes="Bold"/>
@@ -23,7 +24,7 @@
                 <Button Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="4" Style="{StaticResource TransparentSquareButton}"
                         Command="{Binding QuestionDetailsCommand}" BackgroundColor="Transparent"/>
                 <!--UpVote Button-->
-                <StackLayout Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
+                <StackLayout Grid.Row="2" Grid.Column="0" Orientation="Horizontal" HorizontalOptions="Start">
                     <ImageButton Source="{local:ImageResource RightToAskClient.Images.thumb_up_48.png}" 
                              IsVisible="{Binding AlreadyUpvoted, Converter={StaticResource Key=cnvInvert}}" Padding="5"
                              BackgroundColor="Transparent" Command="{Binding UpvoteCommand}" HorizontalOptions="Start"
@@ -62,7 +63,7 @@
                     <Label Text="{xct:Translate AnswerDisplayCardButtonText}" Style="{StaticResource QuestionButtonText}"/>
                 </StackLayout>
                 <!--Report/Flag Button-->
-                <StackLayout Orientation="Horizontal" Grid.Row="2" Grid.Column="3">
+                <StackLayout Orientation="Horizontal" Grid.Row="2" Grid.Column="3" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent">
                     <ImageButton Source="{local:ImageResource RightToAskClient.Images.flag_48.png}"
                              IsVisible="{Binding AlreadyReported, Converter={StaticResource Key=cnvInvert}}" Command="{Binding ReportCommand}" 
                              xct:IconTintColorEffect.TintColor="Gray"
