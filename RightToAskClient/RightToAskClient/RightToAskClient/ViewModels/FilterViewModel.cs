@@ -10,6 +10,7 @@ using Xamarin.CommunityToolkit.ObjectModel;
 using RightToAskClient.Resx;
 using Xamarin.Forms;
 using System.Threading.Tasks;
+using RightToAskClient.Models.ServerCommsData;
 
 namespace RightToAskClient.ViewModels
 {
@@ -38,48 +39,51 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _otherRightToAskUserText, value);
         }
 
+        // for the metadata page
+        private bool _othersCanAddAnswerers = false;
+        public bool OthersCanAddAnswerers
+        {
+            get => _othersCanAddAnswerers;
+            set
+            {
+                SetProperty(ref _othersCanAddAnswerers, value);
+                QuestionViewModel.Instance.WhoShouldAnswerItPermissions = _othersCanAddAnswerers ? RTAPermissions.Others : RTAPermissions.WriterOnly;
+            }
+        }
+
+        private bool _othersCanAddAskers = false;
+        public bool OthersCanAddAskers
+        {
+            get => _othersCanAddAskers;
+            set
+            {
+                SetProperty(ref _othersCanAddAskers, value);
+                QuestionViewModel.Instance.WhoShouldAskItPermissions = _othersCanAddAskers ? RTAPermissions.Others : RTAPermissions.WriterOnly;
+            }
+        }
+
+        private bool _answerInApp = false;
+        public bool AnswerInApp
+        {
+            get => QuestionViewModel.Instance.AnswerInApp;
+            set
+            {
+                SetProperty(ref _answerInApp, value);
+                QuestionViewModel.Instance.AnswerInApp = _answerInApp;
+            }
+        }
+
         // public List<Authority> PublicAuthoritiesList = new List<Authority>();
         // private string _publicAuthoritiesText = "";
         // VT Note to Matt: See how I've refactored this so that there's no need to update -
         // it isn't really a separate data structure at all, just a formatted way of reading
         // the SelectedAuthorities.
-        public string PublicAuthoritiesText
-        {
-            get => CreateTextGivenListEntities(FilterChoices.SelectedAuthorities.ToList());
-            // private set => SetProperty(ref _publicAuthoritiesText, value);
-        }
+        public string PublicAuthoritiesText => CreateTextGivenListEntities(FilterChoices.SelectedAuthorities.ToList());
+        public string SelectedAnsweringMyMPsText => CreateTextGivenListEntities(FilterChoices.SelectedAnsweringMPsMine.ToList());
+        public string SelectedAskingMyMPsText => CreateTextGivenListEntities(FilterChoices.SelectedAskingMPsMine.ToList());
+        public string SelectedAskingMPsText => CreateTextGivenListEntities(FilterChoices.SelectedAskingMPsNotMine.ToList());
+        public string SelectedAnsweringMPsText => CreateTextGivenListEntities(FilterChoices.SelectedAnsweringMPsNotMine.ToList());
 
-        public List<MP> SelectedAnsweringMyMPsList = new List<MP>();
-        private string _selectedAnsweringMyMPs = "";
-        public string SelectedAnsweringMyMPsText
-        {
-            get => _selectedAnsweringMyMPs;
-            set => SetProperty(ref _selectedAnsweringMyMPs, value);
-        }
-
-        public List<MP> SelectedAskingMyMPsList = new List<MP>();
-        private string _selectedAskingMyMPs = "";
-        public string SelectedAskingMyMPsText
-        {
-            get => _selectedAskingMyMPs;
-            set => SetProperty(ref _selectedAskingMyMPs, value);
-        }
-
-        public List<MP> SelectedAskingMPsList = new List<MP>();
-        private string _selectedAskingMPs = "";
-        public string SelectedAskingMPsText
-        {
-            get => _selectedAskingMPs;
-            set => SetProperty(ref _selectedAskingMPs, value);
-        }
-
-        public List<MP> SelectedAnsweringMPsList = new List<MP>();
-        private string _selectedAnsweringMPs = "";
-        public string SelectedAnsweringMPsText
-        {
-            get => _selectedAnsweringMPs;
-            set => SetProperty(ref _selectedAnsweringMPs, value);
-        }
         public bool CameFromMainPage = false;
 
         private string _keyword = "";
@@ -122,12 +126,6 @@ namespace RightToAskClient.ViewModels
                 ReinitData();
                 //MessagingCenter.Unsubscribe<ExploringPageWithSearch>(this, "UpdateFilters");
             });
-            /*
-            MessagingCenter.Subscribe<ExploringPageWithSearchAndPreSelections>(this, "UpdateFilters", (sender) =>
-            {
-                ReinitData();
-            });
-            */
 
             MessagingCenter.Subscribe<MainPageViewModel>(this, "MainPage", (sender) =>
             {
@@ -201,6 +199,10 @@ namespace RightToAskClient.ViewModels
             {
                 ReinitData();
             });
+            ToDetailsPageCommand = new AsyncCommand(async () =>
+            {
+                await Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
+            });
         }
 
         // commands
@@ -214,6 +216,7 @@ namespace RightToAskClient.ViewModels
         public Command SearchCommand { get; }
         public IAsyncCommand BackCommand { get; }
         public Command ForceUpdateSizeCommand { get; }
+        public IAsyncCommand ToDetailsPageCommand { get; }
 
         // helper methods
         public void ReinitData()
@@ -222,24 +225,28 @@ namespace RightToAskClient.ViewModels
             Keyword = App.ReadingContext.Filters.SearchKeyword;
 
             // get lists of data
-            SelectedAskingMPsList = FilterChoices.SelectedAskingMPsNotMine.ToList();
-            SelectedAnsweringMPsList = FilterChoices.SelectedAnsweringMPsNotMine.ToList();
-            SelectedAskingMyMPsList = FilterChoices.SelectedAskingMPsMine.ToList();
-            SelectedAnsweringMyMPsList = FilterChoices.SelectedAnsweringMPsMine.ToList();
+            //SelectedAskingMPsList = FilterChoices.SelectedAskingMPsNotMine.ToList();
+            //SelectedAnsweringMPsList = FilterChoices.SelectedAnsweringMPsNotMine.ToList();
+            //SelectedAskingMyMPsList = FilterChoices.SelectedAskingMPsMine.ToList();
+            //SelectedAnsweringMyMPsList = FilterChoices.SelectedAnsweringMPsMine.ToList();
             // PublicAuthoritiesList = FilterChoices.SelectedAuthorities.ToList();
             OtherRightToAskUserList = FilterChoices.SelectedAskingUsers.ToList();
             CommitteeList = FilterChoices.SelectedAskingCommittee.ToList();
 
             // create strings from those lists
-            SelectedAskingMPsText = CreateTextGivenListEntities(SelectedAskingMPsList);
-            SelectedAnsweringMPsText = CreateTextGivenListEntities(SelectedAnsweringMPsList);
-            SelectedAskingMyMPsText = CreateTextGivenListEntities(SelectedAskingMyMPsList);
-            SelectedAnsweringMyMPsText = CreateTextGivenListEntities(SelectedAnsweringMyMPsList);
+            //SelectedAskingMPsText = CreateTextGivenListEntities(SelectedAskingMPsList);
+            //SelectedAnsweringMPsText = CreateTextGivenListEntities(SelectedAnsweringMPsList);
+            //SelectedAskingMyMPsText = CreateTextGivenListEntities(SelectedAskingMyMPsList);
+            // SelectedAnsweringMyMPsText = CreateTextGivenListEntities(SelectedAnsweringMyMPsList);
             // PublicAuthoritiesText = CreateTextGivenListEntities(PublicAuthoritiesList);
             // This line is necessary for updating the views.
             // TODO Ideally, we shouldn't have to do this manually,
             // but I don't see a more elegant way at the moment.
             // I tried raising it in SelectableList.cs but that didn't work.
+            OnPropertyChanged("SelectedAskingMPsText");
+            OnPropertyChanged("SelectedAnsweringMPsText");
+            OnPropertyChanged("SelectedAskingMyMPsText");
+            OnPropertyChanged("SelectedAnsweringMyMPsText");
             OnPropertyChanged("PublicAuthoritiesText");
             OtherRightToAskUserText = CreateTextGivenListEntities(OtherRightToAskUserList);
             CommitteeText = CreateTextGivenListCommittees(CommitteeList);

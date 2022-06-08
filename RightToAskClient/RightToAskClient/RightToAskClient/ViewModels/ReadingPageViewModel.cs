@@ -248,7 +248,10 @@ namespace RightToAskClient.ViewModels
 
             QuestionViewModel.Instance.Question = newQuestion;
             QuestionViewModel.Instance.IsNewQuestion = true;
-            await Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
+
+            // instead of going to the questionDetailsPage we now go to a Background page and then a metadata page before the details page
+            // await Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
+            await Shell.Current.GoToAsync($"{nameof(QuestionBackgroundPage)}");
         }
         private async void OnDiscardButtonClicked()
         {
