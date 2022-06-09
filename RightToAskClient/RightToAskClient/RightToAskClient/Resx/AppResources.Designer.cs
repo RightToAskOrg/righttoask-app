@@ -772,7 +772,7 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Optional - provide additional background.
+        ///   Looks up a localized string similar to Optional - provide additional background..
         /// </summary>
         internal static string HowToStep4 {
             get {

@@ -1,6 +1,8 @@
 ﻿using RightToAskClient.Resx;
 using RightToAskClient.Views;
+using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace RightToAskClient.ViewModels
@@ -40,6 +42,13 @@ namespace RightToAskClient.ViewModels
             });
             DraftingButtonCommand = new AsyncCommand(async () =>
             {
+                if (App.ReadingContext.ShowHowToPublishPopup)
+                {
+                    var popup = new HowToPublishPopup(); // this instance uses a model instead of a VM
+                    _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                    App.ReadingContext.ShowHowToPublishPopup = false;
+                    Preferences.Set("ShowHowToPublishPopup", false);
+                }
                 App.ReadingContext.IsReadingOnly = false;
                 await Shell.Current.GoToAsync($"{nameof(SecondPage)}");
             });

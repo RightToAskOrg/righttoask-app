@@ -44,11 +44,11 @@
                     </Label.FormattedText>
                 </Label>
                 <Grid Grid.Row="3" Grid.Column="1" RowDefinitions="auto,auto" 
-                      ColumnDefinitions="auto,auto,*" BackgroundColor="Transparent" HeightRequest="100">
+                      ColumnDefinitions="auto,auto" BackgroundColor="Transparent">
                     <Label Text="{xct:Translate HowToStep2aLetter}" Grid.Row="0" Grid.Column="0"/>
                     <Label Text="{xct:Translate HowToStep2bLetter}" Grid.Row="1" Grid.Column="0"/>
-                    <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{xct:Translate HowToStep2a}" Style="{StaticResource LeftSmall}"/>
-                    <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{xct:Translate HowToStep2b}" Style="{StaticResource LeftSmall}"/>
+                    <Label Grid.Row="0" Grid.Column="1" Text="{xct:Translate HowToStep2a}" Style="{StaticResource LeftSmall}"/>
+                    <Label Grid.Row="1" Grid.Column="1" Text="{xct:Translate HowToStep2b}" Style="{StaticResource LeftSmall}"/>
                 </Grid>
                 <!--Step 3-->
                 <Label Grid.Row="4" Grid.Column="0" VerticalTextAlignment="Start" HorizontalTextAlignment="Center" Margin="0,2,0,0">
