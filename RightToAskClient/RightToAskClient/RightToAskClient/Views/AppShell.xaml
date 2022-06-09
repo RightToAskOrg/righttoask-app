@@ -92,6 +92,9 @@
     <FlyoutItem Title="Account">
         <ShellContent Route="Account" ContentTemplate="{DataTemplate local:AccountPage}" />
     </FlyoutItem>
+    <FlyoutItem Title="How To">
+        <ShellContent Route="HowToPublishPage" ContentTemplate="{DataTemplate local:HowToPublishPage}" />
+    </FlyoutItem>
     <!--
     <FlyoutItem Title="About">
         <ShellContent Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />

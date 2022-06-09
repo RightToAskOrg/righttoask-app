@@ -708,4 +708,67 @@
   <data name="InvalidPostcodePopupTitle" xml:space="preserve">
     <value>Invalid Postcode</value>
   </data>
+  <data name="HowToHeaderText" xml:space="preserve">
+    <value>How to Publish Your Question in 5 easy steps:</value>
+  </data>
+  <data name="HowToPageTitle" xml:space="preserve">
+    <value>How To Publish</value>
+  </data>
+  <data name="HowToStep1" xml:space="preserve">
+    <value>your specific question.</value>
+  </data>
+  <data name="HowToStep1Bold" xml:space="preserve">
+    <value>Compose </value>
+  </data>
+  <data name="HowToStep1Number" xml:space="preserve">
+    <value>1. </value>
+  </data>
+  <data name="HowToStep2" xml:space="preserve">
+    <value>to the right place. Chose to </value>
+  </data>
+  <data name="HowToStep2a" xml:space="preserve">
+    <value>Direct your question to a specific MP to be answered within the App OR</value>
+  </data>
+  <data name="HowToStep2aLetter" xml:space="preserve">
+    <value>a. </value>
+  </data>
+  <data name="HowToStep2b" xml:space="preserve">
+    <value>Escalate your question to be Raised in Parliament, or to a Senate Committee, who should raise it and answer it (not answered within App)</value>
+  </data>
+  <data name="HowToStep2bLetter" xml:space="preserve">
+    <value>b. </value>
+  </data>
+  <data name="HowToStep2Bold1" xml:space="preserve">
+    <value>Direct your question </value>
+  </data>
+  <data name="HowToStep2Bold2" xml:space="preserve">
+    <value>either: </value>
+  </data>
+  <data name="HowToStep2Number" xml:space="preserve">
+    <value>2. </value>
+  </data>
+  <data name="HowToStep3" xml:space="preserve">
+    <value>– don’t duplicate the same question!  Focus support and increase importance by up-voting an existing question.</value>
+  </data>
+  <data name="HowToStep3Bold" xml:space="preserve">
+    <value>Review Existing Similar Questions </value>
+  </data>
+  <data name="HowToStep3Number" xml:space="preserve">
+    <value>3. </value>
+  </data>
+  <data name="HowToStep4" xml:space="preserve">
+    <value>Optional - provide additional background</value>
+  </data>
+  <data name="HowToStep4Number" xml:space="preserve">
+    <value>4. </value>
+  </data>
+  <data name="HowToStep5" xml:space="preserve">
+    <value>your Question.</value>
+  </data>
+  <data name="HowToStep5Bold" xml:space="preserve">
+    <value>Publish </value>
+  </data>
+  <data name="HowToStep5Number" xml:space="preserve">
+    <value>5. </value>
+  </data>
 </root>
