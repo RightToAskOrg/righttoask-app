@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Shell xmlns="http://xamarin.com/schemas/2014/forms" 
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:rta="clr-namespace:RightToAskClient"
        xmlns:local="clr-namespace:RightToAskClient.Views"
        Title="AppShell"
        x:Class="RightToAskClient.AppShell"
@@ -79,17 +80,17 @@
         FlyoutDisplayOptions="AsMultipleItems" will create a separate flyout item for each child element    
         https://docs.microsoft.com/dotnet/api/xamarin.forms.shellgroupitem.flyoutdisplayoptions?view=xamarin-forms
     -->
-    <FlyoutItem Title="Main">
+    <FlyoutItem Title="Main" FlyoutIcon="{rta:ImageResource RightToAskClient.Images.home4.png}">
         <ShellContent Route="MainPage" ContentTemplate="{DataTemplate local:MainPage}" />
     </FlyoutItem>
-    <FlyoutItem Title="About">
+    <FlyoutItem Title="About" FlyoutIcon="{rta:ImageResource RightToAskClient.Images.emu_75.png}">
         <ShellContent Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />
     </FlyoutItem>
     <!--
     <FlyoutItem Title="Reading Page">
         <ShellContent Route="ReadingPage" ContentTemplate="{DataTemplate local:ReadingPage}" />
     </FlyoutItem>-->
-    <FlyoutItem Title="Account">
+    <FlyoutItem Title="Account" FlyoutIcon="{rta:ImageResource RightToAskClient.Images.info_48.png}">
         <ShellContent Route="Account" ContentTemplate="{DataTemplate local:AccountPage}" />
     </FlyoutItem>
     <!--

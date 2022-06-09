@@ -18,7 +18,7 @@
                    Dark={StaticResource TextColorDark}}" BackgroundColor="Transparent"/>
             </StackLayout>
             <!--Emu Bottom Left-->
-            <Image Grid.Column="0" Grid.Row="1" Source="{local:ImageResource RightToAskClient.Images.emu_75.png}" 
+            <Image Grid.Column="0" Grid.Row="1" Source="{local:ImageResource RightToAskClient.Images.emu_tall.PNG}" 
                    WidthRequest="100" HeightRequest="100" Rotation="0" VerticalOptions="End" BackgroundColor="Transparent"/>
             <!--Acknowledge/Dismiss Button Bottom Right-->
             <Grid Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="1" ColumnDefinitions="*,*" VerticalOptions="End" BackgroundColor="Transparent">
