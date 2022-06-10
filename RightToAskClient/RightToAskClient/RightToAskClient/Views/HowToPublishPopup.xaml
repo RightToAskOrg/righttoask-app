@@ -7,7 +7,7 @@
            Size="350,500"
            IsLightDismissEnabled="False"
            Color="Transparent">
-    <Frame CornerRadius="30" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="0" Padding="0"
+    <Frame CornerRadius="10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="0" Padding="0"
                BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}">
         <StackLayout VerticalOptions="FillAndExpand" BackgroundColor="Transparent" Margin="0" Padding="0" Spacing="0">
             <views:HowToPublishView VerticalOptions="FillAndExpand" Margin="0" Padding="0" BackgroundColor="Transparent"/>
