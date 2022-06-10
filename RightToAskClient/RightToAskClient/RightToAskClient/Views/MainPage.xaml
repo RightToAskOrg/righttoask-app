@@ -20,7 +20,7 @@
         <StackLayout VerticalOptions="FillAndExpand" Margin="10">
             <Label Text="{xct:Translate MainPageHeadingText}" Style="{StaticResource Header1}" HorizontalTextAlignment="Center"/>
             <BoxView />
-            <Grid RowDefinitions="auto,*,*,*" ColumnDefinitions="*,*,*,*,*" VerticalOptions="FillAndExpand" BackgroundColor="Tan">
+            <Grid RowDefinitions="auto,*,*,*" ColumnDefinitions="*,*,*,*,*" VerticalOptions="FillAndExpand" BackgroundColor="Transparent">
                 <!--Heading Text-->
                 <StackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Margin="0" Padding="0" Spacing="0">
                     <Label Text="{xct:Translate MainPageSubheader1Text}" Style="{StaticResource CenterSmall}"/>
@@ -29,12 +29,12 @@
                 </StackLayout>
                 <!--Centered Layout-->
                 <StackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="3" 
-                             VerticalOptions="FillAndExpand" BackgroundColor="MediumPurple">
-                    <StackLayout VerticalOptions="CenterAndExpand" Spacing="10" BackgroundColor="pink">
+                             VerticalOptions="FillAndExpand" BackgroundColor="Transparent">
+                    <StackLayout VerticalOptions="CenterAndExpand" Spacing="10" BackgroundColor="Transparent">
                         <!-- Trending Button Single-->
                         <Grid ColumnDefinitions="*,*,*,*,*" HorizontalOptions="FillAndExpand" 
                               IsVisible="{Binding ShowTrendingMyElectorate, Converter={StaticResource Key=cnvInvert}}" 
-                              BackgroundColor="WhiteSmoke" Margin="0" Padding="0">
+                              BackgroundColor="Transparent" Margin="0" Padding="0">
                             <Frame Grid.Column="1" Grid.ColumnSpan="3" Style="{StaticResource SubtleFrame}" HeightRequest="135" 
                                    HorizontalOptions="FillAndExpand" Margin="0">
                                 <Grid RowDefinitions="*,*,*">
@@ -55,8 +55,8 @@
                             </Frame>
                         </Grid>
                         <!--Side by Side Trending Buttons-->
-                        <StackLayout Orientation="Horizontal" Spacing="10" BackgroundColor="Orange" IsVisible="{Binding ShowTrendingMyElectorate}">
-                            <Frame Style="{StaticResource SubtleFrame}" HeightRequest="135" HorizontalOptions="FillAndExpand" Margin="10,0,0,0">
+                        <Grid ColumnDefinitions="*,*" BackgroundColor="Transparent" IsVisible="{Binding ShowTrendingMyElectorate}">
+                            <Frame Grid.Column="0" Style="{StaticResource SubtleFrame}" HeightRequest="135" HorizontalOptions="FillAndExpand" Margin="10,0,0,0">
                                 <Grid RowDefinitions="*,*,*">
                                     <Label Grid.Row="0" Text="{xct:Translate TrendingButtonText}" Style="{StaticResource Header1}" 
                                    VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="0,10,0,0"
@@ -74,9 +74,9 @@
                                 </Grid>
                             </Frame>
                             <!-- Trending in my Electorate Button-->
-                            <Frame Style="{StaticResource SubtleFrame}" HeightRequest="135" HorizontalOptions="FillAndExpand" Margin="0,0,10,0">
+                            <Frame Grid.Column="1" Style="{StaticResource SubtleFrame}" HeightRequest="135" HorizontalOptions="FillAndExpand" Margin="0,0,10,0">
                                 <Grid RowDefinitions="*,*,*">
-                                    <Label Grid.Row="0" Text="{xct:Translate TrendingButtonText}" Style="{StaticResource Header1}" 
+                                    <Label Grid.Row="0" Text="{xct:Translate TrendingMyElectorateText}" Style="{StaticResource Header1}" 
                                    VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="0,10,0,0"
                                        AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{xct:Translate MainPageTrendingNowAccessibilityLabelName}"
                                        AutomationProperties.HelpText="{xct:Translate MainPageTrendingNowAccessibilityLabelHelpText}"/>
@@ -91,7 +91,7 @@
                                         AutomationProperties.LabeledBy="{x:Reference trendingImage2}"/>
                                 </Grid>
                             </Frame>
-                        </StackLayout>
+                        </Grid>
                         <!--Search Button-->
                         <Grid ColumnDefinitions="*,*,*,*,*">
                             <Frame Grid.Column="1" Grid.ColumnSpan="3" Style="{StaticResource SubtleFrame}" HeightRequest="135">
@@ -114,7 +114,7 @@
                         </Grid>
                         <!--Draft Button Single-->
                         <Grid ColumnDefinitions="*,*,*,*,*" HorizontalOptions="FillAndExpand" 
-                              IsVisible="{Binding ShowMyQuestions, Converter={StaticResource Key=cnvInvert}}" BackgroundColor="WhiteSmoke" Margin="0" Padding="0">
+                              IsVisible="{Binding ShowMyQuestions, Converter={StaticResource Key=cnvInvert}}" BackgroundColor="Transparent" Margin="0" Padding="0">
                             <Frame Style="{StaticResource SubtleFrame}" HeightRequest="135" HorizontalOptions="FillAndExpand" 
                                    Grid.Column="1" Grid.ColumnSpan="3" Margin="0">
                                 <Grid RowDefinitions="*,*">
@@ -133,8 +133,8 @@
                             </Frame>
                         </Grid>
                         <!--Draft Button Double-->
-                        <StackLayout Orientation="Horizontal" Spacing="10" BackgroundColor="LightBlue" IsVisible="{Binding ShowMyQuestions}">
-                            <Frame Style="{StaticResource SubtleFrame}" HeightRequest="135" HorizontalOptions="FillAndExpand" Margin="10,0,0,0">
+                        <Grid ColumnDefinitions="*,*" BackgroundColor="Transparent" IsVisible="{Binding ShowMyQuestions}">
+                            <Frame Grid.Column="0" Style="{StaticResource SubtleFrame}" HeightRequest="135" HorizontalOptions="FillAndExpand" Margin="10,0,0,0">
                                 <Grid RowDefinitions="*,*">
                                     <StackLayout Grid.Row="0" Grid.RowSpan="2">
                                         <Label Text="{xct:Translate MainPageHeader2Text}" Style="{StaticResource Header1}" Margin="0,10,0,0"/>
@@ -150,10 +150,10 @@
                                 </Grid>
                             </Frame>
                             <!--My Questions Button-->
-                            <Frame Style="{StaticResource SubtleFrame}" HeightRequest="135" HorizontalOptions="FillAndExpand" Margin="0,0,10,0">
+                            <Frame Grid.Column="1" Style="{StaticResource SubtleFrame}" HeightRequest="135" HorizontalOptions="FillAndExpand" Margin="0,0,10,0">
                                 <Grid RowDefinitions="*,*">
                                     <StackLayout Grid.Row="0" Grid.RowSpan="2">
-                                        <Label Text="{xct:Translate MainPageHeader2Text}" Style="{StaticResource Header1}" Margin="0,10,0,0"/>
+                                        <Label Text="{xct:Translate MyQuestionsTitleText}" Style="{StaticResource Header1}" Margin="0,10,0,0"/>
                                         <Image x:Name="draftImage2" Margin="0" HorizontalOptions="Center" VerticalOptions="CenterAndExpand"
                                            Source="{local:ImageResource RightToAskClient.Images.half_roo.png}" WidthRequest="75"
                                            AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{xct:Translate DraftImageAccessibilityNameText}"
@@ -165,7 +165,7 @@
                                     </Button>
                                 </Grid>
                             </Frame>
-                        </StackLayout>
+                        </Grid>
                     </StackLayout>
                 </StackLayout>
             </Grid>

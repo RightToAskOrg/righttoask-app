@@ -446,6 +446,7 @@ namespace RightToAskClient.ViewModels
         {
             App.ReadingContext.ThisParticipant.AddElectoratesFromGeoscapeAddress(addressData);
             App.ReadingContext.ThisParticipant.MPsKnown = true;
+            Preferences.Set("MPsKnown", true);
         }
 
         // TODO: At the moment, this does nothing, since there's no notion of not 
@@ -500,6 +501,7 @@ namespace RightToAskClient.ViewModels
                 ShowFindMPsButton = true;
             }
             App.ReadingContext.ThisParticipant.MPsKnown = true;
+            Preferences.Set("MPsKnown", true);
         }
 
         private void UpdateElectoratePickerSources(string state)

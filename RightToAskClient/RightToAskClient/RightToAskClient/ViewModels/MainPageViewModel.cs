@@ -40,19 +40,6 @@ namespace RightToAskClient.ViewModels
 
         public MainPageViewModel()
         {
-            // check bools
-            ShowMyQuestions = false;
-            ShowTrendingMyElectorate = false;
-            if (App.ReadingContext.ThisParticipant.MPsKnown)
-            {
-                ShowTrendingMyElectorate = true;
-            }
-            // find out if they have upvoted or created questions before
-            if (App.ReadingContext.ThisParticipant.HasQuestions)
-            {
-                ShowMyQuestions = true;
-            }
-
             PopupLabelText = AppResources.MainPagePopupText;
             // commands
             Top10ButtonCommand = new AsyncCommand(async () =>

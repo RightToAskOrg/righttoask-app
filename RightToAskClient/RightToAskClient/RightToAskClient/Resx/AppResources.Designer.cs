@@ -1096,6 +1096,15 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to My Questions.
+        /// </summary>
+        internal static string MyQuestionsTitleText {
+            get {
+                return ResourceManager.GetString("MyQuestionsTitleText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to My question is....
         /// </summary>
         internal static string MyQuestionTitleText {
@@ -1911,6 +1920,15 @@ namespace RightToAskClient.Resx {
         internal static string TrendingButtonText {
             get {
                 return ResourceManager.GetString("TrendingButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trending in my electorate.
+        /// </summary>
+        internal static string TrendingMyElectorateText {
+            get {
+                return ResourceManager.GetString("TrendingMyElectorateText", resourceCulture);
             }
         }
         

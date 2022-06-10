@@ -64,6 +64,7 @@ namespace RightToAskClient
                 if (ReadingContext.ThisParticipant.RegistrationInfo.electorates.Any())
                 {
                     ReadingContext.ThisParticipant.MPsKnown = true;
+                    Preferences.Set("MPsKnown", true);
                     ReadingContext.ThisParticipant.UpdateMPs(); // to refresh the list
                 }
             }
@@ -77,7 +78,7 @@ namespace RightToAskClient
             // set popup bool
             ReadingContext.DontShowFirstTimeReadingPopup = Preferences.Get("DontShowFirstTimeReadingPopup", false);
             ReadingContext.ShowHowToPublishPopup = Preferences.Get("ShowHowToPublishPopup", true);
-            ReadingContext.ThisParticipant.HasQuestions = Preferences.Get("HasQuestions", false);
+            //ReadingContext.ThisParticipant.HasQuestions = Preferences.Get("HasQuestions", false);
         }
 
         protected override void OnSleep()

@@ -7,6 +7,9 @@ namespace RightToAskClient.Models
 {
 	public class ReadingContext : ObservableObject
 	{
+		// Used for determining if the user is in the process of trying to draft a question, or if they are browsing on the reading page.
+		// The reading page can be accessed from various ways from the main page (with some filters already filled in)
+		// Or from within the question drafting flow for finding a similar question to upvote instead of continuing with the drafted question for submission.
 		private bool _isReadingOnly;
 		public bool IsReadingOnly 
 		{ 
