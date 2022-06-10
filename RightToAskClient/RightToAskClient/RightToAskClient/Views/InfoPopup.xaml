@@ -7,7 +7,7 @@
            Size="300,300"
            IsLightDismissEnabled="False"
            Color="Transparent"><!--***NOTE*** xct:Popup uses Color property to set what would normally be the BackgroundColor for most properties-->
-    <Frame CornerRadius="30" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
+    <Frame CornerRadius="10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
         BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}">
         <Grid RowDefinitions="*,auto" ColumnDefinitions="auto,*,*,*" VerticalOptions="FillAndExpand" BackgroundColor="Transparent">
             <!--Text Across the Top Middle-->
