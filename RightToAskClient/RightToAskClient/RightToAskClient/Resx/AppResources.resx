@@ -770,6 +770,7 @@
   </data>
   <data name="HowToStep5Number" xml:space="preserve">
     <value>5. </value>
+  </data>
   <data name="AnswerDisplayCardButtonText" xml:space="preserve">
     <value>Answer</value>
   </data>
@@ -781,5 +782,8 @@
   </data>
   <data name="UpvoteDisplayCardButtonText" xml:space="preserve">
     <value>Up-vote</value>
+  </data>
+  <data name="DontShowAgainText" xml:space="preserve">
+    <value>Don't show this again: </value>
   </data>
 </root>

@@ -331,6 +331,15 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Don&apos;t show this again: .
+        /// </summary>
+        internal static string DontShowAgainText {
+            get {
+                return ResourceManager.GetString("DontShowAgainText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Draft discarded..
         /// </summary>
         internal static string DraftDiscardedPopupTitle {
