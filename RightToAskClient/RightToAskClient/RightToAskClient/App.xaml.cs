@@ -12,6 +12,9 @@ using System.Linq;
 using RightToAskClient.Models.ServerCommsData;
 using Switch = Xamarin.Forms.Switch;
 
+[assembly: ExportFont("Roboto-Black.ttf", Alias = "AppFont")]
+[assembly: ExportFont("DancingScript-VariableFont_wght.ttf", Alias = "DanceFont")]
+
 namespace RightToAskClient
 {
     public partial class App : Application
