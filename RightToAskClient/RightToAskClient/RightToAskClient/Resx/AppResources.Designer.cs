@@ -133,6 +133,15 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Answer.
+        /// </summary>
+        internal static string AnswerDisplayCardButtonText {
+            get {
+                return ResourceManager.GetString("AnswerDisplayCardButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Allow other users to add more people to answer the question?.
         /// </summary>
         internal static string AnswererPermissions {
@@ -547,7 +556,7 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is a similar question here already? If you can, focus support by upvoting an old question, not sending a new one.
+        ///   Looks up a localized string similar to If a similar question is already here, focus your support by up-voting it, not publishing a duplicate..
         /// </summary>
         internal static string FocusSupportInstructionQuestionDrafting {
             get {
@@ -754,7 +763,7 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Read and upvote questions.
+        ///   Looks up a localized string similar to Read and up-vote questions.
         /// </summary>
         internal static string MainPageSubheader1Text {
             get {
@@ -1249,7 +1258,7 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Thumbs Up Icon or Upvote Button..
+        ///   Looks up a localized string similar to Thumbs Up Icon or Up-vote Button..
         /// </summary>
         internal static string QuestionFrameThumbsUpAccessibilityName {
             get {
@@ -1258,7 +1267,7 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Shows an image of a thumbs up icon that is highlighted green if you have already liked this question, or is not highlighted if you have not upvoted it. There is a tally number of total number of upvotes this question has to the right of this icon..
+        ///   Looks up a localized string similar to Shows an image of a thumbs up icon that is highlighted green if you have already liked this question, or is not highlighted if you have not up-voted it. There is a tally number of total number of up-votes this question has to the right of this icon..
         /// </summary>
         internal static string QuestionFrameThumbsUpAccessibilityText {
             get {
@@ -1312,7 +1321,7 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Read and Upvote.
+        ///   Looks up a localized string similar to Read and Up-vote.
         /// </summary>
         internal static string ReadAndUpvoteFrameSubtext {
             get {
@@ -1321,7 +1330,7 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The image of glasses is to convey the act of reading questions while the image of the checkbox is to show that you can also upvote questions after reading them if you choose to go to this section of the app..
+        ///   Looks up a localized string similar to The image of glasses is to convey the act of reading questions while the image of the checkbox is to show that you can also up-vote questions after reading them if you choose to go to this section of the app..
         /// </summary>
         internal static string ReadAndUpvoteImageAccessibilityHelpText {
             get {
@@ -1339,7 +1348,7 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Upvote good questions, or tap for more detail. Swipe left to dismiss uninteresting ones..
+        ///   Looks up a localized string similar to Up-vote good questions, or tap for more detail. Swipe left to dismiss uninteresting ones..
         /// </summary>
         internal static string ReadingPageHeader1 {
             get {
@@ -1348,7 +1357,7 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Upvote good questions, or tap for more detail. Swipe left to discard uninteresting ones..
+        ///   Looks up a localized string similar to Up-vote good questions, or tap for more detail. Swipe left to discard uninteresting ones..
         /// </summary>
         internal static string ReadingPageQuestionDraftingHeader1 {
             get {
@@ -1366,7 +1375,7 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Recent Questions.
+        ///   Looks up a localized string similar to Questions.
         /// </summary>
         internal static string RecentQuestionsTitle {
             get {
@@ -1407,6 +1416,15 @@ namespace RightToAskClient.Resx {
         internal static string RelatedQuestionsButtonText {
             get {
                 return ResourceManager.GetString("RelatedQuestionsButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Flag.
+        /// </summary>
+        internal static string ReportDisplayCardButtonText {
+            get {
+                return ResourceManager.GetString("ReportDisplayCardButtonText", resourceCulture);
             }
         }
         
@@ -1524,6 +1542,15 @@ namespace RightToAskClient.Resx {
         internal static string ServerConfigErrorText {
             get {
                 return ResourceManager.GetString("ServerConfigErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Share.
+        /// </summary>
+        internal static string ShareDisplayCardButtonText {
+            get {
+                return ResourceManager.GetString("ShareDisplayCardButtonText", resourceCulture);
             }
         }
         
@@ -1735,7 +1762,7 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Undo Upvote.
+        ///   Looks up a localized string similar to Undo Up-vote.
         /// </summary>
         internal static string UpvotedButtonText {
             get {
@@ -1744,7 +1771,16 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Upvotes: .
+        ///   Looks up a localized string similar to Up-vote.
+        /// </summary>
+        internal static string UpvoteDisplayCardButtonText {
+            get {
+                return ResourceManager.GetString("UpvoteDisplayCardButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Up-votes: .
         /// </summary>
         internal static string UpvotesHeaderText {
             get {

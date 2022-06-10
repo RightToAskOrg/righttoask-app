@@ -56,7 +56,8 @@
                     <ScrollView VerticalOptions="FillAndExpand">
                         <StackLayout><!--Heading text moved inside of the scrollview to have it scroll off the page-->
                             <Label Text="{Binding Heading1}" Style="{StaticResource Header1}" HorizontalTextAlignment="Center"/>
-                            <Label Text="{xct:Translate ReadingPageHeader1}" Style="{StaticResource Header2}" HorizontalTextAlignment="Center"/>
+                            <!--Moved to the info popup potentially-->
+                            <!--<Label Text="{xct:Translate ReadingPageHeader1}" Style="{StaticResource Header2}" HorizontalTextAlignment="Center"/>-->
                             <CollectionView x:Name="QuestionList" ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None" 
                                         SelectedItem="{Binding SelectedQuestion}" VerticalOptions="FillAndExpand">
                                 <CollectionView.ItemTemplate>
@@ -64,7 +65,7 @@
                                         <SwipeView VerticalOptions="FillAndExpand" BackgroundColor="Transparent">
                                             <SwipeView.RightItems>
                                                 <SwipeItem Text="Dismiss" IconImageSource="{local:ImageResource RightToAskClient.Images.trash_delete_48.png}" 
-                                                       BackgroundColor="{StaticResource AlertColor}" 
+                                                       BackgroundColor="{StaticResource AlertColor}"
                                                        Command="{Binding Path=BindingContext.RemoveQuestionCommand, Source={x:Reference ReadingPageName}}" 
                                                        CommandParameter="{Binding .}"/>
                                             </SwipeView.RightItems>
@@ -102,10 +103,10 @@
             </Grid>
             <!-- Question Flow Details-->
             <Frame Style="{StaticResource InvertAppThemeFrame}" Margin="0" Padding="10" IsVisible="{Binding ShowQuestionFrame}">
-                <StackLayout Margin="0" Padding="0" Spacing="0">
-                    <StackLayout Orientation="Horizontal" HeightRequest="35">
-                        <Label Text="{xct:Translate YourQuestionTitleText}" Style="{StaticResource InvertFrameText}" VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand"/>
-                        <Button Text="{xct:Translate DiscardDraftButtonText}" Style="{StaticResource DoneButton}" Command="{Binding DiscardButtonCommand}"/>
+                <StackLayout Margin="0" Padding="0" HeightRequest="100">
+                    <StackLayout Orientation="Horizontal" HeightRequest="35" Margin="0" VerticalOptions="CenterAndExpand" BackgroundColor="Transparent">
+                        <Label Text="{xct:Translate YourQuestionTitleText}" Style="{StaticResource InvertFrameText}" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"/>
+                        <Button Text="{xct:Translate DiscardDraftButtonText}" Margin="0,0,10,0" Style="{StaticResource DoneButton}" Command="{Binding DiscardButtonCommand}"/>
                         <Button Text="{xct:Translate KeepQuestionButtonText}" Style="{StaticResource DoneButton}"
                         Command="{Binding KeepQuestionButtonCommand}"/>
                     </StackLayout>
