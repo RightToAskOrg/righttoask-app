@@ -9,7 +9,7 @@
              Size="300,300"
              IsLightDismissEnabled="False"
              Color="Transparent">
-    <Frame CornerRadius="30" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
+    <Frame CornerRadius="10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
                BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}">
         <StackLayout VerticalOptions="FillAndExpand" BackgroundColor="Transparent">
             <Label Text="{xct:Translate ReadingPageHeader1}" VerticalOptions="Center" VerticalTextAlignment="Center" 
