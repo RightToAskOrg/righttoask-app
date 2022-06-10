@@ -9,6 +9,20 @@ namespace RightToAskClient.ViewModels
 {
     public class MainPageViewModel : BaseViewModel
     {
+        private bool _showMyQuestions = false;
+        public bool ShowMyQuestions
+        {
+            get => _showMyQuestions;
+            set => SetProperty(ref _showMyQuestions, value);
+        }
+
+        private bool _showTrendingMyElectorate = false;
+        public bool ShowTrendingMyElectorate
+        {
+            get => _showTrendingMyElectorate;
+            set => SetProperty(ref _showTrendingMyElectorate, value);
+        }
+
         private string _searchText = "";
         public string SearchText
         {
@@ -26,6 +40,19 @@ namespace RightToAskClient.ViewModels
 
         public MainPageViewModel()
         {
+            // check bools
+            ShowMyQuestions = false;
+            ShowTrendingMyElectorate = false;
+            if (App.ReadingContext.ThisParticipant.MPsKnown)
+            {
+                ShowTrendingMyElectorate = true;
+            }
+            // find out if they have upvoted or created questions before
+            if (App.ReadingContext.ThisParticipant.HasQuestions)
+            {
+                ShowMyQuestions = true;
+            }
+
             PopupLabelText = AppResources.MainPagePopupText;
             // commands
             Top10ButtonCommand = new AsyncCommand(async () =>
