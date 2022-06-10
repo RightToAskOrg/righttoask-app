@@ -637,6 +637,195 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to How to Publish Your Question in 5 easy steps:.
+        /// </summary>
+        internal static string HowToHeaderText {
+            get {
+                return ResourceManager.GetString("HowToHeaderText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to How To Publish.
+        /// </summary>
+        internal static string HowToPageTitle {
+            get {
+                return ResourceManager.GetString("HowToPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to your specific question..
+        /// </summary>
+        internal static string HowToStep1 {
+            get {
+                return ResourceManager.GetString("HowToStep1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Compose .
+        /// </summary>
+        internal static string HowToStep1Bold {
+            get {
+                return ResourceManager.GetString("HowToStep1Bold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1. .
+        /// </summary>
+        internal static string HowToStep1Number {
+            get {
+                return ResourceManager.GetString("HowToStep1Number", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to to the right place. Chose to .
+        /// </summary>
+        internal static string HowToStep2 {
+            get {
+                return ResourceManager.GetString("HowToStep2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Direct your question to a specific MP to be answered within the App OR.
+        /// </summary>
+        internal static string HowToStep2a {
+            get {
+                return ResourceManager.GetString("HowToStep2a", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a. .
+        /// </summary>
+        internal static string HowToStep2aLetter {
+            get {
+                return ResourceManager.GetString("HowToStep2aLetter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Escalate your question to be Raised in Parliament, or to a Senate Committee, who should raise it and answer it (not answered within App).
+        /// </summary>
+        internal static string HowToStep2b {
+            get {
+                return ResourceManager.GetString("HowToStep2b", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to b. .
+        /// </summary>
+        internal static string HowToStep2bLetter {
+            get {
+                return ResourceManager.GetString("HowToStep2bLetter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Direct your question .
+        /// </summary>
+        internal static string HowToStep2Bold1 {
+            get {
+                return ResourceManager.GetString("HowToStep2Bold1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to either: .
+        /// </summary>
+        internal static string HowToStep2Bold2 {
+            get {
+                return ResourceManager.GetString("HowToStep2Bold2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 2. .
+        /// </summary>
+        internal static string HowToStep2Number {
+            get {
+                return ResourceManager.GetString("HowToStep2Number", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to – don’t duplicate the same question!  Focus support and increase importance by up-voting an existing question..
+        /// </summary>
+        internal static string HowToStep3 {
+            get {
+                return ResourceManager.GetString("HowToStep3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Review Existing Similar Questions .
+        /// </summary>
+        internal static string HowToStep3Bold {
+            get {
+                return ResourceManager.GetString("HowToStep3Bold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 3. .
+        /// </summary>
+        internal static string HowToStep3Number {
+            get {
+                return ResourceManager.GetString("HowToStep3Number", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Optional - provide additional background..
+        /// </summary>
+        internal static string HowToStep4 {
+            get {
+                return ResourceManager.GetString("HowToStep4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 4. .
+        /// </summary>
+        internal static string HowToStep4Number {
+            get {
+                return ResourceManager.GetString("HowToStep4Number", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to your Question..
+        /// </summary>
+        internal static string HowToStep5 {
+            get {
+                return ResourceManager.GetString("HowToStep5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Publish .
+        /// </summary>
+        internal static string HowToStep5Bold {
+            get {
+                return ResourceManager.GetString("HowToStep5Bold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 5. .
+        /// </summary>
+        internal static string HowToStep5Number {
+            get {
+                return ResourceManager.GetString("HowToStep5Number", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Yes, I&apos;m sure..
         /// </summary>
         internal static string ImSureButtonText {

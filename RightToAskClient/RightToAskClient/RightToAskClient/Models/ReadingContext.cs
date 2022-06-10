@@ -25,6 +25,8 @@ namespace RightToAskClient.Models
 			set => SetProperty(ref _dontShowFirstTimeReadingPopup, value);
 		}
 
+		public bool ShowHowToPublishPopup { get; set; } = true;
+
 		public event PropertyChangedEventHandler? PropertyChanged;
 
         public ReadingContext()
