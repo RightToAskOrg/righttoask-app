@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using RightToAskClient.HttpClients;
 using RightToAskClient.Models;
+using RightToAskClient.Models.ServerCommsData;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
@@ -100,10 +102,28 @@ namespace RightToAskClient.ViewModels
         }
         
         // TODO
-        private void SendMPRegistrationToServer()
+        private async void SendMPRegistrationToServer()
         {
+            var domain = _parliamentaryDomainIndex >= 0  && _parliamentaryDomainIndex < ParliamentData.Domains.Count
+                ? ParliamentData.Domains[_parliamentaryDomainIndex] : "";
+            RequestEmailValidationMessage messge = new RequestEmailValidationMessage()
+            {
+                why = new EmailValidationReason() { AsMP = !IsStaffer },
+                name = MPRepresenting.first_name + " " + MPRepresenting.surname +" @"+domain
+            };
+            Result<bool> httpResponse = await RTAClient.RequestEmailValidation(messge, EmailUsername + "@" + domain);
+            (bool isValid, string errorMsg) validation = RTAClient.ValidateHttpResponse(httpResponse, "Email Validation Request");
+            if (validation.isValid)
+            {
+                // TODO - show PIN entry; 
+            }
+            else
+            {
+                ShowRegisterMPReportLabel = true;
+                ReportLabelText = validation.errorMsg;
+            }
+             
             Console.WriteLine("The MP registration to send to the server is "+MPRepresenting.ShortestName);
-            var domain = _parliamentaryDomainIndex >= 0 ? ParliamentData.Domains[_parliamentaryDomainIndex] : "";
             Console.WriteLine("The email address is"+EmailUsername+"Domain: "+domain);
             Console.WriteLine("For"+(IsStaffer ? "A staffer":"The MP"));
         }

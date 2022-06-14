@@ -129,9 +129,19 @@ namespace RightToAskClient.HttpClients
             return await SignAndSendDataToServer<QuestionSendToServer>(existingQuestion, "question", EditQnUrl, "Error editing question");
         }
 
-        /*
-         * public static async Task<Result<bool>> RequestEmailValidation()
-         */
+        public static async Task<Result<bool>> RequestEmailValidation(RequestEmailValidationMessage msg, string email)
+        {
+            ClientSignedUnparsed signedMsg =  App.ReadingContext.ThisParticipant.SignMessage(msg);
+            RequestEmailValidationAPICall serverSend = new RequestEmailValidationAPICall()
+            {
+                email = email,
+                message = signedMsg.message,
+                signature = signedMsg.signature,
+                user = signedMsg.user,
+            };
+            return await SendDataToServer(serverSend, "temp error msg", EmailValidationUrl);
+
+        }
 
         // Sign a message (data) with this user's key, then upload to the specified url. 
         // "description" and "error string" are for reporting errors in upload and signing resp.

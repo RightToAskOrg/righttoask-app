@@ -34,6 +34,7 @@
                         SelectedIndex="{Binding ParliamentaryDomainIndex}" ></Picker> 
             </StackLayout>
             <Button  Command ="{Binding SendMPVerificationEmailCommand}" Style="{StaticResource GreenButton}" Text="{xct:Translate SendVerificationPIN}"></Button>
+            <Label Text="{Binding ReportLabelText}" IsVisible="{Binding ShowRegisterMPReportLabel}"></Label>
             <Label Text="{xct:Translate SubmitPINButtonText}"/>
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
                 <Entry Text="{Binding MPRegistrationPIN}" Style="{StaticResource NormalEntry}" Placeholder="______" />
