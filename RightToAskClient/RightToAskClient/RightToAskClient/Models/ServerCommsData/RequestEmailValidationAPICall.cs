@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace RightToAskClient.Models.ServerCommsData
 
 /* For sending to the server in order to apply for email validation
@@ -8,9 +10,16 @@ namespace RightToAskClient.Models.ServerCommsData
 {
     public class RequestEmailValidationAPICall
     {
-        public string email;
-        public string message;
-        public string signature;
-        public string user;
+        [JsonPropertyName("email")]
+        public string email { get; set; }
+        
+        [JsonPropertyName("message")]
+        public string message { get; set; }
+        
+        [JsonPropertyName("signature")]
+        public string signature { get; set; }
+        
+        [JsonPropertyName("user")]
+        public string user { get; set; }
     }
 }

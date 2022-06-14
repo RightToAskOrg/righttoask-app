@@ -22,15 +22,16 @@
             <Label Text="{Binding MPRepresenting.ShortestName, StringFormat='You Have Chosen {0}'}" />
             <StackLayout Orientation="Horizontal" HorizontalOptions = "CenterAndExpand">
                 <Label Text="{xct:Translate ThatsMe}"/>
-                <Switch></Switch>
+                <Switch IsToggled="{Binding IsStaffer}"></Switch>
                 <Label Text="{xct:Translate IAmAStaffer}"/>
             </StackLayout>
             <Label Text="{xct:Translate EmailEntry}"/>
             <StackLayout Orientation="Horizontal">
-                <Entry Placeholder="{xct:Translate UserName}" Style="{StaticResource NormalEntry}" />
+                <Entry Placeholder="{xct:Translate UserName}" Text="{Binding EmailUsername}" Style="{StaticResource NormalEntry}" />
                 <Label Text=" @ " HorizontalOptions="Center"/>
                 <!-- <Picker x:Name="DomainPicker" ItemsSource = "models:ParliamentData.Domains"></Picker> -->
-                <Picker x:Name="DomainPicker" Title="{xct:Translate ChooseParliamentaryEmailDomain}" ></Picker> 
+                <Picker x:Name="DomainPicker" Title="{xct:Translate ChooseParliamentaryEmailDomain}" 
+                        SelectedIndex="{Binding ParliamentaryDomainIndex}" ></Picker> 
             </StackLayout>
             <Button  Command ="{Binding SendMPVerificationEmailCommand}" Style="{StaticResource GreenButton}" Text="{xct:Translate SendVerificationPIN}"></Button>
             <Label Text="{xct:Translate SubmitPINButtonText}"/>

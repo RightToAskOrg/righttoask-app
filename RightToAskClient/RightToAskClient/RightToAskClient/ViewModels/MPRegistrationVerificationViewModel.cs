@@ -20,6 +20,29 @@ namespace RightToAskClient.ViewModels
             private set => SetProperty(ref _MPRepresenting, value);
         }
 
+        // Bool to distinguish MPs from staffers. True if MP; false if staffer.
+        private bool _isStaffer;
+        public bool IsStaffer
+        {
+            get => _isStaffer;
+            set => SetProperty(ref _isStaffer, value);
+        }
+
+        // Bool to distinguish MPs from staffers. True if MP; false if staffer.
+        private string _emailUsername;
+        public string EmailUsername
+        {
+            get => _emailUsername;
+            set => SetProperty(ref _emailUsername, value);
+        }
+
+        // Index of the picker for choosing email domains
+        private int _parliamentaryDomainIndex = -1;
+        public int ParliamentaryDomainIndex
+        {
+            get => _parliamentaryDomainIndex;
+            set => SetProperty(ref _parliamentaryDomainIndex, value);
+        }
         private string _mpRegistrationPIN = "";
 
         public string MPRegistrationPIN
@@ -80,6 +103,9 @@ namespace RightToAskClient.ViewModels
         private void SendMPRegistrationToServer()
         {
             Console.WriteLine("The MP registration to send to the server is "+MPRepresenting.ShortestName);
+            var domain = _parliamentaryDomainIndex >= 0 ? ParliamentData.Domains[_parliamentaryDomainIndex] : "";
+            Console.WriteLine("The email address is"+EmailUsername+"Domain: "+domain);
+            Console.WriteLine("For"+(IsStaffer ? "A staffer":"The MP"));
         }
 
         // TODO - save to preferences.
