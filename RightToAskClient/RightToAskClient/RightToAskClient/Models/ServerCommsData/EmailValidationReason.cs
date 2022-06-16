@@ -8,21 +8,21 @@ namespace RightToAskClient.Models.ServerCommsData
     public class EmailValidationReason
     {
         // if argument is true, the principal. Otherwise a staffer with access to email.
-        [JsonPropertyName("AsMP")] 
-        public bool? AsMP;
+        [JsonPropertyName("AsMP")]
+        public bool? AsMP {get; set;}
 
         // These next two have no arguments in the Rust enum. Hoping that a null string is OK.
         [JsonPropertyName("AsOrg")] 
-        public string? AsOrg;
+        public string? AsOrg { get; set; }
 
         [JsonPropertyName("AccountRecovery")] 
-        public string? AccountRecovery;
+        public string? AccountRecovery { get; set; }
 
         // UserID,bool in Rust. I think string is OK.
         [JsonPropertyName("RevokeMP")] 
-        public (string, bool)? RevokeMP; // revoke a given UID. bool same meaning as AsMP.
+        public (string, bool)? RevokeMP { get; set; } // revoke a given UID. bool same meaning as AsMP.
 
         [JsonPropertyName("RevokeOrg")] 
-        public string? RevokeOrg; // revoke a given UID
+        public string? RevokeOrg { get; set; }// revoke a given UID
     }
 }

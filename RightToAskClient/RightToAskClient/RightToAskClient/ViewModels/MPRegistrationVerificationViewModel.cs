@@ -106,12 +106,12 @@ namespace RightToAskClient.ViewModels
         {
             var domain = _parliamentaryDomainIndex >= 0  && _parliamentaryDomainIndex < ParliamentData.Domains.Count
                 ? ParliamentData.Domains[_parliamentaryDomainIndex] : "";
-            RequestEmailValidationMessage messge = new RequestEmailValidationMessage()
+            RequestEmailValidationMessage message = new RequestEmailValidationMessage()
             {
                 why = new EmailValidationReason() { AsMP = !IsStaffer },
                 name = MPRepresenting.first_name + " " + MPRepresenting.surname +" @"+domain
             };
-            Result<bool> httpResponse = await RTAClient.RequestEmailValidation(messge, EmailUsername + "@" + domain);
+            Result<bool> httpResponse = await RTAClient.RequestEmailValidation(message, EmailUsername + "@" + domain);
             (bool isValid, string errorMsg) validation = RTAClient.ValidateHttpResponse(httpResponse, "Email Validation Request");
             if (validation.isValid)
             {
@@ -119,6 +119,7 @@ namespace RightToAskClient.ViewModels
             }
             else
             {
+                // TODO - deal properly with errors e.g. email not known.
                 ShowRegisterMPReportLabel = true;
                 ReportLabelText = validation.errorMsg;
             }

@@ -19,6 +19,7 @@ namespace RightToAskClient.Models.ServerCommsData
 {
     public class PersonID : IEquatable<PersonID>
     {
+        // Needed for json serialisation when there are other (explicit) constructors.
         public PersonID()
         {
         }
