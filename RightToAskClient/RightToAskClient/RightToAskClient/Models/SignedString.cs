@@ -11,14 +11,11 @@ namespace RightToAskClient.Models
         public string message { get; set; } = "";
         public string signature { get; set; } = "";
 
-        // TODO Fix this 
         public bool verifies(Ed25519PublicKeyParameters pubKey)
         {
-            byte[] messagebytes = Encoding.UTF8.GetBytes(message);
             byte[] signaturebytes = Convert.FromBase64String(signature);
 
             return ServerSignatureVerificationService.VerifySignature(message, signaturebytes, pubKey);
-            // PUBKEYTBD.VerifyData (messagebytes, signaturebytes, HashAlgorithmName.SHA512);
         }
     }
 }

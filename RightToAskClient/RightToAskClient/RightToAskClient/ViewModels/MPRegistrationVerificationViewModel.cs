@@ -111,11 +111,11 @@ namespace RightToAskClient.ViewModels
                 why = new EmailValidationReason() { AsMP = !IsStaffer },
                 name = MPRepresenting.first_name + " " + MPRepresenting.surname +" @"+domain
             };
-            Result<bool> httpResponse = await RTAClient.RequestEmailValidation(message, EmailUsername + "@" + domain);
-            (bool isValid, string errorMsg) validation = RTAClient.ValidateHttpResponse(httpResponse, "Email Validation Request");
+            Result<string> httpResponse = await RTAClient.RequestEmailValidation(message, EmailUsername + "@" + domain);
+            (bool isValid, string errorMsg, string hash) validation = RTAClient.ValidateHttpResponse(httpResponse, "Email Validation Request");
             if (validation.isValid)
             {
-                // TODO - show PIN entry; 
+                // TODO - record hash; show PIN entry; 
             }
             else
             {

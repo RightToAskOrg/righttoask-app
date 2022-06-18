@@ -240,7 +240,9 @@ namespace RightToAskClient.ViewModels
             Question newQuestion = new Question
             {
                 QuestionText = App.ReadingContext.DraftQuestion,
-                QuestionSuggester = (thisParticipant.IsRegistered) ? thisParticipant.RegistrationInfo.uid : "Anonymous user",
+                QuestionSuggester = (thisParticipant.IsRegistered)
+                    ? thisParticipant.RegistrationInfo.uid
+                    : "Anonymous user",
                 Filters = App.ReadingContext.Filters,
                 DownVotes = 0,
                 UpVotes = 0
@@ -250,13 +252,14 @@ namespace RightToAskClient.ViewModels
             QuestionViewModel.Instance.IsNewQuestion = true;
             await Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
         }
+
         private async void OnDiscardButtonClicked()
         {
             App.ReadingContext.DraftQuestion = "";
             ShowQuestionFrame = false;
 
             bool goHome = await App.Current.MainPage.DisplayAlert("Draft discarded",
-               AppResources.FocusSupportReport, "Home", "Related questions");
+                AppResources.FocusSupportReport, "Home", "Related questions");
             if (goHome)
             {
                 await App.Current.MainPage.Navigation.PopToRootAsync();
@@ -266,73 +269,56 @@ namespace RightToAskClient.ViewModels
         private async void LoadQuestions()
         {
             Result<List<string>> httpResponse = await RTAClient.GetQuestionList();
-            Result<bool> resultToValidate = new Result<bool>();
-            if (httpResponse is null)
+            var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
+            if (!httpValidation.isValid)
             {
+                ReportLabelText = "Failed to get Question List from server." + httpValidation.errorMessage;
                 return;
             }
-            if (!String.IsNullOrEmpty(httpResponse.Err))
-            {
-                ReportLabelText = "Failed to get Question List from server.";
-                return;
-            }
-            if (httpResponse.Ok != null)
-            {
-                if (httpResponse.Ok.Any())
-                {
-                    resultToValidate.Ok = true;
-                    resultToValidate.Err = null; // or perhaps empty string
-                }
-            }
-            else
-            {
-                resultToValidate.Ok = false;
-                resultToValidate.Err = "Failed to get Question List from server.";
-            }
-            var httpValidation = RTAClient.ValidateHttpResponse(resultToValidate, "Server Signature Verification");
-            ReportLabelText = httpValidation.message;
-            if (httpValidation.isValid)
-            {
-                // reset the lists to rebuild and re-acquire questions
-                QuestionsToDisplay.Clear();
-                ServerQuestions.Clear();
-                // set the question Ids list
-                QuestionIds = httpResponse.Ok;
-                // loop through the questions
-                foreach (string questionId in QuestionIds)
-                {
-                    // pull the individual question from the server by id
-                    QuestionReceiveFromServer temp;
-                    try
-                    {
-                        var data = await RTAClient.GetQuestionById(questionId);
-                        if (string.IsNullOrEmpty(data.Err))
-                        {
-                            temp = data.Ok;
-                            if (!string.IsNullOrEmpty(temp.question_text))
-                            {
-                                ServerQuestions.Add(temp);
-                            }
-                        }
-                        else
-                        {
-                            Debug.WriteLine("Could not find question: " + data.Err);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.WriteLine("Could not find question: " + ex.Message);
-                    }
-                }
-                // convert the ServerQuestions to a Displayable format
-                foreach (QuestionReceiveFromServer serverQuestion in ServerQuestions)
-                {
-                    Question temp = new Question(serverQuestion);
+            // httpValidation isValid
 
-                    QuestionsToDisplay.Add(temp);
+            // reset the lists to rebuild and re-acquire questions
+            QuestionsToDisplay.Clear();
+            ServerQuestions.Clear();
+            // set the question Ids list
+            QuestionIds = httpResponse.Ok;
+            // loop through the questions
+            foreach (string questionId in QuestionIds)
+            {
+                // pull the individual question from the server by id
+                QuestionReceiveFromServer temp;
+                try
+                {
+                    var data = await RTAClient.GetQuestionById(questionId);
+                    if (string.IsNullOrEmpty(data.Err))
+                    {
+                        temp = data.Ok;
+                        if (!string.IsNullOrEmpty(temp.question_text))
+                        {
+                            ServerQuestions.Add(temp);
+                        }
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Could not find question: " + data.Err);
+                    }
                 }
-                IsRefreshing = false;
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Could not find question: " + ex.Message);
+                }
             }
+
+            // convert the ServerQuestions to a Displayable format
+            foreach (QuestionReceiveFromServer serverQuestion in ServerQuestions)
+            {
+                Question temp = new Question(serverQuestion);
+
+                QuestionsToDisplay.Add(temp);
+            }
+
+            IsRefreshing = false;
+
             // after getting the list of questions, remove the ids for dismissed questions, and set the upvoted status of liked ones
             for (int i = 0; i < App.ReadingContext.ThisParticipant.RemovedQuestionIDs.Count; i++)
             {
@@ -344,6 +330,7 @@ namespace RightToAskClient.ViewModels
                     QuestionsToDisplay.Remove(temp);
                 }
             }
+
             // set previously upvoted questions
             foreach (Question q in QuestionsToDisplay)
             {
@@ -354,6 +341,7 @@ namespace RightToAskClient.ViewModels
                         q.AlreadyUpvoted = true;
                     }
                 }
+
                 // set previously flagged/reported questions
                 foreach (string qID in App.ReadingContext.ThisParticipant.ReportedQuestionIDs)
                 {
