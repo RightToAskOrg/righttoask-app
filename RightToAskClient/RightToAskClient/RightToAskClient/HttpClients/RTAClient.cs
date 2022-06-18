@@ -29,6 +29,7 @@ namespace RightToAskClient.HttpClients
         private static string QuestionUrl = BaseUrl + "/get_question";
         private static string UserUrl = BaseUrl + "/get_user";
         private static string EmailValidationUrl = BaseUrl + "/request_email_validation";
+        private static string EmailValidationPINUrl = BaseUrl + "/email_proof";
         
         // TODO At the moment, this is not used, because we don't have a cert chain for the server Public Key.
         // Instead, the public key itself is hardcoded.
@@ -141,6 +142,11 @@ namespace RightToAskClient.HttpClients
             };
             return await SendDataToServer(serverSend, "temp error msg", EmailValidationUrl);
 
+        }
+
+        public static async Task<Result<string>> SendEmailValidationPIN(EmailValidationPIN msg)
+        {
+            return await SignAndSendDataToServer(msg, "Sending PIN", EmailValidationPINUrl, "Signing PIN");
         }
 
         // Sign a message (data) with this user's key, then upload to the specified url. 

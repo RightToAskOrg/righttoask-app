@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using RightToAskClient.HttpClients;
 using RightToAskClient.Models;
 using RightToAskClient.Models.ServerCommsData;
+using Xamarin.CommunityToolkit.Converters;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
@@ -45,9 +47,15 @@ namespace RightToAskClient.ViewModels
             get => _parliamentaryDomainIndex;
             set => SetProperty(ref _parliamentaryDomainIndex, value);
         }
-        private string _mpRegistrationPIN = "";
 
-        public string MPRegistrationPIN
+        // The hash returned from the server that allows us to link the PIN response
+        // with the initial email verification request.
+        private string _mpVerificationHash = "";
+        
+        // The PIN entered by the user to verify that they read the email.
+        private int _mpRegistrationPIN;
+
+        public int MPRegistrationPIN
         {
             get => _mpRegistrationPIN;
             set => SetProperty(ref _mpRegistrationPIN, value);
@@ -69,16 +77,16 @@ namespace RightToAskClient.ViewModels
             SendMPVerificationEmailCommand = new Command(() => { SendMPRegistrationToServer(); });
             SubmitMPRegistrationPINCommand = new AsyncCommand(async () =>
             {
-                var success = SendMPRegistrationPINToServer();
+                var success = await SendMPRegistrationPINToServer();
                 if (success)
                 {
                     StoreMPRegistration();
                     SaveMPRegistrationToPreferences();
-                }
-                // navigate back to account page
-                if (ReturnToAccountPage)
-                {
-                    await App.Current.MainPage.Navigation.PopToRootAsync();
+                    // navigate back to account page
+                    if (ReturnToAccountPage)
+                    {
+                        await App.Current.MainPage.Navigation.PopToRootAsync();
+                    }
                 }
             });
         }
@@ -101,7 +109,6 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _showRegisterMPReportLabel, value);
         }
         
-        // TODO
         private async void SendMPRegistrationToServer()
         {
             var domain = _parliamentaryDomainIndex >= 0  && _parliamentaryDomainIndex < ParliamentData.Domains.Count
@@ -115,6 +122,7 @@ namespace RightToAskClient.ViewModels
             (bool isValid, string errorMsg, string hash) validation = RTAClient.ValidateHttpResponse(httpResponse, "Email Validation Request");
             if (validation.isValid)
             {
+                _mpVerificationHash = validation.hash;
                 // TODO - record hash; show PIN entry; 
             }
             else
@@ -145,11 +153,27 @@ namespace RightToAskClient.ViewModels
         }
 
         
-        // TODO
-        private bool SendMPRegistrationPINToServer()
+        private async Task<bool> SendMPRegistrationPINToServer()
         {
+            var msg = new EmailValidationPIN()
+            {
+                hash = _mpVerificationHash,
+                code = _mpRegistrationPIN
+            };
+            Result<string> httpResponse = await RTAClient.SendEmailValidationPIN(msg);
+            (bool isValid, string errorMsg, string hash) validation = RTAClient.ValidateHttpResponse(httpResponse, "Email Validation PIN");
             Console.WriteLine("The PIN to send to the server is "+MPRegistrationPIN);
-            return true;
+
+                // TODO - deal properly with errors e.g. email not known.
+                // also display a nice success message if applicable.
+            if (!validation.isValid)
+            {
+                
+                ShowRegisterMPReportLabel = true;
+                ReportLabelText = validation.errorMsg;
+            }
+
+            return validation.isValid;
         }
     }
 }
