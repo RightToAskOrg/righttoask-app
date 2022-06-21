@@ -44,7 +44,7 @@ namespace RightToAskClient.ViewModels
                 var changed = SetProperty(ref _dontShowFirstTimeReadingPopup, value);
                 if (changed)
                 {
-                    Preferences.Set("DontShowFirstTimeReadingPopup", value);
+                    Preferences.Set(Constants.DontShowFirstTimeReadingPopup, value);
                     App.ReadingContext.DontShowFirstTimeReadingPopup = value;
                 }
             }

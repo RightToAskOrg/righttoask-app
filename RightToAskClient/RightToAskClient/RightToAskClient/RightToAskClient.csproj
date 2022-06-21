@@ -99,6 +99,7 @@
     <None Remove="Views\" />
     <None Remove="sqlite-net-pcl" />
     <None Remove="ViewModels\Registration1ViewModel.cs.old" />
+    <None Remove="App.xaml.cs.old" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />

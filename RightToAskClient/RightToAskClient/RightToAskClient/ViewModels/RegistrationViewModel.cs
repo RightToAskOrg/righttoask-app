@@ -446,8 +446,8 @@ namespace RightToAskClient.ViewModels
         {
             // save registration to preferences
             var registrationObjectToSave = JsonSerializer.Serialize(new ServerUser(_registration));
-            Preferences.Set("RegistrationInfo", registrationObjectToSave);
-            Preferences.Set("StateID", SelectedStateAsIndex); // stored as an int as used for the other page(s) state pickers
+            Preferences.Set(Constants.RegistrationInfo, registrationObjectToSave);
+            Preferences.Set(Constants.StateID, SelectedStateAsIndex); // stored as an int as used for the other page(s) state pickers
         }
 
         private async void SendUpdatedUserToServer()
@@ -473,8 +473,8 @@ namespace RightToAskClient.ViewModels
         {
             App.ReadingContext.ThisParticipant.RegistrationInfo = _registration;
             App.ReadingContext.ThisParticipant.IsRegistered = true;
-            Preferences.Set("IsRegistered",
-            App.ReadingContext.ThisParticipant.IsRegistered); // save the registration to preferences
+            // save the registration to preferences
+            Preferences.Set(Constants.IsRegistered, App.ReadingContext.ThisParticipant.IsRegistered); 
         }
 
 

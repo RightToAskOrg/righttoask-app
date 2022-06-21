@@ -40,7 +40,7 @@ namespace RightToAskClient
             ParliamentData.MPAndOtherData.TryInit();
             
             // get account info from preferences
-            var registrationPref = Preferences.Get("RegistrationInfo", "");
+            var registrationPref = Preferences.Get(Constants.RegistrationInfo, "");
             if (!string.IsNullOrEmpty(registrationPref))
             {
                 var registrationObj = JsonSerializer.Deserialize<ServerUser>(registrationPref);
@@ -50,7 +50,7 @@ namespace RightToAskClient
                 // We actually need to check for the stored "IsRegistered" boolean, in case they tried to
                 // register but failed, for example because the server was offline.
                 // So we may have stored Registration data, but not have actually succeeded in uploading it.
-                var registrationSuccess = Preferences.Get("IsRegistered", false);
+                var registrationSuccess = Preferences.Get(Constants.IsRegistered, false);
                 ReadingContext.ThisParticipant.IsRegistered = registrationSuccess;
                 
                 // We have a problem if our stored registration is null but we think we registered successfully.
@@ -67,13 +67,13 @@ namespace RightToAskClient
                 
                 // Retrieve MP/staffer registration. Note that staffers have both the IsVerifiedMPAccount flag and the
                 // IsVerifiedMPStafferAccount flag set to true.
-                bool isMPAccount = Preferences.Get("IsVerifiedMPAccount", false);
+                bool isMPAccount = Preferences.Get(Constants.IsVerifiedMPAccount, false);
                 if (isMPAccount)
                 {
                     ReadingContext.ThisParticipant.IsVerifiedMPAccount = isMPAccount;
                     ReadingContext.ThisParticipant.IsVerifiedMPStafferAccount =
-                        Preferences.Get("IsVerifiedMPStafferAccount", false);
-                    var MPRepresentingjson = Preferences.Get("MPRegisteredAs", "");
+                        Preferences.Get(Constants.IsVerifiedMPStafferAccount, false);
+                    var MPRepresentingjson = Preferences.Get(Constants.MPRegisteredAs, "");
                     if (!String.IsNullOrEmpty(MPRepresentingjson))
                     {
                         MP? MPRepresenting = JsonSerializer.Deserialize<MP>(MPRepresentingjson);
@@ -90,14 +90,14 @@ namespace RightToAskClient
                 }
             }
             // sets state pickers
-            int stateID = Preferences.Get("StateID", -1);
+            int stateID = Preferences.Get(Constants.StateID, -1);
             if (stateID >= 0)
             {
                 ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsIndex = stateID;
             }
 
             // set popup bool
-            ReadingContext.DontShowFirstTimeReadingPopup = Preferences.Get("DontShowFirstTimeReadingPopup", false);
+            ReadingContext.DontShowFirstTimeReadingPopup = Preferences.Get(Constants.DontShowFirstTimeReadingPopup, false);
         }
 
         protected override void OnSleep()

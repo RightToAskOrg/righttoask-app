@@ -137,9 +137,9 @@ namespace RightToAskClient.ViewModels
         private void SaveMPRegistrationToPreferences()
         {
             // Note that a staffer has booth of these flags set to true.
-            Preferences.Set("IsVerifiedMPAccount", true);
-            Preferences.Set("IsVerifiedMPStafferAccount", _isStaffer); 
-            Preferences.Set("MPRegisteredAs",JsonSerializer.Serialize(MPRepresenting));
+            Preferences.Set(Constants.IsVerifiedMPAccount, true);
+            Preferences.Set(Constants.IsVerifiedMPStafferAccount, _isStaffer); 
+            Preferences.Set(Constants.MPRegisteredAs,JsonSerializer.Serialize(MPRepresenting));
         }
 
         private void StoreMPRegistration()
@@ -159,7 +159,6 @@ namespace RightToAskClient.ViewModels
             };
             Result<string> httpResponse = await RTAClient.SendEmailValidationPIN(msg);
             (bool isValid, string errorMsg, string hash) validation = RTAClient.ValidateHttpResponse(httpResponse, "Email Validation PIN");
-            Console.WriteLine("The PIN to send to the server is "+MPRegistrationPIN);
 
                 // TODO - deal properly with errors e.g. email not known.
                 // also display a nice success message if applicable.
