@@ -20,8 +20,11 @@
                     Style="{StaticResource LeftPicker}"
 			        SelectedIndex="{Binding SelectedStateAsIndex}">
             </Picker>
-            <Label Text="{xct:Translate ElectoratesHeaderText}" Style="{StaticResource LeftSmall}"/>
+            <Label Text="{xct:Translate EditableElectoratesHeaderText}" Style="{StaticResource LeftSmall}"/>
+            <!-- The height request is a kludge because otherwise the CollectionView takes up all the rest of the page -->
+            <!-- rather than resizing to fit just the number of elements it has -->
             <CollectionView ItemsSource="{Binding Electorates}" SelectionMode="Single" 
+                            HeightRequest="80" 
                             SelectedItem="{Binding SelectedElectorateWithChamber}">
             <!-- <CollectionView ItemsSource="{Binding Registration.electorates}" SelectionMode="Single" SelectedItem="{Binding SelectedElectorateWithChamber}">-->
                 <CollectionView.ItemTemplate>

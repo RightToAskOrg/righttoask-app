@@ -308,7 +308,7 @@ namespace RightToAskClient.ViewModels
                 ShowElectoratesFrame = false;
 
                 // set the address data if we have it
-                var addressPref = Preferences.Get("Address", "");
+                var addressPref = Preferences.Get(Constants.Address, "");
                 if (!string.IsNullOrEmpty(addressPref))
                 {
                     var addressObj = JsonSerializer.Deserialize<Address>(addressPref);
@@ -453,8 +453,8 @@ namespace RightToAskClient.ViewModels
         private void SaveAddress()
         {
             var fullAddress = JsonSerializer.Serialize(Address);
-            Preferences.Set("Address", fullAddress); // save the full address
-            Preferences.Set("StateID", SelectedState);
+            Preferences.Set(Constants.Address, fullAddress); // save the full address
+            Preferences.Set(Constants.StateID, SelectedState);
         }
 
         private void OnStateLCElectoratePickerSelectedIndexChanged()

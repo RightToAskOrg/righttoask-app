@@ -14,5 +14,15 @@ namespace RightToAskClient
         public static string StoredMPDataFile = "MPs.json";
         public static string APIKeyFileName = "GeoscapeAPIKey";
         public static string MapBaseURL = "https://www.abc.net.au/res/sites/news-projects/interactive-electorateboundaries-2/5.0.0/?kml=/dat/news/elections/federal/2022/guide/kml/{0}.kml";
+        
+        // Preferences storage strings
+        public static string IsRegistered = "IsRegistered";
+        public static string RegistrationInfo = "RegistrationInfo";
+        public static string StateID = "StateID";
+        public static string DontShowFirstTimeReadingPopup = "DontShowFirstTimeReadingPopup";
+        public static string IsVerifiedMPStafferAccount = "IsVerifiedMPStafferAccount";
+        public static string IsVerifiedMPAccount = "IsVerifiedMPAccount";
+        public static string MPRegisteredAs= "MPRegisteredAs";
+        public static string Address = "Address";
     }
 }

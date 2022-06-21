@@ -1,8 +1,7 @@
-	using System.Collections.Generic;
-	using System.Text.Json.Serialization;
-	using RightToAskClient.Models;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
-namespace RightToAskClient.Models
+namespace RightToAskClient.Models.ServerCommsData
 {
 	public class UpdatableParliamentAndMPDataStructure
 	{
