@@ -11,14 +11,24 @@ using RightToAskClient.Resx;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using Xamarin.CommunityToolkit.Extensions;
 
 namespace RightToAskClient.Models
 {
+    public enum QuestionDetailsStatus
+    {
+        NewQuestion,
+        OtherUserQuestion,
+        UpdateMyQuestion
+    }
+
     public class Question : ObservableObject
     {
         private int _upVotes;
         private int _downVotes;
         private QuestionSendToServer _updates = new QuestionSendToServer();
+
+        public QuestionDetailsStatus Status { get; set; }
 
         private string _questionText = "";
         public string QuestionText
@@ -27,11 +37,14 @@ namespace RightToAskClient.Models
             set
             {
                 SetProperty(ref _questionText, value);
-                QuestionViewModel.Instance._serverQuestionUpdates.question_text = _questionText;
+                QuestionViewModel.Instance.ServerQuestionUpdates.question_text = _questionText;
                 _updates.question_text = _questionText;
             }
         }
-        
+
+        // needed for getting a bool result back from the generic popups
+        public bool PopupResponse { get; set; } = false;
+
         // Lists the updates that have occurred since construction.
         public QuestionSendToServer Updates => _updates; 
         
@@ -51,7 +64,7 @@ namespace RightToAskClient.Models
             set
             {
                 SetProperty(ref _background, value);
-                QuestionViewModel.Instance._serverQuestionUpdates.background = _background;
+                QuestionViewModel.Instance.ServerQuestionUpdates.background = _background;
                 _updates.background = _background;
             }
         }
@@ -85,7 +98,7 @@ namespace RightToAskClient.Models
             set
             {
                 SetProperty(ref _questionId, value);
-                QuestionViewModel.Instance._serverQuestionUpdates.question_id = _questionId;
+                QuestionViewModel.Instance.ServerQuestionUpdates.question_id = _questionId;
             }
         }
         private string _version = "";
@@ -95,7 +108,7 @@ namespace RightToAskClient.Models
             set
             {
                 SetProperty(ref _version, value);
-                QuestionViewModel.Instance._serverQuestionUpdates.version = _version;
+                QuestionViewModel.Instance.ServerQuestionUpdates.version = _version;
             }
         }
 
@@ -164,7 +177,7 @@ namespace RightToAskClient.Models
             set
             {
                 SetProperty(ref _hansardLink, value);
-                QuestionViewModel.Instance._serverQuestionUpdates.hansard_link = _hansardLink;
+                QuestionViewModel.Instance.ServerQuestionUpdates.hansard_link = _hansardLink;
             }
         }
 
@@ -206,6 +219,27 @@ namespace RightToAskClient.Models
             set => SetProperty(ref _hasAnswer, value);
         }
 
+        // chosen by route of option A or B to answer in app or raise in parliament
+        private bool _answerInApp = false;
+        public bool AnswerInApp
+        {
+            get => _answerInApp;
+            set => SetProperty(ref _answerInApp, value);
+        }
+
+        // booleans stored for new style popups
+        private bool _approveClicked = false;
+        public bool ApproveClicked
+        {
+            get => _approveClicked;
+            set => SetProperty(ref _approveClicked, value);
+        }
+        private bool _cancelClicked = false;
+        public bool CancelClicked
+        {
+            get => _cancelClicked;
+            set => SetProperty(ref _cancelClicked, value);
+        }
         /*
         public override string ToString ()
         {
@@ -249,11 +283,17 @@ namespace RightToAskClient.Models
                 else
                 {
                     string message = AppResources.CreateAccountPopUpText;
-                    bool registerNow = await App.Current.MainPage.DisplayAlert(AppResources.MakeAccountQuestionText, message, AppResources.OKText, AppResources.NotNowAnswerText);
-                    if (registerNow)
+                    var popup = new TwoButtonPopup(this, AppResources.MakeAccountQuestionText, message, AppResources.NotNowAnswerText, AppResources.OKText); // this instance uses a model instead of a VM
+                    _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                    if (ApproveClicked)
                     {
                         await Shell.Current.GoToAsync($"{nameof(RegisterPage1)}");
                     }
+                    //bool registerNow = await App.Current.MainPage.DisplayAlert(AppResources.MakeAccountQuestionText, message, AppResources.OKText, AppResources.NotNowAnswerText);
+                    //if (registerNow)
+                    //{
+                    //    await Shell.Current.GoToAsync($"{nameof(RegisterPage1)}");
+                    //}
                 }
             });
             QuestionDetailsCommand = new Command(() =>
@@ -283,11 +323,23 @@ namespace RightToAskClient.Models
                     App.ReadingContext.ThisParticipant.ReportedQuestionIDs.Remove(QuestionId);
                 }
             });
+            PopupApproveCommand = new Command(() =>
+            {
+                ApproveClicked = true;
+                CancelClicked = false;
+            });
+            PopupCancelCommand = new Command(() =>
+            {
+                CancelClicked = true;
+                ApproveClicked = false;
+            });
         }
 
         // commands
         public Command UpvoteCommand { get; }
         public Command ReportCommand { get; }
+        public Command PopupApproveCommand { get; }
+        public Command PopupCancelCommand { get; }
         public Command QuestionDetailsCommand { get; }
         public IAsyncCommand ShareCommand { get; }
         
@@ -405,6 +457,31 @@ namespace RightToAskClient.Models
             
             listA.Add(possibleItem);
             return true;
+        }
+
+        //validation
+        public bool ValidateNewQuestion()
+        {
+            bool isValid = false;
+            // just needs question text for new questions
+            if (!string.IsNullOrEmpty(QuestionText))
+            {
+                isValid = true;
+            }
+            return isValid;
+        }
+
+        public bool ValidateUpdateQuestion()
+        {
+            bool isValid = false;
+            // needs more fields to update an existing question
+            if (!string.IsNullOrEmpty(QuestionText)
+                && !string.IsNullOrEmpty(QuestionId)
+                && !string.IsNullOrEmpty(Version))
+            {
+                isValid = true;
+            }
+            return isValid;
         }
     }
 }

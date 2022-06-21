@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="RightToAskClient.Views.HowToPublishView">
+  <ContentView.Content>
+      <StackLayout Margin="10" VerticalOptions="FillAndExpand" BackgroundColor="Transparent" Padding="5">
+            <Grid RowDefinitions="auto,auto,auto,auto,auto,auto,auto" ColumnDefinitions="auto,*" 
+                  BackgroundColor="Transparent" VerticalOptions="FillAndExpand" ColumnSpacing="0" RowSpacing="0">
+                <!--Main Header-->
+                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{xct:Translate HowToHeaderText}" Style="{StaticResource Header1}"
+                       HorizontalOptions="Center" HorizontalTextAlignment="Center" Margin="0,0,0,20"/>
+                <!--Step 1-->
+                <Label Grid.Row="1" Grid.Column="0" VerticalTextAlignment="Start" HorizontalTextAlignment="Center" Margin="0,2,0,0">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{xct:Translate HowToStep1Number}"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label Grid.Row="1" Grid.Column="1" Style="{StaticResource LeftMedium}" BackgroundColor="Transparent" Margin="0">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{xct:Translate HowToStep1Bold}" FontAttributes="Bold" FontSize="Medium"/>
+                            <Span Text="{xct:Translate HowToStep1}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <!--Step2-->
+                <Label Grid.Row="2" Grid.Column="0" VerticalTextAlignment="Start" HorizontalTextAlignment="Center" Margin="0,2,0,0">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{xct:Translate HowToStep2Number}"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label Grid.Row="2" Grid.Column="1" Style="{StaticResource LeftMedium}" BackgroundColor="Transparent" Margin="0">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{xct:Translate HowToStep2Bold1}" FontAttributes="Bold" FontSize="Medium"/>
+                            <Span Text="{xct:Translate HowToStep2}" />
+                            <Span Text="{xct:Translate HowToStep2Bold2}" FontAttributes="Bold" FontSize="Medium"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Grid Grid.Row="3" Grid.Column="1" RowDefinitions="auto,auto" 
+                      ColumnDefinitions="auto,auto" BackgroundColor="Transparent">
+                    <Label Text="{xct:Translate HowToStep2aLetter}" Grid.Row="0" Grid.Column="0"/>
+                    <Label Text="{xct:Translate HowToStep2bLetter}" Grid.Row="1" Grid.Column="0"/>
+                    <Label Grid.Row="0" Grid.Column="1" Text="{xct:Translate HowToStep2a}" Style="{StaticResource LeftSmall}"/>
+                    <Label Grid.Row="1" Grid.Column="1" Text="{xct:Translate HowToStep2b}" Style="{StaticResource LeftSmall}"/>
+                </Grid>
+                <!--Step 3-->
+                <Label Grid.Row="4" Grid.Column="0" VerticalTextAlignment="Start" HorizontalTextAlignment="Center" Margin="0,2,0,0">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{xct:Translate HowToStep3Number}"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label Grid.Row="4" Grid.Column="1" Style="{StaticResource LeftMedium}" BackgroundColor="Transparent" Margin="0">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{xct:Translate HowToStep3Bold}" FontAttributes="Bold" FontSize="Medium"/>
+                            <Span Text="{xct:Translate HowToStep3}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <!--Step 4-->
+                <Label Grid.Row="5" Grid.Column="0" VerticalTextAlignment="Start" HorizontalTextAlignment="Center" Margin="0,2,0,0">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{xct:Translate HowToStep4Number}"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label Grid.Row="5" Grid.Column="1" Style="{StaticResource LeftMedium}" BackgroundColor="Transparent" Margin="0">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{xct:Translate HowToStep4}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <!--Step 5-->
+                <Label Grid.Row="6" Grid.Column="0" VerticalTextAlignment="Start" HorizontalTextAlignment="Center" Margin="0,2,0,0">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{xct:Translate HowToStep5Number}"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label Grid.Row="6" Grid.Column="1" Style="{StaticResource LeftMedium}" BackgroundColor="Transparent" Margin="0">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{xct:Translate HowToStep5Bold}" FontAttributes="Bold" FontSize="Medium"/>
+                            <Span Text="{xct:Translate HowToStep5}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </Grid>
+        </StackLayout>
+  </ContentView.Content>
+</ContentView>

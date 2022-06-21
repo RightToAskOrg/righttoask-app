@@ -242,7 +242,7 @@ namespace RightToAskClient.ViewModels
                 QuestionText = App.ReadingContext.DraftQuestion,
                 QuestionSuggester = (thisParticipant.IsRegistered)
                     ? thisParticipant.RegistrationInfo.uid
-                    : "Anonymous user",
+                    : "Anonymous",
                 Filters = App.ReadingContext.Filters,
                 DownVotes = 0,
                 UpVotes = 0
@@ -250,7 +250,10 @@ namespace RightToAskClient.ViewModels
 
             QuestionViewModel.Instance.Question = newQuestion;
             QuestionViewModel.Instance.IsNewQuestion = true;
-            await Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
+
+            // instead of going to the questionDetailsPage we now go to a Background page and then a metadata page before the details page
+            // await Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
+            await Shell.Current.GoToAsync($"{nameof(QuestionBackgroundPage)}");
         }
 
         private async void OnDiscardButtonClicked()
@@ -258,15 +261,15 @@ namespace RightToAskClient.ViewModels
             App.ReadingContext.DraftQuestion = "";
             ShowQuestionFrame = false;
 
-            bool goHome = await App.Current.MainPage.DisplayAlert("Draft discarded",
-                AppResources.FocusSupportReport, "Home", "Related questions");
-            if (goHome)
+            var popup = new TwoButtonPopup(QuestionViewModel.Instance, AppResources.DraftDiscardedPopupTitle, AppResources.FocusSupportReport, AppResources.RelatedQuestionsButtonText, AppResources.GoHomeButtonText);
+            _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+            if (ApproveButtonClicked)
             {
                 await App.Current.MainPage.Navigation.PopToRootAsync();
             }
         }
 
-        private async void LoadQuestions()
+        public async void LoadQuestions()
         {
             Result<List<string>> httpResponse = await RTAClient.GetQuestionList();
             var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");

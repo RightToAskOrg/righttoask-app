@@ -47,10 +47,7 @@ namespace RightToAskClient.Models
 
         public void Toggle()
         {
-            _selected = !_selected;
-            // This produces a compiler warning because it thinks the property name
-            // is redundant, but I don't think it is.
-            OnPropertyChanged("Selected");
+            Selected = !Selected;
         }
 
         public bool NameContains(string query)

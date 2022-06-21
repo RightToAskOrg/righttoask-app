@@ -226,54 +226,55 @@ namespace RightToAskClient.Models
 	    }
 
 
-	    /* Finds all the chambers in which a citizen of this state is represented,
-	     * including the House of Representatives and the Senate.
-	     * If the string input doesn't match any states, it simply
-	     * returns the federal chambers.
-	     */
-	    public static List<Chamber> FindChambers(string state)
-	    {
-		    var chambersForTheState = new List<Chamber>()
-		    {
-			    Chamber.Australian_House_Of_Representatives,
-			    Chamber.Australian_Senate
-		    };
+		/* Finds all the chambers in which a citizen of this state is represented,
+		 * including the House of Representatives and the Senate.
+		 * If the string input doesn't match any states, it simply
+		 * returns the federal chambers.
+		 */
+		public static List<Chamber> FindChambers(string state)
+		{
+			var chambersForTheState = new List<Chamber>();
 
-		    switch (state.ToUpper())
-		    {
-			    case (State.ACT):
-				    chambersForTheState.Add(Chamber.ACT_Legislative_Assembly);
-				    break;
-			    case (State.NSW):
-				    chambersForTheState.Add(Chamber.NSW_Legislative_Assembly);
-				    chambersForTheState.Add(Chamber.NSW_Legislative_Council);
-				    break;
-			    case (State.NT):
-				    chambersForTheState.Add(Chamber.NT_Legislative_Assembly);
-				    break;
-			    case (State.QLD):
-				    chambersForTheState.Add(Chamber.Qld_Legislative_Assembly);
-				    break;
-			    case (State.SA):
-				    chambersForTheState.Add(Chamber.SA_House_Of_Assembly);
-				    chambersForTheState.Add(Chamber.SA_Legislative_Council);
-				    break;
-			    case (State.VIC):
-				    chambersForTheState.Add(Chamber.Vic_Legislative_Assembly);
-				    chambersForTheState.Add(Chamber.Vic_Legislative_Council);
-				    break;
-			    case (State.TAS):
-				    chambersForTheState.Add(Chamber.Tas_House_Of_Assembly);
-				    chambersForTheState.Add(Chamber.Tas_Legislative_Council);
-				    break;
-			    case (State.WA):
-				    chambersForTheState.Add(Chamber.WA_Legislative_Assembly);
-				    chambersForTheState.Add(Chamber.WA_Legislative_Council);
-				    break;
-		    }
+			if (StatesAndTerritories.Contains(state))
+			{
+				chambersForTheState.Add(Chamber.Australian_House_Of_Representatives);
+				chambersForTheState.Add(Chamber.Australian_Senate);
 
-		    return chambersForTheState;
-	    }
+				switch (state.ToUpper())
+				{
+					case (State.ACT):
+						chambersForTheState.Add(Chamber.ACT_Legislative_Assembly);
+						break;
+					case (State.NSW):
+						chambersForTheState.Add(Chamber.NSW_Legislative_Assembly);
+						chambersForTheState.Add(Chamber.NSW_Legislative_Council);
+						break;
+					case (State.NT):
+						chambersForTheState.Add(Chamber.NT_Legislative_Assembly);
+						break;
+					case (State.QLD):
+						chambersForTheState.Add(Chamber.Qld_Legislative_Assembly);
+						break;
+					case (State.SA):
+						chambersForTheState.Add(Chamber.SA_House_Of_Assembly);
+						chambersForTheState.Add(Chamber.SA_Legislative_Council);
+						break;
+					case (State.VIC):
+						chambersForTheState.Add(Chamber.Vic_Legislative_Assembly);
+						chambersForTheState.Add(Chamber.Vic_Legislative_Council);
+						break;
+					case (State.TAS):
+						chambersForTheState.Add(Chamber.Tas_House_Of_Assembly);
+						chambersForTheState.Add(Chamber.Tas_Legislative_Council);
+						break;
+					case (State.WA):
+						chambersForTheState.Add(Chamber.WA_Legislative_Assembly);
+						chambersForTheState.Add(Chamber.WA_Legislative_Council);
+						break;
+				}
+			}
+			return chambersForTheState;
+		}
 
 	    // TODO: add logic for inferred other houses.
 	    public static List<ElectorateWithChamber> GetStateElectoratesGivenOneRegion(string state, string region)
@@ -285,8 +286,23 @@ namespace RightToAskClient.Models
 			    return new List<ElectorateWithChamber>();
 		    }
 
-		    return new List<ElectorateWithChamber>() { new ElectorateWithChamber(chamber.Ok, region) };
-	    }
+            return new List<ElectorateWithChamber>() { new ElectorateWithChamber(chamber.Ok, region) };
+		}
+
+		// Used because the Geoscape API returns electorates in all Uppercase, which messes with the URL for the webview that displays the map of electorates
+		public static string ConvertGeoscapeElectorateToStandard(string state, string electorate)
+		{
+			List<string> options = ListElectoratesInHouseOfReps(state);
+			string result = "";
+			for (int i = 0; i < options.Count - 1; i++)
+			{
+				if (options[i].ToUpper() == electorate.ToUpper())
+				{
+					result = options[i];
+				}
+			}
+			return result;
+		}
 
 	    public static List<string> ListElectoratesInHouseOfReps(string state)
 	    {

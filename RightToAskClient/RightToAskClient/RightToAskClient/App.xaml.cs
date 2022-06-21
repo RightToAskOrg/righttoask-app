@@ -13,6 +13,9 @@ using System.Linq;
 using RightToAskClient.Models.ServerCommsData;
 using Switch = Xamarin.Forms.Switch;
 
+[assembly: ExportFont("Roboto-Black.ttf", Alias = "AppFont")]
+[assembly: ExportFont("DancingScript-VariableFont_wght.ttf", Alias = "DanceFont")]
+
 namespace RightToAskClient
 {
     public partial class App : Application
@@ -98,6 +101,7 @@ namespace RightToAskClient
 
             // set popup bool
             ReadingContext.DontShowFirstTimeReadingPopup = Preferences.Get(Constants.DontShowFirstTimeReadingPopup, false);
+            ReadingContext.ShowHowToPublishPopup = Preferences.Get("ShowHowToPublishPopup", true);
         }
 
         protected override void OnSleep()
@@ -107,6 +111,7 @@ namespace RightToAskClient
         protected override void OnResume()
         {
         }
+        // maybe port this into a content View instead?
         private void SetTheStyles()
         {
             var selectableDataTemplate = new DataTemplate(() =>
@@ -123,11 +128,11 @@ namespace RightToAskClient
                 };
 
                 var nameLabel = new Label { FontAttributes = FontAttributes.Bold };
-                var selectedToggle = new Switch();
+                var selectedToggle = new CheckBox();
 
                 // nameLabel.SetBinding(Label.TextProperty, "TagEntity.NickName");
                 nameLabel.SetBinding(Label.TextProperty, "TagEntity");
-                selectedToggle.SetBinding(Switch.IsToggledProperty, "Selected");
+                selectedToggle.SetBinding(CheckBox.IsCheckedProperty, "Selected");
                 selectedToggle.HorizontalOptions = LayoutOptions.End;
                 selectedToggle.VerticalOptions = LayoutOptions.Center;
 

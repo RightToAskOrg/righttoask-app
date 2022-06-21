@@ -47,5 +47,17 @@ namespace RightToAskClient.Models.ServerCommsData
             // badges = newReg.badges;
 
         }
+
+        public bool Validate()
+        {
+            bool isValid = false;
+            if (!string.IsNullOrEmpty(uid)
+                && !string.IsNullOrEmpty(public_key)
+                && !string.IsNullOrEmpty(state))
+            {
+                isValid = true;
+            }
+            return isValid;
+        }
     }
 }

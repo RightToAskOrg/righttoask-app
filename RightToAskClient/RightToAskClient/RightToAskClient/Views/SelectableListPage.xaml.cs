@@ -39,9 +39,11 @@ namespace RightToAskClient.Views
 			InitializeComponent();
 			var vm = new SelectableListViewModel(authorityLists, message);
 			BindingContext = vm;
-			
-			SelectableListView.ItemsSource = vm.SelectableEntities;
-			SelectableListView.IsGroupingEnabled = false;
+			//SelectableListView.ItemsSource = vm.SelectableEntities;
+			//SelectableListView.IsGroupingEnabled = false;
+			// Note this overrides the base setting of AuthorityListView.ItemsSource, which 
+			// otherwise includes both selected and non-selected items.
+			//AuthorityListView.ItemsSource = authorityLists.AllEntities;
 		}
 
         public SelectableListPage(SelectableList<MP> MPLists, string message, bool grouping)
@@ -49,10 +51,9 @@ namespace RightToAskClient.Views
 			InitializeComponent();
 			var vm = new SelectableListViewModel(MPLists, message, grouping);
 			BindingContext = vm;	
-			
-			SelectableListView.ItemsSource = grouping ? (IEnumerable)vm.SelectableGroupedEntities : vm.SelectableEntities;
-			SelectableListView.IsGroupingEnabled = grouping;
-			SelectableListView.GroupDisplayBinding = vm.GroupDisplay;
+			//SelectableListView.ItemsSource = grouping ? (IEnumerable)vm.SelectableGroupedEntities : vm.SelectableEntities;
+			//SelectableListView.IsGroupingEnabled = grouping;
+			//SelectableListView.GroupDisplayBinding = vm.GroupDisplay;
         }
 		
 		/* TODO It wold probably be more elegantly MVVM if this was in the ViewModel rather than the code-behind, but I

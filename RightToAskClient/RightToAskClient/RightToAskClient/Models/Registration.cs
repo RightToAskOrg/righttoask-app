@@ -128,5 +128,39 @@ namespace RightToAskClient.Models
         {
             throw new NotImplementedException();
         }
+
+        public bool Validate()
+        {
+            bool isValid = false;
+            // needs to have a uid and public key
+            if (!string.IsNullOrEmpty(uid) && !string.IsNullOrEmpty(public_key) && !string.IsNullOrEmpty(State))
+            {
+                if (electorates.Any())
+                {
+                    bool hasInvalidElectorate = false;
+                    foreach(ElectorateWithChamber e in electorates)
+                    {
+                        bool validElectorate = e.Validate();
+                        if (!validElectorate)
+                        {
+                            hasInvalidElectorate = true;
+                        }
+                    }
+                    if (hasInvalidElectorate)
+                    {
+                        isValid = false;
+                    }
+                    else
+                    {
+                        isValid = true;
+                    }
+                }
+                else
+                {
+                    isValid = true;
+                }
+            }
+            return isValid;
+        }
     }
 }

@@ -232,7 +232,7 @@
     <value>Support questions you care about</value>
   </data>
   <data name="FocusSupportInstructionQuestionDrafting" xml:space="preserve">
-    <value>Is a similar question here already? If you can, focus support by upvoting an old question, not sending a new one</value>
+    <value>Is a similar question here already? Focus support by up-voting it, not publishing a new one</value>
   </data>
   <data name="FocusSupportReport" xml:space="preserve">
     <value>You saved time and focused support by upvoting a similar question</value>
@@ -340,16 +340,16 @@
     <value>Question Writer:</value>
   </data>
   <data name="ReadingPageHeader1" xml:space="preserve">
-    <value>Upvote good questions, or tap for more detail. Swipe left to dismiss uninteresting ones.</value>
+    <value>Up-vote good questions, or tap for more detail. Swipe left to dismiss uninteresting ones.</value>
   </data>
   <data name="ReadingPageQuestionDraftingHeader1" xml:space="preserve">
-    <value>Upvote good questions, or tap for more detail. Swipe left to discard uninteresting ones.</value>
+    <value>Up-vote good questions, or tap for more detail. Swipe left to discard uninteresting ones.</value>
   </data>
   <data name="ReadQuestionsTitle" xml:space="preserve">
     <value>Read Questions</value>
   </data>
   <data name="RecentQuestionsTitle" xml:space="preserve">
-    <value>Recent Questions</value>
+    <value>Questions</value>
   </data>
   <data name="RegisterMPAccountButtonText" xml:space="preserve">
     <value>Register as an MP</value>
@@ -451,10 +451,10 @@
     <value>+1</value>
   </data>
   <data name="UpvotedButtonText" xml:space="preserve">
-    <value>Undo Upvote</value>
+    <value>Undo Up-vote</value>
   </data>
   <data name="UpvotesHeaderText" xml:space="preserve">
-    <value>Upvotes: </value>
+    <value>Up-votes: </value>
   </data>
   <data name="UserName" xml:space="preserve">
     <value>Username</value>
@@ -523,7 +523,7 @@
     <value>Image of a piece of paper with writing on it and a pencil pointing at and touching part of that page.</value>
   </data>
   <data name="MainPageSubheader1Text" xml:space="preserve">
-    <value>Read and upvote questions</value>
+    <value>Read and up-vote questions</value>
   </data>
   <data name="MainPageSubheader2Text" xml:space="preserve">
     <value>Write your own questions</value>
@@ -538,10 +538,10 @@
     <value>Trending now frame heading text.</value>
   </data>
   <data name="ReadAndUpvoteFrameSubtext" xml:space="preserve">
-    <value>Read and Upvote</value>
+    <value>Read and Up-vote</value>
   </data>
   <data name="ReadAndUpvoteImageAccessibilityHelpText" xml:space="preserve">
-    <value>The image of glasses is to convey the act of reading questions while the image of the checkbox is to show that you can also upvote questions after reading them if you choose to go to this section of the app.</value>
+    <value>The image of glasses is to convey the act of reading questions while the image of the checkbox is to show that you can also up-vote questions after reading them if you choose to go to this section of the app.</value>
   </data>
   <data name="ReadAndUpvoteImageAccessibilityNameText" xml:space="preserve">
     <value>Image of Glasses on the left and a checkmark in a box to the right.</value>
@@ -592,10 +592,10 @@
     <value>This button is to indicate that you can share this question on social media or with other people through messaging applications on your device by copying the text through this share feature.</value>
   </data>
   <data name="QuestionFrameThumbsUpAccessibilityName" xml:space="preserve">
-    <value>Thumbs Up Icon or Upvote Button.</value>
+    <value>Thumbs Up Icon or Up-vote Button.</value>
   </data>
   <data name="QuestionFrameThumbsUpAccessibilityText" xml:space="preserve">
-    <value>Shows an image of a thumbs up icon that is highlighted green if you have already liked this question, or is not highlighted if you have not upvoted it. There is a tally number of total number of upvotes this question has to the right of this icon.</value>
+    <value>Shows an image of a thumbs up icon that is highlighted green if you have already liked this question, or is not highlighted if you have not up-voted it. There is a tally number of total number of up-votes this question has to the right of this icon.</value>
   </data>
   <data name="QuestionDraftingPagePopupText" xml:space="preserve">
     <value>New Popup Test for Drafting Question</value>
@@ -616,7 +616,7 @@
     <value>FiltersPopupText</value>
   </data>
   <data name="FindMPsPopupText" xml:space="preserve">
-    <value>FindMPsPopupText</value>
+    <value>Your MPs are defined by where you live.</value>
   </data>
   <data name="InfoPopupButtonText" xml:space="preserve">
     <value>Information Popup Button</value>
@@ -644,5 +644,173 @@
   </data>
   <data name="SubmitPINButtonText" xml:space="preserve">
     <value>Enter the 6-digit code that was sent to their official email address</value>
+  </data>
+  <data name="AccountUpdateSuccessResponseText" xml:space="preserve">
+    <value>Your account was successfully updated!</value>
+  </data>
+  <data name="NoAccountChangesDetectedAlertText" xml:space="preserve">
+    <value>No Changes were made and thus there are no changes to update on your account. Suggestion: try updating your display name.</value>
+  </data>
+  <data name="NoAccountChangesDetectedTitle" xml:space="preserve">
+    <value>No Changes Found</value>
+  </data>
+  <data name="AccountCreationSuccessResponseText" xml:space="preserve">
+    <value>Your account was created successfully!</value>
+  </data>
+  <data name="GoHomeButtonText" xml:space="preserve">
+    <value>Go Home</value>
+  </data>
+  <data name="QuestionPublishedPopupText" xml:space="preserve">
+    <value>Question successfully published!</value>
+  </data>
+  <data name="WriteAnotherQuestionButtonText" xml:space="preserve">
+    <value>Write Another One</value>
+  </data>
+  <data name="GoButtonText" xml:space="preserve">
+    <value>Go</value>
+  </data>
+  <data name="UserNameHeaderText" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="NoSearchResultsFoundText" xml:space="preserve">
+    <value>No results found for the entered keyword.</value>
+  </data>
+  <data name="DraftDiscardedPopupTitle" xml:space="preserve">
+    <value>Draft discarded.</value>
+  </data>
+  <data name="EditQuestionErrorText" xml:space="preserve">
+    <value>Error editing question: {0}</value>
+  </data>
+  <data name="ElectoratesAlreadySelectedText" xml:space="preserve">
+    <value>You have already selected your electorates - you can change them if you like</value>
+  </data>
+  <data name="ElectoratesAlreadySelectedTitle" xml:space="preserve">
+    <value>Electorates already selected.</value>
+  </data>
+  <data name="ElectoratesNotFoundErrorText" xml:space="preserve">
+    <value>Electorates were not found.</value>
+  </data>
+  <data name="QuestionEditSuccessfulPopupTitle" xml:space="preserve">
+    <value>Question Edited!</value>
+  </data>
+  <data name="RegistrationIncompleteTitleText" xml:space="preserve">
+    <value>Registration incomplete</value>
+  </data>
+  <data name="RelatedQuestionsButtonText" xml:space="preserve">
+    <value>Related Questions</value>
+  </data>
+  <data name="StayOnCurrentPageButtonText" xml:space="preserve">
+    <value>Stay</value>
+  </data>
+  <data name="GoHomePopupText" xml:space="preserve">
+    <value>Are you sure you want to go home? You will lose any unsaved questions.</value>
+  </data>
+  <data name="GoHomePopupTitle" xml:space="preserve">
+    <value>Return to the Homepage?</value>
+  </data>
+  <data name="ImSureButtonText" xml:space="preserve">
+    <value>Yes, I'm sure.</value>
+  </data>
+  <data name="MPsPopupText" xml:space="preserve">
+    <value>Would you like to find your MPs? You can always change them later.</value>
+  </data>
+  <data name="MPsPopupTitle" xml:space="preserve">
+    <value>Find your MPs?</value>
+  </data>
+  <data name="NavigationPopupTitle" xml:space="preserve">
+    <value>You are navigating away from RightToAsk.</value>
+  </data>
+  <data name="SkipButtonText" xml:space="preserve">
+    <value>Skip for now.</value>
+  </data>
+  <data name="YesButtonText" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="BackgroundPageTitle" xml:space="preserve">
+    <value>Add Background</value>
+  </data>
+  <data name="LocateButtonText" xml:space="preserve">
+    <value>Locate</value>
+  </data>
+  <data name="InvalidPostcodePopupText" xml:space="preserve">
+    <value>This postcode seems invalid for this area. Would you like to proceed anyways?</value>
+  </data>
+  <data name="InvalidPostcodePopupTitle" xml:space="preserve">
+    <value>Invalid Postcode</value>
+  </data>
+  <data name="HowToHeaderText" xml:space="preserve">
+    <value>How to Publish Your Question in 5 easy steps:</value>
+  </data>
+  <data name="HowToPageTitle" xml:space="preserve">
+    <value>How To Publish</value>
+  </data>
+  <data name="HowToStep1" xml:space="preserve">
+    <value>your specific question.</value>
+  </data>
+  <data name="HowToStep1Bold" xml:space="preserve">
+    <value>Compose </value>
+  </data>
+  <data name="HowToStep1Number" xml:space="preserve">
+    <value>1. </value>
+  </data>
+  <data name="HowToStep2" xml:space="preserve">
+    <value>to the right place. Chose to </value>
+  </data>
+  <data name="HowToStep2a" xml:space="preserve">
+    <value>Direct your question to a specific MP to be answered within the App OR</value>
+  </data>
+  <data name="HowToStep2aLetter" xml:space="preserve">
+    <value>a. </value>
+  </data>
+  <data name="HowToStep2b" xml:space="preserve">
+    <value>Escalate your question to be Raised in Parliament, or to a Senate Committee, who should raise it and answer it (not answered within App)</value>
+  </data>
+  <data name="HowToStep2bLetter" xml:space="preserve">
+    <value>b. </value>
+  </data>
+  <data name="HowToStep2Bold1" xml:space="preserve">
+    <value>Direct your question </value>
+  </data>
+  <data name="HowToStep2Bold2" xml:space="preserve">
+    <value>either: </value>
+  </data>
+  <data name="HowToStep2Number" xml:space="preserve">
+    <value>2. </value>
+  </data>
+  <data name="HowToStep3" xml:space="preserve">
+    <value>– don’t duplicate the same question!  Focus support and increase importance by up-voting an existing question.</value>
+  </data>
+  <data name="HowToStep3Bold" xml:space="preserve">
+    <value>Review Existing Similar Questions </value>
+  </data>
+  <data name="HowToStep3Number" xml:space="preserve">
+    <value>3. </value>
+  </data>
+  <data name="HowToStep4" xml:space="preserve">
+    <value>Optional - provide additional background.</value>
+  </data>
+  <data name="HowToStep4Number" xml:space="preserve">
+    <value>4. </value>
+  </data>
+  <data name="HowToStep5" xml:space="preserve">
+    <value>your Question.</value>
+  </data>
+  <data name="HowToStep5Bold" xml:space="preserve">
+    <value>Publish </value>
+  </data>
+  <data name="HowToStep5Number" xml:space="preserve">
+    <value>5. </value>
+  </data>
+  <data name="AnswerDisplayCardButtonText" xml:space="preserve">
+    <value>Answer</value>
+  </data>
+  <data name="ReportDisplayCardButtonText" xml:space="preserve">
+    <value>Flag</value>
+  </data>
+  <data name="ShareDisplayCardButtonText" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="UpvoteDisplayCardButtonText" xml:space="preserve">
+    <value>Up-vote</value>
   </data>
 </root>

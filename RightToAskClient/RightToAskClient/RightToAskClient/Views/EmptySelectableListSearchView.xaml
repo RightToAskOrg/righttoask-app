@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="RightToAskClient.Views.EmtpySelectableListSearchView">
+  <ContentView.Content>
+      <StackLayout>
+            <Label Text="{xct:Translate NoSearchResultsFoundText}" VerticalOptions="Start"/>
+      </StackLayout>
+  </ContentView.Content>
+</ContentView>

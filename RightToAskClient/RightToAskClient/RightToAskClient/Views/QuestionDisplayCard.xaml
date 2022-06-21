@@ -53,7 +53,7 @@
                              AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{xct:Translate QuestionFrameThumbsUpAccessibilityName}"
                              AutomationProperties.HelpText="{xct:Translate QuestionFrameThumbsUpAccessibilityText}"/>
                     <Label Text="{Binding UpVotes}" Style="{StaticResource QuestionButtonText}" Margin="0" Padding="0"/>
-                    <Label Text="Upvote" Style="{StaticResource QuestionButtonText}"/>
+                    <Label Text="{xct:Translate UpvoteDisplayCardButtonText}" Style="{StaticResource QuestionButtonText}"/>
                 </StackLayout>
                 <!--Share Button-->
                 <StackLayout Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
