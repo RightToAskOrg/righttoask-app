@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using System;
+using Xamarin.Forms;
 using RightToAskClient.Views;
 using RightToAskClient.Models;
 using Xamarin.CommunityToolkit.Helpers;
@@ -62,6 +63,30 @@ namespace RightToAskClient
                 {
                     ReadingContext.ThisParticipant.MPsKnown = true;
                     ReadingContext.ThisParticipant.UpdateMPs(); // to refresh the list
+                }
+                
+                // Retrieve MP/staffer registration. Note that staffers have both the IsVerifiedMPAccount flag and the
+                // IsVerifiedMPStafferAccount flag set to true.
+                bool isMPAccount = Preferences.Get("IsVerifiedMPAccount", false);
+                if (isMPAccount)
+                {
+                    ReadingContext.ThisParticipant.IsVerifiedMPAccount = isMPAccount;
+                    ReadingContext.ThisParticipant.IsVerifiedMPStafferAccount =
+                        Preferences.Get("IsVerifiedMPStafferAccount", false);
+                    var MPRepresentingjson = Preferences.Get("MPRegisteredAs", "");
+                    if (!String.IsNullOrEmpty(MPRepresentingjson))
+                    {
+                        MP? MPRepresenting = JsonSerializer.Deserialize<MP>(MPRepresentingjson);
+                        if (MPRepresenting != null)
+                        {
+                            // See if we can find the registered MP in our existing list.
+                            // Using field-equality operator.
+                            // If so, just keep a pointer to it; if not, use a new MP object.
+                            List<MP> matchingMPs = ParliamentData.AllMPs.Where(mp => mp.Equals(MPRepresenting)).ToList();
+                            ReadingContext.ThisParticipant.MPRegisteredAs 
+                                = matchingMPs.Any() ? matchingMPs.First() : MPRepresenting;
+                        }
+                    }
                 }
             }
             // sets state pickers

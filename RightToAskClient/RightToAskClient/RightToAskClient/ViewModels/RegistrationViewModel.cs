@@ -495,6 +495,9 @@ namespace RightToAskClient.ViewModels
                 //await App.Current.MainPage.Navigation.PushAsync(pageToRegisterSelectedMP);
             });
             ShowRegisterMPReportLabel = true;
+
+            // TODO: This isn't quite right because if the registration is unsuccessful it will still show.
+            ShowExistingMPRegistrationLabel = true;
         }
 
 

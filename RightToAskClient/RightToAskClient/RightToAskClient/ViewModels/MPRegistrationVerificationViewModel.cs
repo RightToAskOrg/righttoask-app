@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using RightToAskClient.HttpClients;
 using RightToAskClient.Models;
 using RightToAskClient.Models.ServerCommsData;
 using Xamarin.CommunityToolkit.Converters;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace RightToAskClient.ViewModels
@@ -123,7 +125,6 @@ namespace RightToAskClient.ViewModels
             if (validation.isValid)
             {
                 _mpVerificationHash = validation.hash;
-                // TODO - record hash; show PIN entry; 
             }
             else
             {
@@ -131,25 +132,21 @@ namespace RightToAskClient.ViewModels
                 ShowRegisterMPReportLabel = true;
                 ReportLabelText = validation.errorMsg;
             }
-             
-            Console.WriteLine("The MP registration to send to the server is "+MPRepresenting.ShortestName);
-            Console.WriteLine("The email address is"+EmailUsername+"Domain: "+domain);
-            Console.WriteLine("For"+(IsStaffer ? "A staffer":"The MP"));
         }
 
-        // TODO - save to preferences.
         private void SaveMPRegistrationToPreferences()
         {
-            Console.WriteLine("The MP registration to save to preferences is "+MPRepresenting.ShortestName);
+            // Note that a staffer has booth of these flags set to true.
+            Preferences.Set("IsVerifiedMPAccount", true);
+            Preferences.Set("IsVerifiedMPStafferAccount", _isStaffer); 
+            Preferences.Set("MPRegisteredAs",JsonSerializer.Serialize(MPRepresenting));
         }
 
-        // TODO
         private void StoreMPRegistration()
         {
             App.ReadingContext.ThisParticipant.IsVerifiedMPAccount = true;
-            // TODO set Staffer reg too.
             App.ReadingContext.ThisParticipant.MPRegisteredAs = MPRepresenting;
-            Console.WriteLine("The MP registration to store is "+MPRepresenting.ShortestName);
+            App.ReadingContext.ThisParticipant.IsVerifiedMPStafferAccount = _isStaffer;
         }
 
         
@@ -168,7 +165,6 @@ namespace RightToAskClient.ViewModels
                 // also display a nice success message if applicable.
             if (!validation.isValid)
             {
-                
                 ShowRegisterMPReportLabel = true;
                 ReportLabelText = validation.errorMsg;
             }
