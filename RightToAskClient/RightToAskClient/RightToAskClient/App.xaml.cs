@@ -13,7 +13,10 @@ using System.Linq;
 using RightToAskClient.Models.ServerCommsData;
 using Switch = Xamarin.Forms.Switch;
 
-[assembly: ExportFont("Roboto-Black.ttf", Alias = "AppFont")]
+// [assembly: ExportFont("Roboto-Black.ttf", Alias = "AppFont")]
+// [assembly: ExportFont("OpenSans-Regular.ttf", Alias = "AppFont")]
+[assembly: ExportFont("Verdana.ttf", Alias = "AppFont")]
+[assembly: ExportFont("Verdanab.ttf", Alias = "BoldAppFont")]
 [assembly: ExportFont("DancingScript-VariableFont_wght.ttf", Alias = "DanceFont")]
 
 namespace RightToAskClient

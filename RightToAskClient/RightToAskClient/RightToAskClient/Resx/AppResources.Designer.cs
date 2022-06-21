@@ -45,12 +45,22 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string AccountCreationSuccessResponseText {
+            get {
+                return ResourceManager.GetString("AccountCreationSuccessResponseText", resourceCulture);
+            }
+        }
         internal static string AccountUpdateSigningError {
             get {
                 return ResourceManager.GetString("AccountUpdateSigningError", resourceCulture);
             }
         }
         
+        internal static string AccountUpdateSuccessResponseText {
+            get {
+                return ResourceManager.GetString("AccountUpdateSuccessResponseText", resourceCulture);
+            }
+        }
         internal static string AddBackgroundPlaceholderText {
             get {
                 return ResourceManager.GetString("AddBackgroundPlaceholderText", resourceCulture);
@@ -182,7 +192,12 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("DoneButtonText", resourceCulture);
             }
         }
-        
+
+        internal static string DraftDiscardedPopupTitle
+        {
+            get { return ResourceManager.GetString("DraftDiscardedPopupTitle", resourceCulture); }
+        }
+
         internal static string DraftQuestionPlaceholderText {
             get {
                 return ResourceManager.GetString("DraftQuestionPlaceholderText", resourceCulture);
@@ -216,6 +231,11 @@ namespace RightToAskClient.Resx {
         internal static string ElectoratesKnownHeaderText {
             get {
                 return ResourceManager.GetString("ElectoratesKnownHeaderText", resourceCulture);
+            }
+        }
+        internal static string ElectoratesNotFoundErrorText {
+            get {
+                return ResourceManager.GetString("ElectoratesNotFoundErrorText", resourceCulture);
             }
         }
         
@@ -290,6 +310,21 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("FollowButtonText", resourceCulture);
             }
         }
+        internal static string GoHomeButtonText {
+            get {
+                return ResourceManager.GetString("GoHomeButtonText", resourceCulture);
+            }
+        }
+        internal static string GoHomePopupText {
+            get {
+                return ResourceManager.GetString("GoHomePopupText", resourceCulture);
+            }
+        }
+        internal static string GoHomePopupTitle {
+            get {
+                return ResourceManager.GetString("GoHomePopupTitle", resourceCulture);
+            }
+        }
         
         internal static string HomeButtonText {
             get {
@@ -300,6 +335,21 @@ namespace RightToAskClient.Resx {
         internal static string IAmAStaffer {
             get {
                 return ResourceManager.GetString("IAmAStaffer", resourceCulture);
+            }
+        }
+        internal static string ImSureButtonText {
+            get {
+                return ResourceManager.GetString("ImSureButtonText", resourceCulture);
+            }
+        }
+        internal static string InvalidPostcodePopupTitle{
+            get {
+                return ResourceManager.GetString("InvalidPostcodePopupTitle", resourceCulture);
+            }
+        }
+        internal static string InvalidPostcodePopupText{
+            get {
+                return ResourceManager.GetString("InvalidPostcodePopupText", resourceCulture);
             }
         }
         
@@ -380,6 +430,16 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("MPsHeaderText2", resourceCulture);
             }
         }
+        internal static string MPsPopupText {
+            get {
+                return ResourceManager.GetString("MPsPopupText", resourceCulture);
+            }
+        }
+        internal static string MPsPopupTitle {
+            get {
+                return ResourceManager.GetString("MPsPopupTitle", resourceCulture);
+            }
+        }
         
         internal static string MyMPButtonText {
             get {
@@ -404,6 +464,11 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("NavigateOKText", resourceCulture);
             }
         }
+        internal static string NavigationPopupTitle {
+            get {
+                return ResourceManager.GetString("NavigationPopupTitle", resourceCulture);
+            }
+        }
         
         internal static string NextButtonText {
             get {
@@ -411,6 +476,11 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string NoAccountChangesDetectedAlertText {
+            get {
+                return ResourceManager.GetString("NoAccountChangesDetectedAlertText", resourceCulture);
+            }
+        }
         internal static string NotSureButtonText {
             get {
                 return ResourceManager.GetString("NotSureButtonText", resourceCulture);
@@ -524,6 +594,11 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("RegisterOrganisationAccountButtonText", resourceCulture);
             }
         }
+        internal static string RelatedQuestionsButtonText{
+            get {
+                return ResourceManager.GetString("RelatedQuestionsButtonText", resourceCulture);
+            }
+        }
         
         internal static string SaveAnswerButtonText {
             get {
@@ -585,6 +660,11 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string SkipButtonText {
+            get {
+                return ResourceManager.GetString("SkipButtonText", resourceCulture);
+            }
+        }
         internal static string SkipStepButton {
             get {
                 return ResourceManager.GetString("SkipStepButton", resourceCulture);
@@ -651,6 +731,11 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string StayOnCurrentPageButtonText {
+            get {
+                return ResourceManager.GetString("StayOnCurrentPageButtonText", resourceCulture);
+            }
+        }
         internal static string StreetHeaderText {
             get {
                 return ResourceManager.GetString("StreetHeaderText", resourceCulture);
@@ -764,16 +849,31 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("UpdateMPsButtonText", resourceCulture);
             }
         }
+        internal static string YesButtonText {
+            get {
+                return ResourceManager.GetString("YesButtonText", resourceCulture);
+            }
+        }
         
         internal static string EditQuestionButtonText {
             get {
                 return ResourceManager.GetString("EditQuestionButtonText", resourceCulture);
             }
         }
+        internal static string EditQuestionErrorText {
+            get {
+                return ResourceManager.GetString("EditQuestionErrorText", resourceCulture);
+            }
+        }
         
         internal static string QuestionEditSuccessfulPopupText {
             get {
                 return ResourceManager.GetString("QuestionEditSuccessfulPopupText", resourceCulture);
+            }
+        }
+        internal static string QuestionEditSuccessfulPopupTitle {
+            get {
+                return ResourceManager.GetString("QuestionEditSuccessfulPopupTitle", resourceCulture);
             }
         }
         
