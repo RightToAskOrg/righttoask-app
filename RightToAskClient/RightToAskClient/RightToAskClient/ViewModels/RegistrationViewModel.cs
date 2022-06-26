@@ -72,7 +72,9 @@ namespace RightToAskClient.ViewModels
 
         public string State
         {
-            get => _registration.SelectedStateAsIndex >= 0 ? ParliamentData.StatesAndTerritories[SelectedStateAsIndex] : "";
+            get => _registration.SelectedStateAsIndex >= 0 
+                    && _registration.SelectedStateAsIndex < ParliamentData.StatesAndTerritories.Count 
+                    ? ParliamentData.StatesAndTerritories[SelectedStateAsIndex] : "";
         }
 
         public int SelectedStateAsIndex
@@ -111,6 +113,8 @@ namespace RightToAskClient.ViewModels
 
         // This is for selecting MPs if you're registering as an MP or staffer account
         private SelectableList<MP> _selectableMPList = new SelectableList<MP>(new List<MP>(), new List<MP>());
+        
+        // TODO shift into Registration.
         public MP RegisteredMP { get; }
         public bool ShowStafferLabel { get; set; }
         public bool ShowExistingMPRegistrationLabel { get; set; } = false;

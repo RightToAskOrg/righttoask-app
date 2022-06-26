@@ -13,7 +13,7 @@ namespace RightToAskClient.Models
 {
     public class Registration : ObservableObject
     {
-        // private string stateEnum = "";
+        // TODO: More MP / staffer reg in here.
         public string display_name { get; set; } = "";
         public string public_key { get; set; } = "";
         private string state { get; set; } = "";
@@ -90,6 +90,8 @@ namespace RightToAskClient.Models
             throw new NotImplementedException();
         }
 
+        // TODO: Perhaps put this in ParliamentData and let it take _electorates as
+        // an input.
         public string findElectorateGivenPredicate(Predicate<ElectorateWithChamber> func)
         {
             var electoratePair = _electorates.Find(func);
