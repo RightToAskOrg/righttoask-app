@@ -146,10 +146,9 @@ namespace RightToAskClient.Models
 	    // ElectorateWithChamber(ParliamentData.Chamber.Australian_Senate, state));
 	    public static List<MP> FindAllMPsGivenElectorates(List<ElectorateWithChamber> electorates)
 	    {
-		    var mps = MPAndOtherData.AllMPs.Where(mp =>
-			    electorates.Exists(e => e.Equals(mp.electorate)));
+		    return MPAndOtherData.AllMPs.Where(mp =>
+			    electorates.Exists(e => e.Equals(mp.electorate))).ToList();
 			                             
-				return mps as List<MP> ?? new List<MP>();
 	    }
 
 	    // Finds as many electorates as can be inferred from the given information.

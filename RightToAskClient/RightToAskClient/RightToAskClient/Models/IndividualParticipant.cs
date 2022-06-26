@@ -50,12 +50,14 @@ namespace RightToAskClient.Models
 		public List<string> ReportedQuestionIDs { get; set; } = new List<string>();
 		public List<string> RemovedQuestionIDs { get; set; } = new List<string>();
 
-		private ObservableCollection<MP> _myMPs = new ObservableCollection<MP>();
+		// private ObservableCollection<MP> _myMPs = new ObservableCollection<MP>();
 		public ObservableCollection<MP> MyMPs
 		{
 			get
 			{
-				return _myMPs;
+				// return _myMPs;
+				// TODO Possibly better to just make MyMPs a List.
+				return new ObservableCollection<MP>(ParliamentData.FindAllMPsGivenElectorates(RegistrationInfo.electorates.ToList()));
 			}
 			private set
 			{
@@ -103,6 +105,7 @@ namespace RightToAskClient.Models
 		// Also updates this participant's My-MP filter lists.
 		public void UpdateMPs()
 		{
+			/*
 			var mps = new List<MP>();
 			List<MP> mpstoadd;
 
@@ -111,9 +114,10 @@ namespace RightToAskClient.Models
 				mpstoadd = ParliamentData.MPAndOtherData.GetMPsRepresentingElectorate(knownElectorate);
 				mps.AddRange(mpstoadd);
 			}
+			*/
 
-			_myMPs = new ObservableCollection<MP>(mps);
-			App.ReadingContext.Filters.UpdateMyMPLists(mps);
+			// _myMPs = new ObservableCollection<MP>(mps);
+			App.ReadingContext.Filters.UpdateMyMPLists();
 		}
 		
         // TODO: Do some validity checking to ensure that you're not adding inconsistent
