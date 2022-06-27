@@ -157,30 +157,6 @@ namespace RightToAskClient.Models
 	        
         }
 
-        public void AddElectoratesFromGeoscapeAddress(GeoscapeAddressFeature addressData)
-        {
-	        var commElectoralRegion = addressData.Properties?.CommonwealthElectorate?.CommElectoralName ?? "";
-	        var stateElectoralRegion = addressData.Properties?.StateElectorate?.StateElectoralName ?? "";
-
-	        var electorateList = ParliamentData.FindAllRelevantElectorates(RegistrationInfo.State, stateElectoralRegion, commElectoralRegion);
-
-	        foreach (var electorateWithChamber in electorateList)
-	        {
-		        RegistrationInfo.AddElectorateRemoveDuplicates(electorateWithChamber);
-	        }
-	        
-	        /*
-	        if (commElectoralName != null)
-	        {
-				AddHouseOfRepsElectorate(commElectoralName);
-	        }
-
-	        if (region != null)
-	        {
-				AddStateElectoratesGivenOneRegion(RegistrationInfo.State, region);
-	        }
-	        */
-        }
 
         public void AddSenatorsFromState(string state)
         {

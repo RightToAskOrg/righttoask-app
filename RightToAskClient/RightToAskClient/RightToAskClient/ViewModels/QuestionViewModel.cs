@@ -490,6 +490,7 @@ namespace RightToAskClient.ViewModels
         // straight to the Explorer page that lists them.
         // If we don't, go to the page for entering address and finding them.
         // It will pop back to here.
+        /*
         private async void OnAnsweredByMPButtonClicked(object sender, EventArgs e)
         {
             await NavigationUtils.PushMyAnsweringMPsExploringPage();
@@ -499,6 +500,7 @@ namespace RightToAskClient.ViewModels
         {
             await NavigationUtils.PushAnsweringMPsNotMineSelectableListPage();
         }
+        */
 
         private async void SubmitNewQuestionButton_OnClicked()
         {

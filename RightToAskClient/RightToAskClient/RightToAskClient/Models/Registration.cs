@@ -126,10 +126,12 @@ namespace RightToAskClient.Models
             };
         }
 
+        /*
         public void UpdateMultipleElectoratesRemoveDuplicates(ObservableCollection<ElectorateWithChamber> value)
         {
             throw new NotImplementedException();
         }
+        */
 
         public bool Validate()
         {
