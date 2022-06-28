@@ -36,7 +36,7 @@ namespace RightToAskClient.ViewModels
 
         public void ReinitRegistrationUpdates()
         {
-            _oldElectorates = new ObservableCollection<ElectorateWithChamber>(_registration.electorates);
+            _oldElectorates = new ObservableCollection<ElectorateWithChamber>(_registration.Electorates);
             _registrationUpdates = new ServerUser() { uid = _registration.uid };
         }
         // UserID, DisplayName, State, SelectedStateAsInt and Electorates are all just reflections of their 
@@ -99,11 +99,11 @@ namespace RightToAskClient.ViewModels
         // in an update to an existing registration.
         public ObservableCollection<ElectorateWithChamber> Electorates
         {
-            get => _registration.electorates;
+            get => _registration.Electorates;
             set
             {
-                _registration.electorates = value;
-                _registrationUpdates.electorates = _registration.electorates;
+                _registration.Electorates = value;
+                _registrationUpdates.electorates = _registration.Electorates;
                 OnPropertyChanged("Electorates");
             }
         }
@@ -242,7 +242,7 @@ namespace RightToAskClient.ViewModels
                 {
                     NavigateToFindMPsPage();
                     // Update the electorate-updates that will be sent to the server, based on what was updated by the MP-finding page.
-                    _registrationUpdates.electorates = _registration.electorates;
+                    _registrationUpdates.electorates = _registration.Electorates;
                 }
             }
         }
@@ -268,7 +268,7 @@ namespace RightToAskClient.ViewModels
 
             // uid should still be sent in the 'update' even though it doesn't change.
             _registrationUpdates.uid = _registration.uid;
-            _oldElectorates = _registration.electorates;
+            _oldElectorates = _registration.Electorates;
 
             // If this is this user's profile, show them IndividualParticipant data
             // (if there is any) and give them the option to edit (or make new).
@@ -309,7 +309,7 @@ namespace RightToAskClient.ViewModels
             {
                 // We need this because we don't necessarily know that the electorates 
                 // will change just because we go to the find-new-electorates page.
-                _oldElectorates = new ObservableCollection<ElectorateWithChamber>(_registration.electorates);
+                _oldElectorates = new ObservableCollection<ElectorateWithChamber>(_registration.Electorates);
                 
                 NavigateToFindMPsPage();
             });
@@ -497,9 +497,9 @@ namespace RightToAskClient.ViewModels
             // Update the electorate-updates that will be sent to the server,
             // based on what was updated by the MP-finding page, if it is actually changed.
             // This will update both _registrationUpdates and _registration.
-            if (!_oldElectorates.HasSameElements(_registration.electorates))
+            if (!_oldElectorates.HasSameElements(_registration.Electorates))
             {
-                Electorates = _registration.electorates;
+                Electorates = _registration.Electorates;
             }
             
             // if display name, state, electorates, or badges were changed, send the update

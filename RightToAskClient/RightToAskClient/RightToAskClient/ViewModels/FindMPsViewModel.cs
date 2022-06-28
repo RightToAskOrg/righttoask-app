@@ -445,7 +445,7 @@ namespace RightToAskClient.ViewModels
         private void AddElectorates(GeoscapeAddressFeature addressData)
         {
             string state = App.ReadingContext.ThisParticipant.RegistrationInfo.State;
-            App.ReadingContext.ThisParticipant.RegistrationInfo.electorates 
+            App.ReadingContext.ThisParticipant.RegistrationInfo.Electorates 
                 = new ObservableCollection<ElectorateWithChamber>(ParliamentData.GetElectoratesFromGeoscapeAddress(state, addressData));
             App.ReadingContext.ThisParticipant.MPsKnown = true;
         }

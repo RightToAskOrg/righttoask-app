@@ -13,7 +13,7 @@ namespace RightToAskClient.Models
 {
     public class Registration : ObservableObject
     {
-        // TODO: More MP / staffer reg in here.
+        // TODO: Move MP / staffer reg in here.
         public string display_name { get; set; } = "";
         public string public_key { get; set; } = "";
         private string state { get; set; } = "";
@@ -61,12 +61,15 @@ namespace RightToAskClient.Models
             // badges = input.badges;
         }
 
-        public ObservableCollection<ElectorateWithChamber> electorates 
+        // Whenever electorates are updated (by this and by AddElectorateRemoveDuplicates), we need to tell the 
+        // Filters to update the list of 'my MPs'.
+        public ObservableCollection<ElectorateWithChamber> Electorates 
         {
             get { return new ObservableCollection<ElectorateWithChamber>(_electorates); }
             set 
             {
                 SetProperty(ref _electorates, value.ToList());
+                App.ReadingContext.Filters.UpdateMyMPLists();
             } 
         }
 
@@ -83,6 +86,7 @@ namespace RightToAskClient.Models
             _electorates.RemoveAll(e => e.chamber == newElectorate.chamber);
             _electorates.Insert(0, newElectorate);
             OnPropertyChanged("electorates");
+            App.ReadingContext.Filters.UpdateMyMPLists();
         }
 
         private void Electorates_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -139,10 +143,10 @@ namespace RightToAskClient.Models
             // needs to have a uid and public key
             if (!string.IsNullOrEmpty(uid) && !string.IsNullOrEmpty(public_key) && !string.IsNullOrEmpty(State))
             {
-                if (electorates.Any())
+                if (Electorates.Any())
                 {
                     bool hasInvalidElectorate = false;
-                    foreach(ElectorateWithChamber e in electorates)
+                    foreach(ElectorateWithChamber e in Electorates)
                     {
                         bool validElectorate = e.Validate();
                         if (!validElectorate)

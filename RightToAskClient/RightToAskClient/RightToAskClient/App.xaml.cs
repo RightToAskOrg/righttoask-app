@@ -65,10 +65,10 @@ namespace RightToAskClient
                 // if we got electorates, let the app know to skip the Find My MPs step
                 // TODO We definitely shouldn't have to do this here - the Registration
                 // data structure should take care of whether the MPs are known and updated.
-                if (ReadingContext.ThisParticipant.RegistrationInfo.electorates.Any())
+                if (ReadingContext.ThisParticipant.RegistrationInfo.Electorates.Any())
                 {
                     ReadingContext.ThisParticipant.MPsKnown = true;
-                    ReadingContext.ThisParticipant.UpdateMPs(); // to refresh the list
+			        ReadingContext.Filters.UpdateMyMPLists();
                 }
                 
                 // Retrieve MP/staffer registration. Note that staffers have both the IsVerifiedMPAccount flag and the
