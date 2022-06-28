@@ -54,7 +54,7 @@ namespace RightToAskClient.Models
 		{
 			get
 			{
-				return _allMPsData.VicRegions;
+				return new List<RegionsContained>(_allMPsData.VicRegions ?? Array.Empty<RegionsContained>());
 			}
 		}
 

@@ -7,6 +7,8 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using System.Threading;
+using Org.BouncyCastle.Tls;
+using RightToAskClient.Models.ServerCommsData;
 
 namespace RightToAskClient.Models
 {
@@ -147,8 +149,14 @@ namespace RightToAskClient.Models
 	    public static List<MP> FindAllMPsGivenElectorates(List<ElectorateWithChamber> electorates)
 	    {
 		    return MPAndOtherData.AllMPs.Where(mp =>
-			    electorates.Exists(e => e.Equals(mp.electorate))).ToList();
-			                             
+			    
+			    // Those who represent an exactly-matching electorate/region.
+			    electorates.Exists(e => e.Equals(mp.electorate))
+			    
+				// Add the MPs in single-electorate houses, i.e. the upper houses of some parliaments.
+			    || electorates.Exists(e => e.chamber == mp.electorate.chamber && IsSingleElectorate(e.chamber))
+			    
+			    ).ToList();
 	    }
 
 	    
@@ -204,6 +212,14 @@ namespace RightToAskClient.Models
 	    public static bool IsUpperHouseChamber(Chamber chamber)
 	    {
 		    return StateUpperHouseChambers.Contains(chamber);
+	    }
+
+	    // Note that after 2024 WA LC will be here too.
+	    private static bool IsSingleElectorate(Chamber chamber)
+	    {
+		    return chamber == Chamber.SA_Legislative_Council ||
+		           chamber == Chamber.NSW_Legislative_Council;
+
 	    }
 
 	    private static List<Authority> ReadAuthoritiesFromFiles()
@@ -461,7 +477,15 @@ namespace RightToAskClient.Models
 		    string commRegion)
 	    {
 		    List<ElectorateWithChamber> electorateList = new List<ElectorateWithChamber>();
+		    if (String.IsNullOrEmpty(state))
+		    {
+			    return electorateList;
+		    }
 
+		    // TODO move states to enum.
+		    // Each state is a Senate 'region'
+		    electorateList.Add(new ElectorateWithChamber(ParliamentData.Chamber.Australian_Senate, state));
+		    
 		    // House of Representatives Electorate
 		    if (!String.IsNullOrEmpty(commRegion))
 		    {
@@ -469,57 +493,45 @@ namespace RightToAskClient.Models
 				    commRegion));
 		    }
 
-		    // Add State Lower House Electorate. Tas is special because the region returned by Geoscape
-		    // is the Upper House Electorate - Lower House Electorates match Commonwealth ones.
-		    // For all the rest, add the state Electorate here.
-		    if (!String.IsNullOrEmpty(stateRegion))
+		    // State Lower House Electorates. Tas is special because the region returned by Geoscape
+		    // is the Upper House (Legislative Council) Electorate - Lower House Electorates match Commonwealth ones.
+		    // For all the rest, Geoscape's stateRegion is the Lower House Electorate.
+		    if (state == State.TAS && !String.IsNullOrEmpty(commRegion))
 		    {
-			    if (state == State.TAS)
+			    electorateList.Add(new ElectorateWithChamber(Chamber.Tas_House_Of_Assembly, commRegion));
+		    }
+		    else if (state != State.TAS && !String.IsNullOrEmpty(stateRegion))
+		    {
+			    // guaranteed of a result here.
+			    var chamberResult = GetLowerHouseChamber(state);
+			    if (String.IsNullOrEmpty(chamberResult.Err))
 			    {
-				    // Tas House of Assembly Electorates are identical to Commonwealth House of Reps ones.
-				    electorateList.Add(new ElectorateWithChamber(Chamber.Tas_House_Of_Assembly, commRegion));
-			    }
-			    else
-			    {
-				    var chamberResult = GetLowerHouseChamber(state);
-				    if (String.IsNullOrEmpty(chamberResult.Err))
-				    {
-					    electorateList.Add(new ElectorateWithChamber(chamberResult.Ok, stateRegion));
-				    }
+				    electorateList.Add(new ElectorateWithChamber(chamberResult.Ok, stateRegion));
 			    }
 		    }
 
-		    // Upper Houses, starting with the Senate.
-		    // TODO move states to enum.
-		    if (!String.IsNullOrEmpty(state))
+
+		    // Lower house electorates
+		    if (state == State.TAS && !String.IsNullOrEmpty(stateRegion))
 		    {
-			    // Each state is a Senate 'region'
-			    electorateList.Add(new ElectorateWithChamber(ParliamentData.Chamber.Australian_Senate, state));
-
-			    // State Upper Houses, if the state has one.
-			    // Now we use the Tas state regions, for the Tas Legislative Council.
-			    if (state == State.TAS && !String.IsNullOrEmpty(stateRegion))
+			    electorateList.Add(new ElectorateWithChamber(Chamber.Tas_Legislative_Council, stateRegion));
+		    }
+			    // TODO: Do likewise for WA.
+		    else if (state == State.VIC && !String.IsNullOrEmpty(stateRegion))
+		    {
+			    var superRegionsContained 
+				    = VicRegions.Find(rc => rc.regions.Contains(stateRegion,StringComparer.OrdinalIgnoreCase ));
+			    if (superRegionsContained != null)
 			    {
-				    electorateList.Add(new ElectorateWithChamber(Chamber.Tas_Legislative_Council, stateRegion));
+				    electorateList.Add(new ElectorateWithChamber(Chamber.Vic_Legislative_Council,
+					    superRegionsContained.super_region));
 			    }
-			    else
-			    {
-				    var chamberResult = GetUpperHouseChamber(state);
-
-				    // Not all states/territories have an Upper House
-				    if (String.IsNullOrEmpty(chamberResult.Err))
-				    {
-					    if ((state == State.VIC || state == State.WA) && !String.IsNullOrEmpty(stateRegion))
-					    {
-						    electorateList.Add(new ElectorateWithChamber(chamberResult.Ok, stateRegion));
-					    }
-					    else
-					    {
-						    // All other upper houses are a single electorate, so regions are meaningless.
-						    electorateList.Add(new ElectorateWithChamber(chamberResult.Ok, ""));
-					    }
-				    }
-			    }
+		    }
+		    else if (HasUpperHouse(state))
+		    {
+			    // TODO state to enum or check for Err result.
+			    // In every other state that has an upper house, they're a single electorate not divided into regions.
+			    electorateList.Add(new ElectorateWithChamber(GetUpperHouseChamber(state).Ok, ""));
 		    }
 
 		    return electorateList;
