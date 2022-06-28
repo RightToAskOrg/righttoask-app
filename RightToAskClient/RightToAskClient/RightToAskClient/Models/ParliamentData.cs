@@ -482,9 +482,6 @@ namespace RightToAskClient.Models
 			    return electorateList;
 		    }
 
-		    // TODO move states to enum.
-		    // Each state is a Senate 'region'
-		    electorateList.Add(new ElectorateWithChamber(ParliamentData.Chamber.Australian_Senate, state));
 		    
 		    // House of Representatives Electorate
 		    if (!String.IsNullOrEmpty(commRegion))
@@ -511,7 +508,11 @@ namespace RightToAskClient.Models
 		    }
 
 
-		    // Lower house electorates
+		    // TODO move states to enum.
+		    // Each state is a Senate 'region'
+		    electorateList.Add(new ElectorateWithChamber(Chamber.Australian_Senate, state));
+		    
+		    // State Upper House electorates
 		    if (state == State.TAS && !String.IsNullOrEmpty(stateRegion))
 		    {
 			    electorateList.Add(new ElectorateWithChamber(Chamber.Tas_Legislative_Council, stateRegion));

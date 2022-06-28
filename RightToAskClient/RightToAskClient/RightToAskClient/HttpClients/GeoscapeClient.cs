@@ -63,19 +63,23 @@ namespace RightToAskClient.HttpClients
             // At this point, we know we got a response, but it may say for example that
             // the address wasn't found.
             Result<GeoscapeAddressFeatureCollection> httpResponse = await _client.DoGetJSONRequest<GeoscapeAddressFeatureCollection>(Constants.GeoscapeAPIUrl + requestString);
-            return InterpretGeoscapeResponse(httpResponse.Ok);
+            return InterpretGeoscapeResponse(httpResponse);
         }
 
         // Geoscape-specific response interpretation.
         // TODO Find out if there's ever >1 message.
-        public static Result<GeoscapeAddressFeatureCollection> InterpretGeoscapeResponse(GeoscapeAddressFeatureCollection httpResponseOk)
+        public static Result<GeoscapeAddressFeatureCollection> InterpretGeoscapeResponse(Result<GeoscapeAddressFeatureCollection> httpResponse)
         {
-            var errorMessages = httpResponseOk.Messages;
+            if (!String.IsNullOrEmpty(httpResponse.Err))
+            {
+                return httpResponse;
+            }
+            var errorMessages = httpResponse.Ok.Messages;
             
             // If there are no messages, the response is OK.
             if (errorMessages is null || errorMessages.Length == 0 )
             {
-                return new Result<GeoscapeAddressFeatureCollection> { Ok = httpResponseOk };
+                return new Result<GeoscapeAddressFeatureCollection> { Ok = httpResponse.Ok };
             }
             
             // If there's an error message, prettify the "no address matched" specific error, otherwise
