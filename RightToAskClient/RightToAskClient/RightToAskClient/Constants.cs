@@ -21,6 +21,9 @@ namespace RightToAskClient
         public static string RegistrationInfo = "RegistrationInfo";
         public static string StateID = "StateID";
         public static string DontShowFirstTimeReadingPopup = "DontShowFirstTimeReadingPopup";
+        public static string ShowHowToPublishPopup = "ShowHowToPublishPopup";
+        public static string HasQuestions = "HasQuestions";
+        public static string MPsKnown = "MPsKnown";
         public static string IsVerifiedMPStafferAccount = "IsVerifiedMPStafferAccount";
         public static string IsVerifiedMPAccount = "IsVerifiedMPAccount";
         public static string MPRegisteredAs= "MPRegisteredAs";

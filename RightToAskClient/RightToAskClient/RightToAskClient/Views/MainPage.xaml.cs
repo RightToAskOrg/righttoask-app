@@ -18,8 +18,8 @@ namespace RightToAskClient.Views
             var vm = BindingContext as MainPageViewModel;
             // check bools here because it gets called before the App.xaml.cs section where we get other data from preferences
             // because this is the first page loaded in the application
-            vm.ShowMyQuestions = Preferences.Get("HasQuestions", false);
-            vm.ShowTrendingMyElectorate = Preferences.Get("MPsKnown", false);
+            vm.ShowMyQuestions = Preferences.Get(Constants.HasQuestions, false);
+            vm.ShowTrendingMyElectorate = Preferences.Get(Constants.MPsKnown, false);
 
             // TODO: Remove this before release? Users won't want to see an alert popup on screen like this if they can't do anything about it, right?
             // If we don't have a server public key, then there was something wrong with our initialization file.

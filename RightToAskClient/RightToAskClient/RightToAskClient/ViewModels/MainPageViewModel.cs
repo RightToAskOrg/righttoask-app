@@ -61,7 +61,7 @@ namespace RightToAskClient.ViewModels
                     var popup = new HowToPublishPopup(); // this instance uses a model instead of a VM
                     _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
                     App.ReadingContext.ShowHowToPublishPopup = false;
-                    Preferences.Set("ShowHowToPublishPopup", false);
+                    Preferences.Set(Constants.ShowHowToPublishPopup, false);
                 }
                 App.ReadingContext.IsReadingOnly = false;
                 await Shell.Current.GoToAsync($"{nameof(SecondPage)}");

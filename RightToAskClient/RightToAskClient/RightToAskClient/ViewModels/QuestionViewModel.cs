@@ -305,7 +305,7 @@ namespace RightToAskClient.ViewModels
                 {
                     // upvoting a question will add it to their list
                     App.ReadingContext.ThisParticipant.HasQuestions = true;
-                    Preferences.Set("HasQuestions", true);
+                    Preferences.Set(Constants.HasQuestions, true);
                     if (Question.AlreadyUpvoted)
                     {
                         Question.UpVotes--;
@@ -577,7 +577,7 @@ namespace RightToAskClient.ViewModels
 
             // creating a question will add it to their list
             App.ReadingContext.ThisParticipant.HasQuestions = true;
-            Preferences.Set("HasQuestions", true);
+            Preferences.Set(Constants.HasQuestions, true);
 
             //FIXME update version, just like for edits.
 

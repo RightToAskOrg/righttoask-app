@@ -68,8 +68,7 @@ namespace RightToAskClient
                 if (ReadingContext.ThisParticipant.RegistrationInfo.Electorates.Any())
                 {
                     ReadingContext.ThisParticipant.MPsKnown = true;
-                    // FIXME - use constants; consider whether we need this.
-                    Preferences.Set("MPsKnown", true);
+                    Preferences.Set(Constants.MPsKnown, true);
 			        ReadingContext.Filters.UpdateMyMPLists();
                 }
                 
@@ -106,8 +105,8 @@ namespace RightToAskClient
 
             // set popup bool
             ReadingContext.DontShowFirstTimeReadingPopup = Preferences.Get(Constants.DontShowFirstTimeReadingPopup, false);
-            ReadingContext.ShowHowToPublishPopup = Preferences.Get("ShowHowToPublishPopup", true);
-            //ReadingContext.ThisParticipant.HasQuestions = Preferences.Get("HasQuestions", false);
+            ReadingContext.ShowHowToPublishPopup = Preferences.Get(Constants.ShowHowToPublishPopup, true);
+            //ReadingContext.ThisParticipant.HasQuestions = Preferences.Get(Constants.HasQuestions, false);
         }
 
         protected override void OnSleep()

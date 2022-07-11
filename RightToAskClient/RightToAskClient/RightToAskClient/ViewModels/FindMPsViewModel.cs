@@ -439,7 +439,7 @@ namespace RightToAskClient.ViewModels
             App.ReadingContext.ThisParticipant.RegistrationInfo.Electorates 
                 = new ObservableCollection<ElectorateWithChamber>(ParliamentData.GetElectoratesFromGeoscapeAddress(state, addressData));
             App.ReadingContext.ThisParticipant.MPsKnown = true;
-            Preferences.Set("MPsKnown", true);
+            Preferences.Set(Constants.MPsKnown, true);
         }
 
         // TODO: At the moment, this does nothing, since there's no notion of not 
@@ -494,7 +494,7 @@ namespace RightToAskClient.ViewModels
                 ShowFindMPsButton = true;
             }
             App.ReadingContext.ThisParticipant.MPsKnown = true;
-            Preferences.Set("MPsKnown", true);
+            Preferences.Set(Constants.MPsKnown, true);
         }
 
         private void UpdateElectoratePickerSources(string state)
