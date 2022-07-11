@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 // This class represents a human, who might be 
 // an MP or a non-MP participant.
@@ -44,7 +45,8 @@ namespace RightToAskClient.Models
         {
 	        get
 	        {
-				return RegistrationInfo.findElectorateGivenPredicate(c => ParliamentData.IsUpperHouseChamber(c.chamber));
+				return ParliamentData.FindElectorateGivenPredicate(RegistrationInfo.Electorates.ToList(), 
+					c => ParliamentData.IsUpperHouseChamber(c.chamber));
 	        }
         }
 		
@@ -53,7 +55,8 @@ namespace RightToAskClient.Models
         {
 	        get
 	        {
-		        return RegistrationInfo.findElectorateGivenPredicate(chamberPair => chamberPair.chamber == ParliamentData.Chamber.Australian_House_Of_Representatives);
+		        return ParliamentData.FindElectorateGivenPredicate(RegistrationInfo.Electorates.ToList(), 
+			        chamberPair => chamberPair.chamber == ParliamentData.Chamber.Australian_House_Of_Representatives);
 	        }
         }
 
@@ -61,44 +64,11 @@ namespace RightToAskClient.Models
         {
 	        get
 	        {
-		        return RegistrationInfo.findElectorateGivenPredicate(chamberPair => ParliamentData.IsLowerHouseChamber(chamberPair.chamber)); 
+		        return ParliamentData.FindElectorateGivenPredicate(RegistrationInfo.Electorates.ToList(),
+			        chamberPair => ParliamentData.IsLowerHouseChamber(chamberPair.chamber)); 
 	        }
         }
 
-        /*
-        public string UpdateLCStateElectorate(ParliamentData.Chamber chamber, string region)
-        {
-		        // TODO (Issue #9) when this LC state electorate is
-		        // chosen, add the representative(s) for that electorate to MyMPs.
-		        // Note that you'll need to compare both the chamber and the
-		        // Electorate Name.
-		        registrationInfo.AddElectorate(chamber, region);
-		        // OnPropertyChanged("SelectedLCStateElectorate");
-        }
-
-        public string UpdateLAStateElectorate
-        {
-	        get { return selectedLAStateElectorate; }
-	        set
-	        {
-		        // TODO (Issue #9) Update MyMPs.
-		        selectedLAStateElectorate = value;
-		        OnPropertyChanged("SelectedLAStateElectorate");
-	        }
-        }
-
-        public string SelectedFederalElectorate
-        {
-	        get { return selectedFederalElectorate; }
-	        set
-	        {
-		        // TODO (Issue #9) Update MyMPs.
-		        selectedFederalElectorate = value;
-		        OnPropertyChanged("SelectedFederalElectorate");
-	        }
-        }
-
-*/
         public Address Address
         {
 	        get { return _address; }

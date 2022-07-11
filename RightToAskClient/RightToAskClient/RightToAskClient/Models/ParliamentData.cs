@@ -159,27 +159,6 @@ namespace RightToAskClient.Models
 			    ).ToList();
 	    }
 
-	    
-	    /*
-	    public static class Chamber 
-	    {
-			public const string ACT_Legislative_Assembly = "ACT_Legislative_Assembly";
-			public const string Australian_House_Of_Representatives = "Australian_House_Of_Representatives";
-		    public const string Australian_Senate = "Australian_Senate";
-		    public const string NSW_Legislative_Assembly = "NSW_Legislative_Assembly" ;
-			public const string NSW_Legislative_Council ="NSW_Legislative_Council" ;
-			public const string NT_Legislative_Assembly = "NT_Legislative_Assembly" ;
-		    public const string Qld_Legislative_Assembly ="Qld_Legislative_Assembly" ;
-		    public const string SA_Legislative_Assembly = "SA_Legislative_Assembly" ;
-			public const string SA_Legislative_Council = "SA_Legislative_Council" ;
-			public const string Tas_House_Of_Assembly ="Tas_House_Of_Assembly" ;
-			public const string Tas_Legislative_Council ="Tas_Legislative_Council" ;
-		    public const string Vic_Legislative_Assembly = "Vic_Legislative_Assembly" ;
-			public const string Vic_Legislative_Council = "Vic_Legislative_Council" ;
-			public const string WA_Legislative_Assembly = "WA_Legislative_Assembly";
-			public const string WA_Legislative_Council = "WA_Legislative_Council";
-	    } */
-
 	    public static readonly ObservableCollection<Authority> AllAuthorities =
 		    new ObservableCollection<Authority>(ReadAuthoritiesFromFiles());
 
@@ -428,36 +407,6 @@ namespace RightToAskClient.Models
 		    Chamber.WA_Legislative_Council => "parliament.wa.gov.au"
 	    };
     
-	    /*
-		public static string GetDomainName(Chamber electorateChamber) 
-		{
-			switch (electorateChamber)
-			{
-			case Chamber.Australian_Senate:
-			case Chamber.Australian_House_Of_Representatives:
-				return "aph.gov.au";
-			case Chamber.NSW_Legislative_Assembly:
-			case Chamber.NSW_Legislative_Council:
-				return "parliament.nsw.gov.au";
-			case Chamber.NT_Legislative_Assembly:
-				return "parliament.nt.gov.au";
-			case Chamber.Qld_Legislative_Assembly:
-				return "parliament.qld.gov.au";
-			case Chamber.Tas_House_Of_Assembly:
-			case Chamber.Tas_Legislative_Council:
-				return "parliament.tas.gov.au";
-			case Chamber.Vic_Legislative_Assembly:
-				case Chamber.Vic_Legislative_Council:
-				return "parliament.vic.gov.au";
-			case Chamber.WA_Legislative_Assembly:
-				case Chamber.WA_Legislative_Council:
-				return "parliament.wa.gov.au";
-			}
-
-			return "";
-		}
-		*/
-	    
         public static List<ElectorateWithChamber> GetElectoratesFromGeoscapeAddress(string state, GeoscapeAddressFeature addressData)
         {
 	        var commElectoralRegion = addressData.Properties?.CommonwealthElectorate?.CommElectoralName ?? "";
@@ -537,5 +486,16 @@ namespace RightToAskClient.Models
 
 		    return electorateList;
 	    }
+	    
+        public static string FindElectorateGivenPredicate(List<ElectorateWithChamber> electorates, Predicate<ElectorateWithChamber> func)
+        {
+            var electoratePair = electorates.Find(func);
+            if (electoratePair is null)
+            {
+                return "";
+            }
+
+            return electoratePair.region;
+        }
     }
 }

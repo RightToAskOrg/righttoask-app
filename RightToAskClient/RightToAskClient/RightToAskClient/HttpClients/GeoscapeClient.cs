@@ -50,15 +50,16 @@ namespace RightToAskClient.HttpClients
             // TODO - Possibly we should be setting client.BaseAddress rather than appending
             // the request string.
             // client.BaseAddress = new Uri(Constants.GeoscapeAPIUrl + requestString);
-            // ***TODO Check that there is an OK.
 
             if (!String.IsNullOrEmpty(GeoscapeAddressRequestBuilder.ApiKey.Err))
             {
                 return new Result<GeoscapeAddressFeatureCollection>() { Err = GeoscapeAddressRequestBuilder.ApiKey.Err };
             }
             
+            // The ApiKey.OK _should_ be properly initialised to "" but this isn't guaranteed (despite the
+            // compiler thinking it is).
             _client.SetAuthorizationHeaders(
-                new AuthenticationHeaderValue(GeoscapeAddressRequestBuilder.ApiKey.Ok));
+                new AuthenticationHeaderValue(GeoscapeAddressRequestBuilder.ApiKey.Ok ?? String.Empty));
             
             // At this point, we know we got a response, but it may say for example that
             // the address wasn't found.

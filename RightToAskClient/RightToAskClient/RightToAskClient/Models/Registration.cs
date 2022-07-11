@@ -106,7 +106,6 @@ namespace RightToAskClient.Models
 
             return electoratePair.region;
         }
-
         public Result<bool> IsValid()
         {
             List<string> errorFields = new List<string>();
