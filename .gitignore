@@ -17,6 +17,7 @@
 mono_crash.*
 
 # Build results
+RightToAskClient/RightToAskClient/RightToAskClient/Resx/AppResources.Designer.cs
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/

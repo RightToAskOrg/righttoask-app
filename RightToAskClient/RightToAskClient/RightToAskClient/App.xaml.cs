@@ -70,7 +70,6 @@ namespace RightToAskClient
                     ReadingContext.ThisParticipant.MPsKnown = true;
                     // FIXME - use constants; consider whether we need this.
                     Preferences.Set("MPsKnown", true);
-                    ReadingContext.ThisParticipant.UpdateMPs(); // to refresh the list
 			        ReadingContext.Filters.UpdateMyMPLists();
                 }
                 
