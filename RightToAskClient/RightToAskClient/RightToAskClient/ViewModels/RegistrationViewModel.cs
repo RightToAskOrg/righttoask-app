@@ -32,9 +32,11 @@ namespace RightToAskClient.ViewModels
         // Note this is used only for updating an existing registration - new registrations are handled
         // with _registration.
         private ServerUser _registrationUpdates = new ServerUser();
+        private ObservableCollection<ElectorateWithChamber> _oldElectorates;
 
         public void ReinitRegistrationUpdates()
         {
+            _oldElectorates = new ObservableCollection<ElectorateWithChamber>(_registration.Electorates);
             _registrationUpdates = new ServerUser() { uid = _registration.uid };
         }
         // UserID, DisplayName, State, SelectedStateAsInt and Electorates are all just reflections of their 
@@ -72,7 +74,9 @@ namespace RightToAskClient.ViewModels
 
         public string State
         {
-            get => _registration.SelectedStateAsIndex >= 0 ? ParliamentData.StatesAndTerritories[SelectedStateAsIndex] : "";
+            get => _registration.SelectedStateAsIndex >= 0 
+                    && _registration.SelectedStateAsIndex < ParliamentData.StatesAndTerritories.Count 
+                    ? ParliamentData.StatesAndTerritories[SelectedStateAsIndex] : "";
         }
 
         public int SelectedStateAsIndex
@@ -95,11 +99,11 @@ namespace RightToAskClient.ViewModels
         // in an update to an existing registration.
         public ObservableCollection<ElectorateWithChamber> Electorates
         {
-            get => _registration.electorates;
+            get => _registration.Electorates;
             set
             {
-                _registration.UpdateMultipleElectoratesRemoveDuplicates(value);
-                _registrationUpdates.electorates = _registration.electorates;
+                _registration.Electorates = value;
+                _registrationUpdates.electorates = _registration.Electorates;
                 OnPropertyChanged("Electorates");
             }
         }
@@ -111,6 +115,8 @@ namespace RightToAskClient.ViewModels
 
         // This is for selecting MPs if you're registering as an MP or staffer account
         private SelectableList<MP> _selectableMPList = new SelectableList<MP>(new List<MP>(), new List<MP>());
+        
+        // TODO shift into Registration.
         public MP RegisteredMP { get; }
         public bool ShowStafferLabel { get; set; }
         public bool ShowExistingMPRegistrationLabel { get; set; } = false;
@@ -236,7 +242,7 @@ namespace RightToAskClient.ViewModels
                 {
                     NavigateToFindMPsPage();
                     // Update the electorate-updates that will be sent to the server, based on what was updated by the MP-finding page.
-                    _registrationUpdates.electorates = _registration.electorates;
+                    _registrationUpdates.electorates = _registration.Electorates;
                 }
             }
         }
@@ -262,6 +268,7 @@ namespace RightToAskClient.ViewModels
 
             // uid should still be sent in the 'update' even though it doesn't change.
             _registrationUpdates.uid = _registration.uid;
+            _oldElectorates = _registration.Electorates;
 
             // If this is this user's profile, show them IndividualParticipant data
             // (if there is any) and give them the option to edit (or make new).
@@ -300,9 +307,11 @@ namespace RightToAskClient.ViewModels
             });
             UpdateMPsButtonCommand = new Command(() =>
             {
+                // We need this because we don't necessarily know that the electorates 
+                // will change just because we go to the find-new-electorates page.
+                _oldElectorates = new ObservableCollection<ElectorateWithChamber>(_registration.Electorates);
+                
                 NavigateToFindMPsPage();
-                // Update the electorate-updates that will be sent to the server, based on what was updated by the MP-finding page.
-                _registrationUpdates.electorates = _registration.electorates;
             });
             FollowButtonCommand = new Command(() =>
             {
@@ -441,6 +450,7 @@ namespace RightToAskClient.ViewModels
 
         private async Task SendNewUserToServer()
         {
+            // TODO should this call to SaveToPreferences simply the first thing in OnSaveButtonClicked?
             SaveToPreferences();
 
             var httpResponse = await RTAClient.RegisterNewUser(_registration);
@@ -483,6 +493,15 @@ namespace RightToAskClient.ViewModels
             {
                 return;
             }
+            
+            // Update the electorate-updates that will be sent to the server,
+            // based on what was updated by the MP-finding page, if it is actually changed.
+            // This will update both _registrationUpdates and _registration.
+            if (!_oldElectorates.HasSameElements(_registration.Electorates))
+            {
+                Electorates = _registration.Electorates;
+            }
+            
             // if display name, state, electorates, or badges were changed, send the update
             if (_registrationUpdates.display_name != null
                 || _registrationUpdates.state != null

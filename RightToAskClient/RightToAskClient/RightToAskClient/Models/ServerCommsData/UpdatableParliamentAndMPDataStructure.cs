@@ -11,7 +11,7 @@ namespace RightToAskClient.Models.ServerCommsData
         [JsonPropertyName("federal_electorates_by_state")]
         public RegionsContained[]? FederalElectoratesByState { get; set; }
 
-        [JsonPropertyName("vic_districts")]
-        public List<RegionsContained> VicRegions = new List<RegionsContained>();
+        [JsonPropertyName("vic_districts")] 
+        public RegionsContained[]? VicRegions { get; set; }
 	}
 }

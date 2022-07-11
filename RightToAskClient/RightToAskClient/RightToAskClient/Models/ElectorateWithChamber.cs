@@ -70,9 +70,11 @@ namespace RightToAskClient.Models
             return isValid;
         }
 
+        // Case-insensitive equality on Region names.
         public bool Equals(ElectorateWithChamber other)
         {
-            return chamber == other.chamber && region == other.region;
+            return chamber == other.chamber 
+                   && region.Equals(other.region, StringComparison.OrdinalIgnoreCase);
         }
     }
 }

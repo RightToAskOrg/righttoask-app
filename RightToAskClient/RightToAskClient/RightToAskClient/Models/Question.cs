@@ -396,8 +396,8 @@ namespace RightToAskClient.Models
                     else if (entity.AsMP != null)
                     {
                         // If the MP is one of mine, add it to AnsweringMPsMine
-                        if (!CanFindInListBThenAddToListA<MP>(entity.AsMP,
-                            Filters.SelectedAnsweringMPsMine, App.ReadingContext.ThisParticipant.MyMPs))
+                        var myMPs = ParliamentData.FindAllMPsGivenElectorates(App.ReadingContext.ThisParticipant.RegistrationInfo.Electorates.ToList());
+                        if (!CanFindInListBThenAddToListA<MP>(entity.AsMP, Filters.SelectedAnsweringMPsMine, myMPs))
                         {
                             // otherwise, try to find it in AllMPs
                             if (!CanFindInListBThenAddToListA<MP>(entity.AsMP, Filters.SelectedAnsweringMPsNotMine,
@@ -426,8 +426,8 @@ namespace RightToAskClient.Models
                     else if (entity.AsMP != null)
                     {
                         // If the MP is one of mine, add it to AskingMPsMine
-                        if (!CanFindInListBThenAddToListA<MP>(entity.AsMP,
-                                Filters.SelectedAskingMPsMine, App.ReadingContext.ThisParticipant.MyMPs))
+                        var myMPs = ParliamentData.FindAllMPsGivenElectorates(App.ReadingContext.ThisParticipant.RegistrationInfo.Electorates.ToList());
+                        if (!CanFindInListBThenAddToListA<MP>(entity.AsMP, Filters.SelectedAskingMPsMine, myMPs))
                         {
                             // otherwise, try to find it in AllMPs
                             if (!CanFindInListBThenAddToListA<MP>(entity.AsMP, Filters.SelectedAskingMPsNotMine,
@@ -447,7 +447,7 @@ namespace RightToAskClient.Models
         // such as MP in which the equality operator is true if identifying fields (but not necessarily
         // all fields) are equal.
         // Returns true if the item was found
-        private bool CanFindInListBThenAddToListA<T>(T item, List<T> listA, ObservableCollection<T> listB)  where T: Entity
+        private bool CanFindInListBThenAddToListA<T>(T item, List<T> listA, IEnumerable<T> listB)  where T: Entity
         {
             T possibleItem = listB.ToList().Find(t => t != null && t.DataEquals(item));
             if (possibleItem is null)

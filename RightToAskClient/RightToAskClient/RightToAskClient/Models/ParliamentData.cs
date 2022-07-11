@@ -7,6 +7,8 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using System.Threading;
+using Org.BouncyCastle.Tls;
+using RightToAskClient.Models.ServerCommsData;
 
 namespace RightToAskClient.Models
 {
@@ -141,25 +143,21 @@ namespace RightToAskClient.Models
 		    WA_Legislative_Council
 	    }
 
-	    /*
-	    public static class Chamber 
+	    // Find all the MPs given a state and a list of electorates.
+	    // States are "electorates" in the Senate, i.e. of the form
+	    // ElectorateWithChamber(ParliamentData.Chamber.Australian_Senate, state));
+	    public static List<MP> FindAllMPsGivenElectorates(List<ElectorateWithChamber> electorates)
 	    {
-			public const string ACT_Legislative_Assembly = "ACT_Legislative_Assembly";
-			public const string Australian_House_Of_Representatives = "Australian_House_Of_Representatives";
-		    public const string Australian_Senate = "Australian_Senate";
-		    public const string NSW_Legislative_Assembly = "NSW_Legislative_Assembly" ;
-			public const string NSW_Legislative_Council ="NSW_Legislative_Council" ;
-			public const string NT_Legislative_Assembly = "NT_Legislative_Assembly" ;
-		    public const string Qld_Legislative_Assembly ="Qld_Legislative_Assembly" ;
-		    public const string SA_Legislative_Assembly = "SA_Legislative_Assembly" ;
-			public const string SA_Legislative_Council = "SA_Legislative_Council" ;
-			public const string Tas_House_Of_Assembly ="Tas_House_Of_Assembly" ;
-			public const string Tas_Legislative_Council ="Tas_Legislative_Council" ;
-		    public const string Vic_Legislative_Assembly = "Vic_Legislative_Assembly" ;
-			public const string Vic_Legislative_Council = "Vic_Legislative_Council" ;
-			public const string WA_Legislative_Assembly = "WA_Legislative_Assembly";
-			public const string WA_Legislative_Council = "WA_Legislative_Council";
-	    } */
+		    return MPAndOtherData.AllMPs.Where(mp =>
+			    
+			    // Those who represent an exactly-matching electorate/region.
+			    electorates.Exists(e => e.Equals(mp.electorate))
+			    
+				// Add the MPs in single-electorate houses, i.e. the upper houses of some parliaments.
+			    || electorates.Exists(e => e.chamber == mp.electorate.chamber && IsSingleElectorate(e.chamber))
+			    
+			    ).ToList();
+	    }
 
 	    public static readonly ObservableCollection<Authority> AllAuthorities =
 		    new ObservableCollection<Authority>(ReadAuthoritiesFromFiles());
@@ -193,6 +191,14 @@ namespace RightToAskClient.Models
 	    public static bool IsUpperHouseChamber(Chamber chamber)
 	    {
 		    return StateUpperHouseChambers.Contains(chamber);
+	    }
+
+	    // Note that after 2024 WA LC will be here too.
+	    private static bool IsSingleElectorate(Chamber chamber)
+	    {
+		    return chamber == Chamber.SA_Legislative_Council ||
+		           chamber == Chamber.NSW_Legislative_Council;
+
 	    }
 
 	    private static List<Authority> ReadAuthoritiesFromFiles()
@@ -325,6 +331,7 @@ namespace RightToAskClient.Models
 		    return new List<string>();
 	    }
 
+	    // TODO This can probably guarantee a result (i.e. Chamber) when state -> enum.
 	    public static Result<Chamber> GetLowerHouseChamber(string state)
 	    {
 		    List<Chamber> chamberList = FindChambers(state).Where(p => IsLowerHouseChamber(p)).ToList();
@@ -400,34 +407,95 @@ namespace RightToAskClient.Models
 		    Chamber.WA_Legislative_Council => "parliament.wa.gov.au"
 	    };
     
-	    /*
-		public static string GetDomainName(Chamber electorateChamber) 
-		{
-			switch (electorateChamber)
-			{
-			case Chamber.Australian_Senate:
-			case Chamber.Australian_House_Of_Representatives:
-				return "aph.gov.au";
-			case Chamber.NSW_Legislative_Assembly:
-			case Chamber.NSW_Legislative_Council:
-				return "parliament.nsw.gov.au";
-			case Chamber.NT_Legislative_Assembly:
-				return "parliament.nt.gov.au";
-			case Chamber.Qld_Legislative_Assembly:
-				return "parliament.qld.gov.au";
-			case Chamber.Tas_House_Of_Assembly:
-			case Chamber.Tas_Legislative_Council:
-				return "parliament.tas.gov.au";
-			case Chamber.Vic_Legislative_Assembly:
-				case Chamber.Vic_Legislative_Council:
-				return "parliament.vic.gov.au";
-			case Chamber.WA_Legislative_Assembly:
-				case Chamber.WA_Legislative_Council:
-				return "parliament.wa.gov.au";
-			}
+        public static List<ElectorateWithChamber> GetElectoratesFromGeoscapeAddress(string state, GeoscapeAddressFeature addressData)
+        {
+	        var commElectoralRegion = addressData.Properties?.CommonwealthElectorate?.CommElectoralName ?? "";
+	        var stateElectoralRegion = addressData.Properties?.StateElectorate?.StateElectoralName ?? "";
 
-			return "";
-		}
-		*/
+	        return FindAllRelevantElectorates(state, stateElectoralRegion, commElectoralRegion);
+        }
+        
+	    // Finds as many electorates as can be inferred from the given information.
+	    // This is highly dependent on specific details of states and hence full of special cases.
+	    // This puts them in the order
+	    // House of Reps
+	    // State Lower (or only) House
+	    // Senate
+	    // State Upper House (if any)
+	    private static List<ElectorateWithChamber> FindAllRelevantElectorates(string state, string stateRegion,
+		    string commRegion)
+	    {
+		    List<ElectorateWithChamber> electorateList = new List<ElectorateWithChamber>();
+		    if (String.IsNullOrEmpty(state))
+		    {
+			    return electorateList;
+		    }
+
+		    
+		    // House of Representatives Electorate
+		    if (!String.IsNullOrEmpty(commRegion))
+		    {
+			    electorateList.Add(new ElectorateWithChamber(Chamber.Australian_House_Of_Representatives,
+				    commRegion));
+		    }
+
+		    // State Lower House Electorates. Tas is special because the region returned by Geoscape
+		    // is the Upper House (Legislative Council) Electorate - Lower House Electorates match Commonwealth ones.
+		    // For all the rest, Geoscape's stateRegion is the Lower House Electorate.
+		    if (state == State.TAS && !String.IsNullOrEmpty(commRegion))
+		    {
+			    electorateList.Add(new ElectorateWithChamber(Chamber.Tas_House_Of_Assembly, commRegion));
+		    }
+		    else if (state != State.TAS && !String.IsNullOrEmpty(stateRegion))
+		    {
+			    // guaranteed of a result here.
+			    var chamberResult = GetLowerHouseChamber(state);
+			    if (String.IsNullOrEmpty(chamberResult.Err))
+			    {
+				    electorateList.Add(new ElectorateWithChamber(chamberResult.Ok, stateRegion));
+			    }
+		    }
+
+
+		    // TODO move states to enum.
+		    // Each state is a Senate 'region'
+		    electorateList.Add(new ElectorateWithChamber(Chamber.Australian_Senate, state));
+		    
+		    // State Upper House electorates
+		    if (state == State.TAS && !String.IsNullOrEmpty(stateRegion))
+		    {
+			    electorateList.Add(new ElectorateWithChamber(Chamber.Tas_Legislative_Council, stateRegion));
+		    }
+			    // TODO: Do likewise for WA.
+		    else if (state == State.VIC && !String.IsNullOrEmpty(stateRegion))
+		    {
+			    var superRegionsContained 
+				    = VicRegions.Find(rc => rc.regions.Contains(stateRegion,StringComparer.OrdinalIgnoreCase ));
+			    if (superRegionsContained != null)
+			    {
+				    electorateList.Add(new ElectorateWithChamber(Chamber.Vic_Legislative_Council,
+					    superRegionsContained.super_region));
+			    }
+		    }
+		    else if (HasUpperHouse(state))
+		    {
+			    // TODO state to enum or check for Err result.
+			    // In every other state that has an upper house, they're a single electorate not divided into regions.
+			    electorateList.Add(new ElectorateWithChamber(GetUpperHouseChamber(state).Ok, ""));
+		    }
+
+		    return electorateList;
+	    }
+	    
+        public static string FindElectorateGivenPredicate(List<ElectorateWithChamber> electorates, Predicate<ElectorateWithChamber> func)
+        {
+            var electoratePair = electorates.Find(func);
+            if (electoratePair is null)
+            {
+                return "";
+            }
+
+            return electoratePair.region;
+        }
     }
 }
