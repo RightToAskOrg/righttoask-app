@@ -29,6 +29,7 @@ namespace RightToAskClient.Models
 		public bool IsRegistered { get; set; }
 		public bool MPsKnown { get; set; }
 		public bool AddressUpdated { get; set; }
+		public bool HasQuestions { get; set; }
 		public bool IsVerifiedMPAccount { get; set; }
 		public bool IsVerifiedMPStafferAccount { get; set; }
 

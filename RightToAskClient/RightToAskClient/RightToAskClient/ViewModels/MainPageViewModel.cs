@@ -9,6 +9,20 @@ namespace RightToAskClient.ViewModels
 {
     public class MainPageViewModel : BaseViewModel
     {
+        private bool _showMyQuestions = false;
+        public bool ShowMyQuestions
+        {
+            get => _showMyQuestions;
+            set => SetProperty(ref _showMyQuestions, value);
+        }
+
+        private bool _showTrendingMyElectorate = false;
+        public bool ShowTrendingMyElectorate
+        {
+            get => _showTrendingMyElectorate;
+            set => SetProperty(ref _showTrendingMyElectorate, value);
+        }
+
         private string _searchText = "";
         public string SearchText
         {
@@ -47,7 +61,7 @@ namespace RightToAskClient.ViewModels
                     var popup = new HowToPublishPopup(); // this instance uses a model instead of a VM
                     _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
                     App.ReadingContext.ShowHowToPublishPopup = false;
-                    Preferences.Set("ShowHowToPublishPopup", false);
+                    Preferences.Set(Constants.ShowHowToPublishPopup, false);
                 }
                 App.ReadingContext.IsReadingOnly = false;
                 await Shell.Current.GoToAsync($"{nameof(SecondPage)}");

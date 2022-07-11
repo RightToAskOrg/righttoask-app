@@ -303,6 +303,9 @@ namespace RightToAskClient.ViewModels
                 await DoRegistrationCheck();
                 if (App.ReadingContext.ThisParticipant.IsRegistered)
                 {
+                    // upvoting a question will add it to their list
+                    App.ReadingContext.ThisParticipant.HasQuestions = true;
+                    Preferences.Set(Constants.HasQuestions, true);
                     if (Question.AlreadyUpvoted)
                     {
                         Question.UpVotes--;
@@ -571,6 +574,10 @@ namespace RightToAskClient.ViewModels
             
             // Reset the draft question only if it didn't upload correctly.
             App.ReadingContext.DraftQuestion = "";
+
+            // creating a question will add it to their list
+            App.ReadingContext.ThisParticipant.HasQuestions = true;
+            Preferences.Set(Constants.HasQuestions, true);
 
             //FIXME update version, just like for edits.
 
