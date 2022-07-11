@@ -82,12 +82,15 @@ namespace RightToAskClient.Views
         // MPs' answers.
         // - One for other participants allows only Hansard links, which should also be allowed to be a list.
         // MPs should see both options; ordinary users can read the free-form answers but only add Hansard urls.
+        // FIXME 
         private void Answer_Entered(object sender, EventArgs e)
         {
-            QuestionViewModel.Instance.Question.HansardLink = new List<Uri>()
-            {
-                new Uri(((Editor)sender).Text)
-            };
+            // Do nothing at the moment.
+            
+            // For free-form answers:
+            // QuestionViewModel.Instance.Question.HansardLink = ((Editor)sender).Text;
+            // For Hansard links:
+            // QuestionViewModel.Instance.Question.HansardLink = new List<Uri>(((Editor)sender).Text);  );
         }
 
         protected override bool OnBackButtonPressed()

@@ -5,6 +5,7 @@
              xmlns:views="clr-namespace:RightToAskClient.Views"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              xmlns:local="clr-namespace:RightToAskClient"
+             xmlns:models="clr-namespace:RightToAskClient.Models;assembly=RightToAskClient"
              x:Class="RightToAskClient.Views.AccountPage"
              x:DataType="vm:RegistrationViewModel"
              Shell.FlyoutBehavior="Flyout"
@@ -17,16 +18,26 @@
                      IconImageSource="{local:ImageResource RightToAskClient.Images.help_75.png}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout Margin="20">
+        <StackLayout Margin="20" VerticalOptions="Start">
             <views:UserAccountInfoView/>
             <Label Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}"/>
+            <Button Text="{xct:Translate UpdateAccountButtonText}" Command="{Binding UpdateAccountButtonCommand}" Style="{StaticResource DoneButton}" IsVisible="{Binding ShowUpdateAccountButton}"/>
+            <StackLayout Orientation="Vertical"> 
+            <!-- TODO Unfortunately I think this is getting drawn, then made invisible, hence creating a lot of whitespace -->
             <StackLayout Orientation="Vertical" VerticalOptions="Center">
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
                     <Button Text="{xct:Translate CompleteAccountCreationButtonText}" Style="{StaticResource DoneButton}" Command="{Binding SaveButtonCommand}" HorizontalOptions="Center" IsVisible="{Binding ShowUpdateAccountButton, Converter={StaticResource Key=cnvInvert}}"/>
                 </StackLayout>
             </StackLayout>
-            <Button Text="{xct:Translate UpdateMPsButtonText}" Style="{StaticResource DoneButton}" Command="{Binding UpdateMPsButtonCommand}" IsVisible="{Binding ShowUpdateAccountButton}"/>
-            <Button Text="{xct:Translate UpdateAccountButtonText}" Command="{Binding UpdateAccountButtonCommand}" Style="{StaticResource DoneButton}" IsVisible="{Binding ShowUpdateAccountButton}"/>
+            <!-- This button seems redundant because you can tap on the electorates to edit -->
+            <!-- <Button Text="{xct:Translate UpdateMPsButtonText}" Style="{StaticResource DoneButton}" Command="{Binding UpdateMPsButtonCommand}" IsVisible="{Binding ShowUpdateAccountButton}"/> -->
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+            <Label Text="{xct:Translate MPRegistrationOptionText}" VerticalOptions="Center" />
+            <Button Text="{Binding RegisterMPButtonText}" Command="{Binding ChooseMPToRegisterButtonCommand}" IsVisible="{Binding ShowRegisterMPButton}" Style="{StaticResource DoneButton}" HorizontalOptions="Center"/>
+            </StackLayout>
+            <Label Text="{Binding RegisteredMP.ShortestName, StringFormat='Registered MP account for {0}'}" IsVisible="{Binding ShowExistingMPRegistrationLabel}" />
+            <Label Text="Verified staffer" IsVisible="{Binding ShowStafferLabel}" />
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

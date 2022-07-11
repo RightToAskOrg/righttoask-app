@@ -153,6 +153,9 @@
   <data name="CancelButtonText" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="ChooseParliamentaryEmailDomain" xml:space="preserve">
+    <value>Parliamentary email domain</value>
+  </data>
   <data name="CitySuburbHeaderText" xml:space="preserve">
     <value>City or suburb</value>
   </data>
@@ -192,11 +195,17 @@
   <data name="EditYourAccountTitle" xml:space="preserve">
     <value>Edit Your Account</value>
   </data>
+  <data name="EditableElectoratesHeaderText" xml:space="preserve">
+    <value>Electorates (tap to edit):</value>
+  </data>
   <data name="ElectoratesHeaderText" xml:space="preserve">
     <value>Electorates:</value>
   </data>
   <data name="ElectoratesKnownHeaderText" xml:space="preserve">
     <value>I know my electorates already</value>
+  </data>
+  <data name="EmailEntry" xml:space="preserve">
+    <value>Please enter the MP's official email address for validation</value>
   </data>
   <data name="EmailTitle" xml:space="preserve">
     <value>Email</value>
@@ -223,7 +232,7 @@
     <value>Support questions you care about</value>
   </data>
   <data name="FocusSupportInstructionQuestionDrafting" xml:space="preserve">
-    <value>If a similar question is already here, focus your support by up-voting it, not publishing a duplicate.</value>
+    <value>Is a similar question here already? Focus support by up-voting it, not publishing a new one</value>
   </data>
   <data name="FocusSupportReport" xml:space="preserve">
     <value>You saved time and focused support by upvoting a similar question</value>
@@ -233,6 +242,9 @@
   </data>
   <data name="HomeButtonText" xml:space="preserve">
     <value>Home</value>
+  </data>
+  <data name="IAmAStaffer" xml:space="preserve">
+    <value>I am their staffer</value>
   </data>
   <data name="KeepQuestionButtonText" xml:space="preserve">
     <value>Publish</value>
@@ -263,6 +275,9 @@
   </data>
   <data name="MPRaiseFilterLabelText" xml:space="preserve">
     <value>My MPs who should raise the question in Parliament</value>
+  </data>
+  <data name="MPRegistrationOptionText" xml:space="preserve">
+    <value>Are you an MP or staffer?</value>
   </data>
   <data name="MPsHeaderText1" xml:space="preserve">
     <value>Your MPs are defined by where you live</value>
@@ -337,7 +352,7 @@
     <value>Questions</value>
   </data>
   <data name="RegisterMPAccountButtonText" xml:space="preserve">
-    <value>Register MP Account</value>
+    <value>Register as an MP</value>
   </data>
   <data name="RegisterOrganisationAccountButtonText" xml:space="preserve">
     <value>Register Organisation Account</value>
@@ -359,6 +374,9 @@
   </data>
   <data name="SelectStateWarningText" xml:space="preserve">
     <value>Please choose a state</value>
+  </data>
+  <data name="SendVerificationPIN" xml:space="preserve">
+    <value>Email verification code</value>
   </data>
   <data name="ServerConfigErrorRecommendation" xml:space="preserve">
     <value>Check your serverconfig.json file.</value>
@@ -414,6 +432,9 @@
   <data name="ToBeAnsweredByText" xml:space="preserve">
     <value>To be answered by</value>
   </data>
+  <data name="ThatsMe" xml:space="preserve">
+    <value>That's me</value>
+  </data>
   <data name="TrendingButtonText" xml:space="preserve">
     <value>Trending</value>
   </data>
@@ -435,6 +456,9 @@
   <data name="UpvotesHeaderText" xml:space="preserve">
     <value>Up-votes: </value>
   </data>
+  <data name="UserName" xml:space="preserve">
+    <value>Username</value>
+  </data>
   <data name="UserProfileTitle" xml:space="preserve">
     <value>User Profile</value>
   </data>
@@ -443,6 +467,9 @@
   </data>
   <data name="WebNavigationWarning" xml:space="preserve">
     <value>This link is outside Right To Ask </value>
+  </data>
+  <data name="YouHaveChosen" xml:space="preserve">
+    <value>You have chosen</value>
   </data>
   <data name="WebNavigationRequest" xml:space="preserve">
     <value>Do you want to open it in a web browser?</value>
@@ -614,6 +641,9 @@
   </data>
   <data name="SelectableListMPsPopupText" xml:space="preserve">
     <value>SelectableListMPsPopupText</value>
+  </data>
+  <data name="SubmitPINButtonText" xml:space="preserve">
+    <value>Enter the 6-digit code that was sent to their official email address</value>
   </data>
   <data name="AccountUpdateSuccessResponseText" xml:space="preserve">
     <value>Your account was successfully updated!</value>

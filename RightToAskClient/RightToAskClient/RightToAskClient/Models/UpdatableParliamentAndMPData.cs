@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using RightToAskClient.HttpClients;
+using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.ViewModels;
 
 namespace RightToAskClient.Models
@@ -53,7 +54,7 @@ namespace RightToAskClient.Models
 		{
 			get
 			{
-				return _allMPsData.VicRegions;
+				return new List<RegionsContained>(_allMPsData.VicRegions ?? Array.Empty<RegionsContained>());
 			}
 		}
 

@@ -4,7 +4,7 @@ using RightToAskClient.HttpClients;
 using System;
 using System.Text.Json.Serialization;
 
-namespace RightToAskClient.Models
+namespace RightToAskClient.Models.ServerCommsData
 {
     public class ClientSignedUnparsed
     {

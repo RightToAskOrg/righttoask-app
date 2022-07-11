@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using RightToAskClient;
 using RightToAskClient.CryptoUtils;
 using RightToAskClient.HttpClients;
 using RightToAskClient.Models;
@@ -31,9 +32,11 @@ namespace RightToAskClient.ViewModels
         // Note this is used only for updating an existing registration - new registrations are handled
         // with _registration.
         private ServerUser _registrationUpdates = new ServerUser();
+        private ObservableCollection<ElectorateWithChamber> _oldElectorates;
 
         public void ReinitRegistrationUpdates()
         {
+            _oldElectorates = new ObservableCollection<ElectorateWithChamber>(_registration.Electorates);
             _registrationUpdates = new ServerUser() { uid = _registration.uid };
         }
         // UserID, DisplayName, State, SelectedStateAsInt and Electorates are all just reflections of their 
@@ -71,7 +74,9 @@ namespace RightToAskClient.ViewModels
 
         public string State
         {
-            get => _registration.SelectedStateAsIndex >= 0 ? ParliamentData.StatesAndTerritories[SelectedStateAsIndex] : "";
+            get => _registration.SelectedStateAsIndex >= 0 
+                    && _registration.SelectedStateAsIndex < ParliamentData.StatesAndTerritories.Count 
+                    ? ParliamentData.StatesAndTerritories[SelectedStateAsIndex] : "";
         }
 
         public int SelectedStateAsIndex
@@ -94,11 +99,11 @@ namespace RightToAskClient.ViewModels
         // in an update to an existing registration.
         public ObservableCollection<ElectorateWithChamber> Electorates
         {
-            get => _registration.electorates;
+            get => _registration.Electorates;
             set
             {
-                _registration.UpdateMultipleElectoratesRemoveDuplicates(value);
-                _registrationUpdates.electorates = _registration.electorates;
+                _registration.Electorates = value;
+                _registrationUpdates.electorates = _registration.Electorates;
                 OnPropertyChanged("Electorates");
             }
         }
@@ -108,6 +113,21 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _registration, value);
         }
 
+        // This is for selecting MPs if you're registering as an MP or staffer account
+        private SelectableList<MP> _selectableMPList = new SelectableList<MP>(new List<MP>(), new List<MP>());
+        
+        // TODO shift into Registration.
+        public MP RegisteredMP { get; }
+        public bool ShowStafferLabel { get; set; }
+        public bool ShowExistingMPRegistrationLabel { get; set; } = false;
+        
+        private bool _showRegisterMPReportLabel = false;
+        public bool ShowRegisterMPReportLabel
+        {
+            get => _showRegisterMPReportLabel;
+            set => SetProperty(ref _showRegisterMPReportLabel, value);
+        } 
+        
         private bool _showRegisterCitizenButton = false;
         public bool ShowRegisterCitizenButton
         {
@@ -136,20 +156,15 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _registerOrgButtonText, value);
         }
 
-        private bool _showRegisterMPButton = false;
+        private bool _showRegisterMPButton;
         public bool ShowRegisterMPButton
         {
             get => _showRegisterMPButton;
             set => SetProperty(ref _showRegisterMPButton, value);
         }
 
-        private string _registerMPButtonText = "";
-        public string RegisterMPButtonText
-        {
-            get => _registerMPButtonText;
-            set => SetProperty(ref _registerMPButtonText, value);
-        }
-
+        public string RegisterMPButtonText { get; set; }
+        
         private bool _showDoneButton = false;
         public bool ShowDoneButton
         {
@@ -227,7 +242,7 @@ namespace RightToAskClient.ViewModels
                 {
                     NavigateToFindMPsPage();
                     // Update the electorate-updates that will be sent to the server, based on what was updated by the MP-finding page.
-                    _registrationUpdates.electorates = _registration.electorates;
+                    _registrationUpdates.electorates = _registration.Electorates;
                 }
             }
         }
@@ -239,15 +254,21 @@ namespace RightToAskClient.ViewModels
         {
             // initialize defaults
             ReportLabelText = "";
-            ShowUpdateAccountButton = App.ReadingContext.ThisParticipant.IsRegistered;
-
-            _ = ShowTheRightButtonsAsync(_registration.display_name);
+            var me = App.ReadingContext.ThisParticipant;
+            ShowUpdateAccountButton = me.IsRegistered;
+            ShowRegisterMPButton = me.IsRegistered;
+            ShowExistingMPRegistrationLabel = me.IsVerifiedMPAccount || me.IsVerifiedMPStafferAccount;
+            ShowStafferLabel = me.IsVerifiedMPStafferAccount;
+            RegisteredMP = me.MPRegisteredAs;
+            
+            ShowTheRightButtonsAsync(_registration.display_name);
             RegisterMPButtonText = AppResources.RegisterMPAccountButtonText;
             RegisterOrgButtonText = AppResources.RegisterOrganisationAccountButtonText;
-            CanEditUID = !App.ReadingContext.ThisParticipant.IsRegistered;
+            CanEditUID = !me.IsRegistered;
 
             // uid should still be sent in the 'update' even though it doesn't change.
             _registrationUpdates.uid = _registration.uid;
+            _oldElectorates = _registration.Electorates;
 
             // If this is this user's profile, show them IndividualParticipant data
             // (if there is any) and give them the option to edit (or make new).
@@ -256,10 +277,12 @@ namespace RightToAskClient.ViewModels
             // TODO Clarify meaning of ReadingOnly - looks like it has a few different uses.
             if (!App.ReadingContext.IsReadingOnly)
             {
-                SelectedStateAsIndex = Preferences.Get("StateID", -1);
+                SelectedStateAsIndex = Preferences.Get(Constants.StateID, -1);
                 ShowUpdateAccountButton = App.ReadingContext.ThisParticipant.IsRegistered;
                 Title = App.ReadingContext.ThisParticipant.IsRegistered ? AppResources.EditYourAccountTitle : AppResources.CreateAccountTitle;
                 PopupLabelText = App.ReadingContext.ThisParticipant.IsRegistered ? AppResources.EditAccountPopupText : AppResources.CreateNewAccountPopupText;
+                
+                _selectableMPList = new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
             }
             else
             {
@@ -268,6 +291,11 @@ namespace RightToAskClient.ViewModels
             }
 
             // commands
+            ChooseMPToRegisterButtonCommand = new AsyncCommand(async () =>
+            {
+                SelectMPForRegistration();
+                // StoreMPRegistration();
+            }); 
             SaveButtonCommand = new Command(() =>
             {
                 OnSaveButtonClicked();
@@ -279,17 +307,11 @@ namespace RightToAskClient.ViewModels
             });
             UpdateMPsButtonCommand = new Command(() =>
             {
+                // We need this because we don't necessarily know that the electorates 
+                // will change just because we go to the find-new-electorates page.
+                _oldElectorates = new ObservableCollection<ElectorateWithChamber>(_registration.Electorates);
+                
                 NavigateToFindMPsPage();
-                // Update the electorate-updates that will be sent to the server, based on what was updated by the MP-finding page.
-                _registrationUpdates.electorates = _registration.electorates;
-            });
-            RegisterMPButtonCommand = new Command(() =>
-            {
-                RegisterMPButtonText = "Registering not implemented yet";
-            });
-            RegisterOrgButtonCommand = new Command(() =>
-            {
-                RegisterOrgButtonText = "Registering not implemented yet";
             });
             FollowButtonCommand = new Command(() =>
             {
@@ -319,8 +341,8 @@ namespace RightToAskClient.ViewModels
         // commands
         public Command SaveButtonCommand { get; }
         public Command UpdateAccountButtonCommand { get; }
+        public AsyncCommand ChooseMPToRegisterButtonCommand { get; }
         public Command UpdateMPsButtonCommand { get; }
-        public Command RegisterMPButtonCommand { get; }
         public Command RegisterOrgButtonCommand { get; }
         public Command FollowButtonCommand { get; }
         public Command DMButtonCommand { get; }
@@ -419,14 +441,16 @@ namespace RightToAskClient.ViewModels
 
         private async Task SendNewUserToServer()
         {
+            // TODO should this call to SaveToPreferences simply the first thing in OnSaveButtonClicked?
             SaveToPreferences();
 
-            Result<bool> httpResponse = await RTAClient.RegisterNewUser(_registration);
+            var httpResponse = await RTAClient.RegisterNewUser(_registration);
             var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
-            ReportLabelText = httpValidation.message;
+            ReportLabelText = httpValidation.errorMessage;
             if (httpValidation.isValid)
             {
                 UpdateLocalRegistrationInfo();
+                     
                 // if the response seemed successful, put it in more common terms for the user.
                 if (ReportLabelText.Contains("Success"))
                 {
@@ -446,8 +470,8 @@ namespace RightToAskClient.ViewModels
         {
             // save registration to preferences
             var registrationObjectToSave = JsonSerializer.Serialize(new ServerUser(_registration));
-            Preferences.Set("RegistrationInfo", registrationObjectToSave);
-            Preferences.Set("StateID", SelectedStateAsIndex); // stored as an int as used for the other page(s) state pickers
+            Preferences.Set(Constants.RegistrationInfo, registrationObjectToSave);
+            Preferences.Set(Constants.StateID, SelectedStateAsIndex); // stored as an int as used for the other page(s) state pickers
         }
 
         private async void SendUpdatedUserToServer()
@@ -460,6 +484,15 @@ namespace RightToAskClient.ViewModels
             {
                 return;
             }
+            
+            // Update the electorate-updates that will be sent to the server,
+            // based on what was updated by the MP-finding page, if it is actually changed.
+            // This will update both _registrationUpdates and _registration.
+            if (!_oldElectorates.HasSameElements(_registration.Electorates))
+            {
+                Electorates = _registration.Electorates;
+            }
+            
             // if display name, state, electorates, or badges were changed, send the update
             if (_registrationUpdates.display_name != null
                 || _registrationUpdates.state != null
@@ -472,9 +505,9 @@ namespace RightToAskClient.ViewModels
             // displays an alert if no changes were found on the user's account via the _registrationUpdates object
             if (hasChanges)
             {
-                Result<bool> httpResponse = await RTAClient.UpdateExistingUser(_registrationUpdates);
+                var httpResponse = await RTAClient.UpdateExistingUser(_registrationUpdates);
                 var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
-                ReportLabelText = httpValidation.message;
+                ReportLabelText = httpValidation.errorMessage;
                 if (httpValidation.isValid)
                 {
                     // if the response seemed successful, put it in more common terms for the user.
@@ -487,14 +520,14 @@ namespace RightToAskClient.ViewModels
                 else
                 {
                     // IsRegistered flags in both Readingcontext and Preferences default to false.
-                    Debug.WriteLine("HttpValidationError: " + httpValidation.message);
+                    Debug.WriteLine("HttpValidationError: " + httpValidation.errorMessage);
                 }
             }
             else
             {
                 //await App.Current.MainPage.DisplayAlert(AppResources.NoAccountChangesDetectedTitle, AppResources.NoAccountChangesDetectedAlertText, AppResources.OKText);
                 var popup = new OneButtonPopup(AppResources.NoAccountChangesDetectedAlertText, AppResources.OKText);
-                _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
             }
         }
 
@@ -502,9 +535,33 @@ namespace RightToAskClient.ViewModels
         {
             App.ReadingContext.ThisParticipant.RegistrationInfo = _registration;
             App.ReadingContext.ThisParticipant.IsRegistered = true;
-            Preferences.Set("IsRegistered",
-            App.ReadingContext.ThisParticipant.IsRegistered); // save the registration to preferences
+            // save the registration to preferences
+            Preferences.Set(Constants.IsRegistered, App.ReadingContext.ThisParticipant.IsRegistered); 
         }
+
+
+
+        // TODO Add email validation as from
+        // https://docs.microsoft.com/en-us/dotnet/standard/base-types/how-to-verify-that-strings-are-in-valid-email-format
+        private async void SelectMPForRegistration()
+        {
+            var pageToSearchMPs
+                    = new SelectableListPage(_selectableMPList, "Select the MP you represent", false);
+
+            // The user is first sent to pageToSearchMPs, and then on to pageToRegisterSelectedMP.
+            // When done, they're popped all the way back here to the Account Page. 
+            await Shell.Current.Navigation.PushAsync(pageToSearchMPs).ContinueWith(async (_) => 
+            {
+                MessagingCenter.Send(this, "RegMPAccount", _selectableMPList);
+                //var pageToRegisterSelectedMP = new MPRegistrationVerificationPage(_selectableMPList);
+                //await App.Current.MainPage.Navigation.PushAsync(pageToRegisterSelectedMP);
+            });
+            ShowRegisterMPReportLabel = true;
+
+            // TODO: This isn't quite right because if the registration is unsuccessful it will still show.
+            ShowExistingMPRegistrationLabel = true;
+        }
+
 
         private async void PromptUser(string message)
         {

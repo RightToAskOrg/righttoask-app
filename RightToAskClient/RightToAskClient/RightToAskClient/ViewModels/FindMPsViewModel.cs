@@ -282,7 +282,6 @@ namespace RightToAskClient.ViewModels
                     _launchMPsSelectionPageNext = false;
                     _optionB = false;
                     DoneButtonText = AppResources.DoneButtonText;
-                    // MessagingCenter.Send<FindMPsViewModel, bool>(this, "PreviousPage", true);
                 }
                 // We are here from the registration page - no need to select any MPs
                 else
@@ -308,7 +307,7 @@ namespace RightToAskClient.ViewModels
                 ShowElectoratesFrame = false;
 
                 // set the address data if we have it
-                var addressPref = Preferences.Get("Address", "");
+                var addressPref = Preferences.Get(Constants.Address, "");
                 if (!string.IsNullOrEmpty(addressPref))
                 {
                     var addressObj = JsonSerializer.Deserialize<Address>(addressPref);
@@ -339,8 +338,7 @@ namespace RightToAskClient.ViewModels
 
         // methods
         #region Methods
-        // At the moment this just chooses random electorates. 
-        // TODO: We probably want this to give the person a chance to go back and fix it if wrong.
+        
         // If we don't even know the person's state, we have no idea so they have to go back and pick;
         // If we know their state but not their Legislative Assembly or Council makeup, we can go on. 
         private async Task OnSubmitAddressButton_Clicked()
@@ -393,7 +391,7 @@ namespace RightToAskClient.ViewModels
                     }
 
                     // Now we know everything is good.
-                    var bestAddress = httpResponse.Ok;
+                    GeoscapeAddressFeature? bestAddress = httpResponse.Ok;
                     // needs a federal electorate to be valid
                     if (!string.IsNullOrEmpty(bestAddress?.Properties?.CommonwealthElectorate?.ToString()))
                     {
@@ -401,13 +399,6 @@ namespace RightToAskClient.ViewModels
                         ShowFindMPsButton = true;
                         ReportLabelText = "";
 
-                        //bool saveThisAddress = await App.Current.MainPage.DisplayAlert("Electorates found!",
-                        //    // "State Assembly Electorate: "+thisParticipant.SelectedLAStateElectorate+"\n"
-                        //    // +"State Legislative Council Electorate: "+thisParticipant.SelectedLCStateElectorate+"\n"
-                        //    "Federal electorate: " + App.ReadingContext.ThisParticipant.CommonwealthElectorate + "\n" +
-                        //    "State lower house electorate: " + App.ReadingContext.ThisParticipant.StateLowerHouseElectorate + "\n" +
-                        //    "Do you want to save your address on this device? Right To Ask will not learn your address.",
-                        //    "OK - Save address on this device", "No thanks");
                         string electoratePopupTitle = "Electorates Found!";
                         string electoratePopupText = "Federal electorate: " + App.ReadingContext.ThisParticipant.CommonwealthElectorate +
                             "\n" + "State lower house electorate: " + App.ReadingContext.ThisParticipant.StateLowerHouseElectorate;
@@ -444,7 +435,9 @@ namespace RightToAskClient.ViewModels
 
         private void AddElectorates(GeoscapeAddressFeature addressData)
         {
-            App.ReadingContext.ThisParticipant.AddElectoratesFromGeoscapeAddress(addressData);
+            string state = App.ReadingContext.ThisParticipant.RegistrationInfo.State;
+            App.ReadingContext.ThisParticipant.RegistrationInfo.Electorates 
+                = new ObservableCollection<ElectorateWithChamber>(ParliamentData.GetElectoratesFromGeoscapeAddress(state, addressData));
             App.ReadingContext.ThisParticipant.MPsKnown = true;
             Preferences.Set("MPsKnown", true);
         }
@@ -454,8 +447,8 @@ namespace RightToAskClient.ViewModels
         private void SaveAddress()
         {
             var fullAddress = JsonSerializer.Serialize(Address);
-            Preferences.Set("Address", fullAddress); // save the full address
-            Preferences.Set("StateID", SelectedState);
+            Preferences.Set(Constants.Address, fullAddress); // save the full address
+            Preferences.Set(Constants.StateID, SelectedState);
         }
 
         private void OnStateLCElectoratePickerSelectedIndexChanged()

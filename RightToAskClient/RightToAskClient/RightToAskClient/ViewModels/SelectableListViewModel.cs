@@ -1,8 +1,10 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using RightToAskClient.Models;
 using RightToAskClient.Resx;
 using RightToAskClient.Views;
@@ -118,6 +120,7 @@ namespace RightToAskClient.ViewModels
 		public bool CameFromReg2Page = false;
 		public bool GoToReadingPageFinally = false;
 		public bool GoToAskingPageNext = false;
+		public bool RegisterMPAccount = false;
 
 
 
@@ -238,6 +241,14 @@ namespace RightToAskClient.ViewModels
 				GoToAskingPageNext = true;
 				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionBGoToAskingPageNext");
 			});
+			MessagingCenter.Subscribe<RegistrationViewModel, SelectableList<MP>>(this, "RegMPAccount", (sender, arg) => 
+			{
+				RegisterMPAccount = true;
+				var list = arg;
+				// Do something with the passed in list here
+				// SelectableEntities = (SelectableList<MP>)arg;
+				MessagingCenter.Unsubscribe<RegistrationViewModel>(this, "RegMPAccount");
+			});
 			MessagingCenter.Subscribe<FilterViewModel>(this, "FromFiltersPage", (sender) =>
 			{
 				DoneButtonText = AppResources.DoneButtonText;
@@ -283,14 +294,48 @@ namespace RightToAskClient.ViewModels
 			{
 				await Shell.Current.GoToAsync(nameof(ReadingPage));
 			}
+			else if (RegisterMPAccount)
+            {
+	            // Check that only one MP has been selected.
+	            (bool correct, MP selectedMP) = await verifySingleSelection<MP>(); 
+	            if (correct)
+	            {
+		            await Shell.Current.GoToAsync(nameof(MPRegistrationVerificationPage)).ContinueWith((_) =>
+		            {
+			            // send a message to the MPRegistrationViewModel to pop back to the account page at the end
+						// There should be only one MP at this point, so the : should never happen.
+			            MessagingCenter.Send(this, "ReturnToAccountPage", selectedMP);
+		            });
+		            //var pageToRegisterSelectedMP = new MPRegistrationVerificationPage(_selectableMPList);
+		            //await App.Current.MainPage.Navigation.PushAsync(pageToRegisterSelectedMP);
+	            }
+            }
 			// For Advanced Search outside the main flow. Pop back to wherever we came from (i.e. the advance search page).
-            else
+			else
             {
 				await Shell.Current.Navigation.PopAsync();
 			}
 			MessagingCenter.Send(this, "UpdateFilters");
 		}
+
+		// Used for settings where the user has to select exactly one Entity from the list
+		// e.g. when they're registering for an MP-linked account.
+		// The type-T return parameter is the single selected item, if there is one.
+		// The boolean indicates whether there's a single selection.
+		private async Task<(bool,T)> verifySingleSelection<T>() where T : class, new()
+		{
+			IEnumerable<Entity> selected = SelectableEntities.Where(w => w.Selected).Select(t => t.TagEntity);
+			if (selected.IsNullOrEmpty() || selected.Count() > 1)
+			{
+				await App.Current.MainPage.DisplayAlert("You must select exactly one option.", 
+					"You have selected "+selected?.Count(), "OK");
+				return (false, new T());
+			}
 			
+			// selected.Count == 1.
+			return (true, selected.FirstOrDefault() as T);
+		}
+
 		private void UpdateSelectedList<T>(SelectableList<T> entities) where T:Entity
 		{
 			var newSelectedEntities = new List<T>();

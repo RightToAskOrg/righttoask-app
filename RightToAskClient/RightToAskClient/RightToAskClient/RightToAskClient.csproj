@@ -107,6 +107,7 @@
     <None Remove="Views\" />
     <None Remove="sqlite-net-pcl" />
     <None Remove="ViewModels\Registration1ViewModel.cs.old" />
+    <None Remove="App.xaml.cs.old" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
@@ -221,6 +222,7 @@
     <None Remove="Resources\server.config" />
     <None Remove="Resources\serverconfig.json" />
     <EmbeddedResource Include="Resources\serverconfig.json" />
+    <EmbeddedResource Remove="Views\MPRegistrationPage.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Essentials">

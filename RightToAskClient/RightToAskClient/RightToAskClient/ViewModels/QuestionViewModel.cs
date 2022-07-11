@@ -493,6 +493,7 @@ namespace RightToAskClient.ViewModels
         // straight to the Explorer page that lists them.
         // If we don't, go to the page for entering address and finding them.
         // It will pop back to here.
+        /*
         private async void OnAnsweredByMPButtonClicked(object sender, EventArgs e)
         {
             await NavigationUtils.PushMyAnsweringMPsExploringPage();
@@ -502,6 +503,7 @@ namespace RightToAskClient.ViewModels
         {
             await NavigationUtils.PushAnsweringMPsNotMineSelectableListPage();
         }
+        */
 
         private async void SubmitNewQuestionButton_OnClicked()
         {
@@ -561,7 +563,8 @@ namespace RightToAskClient.ViewModels
             // Insert the question into our own list even if it doesn't upload.
             App.ReadingContext.ExistingQuestions.Insert(0, Question);
 
-            (bool isValid, string errorMessage) successfulSubmission = await BuildSignAndUploadNewQuestion();
+            // TODO use returnedData to record questionID, version, hash
+            (bool isValid, string errorMessage, string returnedData) successfulSubmission = await BuildSignAndUploadNewQuestion();
 
             if (!successfulSubmission.isValid)
             {
@@ -598,7 +601,7 @@ namespace RightToAskClient.ViewModels
             // This isn't supposed to be called for unregistered participants.
             if (!App.ReadingContext.ThisParticipant.IsRegistered) return;
             
-            (bool isValid, string errorMessage) successfulSubmission = await BuildSignAndUploadQuestionUpdates();
+            (bool isValid, string errorMessage, string returnedData) successfulSubmission = await BuildSignAndUploadQuestionUpdates();
             
             if (!successfulSubmission.isValid)
             {
@@ -624,17 +627,20 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        private async Task<(bool isValid, string message)> BuildSignAndUploadNewQuestion()
+        // TODO: This is where we'll need to record the hash, version, and other server responses.
+        // TODO** string may not be the correct deserialisation type for the response from the 
+        // server.
+        private async Task<(bool isValid, string errorMessage, string)> BuildSignAndUploadNewQuestion()
         {
             var serverQuestion = new QuestionSendToServer(Question);
             setQuestionEditPermissions(serverQuestion);
             TranscribeQuestionFiltersForUpload(serverQuestion);
 
-            Result<bool> httpResponse = await RTAClient.RegisterNewQuestion(serverQuestion);
+            Result<string> httpResponse = await RTAClient.RegisterNewQuestion(serverQuestion);
             return RTAClient.ValidateHttpResponse(httpResponse, "Question Upload");
         }
 
-        private async Task<(bool isValid, string message)> BuildSignAndUploadQuestionUpdates()
+        private async Task<(bool isValid, string errorMessage, string returnedData)> BuildSignAndUploadQuestionUpdates()
         {
             var serverQuestionUpdates = Question.Updates;
             setQuestionEditPermissions(serverQuestionUpdates);
@@ -643,7 +649,7 @@ namespace RightToAskClient.ViewModels
             serverQuestionUpdates.question_id = Question.QuestionId;
             serverQuestionUpdates.version = Question.Version;
 
-            Result<bool> httpResponse = await RTAClient.UpdateExistingQuestion(serverQuestionUpdates);
+            Result<string> httpResponse = await RTAClient.UpdateExistingQuestion(serverQuestionUpdates);
             return RTAClient.ValidateHttpResponse(httpResponse, "Question Edit");
         }
        

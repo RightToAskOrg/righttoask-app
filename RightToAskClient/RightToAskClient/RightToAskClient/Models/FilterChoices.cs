@@ -149,12 +149,13 @@ namespace RightToAskClient.Models
         // It's still helpful for them to use the constructor because if this data structure
         // is initialized after the MP read-in, the constructor should suffice.
         // TODO add code to update all Committees too.
-        // TODO also add your MPs. Possibly in a separate function because it happens later.
         public void InitSelectableLists()
         {
 	        _answeringMPsListNotMine = new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
 	        _askingMPsListNotMine =  new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
 	        _authorityLists = new SelectableList<Authority>(ParliamentData.AllAuthorities, new List<Authority>());
+	        // Doing this at init causes a nullpointer exception because App isn't loaded yet.
+	        // UpdateMyMPLists();
         }
 
         public void RemoveAllSelections()
@@ -171,10 +172,10 @@ namespace RightToAskClient.Models
         // any selected MPs who are (now) not yours. At the moment, I have simply left it as it is,
         // which means that if a person starts drafting a question, then changes their electorate details,
         // it's still possible for the question to go to 'my MP' when that person is their previous MP.
-        public void UpdateMyMPLists(List<MP> myMPs)
+        public void UpdateMyMPLists()
         {
-	        _answeringMPsListMine.AllEntities = myMPs;
-	        _askingMPsListMine.AllEntities = myMPs; 
+	        _answeringMPsListMine.AllEntities = ParliamentData.FindAllMPsGivenElectorates(App.ReadingContext.ThisParticipant.RegistrationInfo.Electorates.ToList());
+	        _askingMPsListMine.AllEntities = _answeringMPsListMine.AllEntities;
         }
 
         public bool Validate()

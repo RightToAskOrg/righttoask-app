@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using System;
+using Xamarin.Forms;
 using RightToAskClient.Views;
 using RightToAskClient.Models;
 using Xamarin.CommunityToolkit.Helpers;
@@ -12,7 +13,10 @@ using System.Linq;
 using RightToAskClient.Models.ServerCommsData;
 using Switch = Xamarin.Forms.Switch;
 
-[assembly: ExportFont("Roboto-Black.ttf", Alias = "AppFont")]
+// [assembly: ExportFont("Roboto-Black.ttf", Alias = "AppFont")]
+// [assembly: ExportFont("OpenSans-Regular.ttf", Alias = "AppFont")]
+[assembly: ExportFont("Verdana.ttf", Alias = "AppFont")]
+[assembly: ExportFont("Verdanab.ttf", Alias = "BoldAppFont")]
 [assembly: ExportFont("DancingScript-VariableFont_wght.ttf", Alias = "DanceFont")]
 
 namespace RightToAskClient
@@ -42,7 +46,7 @@ namespace RightToAskClient
             ParliamentData.MPAndOtherData.TryInit();
             
             // get account info from preferences
-            var registrationPref = Preferences.Get("RegistrationInfo", "");
+            var registrationPref = Preferences.Get(Constants.RegistrationInfo, "");
             if (!string.IsNullOrEmpty(registrationPref))
             {
                 var registrationObj = JsonSerializer.Deserialize<ServerUser>(registrationPref);
@@ -52,7 +56,7 @@ namespace RightToAskClient
                 // We actually need to check for the stored "IsRegistered" boolean, in case they tried to
                 // register but failed, for example because the server was offline.
                 // So we may have stored Registration data, but not have actually succeeded in uploading it.
-                var registrationSuccess = Preferences.Get("IsRegistered", false);
+                var registrationSuccess = Preferences.Get(Constants.IsRegistered, false);
                 ReadingContext.ThisParticipant.IsRegistered = registrationSuccess;
                 
                 // We have a problem if our stored registration is null but we think we registered successfully.
@@ -61,22 +65,48 @@ namespace RightToAskClient
                 // if we got electorates, let the app know to skip the Find My MPs step
                 // TODO We definitely shouldn't have to do this here - the Registration
                 // data structure should take care of whether the MPs are known and updated.
-                if (ReadingContext.ThisParticipant.RegistrationInfo.electorates.Any())
+                if (ReadingContext.ThisParticipant.RegistrationInfo.Electorates.Any())
                 {
                     ReadingContext.ThisParticipant.MPsKnown = true;
+                    // FIXME - use constants; consider whether we need this.
                     Preferences.Set("MPsKnown", true);
                     ReadingContext.ThisParticipant.UpdateMPs(); // to refresh the list
+			        ReadingContext.Filters.UpdateMyMPLists();
+                }
+                
+                // Retrieve MP/staffer registration. Note that staffers have both the IsVerifiedMPAccount flag and the
+                // IsVerifiedMPStafferAccount flag set to true.
+                bool isMPAccount = Preferences.Get(Constants.IsVerifiedMPAccount, false);
+                if (isMPAccount)
+                {
+                    ReadingContext.ThisParticipant.IsVerifiedMPAccount = isMPAccount;
+                    ReadingContext.ThisParticipant.IsVerifiedMPStafferAccount =
+                        Preferences.Get(Constants.IsVerifiedMPStafferAccount, false);
+                    var MPRepresentingjson = Preferences.Get(Constants.MPRegisteredAs, "");
+                    if (!String.IsNullOrEmpty(MPRepresentingjson))
+                    {
+                        MP? MPRepresenting = JsonSerializer.Deserialize<MP>(MPRepresentingjson);
+                        if (MPRepresenting != null)
+                        {
+                            // See if we can find the registered MP in our existing list.
+                            // Using field-equality operator.
+                            // If so, just keep a pointer to it; if not, use a new MP object.
+                            List<MP> matchingMPs = ParliamentData.AllMPs.Where(mp => mp.Equals(MPRepresenting)).ToList();
+                            ReadingContext.ThisParticipant.MPRegisteredAs 
+                                = matchingMPs.Any() ? matchingMPs.First() : MPRepresenting;
+                        }
+                    }
                 }
             }
             // sets state pickers
-            int stateID = Preferences.Get("StateID", -1);
+            int stateID = Preferences.Get(Constants.StateID, -1);
             if (stateID >= 0)
             {
                 ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsIndex = stateID;
             }
 
             // set popup bool
-            ReadingContext.DontShowFirstTimeReadingPopup = Preferences.Get("DontShowFirstTimeReadingPopup", false);
+            ReadingContext.DontShowFirstTimeReadingPopup = Preferences.Get(Constants.DontShowFirstTimeReadingPopup, false);
             ReadingContext.ShowHowToPublishPopup = Preferences.Get("ShowHowToPublishPopup", true);
             //ReadingContext.ThisParticipant.HasQuestions = Preferences.Get("HasQuestions", false);
         }

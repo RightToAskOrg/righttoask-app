@@ -38,7 +38,7 @@ namespace RightToAskClient.Models.ServerCommsData
 
         public ServerUser(Registration newReg)
         {
-            electorates = newReg.electorates;
+            electorates = newReg.Electorates;
             uid = newReg.uid;
             display_name = newReg.display_name;
             public_key = newReg.public_key;

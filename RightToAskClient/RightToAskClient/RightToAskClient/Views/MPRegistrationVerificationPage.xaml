@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:views="clr-namespace:RightToAskClient.Views"
+             xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
+             xmlns:local="clr-namespace:RightToAskClient"
+             xmlns:models="clr-namespace:RightToAskClient.Models;assembly=RightToAskClient"
+             x:Class="RightToAskClient.Views.MPRegistrationVerificationPage"
+             x:DataType="vm:MPRegistrationVerificationViewModel"
+             Shell.FlyoutBehavior="Flyout"
+             Title="{Binding Title}">
+    <ContentPage.BindingContext>
+        <vm:MPRegistrationVerificationViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{xct:Translate InfoPopupButtonText}" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.help_75.png}"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout Margin="20" VerticalOptions="Start">
+            <Label Text="{Binding MPRepresenting.ShortestName, StringFormat='You Have Chosen {0}'}" />
+            <StackLayout Orientation="Horizontal" HorizontalOptions = "CenterAndExpand">
+                <Label Text="{xct:Translate ThatsMe}"/>
+                <Switch IsToggled="{Binding IsStaffer}"></Switch>
+                <Label Text="{xct:Translate IAmAStaffer}"/>
+            </StackLayout>
+            <Label Text="{xct:Translate EmailEntry}"/>
+            <StackLayout Orientation="Horizontal">
+                <Entry Placeholder="{xct:Translate UserName}" Text="{Binding EmailUsername}" Style="{StaticResource NormalEntry}" />
+                <Label Text=" @ " HorizontalOptions="Center"/>
+                <!-- <Picker x:Name="DomainPicker" ItemsSource = "models:ParliamentData.Domains"></Picker> -->
+                <Picker x:Name="DomainPicker" Title="{xct:Translate ChooseParliamentaryEmailDomain}" 
+                        SelectedIndex="{Binding ParliamentaryDomainIndex}" ></Picker> 
+            </StackLayout>
+            <Button  Command ="{Binding SendMPVerificationEmailCommand}" Style="{StaticResource GreenButton}" Text="{xct:Translate SendVerificationPIN}"></Button>
+            <Label Text="{Binding ReportLabelText}" IsVisible="{Binding ShowRegisterMPReportLabel}"></Label>
+            <Label Text="{xct:Translate SubmitPINButtonText}"/>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                <Entry Text="{Binding MPRegistrationPIN}" Style="{StaticResource NormalEntry}" Placeholder="______" />
+                <Button Command="{Binding SubmitMPRegistrationPINCommand}" Text="{xct:Translate DoneButtonText}" Style="{StaticResource DoneButton}" />
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

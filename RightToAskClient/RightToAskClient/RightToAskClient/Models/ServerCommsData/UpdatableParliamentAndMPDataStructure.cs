@@ -1,8 +1,7 @@
-	using System.Collections.Generic;
-	using System.Text.Json.Serialization;
-	using RightToAskClient.Models;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
-namespace RightToAskClient.Models
+namespace RightToAskClient.Models.ServerCommsData
 {
 	public class UpdatableParliamentAndMPDataStructure
 	{
@@ -12,7 +11,7 @@ namespace RightToAskClient.Models
         [JsonPropertyName("federal_electorates_by_state")]
         public RegionsContained[]? FederalElectoratesByState { get; set; }
 
-        [JsonPropertyName("vic_districts")]
-        public List<RegionsContained> VicRegions = new List<RegionsContained>();
+        [JsonPropertyName("vic_districts")] 
+        public RegionsContained[]? VicRegions { get; set; }
 	}
 }
