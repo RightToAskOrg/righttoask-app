@@ -139,6 +139,7 @@
                 <Setter Property="BackgroundColor" Value="{StaticResource DarkButtonColor}"></Setter>
                 <Setter Property="TextColor" Value="White"></Setter>
                 <Setter Property="Text" Value="{xct:Translate NextButtonText}"></Setter>
+                <Setter Property="FontSize" Value="Large"></Setter>
                 <Setter Property="HorizontalOptions" Value="End"></Setter>
             </Style>
             <Style x:Key="SaveButton" TargetType="Button" ApplyToDerivedTypes="True">

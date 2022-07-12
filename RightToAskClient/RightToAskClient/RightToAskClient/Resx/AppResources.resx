@@ -289,10 +289,13 @@
     <value>My MP</value>
   </data>
   <data name="MyQuestionPlaceholderText" xml:space="preserve">
-    <value>Enter your question (max 280 chars) </value>
+    <value>Enter your question</value>
+  </data>
+  <data name="MyQuestionCharLimitText" xml:space="preserve">
+    <value>Up to 280 characters</value>
   </data>
   <data name="MyQuestionTitleText" xml:space="preserve">
-    <value>My question is...</value>
+    <value>My question</value>
   </data>
   <data name="NavigateOKText" xml:space="preserve">
     <value>Open in web browser</value>
