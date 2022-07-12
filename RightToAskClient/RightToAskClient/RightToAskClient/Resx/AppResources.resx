@@ -289,7 +289,7 @@
     <value>My MP</value>
   </data>
   <data name="MyQuestionPlaceholderText" xml:space="preserve">
-    <value>Enter your question</value>
+    <value>Enter your Question</value>
   </data>
   <data name="MyQuestionCharLimitText" xml:space="preserve">
     <value>Up to 280 characters</value>
@@ -343,7 +343,7 @@
     <value>Question Writer:</value>
   </data>
   <data name="ReadingPageHeader1" xml:space="preserve">
-    <value>Up-vote good questions, or tap for more detail. Swipe left to dismiss uninteresting ones.</value>
+    <value>&#x2022; Up-vote good questions&#x0a;&#x2022; Tap for more detail &#x0a;&#x2022; Swipe left to dismiss</value>
   </data>
   <data name="ReadingPageQuestionDraftingHeader1" xml:space="preserve">
     <value>Up-vote good questions, or tap for more detail. Swipe left to discard uninteresting ones.</value>

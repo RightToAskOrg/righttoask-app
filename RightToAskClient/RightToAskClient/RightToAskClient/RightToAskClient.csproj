@@ -223,6 +223,8 @@
     <None Remove="Resources\serverconfig.json" />
     <EmbeddedResource Include="Resources\serverconfig.json" />
     <EmbeddedResource Remove="Views\MPRegistrationPage.xaml" />
+    <None Remove="Images\emu-pinkCircle.png" />
+    <EmbeddedResource Include="Images\emu-pinkCircle.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Essentials">
