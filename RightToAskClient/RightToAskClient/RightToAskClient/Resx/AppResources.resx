@@ -709,10 +709,10 @@
     <value>Are you sure you want to go home? You will lose any unsaved questions.</value>
   </data>
   <data name="GoHomePopupTitle" xml:space="preserve">
-    <value>Return to the Homepage?</value>
+    <value>Return to Homepage?</value>
   </data>
   <data name="ImSureButtonText" xml:space="preserve">
-    <value>Yes, I'm sure.</value>
+    <value>Yes</value>
   </data>
   <data name="MPsPopupText" xml:space="preserve">
     <value>Would you like to find your MPs? You can always change them later.</value>

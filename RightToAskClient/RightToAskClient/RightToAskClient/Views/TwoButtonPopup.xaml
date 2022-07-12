@@ -12,33 +12,18 @@
         <StackLayout VerticalOptions="FillAndExpand" BackgroundColor="Transparent">
             <ScrollView VerticalOptions="FillAndExpand">
                 <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent">
-                    <Label x:Name="mainTitle" VerticalOptions="StartAndExpand" VerticalTextAlignment="Center" 
-                       HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource Header1}"
-                       TextColor="{AppThemeBinding Light={StaticResource TextColor}, 
-                       Dark={StaticResource TextColorDark}}"/>
+                    <Label x:Name="mainTitle" 
+                       HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource PopupHeaderText}"/>
                     <Label x:Name="mainMessage" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" 
-                       HorizontalOptions="Center" HorizontalTextAlignment="Start" Style="{StaticResource LeftFrameTextMedium}"
-                       TextColor="{AppThemeBinding Light={StaticResource TextColor}, 
-                       Dark={StaticResource TextColorDark}}"/>
+                       Style="{StaticResource PopupText}" />
                 </StackLayout>
             </ScrollView>
             <Grid x:Name="vmButtons" ColumnDefinitions="*,*" VerticalOptions="End" BackgroundColor="Transparent">
-                <!--<Label x:Name="cancelText" Grid.Column="0" TextColor="{StaticResource AlertColor}" FontSize="Small" 
-                       VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" HorizontalOptions="Center">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding ApproveCommand}" x:DataType="vm:BaseViewModel"/>
-                    </Label.GestureRecognizers>
-                </Label>
-                <Label x:Name="approveText" Grid.Column="1" TextColor="{StaticResource TextColorGreen}" FontSize="Small" 
-                       VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" HorizontalOptions="Center">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding CancelCommand}" x:DataType="vm:BaseViewModel"/>
-                    </Label.GestureRecognizers>
-                </Label>-->
-                <Button x:Name="cancelButton" Grid.Column="0" Clicked="CancelButtonClicked" FontSize="Small" 
-                        TextColor="{StaticResource AlertColor}" HeightRequest="50" BackgroundColor="Transparent" Margin="0" Padding="0" HorizontalOptions="FillAndExpand"/>
-                <Button x:Name="approveButton" Grid.Column="1" Clicked="ApproveButtonClicked" FontSize="Small" 
-                        TextColor="{StaticResource TextColorGreen}" HeightRequest="50" BackgroundColor="Transparent" Margin="0" Padding="0" HorizontalOptions="FillAndExpand"/>
+                <Button x:Name="cancelButton" Grid.Column="0" Clicked="CancelButtonClicked" 
+                        Style="{StaticResource PopupCancelButton}"/>
+                <!-- FIXME got to here-->
+                <Button x:Name="approveButton" Grid.Column="1" Clicked="ApproveButtonClicked" 
+                        Style="{StaticResource PopupOKButton}"/>
             </Grid>
             <Grid x:Name="modelButtons" ColumnDefinitions="*,*" VerticalOptions="End" BackgroundColor="Transparent">
                 <!--<Label x:Name="cancelText" Grid.Column="0" TextColor="{StaticResource AlertColor}" FontSize="Small" 
