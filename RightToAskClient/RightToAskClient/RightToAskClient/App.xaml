@@ -149,6 +149,7 @@
                 <Setter Property="BackgroundColor" Value="{StaticResource DarkButtonColor}"></Setter>
                 <Setter Property="TextColor" Value="White"></Setter>
                 <Setter Property="Text" Value="{xct:Translate NextButtonText}"></Setter>
+                <Setter Property="Padding" Value="10"></Setter>
                 <Setter Property="FontSize" Value="Large"></Setter>
                 <Setter Property="CornerRadius" Value="10"></Setter>
                 <Setter Property="Padding" Value="10"></Setter>
@@ -307,9 +308,11 @@
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
             </Style>
             <Style x:Key="Header2" TargetType="Label">
+                <!-- <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource HeadingTextColor}, Dark={StaticResource TextColorDark}}"></Setter> -->
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource HeadingTextColor}, Dark={StaticResource TextColorDark}}"></Setter>
                 <Setter Property="FontSize" Value="Medium"></Setter>
-                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="FontAttributes" Value="Bold"></Setter>
+                <Setter Property="HorizontalOptions" Value="Start"></Setter>
             </Style>
             <Style x:Key="CenterSmall" TargetType="Label">
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColorDark}}"></Setter>

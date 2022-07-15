@@ -20,39 +20,38 @@
     <ContentPage.Content>
 	    <ScrollView>
 		    <StackLayout x:Name="WholePage" Margin="20">
-			    <Label Text="{xct:Translate QuestionHeaderText}" Style="{StaticResource LeftSmall}" />
+			    <Label Text="{xct:Translate QuestionHeaderText}" Style="{StaticResource Header2}" />
 			    <Label Text="{Binding Question.QuestionText}" Style="{StaticResource LeftLarge}"
 			           IsVisible="{Binding CanEditQuestion, Converter={StaticResource Key=cnvInvert}}" />
 			    <Editor Text="{Binding Question.QuestionText}" Style="{StaticResource NormalEditor}"
 			            IsVisible="{Binding CanEditQuestion}" />
-			    <Label Text="{xct:Translate WhoShouldAnswerTitle}" Style="{StaticResource LeftSmall}" />
+			    <Label Text="{xct:Translate WhoShouldAnswerTitle}" Style="{StaticResource Header2}" />
 			    <Label Text="{Binding Question.QuestionAnswerers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
 			    <StackLayout Orientation="Horizontal" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
-                    <Label Text="{xct:Translate AnswererPermissions}" Style="{StaticResource LeftSmall}" />
+                    <Label Text="{xct:Translate AnswererPermissions}" Style="{StaticResource Header2}" />
                     <CheckBox IsChecked="{Binding Question.OthersCanAddAnswerers}"/>
                 </StackLayout>
                 <!--Question Askers/Option B things-->
                 <StackLayout IsVisible="{Binding AnswerInApp, Converter={StaticResource Key=cnvInvert}}">
-                    <Label Text="{xct:Translate OptionBText4}" Style="{StaticResource LeftSmall}" />
+                    <Label Text="{xct:Translate OptionBText4}" Style="{StaticResource Header2}" />
                     <Label Text="{Binding Question.QuestionAskers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
                     <!-- Ask the user whether they allow other users to add QuestionAskers. (Y/N) -->
                     <StackLayout Orientation="Horizontal" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
-                        <Label Text="{xct:Translate AskerPermissions}" Style="{StaticResource LeftSmall}"/>
+                        <Label Text="{xct:Translate AskerPermissions}" Style="{StaticResource Header2}"/>
                         <CheckBox IsChecked="{Binding Question.OthersCanAddAskers}"/>
                     </StackLayout>
                 </StackLayout>
-                <!--CheckedChanged = "AskerPermissionsChangedCommandPlaceholder"-->
-			    <Label Text="{xct:Translate QuestionWriterHeaderText}" Style="{StaticResource LeftSmall}" />
+			    <Label Text="{xct:Translate QuestionWriterHeaderText}" Style="{StaticResource Header2}" />
 			    <Label Text="{Binding Question.QuestionSuggester, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
-			    <Label Text="{xct:Translate UpvotesHeaderText}" Style="{StaticResource LeftSmall}" />
-			    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+			    <Label Text="{xct:Translate UpvotesHeaderText}" 
+			           IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}" Style="{StaticResource Header2}" />
+			    <StackLayout IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
 				    <Label Text="{Binding Question.UpVotes,StringFormat='{0}'}" Style="{StaticResource LeftLarge}" />
 				    <Button Text="{Binding UpvoteButtonText}" Style="{StaticResource GreenButton}"
-				            Command="{Binding UpvoteCommand}"
-				            IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}" />
+				            Command="{Binding UpvoteCommand}" />
 			    </StackLayout>
 			    <StackLayout Orientation="Vertical">
-				    <Label Text="{xct:Translate BackgroundHeaderText}" Style="{StaticResource LeftSmall}" />
+				    <Label Text="{xct:Translate BackgroundHeaderText}" Style="{StaticResource Header2}" />
 				    <Editor Placeholder="{xct:Translate AddBackgroundPlaceholderText}" Text="{Binding Question.Background}"
 				            Style="{StaticResource NormalEditor}" IsEnabled="{Binding CanEditBackground}" />
 			    </StackLayout>
