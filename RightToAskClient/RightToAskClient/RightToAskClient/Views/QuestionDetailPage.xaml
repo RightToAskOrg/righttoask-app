@@ -39,7 +39,12 @@
                     </StackLayout>
                 </StackLayout>
 			    <Label Text="{xct:Translate QuestionWriterHeaderText}" Style="{StaticResource Header2}" />
-			    <Label Text="{Binding Question.QuestionSuggester, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
+			    <Label Text="{Binding Question.QuestionSuggester, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" 
+			           IsEnabled="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
+				    <Label.GestureRecognizers>
+					    <TapGestureRecognizer Command="{Binding QuestionSuggesterCommand}" />
+				    </Label.GestureRecognizers>
+			    </Label>
 			    <Label Text="{xct:Translate UpvotesHeaderText}" 
 			           IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}" Style="{StaticResource Header2}" />
 			    <StackLayout IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
@@ -67,9 +72,6 @@
 			            IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}" />
 			    <Button Text="{xct:Translate PublishQuestionButtonText}" Style="{StaticResource DoneButton}"
 			            Command="{Binding SaveQuestionCommand}" HorizontalOptions="Center" IsVisible="{Binding IsNewQuestion}" />
-			    <Button Text="{Binding QuestionSuggesterButtonText}" Style="{StaticResource GreenButton}"
-			            Command="{Binding QuestionSuggesterCommand}" HorizontalOptions="Center"
-			            IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}" />
                 <Label x:Name="ReportLabel" Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}"/>
 		    </StackLayout>
 	    </ScrollView>
