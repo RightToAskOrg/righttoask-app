@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using RightToAskClient.Models.ServerCommsData;
+using static Xamarin.Forms.Editor;
 using Switch = Xamarin.Forms.Switch;
 
 // [assembly: ExportFont("Roboto-Black.ttf", Alias = "AppFont")]

@@ -49,14 +49,38 @@ namespace RightToAskClient.Views
         {
             InitializeComponent();
             BindingContext = QuestionViewModel.Instance;
-            QuestionViewModel.Instance.PopupLabelText = AppResources.QuestionDetailPopupText;
-
-            Title= QuestionViewModel.Instance.IsNewQuestion ?
-                AppResources.ReviewQuestionDetailsTitle : AppResources.QuestionDetailsTitle; 
-                
+            
             // Reset the updates to blank/zero so that edits can be captured.
-            var vm = BindingContext as QuestionViewModel;
-            vm.ReinitQuestionUpdates();
+            QuestionViewModel.Instance.ReinitQuestionUpdates();
+            
+            // var vm = BindingContext as QuestionViewModel;
+            // vm.ReinitQuestionUpdates();
+            
+            QuestionViewModel.Instance.PopupLabelText = AppResources.QuestionDetailPopupText;
+            
+            Style normalEditorStyle = App.Current.Resources["NormalEditor"] as Style;
+            Style disabledEditorStyle = App.Current.Resources["DisabledEditor"] as Style;
+            
+            if (QuestionViewModel.Instance.IsNewQuestion)
+            {
+                Title = AppResources.ReviewQuestionDetailsTitle;
+                QuestionTextEditor.Style = normalEditorStyle;
+            }
+            else
+            {
+                Title = AppResources.QuestionDetailsTitle;
+                QuestionTextEditor.Style = disabledEditorStyle;
+            }
+
+            BackgroundEditor.Style =
+                QuestionViewModel.Instance.CanEditBackground ? normalEditorStyle : disabledEditorStyle;
+            // Don't bother displaying it if it has no content and you can't edit it.
+            BackgroundEditor.IsVisible = QuestionViewModel.Instance.CanEditBackground ||
+                                         !String.IsNullOrWhiteSpace(QuestionViewModel.Instance.Question.Background);
+            BackgroundLabel.IsVisible = BackgroundEditor.IsVisible;
+
+            // TODO When we split up the answering from the link-adding, only MPs will be able to answer.
+            LinkOrAnswerEditor.Style = normalEditorStyle;
         }
 
         // TODO At the moment, this just interprets a single string as a single URL, but we should 

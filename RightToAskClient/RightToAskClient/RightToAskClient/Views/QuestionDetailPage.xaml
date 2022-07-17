@@ -9,7 +9,7 @@
              xmlns:local="clr-namespace:RightToAskClient"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              x:Class="RightToAskClient.Views.QuestionDetailPage"
-             x:DataType="vm:QuestionViewModel" >
+             x:DataType="vm:QuestionViewModel">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
                      IconImageSource="{local:ImageResource RightToAskClient.Images.home4.png}"/>
@@ -20,7 +20,7 @@
 	    <ScrollView>
 		    <StackLayout x:Name="WholePage" Margin="20">
 			    <Label Text="{xct:Translate QuestionHeaderText}" Style="{StaticResource Header2}" />
-			    <Editor x:Name="QuestionTextEditor" Text="{Binding Question.QuestionText}" Style="{StaticResource NormalEditor}"
+			    <Editor x:Name="QuestionTextEditor" Text="{Binding Question.QuestionText}" 
 			            IsReadOnly="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}" />
 			    <Label Text="{xct:Translate WhoShouldAnswerTitle}" Style="{StaticResource Header2}" />
 			    <Label Text="{Binding Question.QuestionAnswerers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
@@ -53,14 +53,14 @@
 				            Command="{Binding UpvoteCommand}" />
 			    </StackLayout>
 			    <StackLayout Orientation="Vertical">
-				    <Label Text="{xct:Translate BackgroundHeaderText}" Style="{StaticResource Header2}" />
-				    <Editor Placeholder="{xct:Translate AddBackgroundPlaceholderText}" Text="{Binding Question.Background}"
+				    <Label x:Name="BackgroundLabel" Text="{xct:Translate BackgroundHeaderText}" Style="{StaticResource Header2}" />
+				    <Editor x:Name="BackgroundEditor" Placeholder="{xct:Translate AddBackgroundPlaceholderText}" Text="{Binding Question.Background}"
 				            Style="{StaticResource NormalEditor}" IsEnabled="{Binding CanEditBackground}" />
 			    </StackLayout>
 			    <StackLayout Orientation="Vertical"
 			                 IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
 				    <Label Text="{xct:Translate LinkAnswerHeaderText}" />
-				    <Editor Placeholder="{xct:Translate LinkAnswerPlaceholderText}" Completed="Answer_Entered"
+				    <Editor x:Name="LinkOrAnswerEditor" Placeholder="{xct:Translate LinkAnswerPlaceholderText}" Completed="Answer_Entered"
 				            Style="{StaticResource NormalEditor}" />
 				    <Label Text="{xct:Translate ApproveAnswerText}" />
 			    </StackLayout>

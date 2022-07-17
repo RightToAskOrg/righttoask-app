@@ -172,14 +172,18 @@
                 <Setter Property="VerticalOptions" Value="FillAndExpand"></Setter>
                 <Setter Property="Padding" Value="0"></Setter>
             </Style>
-            <Style x:Key="NormalEditor" TargetType="Editor" ApplyToDerivedTypes="True">
-                <Setter Property="BackgroundColor" Value = "{StaticResource FadedButtonColor}"></Setter>
+            <Style x:Key="DisabledEditor" TargetType="Editor" ApplyToDerivedTypes="True">
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, 
+                            Dark={StaticResource WindowBackgroundColorDark}}"></Setter>
                 <Setter Property="TextColor" Value="{StaticResource TextColor}"></Setter>
                 <Setter Property="PlaceholderColor" Value="{StaticResource TextColorGray}"></Setter>
                 <Setter Property="AutoSize" Value="TextChanges"></Setter>
                 <Setter Property="FontSize" Value="Medium"></Setter>
                 <Setter Property="FontAttributes" Value="Bold"></Setter>
             </Style>
+            <Style x:Key="NormalEditor" BasedOn="{StaticResource DisabledEditor}" TargetType="Editor" ApplyToDerivedTypes="True">
+                <Setter Property="BackgroundColor"  Value="{StaticResource FadedButtonColor}"/>
+            </Style> 
             <Style x:Key="NormalEntry" TargetType="Entry" ApplyToDerivedTypes="True">
                 <Setter Property="BackgroundColor" Value= "{StaticResource FadedButtonColor}"></Setter>
                 <Setter Property="PlaceholderColor" Value="{StaticResource TextColorGray}"></Setter>
