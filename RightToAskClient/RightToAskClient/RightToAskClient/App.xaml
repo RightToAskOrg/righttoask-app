@@ -114,79 +114,57 @@
                    Dark={StaticResource TextColorDark}}"></Setter>
             </Style>
             <!--Specific Styles-->
-            <Style x:Key="GreenButton" TargetType="Button">
-                <Setter Property="TextColor" Value="White"></Setter>
-                <Setter Property="BackgroundColor" Value="{StaticResource ButtonColor}"></Setter>
+            <Style x:Key="DefaultButton" TargetType="Button" ApplyToDerivedTypes="True">
                 <Setter Property="HeightRequest" Value="40"></Setter>
                 <Setter Property="FontSize" Value="Large"></Setter>
                 <Setter Property="CornerRadius" Value="10"></Setter>
-                <Setter Property="Padding" Value="10"></Setter>
+                <Setter Property="Padding" Value="10,0,10,0"></Setter>
             </Style>
-            <Style x:Key="TallGreenButton" TargetType="Button">
+            <Style x:Key="GreenButton" BasedOn="{StaticResource DefaultButton}" TargetType="Button" ApplyToDerivedTypes="True"> 
                 <Setter Property="TextColor" Value="White"></Setter>
                 <Setter Property="BackgroundColor" Value="{StaticResource ButtonColor}"></Setter>
+            </Style>
+            <Style x:Key="TallGreenButton" BasedOn="{StaticResource GreenButton}" TargetType="Button" ApplyToDerivedTypes="True">
                 <Setter Property="HeightRequest" Value="60"></Setter>
-                <Setter Property="FontSize" Value="Large"></Setter>
-                <Setter Property="CornerRadius" Value="10"></Setter>
-                <Setter Property="Padding" Value="10"></Setter>
             </Style>
-            <Style x:Key="RedButton" TargetType="Button" ApplyToDerivedTypes="True">
+            <Style x:Key="RedButton" BasedOn="{StaticResource DefaultButton}" TargetType="Button" ApplyToDerivedTypes="True">
                 <Setter Property="BackgroundColor" Value="{StaticResource AlertColor}"></Setter>
-                <Setter Property="FontSize" Value="Large"></Setter>
-                <Setter Property="CornerRadius" Value="10"></Setter>
-                <Setter Property="Padding" Value="10"></Setter>
             </Style>
-            <Style x:Key="DoneButton" TargetType="Button" ApplyToDerivedTypes="True">
+            <Style x:Key="DoneButton" TargetType="Button" BasedOn="{StaticResource GreenButton}" ApplyToDerivedTypes="True">
                 <Setter Property="BackgroundColor" Value="{StaticResource DarkButtonColor}"></Setter>
-                <Setter Property="TextColor" Value="White"></Setter>
-                <Setter Property="FontSize" Value="Large"></Setter>
-                <Setter Property="CornerRadius" Value="10"></Setter>
-                <Setter Property="Padding" Value="10"></Setter>
                 <Setter Property="Text" Value="{xct:Translate DoneButtonText}"></Setter>
-                <Setter Property="HorizontalOptions" Value="End"></Setter>
+                <Setter Property="HorizontalOptions" Value="End"/>
             </Style>
-            <Style x:Key="NextButton" TargetType="Button" ApplyToDerivedTypes="True">
+            <Style x:Key="NextButton" BasedOn="{StaticResource GreenButton}" TargetType="Button" ApplyToDerivedTypes="True">
                 <Setter Property="BackgroundColor" Value="{StaticResource DarkButtonColor}"></Setter>
-                <Setter Property="TextColor" Value="White"></Setter>
                 <Setter Property="Text" Value="{xct:Translate NextButtonText}"></Setter>
-                <Setter Property="Padding" Value="10"></Setter>
-                <Setter Property="FontSize" Value="Large"></Setter>
-                <Setter Property="CornerRadius" Value="10"></Setter>
-                <Setter Property="Padding" Value="10"></Setter>
-                <Setter Property="HorizontalOptions" Value="End"></Setter>
+                <Setter Property="HorizontalOptions" Value="End"/>
             </Style>
-            <Style x:Key="SaveButton" TargetType="Button" ApplyToDerivedTypes="True">
+            <Style x:Key="SaveButton" BasedOn="{StaticResource GreenButton}" TargetType="Button" ApplyToDerivedTypes="True">
                 <Setter Property="BackgroundColor" Value="{StaticResource DarkButtonColor}"></Setter>
-                <Setter Property="TextColor" Value="White"></Setter>
                 <Setter Property="Text" Value="Save"></Setter>
-                <Setter Property="HorizontalOptions" Value="End"></Setter>
+                <Setter Property="HorizontalOptions" Value="End"/>
             </Style>
-            <Style x:Key="PopupOKButton" TargetType="Button" ApplyToDerivedTypes="True">
+            <Style x:Key="PopupButton" TargetType="Button" ApplyToDerivedTypes="True">
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
                 <Setter Property="FontAttributes" Value="Bold"></Setter>
                 <Setter Property="FontSize" Value="Large"></Setter>
+                <Setter Property="HeightRequest" Value="50"></Setter>
+                <Setter Property="BackgroundColor" Value="Transparent"></Setter> 
+                <Setter Property="Margin" Value="0"></Setter>
+                <Setter Property="Padding" Value="0"></Setter> 
+            </Style>
+            <Style x:Key="PopupOKButton" BasedOn="{StaticResource PopupButton}" TargetType="Button" ApplyToDerivedTypes="True">
                 <Setter Property="TextColor" Value="{StaticResource TextColorGreen}"></Setter>
-                <Setter Property="HeightRequest" Value="50"></Setter>
-                <Setter Property="BackgroundColor" Value="Transparent"></Setter> 
-                <Setter Property="Margin" Value="0"></Setter>
-                <Setter Property="Padding" Value="0"></Setter> 
             </Style>
-            <Style x:Key="PopupCancelButton" TargetType="Button" ApplyToDerivedTypes="True">
-                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
-                <Setter Property="FontAttributes" Value="Bold"></Setter>
-                <Setter Property="FontSize" Value="Large"></Setter>
+            <Style x:Key="PopupCancelButton" BasedOn="{StaticResource PopupButton}" TargetType="Button" ApplyToDerivedTypes="True">
                 <Setter Property="TextColor" Value="{StaticResource AlertColor}"></Setter>
-                <Setter Property="HeightRequest" Value="50"></Setter>
-                <Setter Property="BackgroundColor" Value="Transparent"></Setter> 
-                <Setter Property="Margin" Value="0"></Setter>
-                <Setter Property="Padding" Value="0"></Setter> 
             </Style>
             <Style x:Key="UpVoteButton" TargetType="Button" ApplyToDerivedTypes="True">
                 <Setter Property="BackgroundColor" Value="{StaticResource ButtonColor}"></Setter>
                 <Setter Property="CornerRadius" Value="20"></Setter>
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
                 <Setter Property="Padding" Value="0"></Setter>
-                <!--<Setter Property="Text" Value="+1"></Setter>-->
             </Style>
             <Style x:Key="TransparentSquareButton" TargetType="Button" ApplyToDerivedTypes="True">
                 <Setter Property="BackgroundColor" Value="Transparent"></Setter>

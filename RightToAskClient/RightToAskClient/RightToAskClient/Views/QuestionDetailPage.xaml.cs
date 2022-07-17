@@ -57,21 +57,23 @@ namespace RightToAskClient.Views
             // if in the question drafting stages, the question text and background is editable
             if (QuestionViewModel.Instance.IsNewQuestion)
             {
+                Title = AppResources.QuestionDetailsTitle; 
                 QuestionViewModel.Instance.CanEditQuestion = true;
                 QuestionViewModel.Instance.CanEditBackground = true;
             }
             // otherwise check to see if the user is the creator of the question to edit from the reading pages
-            else if (!string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.RegistrationInfo.uid))
+            else
             {
-                if (!string.IsNullOrEmpty(QuestionViewModel.Instance.Question.QuestionSuggester))
+                Title = AppResources.ReviewQuestionDetailsTitle;    
+                string thisUser =  App.ReadingContext.ThisParticipant.RegistrationInfo.uid;
+                string questionWriter = QuestionViewModel.Instance.Question.QuestionSuggester;
+                if (!string.IsNullOrEmpty(thisUser) && !string.IsNullOrEmpty(questionWriter) && thisUser == questionWriter)
                 {
-                    if (QuestionViewModel.Instance.Question.QuestionSuggester == App.ReadingContext.ThisParticipant.RegistrationInfo.uid)
-                    {
-                        QuestionViewModel.Instance.CanEditBackground = true;
-                        QuestionViewModel.Instance.CanEditQuestion = true;
-                    }
+                    // TODO possibly also allow setting of flags for allowing others to edit metadata.
+                    QuestionViewModel.Instance.CanEditBackground = true;
                 }
             }
+                
             var vm = BindingContext as QuestionViewModel;
             vm.ReinitQuestionUpdates();
         }

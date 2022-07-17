@@ -9,8 +9,7 @@
              xmlns:local="clr-namespace:RightToAskClient"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              x:Class="RightToAskClient.Views.QuestionDetailPage"
-             x:DataType="vm:QuestionViewModel"
-             Title="{xct:Translate QuestionDetailsTitle}">
+             x:DataType="vm:QuestionViewModel" >
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
                      IconImageSource="{local:ImageResource RightToAskClient.Images.home4.png}"/>

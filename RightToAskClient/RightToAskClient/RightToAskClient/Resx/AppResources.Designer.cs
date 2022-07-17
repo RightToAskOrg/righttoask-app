@@ -531,6 +531,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string ReviewQuestionDetailsTitle {
+            get {
+                return ResourceManager.GetString("ReviewQuestionDetailsTitle", resourceCulture);
+            }
+        }
+        
         internal static string SaveAnswerButtonText {
             get {
                 return ResourceManager.GetString("SaveAnswerButtonText", resourceCulture);

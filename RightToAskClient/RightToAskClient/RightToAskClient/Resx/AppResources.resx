@@ -360,6 +360,9 @@
   <data name="RegisterOrganisationAccountButtonText" xml:space="preserve">
     <value>Register Organisation Account</value>
   </data>
+  <data name="ReviewQuestionDetailsTitle" xml:space="preserve">
+    <value>Review Question</value>
+  </data>
   <data name="SaveAnswerButtonText" xml:space="preserve">
     <value>Save Answer</value>
   </data>
@@ -661,13 +664,13 @@
     <value>Your account was created successfully!</value>
   </data>
   <data name="GoHomeButtonText" xml:space="preserve">
-    <value>Go Home</value>
+    <value>Home</value>
   </data>
   <data name="QuestionPublishedPopupText" xml:space="preserve">
     <value>Question successfully published!</value>
   </data>
   <data name="WriteAnotherQuestionButtonText" xml:space="preserve">
-    <value>Write Another One</value>
+    <value>Write Another</value>
   </data>
   <data name="GoButtonText" xml:space="preserve">
     <value>Go</value>
