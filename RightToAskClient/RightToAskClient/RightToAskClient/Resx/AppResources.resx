@@ -493,7 +493,7 @@
     <value>Draft a Question</value>
   </data>
   <data name="RaiseQuestionHeaderText" xml:space="preserve">
-    <value>Now, we'll help you direct your question to where it might get answered. Choose by whom should it be raised by...</value>
+    <value>Now, we'll help you direct your question to where it might get answered. Choose who should raise it.</value>
   </data>
   <data name="OptionAText1" xml:space="preserve">
     <value>Get an answer in the app</value>

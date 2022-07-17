@@ -20,10 +20,8 @@
 	    <ScrollView>
 		    <StackLayout x:Name="WholePage" Margin="20">
 			    <Label Text="{xct:Translate QuestionHeaderText}" Style="{StaticResource Header2}" />
-			    <Label Text="{Binding Question.QuestionText}" Style="{StaticResource LeftLarge}"
-			           IsVisible="{Binding CanEditQuestion, Converter={StaticResource Key=cnvInvert}}" />
-			    <Editor Text="{Binding Question.QuestionText}" Style="{StaticResource NormalEditor}"
-			            IsVisible="{Binding CanEditQuestion}" />
+			    <Editor x:Name="QuestionTextEditor" Text="{Binding Question.QuestionText}" Style="{StaticResource NormalEditor}"
+			            IsReadOnly="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}" />
 			    <Label Text="{xct:Translate WhoShouldAnswerTitle}" Style="{StaticResource Header2}" />
 			    <Label Text="{Binding Question.QuestionAnswerers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
 			    <StackLayout Orientation="Horizontal" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
@@ -65,7 +63,8 @@
 			            Command="{Binding SaveAnswerCommand}" HorizontalOptions="Center"
 			            IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}" />
 			    <Button Text="{xct:Translate EditQuestionButtonText}" Style="{StaticResource SaveButton}"
-			            Command="{Binding EditAnswerCommand}" HorizontalOptions="Center" IsVisible="{Binding ShowEditQuestionButton}" />
+			            Command="{Binding EditAnswerCommand}" HorizontalOptions="Center" 
+			            IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}" />
 			    <Button Text="{xct:Translate PublishQuestionButtonText}" Style="{StaticResource DoneButton}"
 			            Command="{Binding SaveQuestionCommand}" HorizontalOptions="Center" IsVisible="{Binding IsNewQuestion}" />
 			    <Button Text="{Binding QuestionSuggesterButtonText}" Style="{StaticResource GreenButton}"

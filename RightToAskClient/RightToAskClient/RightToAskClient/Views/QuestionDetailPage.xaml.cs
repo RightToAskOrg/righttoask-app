@@ -50,30 +50,11 @@ namespace RightToAskClient.Views
             InitializeComponent();
             BindingContext = QuestionViewModel.Instance;
             QuestionViewModel.Instance.PopupLabelText = AppResources.QuestionDetailPopupText;
-            // default to false, then check if they should be true
-            QuestionViewModel.Instance.CanEditBackground = false;
-            QuestionViewModel.Instance.CanEditQuestion = false;
 
-            // if in the question drafting stages, the question text and background is editable
-            if (QuestionViewModel.Instance.IsNewQuestion)
-            {
-                Title = AppResources.QuestionDetailsTitle; 
-                QuestionViewModel.Instance.CanEditQuestion = true;
-                QuestionViewModel.Instance.CanEditBackground = true;
-            }
-            // otherwise check to see if the user is the creator of the question to edit from the reading pages
-            else
-            {
-                Title = AppResources.ReviewQuestionDetailsTitle;    
-                string thisUser =  App.ReadingContext.ThisParticipant.RegistrationInfo.uid;
-                string questionWriter = QuestionViewModel.Instance.Question.QuestionSuggester;
-                if (!string.IsNullOrEmpty(thisUser) && !string.IsNullOrEmpty(questionWriter) && thisUser == questionWriter)
-                {
-                    // TODO possibly also allow setting of flags for allowing others to edit metadata.
-                    QuestionViewModel.Instance.CanEditBackground = true;
-                }
-            }
+            Title= QuestionViewModel.Instance.IsNewQuestion ?
+                AppResources.ReviewQuestionDetailsTitle : AppResources.QuestionDetailsTitle; 
                 
+            // Reset the updates to blank/zero so that edits can be captured.
             var vm = BindingContext as QuestionViewModel;
             vm.ReinitQuestionUpdates();
         }
