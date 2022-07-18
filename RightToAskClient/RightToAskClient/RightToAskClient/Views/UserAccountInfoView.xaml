@@ -34,20 +34,31 @@
                     SelectedIndex="{Binding SelectedStateAsIndex}">
             </Picker>
         </Grid>
-            <Label Text="{xct:Translate EditableElectoratesHeaderText}" Style="{StaticResource ClickableHeader}"/>
+            <Label Text="{xct:Translate EditableElectoratesHeaderText}" Style="{StaticResource Header2}"/>
             <!-- The height request is a kludge because otherwise the CollectionView takes up all the rest of the page -->
             <!-- rather than resizing to fit just the number of elements it has -->
-            <CollectionView ItemsSource="{Binding Electorates}" SelectionMode="Single" 
-                            HeightRequest="280" 
-                            SelectedItem="{Binding SelectedElectorateWithChamber}">
-            <!-- <CollectionView ItemsSource="{Binding Registration.electorates}" SelectionMode="Single" SelectedItem="{Binding SelectedElectorateWithChamber}">-->
+            <CollectionView ItemsSource="{Binding Electorates}" HeightRequest="280" 
+                            SelectionMode="Single" SelectedItem="{Binding SelectedElectorateWithChamber}">
+                <!-- <CollectionView ItemsSource="{Binding Registration.electorates}" SelectionMode="Single" SelectedItem="{Binding SelectedElectorateWithChamber}">-->
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:ElectorateWithChamber">
                         <StackLayout HorizontalOptions="StartAndExpand">
-                            <Label Text="{Binding chamber}" Style="{StaticResource Header2}"/>
+                            <Label Text="{Binding chamber}" Style="{StaticResource ClickableHeader}"/>
                             <Label Text="{Binding region}" Style="{StaticResource NormalText}" />
                             <!-- <Label Text="{Binding chamber}" Style="{StaticResource ListViewTextVertCenter}"/>
                             <Label Text="{Binding region}" Style="{StaticResource ListViewTextVertCenter}" /> -->
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup Name="CommonStates">
+                        <VisualState Name="Normal" />
+                        <VisualState Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="Background" Value="{AppThemeBinding  Light={StaticResource WindowBackgroundColor}, 
+                                Dark={StaticResource WindowBackgroundColorDark}}"/>
+                            </VisualState.Setters>
+                        </VisualState>
+
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
                         </StackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

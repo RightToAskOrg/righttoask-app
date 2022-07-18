@@ -57,6 +57,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string AdvancedSearchOptions {
+            get {
+                return ResourceManager.GetString("AdvancedSearchOptions", resourceCulture);
+            }
+        }
+        
         internal static string AdvancedSearchButtonText {
             get {
                 return ResourceManager.GetString("AdvancedSearchButtonText", resourceCulture);

@@ -26,11 +26,9 @@
                 <!--Standard Search Frame-->
                 <Frame Style="{StaticResource AppThemeFramePadding}">
                     <StackLayout>
-                        <Label Text="Question Details" Style="{StaticResource LeftMedium}"/>
                         <SearchBar Placeholder="{xct:Translate SearchBarPlaceholderText}" Text="{Binding Keyword}" 
                                    Style="{StaticResource GreenSearchBar}" SearchCommand="{Binding SearchCommand}"/>
-                        <Label Text="Seach with These Filters?" />
-                        <Button Text="{xct:Translate GoButtonText}" Command="{Binding SearchCommand}"/>
+                        <Button Text="{xct:Translate GoButtonText}" Style="{StaticResource NextButton}" Command="{Binding SearchCommand}"/>
                     </StackLayout>
                 </Frame>
                 <!--Answered By Frame-->
@@ -57,7 +55,7 @@
                                             <TapGestureRecognizer Command="{Binding AnsweringMPsFilterCommand}"/>
                                         </Label.GestureRecognizers>
                                     </Label>
-                                    <Label Text="{Binding SelectedAnsweringMyMPsText}">
+                                    <Label Text="{Binding SelectedAnsweringMyMPsText}" Style="{StaticResource NormalText}">
                                         <Label.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding AnsweringMPsFilterCommand}"/>
                                         </Label.GestureRecognizers>
@@ -69,7 +67,7 @@
                                             <TapGestureRecognizer Command="{Binding OtherAnsweringMPsFilterCommand}"/>
                                         </Label.GestureRecognizers>
                                     </Label>
-                                    <Label Text="{Binding SelectedAnsweringMPsText}">
+                                    <Label Text="{Binding SelectedAnsweringMPsText}" Style="{StaticResource NormalText}">
                                         <Label.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding OtherAnsweringMPsFilterCommand}"/>
                                         </Label.GestureRecognizers>
@@ -81,7 +79,7 @@
                                             <TapGestureRecognizer Command="{Binding AnsweringAuthoritiesFilterCommand}"/>
                                         </Label.GestureRecognizers>
                                     </Label>
-                                    <Label Text="{Binding PublicAuthoritiesText}">
+                                    <Label Text="{Binding PublicAuthoritiesText}" Style="{StaticResource NormalText}">
                                         <Label.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding AnsweringAuthoritiesFilterCommand}"/>
                                         </Label.GestureRecognizers>
@@ -120,7 +118,7 @@
                                             <TapGestureRecognizer Command="{Binding AskingMPsFilterCommand}"/>
                                         </Label.GestureRecognizers>
                                     </Label>
-                                    <Label Text="{Binding SelectedAskingMyMPsText}">
+                                    <Label Text="{Binding SelectedAskingMyMPsText}" Style="{StaticResource NormalText}">
                                         <Label.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding AskingMPsFilterCommand}"/>
                                         </Label.GestureRecognizers>
@@ -132,7 +130,7 @@
                                             <TapGestureRecognizer Command="{Binding NotSureCommand}"/>
                                         </Label.GestureRecognizers>
                                     </Label>
-                                    <Label Text="{Binding CommitteeText}">
+                                    <Label Text="{Binding CommitteeText}" Style="{StaticResource NormalText}">
                                         <Label.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding NotSureCommand}"/>
                                         </Label.GestureRecognizers>
@@ -144,7 +142,7 @@
                                             <TapGestureRecognizer Command="{Binding OtherAskingMPsFilterCommand}"/>
                                         </Label.GestureRecognizers>
                                     </Label>
-                                    <Label Text="{Binding SelectedAskingMPsText}">
+                                    <Label Text="{Binding SelectedAskingMPsText}" Style="{StaticResource NormalText}">
                                         <Label.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding OtherAskingMPsFilterCommand}"/>
                                         </Label.GestureRecognizers>
@@ -156,7 +154,7 @@
                                             <TapGestureRecognizer Command="{Binding RightToAskUserCommand}"/>
                                         </Label.GestureRecognizers>
                                     </Label>
-                                    <Label Text="{Binding OtherRightToAskUserText}">
+                                    <Label Text="{Binding OtherRightToAskUserText}" Style="{StaticResource NormalText}">
                                         <Label.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding RightToAskUserCommand}"/>
                                         </Label.GestureRecognizers>
@@ -195,7 +193,7 @@
                                         <TapGestureRecognizer Command="{Binding RightToAskUserCommand}"/>
                                     </Label.GestureRecognizers>
                                 </Label>
-                                <Label Text="{Binding OtherRightToAskUserText}">
+                                <Label Text="{Binding OtherRightToAskUserText}" Style="{StaticResource NormalText}">
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding RightToAskUserCommand}"/>
                                     </Label.GestureRecognizers>

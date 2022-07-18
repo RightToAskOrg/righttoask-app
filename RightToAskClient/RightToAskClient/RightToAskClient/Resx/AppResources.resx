@@ -123,6 +123,9 @@
   <data name="AddBackgroundPlaceholderText" xml:space="preserve">
     <value>Add Background (optional)</value>
   </data>
+  <data name="AdvancedSearchOptions" xml:space="preserve">
+    <value>Advanced Search Options</value>
+  </data>
   <data name="AdvancedSearchButtonText" xml:space="preserve">
     <value>Advanced Search</value>
   </data>
@@ -196,13 +199,13 @@
     <value>Edit Your Account</value>
   </data>
   <data name="EditableElectoratesHeaderText" xml:space="preserve">
-    <value>Electorates (tap to edit):</value>
+    <value>Electorates</value>
   </data>
   <data name="ElectoratesHeaderText" xml:space="preserve">
-    <value>Electorates:</value>
+    <value>Electorates</value>
   </data>
   <data name="ElectoratesKnownHeaderText" xml:space="preserve">
-    <value>I know my electorates already</value>
+    <value>Pick from a list</value>
   </data>
   <data name="EmailEntry" xml:space="preserve">
     <value>Please enter the MP's official email address for validation</value>
@@ -280,7 +283,7 @@
     <value>Are you an MP or staffer?</value>
   </data>
   <data name="MPsHeaderText1" xml:space="preserve">
-    <value>Your MPs are defined by where you live</value>
+    <value>Your MPs are defined by the electorate you live in</value>
   </data>
   <data name="MPsHeaderText2" xml:space="preserve">
     <value>I live in </value>
