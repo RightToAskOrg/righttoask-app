@@ -94,7 +94,7 @@
                 <Setter Property = "VisualStateManager.VisualStateGroups">
                     <VisualStateGroupList>
                     <VisualStateGroup x:Name="CommonStates">
-                        <VisualState x:Name="Normal">
+                        <VisualState x:Name="Header2">
                             <VisualState.Setters>
                                 <Setter Property="Color" Value="Gray" />
                             </VisualState.Setters>
@@ -192,7 +192,8 @@
             <Style x:Key="DisabledEditor" TargetType="Editor" ApplyToDerivedTypes="True">
                 <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, 
                             Dark={StaticResource WindowBackgroundColorDark}}"></Setter>
-                <Setter Property="TextColor" Value="{StaticResource TextColor}"></Setter>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, 
+                                                                Dark={StaticResource TextColorDark}}"></Setter>
                 <Setter Property="PlaceholderColor" Value="{StaticResource TextColorGray}"></Setter>
                 <Setter Property="AutoSize" Value="TextChanges"></Setter>
                 <Setter Property="FontSize" Value="Medium"></Setter>
@@ -200,10 +201,18 @@
             </Style>
             <Style x:Key="NormalEditor" BasedOn="{StaticResource DisabledEditor}" TargetType="Editor" ApplyToDerivedTypes="True">
                 <Setter Property="BackgroundColor"  Value="{StaticResource FadedButtonColor}"/>
+                <Setter Property="TextColor" Value="{StaticResource TextColor}"></Setter>
             </Style> 
-            <Style x:Key="NormalEntry" TargetType="Entry" ApplyToDerivedTypes="True">
-                <Setter Property="BackgroundColor" Value= "{StaticResource FadedButtonColor}"></Setter>
+            <Style x:Key="DisabledEntry" TargetType="Entry" ApplyToDerivedTypes="True">
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, 
+                            Dark={StaticResource WindowBackgroundColorDark}}"></Setter>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, 
+                                                                Dark={StaticResource TextColorDark}}"></Setter>
                 <Setter Property="PlaceholderColor" Value="{StaticResource TextColorGray}"></Setter>
+                <Setter Property="FontSize" Value="Medium"></Setter>
+            </Style>
+            <Style x:Key="NormalEntry" TargetType="Entry" BasedOn="{StaticResource DisabledEntry}" ApplyToDerivedTypes="True">
+                <Setter Property="BackgroundColor" Value= "{StaticResource FadedButtonColor}"></Setter>
                 <Setter Property="TextColor" Value="{StaticResource TextColor}"></Setter>
             </Style>
             <Style x:Key="GreenSearchBar" TargetType="SearchBar">
@@ -311,6 +320,7 @@
                 <Setter Property="FontSize" Value="Medium"></Setter>
                 <Setter Property="FontAttributes" Value="Bold"></Setter>
                 <Setter Property="HorizontalOptions" Value="Start"></Setter>
+                <Setter Property="Margin" Value="0, 10, 0, 0"/>
             </Style>
             <Style x:Key="ClickableHeader" TargetType="Label">
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource ClickableLinkColor2}, Dark={StaticResource ClickableLinkColor2Dark}}"></Setter>
@@ -318,11 +328,15 @@
                 <Setter Property="FontAttributes" Value="Bold"></Setter>
                 <Setter Property="TextDecorations" Value="Underline"/>
                 <Setter Property="HorizontalOptions" Value="Start"></Setter>
+                <Setter Property="Margin" Value="0, 10, 0, 0"/>
             </Style>
             <Style x:Key="NormalText" TargetType="Label">
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColorDark}}"></Setter>
                 <Setter Property="FontSize" Value="Medium"></Setter>
                 <Setter Property="HorizontalTextAlignment" Value="Start"></Setter>
+            </Style>
+            <Style x:Key="BoldNormalText" BasedOn="{StaticResource NormalText}" TargetType="Label">
+                <Setter Property="FontAttributes" Value="Bold"></Setter>
             </Style>
             <Style x:Key="CenterSmall" TargetType="Label">
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColorDark}}"></Setter>

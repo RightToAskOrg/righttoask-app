@@ -8,30 +8,46 @@
              x:DataType="vm:RegistrationViewModel">
     <ContentView.Content>
         <StackLayout>
-            <Label Text="{xct:Translate UserNameHeaderText}" Style="{StaticResource LeftSmall}"/>
-            <Entry Text="{Binding UserID}" Placeholder="{xct:Translate UIDPlaceholderText}" 
-                   Style="{StaticResource NormalEntry}" IsEnabled="{Binding CanEditUID}"/>
-            <Label Text="{xct:Translate DisplayNameHeaderText}" Style="{StaticResource LeftSmall}"/>
-            <Entry Text="{Binding DisplayName}" Placeholder="{xct:Translate DisplayNamePlaceholderText}" 
-                   Style="{StaticResource NormalEntry}"/>
-            <Label Text="{xct:Translate StateHeaderText}" Style="{StaticResource LeftSmall}"/>
-            <Picker Title="{Binding State,  StringFormat='{0:F0}'}"
+            <Grid RowDefinitions="Auto, Auto, Auto"
+                  ColumnDefinitions="*, 2*">
+                <!--
+                <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions> -->
+            <Label Text="{xct:Translate UserNameHeaderText}" Style="{StaticResource Header2}" />
+                <!-- Styled in code-behind according to whether this is permitted edits. -->
+                <Entry x:Name="UIDEntry" Grid.Column="1" Text="{Binding UserID}" Placeholder="{xct:Translate UIDPlaceholderText}" />
+            <Label Grid.Row="1" Text="{xct:Translate DisplayNameHeaderText}" Style="{StaticResource Header2}" />
+            <Entry Grid.Row="1" Grid.Column="1" Text="{Binding DisplayName}"
+                   Placeholder="{xct:Translate DisplayNamePlaceholderText}"
+                   Style="{StaticResource NormalEntry}" />
+            <Label Grid.Row="2" Text="{xct:Translate StateHeaderText}" Style="{StaticResource Header2}" />
+            <Picker Grid.Row="2" Grid.Column="1" Title="{Binding State,  StringFormat='{0:F0}'}"
                     ItemsSource="{Binding StateList}"
                     Style="{StaticResource LeftPicker}"
-			        SelectedIndex="{Binding SelectedStateAsIndex}">
+                    SelectedIndex="{Binding SelectedStateAsIndex}">
             </Picker>
-            <Label Text="{xct:Translate EditableElectoratesHeaderText}" Style="{StaticResource LeftSmall}"/>
+        </Grid>
+            <Label Text="{xct:Translate EditableElectoratesHeaderText}" Style="{StaticResource ClickableHeader}"/>
             <!-- The height request is a kludge because otherwise the CollectionView takes up all the rest of the page -->
             <!-- rather than resizing to fit just the number of elements it has -->
             <CollectionView ItemsSource="{Binding Electorates}" SelectionMode="Single" 
-                            HeightRequest="80" 
+                            HeightRequest="280" 
                             SelectedItem="{Binding SelectedElectorateWithChamber}">
             <!-- <CollectionView ItemsSource="{Binding Registration.electorates}" SelectionMode="Single" SelectedItem="{Binding SelectedElectorateWithChamber}">-->
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:ElectorateWithChamber">
-                        <StackLayout HorizontalOptions="StartAndExpand" Orientation="Horizontal">
-                            <Label Text="{Binding chamber}" Style="{StaticResource ListViewTextVertCenter}"/>
-                            <Label Text="{Binding region}" Style="{StaticResource ListViewTextVertCenter}" />
+                        <StackLayout HorizontalOptions="StartAndExpand">
+                            <Label Text="{Binding chamber}" Style="{StaticResource Header2}"/>
+                            <Label Text="{Binding region}" Style="{StaticResource NormalText}" />
+                            <!-- <Label Text="{Binding chamber}" Style="{StaticResource ListViewTextVertCenter}"/>
+                            <Label Text="{Binding region}" Style="{StaticResource ListViewTextVertCenter}" /> -->
                         </StackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
