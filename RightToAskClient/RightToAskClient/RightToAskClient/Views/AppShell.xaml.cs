@@ -10,9 +10,6 @@ namespace RightToAskClient
         public AppShell()
         {
             InitializeComponent();
-            Routing.RegisterRoute(nameof(ExploringPage), typeof(ExploringPage));
-            Routing.RegisterRoute(nameof(ExploringPageWithSearch), typeof(ExploringPageWithSearch));
-            Routing.RegisterRoute(nameof(ExploringPageWithSearchAndPreSelections), typeof(ExploringPageWithSearchAndPreSelections));
             Routing.RegisterRoute(nameof(QuestionAskerPage), typeof(QuestionAskerPage));
             Routing.RegisterRoute(nameof(QuestionDetailPage), typeof(QuestionDetailPage));
             Routing.RegisterRoute(nameof(RegisterPage1), typeof(RegisterPage1));

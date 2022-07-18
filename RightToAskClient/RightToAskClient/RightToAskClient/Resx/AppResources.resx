@@ -535,7 +535,7 @@
     <value>Write your own questions</value>
   </data>
   <data name="MainPageSubheader3Text" xml:space="preserve">
-    <value>Help other citizens direct their questions</value>
+    <value>Help other people direct their questions</value>
   </data>
   <data name="MainPageTrendingNowAccessibilityLabelHelpText" xml:space="preserve">
     <value>This is the Trending Now header for this frame/bubble that is meant to indicate that clicking on this area of the screen will bring the user to a reading page filled with questions in the app that are currently trending based on a filtered search.</value>
