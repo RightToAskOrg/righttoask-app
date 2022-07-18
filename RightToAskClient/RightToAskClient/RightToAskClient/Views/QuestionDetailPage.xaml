@@ -19,7 +19,23 @@
     <ContentPage.Content>
 	    <ScrollView>
 		    <StackLayout x:Name="WholePage" Margin="20">
-			    <Label Text="{xct:Translate QuestionHeaderText}" Style="{StaticResource Header2}" />
+			    <StackLayout Orientation="Horizontal" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
+					<Label Text="{xct:Translate QuestionHeaderText}" Style="{StaticResource Header2}" HorizontalOptions="StartAndExpand" />
+				    <ImageButton Source="{local:ImageResource RightToAskClient.Images.thumb_up_48.png}" 
+				                 IsVisible="{Binding Question.AlreadyUpvoted, Converter={StaticResource Key=cnvInvert}}" Padding="5"
+				                 BackgroundColor="Transparent" Command="{Binding UpvoteCommand}" HorizontalOptions="Start"
+				                 xct:IconTintColorEffect.TintColor="Gray"
+				                 AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{xct:Translate QuestionFrameThumbsUpAccessibilityName}"
+				                 AutomationProperties.HelpText="{xct:Translate QuestionFrameThumbsUpAccessibilityText}"/>
+				    <ImageButton Source="{local:ImageResource RightToAskClient.Images.thumb_up_48.png}" 
+				                 BackgroundColor="Transparent" Command="{Binding UpvoteCommand}" 
+				                 IsVisible="{Binding Question.AlreadyUpvoted}" Padding="5"
+				                 xct:IconTintColorEffect.TintColor="{StaticResource ButtonColor}" HorizontalOptions="Start"
+				                 AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{xct:Translate QuestionFrameThumbsUpAccessibilityName}"
+				                 AutomationProperties.HelpText="{xct:Translate QuestionFrameThumbsUpAccessibilityText}"/>
+				    <Label Text="{Binding Question.UpVotes}" Style="{StaticResource NormalText}" Margin="0" Padding="0"/>
+				    <Label Text="{xct:Translate UpvoteDisplayCardButtonText}" Style="{StaticResource NormalText}"/>
+			    </StackLayout>
 			    <Editor x:Name="QuestionTextEditor" Text="{Binding Question.QuestionText}" 
 			            IsReadOnly="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}" />
 			    <Label Text="{xct:Translate WhoShouldAnswerTitle}" Style="{StaticResource Header2}" />
@@ -38,28 +54,24 @@
                         <CheckBox IsChecked="{Binding Question.OthersCanAddAskers}"/>
                     </StackLayout>
                 </StackLayout>
-			    <Label Text="{xct:Translate QuestionWriterHeaderText}" Style="{StaticResource Header2}" />
-			    <Label Text="{Binding Question.QuestionSuggester, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" 
-			           IsEnabled="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
-				    <Label.GestureRecognizers>
+			    <StackLayout Orientation="Horizontal">
+				    <StackLayout.GestureRecognizers>
 					    <TapGestureRecognizer Command="{Binding QuestionSuggesterCommand}" />
-				    </Label.GestureRecognizers>
-			    </Label>
-			    <Label Text="{xct:Translate UpvotesHeaderText}" 
-			           IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}" Style="{StaticResource Header2}" />
-			    <StackLayout IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-				    <Label Text="{Binding Question.UpVotes,StringFormat='{0}'}" Style="{StaticResource LeftLarge}" />
-				    <Button Text="{Binding UpvoteButtonText}" Style="{StaticResource GreenButton}"
-				            Command="{Binding UpvoteCommand}" />
+				    </StackLayout.GestureRecognizers>
+				    <Label Text="{xct:Translate QuestionWriterHeaderText}" Style="{StaticResource Header2}" />
+				    <Label Text="{Binding Question.QuestionSuggester, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}"
+				           IsEnabled="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
+				    </Label>
 			    </StackLayout>
 			    <StackLayout Orientation="Vertical">
 				    <Label x:Name="BackgroundLabel" Text="{xct:Translate BackgroundHeaderText}" Style="{StaticResource Header2}" />
 				    <Editor x:Name="BackgroundEditor" Placeholder="{xct:Translate AddBackgroundPlaceholderText}" Text="{Binding Question.Background}"
-				            Style="{StaticResource NormalEditor}" IsEnabled="{Binding CanEditBackground}" />
+				            Style="{StaticResource NormalEditor}" 
+				            IsReadOnly="{Binding CanEditBackground, Converter={StaticResource Key=cnvInvert}}" />
 			    </StackLayout>
 			    <StackLayout Orientation="Vertical"
 			                 IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
-				    <Label Text="{xct:Translate LinkAnswerHeaderText}" />
+				    <Label Text="{xct:Translate LinkAnswerHeaderText}" Style="{StaticResource Header2}"/>
 				    <Editor x:Name="LinkOrAnswerEditor" Placeholder="{xct:Translate LinkAnswerPlaceholderText}" Completed="Answer_Entered"
 				            Style="{StaticResource NormalEditor}" />
 				    <Label Text="{xct:Translate ApproveAnswerText}" />

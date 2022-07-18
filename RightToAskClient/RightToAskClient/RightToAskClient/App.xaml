@@ -26,10 +26,18 @@
             -->
             <!--Colors -->
             <!-- <Color x:Key="Primary">#649b49</Color> -->
-            <!-- Google's material.io suggestions based on Primary #649b49 -->
+            <!-- Google's material.io suggestions based on Primary #649b49 (leaf green) -->
+            <!-- from https://material.io/design/color/the-color-system.html#tools-for-picking-colors -->
             <!-- Darkest: #36642f -->
             <!-- almost-darkest: #538740 -->
             <!-- lighter: #77af53 #85bf5c #96c973 #a9d28c #c1dfac #d9eccc #f0f8eb (lightest) -->
+            <!-- Based on emu-neck blue Primary #18a9c7 
+                Darkest: #035f68
+                Lighter: #83dcf0     -->
+            <!-- Based on emu-feather brown Primary #695f44
+                Darkest: #271f03
+                Light:   #a79c7e
+                Lighter: #c7bb9d     -->
             
             <!-- These are all meant to be the same dark green -->
             <Color x:Key="Primary">#36642f</Color>
@@ -39,10 +47,19 @@
             
             <!-- These are all the same mid green -->
             <Color x:Key="ButtonColor">#649b49</Color>
+            <Color x:Key="HeadingTextColorDark">#649b49</Color>
             
             <!-- These are all the same light green -->
             <Color x:Key="FadedButtonColor">#c1dfac</Color>
             <Color x:Key="FrameColor">#c1dfac</Color> 
+            
+            <!-- Second theme colour -->
+            <Color x:Key="ClickableLinkColor">#9a4119</Color> 
+            <Color x:Key="ClickableLinkColorDark">#9a4119</Color> 
+            <Color x:Key="ClickableLinkColor1">#035f68</Color> 
+            <Color x:Key="ClickableLinkColor1Dark">#18a9c7</Color> 
+            <Color x:Key="ClickableLinkColor2">#695f44</Color> 
+            <Color x:Key="ClickableLinkColor2Dark">#a79c7e</Color> 
             
             <!-- Highlight / Alert colours -->
             <!-- Note that this mostly doesn't have much effect and has been separately
@@ -50,7 +67,7 @@
             <Color x:Key="AlertColor">#9a4119</Color> 
             
             <Color x:Key="IndicatorColor">#efd242</Color> 
-            <Color x:Key="TitleTextColor">#efd242</Color>
+            <!-- <Color x:Key="TitleTextColor">#efd242</Color> -->
             <Color x:Key="WattleYellow">#efd242</Color>
             
             <!-- white/grey/black/beige text & background colors -->
@@ -243,7 +260,7 @@
                 <Setter Property="HorizontalOptions" Value="Start"></Setter>
             </Style>
             <Style x:Key="PopupHeaderText" TargetType="Label">
-                <Setter Property="TextColor" Value="{StaticResource HeadingTextColor }"></Setter>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource HeadingTextColor }, Dark={StaticResource HeadingTextColorDark}}"></Setter>
                 <Setter Property="FontSize" Value="Large"></Setter>
                 <Setter Property="FontSize" Value="Large"></Setter>
                 <Setter Property="FontAttributes" Value="Bold"></Setter>
@@ -285,16 +302,27 @@
                 <Setter Property="Padding" Value="0"/>
             </Style>
             <Style x:Key="Header1" TargetType="Label">
-                <Setter Property="TextColor" Value="{StaticResource HeadingTextColor }"></Setter>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource HeadingTextColor }, Dark={StaticResource HeadingTextColorDark}}"></Setter>
                 <Setter Property="FontSize" Value="Large"></Setter>
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
             </Style>
             <Style x:Key="Header2" TargetType="Label">
-                <!-- <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource HeadingTextColor}, Dark={StaticResource TextColorDark}}"></Setter> -->
-                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource HeadingTextColor}, Dark={StaticResource TextColorDark}}"></Setter>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource HeadingTextColor}, Dark={StaticResource HeadingTextColorDark}}"></Setter>
                 <Setter Property="FontSize" Value="Medium"></Setter>
                 <Setter Property="FontAttributes" Value="Bold"></Setter>
                 <Setter Property="HorizontalOptions" Value="Start"></Setter>
+            </Style>
+            <Style x:Key="ClickableHeader" TargetType="Label">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource ClickableLinkColor2}, Dark={StaticResource ClickableLinkColor2Dark}}"></Setter>
+                <Setter Property="FontSize" Value="Medium"></Setter>
+                <Setter Property="FontAttributes" Value="Bold"></Setter>
+                <Setter Property="TextDecorations" Value="Underline"/>
+                <Setter Property="HorizontalOptions" Value="Start"></Setter>
+            </Style>
+            <Style x:Key="NormalText" TargetType="Label">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColorDark}}"></Setter>
+                <Setter Property="FontSize" Value="Medium"></Setter>
+                <Setter Property="HorizontalTextAlignment" Value="Start"></Setter>
             </Style>
             <Style x:Key="CenterSmall" TargetType="Label">
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColorDark}}"></Setter>
