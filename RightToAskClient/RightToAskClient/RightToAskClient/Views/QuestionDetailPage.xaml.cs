@@ -49,31 +49,38 @@ namespace RightToAskClient.Views
         {
             InitializeComponent();
             BindingContext = QuestionViewModel.Instance;
+            
+            // Reset the updates to blank/zero so that edits can be captured.
+            QuestionViewModel.Instance.ReinitQuestionUpdates();
+            
+            // var vm = BindingContext as QuestionViewModel;
+            // vm.ReinitQuestionUpdates();
+            
             QuestionViewModel.Instance.PopupLabelText = AppResources.QuestionDetailPopupText;
-            // default to false, then check if they should be true
-            QuestionViewModel.Instance.CanEditBackground = false;
-            QuestionViewModel.Instance.CanEditQuestion = false;
-
-            // if in the question drafting stages, the question text and background is editable
+            
+            Style normalEditorStyle = App.Current.Resources["NormalEditor"] as Style;
+            Style disabledEditorStyle = App.Current.Resources["DisabledEditor"] as Style;
+            
             if (QuestionViewModel.Instance.IsNewQuestion)
             {
-                QuestionViewModel.Instance.CanEditQuestion = true;
-                QuestionViewModel.Instance.CanEditBackground = true;
+                Title = AppResources.ReviewQuestionDetailsTitle;
+                QuestionTextEditor.Style = normalEditorStyle;
             }
-            // otherwise check to see if the user is the creator of the question to edit from the reading pages
-            else if (!string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.RegistrationInfo.uid))
+            else
             {
-                if (!string.IsNullOrEmpty(QuestionViewModel.Instance.Question.QuestionSuggester))
-                {
-                    if (QuestionViewModel.Instance.Question.QuestionSuggester == App.ReadingContext.ThisParticipant.RegistrationInfo.uid)
-                    {
-                        QuestionViewModel.Instance.CanEditBackground = true;
-                        QuestionViewModel.Instance.CanEditQuestion = true;
-                    }
-                }
+                Title = AppResources.QuestionDetailsTitle;
+                QuestionTextEditor.Style = disabledEditorStyle;
             }
-            var vm = BindingContext as QuestionViewModel;
-            vm.ReinitQuestionUpdates();
+
+            BackgroundEditor.Style =
+                QuestionViewModel.Instance.CanEditBackground ? normalEditorStyle : disabledEditorStyle;
+            // Don't bother displaying it if it has no content and you can't edit it.
+            BackgroundEditor.IsVisible = QuestionViewModel.Instance.CanEditBackground ||
+                                         !String.IsNullOrWhiteSpace(QuestionViewModel.Instance.Question.Background);
+            BackgroundLabel.IsVisible = BackgroundEditor.IsVisible;
+
+            // TODO When we split up the answering from the link-adding, only MPs will be able to answer.
+            LinkOrAnswerEditor.Style = normalEditorStyle;
         }
 
         // TODO At the moment, this just interprets a single string as a single URL, but we should 

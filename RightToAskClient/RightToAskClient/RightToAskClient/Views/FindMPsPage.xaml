@@ -25,8 +25,9 @@
                 <!--<ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"/>-->
                 <!--<Label Text="{xct:Translate MPsHeaderText1}" Style="{StaticResource Header1}" />-->
                 <!--Label Choice Option Frames-->
+                <Label Text="{xct:Translate MPsHeaderText1}" Style="{StaticResource Header1}" HorizontalTextAlignment="Center"/>
                 <Grid ColumnDefinitions="*,*,*" Margin="0,10,0,0">
-                    <Button Grid.Column="0" Text="Manually" Style="{StaticResource GreenButton}" Command="{Binding KnowElectoratesCommand}" HorizontalOptions="End"/>
+                    <Button Grid.Column="0" Text="{xct:Translate ElectoratesKnownHeaderText}" Style="{StaticResource GreenButton}" Command="{Binding KnowElectoratesCommand}" HorizontalOptions="End"/>
                     <Label Grid.Column="1" Text="Or" WidthRequest="25" FontSize="Large"
 					       HorizontalOptions="Center" VerticalOptions="Center" />
                     <Button Grid.Column="2" Text="Look Up" Style="{StaticResource GreenButton}" Command="{Binding LookupElectoratesCommand}" HorizontalOptions="Start"/>

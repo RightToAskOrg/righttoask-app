@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using RightToAskClient.Models;
+using RightToAskClient.Resx;
 using RightToAskClient.ViewModels;
 using RightToAskClient.Views;
 using Xamarin.Forms;
@@ -61,7 +62,7 @@ namespace RightToAskClient
 
         public static async Task PushAnsweringMPsNotMineSelectableListPage()
         {
-            string message = "Here is the complete list of MPs - select which one(s) should answer";
+            string message = AppResources.SelectMPToAnswerText;
             SelectableListPage mpsPage =
                 new SelectableListPage(App.ReadingContext.Filters.AnsweringMPsListsNotMine, message, false);
             await Application.Current.MainPage.Navigation.PushAsync(mpsPage);
@@ -69,8 +70,7 @@ namespace RightToAskClient
 
         public static async Task PushAskingMPsNotMineSelectableListPageAsync()
         {
-            string message =
-                "Here is the complete list of MPs - select which one(s) should raise your question in Parliament";
+            string message = AppResources.SelectMPToRaiseText; 
             SelectableListPage mpsPage =
                 new SelectableListPage(App.ReadingContext.Filters.AskingMPsListsNotMine, message, false);
             await Application.Current.MainPage.Navigation.PushAsync(mpsPage);

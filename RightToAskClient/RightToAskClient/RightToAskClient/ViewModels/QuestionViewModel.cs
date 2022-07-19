@@ -40,6 +40,13 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _serverQuestionUpdates, value);
         }
 
+        // A collection of flags describing the state of the question,
+        // whether it's a new question, whether you have permission to edit it,
+        // etc. The idea is that facts about its status should be set at init,
+        // and decisions about what to display in the view model are derived from
+        // those facts.
+        
+        // Whether this is a new question
         private bool _isNewQuestion;
         public bool IsNewQuestion
         {
@@ -47,6 +54,7 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _isNewQuestion, value);
         }
 
+        // TODO What does this mean??
         private bool _isReadingOnly;
         public bool IsReadingOnly
         {
@@ -54,6 +62,8 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _isReadingOnly, value);
         }
 
+        // Whether the 'Option B' path, in which you choose both someone to answer 
+        // and someone to raise the question, has been selected.
         private bool _raisedByOptionSelected;
         public bool RaisedByOptionSelected
         {
@@ -69,27 +79,7 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        private bool _displayFindCommitteeButton;
-        public bool DisplayFindCommitteeButton
-        {
-            get => _displayFindCommitteeButton;
-            set => SetProperty(ref _displayFindCommitteeButton, value);
-        }
-
-        private bool _displaySenatesEstimatesSection;
-        public bool DisplaySenateEstimatesSection
-        {
-            get => _displaySenatesEstimatesSection;
-            set => SetProperty(ref _displaySenatesEstimatesSection, value);
-        }
-
-        private string _senateEstimatesAppearanceText = "";
-        public string SenateEstimatesAppearanceText
-        {
-            get => _senateEstimatesAppearanceText;
-            set => SetProperty(ref _senateEstimatesAppearanceText, value);
-        }
-
+        // These buttons are disabled if for some reason we're unable to read MP data.
         private bool _enableMyMPShouldRaiseButton;
         public bool EnableMyMPShouldRaiseButton
         {
@@ -103,7 +93,32 @@ namespace RightToAskClient.ViewModels
             get => _enableAnotherMPShouldRaiseButton;
             set => SetProperty(ref _enableAnotherMPShouldRaiseButton, value);
         }
+        
+        // TODO Can we just use this flag everywhere instead of the two above?
+        public bool MPButtonsEnabled => ParliamentData.MPAndOtherData.IsInitialised;
 
+        private bool _canEditBackground;
+        public bool CanEditBackground
+        {
+            get
+            {
+                string thisUser =  App.ReadingContext.ThisParticipant.RegistrationInfo.uid;
+                string questionWriter = _question.QuestionSuggester;
+                return !string.IsNullOrEmpty(thisUser) && !string.IsNullOrEmpty(questionWriter) && thisUser == questionWriter;
+            }
+            set => SetProperty(ref _canEditBackground, value);
+        }
+
+        public bool CanEditQuestionAnswerers
+        {
+            get => _question.OthersCanAddAnswerers;
+        }
+
+        public bool CanEditQuestionAskers
+        {
+            get => _question.OthersCanAddAskers;
+        }
+        
         private bool _goHome;
         public bool GoHome
         {
@@ -153,19 +168,6 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _saveButtonText, value);
         }
 
-        private bool _canEditBackground;
-        public bool CanEditBackground
-        {
-            get => _canEditBackground;
-            set => SetProperty(ref _canEditBackground, value);
-        }
-
-        private bool _canEditQuestion;
-        public bool CanEditQuestion
-        {
-            get => _canEditQuestion;
-            set => SetProperty(ref _canEditQuestion, value);
-        }
 
         private bool _answerInApp = false;
         public bool AnswerInApp
@@ -174,11 +176,9 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _answerInApp, value);
         }
 
-        public bool ShowEditQuestionButton => CanEditQuestion && !IsNewQuestion;
 
         public string QuestionSuggesterButtonText => QuestionViewModel.Instance.IsNewQuestion ? AppResources.EditProfileButtonText : String.Format(AppResources.ViewOtherUserProfile, QuestionViewModel.Instance.Question.QuestionSuggester);
 
-        public bool MPButtonsEnabled => ParliamentData.MPAndOtherData.IsInitialised;
         public void UpdateMPButtons()
         {
             OnPropertyChanged("MPButtonsEnabled"); // called by the UpdatableParliamentAndMPData class to update this variable in real time
@@ -403,9 +403,6 @@ namespace RightToAskClient.ViewModels
             IsNewQuestion = false;
             IsReadingOnly = App.ReadingContext.IsReadingOnly; // crashes here if setting up existing test questions
             RaisedByOptionSelected = false;
-            DisplayFindCommitteeButton = true;
-            DisplaySenateEstimatesSection = false;
-            SenateEstimatesAppearanceText = "";
             AnotherUserButtonText = AppResources.AnotherUserButtonText;
             NotSureWhoShouldRaiseButtonText = AppResources.NotSureButtonText;
             SelectButtonText = AppResources.SelectButtonText;
@@ -425,11 +422,6 @@ namespace RightToAskClient.ViewModels
         private void OnFindCommitteeButtonClicked()
         {
             RaisedByOptionSelected = true;
-            DisplayFindCommitteeButton = false;
-            DisplaySenateEstimatesSection = true;
-            SenateEstimatesAppearanceText =
-                String.Join(" ", App.ReadingContext.Filters.SelectedAuthorities)
-                    + " is appearing at Senate Estimates tomorrow";
         }
 
         // Note that the non-waiting for this asyc method means that the rest of the page can keep

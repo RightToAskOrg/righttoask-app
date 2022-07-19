@@ -25,7 +25,7 @@
                            Margin="0"/>
                 </StackLayout>
             </Frame>
-            <Label x:Name="IntroText" Text = "{Binding IntroText}" Style="{StaticResource Header2}"/>
+            <Label x:Name="IntroText" Text = "{Binding IntroText}" Style="{StaticResource Header1}"/>
             <ScrollView x:Name="ParentScrollView">
                 <ListView x:Name="EntityListView" ItemsSource="{Binding FilteredSelectableEntities}"
 				    x:FieldModifier="protected" VerticalOptions="FillAndExpand" SelectionMode="None" 

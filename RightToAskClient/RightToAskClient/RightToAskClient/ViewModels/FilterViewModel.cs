@@ -116,17 +116,6 @@ namespace RightToAskClient.ViewModels
                 // active to update all of the lists/filters on this page with the newly selected data
                 //MessagingCenter.Unsubscribe<SelectableListViewModel>(this, "UpdateFilters");
             });
-            MessagingCenter.Subscribe<ExploringPage>(this, "UpdateFilters", (sender) =>
-            {
-                ReinitData();
-                //MessagingCenter.Unsubscribe<ExploringPage>(this, "UpdateFilters");
-            });
-            MessagingCenter.Subscribe<ExploringPageWithSearch>(this, "UpdateFilters", (sender) =>
-            {
-                ReinitData();
-                //MessagingCenter.Unsubscribe<ExploringPageWithSearch>(this, "UpdateFilters");
-            });
-
             MessagingCenter.Subscribe<MainPageViewModel>(this, "MainPage", (sender) =>
             {
                 CameFromMainPage = true;

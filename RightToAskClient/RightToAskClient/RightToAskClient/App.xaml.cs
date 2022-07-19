@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using RightToAskClient.Models.ServerCommsData;
+using static Xamarin.Forms.Editor;
 using Switch = Xamarin.Forms.Switch;
 
 // [assembly: ExportFont("Roboto-Black.ttf", Alias = "AppFont")]
@@ -63,8 +64,6 @@ namespace RightToAskClient
                 Debug.Assert(registrationObj != null || registrationSuccess is false);
                 
                 // if we got electorates, let the app know to skip the Find My MPs step
-                // TODO We definitely shouldn't have to do this here - the Registration
-                // data structure should take care of whether the MPs are known and updated.
                 if (ReadingContext.ThisParticipant.RegistrationInfo.Electorates.Any())
                 {
                     ReadingContext.ThisParticipant.MPsKnown = true;

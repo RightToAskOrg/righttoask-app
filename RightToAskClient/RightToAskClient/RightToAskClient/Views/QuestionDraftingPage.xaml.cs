@@ -53,7 +53,7 @@ namespace RightToAskClient.Views
         {
             Device.BeginInvokeOnMainThread(async () =>
             {
-                var popup = new TwoButtonPopup(QuestionViewModel.Instance, AppResources.GoHomePopupTitle, AppResources.GoHomePopupText, AppResources.CancelButtonText, AppResources.ImSureButtonText);
+                var popup = new TwoButtonPopup(QuestionViewModel.Instance, AppResources.GoHomePopupTitle, AppResources.GoHomePopupText, AppResources.CancelButtonText, AppResources.GoHomeButtonText);
                 _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
                 if (QuestionViewModel.Instance.ApproveButtonClicked)
                 {

@@ -11,27 +11,29 @@
            IsLightDismissEnabled="False"
            Color="Transparent">
 
-    <Frame CornerRadius="10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
-           BackgroundColor="Transparent">
+    <!-- <Frame CornerRadius="10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+           BackgroundColor="Transparent"> -->
+    <ScrollView>
         <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+                     Padding="40"
                      BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}">
             <StackLayout VerticalOptions="FillAndExpand" BackgroundColor="Transparent">
                 <Label Text="{xct:Translate ReadingPageHeader1}" VerticalOptions="Center"
-                       VerticalTextAlignment="Center"
-                       HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource Header1}"
+                       VerticalTextAlignment="Center" LineHeight="1.3"
+                       HorizontalOptions="Start" HorizontalTextAlignment="Start" Style="{StaticResource LeftJustifiedPopupText}"
                        TextColor="{AppThemeBinding Light={StaticResource TextColor}, 
                    Dark={StaticResource TextColorDark}}" />
-                <StackLayout Orientation="Horizontal">
-                    <Label Text="Don't show this again: " VerticalOptions="Center" />
-                    <CheckBox IsChecked="{Binding DontShowFirstTimeReadingPopup}" />
-                </StackLayout>
-
                 <Grid ColumnDefinitions="*,*" VerticalOptions="EndAndExpand" BackgroundColor="Transparent">
-                    <Button Text="{xct:Translate OKText}" Grid.Column="1" Clicked="Button_Clicked" FontSize="Small"
+                    <Button Text="{xct:Translate OKText}" Grid.Column="1" Clicked="Button_Clicked" FontAttributes="Bold" FontSize="Large"
                             TextColor="{StaticResource TextColorGreen}" HeightRequest="50"
                             BackgroundColor="Transparent" Margin="0" Padding="0" HorizontalOptions="FillAndExpand" />
                 </Grid>
+                <StackLayout Orientation="Horizontal" Margin="0,0,0,0">
+                    <Label Text="Don't show this again: " VerticalOptions="Center" />
+                    <CheckBox IsChecked="{Binding DontShowFirstTimeReadingPopup}" />
+                </StackLayout>
             </StackLayout>
         </StackLayout>
-    </Frame>
+    </ScrollView>
+    <!-- </Frame> -->
 </xct:Popup>

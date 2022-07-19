@@ -123,6 +123,9 @@
   <data name="AddBackgroundPlaceholderText" xml:space="preserve">
     <value>Add Background (optional)</value>
   </data>
+  <data name="AdvancedSearchOptions" xml:space="preserve">
+    <value>Advanced Search Options</value>
+  </data>
   <data name="AdvancedSearchButtonText" xml:space="preserve">
     <value>Advanced Search</value>
   </data>
@@ -148,7 +151,7 @@
     <value>Authorities who should answer the question</value>
   </data>
   <data name="BackgroundHeaderText" xml:space="preserve">
-    <value>Background:</value>
+    <value>Tell others enough background to understand your question</value>
   </data>
   <data name="CancelButtonText" xml:space="preserve">
     <value>Cancel</value>
@@ -169,7 +172,7 @@
     <value>Create Account</value>
   </data>
   <data name="DirectMyQuestionTitle" xml:space="preserve">
-    <value>Direct my question</value>
+    <value>Directing the question</value>
   </data>
   <data name="DiscardDraftButtonText" xml:space="preserve">
     <value>Discard</value>
@@ -196,13 +199,13 @@
     <value>Edit Your Account</value>
   </data>
   <data name="EditableElectoratesHeaderText" xml:space="preserve">
-    <value>Electorates (tap to edit):</value>
+    <value>Electorates</value>
   </data>
   <data name="ElectoratesHeaderText" xml:space="preserve">
-    <value>Electorates:</value>
+    <value>Electorates</value>
   </data>
   <data name="ElectoratesKnownHeaderText" xml:space="preserve">
-    <value>I know my electorates already</value>
+    <value>Pick from a list</value>
   </data>
   <data name="EmailEntry" xml:space="preserve">
     <value>Please enter the MP's official email address for validation</value>
@@ -280,7 +283,7 @@
     <value>Are you an MP or staffer?</value>
   </data>
   <data name="MPsHeaderText1" xml:space="preserve">
-    <value>Your MPs are defined by where you live</value>
+    <value>Your MPs are defined by the electorate you live in</value>
   </data>
   <data name="MPsHeaderText2" xml:space="preserve">
     <value>I live in </value>
@@ -289,10 +292,13 @@
     <value>My MP</value>
   </data>
   <data name="MyQuestionPlaceholderText" xml:space="preserve">
-    <value>Enter your question (max 280 chars) </value>
+    <value>Enter your Question</value>
+  </data>
+  <data name="MyQuestionCharLimitText" xml:space="preserve">
+    <value>Up to 280 characters</value>
   </data>
   <data name="MyQuestionTitleText" xml:space="preserve">
-    <value>My question is...</value>
+    <value>My question</value>
   </data>
   <data name="NavigateOKText" xml:space="preserve">
     <value>Open in web browser</value>
@@ -340,7 +346,7 @@
     <value>Question Writer:</value>
   </data>
   <data name="ReadingPageHeader1" xml:space="preserve">
-    <value>Up-vote good questions, or tap for more detail. Swipe left to dismiss uninteresting ones.</value>
+    <value>&#x2022; Up-vote good questions&#x0a;&#x2022; Tap for more detail &#x0a;&#x2022; Swipe left to dismiss</value>
   </data>
   <data name="ReadingPageQuestionDraftingHeader1" xml:space="preserve">
     <value>Up-vote good questions, or tap for more detail. Swipe left to discard uninteresting ones.</value>
@@ -357,6 +363,9 @@
   <data name="RegisterOrganisationAccountButtonText" xml:space="preserve">
     <value>Register Organisation Account</value>
   </data>
+  <data name="ReviewQuestionDetailsTitle" xml:space="preserve">
+    <value>Review Question</value>
+  </data>
   <data name="SaveAnswerButtonText" xml:space="preserve">
     <value>Save Answer</value>
   </data>
@@ -371,6 +380,12 @@
   </data>
   <data name="SelectedButtonText" xml:space="preserve">
     <value>Selected!</value>
+  </data>
+  <data name="SelectMPToAnswerText" xml:space="preserve">
+    <value>Select MP(s) to answer</value>
+  </data>
+  <data name="SelectMPToRaiseText" xml:space="preserve">
+    <value>Select MP(s) to raise your question in Parliament</value>
   </data>
   <data name="SelectStateWarningText" xml:space="preserve">
     <value>Please choose a state</value>
@@ -487,7 +502,7 @@
     <value>Draft a Question</value>
   </data>
   <data name="RaiseQuestionHeaderText" xml:space="preserve">
-    <value>Now, we'll help you direct your question to where it might get answered. Choose by whom should it be raised by...</value>
+    <value>Now, we'll help you direct your question to where it might get answered. Choose who should raise it.</value>
   </data>
   <data name="OptionAText1" xml:space="preserve">
     <value>Get an answer in the app</value>
@@ -529,7 +544,7 @@
     <value>Write your own questions</value>
   </data>
   <data name="MainPageSubheader3Text" xml:space="preserve">
-    <value>Help other citizens direct their questions</value>
+    <value>Help other people direct their questions</value>
   </data>
   <data name="MainPageTrendingNowAccessibilityLabelHelpText" xml:space="preserve">
     <value>This is the Trending Now header for this frame/bubble that is meant to indicate that clicking on this area of the screen will bring the user to a reading page filled with questions in the app that are currently trending based on a filtered search.</value>
@@ -658,13 +673,13 @@
     <value>Your account was created successfully!</value>
   </data>
   <data name="GoHomeButtonText" xml:space="preserve">
-    <value>Go Home</value>
+    <value>Home</value>
   </data>
   <data name="QuestionPublishedPopupText" xml:space="preserve">
     <value>Question successfully published!</value>
   </data>
   <data name="WriteAnotherQuestionButtonText" xml:space="preserve">
-    <value>Write Another One</value>
+    <value>Write Another</value>
   </data>
   <data name="GoButtonText" xml:space="preserve">
     <value>Go</value>
@@ -706,10 +721,10 @@
     <value>Are you sure you want to go home? You will lose any unsaved questions.</value>
   </data>
   <data name="GoHomePopupTitle" xml:space="preserve">
-    <value>Return to the Homepage?</value>
+    <value>Return to Homepage?</value>
   </data>
   <data name="ImSureButtonText" xml:space="preserve">
-    <value>Yes, I'm sure.</value>
+    <value>Yes</value>
   </data>
   <data name="MPsPopupText" xml:space="preserve">
     <value>Would you like to find your MPs? You can always change them later.</value>
@@ -727,7 +742,7 @@
     <value>Yes</value>
   </data>
   <data name="BackgroundPageTitle" xml:space="preserve">
-    <value>Add Background</value>
+    <value>Background</value>
   </data>
   <data name="LocateButtonText" xml:space="preserve">
     <value>Locate</value>
