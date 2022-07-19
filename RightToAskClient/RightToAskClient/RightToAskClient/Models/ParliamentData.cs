@@ -310,6 +310,8 @@ namespace RightToAskClient.Models
 			return result;
 		}
 
+		// Ideally, this would return only the electorates in the state, but at the moment we don't have a good
+		// way of identifying which House of Reps electorates correspond to which states.
 	    public static List<string> ListElectoratesInHouseOfReps(string state)
 	    {
 		    if (MPAndOtherData.IsInitialised)
@@ -319,6 +321,7 @@ namespace RightToAskClient.Models
 
 		    return new List<string>();
 	    }
+
 
 	    public static List<string> ListElectoratesInStateLowerHouse(string state)
 	    {
@@ -487,15 +490,15 @@ namespace RightToAskClient.Models
 		    return electorateList;
 	    }
 	    
-        public static string FindElectorateGivenPredicate(List<ElectorateWithChamber> electorates, Predicate<ElectorateWithChamber> func)
+	    private static List<string> FindAllElectoratesGivenPredicate(List<ElectorateWithChamber> electorates, Predicate<ElectorateWithChamber> func)
+	    {
+		    var tempList = new List<string>();
+		    return electorates.Where(e => func(e)).Select(ec => ec.region).ToList();
+	    }
+        public static string FindOneElectorateGivenPredicate(List<ElectorateWithChamber> electorates, Predicate<ElectorateWithChamber> func)
         {
             var electoratePair = electorates.Find(func);
-            if (electoratePair is null)
-            {
-                return "";
-            }
-
-            return electoratePair.region;
+            return electoratePair?.region ?? "";
         }
     }
 }

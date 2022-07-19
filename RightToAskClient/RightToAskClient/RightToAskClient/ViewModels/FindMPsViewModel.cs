@@ -122,11 +122,11 @@ namespace RightToAskClient.ViewModels
                 OnFederalElectoratePickerSelectedIndexChanged();
             }
         }
-        private List<string> _allFederalElectorates = new List<string>();
-        public List<string> AllFederalElectorates
+        private List<string> _federalElectoratesInThisState = new List<string>();
+        public List<string> FederalElectoratesInThisState
         {
-            get => _allFederalElectorates;
-            set => SetProperty(ref _allFederalElectorates, value);
+            get => _federalElectoratesInThisState;
+            set => SetProperty(ref _federalElectoratesInThisState, value);
         }
         private List<string> _allStateLAElectorates = new List<string>();
         public List<string> AllStateLAElectorates
@@ -453,7 +453,8 @@ namespace RightToAskClient.ViewModels
 
         private void OnStateLCElectoratePickerSelectedIndexChanged()
         {
-            if (!String.IsNullOrEmpty(AllStateLCElectorates[SelectedStateLCElectorate]))
+            if (SelectedStateLCElectorate >= 0 && SelectedStateLCElectorate < AllStateLCElectorates.Count 
+                && !String.IsNullOrEmpty(AllStateLCElectorates[SelectedStateLCElectorate]))
             {
                 var state = App.ReadingContext.ThisParticipant.RegistrationInfo.State;
                 App.ReadingContext.ThisParticipant.AddStateUpperHouseElectorate(state, AllStateLCElectorates[SelectedStateLCElectorate]);
@@ -463,7 +464,8 @@ namespace RightToAskClient.ViewModels
 
         private void OnStateLAElectoratePickerSelectedIndexChanged()
         {
-            if (!String.IsNullOrEmpty(AllStateLAElectorates[SelectedStateLAElectorate]))
+            if (SelectedStateLAElectorate >= 0 && SelectedStateLAElectorate < AllStateLAElectorates.Count
+                && !String.IsNullOrEmpty(AllStateLAElectorates[SelectedStateLAElectorate]))
             {
                 var state = App.ReadingContext.ThisParticipant.RegistrationInfo.State;
                 App.ReadingContext.ThisParticipant.AddStateElectoratesGivenOneRegion(state, AllStateLAElectorates[SelectedStateLAElectorate]);
@@ -473,9 +475,10 @@ namespace RightToAskClient.ViewModels
 
         private void OnFederalElectoratePickerSelectedIndexChanged()
         {
-            if (!String.IsNullOrEmpty(AllFederalElectorates[SelectedFederalElectorate]))
+            if (SelectedFederalElectorate >= 0 && SelectedFederalElectorate < FederalElectoratesInThisState.Count && 
+                !String.IsNullOrEmpty(FederalElectoratesInThisState[SelectedFederalElectorate]))
             {
-                App.ReadingContext.ThisParticipant.AddHouseOfRepsElectorate(AllFederalElectorates[SelectedFederalElectorate]);
+                App.ReadingContext.ThisParticipant.AddHouseOfRepsElectorate(FederalElectoratesInThisState[SelectedFederalElectorate]);
                 // actually show the map in real time
                 if (!string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.CommonwealthElectorate))
                 {
@@ -499,7 +502,7 @@ namespace RightToAskClient.ViewModels
 
         private void UpdateElectoratePickerSources(string state)
         {
-            AllFederalElectorates = ParliamentData.ListElectoratesInHouseOfReps(state);
+            FederalElectoratesInThisState = ParliamentData.ListElectoratesInHouseOfReps(state);
             AllStateLAElectorates = ParliamentData.ListElectoratesInStateLowerHouse(state);
 
             if (ParliamentData.HasUpperHouse(state))
