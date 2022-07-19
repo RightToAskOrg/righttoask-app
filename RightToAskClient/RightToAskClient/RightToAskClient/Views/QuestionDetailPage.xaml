@@ -59,12 +59,13 @@
 					    <TapGestureRecognizer Command="{Binding QuestionSuggesterCommand}" />
 				    </StackLayout.GestureRecognizers>
 				    <Label Text="{xct:Translate QuestionWriterHeaderText}" Style="{StaticResource Header2}" />
-				    <Label Text="{Binding Question.QuestionSuggester, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}"
+				    <Label Text="{Binding Question.QuestionSuggester, StringFormat='{0:F0}'}" 
+				           Style="{StaticResource NormalText}" Margin="0, 10, 0, 0"
 				           IsEnabled="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
 				    </Label>
 			    </StackLayout>
 			    <StackLayout Orientation="Vertical">
-				    <Label x:Name="BackgroundLabel" Text="{xct:Translate BackgroundHeaderText}" Style="{StaticResource Header2}" />
+				    <Label x:Name="BackgroundLabel" Text="{xct:Translate BackgroundPageTitle}" Style="{StaticResource Header2}" />
 				    <Editor x:Name="BackgroundEditor" Placeholder="{xct:Translate AddBackgroundPlaceholderText}" Text="{Binding Question.Background}"
 				            Style="{StaticResource NormalEditor}" 
 				            IsReadOnly="{Binding CanEditBackground, Converter={StaticResource Key=cnvInvert}}" />

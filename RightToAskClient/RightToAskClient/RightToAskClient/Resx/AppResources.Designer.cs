@@ -573,6 +573,18 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string SelectMPToAnswerText {
+            get {
+                return ResourceManager.GetString("SelectMPToAnswerText", resourceCulture);
+            }
+        }
+        
+        internal static string SelectMPToRaiseText {
+            get {
+                return ResourceManager.GetString("SelectMPToRaiseText", resourceCulture);
+            }
+        }
+        
         internal static string SelectStateWarningText {
             get {
                 return ResourceManager.GetString("SelectStateWarningText", resourceCulture);

@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:RightToAskClient"
              x:Class="RightToAskClient.Views.MetadataPage"
              x:DataType="vm:FilterViewModel"
-             Title="Other Data">
+             Title="{xct:Translate DirectMyQuestionTitle}">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
                      IconImageSource="{local:ImageResource RightToAskClient.Images.home4.png}"/>
@@ -19,10 +19,10 @@
             <StackLayout x:Name="WholePage" Margin="20">
                 <StackLayout>
                     <StackLayout>
-                        <Label Text="{xct:Translate WhoShouldAnswerTitle}" Style="{StaticResource LeftMedium}" />
+                        <Label Text="{xct:Translate WhoShouldAnswerTitle}" Style="{StaticResource Header2}" />
                         <StackLayout>
                             <StackLayout Spacing="0" Margin="0" Padding="0">
-                                <Label Text="My MP">
+                                <Label Text="My MP" Style="{StaticResource ClickableHeader}">
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding AnsweringMPsFilterCommand}"/>
                                     </Label.GestureRecognizers>
@@ -34,7 +34,7 @@
                                 </Label>
                             </StackLayout>
                             <StackLayout Spacing="0" Margin="0" Padding="0">
-                                <Label Text="Other MP">
+                                <Label Text="Other MP" Style="{StaticResource ClickableHeader}">
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding OtherAnsweringMPsFilterCommand}"/>
                                     </Label.GestureRecognizers>
@@ -46,7 +46,7 @@
                                 </Label>
                             </StackLayout>
                             <StackLayout Spacing="0" Margin="0" Padding="0">
-                                <Label Text="Public Authority">
+                                <Label Text="Public Authority" Style="{StaticResource ClickableHeader}">
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding AnsweringAuthoritiesFilterCommand}"/>
                                     </Label.GestureRecognizers>
@@ -60,18 +60,18 @@
                         </StackLayout>
                         <!-- Ask the user whether they allow other users to add QuestionAnswerers. (Y/N) -->
                         <StackLayout Orientation="Horizontal">
-                            <Label Text="{xct:Translate AnswererPermissions}" Style="{StaticResource LeftSmall}" />
+                            <Label Text="{xct:Translate AnswererPermissions}" Style="{StaticResource NormalText}" />
                             <CheckBox IsChecked="{Binding OthersCanAddAnswerers}"/>
                         </StackLayout>
                     </StackLayout>
                     <BoxView/>
                     <!--Who Should Ask/Raise the Question-->
                     <StackLayout IsVisible="{Binding AnswerInApp, Converter={StaticResource Key=cnvInvert}}">
-                        <Label Text="{xct:Translate OptionBText4}" Style="{StaticResource LeftMedium}" />
+                        <Label Text="{xct:Translate OptionBText4}" Style="{StaticResource Header2}" />
                         <!--Filters-->
                         <StackLayout>
                             <StackLayout Spacing="0" Margin="0" Padding="0">
-                                <Label Text="My MP">
+                                <Label Text="My MP" Style="{StaticResource ClickableHeader}">
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding AskingMPsFilterCommand}"/>
                                     </Label.GestureRecognizers>
@@ -83,7 +83,7 @@
                                 </Label>
                             </StackLayout>
                             <StackLayout Spacing="0" Margin="0" Padding="0">
-                                <Label Text="Committee">
+                                <Label Text="Committee" Style="{StaticResource ClickableHeader}">
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding NotSureCommand}"/>
                                     </Label.GestureRecognizers>
@@ -95,7 +95,7 @@
                                 </Label>
                             </StackLayout>
                             <StackLayout Spacing="0" Margin="0" Padding="0">
-                                <Label Text="Other MP">
+                                <Label Text="Other MP" Style="{StaticResource ClickableHeader}">
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding OtherAskingMPsFilterCommand}"/>
                                     </Label.GestureRecognizers>
@@ -107,7 +107,7 @@
                                 </Label>
                             </StackLayout>
                             <StackLayout Spacing="0" Margin="0" Padding="0">
-                                <Label Text="Right to Ask Participant">
+                                <Label Text="Right to Ask Participant" Style="{StaticResource ClickableHeader}">
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding RightToAskUserCommand}"/>
                                     </Label.GestureRecognizers>
@@ -128,7 +128,7 @@
                         </StackLayout>
                         <!-- Ask the user whether they allow other users to add QuestionAskers. (Y/N) -->
                         <StackLayout Orientation="Horizontal">
-                            <Label Text="{xct:Translate AskerPermissions}" Style="{StaticResource LeftSmall}"/>
+                            <Label Text="{xct:Translate AskerPermissions}" Style="{StaticResource NormalText}"/>
                             <CheckBox IsChecked="{Binding OthersCanAddAskers}"/>
                         </StackLayout>
                     </StackLayout>

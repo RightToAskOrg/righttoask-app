@@ -96,9 +96,10 @@
                 <Setter Property = "VisualStateManager.VisualStateGroups">
                     <VisualStateGroupList>
                     <VisualStateGroup x:Name="CommonStates">
-                        <VisualState x:Name="Header2">
+                        <VisualState x:Name="Normal">
                             <VisualState.Setters>
-                                <Setter Property="Color" Value="Gray" />
+                                <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource ButtonColor}, 
+                                                                                    Dark={StaticResource WattleYellow}}" />
                             </VisualState.Setters>
                         </VisualState>
                         <VisualState x:Name="IsChecked">
@@ -315,6 +316,7 @@
             <Style x:Key="Header1" TargetType="Label">
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource HeadingTextColor }, Dark={StaticResource HeadingTextColorDark}}"></Setter>
                 <Setter Property="FontSize" Value="Large"></Setter>
+                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
             </Style>
             <Style x:Key="Header2" TargetType="Label">

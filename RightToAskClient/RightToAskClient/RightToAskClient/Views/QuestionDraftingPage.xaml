@@ -17,8 +17,8 @@
                             IconOverride="back.png" />
     </Shell.BackButtonBehavior>
     <ContentPage.Content>
-        <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="StartAndExpand"
-		             Padding="60">
+        <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="StartAndExpand" Padding="30, 40, 30, 30">
+		             
             <StackLayout Orientation="Vertical" x:Name="QuestionDraftingBox" 
                          IsVisible="{Binding IsReadingOnly, Converter={StaticResource Key=cnvInvert}}">
 				<!-- <Label Text="{xct:Translate MyQuestionTitleText}" Style="{StaticResource Header2}" /> -->

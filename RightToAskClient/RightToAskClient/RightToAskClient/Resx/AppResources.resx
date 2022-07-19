@@ -151,7 +151,7 @@
     <value>Authorities who should answer the question</value>
   </data>
   <data name="BackgroundHeaderText" xml:space="preserve">
-    <value>Background:</value>
+    <value>Tell others enough background to understand your question</value>
   </data>
   <data name="CancelButtonText" xml:space="preserve">
     <value>Cancel</value>
@@ -172,7 +172,7 @@
     <value>Create Account</value>
   </data>
   <data name="DirectMyQuestionTitle" xml:space="preserve">
-    <value>Direct my question</value>
+    <value>Directing the question</value>
   </data>
   <data name="DiscardDraftButtonText" xml:space="preserve">
     <value>Discard</value>
@@ -380,6 +380,12 @@
   </data>
   <data name="SelectedButtonText" xml:space="preserve">
     <value>Selected!</value>
+  </data>
+  <data name="SelectMPToAnswerText" xml:space="preserve">
+    <value>Select MP(s) to answer</value>
+  </data>
+  <data name="SelectMPToRaiseText" xml:space="preserve">
+    <value>Select MP(s) to raise your question in Parliament</value>
   </data>
   <data name="SelectStateWarningText" xml:space="preserve">
     <value>Please choose a state</value>
@@ -736,7 +742,7 @@
     <value>Yes</value>
   </data>
   <data name="BackgroundPageTitle" xml:space="preserve">
-    <value>Add Background</value>
+    <value>Background</value>
   </data>
   <data name="LocateButtonText" xml:space="preserve">
     <value>Locate</value>
