@@ -462,6 +462,15 @@
   <data name="UpdateAccountButtonText" xml:space="preserve">
     <value>Update Account</value>
   </data>
+  <data name="UpperHouseElectorateText" xml:space="preserve">
+    <value>Legislative Council electorate</value>
+  </data>
+  <data name="UpperHouseIsSingleElectorateText" xml:space="preserve">
+    <value>In {0} the Legislative Council is one electorate</value>
+  </data>
+  <data name="UpperHouseWANotWorkingText" xml:space="preserve">
+    <value>WA Legislative Council not implemented</value>
+  </data>
   <data name="UpvoteButtonText" xml:space="preserve">
     <value>+1</value>
   </data>
@@ -536,6 +545,9 @@
   </data>
   <data name="DraftImageAccessibilityNameText" xml:space="preserve">
     <value>Image of a piece of paper with writing on it and a pencil pointing at and touching part of that page.</value>
+  </data>
+  <data name="TasLowerHouseElectorateText" xml:space="preserve">
+    <value>House of Assembly electorate</value>
   </data>
   <data name="MainPageSubheader1Text" xml:space="preserve">
     <value>Read and up-vote questions</value>

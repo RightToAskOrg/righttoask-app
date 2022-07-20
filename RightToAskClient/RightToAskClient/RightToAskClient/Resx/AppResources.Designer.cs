@@ -735,6 +735,24 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string UpperHouseElectorateText {
+            get {
+                return ResourceManager.GetString("UpperHouseElectorateText", resourceCulture);
+            }
+        }
+        
+        internal static string UpperHouseIsSingleElectorateText {
+            get {
+                return ResourceManager.GetString("UpperHouseIsSingleElectorateText", resourceCulture);
+            }
+        }
+        
+        internal static string UpperHouseWANotWorkingText {
+            get {
+                return ResourceManager.GetString("UpperHouseWANotWorkingText", resourceCulture);
+            }
+        }
+        
         internal static string UpvoteButtonText {
             get {
                 return ResourceManager.GetString("UpvoteButtonText", resourceCulture);
@@ -882,6 +900,12 @@ namespace RightToAskClient.Resx {
         internal static string DraftImageAccessibilityNameText {
             get {
                 return ResourceManager.GetString("DraftImageAccessibilityNameText", resourceCulture);
+            }
+        }
+        
+        internal static string TasLowerHouseElectorateText {
+            get {
+                return ResourceManager.GetString("TasLowerHouseElectorateText", resourceCulture);
             }
         }
         

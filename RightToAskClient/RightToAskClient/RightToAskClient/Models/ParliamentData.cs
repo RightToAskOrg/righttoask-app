@@ -9,6 +9,7 @@ using System.Text.Json.Serialization;
 using System.Threading;
 using Org.BouncyCastle.Tls;
 using RightToAskClient.Models.ServerCommsData;
+using RightToAskClient.Resx;
 
 namespace RightToAskClient.Models
 {
@@ -282,7 +283,48 @@ namespace RightToAskClient.Models
 			return chambersForTheState;
 		}
 
+        // What to tell the user about their other state electorate, given that they've chosen the one they're allowed
+        // to choose. For some states, there is no other house (it's always the upper house). For others, we can 
+        // infer a specific upper house state. For yet others, the upper house is a single electorate.
+		public static (string, string) InferOtherChamberInfoGivenOneRegion(string state, string stateRegion, string commRegion)
+		{
+			string region = String.Empty;
+			string message = String.Empty;
+			
+			if (!HasUpperHouse(state))
+			{
+				message = String.Format(AppResources.NoUpperHousePickerTitle, state);
+			}
+			else if (UpperHouseIsSingleElectorate(state))
+			{
+				message = String.Format(AppResources.UpperHouseIsSingleElectorateText, state);
+			} 
+			else if (state == State.WA)
+			{
+				message = AppResources.UpperHouseWANotWorkingText;
+			}
+			else
+			{
+				var electorateList = FindAllRelevantElectorates(state, stateRegion, commRegion);
+				if (state == State.VIC)
+				{
+					message = AppResources.UpperHouseElectorateText;
+					region = electorateList.Find(ec => ec.chamber == Chamber.Vic_Legislative_Council).region ?? "";
+				}
+				else if (state == State.TAS)
+				{
+					message = AppResources.TasLowerHouseElectorateText;
+					region = electorateList.Find(ec => ec.chamber == Chamber.Tas_House_Of_Assembly).region ?? "";
+				}
+			}
+
+			return (message, region);
+		}
+		
 	    // TODO: add logic for inferred other houses.
+	    // FIXME this isn't updated to work for Tas. The assumption is that it's being given the lower house region
+	    // in all states, but it needs to be the upper house in Tas.
+	    /*
 	    public static List<ElectorateWithChamber> GetStateElectoratesGivenOneRegion(string state, string region)
 	    {
 		    Result<Chamber> chamber = GetLowerHouseChamber(state);
@@ -294,6 +336,7 @@ namespace RightToAskClient.Models
 
             return new List<ElectorateWithChamber>() { new ElectorateWithChamber(chamber.Ok, region) };
 		}
+		*/
 
 		// Used because the Geoscape API returns electorates in all Uppercase, which messes with the URL for the webview that displays the map of electorates
 		public static string ConvertGeoscapeElectorateToStandard(string state, string electorate)
@@ -388,6 +431,13 @@ namespace RightToAskClient.Models
 		    return Parliaments[state].Count() == 2;
 	    }
 
+	    // Note that this is currently *not* true for WA, but will be when proposed electoral reforms
+	    // are enacted.
+	    private static bool UpperHouseIsSingleElectorate(string state)
+	    {
+		    return state == State.NSW || state == State.SA;
+	    }
+
 	    public static readonly List<string> Domains =
 		    new List<string>((Enum.GetValues(typeof(Chamber)) as IEnumerable<Chamber>)
 			    .Select(c => GetDomain(c)).Distinct());
@@ -425,7 +475,7 @@ namespace RightToAskClient.Models
 	    // State Lower (or only) House
 	    // Senate
 	    // State Upper House (if any)
-	    private static List<ElectorateWithChamber> FindAllRelevantElectorates(string state, string stateRegion,
+	    public static List<ElectorateWithChamber> FindAllRelevantElectorates(string state, string stateRegion,
 		    string commRegion)
 	    {
 		    List<ElectorateWithChamber> electorateList = new List<ElectorateWithChamber>();
@@ -500,5 +550,7 @@ namespace RightToAskClient.Models
             var electoratePair = electorates.Find(func);
             return electoratePair?.region ?? "";
         }
+
+        
     }
 }
