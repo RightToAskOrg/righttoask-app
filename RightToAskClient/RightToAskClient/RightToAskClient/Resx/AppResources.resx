@@ -546,6 +546,9 @@
   <data name="DraftImageAccessibilityNameText" xml:space="preserve">
     <value>Image of a piece of paper with writing on it and a pencil pointing at and touching part of that page.</value>
   </data>
+  <data name="LegislativeAssemblyText" xml:space="preserve">
+    <value>Legislative Assembly</value>
+  </data>
   <data name="TasLowerHouseElectorateText" xml:space="preserve">
     <value>House of Assembly electorate</value>
   </data>

@@ -903,6 +903,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string LegislativeAssemblyText {
+            get {
+                return ResourceManager.GetString("LegislativeAssemblyText", resourceCulture);
+            }
+        }
+        
         internal static string TasLowerHouseElectorateText {
             get {
                 return ResourceManager.GetString("TasLowerHouseElectorateText", resourceCulture);

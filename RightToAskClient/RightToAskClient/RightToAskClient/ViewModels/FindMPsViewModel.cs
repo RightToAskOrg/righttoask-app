@@ -80,10 +80,11 @@ namespace RightToAskClient.ViewModels
         {
             get
             {
+                /*
                 if (!string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.RegistrationInfo.State))
                 {
                     UpdateElectorateInferences(App.ReadingContext.ThisParticipant.RegistrationInfo.State);
-                }
+                } */
                 return _selectedState;
             }
             set
@@ -126,17 +127,23 @@ namespace RightToAskClient.ViewModels
                 OnFederalElectoratePickerSelectedIndexChanged();
             }
         }
-        private List<string> _federalElectoratesInThisState = new List<string>();
-        public List<string> FederalElectoratesInThisState
+        
+        public List<string> FederalElectorates
         {
-            get => _federalElectoratesInThisState;
-            set => SetProperty(ref _federalElectoratesInThisState, value);
+            get => ParliamentData.AllHouseOfRepsElectorates;
         }
-        private List<string> _allStateChoosableElectorates = new List<string>();
-        public List<string> AllStateChoosableElectorates
+        
+        private ObservableCollection<string> _allStateChoosableElectorates = new ObservableCollection<string>();
+        public ObservableCollection<string> AllStateChoosableElectorates
         {
             get => _allStateChoosableElectorates;
-            set => SetProperty(ref _allStateChoosableElectorates, value);
+            /*
+            set
+            {
+                _allStateChoosableElectorates = value; 
+                OnPropertyChanged("AllStateChoosableElectorates");
+            }
+            */
         }
         /*
         private List<string> _allStateLCElectorates = new List<string>();
@@ -148,15 +155,26 @@ namespace RightToAskClient.ViewModels
         */
         
         // TODO Separate header from data
-        private string _stateChoosableElectoratePickerTitle 
+        private string _stateChoosableElectorateHeader 
             =  App.ReadingContext.ThisParticipant.RegistrationInfo.State == ParliamentData.State.TAS
             ? string.Format("State Legislative Council Electorate: {0:F0}", App.ReadingContext.ThisParticipant.StateUpperHouseElectorate)
             : string.Format("State Legislative Assembly Electorate: {0:F0}", App.ReadingContext.ThisParticipant.StateLowerHouseElectorate) ;
              
-        public string StateChoosableElectoratePickerTitle
+        public string StateChoosableElectorateHeader
         {
-            get => _stateChoosableElectoratePickerTitle;
-            set => SetProperty(ref _stateChoosableElectoratePickerTitle, value);
+            get => _stateChoosableElectorateHeader;
+            set => SetProperty(ref _stateChoosableElectorateHeader, value);
+        }
+        
+        private string _stateChoosableElectorate
+            =  App.ReadingContext.ThisParticipant.RegistrationInfo.State == ParliamentData.State.TAS
+            ? App.ReadingContext.ThisParticipant.StateUpperHouseElectorate 
+            : App.ReadingContext.ThisParticipant.StateLowerHouseElectorate;
+
+        public string StateChoosableElectorate
+        {
+            get => _stateChoosableElectorate;
+            set => SetProperty(ref _stateChoosableElectorate, value);
         }
         
         private string _stateInferredElectorateHeader  
@@ -353,7 +371,13 @@ namespace RightToAskClient.ViewModels
             // set the pickers to update their content lists here if state was already indicated elsewhere in the application
             if (SelectedState != -1 && !string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.RegistrationInfo.State))
             {
-                UpdateElectorateInferences(App.ReadingContext.ThisParticipant.RegistrationInfo.State);
+                string state = ParliamentData.StatesAndTerritories[SelectedState];
+                string choosableStateElectorate = (state == ParliamentData.State.TAS )
+                   ? App.ReadingContext.ThisParticipant.StateUpperHouseElectorate
+                   : App.ReadingContext.ThisParticipant.StateLowerHouseElectorate;
+                UpdateElectorateInferences(App.ReadingContext.ThisParticipant.RegistrationInfo.State,
+                    choosableStateElectorate,
+                    App.ReadingContext.ThisParticipant.CommonwealthElectorate);
             }
         }
 
@@ -493,6 +517,7 @@ namespace RightToAskClient.ViewModels
         */
 
         // This is the Legislative Assembly Electorate, except in Tas where it's the Legislative Council.
+        // Note: this assumes the Commonwealth Electorate is correct.
         private void OnStateChoosableElectoratePickerSelectedIndexChanged()
         {
             if (SelectedStateElectorate >= 0 && SelectedStateElectorate < AllStateChoosableElectorates.Count
@@ -504,24 +529,27 @@ namespace RightToAskClient.ViewModels
                     = new ObservableCollection<ElectorateWithChamber>(ParliamentData.FindAllRelevantElectorates(state,
                         AllStateChoosableElectorates[SelectedStateElectorate],
                         App.ReadingContext.ThisParticipant.CommonwealthElectorate));
-                // TODO: separate the title and the content.
-                UpdateElectorateInferences(state);
+                UpdateElectorateInferences(state,
+                        AllStateChoosableElectorates[SelectedStateElectorate],
+                        App.ReadingContext.ThisParticipant.CommonwealthElectorate);
                 RevealNextStepIfElectoratesKnown();
             }
         }
 
         private void OnFederalElectoratePickerSelectedIndexChanged()
         {
-            if (SelectedFederalElectorate >= 0 && SelectedFederalElectorate < FederalElectoratesInThisState.Count && 
-                !String.IsNullOrEmpty(FederalElectoratesInThisState[SelectedFederalElectorate]))
+            if (SelectedFederalElectorate >= 0 && SelectedFederalElectorate < FederalElectorates.Count && 
+                !String.IsNullOrEmpty(FederalElectorates[SelectedFederalElectorate]))
             {
-                App.ReadingContext.ThisParticipant.AddHouseOfRepsElectorate(FederalElectoratesInThisState[SelectedFederalElectorate]);
+                
+                //** App.ReadingContext.ThisParticipant.AddHouseOfRepsElectorate(FederalElectorates[SelectedFederalElectorate]);
                 // actually show the map in real time
-                if (!string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.CommonwealthElectorate))
-                {
+                //**if (!string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.CommonwealthElectorate))
+                //**{
                     ShowMapFrame = true;
-                    ShowMapOfElectorate(App.ReadingContext.ThisParticipant.CommonwealthElectorate);
-                }
+                    //**ShowMapOfElectorate(App.ReadingContext.ThisParticipant.CommonwealthElectorate);
+                    ShowMapOfElectorate(FederalElectorates[SelectedFederalElectorate]);
+                //**}
                 
                 // For Tasmania, we need your federal electorate to infer your state Legislative Assembly electorate.
                 var state = App.ReadingContext.ThisParticipant.RegistrationInfo.State;
@@ -532,9 +560,8 @@ namespace RightToAskClient.ViewModels
                     App.ReadingContext.ThisParticipant.RegistrationInfo.Electorates
                     // TODO Perhaps Electorates should be a List rather than an Observable Collection.
                         = new ObservableCollection<ElectorateWithChamber>(ParliamentData.FindAllRelevantElectorates(state,
-                        App.ReadingContext.ThisParticipant.StateUpperHouseElectorate,
-                        App.ReadingContext.ThisParticipant.CommonwealthElectorate));
-                    UpdateElectorateInferences(state);
+                        "", FederalElectorates[SelectedFederalElectorate]));
+                    UpdateElectorateInferences(state, "", FederalElectorates[SelectedFederalElectorate]);
                 }
                 RevealNextStepIfElectoratesKnown();
             }
@@ -550,27 +577,27 @@ namespace RightToAskClient.ViewModels
             Preferences.Set(Constants.MPsKnown, true);
         }
 
-        private void UpdateElectorateInferences(string state)
+        // Get the information appropriate to show to a user who is choosing their electorates, as a function 
+        // of the state and (sometimes) the other electorates we now.
+        // Sets the description of the state electorate they can choose, the list of available electorates they
+        // can choose from, and the inferred electorates' title and contents.
+        // This will often be called with only partial information (e.g. with a known state but only blank
+        // electorates), in which case it fills in as much as it can and leaves the rest as empty strings.
+        private void UpdateElectorateInferences(string state, string stateElectorate, string commElectorate)
         {
-            // TODO - this doesn't actually chose within state. Rename.
-            FederalElectoratesInThisState = ParliamentData.ListElectoratesInHouseOfReps(state);
-            
-            if (state == ParliamentData.State.TAS)
+            var newChoosableElectorateList =
+                state == ParliamentData.State.TAS
+                    ? ParliamentData.ListElectoratesInStateUpperHouse(state)
+                    : ParliamentData.ListElectoratesInStateLowerHouse(state);
+                
+            AllStateChoosableElectorates.Clear();
+            foreach (var electorate in newChoosableElectorateList)
             {
-                AllStateChoosableElectorates = ParliamentData.ListElectoratesInStateUpperHouse(state);
-                (StateInferredElectorateHeader, StateInferredElectorate) 
-                    = ParliamentData.InferOtherChamberInfoGivenOneRegion(state,
-                        App.ReadingContext.ThisParticipant.StateUpperHouseElectorate, 
-                        App.ReadingContext.ThisParticipant.CommonwealthElectorate);
+                AllStateChoosableElectorates.Add(electorate);   
             }
-            else
-            {
-                AllStateChoosableElectorates = ParliamentData.ListElectoratesInStateLowerHouse(state);
-                (StateInferredElectorateHeader, StateInferredElectorate) 
-                    = ParliamentData.InferOtherChamberInfoGivenOneRegion(state,
-                        App.ReadingContext.ThisParticipant.StateLowerHouseElectorate, 
-                        App.ReadingContext.ThisParticipant.CommonwealthElectorate);
-            }
+
+            (StateChoosableElectorateHeader, StateInferredElectorateHeader, StateInferredElectorate) 
+                    = ParliamentData.InferOtherChamberInfoGivenOneRegion(state, stateElectorate, commElectorate);
         }
 
         private void OnStatePickerSelectedIndexChanged()
@@ -578,8 +605,13 @@ namespace RightToAskClient.ViewModels
             if (SelectedState != -1)
             {
                 App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsIndex = SelectedState;
-                App.ReadingContext.ThisParticipant.AddSenatorsFromState(App.ReadingContext.ThisParticipant.RegistrationInfo.State);
-                UpdateElectorateInferences(App.ReadingContext.ThisParticipant.RegistrationInfo.State);
+                //** App.ReadingContext.ThisParticipant.AddSenatorsFromState(App.ReadingContext.ThisParticipant.RegistrationInfo.State);
+                
+                // This will give us the right message about the upper-house electorate and a blank inferred electorate.
+                var state = App.ReadingContext.ThisParticipant.RegistrationInfo.State;
+                UpdateElectorateInferences(state, "", "");
+                (StateChoosableElectorateHeader, StateInferredElectorateHeader, StateInferredElectorate) 
+                 = ParliamentData.InferOtherChamberInfoGivenOneRegion(state, "", "");
                 ShowStateOnly = false;
             }
         }

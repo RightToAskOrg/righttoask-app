@@ -53,15 +53,22 @@
                         <StackLayout Margin="0" Padding="0" Spacing="0" IsVisible="{Binding ShowStateOnly, Converter={StaticResource Key=cnvInvert}}">
                             <!-- Everywhere but Tasmania, the electorate you choose is your Legislative Assembly Electorate. In Tas, it's your Legislative Council Electorate.
                                 Along with your House of Representatives electorate, this is enough to infer all your other electorates. -->
-                            <Picker Margin="0" Style="{StaticResource LeftFramePicker}" Title="{Binding StateChoosableElectoratePickerTitle}" ItemsSource="{Binding AllStateChoosableElectorates}"
-                                    SelectedIndex="{Binding SelectedStateElectorate}" MinimumWidthRequest="200">
-                            </Picker>
-                            <Label Text="{Binding StateInferredElectorateHeader}"></Label>
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="{Binding StateChoosableElectorateHeader}"/>
+                                <Picker Margin="0" Style="{StaticResource LeftFramePicker}" ItemsSource="{Binding AllStateChoosableElectorates}"
+                                        Title="{Binding StateChoosableElectorate}" 
+                                        SelectedIndex="{Binding SelectedStateElectorate}" MinimumWidthRequest="200">
+                                </Picker>
+                            </StackLayout>
+                            <StackLayout HorizontalOptions="Start" Orientation="Horizontal">
+                                <Label Text="{Binding StateInferredElectorateHeader}"></Label>
+                                <Label Text="{Binding StateInferredElectorate}"></Label>
+                            </StackLayout>
                             <!-- No longer needed - just show inferred electorate 
                             <Picker Margin="0" Style="{StaticResource LeftFramePicker}" Title="{Binding StateLCElectoratePickerTitle}" ItemsSource="{Binding AllStateLCElectorates}"
 				            SelectedIndex ="{Binding StateInferredElectorate}" MinimumWidthRequest="200">
                             </Picker> -->
-                            <Picker Margin="0" Style="{StaticResource LeftFramePicker}" Title="{Binding FederalElectoratePickerTitle}" ItemsSource="{Binding FederalElectoratesInThisState}"
+                            <Picker Margin="0" Style="{StaticResource LeftFramePicker}" Title="{Binding FederalElectoratePickerTitle}" ItemsSource="{Binding FederalElectorates}"
                                 SelectedIndex="{Binding SelectedFederalElectorate}" MinimumWidthRequest="200">
                             </Picker>
                         </StackLayout>
