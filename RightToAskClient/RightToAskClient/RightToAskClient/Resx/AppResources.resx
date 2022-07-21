@@ -205,7 +205,7 @@
     <value>Electorates</value>
   </data>
   <data name="ElectoratesKnownHeaderText" xml:space="preserve">
-    <value>Pick from a list</value>
+    <value>Select</value>
   </data>
   <data name="EmailEntry" xml:space="preserve">
     <value>Please enter the MP's official email address for validation</value>

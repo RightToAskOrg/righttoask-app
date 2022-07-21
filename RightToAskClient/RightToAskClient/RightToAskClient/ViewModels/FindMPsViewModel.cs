@@ -589,8 +589,11 @@ namespace RightToAskClient.ViewModels
                 state == ParliamentData.State.TAS
                     ? ParliamentData.ListElectoratesInStateUpperHouse(state)
                     : ParliamentData.ListElectoratesInStateLowerHouse(state);
-                
-            AllStateChoosableElectorates.Clear();
+
+            // StateChoosableElectorate = "";
+            // SelectedStateElectorate = -1;
+            AllStateChoosableElectorates.Clear();   
+            
             foreach (var electorate in newChoosableElectorateList)
             {
                 AllStateChoosableElectorates.Add(electorate);   
@@ -610,8 +613,8 @@ namespace RightToAskClient.ViewModels
                 // This will give us the right message about the upper-house electorate and a blank inferred electorate.
                 var state = App.ReadingContext.ThisParticipant.RegistrationInfo.State;
                 UpdateElectorateInferences(state, "", "");
-                (StateChoosableElectorateHeader, StateInferredElectorateHeader, StateInferredElectorate) 
-                 = ParliamentData.InferOtherChamberInfoGivenOneRegion(state, "", "");
+                (StateChoosableElectorateHeader, StateInferredElectorateHeader, StateInferredElectorate)
+                    = ParliamentData.InferOtherChamberInfoGivenOneRegion(state, "", "");
                 ShowStateOnly = false;
             }
         }
