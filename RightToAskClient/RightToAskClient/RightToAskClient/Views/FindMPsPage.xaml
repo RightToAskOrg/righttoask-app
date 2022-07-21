@@ -59,8 +59,7 @@
                             <StackLayout Orientation="Horizontal">
                                 <Label Text="{Binding StateChoosableElectorateHeader}"/>
                                 <Picker Margin="0" Style="{StaticResource LeftFramePicker}" ItemsSource="{Binding AllStateChoosableElectorates}"
-                                        Title="{Binding StateChoosableElectorate}" MinimumWidthRequest="200">
-                                        <!-- SelectedIndex="{Binding SelectedStateElectorate}" --> 
+                                        Title="{Binding StateChoosableElectorate}" MinimumWidthRequest="200" SelectedIndex="{Binding SelectedStateElectorateIndex}" > 
                                 </Picker>
                             </StackLayout>
                             <StackLayout HorizontalOptions="Start" Orientation="Horizontal">
