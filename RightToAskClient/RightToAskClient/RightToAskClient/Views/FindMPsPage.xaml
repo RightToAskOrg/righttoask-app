@@ -23,20 +23,18 @@
 	    <ScrollView Margin="0" Padding="0">
             <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" Spacing="0">
                 <!--<ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"/>-->
-                <!--<Label Text="{xct:Translate MPsHeaderText1}" Style="{StaticResource Header1}" />-->
                 <!--Label Choice Option Frames-->
                 <Label Text="{xct:Translate MPsHeaderText1}" Style="{StaticResource Header1}" HorizontalTextAlignment="Center"/>
                 <Grid ColumnDefinitions="*,*,*" Margin="0,10,0,0">
-                    <Button Grid.Column="0" Text="{xct:Translate ElectoratesKnownHeaderText}" Style="{StaticResource GreenButton}" Command="{Binding KnowElectoratesCommand}" HorizontalOptions="End"/>
+                    <Button Grid.Column="0" Text="{xct:Translate ElectoratesKnownHeaderText}" Style="{StaticResource TallGreenButton}" Command="{Binding KnowElectoratesCommand}" HorizontalOptions="End"/>
                     <Label Grid.Column="1" Text="Or" WidthRequest="25" FontSize="Large"
 					       HorizontalOptions="Center" VerticalOptions="Center" />
-                    <Button Grid.Column="2" Text="Look Up" Style="{StaticResource GreenButton}" Command="{Binding LookupElectoratesCommand}" HorizontalOptions="Start"/>
+                    <Button Grid.Column="2" Text="Look Up" Style="{StaticResource TallGreenButton}" Command="{Binding LookupElectoratesCommand}" HorizontalOptions="Start"/>
                 </Grid>
                 <!--Map Display-->
                 <Frame Margin="0" Padding="0" IsVisible="{Binding ShowMapFrame}" WidthRequest="150">
                     <StackLayout Margin="0" Padding="0">
                         <!--Webview has default padding in its underlying html that is proving difficult to remove-->
-                        <!--<Label Text="Your Currently Selected Electorate: " Padding="0" Margin="0"/>-->
                         <WebView Source="{Binding MapURL}" WidthRequest="300" HeightRequest="250" Margin="0"/>
                     </StackLayout>
                 </Frame>
@@ -47,19 +45,25 @@
                         <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Margin="1,0,0,0">
                             <Label Text="{xct:Translate MPsHeaderText2}" FontSize="Medium" HorizontalOptions="Start" VerticalOptions="Center" />
                             <Picker Title="{Binding StatePickerTitle}" ItemsSource="{Binding StatePicker}" 
-					        Style="{StaticResource CenterFramePicker}" SelectedIndex="{Binding SelectedState}">
+					            Style="{StaticResource CenterFramePicker}" SelectedIndex="{Binding SelectedState}">
                             </Picker>
                         </StackLayout>
                         <StackLayout Margin="0" Padding="0" Spacing="0" IsVisible="{Binding ShowStateOnly, Converter={StaticResource Key=cnvInvert}}">
-                            <Picker Margin="0" Style="{StaticResource LeftFramePicker}" Title="{Binding StateLAElectoratePickerTitle}" ItemsSource="{Binding AllStateLAElectorates}"
-                                SelectedIndex="{Binding SelectedStateLAElectorate}" MinimumWidthRequest="200">
-                            </Picker>
-                            <Picker Margin="0" Style="{StaticResource LeftFramePicker}" Title="{Binding StateLCElectoratePickerTitle}" ItemsSource="{Binding AllStateLCElectorates}"
-				            SelectedIndex ="{Binding SelectedStateLCElectorate}" MinimumWidthRequest="200">
-                            </Picker>
-                            <Picker Margin="0" Style="{StaticResource LeftFramePicker}" Title="{Binding FederalElectoratePickerTitle}" ItemsSource="{Binding AllFederalElectorates}"
+                            <Picker Margin="0" Style="{StaticResource LeftFramePicker}" Title="{Binding FederalElectoratePickerTitle}" ItemsSource="{Binding FederalElectorates}"
                                 SelectedIndex="{Binding SelectedFederalElectorate}" MinimumWidthRequest="200">
                             </Picker>
+                            <!-- Everywhere but Tasmania, the electorate you choose is your Legislative Assembly Electorate. In Tas, it's your Legislative Council Electorate.
+                                Along with your House of Representatives electorate, this is enough to infer all your other electorates. -->
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="{Binding StateChoosableElectorateHeader}"/>
+                                <Picker Margin="0" Style="{StaticResource LeftFramePicker}" ItemsSource="{Binding AllStateChoosableElectorates}"
+                                        Title="{Binding StateChoosableElectorate}" MinimumWidthRequest="200" SelectedIndex="{Binding SelectedStateElectorateIndex}" > 
+                                </Picker>
+                            </StackLayout>
+                            <StackLayout HorizontalOptions="Start" Orientation="Horizontal">
+                                <Label Text="{Binding StateInferredElectorateHeader}"></Label>
+                                <Label Text="{Binding StateInferredElectorate}"></Label>
+                            </StackLayout>
                         </StackLayout>
                     </StackLayout>
                 </Frame>
@@ -84,11 +88,6 @@
                                 <Button Grid.Column="1" Text="{xct:Translate LocateButtonText}" Style="{StaticResource GreenButton}" Command="{Binding SubmitAddressButtonCommand}"/>
                             </Grid>
                         </StackLayout>
-                        <!--
-				            <Label FontSize="Small" Text="(i) If you are on the electoral roll,
-                             					    your MP is more likely to listen to you if you tell them your address. RightToAsk does not learn 
-                             					    your address. Your address will not leave your phone unless you decide to share it with your MP" />
-			            -->
                     </StackLayout>
                 </Frame>
                 <!--Done Button-->

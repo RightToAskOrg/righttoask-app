@@ -86,6 +86,7 @@ namespace RightToAskClient.Models
 
         // For every state except Tas, the lower house electorate determines the upper house one
         // (if there is one). For Tas, it's more complicated. So we hand this off to ParliamentData.
+        /*
         public void AddStateElectoratesGivenOneRegion(string state, string regionToAdd)
         {
 	        List<ElectorateWithChamber> electorates = ParliamentData.GetStateElectoratesGivenOneRegion(state, regionToAdd);
@@ -94,7 +95,9 @@ namespace RightToAskClient.Models
 		       UpdateElectorate(e); 
 	        }
         }
+        */
 
+        /*
         public void AddStateUpperHouseElectorate(string state, string region)
         {
 	        if (!ParliamentData.HasUpperHouse(state))
@@ -109,6 +112,7 @@ namespace RightToAskClient.Models
 	        }
 	        
         }
+        */
 
 
         public void AddSenatorsFromState(string state)

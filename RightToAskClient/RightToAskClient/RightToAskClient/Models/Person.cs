@@ -45,7 +45,7 @@ namespace RightToAskClient.Models
         {
 	        get
 	        {
-				return ParliamentData.FindElectorateGivenPredicate(RegistrationInfo.Electorates.ToList(), 
+				return ParliamentData.FindOneElectorateGivenPredicate(RegistrationInfo.Electorates.ToList(), 
 					c => ParliamentData.IsUpperHouseChamber(c.chamber));
 	        }
         }
@@ -55,7 +55,7 @@ namespace RightToAskClient.Models
         {
 	        get
 	        {
-		        return ParliamentData.FindElectorateGivenPredicate(RegistrationInfo.Electorates.ToList(), 
+		        return ParliamentData.FindOneElectorateGivenPredicate(RegistrationInfo.Electorates.ToList(), 
 			        chamberPair => chamberPair.chamber == ParliamentData.Chamber.Australian_House_Of_Representatives);
 	        }
         }
@@ -64,7 +64,7 @@ namespace RightToAskClient.Models
         {
 	        get
 	        {
-		        return ParliamentData.FindElectorateGivenPredicate(RegistrationInfo.Electorates.ToList(),
+		        return ParliamentData.FindOneElectorateGivenPredicate(RegistrationInfo.Electorates.ToList(),
 			        chamberPair => ParliamentData.IsLowerHouseChamber(chamberPair.chamber)); 
 	        }
         }
