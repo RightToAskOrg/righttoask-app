@@ -105,19 +105,6 @@ namespace RightToAskClient.ViewModels
             }
         }
         
-        /*
-        private int _stateInferredElectorate = -1;
-        public int StateInferredElectorate
-        {
-            get => _stateInferredElectorate;
-            set
-            {
-                SetProperty(ref _stateInferredElectorate, value);
-                OnStateLCElectoratePickerSelectedIndexChanged();
-            }
-        }
-        */
-        
         private int _selectedFederalElectorate = -1;
         public int SelectedFederalElectorate
         {
@@ -138,22 +125,7 @@ namespace RightToAskClient.ViewModels
         public ObservableCollection<string> AllStateChoosableElectorates
         {
             get => _allStateChoosableElectorates;
-            /*
-            set
-            {
-                _allStateChoosableElectorates = value; 
-                OnPropertyChanged("AllStateChoosableElectorates");
-            }
-            */
         }
-        /*
-        private List<string> _allStateLCElectorates = new List<string>();
-        public List<string> AllStateLCElectorates
-        {
-            get => _allStateLCElectorates;
-            set => SetProperty(ref _allStateLCElectorates, value);
-        }
-        */
         
         private string _stateChoosableElectorateHeader 
             =  App.ReadingContext.ThisParticipant.RegistrationInfo.State == ParliamentData.State.TAS
@@ -223,41 +195,21 @@ namespace RightToAskClient.ViewModels
             get => _mapURL;
             private set => SetProperty(ref _mapURL, value);
         }
+        
+        /*
+         * Now-deprecated option to not save your address. We can probably delete this now.
         private bool _promptAddressSave = false;
         public bool PromptAddressSave
         {
             get => _promptAddressSave;
             set => SetProperty(ref _promptAddressSave, value);
         }
+        */
         private bool _postcodeIsValid = false;
         public bool PostcodeIsValid
         {
             get => _postcodeIsValid;
             set => SetProperty(ref _postcodeIsValid, value);
-        }
-
-        // display properties for Electorates
-        private string _federalElectorateDisplayText = "";
-        //public string FederalElectorateDisplayText => App.ReadingContext.ThisParticipant.CommonwealthElectorate;
-        public string FederalElectorateDisplayText
-        {
-            get => _federalElectorateDisplayText;
-            set => SetProperty(ref _federalElectorateDisplayText, value);
-        }
-
-        private string _stateLowerHouseElectorateDisplayText = "";
-        //public string StateLowerHouseElectorateDisplayText => App.ReadingContext.ThisParticipant.StateLowerHouseElectorate;
-        public string StateLowerHouseElectorateDisplayText
-        {
-            get => _stateLowerHouseElectorateDisplayText;
-            set => SetProperty(ref _stateLowerHouseElectorateDisplayText, value);
-        }
-
-        private string _mapUrl = "";
-        public string MapUrl
-        {
-            get => _mapUrl;
-            set => SetProperty(ref _mapUrl, value);
         }
         #endregion
 
@@ -374,7 +326,6 @@ namespace RightToAskClient.ViewModels
                 if (!string.IsNullOrEmpty(addressPref))
                 {
                     var addressObj = JsonSerializer.Deserialize<Address>(addressPref);
-                    //OldAddress = addressObj ?? new Address();
                     Address = addressObj ?? new Address();
                 }
             });
@@ -384,7 +335,6 @@ namespace RightToAskClient.ViewModels
                 ShowAddressStack = false;
                 ShowElectoratesFrame = false;
             });
-            // OnStateChoosableElectorateChanged = new Command(OnStateChoosableElectoratePickerSelectedIndexChanged);
 
         }
 
@@ -394,7 +344,6 @@ namespace RightToAskClient.ViewModels
         public IAsyncCommand SkipButtonCommand { get; }
         public Command LookupElectoratesCommand { get; }
         public Command KnowElectoratesCommand { get; }
-        // public Command OnStateChoosableElectorateChanged { get; }
 
         // methods
         #region Methods
@@ -501,7 +450,7 @@ namespace RightToAskClient.ViewModels
             Preferences.Set(Constants.MPsKnown, true);
         }
 
-        // TODO: At the moment, this does nothing, since there's no notion of not 
+        // At the moment, this does nothing, since there's no notion of not 
         // saving the address.
         private void SaveAddress()
         {
@@ -509,19 +458,6 @@ namespace RightToAskClient.ViewModels
             Preferences.Set(Constants.Address, fullAddress); // save the full address
             Preferences.Set(Constants.StateID, SelectedState);
         }
-
-        /*
-        private void OnStateLCElectoratePickerSelectedIndexChanged()
-        {
-            if (SelectedStateLCElectorate >= 0 && SelectedStateLCElectorate < AllStateLCElectorates.Count 
-                && !String.IsNullOrEmpty(AllStateLCElectorates[SelectedStateLCElectorate]))
-            {
-                var state = App.ReadingContext.ThisParticipant.RegistrationInfo.State;
-                App.ReadingContext.ThisParticipant.AddStateUpperHouseElectorate(state, AllStateLCElectorates[SelectedStateLCElectorate]);
-                RevealNextStepIfElectoratesKnown();
-            }
-        }
-        */
 
         // This is the Legislative Assembly Electorate, except in Tas where it's the Legislative Council.
         // Note: this assumes the Commonwealth Electorate is correct.
@@ -532,7 +468,6 @@ namespace RightToAskClient.ViewModels
                 && !String.IsNullOrEmpty(AllStateChoosableElectorates[SelectedStateElectorateIndex]))
             {
                 var chosenElectorate = AllStateChoosableElectorates[SelectedStateElectorateIndex];
-                // ** Should we set StateChoosableElectorate or will that get set from Binding???
                 var state = App.ReadingContext.ThisParticipant.RegistrationInfo.State;
                 App.ReadingContext.ThisParticipant.RegistrationInfo.Electorates
                     // TODO Perhaps Electorates should be a List rather than an Observable Collection.
@@ -551,14 +486,9 @@ namespace RightToAskClient.ViewModels
                 !String.IsNullOrEmpty(FederalElectorates[SelectedFederalElectorate]))
             {
                 
-                //** App.ReadingContext.ThisParticipant.AddHouseOfRepsElectorate(FederalElectorates[SelectedFederalElectorate]);
                 // actually show the map in real time
-                //**if (!string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.CommonwealthElectorate))
-                //**{
-                    ShowMapFrame = true;
-                    //**ShowMapOfElectorate(App.ReadingContext.ThisParticipant.CommonwealthElectorate);
-                    ShowMapOfElectorate(FederalElectorates[SelectedFederalElectorate]);
-                //**}
+                ShowMapFrame = true;
+                ShowMapOfElectorate(FederalElectorates[SelectedFederalElectorate]);
                 
                 // For Tasmania, we need your federal electorate to infer your state Legislative Assembly electorate.
                 var state = App.ReadingContext.ThisParticipant.RegistrationInfo.State;
@@ -614,7 +544,6 @@ namespace RightToAskClient.ViewModels
             if (SelectedState != -1)
             {
                 App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsIndex = SelectedState;
-                //** App.ReadingContext.ThisParticipant.AddSenatorsFromState(App.ReadingContext.ThisParticipant.RegistrationInfo.State);
                 
                 // This will give us the right message about the upper-house electorate and a blank inferred electorate.
                 _state = App.ReadingContext.ThisParticipant.RegistrationInfo.State;
