@@ -30,6 +30,7 @@ namespace RightToAskClient.HttpClients
         private static string UserUrl = BaseUrl + "/get_user";
         private static string EmailValidationUrl = BaseUrl + "/request_email_validation";
         private static string EmailValidationPINUrl = BaseUrl + "/email_proof";
+        private static string SimilarQuestionsUrl = BaseUrl + "/similar_questions";
         
         // TODO At the moment, this is not used, because we don't have a cert chain for the server Public Key.
         // Instead, the public key itself is hardcoded.
@@ -92,7 +93,7 @@ namespace RightToAskClient.HttpClients
         public static async Task<Result<string>> RegisterNewUser(Registration newReg)
         {
             var newUserForServer = new ServerUser(newReg);
-            return await SendDataToServer<ServerUser>(newUserForServer, "user", RegUrl);
+            return await SendDataToServerVerifySignedResponse<ServerUser>(newUserForServer, "user", RegUrl);
         }
 
         public static async Task<Result<string>> UpdateExistingUser(ServerUser existingReg)
@@ -107,6 +108,13 @@ namespace RightToAskClient.HttpClients
         {
             return await Client.DoGetResultRequest<List<string>>(QuestionListUrl);
         }
+
+        /*
+        public static async Task<Result<List<>>> GetSimilarQuestionIDs()
+        {
+            string GetSimilarQuestionsUrl = SimilarQuestionsUrl
+        }
+        */
 
         public static async Task<Result<QuestionReceiveFromServer>> GetQuestionById(string questionId)
         {
@@ -140,7 +148,7 @@ namespace RightToAskClient.HttpClients
                 signature = signedMsg.signature,
                 user = signedMsg.user,
             };
-            return await SendDataToServer(serverSend, "temp error msg", EmailValidationUrl);
+            return await SendDataToServerVerifySignedResponse(serverSend, "temp error msg", EmailValidationUrl);
 
         }
 
@@ -156,13 +164,37 @@ namespace RightToAskClient.HttpClients
             ClientSignedUnparsed signedUserMessage = App.ReadingContext.ThisParticipant.SignMessage(data);
             if (!String.IsNullOrEmpty(signedUserMessage.signature))
             {
-                return await SendDataToServer<ClientSignedUnparsed>(signedUserMessage, description, url);
+                return await SendDataToServerVerifySignedResponse<ClientSignedUnparsed>(signedUserMessage, description, url);
             }
 
             Debug.WriteLine(errorString);
             return new Result<string>() { Err = errorString};
         }
-        
+
+        private static async Task<Result<string>> SendDataToServerVerifySignedResponse<Tupload>(Tupload newThing,
+            string typeDescr, string uri)
+        {
+            var serverResponse = await SendDataToServerReturnResponse<Tupload, SignedString>(newThing, typeDescr, uri);
+
+            if (!String.IsNullOrEmpty(serverResponse.Err))
+            {
+                return new Result<string>() { Err = serverResponse.Err };
+            }
+
+            if (!serverResponse.Ok.verifies(ServerSignatureVerificationService.ServerPublicKey))
+            {
+                Debug.WriteLine(@"\t Error registering new " + typeDescr + ": Signature verification failed");
+                return new Result<string>() { Err = "Server signature verification failed" };
+            }
+
+            return new Result<string>() { Ok = serverResponse.Ok.message };
+        }
+
+        private static async Task<Result<TReturn>> SendDataToServerDeserialiseUnsignedResponse<Tupload, TReturn>(
+            Tupload newThing, string typeDescr, string uri)
+        {
+            return await SendDataToServerReturnResponse<Tupload, TReturn>(newThing, typeDescr, uri);
+        }
         /*
          * Errors in the outer layer represent http errors, (e.g. 404).
          * These are logged because they represent a problem with the system.
@@ -174,10 +206,10 @@ namespace RightToAskClient.HttpClients
          * use a bool (true) if no errors. In some cases, however, the server returns some information
          * in the form of a message that is then returned in Result.Ok.
          */
-        private static async Task<Result<string>> SendDataToServer<Tin>(Tin newThing, string typeDescr, string uri)
+        private static async Task<Result<TReturn>> SendDataToServerReturnResponse<Tupload,TReturn>(Tupload newThing, string typeDescr, string uri)
         {
             var httpResponse 
-                = await Client.PostGenericItemAsync<Result<SignedString>, Tin>(newThing, uri);
+                = await Client.PostGenericItemAsync<Result<TReturn>, Tupload>(newThing, uri);
 
             // http errors
             if (String.IsNullOrEmpty(httpResponse.Err))
@@ -185,24 +217,16 @@ namespace RightToAskClient.HttpClients
                 // Error responses from the server
                 if (String.IsNullOrEmpty(httpResponse.Ok.Err))
                 {
-                    if (!httpResponse.Ok.Ok.verifies(ServerSignatureVerificationService.ServerPublicKey))
-                    {
-                        Debug.WriteLine(@"\t Error registering new "+typeDescr+": Signature verification failed");
-                        return new Result<string>()
-                        {
-                            Err = "Server signature verification failed"
-                        };
-                    }
 
-                    return new Result<string>() { Ok = httpResponse.Ok.Ok.message};
+                    return new Result<TReturn>() { Ok = httpResponse.Ok.Ok };
                 }
                     
                 Debug.WriteLine(@"\tError registering new "+typeDescr+": "+httpResponse.Ok.Err);
-                return new Result<string>() { Err = httpResponse.Ok.Err };
+                return new Result<TReturn>() { Err = httpResponse.Ok.Err };
             }
 
             Debug.WriteLine(@"\tError reaching server for registering new " +typeDescr+": "+httpResponse.Err);
-            return new Result<string>() { Err = httpResponse.Err };
+            return new Result<TReturn>() { Err = httpResponse.Err };
         }
         
         // At the moment, this simply passes the information back to the user. We might perhaps want

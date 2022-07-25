@@ -4,7 +4,7 @@
            xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
            x:Class="RightToAskClient.Views.OneButtonPopup"
            Size="300,200"
-           IsLightDismissEnabled="False"
+           IsLightDismissEnabled="True"
            Color="Transparent">
     <Frame CornerRadius="10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
                BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}">
