@@ -109,10 +109,9 @@ namespace RightToAskClient.HttpClients
             return await Client.DoGetResultRequest<List<string>>(QuestionListUrl);
         }
 
-        // TODO define X. Doesn't need to be generic.
-        public static async Task<Result<List<X>>> GetSimilarQuestionIDs<X>(QuestionSendToServer draftQuestion)
+        public static async Task<Result<List<ScoredIDs>>> GetSimilarQuestionIDs(QuestionSendToServer draftQuestion)
         {
-            return await SendDataToServerReturnResponse<QuestionSendToServer, List<X>>(draftQuestion, AppResources.QuestionErrorTypeDescription, SimilarQuestionsUrl);
+            return await SendDataToServerReturnResponse<QuestionSendToServer, List<ScoredIDs>>(draftQuestion, AppResources.QuestionErrorTypeDescription, SimilarQuestionsUrl);
         }
 
         public static async Task<Result<QuestionReceiveFromServer>> GetQuestionById(string questionId)

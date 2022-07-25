@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.Extensions;
@@ -144,7 +145,7 @@ namespace RightToAskClient.ViewModels
             {
                 ShowQuestionFrame = false;
                 Heading1 = AppResources.FocusSupportInstructionReadingOnly;
-                if (App.ReadingContext.TopTen)
+                if (App.ReadingContext.TrendingNow)
                 {
                     Title = AppResources.RecentQuestionsTitle;
                 }
@@ -181,16 +182,8 @@ namespace RightToAskClient.ViewModels
             });
             DraftCommand = new AsyncCommand(async () =>
             {
-                //ShowQuestionFrame = true; // navigate to the draft page instead of just showing the frame on this page
                 App.ReadingContext.IsReadingOnly = false;
                 await Shell.Current.PopGoToAsync($"{nameof(SecondPage)}");
-                //Device.BeginInvokeOnMainThread(async () =>  // needed for the UI operation to be invoked on the main thread
-                //{
-                //    await App.Current.MainPage.Navigation.PopToRootAsync().ContinueWith(async (_) => {
-
-                //        await Shell.Current.GoToAsync($"{nameof(SecondPage)}");
-                //    });
-                //});
             });
             SearchToolbarCommand = new Command(() =>
             {
@@ -223,16 +216,6 @@ namespace RightToAskClient.ViewModels
         // helper methods
         private async void OnSaveButtonClicked()
         {
-            // Tag the new question with the authorities that have been selected.
-            // ObservableCollection<Entity> questionAnswerers;
-
-            /* var questionAnswerers = new ObservableCollection<Entity>(App.ReadingContext.Filters.SelectedAuthorities);
-
-            foreach (var answeringMP in App.ReadingContext.Filters.SelectedAnsweringMPs)
-            {
-                questionAnswerers.Add(answeringMP);
-            } */
-
             IndividualParticipant thisParticipant = App.ReadingContext.ThisParticipant;
 
             // Set up new question in preparation for upload. 
@@ -242,7 +225,7 @@ namespace RightToAskClient.ViewModels
                 QuestionText = App.ReadingContext.DraftQuestion,
                 QuestionSuggester = (thisParticipant.IsRegistered)
                     ? thisParticipant.RegistrationInfo.uid
-                    : "Anonymous",
+                    : "",
                 Filters = App.ReadingContext.Filters,
                 DownVotes = 0,
                 UpVotes = 0
@@ -271,7 +254,8 @@ namespace RightToAskClient.ViewModels
 
         public async void LoadQuestions()
         {
-            Result<List<string>> httpResponse = await RTAClient.GetQuestionList();
+            Result<List<string>> httpResponse = await GetAppropriateQuestionList();
+            // Result<List<string>> httpResponse = await RTAClient.GetQuestionList();
             var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
             if (!httpValidation.isValid)
             {
@@ -354,6 +338,57 @@ namespace RightToAskClient.ViewModels
                     }
                 }
             }
+        }
+
+        // Gets the list of question IDs, depending on whether this page was reached
+        // by searching, drafting a question, 'what's trending' etc.
+        private async Task<Result<List<string>>> GetAppropriateQuestionList()
+        {
+            // Ask for questions similar to the Draft question text and/or the keyword.
+            // The test for not trending now should be redundant, but it's possible we might 
+            // have neglected to wipe earlier drafts & keywords.
+            if (!App.ReadingContext.TrendingNow && !String.IsNullOrWhiteSpace(DraftQuestion + Keyword))
+            {
+                var serverSearchQuestion = new QuestionSendToServer()
+                {
+                    question_text = DraftQuestion + " " + Keyword
+                };
+                Result<List<ScoredIDs>> scoredList = await RTAClient.GetSimilarQuestionIDs(serverSearchQuestion);
+
+                // Error
+                if (!String.IsNullOrEmpty(scoredList.Err))
+                {
+                    return new Result<List<string>>()
+                    {
+                        Err = scoredList.Err
+                    };
+                }
+
+                // If we've successfully retrieved a list of scored question IDs, filter them
+                // to select the ones we want
+                List<string> questionIDsOverThreshold = scoredList.Ok.Where(q => q.score > Constants.similarityThreshold)
+                    .Select(q => q.id).ToList();
+
+                if (questionIDsOverThreshold.Any())
+                {
+                    return new Result<List<string>>()
+                    {
+                        Ok = questionIDsOverThreshold
+                    };
+                }
+                else
+                {
+                    return new Result<List<string>>()
+                    {
+                        Err = AppResources.EmptyMatchingQuestionCollectionViewString
+                    };
+                }
+            }
+            
+            // If we're just looking at what's trending, show everything
+            // Expect App.ReadingContext.TrendingNow, but not necessarily because, for example,
+            // you might have drafted a blank question
+            return await RTAClient.GetQuestionList();
         }
     }
 }
