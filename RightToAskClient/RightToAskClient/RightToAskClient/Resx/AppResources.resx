@@ -336,6 +336,9 @@
   <data name="PublishQuestionButtonText" xml:space="preserve">
     <value>Publish New Question!</value>
   </data>
+  <data name="QuestionErrorTypeDescription" xml:space="preserve">
+    <value>question</value>
+  </data>
   <data name="QuestionDetailsTitle" xml:space="preserve">
     <value>Question Details</value>
   </data>

@@ -483,6 +483,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string QuestionErrorTypeDescription {
+            get {
+                return ResourceManager.GetString("QuestionErrorTypeDescription", resourceCulture);
+            }
+        }
+        
         internal static string QuestionDetailsTitle {
             get {
                 return ResourceManager.GetString("QuestionDetailsTitle", resourceCulture);

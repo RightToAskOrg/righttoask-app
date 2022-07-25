@@ -26,8 +26,8 @@ namespace RightToAskClient.HttpClients
         private static string MPListUrl = BaseUrl + "/MPs.json";
         private static string UserListUrl = BaseUrl + "/get_user_list";
         private static string QuestionListUrl = BaseUrl + "/get_question_list";
-        private static string QuestionUrl = BaseUrl + "/get_question";
-        private static string UserUrl = BaseUrl + "/get_user";
+        private static string QuestionUrl = BaseUrl + "/get_question" + "?question_id=";
+        private static string UserUrl = BaseUrl + "/get_user" + "?uid=";
         private static string EmailValidationUrl = BaseUrl + "/request_email_validation";
         private static string EmailValidationPINUrl = BaseUrl + "/email_proof";
         private static string SimilarQuestionsUrl = BaseUrl + "/similar_questions";
@@ -109,33 +109,32 @@ namespace RightToAskClient.HttpClients
             return await Client.DoGetResultRequest<List<string>>(QuestionListUrl);
         }
 
-        /*
-        public static async Task<Result<List<>>> GetSimilarQuestionIDs()
+        // TODO define X. Doesn't need to be generic.
+        public static async Task<Result<List<X>>> GetSimilarQuestionIDs<X>(QuestionSendToServer draftQuestion)
         {
-            string GetSimilarQuestionsUrl = SimilarQuestionsUrl
+            return await SendDataToServerReturnResponse<QuestionSendToServer, List<X>>(draftQuestion, AppResources.QuestionErrorTypeDescription, SimilarQuestionsUrl);
         }
-        */
 
         public static async Task<Result<QuestionReceiveFromServer>> GetQuestionById(string questionId)
         {
-            string GetQuestionUrl = QuestionUrl + "?question_id=" + questionId;
+            string GetQuestionUrl = QuestionUrl + questionId;
             return await Client.DoGetResultRequest<QuestionReceiveFromServer>(GetQuestionUrl);
         }
 
         public static async Task<Result<ServerUser>> GetUserById(string userId)
         {
-            string GetUserUrl = UserUrl + "?uid=" + userId;
+            string GetUserUrl = UserUrl + userId;
             return await Client.DoGetResultRequest<ServerUser>(GetUserUrl);
         }
 
         public static async Task<Result<string>> RegisterNewQuestion(QuestionSendToServer newQuestion)
         {
-            return await SignAndSendDataToServer<QuestionSendToServer>(newQuestion, "question", QnUrl,"Error publishing New Question");
+            return await SignAndSendDataToServer<QuestionSendToServer>(newQuestion, AppResources.QuestionErrorTypeDescription, QnUrl,"Error publishing New Question");
         }
 
         public static async Task<Result<string>> UpdateExistingQuestion(QuestionSendToServer existingQuestion)
         {
-            return await SignAndSendDataToServer<QuestionSendToServer>(existingQuestion, "question", EditQnUrl, "Error editing question");
+            return await SignAndSendDataToServer<QuestionSendToServer>(existingQuestion, AppResources.QuestionErrorTypeDescription, EditQnUrl, "Error editing question");
         }
 
         public static async Task<Result<string>> RequestEmailValidation(RequestEmailValidationMessage msg, string email)
@@ -195,6 +194,7 @@ namespace RightToAskClient.HttpClients
         {
             return await SendDataToServerReturnResponse<Tupload, TReturn>(newThing, typeDescr, uri);
         }
+        
         /*
          * Errors in the outer layer represent http errors, (e.g. 404).
          * These are logged because they represent a problem with the system.
@@ -202,8 +202,7 @@ namespace RightToAskClient.HttpClients
          * Errors in the inner layer represent server errors, e.g. UID already taken.
          * These are returned to the user on the assumption that there's something they
          * can do.
-         * In most cases, calls to SendDataToServer do not return anything, so we simply
-         * use a bool (true) if no errors. In some cases, however, the server returns some information
+         * In some cases, the server returns some information
          * in the form of a message that is then returned in Result.Ok.
          */
         private static async Task<Result<TReturn>> SendDataToServerReturnResponse<Tupload,TReturn>(Tupload newThing, string typeDescr, string uri)
@@ -221,11 +220,11 @@ namespace RightToAskClient.HttpClients
                     return new Result<TReturn>() { Ok = httpResponse.Ok.Ok };
                 }
                     
-                Debug.WriteLine(@"\tError registering new "+typeDescr+": "+httpResponse.Ok.Err);
+                Debug.WriteLine(@"\tError sending "+typeDescr+": "+httpResponse.Ok.Err);
                 return new Result<TReturn>() { Err = httpResponse.Ok.Err };
             }
 
-            Debug.WriteLine(@"\tError reaching server for registering new " +typeDescr+": "+httpResponse.Err);
+            Debug.WriteLine(@"\tError reaching server for sending " +typeDescr+": "+httpResponse.Err);
             return new Result<TReturn>() { Err = httpResponse.Err };
         }
         
