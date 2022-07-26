@@ -30,6 +30,6 @@ namespace RightToAskClient
         public static string Address = "Address";
         
         // Special numbers
-        public static float similarityThreshold = 3;
+        public static float similarityThreshold = 2.5F;
     }
 }

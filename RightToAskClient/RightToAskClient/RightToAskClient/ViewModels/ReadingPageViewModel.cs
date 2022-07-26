@@ -184,15 +184,17 @@ namespace RightToAskClient.ViewModels
             // for this command to be executed multiple times simultaneously,
             // producing multiple calls to Clear and the simultaneous insertion
             // of questions from various versions of questionsToDisplay List.
-            // I don't *think* this will cause a lock.
+            // I don't *think* this will cause a lock because QuestionsToDisplay
+            // ought to be able to be cleared and added to in any order.
             RefreshCommand = new AsyncCommand(async () =>
             {
-                var questionsToDisplayList = await LoadQuestions();
+                var questionsToDisplayList = await LoadQuestions() ?? new List<Question>();
                 QuestionsToDisplay.Clear();
                 foreach (Question q in questionsToDisplayList)
                 {  
                     QuestionsToDisplay.Add(q);
                 }
+                IsRefreshing = false;
             });
             DraftCommand = new AsyncCommand(async () =>
             {
@@ -327,7 +329,6 @@ namespace RightToAskClient.ViewModels
                 questionsToDisplay.Add(new Question(serverQuestion));
             }
 
-            IsRefreshing = false;
 
             // after getting the list of questions, remove the ids for dismissed questions, and set the upvoted status of liked ones
             for (int i = 0; i < App.ReadingContext.ThisParticipant.RemovedQuestionIDs.Count; i++)
@@ -378,7 +379,7 @@ namespace RightToAskClient.ViewModels
                 Result<List<ScoredIDs>> scoredList = await RTAClient.GetSimilarQuestionIDs(serverSearchQuestion);
 
                 // Error
-                if (!String.IsNullOrEmpty(scoredList.Err))
+                if (!String.IsNullOrEmpty(scoredList?.Err))
                 {
                     return new Result<List<string>>()
                     {
