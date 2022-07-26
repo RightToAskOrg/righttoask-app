@@ -96,19 +96,23 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _questionsToDisplay, value);
         }
 
+        /*
         private List<string> _questionIds = new List<string>();
-        public List<string> QuestionIds
+        private List<string> QuestionIds
         {
             get => _questionIds;
             set => SetProperty(ref _questionIds, value);
         }
+        */
 
+        /*
         private List<QuestionReceiveFromServer> _serverQuestions = new List<QuestionReceiveFromServer>();
         public List<QuestionReceiveFromServer> ServerQuestions
         {
             get => _serverQuestions;
             set => SetProperty(ref _serverQuestions, value);
         }
+        */
 
         private bool _isRefreshing = true;
         public bool IsRefreshing
@@ -131,6 +135,7 @@ namespace RightToAskClient.ViewModels
             }
         }
 
+        // constructor
         public ReadingPageViewModel()
         {
             PopupLabelText = AppResources.ReadingPageHeader1;
@@ -161,8 +166,6 @@ namespace RightToAskClient.ViewModels
                 Title = AppResources.SimilarQuestionsTitle;
                 ShowQuestionFrame = true;
             }
-            // get questions from the server
-            LoadQuestions();
             if (!App.ReadingContext.DontShowFirstTimeReadingPopup)
             {
                 var popup = new ReadingPagePopup(this);
@@ -177,9 +180,19 @@ namespace RightToAskClient.ViewModels
             {
                 OnDiscardButtonClicked();
             });
-            RefreshCommand = new Command(() =>
+            // Note: There is a race condition here, in that it is possible
+            // for this command to be executed multiple times simultaneously,
+            // producing multiple calls to Clear and the simultaneous insertion
+            // of questions from various versions of questionsToDisplay List.
+            // I don't *think* this will cause a lock.
+            RefreshCommand = new AsyncCommand(async () =>
             {
-                LoadQuestions();
+                var questionsToDisplayList = await LoadQuestions();
+                QuestionsToDisplay.Clear();
+                foreach (Question q in questionsToDisplayList)
+                {  
+                    QuestionsToDisplay.Add(q);
+                }
             });
             DraftCommand = new AsyncCommand(async () =>
             {
@@ -190,10 +203,12 @@ namespace RightToAskClient.ViewModels
             {
                 ShowSearchFrame = !ShowSearchFrame; // just toggle it
             });
+            /*
             DoSearchCommand = new AsyncCommand(async () =>
             {
                 LoadQuestions();
             });
+            */
             ShowFiltersCommand = new AsyncCommand(async () =>
             {
                 await Shell.Current.GoToAsync(nameof(AdvancedSearchFiltersPage));
@@ -207,17 +222,20 @@ namespace RightToAskClient.ViewModels
                 }
                 QuestionsToDisplay.Remove(questionToRemove);
             });
+
+            // Get the question list for display
+            RefreshCommand.ExecuteAsync();
         }
 
         // commands
         public IAsyncCommand KeepQuestionButtonCommand { get; }
         public IAsyncCommand DiscardButtonCommand { get; }
-        public Command RefreshCommand { get; }
+        public AsyncCommand RefreshCommand { get; }
         public IAsyncCommand DraftCommand { get; }
         public Command SearchToolbarCommand { get; }
         public Command<Question> RemoveQuestionCommand { get; }
         public IAsyncCommand ShowFiltersCommand { get; }
-        public IAsyncCommand DoSearchCommand { get; }
+        // public IAsyncCommand DoSearchCommand { get; }
 
         // helper methods
         private async void OnSaveButtonClicked()
@@ -258,36 +276,38 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        public async void LoadQuestions()
+        public async Task<List<Question>> LoadQuestions()
         {
+            List<QuestionReceiveFromServer> serverQuestions = new List<QuestionReceiveFromServer>();
+            List<Question> questionsToDisplay = new List<Question>();
             Result<List<string>> httpResponse = await GetAppropriateQuestionList();
             var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
             if (!httpValidation.isValid)
             {
                 ReportLabelText = "Failed to get Question List from server." + httpValidation.errorMessage;
-                return;
+                return questionsToDisplay;
             }
             // httpValidation isValid
 
             // reset the lists to rebuild and re-acquire questions
-            QuestionsToDisplay.Clear();
-            ServerQuestions.Clear();
+            // QuestionsToDisplay.Clear();
+            // ServerQuestions.Clear();
             // set the question Ids list
-            QuestionIds = httpResponse.Ok;
+            var questionIds = httpResponse.Ok;
             // loop through the questions
-            foreach (string questionId in QuestionIds)
+            foreach (string questionId in questionIds)
             {
                 // pull the individual question from the server by id
-                QuestionReceiveFromServer temp;
+                QuestionReceiveFromServer tempQuestion;
                 try
                 {
                     var data = await RTAClient.GetQuestionById(questionId);
                     if (string.IsNullOrEmpty(data.Err))
                     {
-                        temp = data.Ok;
-                        if (!string.IsNullOrEmpty(temp.question_text))
+                        tempQuestion = data.Ok;
+                        if (!string.IsNullOrEmpty(tempQuestion.question_text))
                         {
-                            ServerQuestions.Add(temp);
+                            serverQuestions.Add(tempQuestion);
                         }
                     }
                     else
@@ -302,9 +322,9 @@ namespace RightToAskClient.ViewModels
             }
 
             // convert the ServerQuestions to a Displayable format
-            foreach (QuestionReceiveFromServer serverQuestion in ServerQuestions)
+            foreach (QuestionReceiveFromServer serverQuestion in serverQuestions)
             {
-                QuestionsToDisplay.Add(new Question(serverQuestion));
+                questionsToDisplay.Add(new Question(serverQuestion));
             }
 
             IsRefreshing = false;
@@ -312,17 +332,16 @@ namespace RightToAskClient.ViewModels
             // after getting the list of questions, remove the ids for dismissed questions, and set the upvoted status of liked ones
             for (int i = 0; i < App.ReadingContext.ThisParticipant.RemovedQuestionIDs.Count; i++)
             {
-                Question temp = QuestionsToDisplay.ToList()
-                    .Where(q => q.QuestionId == App.ReadingContext.ThisParticipant.RemovedQuestionIDs[i])
-                    .FirstOrDefault();
+                Question? temp = questionsToDisplay
+                    .FirstOrDefault(q => q.QuestionId == App.ReadingContext.ThisParticipant.RemovedQuestionIDs[i]);
                 if (temp != null)
                 {
-                    QuestionsToDisplay.Remove(temp);
+                    questionsToDisplay.Remove(temp);
                 }
             }
 
             // set previously upvoted questions
-            foreach (Question q in QuestionsToDisplay)
+            foreach (Question q in questionsToDisplay)
             {
                 foreach (string qID in App.ReadingContext.ThisParticipant.UpvotedQuestionIDs)
                 {
@@ -341,6 +360,8 @@ namespace RightToAskClient.ViewModels
                     }
                 }
             }
+
+            return questionsToDisplay;
         }
 
         // Gets the list of question IDs, depending on whether this page was reached
