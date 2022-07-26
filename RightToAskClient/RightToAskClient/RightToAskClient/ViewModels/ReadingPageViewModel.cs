@@ -12,6 +12,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
@@ -189,6 +190,10 @@ namespace RightToAskClient.ViewModels
             {
                 ShowSearchFrame = !ShowSearchFrame; // just toggle it
             });
+            DoSearchCommand = new AsyncCommand(async () =>
+            {
+                LoadQuestions();
+            });
             ShowFiltersCommand = new AsyncCommand(async () =>
             {
                 await Shell.Current.GoToAsync(nameof(AdvancedSearchFiltersPage));
@@ -212,6 +217,7 @@ namespace RightToAskClient.ViewModels
         public Command SearchToolbarCommand { get; }
         public Command<Question> RemoveQuestionCommand { get; }
         public IAsyncCommand ShowFiltersCommand { get; }
+        public IAsyncCommand DoSearchCommand { get; }
 
         // helper methods
         private async void OnSaveButtonClicked()
@@ -255,7 +261,6 @@ namespace RightToAskClient.ViewModels
         public async void LoadQuestions()
         {
             Result<List<string>> httpResponse = await GetAppropriateQuestionList();
-            // Result<List<string>> httpResponse = await RTAClient.GetQuestionList();
             var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
             if (!httpValidation.isValid)
             {
@@ -299,9 +304,7 @@ namespace RightToAskClient.ViewModels
             // convert the ServerQuestions to a Displayable format
             foreach (QuestionReceiveFromServer serverQuestion in ServerQuestions)
             {
-                Question temp = new Question(serverQuestion);
-
-                QuestionsToDisplay.Add(temp);
+                QuestionsToDisplay.Add(new Question(serverQuestion));
             }
 
             IsRefreshing = false;
@@ -345,9 +348,7 @@ namespace RightToAskClient.ViewModels
         private async Task<Result<List<string>>> GetAppropriateQuestionList()
         {
             // Ask for questions similar to the Draft question text and/or the keyword.
-            // The test for not trending now should be redundant, but it's possible we might 
-            // have neglected to wipe earlier drafts & keywords.
-            if (!App.ReadingContext.TrendingNow && !String.IsNullOrWhiteSpace(DraftQuestion + Keyword))
+            if (!String.IsNullOrWhiteSpace(DraftQuestion + Keyword))
             {
                 var serverSearchQuestion = new QuestionSendToServer()
                 {
