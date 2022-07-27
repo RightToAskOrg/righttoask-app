@@ -483,6 +483,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string QuestionErrorTypeDescription {
+            get {
+                return ResourceManager.GetString("QuestionErrorTypeDescription", resourceCulture);
+            }
+        }
+        
         internal static string QuestionDetailsTitle {
             get {
                 return ResourceManager.GetString("QuestionDetailsTitle", resourceCulture);
@@ -996,6 +1002,12 @@ namespace RightToAskClient.Resx {
         internal static string NotNowAnswerText {
             get {
                 return ResourceManager.GetString("NotNowAnswerText", resourceCulture);
+            }
+        }
+        
+        internal static string EmptyMatchingQuestionCollectionViewString {
+            get {
+                return ResourceManager.GetString("EmptyMatchingQuestionCollectionViewString", resourceCulture);
             }
         }
         

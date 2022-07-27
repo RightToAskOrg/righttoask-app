@@ -28,5 +28,8 @@ namespace RightToAskClient
         public static string IsVerifiedMPAccount = "IsVerifiedMPAccount";
         public static string MPRegisteredAs= "MPRegisteredAs";
         public static string Address = "Address";
+        
+        // Special numbers
+        public static float similarityThreshold = 2.5F;
     }
 }

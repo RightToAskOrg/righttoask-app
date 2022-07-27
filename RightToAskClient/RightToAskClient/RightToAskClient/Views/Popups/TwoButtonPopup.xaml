@@ -5,7 +5,7 @@
            xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
            x:Class="RightToAskClient.Views.TwoButtonPopup"
            Size="300,210"
-           IsLightDismissEnabled="False"
+           IsLightDismissEnabled="True"
            Color="Transparent">
     <Frame CornerRadius="10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
                BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}">

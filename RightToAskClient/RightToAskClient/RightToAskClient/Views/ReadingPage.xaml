@@ -32,8 +32,10 @@
                     <Grid ColumnDefinitions="*,*,*,auto" MinimumHeightRequest="30">
                         <SearchBar Grid.Column="0" Grid.ColumnSpan="3" Placeholder="{xct:Translate SearchBarPlaceholderText}" Text="{Binding Keyword}"
                            Style="{StaticResource GreenSearchBar}" HorizontalOptions="Start" 
-                           Margin="0"/>
-                        <!--SearchCommand="{Binding ExpiringSoonButtonCommand}"-->
+                           SearchCommand="{Binding RefreshCommand}"
+                           Margin="0" />
+                        <!--SearchCommand="{Binding DoSearchCommand}"
+                           SearchCommandParameter="{Binding Keyword}"-->
                         <Grid ColumnDefinitions="auto, auto" Grid.Column="3" Padding="0" Margin="0">
                             <Label Grid.Column="0" Style="{StaticResource CenterSmall}" FontSize="Micro" Text="{xct:Translate AdvancedSearchButtonText}" 
                                    Padding="0" Margin="0" VerticalOptions="Center" VerticalTextAlignment="Center" WidthRequest="60" LineBreakMode="WordWrap">

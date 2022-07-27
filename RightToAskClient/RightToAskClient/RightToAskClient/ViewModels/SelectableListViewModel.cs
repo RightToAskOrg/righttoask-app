@@ -92,29 +92,19 @@ namespace RightToAskClient.ViewModels
 		}
 
 		private string _keyword = "";
+
 		public string Keyword
 		{
 			get => _keyword;
 			set
 			{
-				bool changed = SetProperty(ref _keyword, value);
-				if (changed)
-				{
-					App.ReadingContext.Filters.SearchKeyword = _keyword;
-                }
+				SetProperty(ref _keyword, value);
 				FilteredSelectableEntities = GetSearchResults(_keyword);
 			}
 		}
 
 		public IAsyncCommand DoneButtonCommand { get; }
 		public Command SearchToolbarCommand { get; }
-		// public IAsyncCommand HomeButtonCommand { get;  }
-		// public Command<(object,ItemTappedEventArgs)> EntitySelectedCommand { get;  }
-		// public EventHandler<ItemTappedEventArgs> EntitySelectedEventHandler { get; }
-
-		// protected ObservableCollection<Authority> SelectedAuthorities = new ObservableCollection<Authority>();
-		// protected ObservableCollection<MP> SelectedMPs = new ObservableCollection<MP>();
-		// protected ObservableCollection<Person> SelectedPeople = new ObservableCollection<Person>();
 
 		// TODO These are just copy-pasted from the old code-behind. Might need a bit more thought.
 		public bool CameFromReg2Page = false;

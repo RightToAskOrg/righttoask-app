@@ -180,50 +180,5 @@ namespace RightToAskClient.HttpClients
                 return new Result<TResponse> { Err = "Error connecting to server."+ex.Message};
             }
         }
-
-        // for updating an existing item
-        public async Task<Result<TResponse>> PutGenericItemAsync<TResponse, TIn>(TIn item, string requesteduri)
-        {
-            Uri uri = new Uri(requesteduri);
-
-            try
-            {
-                string json = JsonSerializer.Serialize(item, _serializerOptions);
-                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                HttpResponseMessage response = await _client.PutAsync(uri, content);
-
-                if (response is null || !response.IsSuccessStatusCode)
-                {
-                    return new Result<TResponse>
-                    {
-                        Err = "Error connecting to server." + response?.StatusCode + response?.ReasonPhrase
-                    };
-                }
-
-                string responseContent = await response.Content.ReadAsStringAsync();
-                TResponse httpResponse =
-                    JsonSerializer.Deserialize<TResponse>(responseContent, _serializerOptions);
-
-                if (httpResponse is null)
-                {
-                    Debug.WriteLine(@"\tError saving Item:");
-                    return new Result<TResponse> { Err = "Null response from server:" };
-                }
-
-                Debug.WriteLine(@"\tItem successfully saved on server.");
-
-                return new Result<TResponse>
-                {
-                    Ok = httpResponse
-                };
-
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(@"\tERROR {0}", ex.Message);
-                return new Result<TResponse> { Err = "Error connecting to server." + ex.Message };
-            }
-        }
     }
 }

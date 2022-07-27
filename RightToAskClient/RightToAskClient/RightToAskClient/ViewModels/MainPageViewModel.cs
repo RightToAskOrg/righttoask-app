@@ -42,15 +42,15 @@ namespace RightToAskClient.ViewModels
         {
             PopupLabelText = AppResources.MainPagePopupText;
             // commands
-            Top10ButtonCommand = new AsyncCommand(async () =>
+            TrendingNowButtonCommand = new AsyncCommand(async () =>
             {
-                App.ReadingContext.TopTen = true;
+                App.ReadingContext.TrendingNow = true;
                 App.ReadingContext.IsReadingOnly = true;
                 await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
             });
             ExpiringSoonButtonCommand = new AsyncCommand(async () =>
             {
-                App.ReadingContext.TopTen = true;
+                App.ReadingContext.TrendingNow = true;
                 App.ReadingContext.IsReadingOnly = true;
                 await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
             });
@@ -90,7 +90,7 @@ namespace RightToAskClient.ViewModels
         }
 
         // commands
-        public IAsyncCommand Top10ButtonCommand { get; }
+        public IAsyncCommand TrendingNowButtonCommand { get; }
         public IAsyncCommand ExpiringSoonButtonCommand { get; }
         public IAsyncCommand DraftingButtonCommand { get; }
         public IAsyncCommand AdvancedSearchButtonCommand { get; }
