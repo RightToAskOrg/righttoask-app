@@ -121,6 +121,16 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _isRefreshing, value);
         }
 
+        public string Keyword
+        {
+            get => App.ReadingContext.Filters.SearchKeyword;
+            set
+            {
+                App.ReadingContext.Filters.SearchKeyword = value;
+                OnPropertyChanged();
+            }
+        }
+        /*
         private string _keyword = "";
         public string Keyword
         {
@@ -134,6 +144,7 @@ namespace RightToAskClient.ViewModels
                 }
             }
         }
+        */
 
         // constructor
         public ReadingPageViewModel()
