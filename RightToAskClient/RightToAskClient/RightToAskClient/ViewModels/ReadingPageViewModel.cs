@@ -130,21 +130,6 @@ namespace RightToAskClient.ViewModels
                 OnPropertyChanged();
             }
         }
-        /*
-        private string _keyword = "";
-        public string Keyword
-        {
-            get => _keyword;
-            set
-            {
-                bool changed = SetProperty(ref _keyword, value);
-                if (changed)
-                {
-                    App.ReadingContext.Filters.SearchKeyword = _keyword;
-                }
-            }
-        }
-        */
 
         // constructor
         public ReadingPageViewModel()
@@ -155,7 +140,6 @@ namespace RightToAskClient.ViewModels
             if (!string.IsNullOrEmpty(App.ReadingContext.DraftQuestion))
             {
                 DraftQuestion = App.ReadingContext.DraftQuestion;
-                //DraftQuestion = QuestionViewModel.Instance.Question.QuestionText;
             }
 
             if (App.ReadingContext.IsReadingOnly)
@@ -216,12 +200,6 @@ namespace RightToAskClient.ViewModels
             {
                 ShowSearchFrame = !ShowSearchFrame; // just toggle it
             });
-            /*
-            DoSearchCommand = new AsyncCommand(async () =>
-            {
-                LoadQuestions();
-            });
-            */
             ShowFiltersCommand = new AsyncCommand(async () =>
             {
                 await Shell.Current.GoToAsync(nameof(AdvancedSearchFiltersPage));
@@ -248,7 +226,6 @@ namespace RightToAskClient.ViewModels
         public Command SearchToolbarCommand { get; }
         public Command<Question> RemoveQuestionCommand { get; }
         public IAsyncCommand ShowFiltersCommand { get; }
-        // public IAsyncCommand DoSearchCommand { get; }
 
         // helper methods
         private async void OnSaveButtonClicked()
@@ -272,7 +249,6 @@ namespace RightToAskClient.ViewModels
             QuestionViewModel.Instance.IsNewQuestion = true;
 
             // instead of going to the questionDetailsPage we now go to a Background page and then a metadata page before the details page
-            // await Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
             await Shell.Current.GoToAsync($"{nameof(QuestionBackgroundPage)}");
         }
 
@@ -300,13 +276,10 @@ namespace RightToAskClient.ViewModels
                 ReportLabelText = "Failed to get Question List from server." + httpValidation.errorMessage;
                 return questionsToDisplay;
             }
+            
             // httpValidation isValid
-
-            // reset the lists to rebuild and re-acquire questions
-            // QuestionsToDisplay.Clear();
-            // ServerQuestions.Clear();
-            // set the question Ids list
             var questionIds = httpResponse.Ok;
+            
             // loop through the questions
             foreach (string questionId in questionIds)
             {
@@ -376,7 +349,8 @@ namespace RightToAskClient.ViewModels
             return questionsToDisplay;
         }
 
-        // Gets the list of question IDs, depending on whether this page was reached
+        // Gets the list of question IDs, using 'similarity' material
+        // depending on whether this page was reached
         // by searching, drafting a question, 'what's trending' etc.
         private async Task<Result<List<string>>> GetAppropriateQuestionList()
         {
