@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
+             x:Class="RightToAskClient.Views.ClickableListView"
+             x:DataType="vm:ClickableListViewModel">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="{Binding Heading}" Style="{StaticResource ClickableHeader}" >
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding EditListCommand}"/>
+                </Label.GestureRecognizers>
+            </Label>
+            <Label Text="{Binding ListDisplayText}" Style="{StaticResource NormalText}">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding EditListCommand}"/>
+                </Label.GestureRecognizers>
+            </Label>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

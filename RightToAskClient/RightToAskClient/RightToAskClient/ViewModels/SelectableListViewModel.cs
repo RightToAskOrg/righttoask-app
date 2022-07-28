@@ -162,7 +162,7 @@ namespace RightToAskClient.ViewModels
 		}
 		
 		// MPs are grouped only for display, but stored in simple (flat) lists.
-		// If the grouping boolean is set, group the MPs by chamber before display. 
+		// If the grouping boolean is seEnumerable<Entity> IenumerEmnumerableEntityt, group the MPs by chamber before display. 
         public SelectableListViewModel(SelectableList<MP> mpLists, string message, bool grouping)
         {
 			Keyword = App.ReadingContext.Filters.SearchKeyword;
