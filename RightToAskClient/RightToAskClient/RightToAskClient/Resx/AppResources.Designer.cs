@@ -447,6 +447,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string OtherMP {
+            get {
+                return ResourceManager.GetString("OtherMP", resourceCulture);
+            }
+        }
+        
         internal static string OtherMPAnswerFilterLabelText {
             get {
                 return ResourceManager.GetString("OtherMPAnswerFilterLabelText", resourceCulture);

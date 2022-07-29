@@ -10,7 +10,7 @@ using Xamarin.Forms.Xaml;
 namespace RightToAskClient.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ClickableListView : ContentPage
+    public partial class ClickableListView : StackLayout 
     {
         public ClickableListView()
         {

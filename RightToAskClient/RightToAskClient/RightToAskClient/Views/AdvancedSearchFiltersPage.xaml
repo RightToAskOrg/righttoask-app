@@ -5,6 +5,7 @@
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              xmlns:local="clr-namespace:RightToAskClient"
+             xmlns:views="clr-namespace:RightToAskClient.Views;assembly=RightToAskClient"
              Title="{Binding Title}"
              x:DataType="vm:FilterViewModel">
     <ContentPage.ToolbarItems>
@@ -52,15 +53,16 @@
                                 <StackLayout Spacing="0" Margin="0" Padding="0">
                                     <Label Text="My MP" Style="{StaticResource ClickableHeader}" >
                                         <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding AnsweringMPsFilterCommand}"/>
+                                            <TapGestureRecognizer Command="{Binding AnsweringMPsMineFilterCommand}"/>
                                         </Label.GestureRecognizers>
                                     </Label>
                                     <Label Text="{Binding SelectedAnsweringMyMPsText}" Style="{StaticResource NormalText}">
                                         <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding AnsweringMPsFilterCommand}"/>
+                                            <TapGestureRecognizer Command="{Binding AnsweringMPsMineFilterCommand}"/>
                                         </Label.GestureRecognizers>
                                     </Label>
                                 </StackLayout>
+                                <views:ClickableListView BindingContext="{Binding AnsweringMPsOther}"/>
                                 <StackLayout Spacing="0" Margin="0" Padding="0">
                                     <Label Text="Other MP" Style="{StaticResource ClickableHeader}" >
                                         <Label.GestureRecognizers>
@@ -115,12 +117,12 @@
                                 <StackLayout Spacing="0" Margin="0" Padding="0">
                                     <Label Text="My MP" Style="{StaticResource ClickableHeader}" >
                                         <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding AskingMPsFilterCommand}"/>
+                                            <TapGestureRecognizer Command="{Binding AskingMPsMineFilterCommand}"/>
                                         </Label.GestureRecognizers>
                                     </Label>
                                     <Label Text="{Binding SelectedAskingMyMPsText}" Style="{StaticResource NormalText}">
                                         <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding AskingMPsFilterCommand}"/>
+                                            <TapGestureRecognizer Command="{Binding AskingMPsMineFilterCommand}"/>
                                         </Label.GestureRecognizers>
                                     </Label>
                                 </StackLayout>

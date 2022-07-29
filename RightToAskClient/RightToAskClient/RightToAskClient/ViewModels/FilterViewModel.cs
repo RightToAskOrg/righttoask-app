@@ -21,7 +21,9 @@ namespace RightToAskClient.ViewModels
 
         // properties
         // public FilterDisplayTableView FilterDisplay = new FilterDisplayTableView();
-        public FilterChoices FilterChoices => App.ReadingContext.Filters;
+        private FilterChoices FilterChoices => App.ReadingContext.Filters;
+
+        public ClickableListViewModel AnsweringMPsOther { get; }
 
         public List<string> CommitteeList = new List<string>();
         private string _committeeText = "";
@@ -106,11 +108,13 @@ namespace RightToAskClient.ViewModels
             MessagingCenter.Subscribe<QuestionViewModel>(this, "UpdateFilters", (sender) =>
             {
                 ReinitData();
+                // if (AnsweringMPsOther != null) AnsweringMPsOther.ReInitData();
                 MessagingCenter.Unsubscribe<QuestionViewModel>(this, "UpdateFilters");
             });
             MessagingCenter.Subscribe<SelectableListViewModel>(this, "UpdateFilters", (sender) =>
             {
                 ReinitData();
+                // if (AnsweringMPsOther != null) AnsweringMPsOther.ReInitData();
                 // Normally we'd want to unsubscribe to prevent multiple instances of the subscriber from happening,
                 // but because these listeners happen when popping back to this page from a selectableList page we want to keep the listener/subscriber
                 // active to update all of the lists/filters on this page with the newly selected data
@@ -125,15 +129,27 @@ namespace RightToAskClient.ViewModels
             Title = AppResources.AdvancedSearchButtonText; 
             ReinitData(); // to set the display strings
 
+            AnsweringMPsOther = new ClickableListViewModel(FilterChoices.AnsweringMPsListsNotMine)
+            {
+                EditListCommand = new Command(() =>
+                {
+                    _ = EditOtherSelectedAnsweringMPsClicked().ContinueWith((_) =>
+                    {
+                        MessagingCenter.Send(this, "FromFiltersPage");
+                    });
+                }),
+                Heading = AppResources.OtherMP,
+            };
+            
             // commands
-            AnsweringMPsFilterCommand = new Command(() =>
+            AnsweringMPsMineFilterCommand = new Command(() =>
             {
                 _ = EditSelectedAnsweringMPsClicked().ContinueWith((_) =>
                   {
                       MessagingCenter.Send(this, "FromFiltersPage"); // Sends this view model
                 });
             });
-            AskingMPsFilterCommand = new Command(() =>
+            AskingMPsMineFilterCommand = new Command(() =>
             {
                 _ = EditSelectedAskingMPsClicked().ContinueWith((_) =>
                   {
@@ -195,8 +211,8 @@ namespace RightToAskClient.ViewModels
         }
 
         // commands
-        public Command AnsweringMPsFilterCommand { get; }
-        public Command AskingMPsFilterCommand { get; }
+        public Command AnsweringMPsMineFilterCommand { get; }
+        public Command AskingMPsMineFilterCommand { get; }
         public Command AnsweringAuthoritiesFilterCommand { get; }
         public Command OtherAnsweringMPsFilterCommand { get; }
         public Command OtherAskingMPsFilterCommand { get; }
@@ -237,6 +253,8 @@ namespace RightToAskClient.ViewModels
             OnPropertyChanged("SelectedAskingMyMPsText");
             OnPropertyChanged("SelectedAnsweringMyMPsText");
             OnPropertyChanged("PublicAuthoritiesText");
+            OnPropertyChanged("AnsweringMPsOther");
+            
             OtherRightToAskUserText = CreateTextGivenListEntities(OtherRightToAskUserList);
             CommitteeText = CreateTextGivenListCommittees(CommitteeList);
         }

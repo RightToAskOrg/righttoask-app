@@ -24,12 +24,12 @@
                             <StackLayout Spacing="0" Margin="0" Padding="0">
                                 <Label Text="My MP" Style="{StaticResource ClickableHeader}">
                                     <Label.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding AnsweringMPsFilterCommand}"/>
+                                        <TapGestureRecognizer Command="{Binding AnsweringMPsMineFilterCommand}"/>
                                     </Label.GestureRecognizers>
                                 </Label>
                                 <Label Text="{Binding SelectedAnsweringMyMPsText}">
                                     <Label.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding AnsweringMPsFilterCommand}"/>
+                                        <TapGestureRecognizer Command="{Binding AnsweringMPsMineFilterCommand}"/>
                                     </Label.GestureRecognizers>
                                 </Label>
                             </StackLayout>
@@ -73,12 +73,12 @@
                             <StackLayout Spacing="0" Margin="0" Padding="0">
                                 <Label Text="My MP" Style="{StaticResource ClickableHeader}">
                                     <Label.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding AskingMPsFilterCommand}"/>
+                                        <TapGestureRecognizer Command="{Binding AskingMPsMineFilterCommand}"/>
                                     </Label.GestureRecognizers>
                                 </Label>
                                 <Label Text="{Binding SelectedAskingMyMPsText}">
                                     <Label.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding AskingMPsFilterCommand}"/>
+                                        <TapGestureRecognizer Command="{Binding AskingMPsMineFilterCommand}"/>
                                     </Label.GestureRecognizers>
                                 </Label>
                             </StackLayout>
