@@ -303,6 +303,9 @@
   <data name="NavigateOKText" xml:space="preserve">
     <value>Open in web browser</value>
   </data>
+  <data name="NoneDefaultText" xml:space="preserve">
+    <value>None</value>
+  </data>
   <data name="NextButtonText" xml:space="preserve">
     <value>Next</value>
   </data>

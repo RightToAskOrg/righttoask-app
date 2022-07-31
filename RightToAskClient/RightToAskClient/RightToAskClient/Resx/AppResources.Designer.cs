@@ -417,6 +417,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string NoneDefaultText {
+            get {
+                return ResourceManager.GetString("NoneDefaultText", resourceCulture);
+            }
+        }
+        
         internal static string NextButtonText {
             get {
                 return ResourceManager.GetString("NextButtonText", resourceCulture);
