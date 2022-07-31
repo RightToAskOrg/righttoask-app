@@ -705,6 +705,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string TapToEditText {
+            get {
+                return ResourceManager.GetString("TapToEditText", resourceCulture);
+            }
+        }
+        
         internal static string TapToEditFiltersText {
             get {
                 return ResourceManager.GetString("TapToEditFiltersText", resourceCulture);

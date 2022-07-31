@@ -63,6 +63,7 @@
                                     </Label>
                                 </StackLayout>
                                 <views:ClickableListView BindingContext="{Binding AnsweringMPsOther}"/>
+                                <!--
                                 <StackLayout Spacing="0" Margin="0" Padding="0">
                                     <Label Text="Other MP" Style="{StaticResource ClickableHeader}" >
                                         <Label.GestureRecognizers>
@@ -75,6 +76,7 @@
                                         </Label.GestureRecognizers>
                                     </Label>
                                 </StackLayout>
+                                -->
                                 <StackLayout Spacing="0" Margin="0" Padding="0">
                                     <Label Text="Public Authority" Style="{StaticResource ClickableHeader}" >
                                         <Label.GestureRecognizers>

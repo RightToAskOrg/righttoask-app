@@ -2,16 +2,31 @@
 <StackLayout xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              x:Class="RightToAskClient.Views.ClickableListView"
              x:DataType="vm:ClickableListViewModel">
-    <Label Text="{Binding Heading}" Style="{StaticResource ClickableHeader}" >
+    <Frame Style="{StaticResource ClickableFrame}">
+        <StackLayout Orientation="Vertical" Padding="0">
+        <StackLayout Orientation="Horizontal">
+        <Label Text="{Binding Heading}" Style="{StaticResource ClickableHeader}"
+               Margin="0,0,0,0" VerticalOptions="Center" Padding="10">
+        <Label.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding EditListCommand}"/>
+        </Label.GestureRecognizers>
+        </Label>
+        <Label HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End" Text="{xct:Translate TapToEditText}" 
+               Margin="0,0,10,0" VerticalOptions="Center" Style="{StaticResource InstructionText}" >
+        <Label.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding EditListCommand}"/>
+        </Label.GestureRecognizers>
+        </Label>
+    </StackLayout>
+    <Label Text="{Binding ListDisplayText}" Style="{StaticResource NormalText}"
+           Margin="10,0,10,10">
         <Label.GestureRecognizers>
             <TapGestureRecognizer Command="{Binding EditListCommand}"/>
         </Label.GestureRecognizers>
     </Label>
-    <Label Text="{Binding ListDisplayText}" Style="{StaticResource NormalText}">
-        <Label.GestureRecognizers>
-            <TapGestureRecognizer Command="{Binding EditListCommand}"/>
-        </Label.GestureRecognizers>
-    </Label>
+    </StackLayout>
+    </Frame>
 </StackLayout>

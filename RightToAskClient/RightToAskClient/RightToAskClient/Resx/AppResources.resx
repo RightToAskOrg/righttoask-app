@@ -447,6 +447,9 @@
   <data name="SuccessfullyUpdatedAccountText" xml:space="preserve">
     <value>Your account details were successfully updated.</value>
   </data>
+  <data name="TapToEditText" xml:space="preserve">
+    <value>Tap to edit</value>
+  </data>
   <data name="TapToEditFiltersText" xml:space="preserve">
     <value>Filters - Tap to edit</value>
   </data>
