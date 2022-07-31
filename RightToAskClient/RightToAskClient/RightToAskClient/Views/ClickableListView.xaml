@@ -10,23 +10,17 @@
         <StackLayout Orientation="Horizontal">
         <Label Text="{Binding Heading}" Style="{StaticResource ClickableHeader}"
                Margin="0,0,0,0" VerticalOptions="Center" Padding="10">
-        <Label.GestureRecognizers>
-            <TapGestureRecognizer Command="{Binding EditListCommand}"/>
-        </Label.GestureRecognizers>
         </Label>
         <Label HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End" Text="{xct:Translate TapToEditText}" 
                Margin="0,0,10,0" VerticalOptions="Center" Style="{StaticResource InstructionText}" >
-        <Label.GestureRecognizers>
-            <TapGestureRecognizer Command="{Binding EditListCommand}"/>
-        </Label.GestureRecognizers>
         </Label>
     </StackLayout>
     <Label Text="{Binding ListDisplayText}" Style="{StaticResource NormalText}"
            Margin="10,0,10,10">
-        <Label.GestureRecognizers>
-            <TapGestureRecognizer Command="{Binding EditListCommand}"/>
-        </Label.GestureRecognizers>
     </Label>
+            <StackLayout.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding EditListCommand}" />
+            </StackLayout.GestureRecognizers>
     </StackLayout>
     </Frame>
 </StackLayout>
