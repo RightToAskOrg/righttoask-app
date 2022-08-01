@@ -105,6 +105,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string AuthorityLabel {
+            get {
+                return ResourceManager.GetString("AuthorityLabel", resourceCulture);
+            }
+        }
+        
         internal static string AuthorityFilterLabelText {
             get {
                 return ResourceManager.GetString("AuthorityFilterLabelText", resourceCulture);

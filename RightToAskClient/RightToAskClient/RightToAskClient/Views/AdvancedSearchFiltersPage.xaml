@@ -37,7 +37,8 @@
                     <xct:Expander ForceUpdateSizeCommand="{Binding ForceUpdateSizeCommand}">
                         <xct:Expander.Header>                            
                             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                                <Label Text="Answered By" Style="{StaticResource Header2}"/>
+                                <Label Text="{xct:Translate ToBeAnsweredByText}" Style="{StaticResource Header2}"
+                                       Padding ="0,0,0,5" />
                                 <Image Source="{local:ImageResource RightToAskClient.Images.expand_48.png}" xct:IconTintColorEffect.TintColor="{StaticResource Primary}"  HorizontalOptions="EndAndExpand" VerticalOptions="Center">
                                     <Image.Triggers>
                                         <DataTrigger TargetType="Image" Binding="{Binding Source={RelativeSource AncestorType={x:Type xct:Expander}}, Path=IsExpanded}" Value="True">
@@ -49,36 +50,10 @@
                         </xct:Expander.Header>
                         <xct:Expander.Content>
                             <StackLayout>
-                                <!--<Label Text="Answered By" Style="{StaticResource LeftMedium}"/>-->
-                                <!-- 
-                                <StackLayout Spacing="0" Margin="0" Padding="0">
-                                    <Label Text="My MP" Style="{StaticResource ClickableHeader}" >
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding AnsweringMPsMineFilterCommand}"/>
-                                        </Label.GestureRecognizers>
-                                    </Label>
-                                    <Label Text="{Binding SelectedAnsweringMyMPsText}" Style="{StaticResource NormalText}">
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding AnsweringMPsMineFilterCommand}"/>
-                                        </Label.GestureRecognizers>
-                                    </Label>
-                                </StackLayout> -->
                                 <views:ClickableListView BindingContext="{Binding AnsweringMPsMine}"/>
                                 <views:ClickableListView BindingContext="{Binding AnsweringMPsOther}"/>
+                                <views:ClickableListView BindingContext="{Binding AnsweringAuthorities}"/>
                                 <!--
-                                <StackLayout Spacing="0" Margin="0" Padding="0">
-                                    <Label Text="Other MP" Style="{StaticResource ClickableHeader}" >
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding OtherAnsweringMPsFilterCommand}"/>
-                                        </Label.GestureRecognizers>
-                                    </Label>
-                                    <Label Text="{Binding SelectedAnsweringMPsText}" Style="{StaticResource NormalText}">
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding OtherAnsweringMPsFilterCommand}"/>
-                                        </Label.GestureRecognizers>
-                                    </Label>
-                                </StackLayout>
-                                -->
                                 <StackLayout Spacing="0" Margin="0" Padding="0">
                                     <Label Text="Public Authority" Style="{StaticResource ClickableHeader}" >
                                         <Label.GestureRecognizers>
@@ -90,7 +65,7 @@
                                             <TapGestureRecognizer Command="{Binding AnsweringAuthoritiesFilterCommand}"/>
                                         </Label.GestureRecognizers>
                                     </Label>
-                                </StackLayout>
+                                </StackLayout> -->
                                 <Grid ColumnDefinitions="auto,*,*,*">
                                     <Label Grid.Column="0" Text="Answer Staus?" VerticalOptions="Center"/>
                                     <Button Grid.Column="1" Text="Not Answered" FontSize="Micro"/>
@@ -118,6 +93,7 @@
                         </xct:Expander.Header>
                         <xct:Expander.Content>
                             <StackLayout>
+                                <!--
                                 <StackLayout Spacing="0" Margin="0" Padding="0">
                                     <Label Text="My MP" Style="{StaticResource ClickableHeader}" >
                                         <Label.GestureRecognizers>
@@ -129,7 +105,8 @@
                                             <TapGestureRecognizer Command="{Binding AskingMPsMineFilterCommand}"/>
                                         </Label.GestureRecognizers>
                                     </Label>
-                                </StackLayout>
+                                </StackLayout> -->
+                                <views:ClickableListView BindingContext="{Binding AskingMPsMine}"/>
                                 <StackLayout Spacing="0" Margin="0" Padding="0">
                                     <Label Text="Committee" Style="{StaticResource ClickableHeader}" >
                                         <Label.GestureRecognizers>
@@ -142,7 +119,8 @@
                                         </Label.GestureRecognizers>
                                     </Label>
                                 </StackLayout>
-                                <StackLayout Spacing="0" Margin="0" Padding="0">
+                                <views:ClickableListView BindingContext="{Binding AskingMPsOther}"></views:ClickableListView>
+                                <!-- <StackLayout Spacing="0" Margin="0" Padding="0">
                                     <Label Text="Other MP" Style="{StaticResource ClickableHeader}" >
                                         <Label.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding OtherAskingMPsFilterCommand}"/>
@@ -153,7 +131,7 @@
                                             <TapGestureRecognizer Command="{Binding OtherAskingMPsFilterCommand}"/>
                                         </Label.GestureRecognizers>
                                     </Label>
-                                </StackLayout>
+                                </StackLayout> -->
                                 <StackLayout Spacing="0" Margin="0" Padding="0">
                                     <Label Text="Right to Ask Participant" Style="{StaticResource ClickableHeader}" >
                                         <Label.GestureRecognizers>

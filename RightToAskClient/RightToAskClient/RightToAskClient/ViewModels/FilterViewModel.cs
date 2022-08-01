@@ -24,6 +24,9 @@ namespace RightToAskClient.ViewModels
 
         public ClickableListViewModel AnsweringMPsOther { get; }
         public ClickableListViewModel AnsweringMPsMine { get; }
+        public ClickableListViewModel AnsweringAuthorities { get; }
+        public ClickableListViewModel AskingMPsOther { get; }
+        public ClickableListViewModel AskingMPsMine { get; }
 
         public List<string> CommitteeList = new List<string>();
         private string _committeeText = "";
@@ -152,7 +155,40 @@ namespace RightToAskClient.ViewModels
                 }),
                 Heading = AppResources.OtherMP,
             };
-            
+            AnsweringAuthorities = new ClickableListViewModel(FilterChoices.AuthorityLists)
+            {
+                EditListCommand = new Command(() =>
+                {
+                    _ = EditAuthoritiesClicked().ContinueWith((_) =>
+                    {
+                        MessagingCenter.Send(this, "FromFiltersPage");
+                    });
+                }),
+                Heading = AppResources.AuthorityLabel,
+            };
+            AskingMPsMine = new ClickableListViewModel(FilterChoices.AskingMPsListsMine)
+            {
+                EditListCommand = new Command(() =>
+                {
+                    _ = EditSelectedAskingMPsClicked().ContinueWith((_) =>
+                    {
+                        MessagingCenter.Send(this, "FromFiltersPage");
+                    });
+                }),
+                Heading = AppResources.MyMPButtonText
+            };
+            AskingMPsOther = new ClickableListViewModel(FilterChoices.AskingMPsListsNotMine)
+            {
+                EditListCommand = new Command(() =>
+                {
+                    _ = EditOtherSelectedAskingMPsClicked().ContinueWith((_) =>
+                    {
+                        MessagingCenter.Send(this, "FromFiltersPage");
+                    });
+                }),
+                Heading = AppResources.OtherMP
+            };
+
             // commands
             AnsweringMPsMineFilterCommand = new Command(() =>
             {
@@ -222,6 +258,7 @@ namespace RightToAskClient.ViewModels
             });
         }
 
+
         // commands
         public Command AnsweringMPsMineFilterCommand { get; }
         public Command AskingMPsMineFilterCommand { get; }
@@ -267,6 +304,9 @@ namespace RightToAskClient.ViewModels
             OnPropertyChanged("PublicAuthoritiesText");
             OnPropertyChanged("AnsweringMPsOther");
             OnPropertyChanged("AnsweringMPsMine");
+            OnPropertyChanged("AnsweringAuthorities");  
+            OnPropertyChanged("AskingMPsOther");
+            OnPropertyChanged("AskingMPsMine");
             
             OtherRightToAskUserText = CreateTextGivenListEntities(OtherRightToAskUserList);
             CommitteeText = CreateTextGivenListCommittees(CommitteeList);

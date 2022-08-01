@@ -147,6 +147,9 @@
   <data name="AskerPermissions" xml:space="preserve">
     <value>Allow other users to add more people to raise the question?</value>
   </data>
+  <data name="AuthorityLabel" xml:space="preserve">
+    <value>Public Authority</value>
+  </data>
   <data name="AuthorityFilterLabelText" xml:space="preserve">
     <value>Authorities who should answer the question</value>
   </data>
@@ -457,7 +460,7 @@
     <value>Filters - Tap to edit</value>
   </data>
   <data name="ToBeAnsweredByText" xml:space="preserve">
-    <value>To be answered by</value>
+    <value>Answered by</value>
   </data>
   <data name="ThatsMe" xml:space="preserve">
     <value>That's me</value>
