@@ -20,10 +20,10 @@ namespace RightToAskClient.ViewModels
         public static FilterViewModel Instance => _instance ??= new FilterViewModel();
 
         // properties
-        // public FilterDisplayTableView FilterDisplay = new FilterDisplayTableView();
         private FilterChoices FilterChoices => App.ReadingContext.Filters;
 
         public ClickableListViewModel AnsweringMPsOther { get; }
+        public ClickableListViewModel AnsweringMPsMine { get; }
 
         public List<string> CommitteeList = new List<string>();
         private string _committeeText = "";
@@ -108,13 +108,11 @@ namespace RightToAskClient.ViewModels
             MessagingCenter.Subscribe<QuestionViewModel>(this, "UpdateFilters", (sender) =>
             {
                 ReinitData();
-                // if (AnsweringMPsOther != null) AnsweringMPsOther.ReInitData();
                 MessagingCenter.Unsubscribe<QuestionViewModel>(this, "UpdateFilters");
             });
             MessagingCenter.Subscribe<SelectableListViewModel>(this, "UpdateFilters", (sender) =>
             {
                 ReinitData();
-                // if (AnsweringMPsOther != null) AnsweringMPsOther.ReInitData();
                 // Normally we'd want to unsubscribe to prevent multiple instances of the subscriber from happening,
                 // but because these listeners happen when popping back to this page from a selectableList page we want to keep the listener/subscriber
                 // active to update all of the lists/filters on this page with the newly selected data
@@ -129,6 +127,20 @@ namespace RightToAskClient.ViewModels
             Title = AppResources.AdvancedSearchButtonText; 
             ReinitData(); // to set the display strings
 
+            AnsweringMPsMine = new ClickableListViewModel(FilterChoices.AnsweringMPsListsMine)
+            {
+                // FIXME This isn't quite right when the MPs are not known - seems to push a 
+                // list to choose from and then go to a reading page, rather than popping on completion
+                // and returning to the search page.
+                EditListCommand = new Command(() =>
+                {
+                    _ = EditSelectedAnsweringMPsMineClicked().ContinueWith((_) =>
+                    {
+                        MessagingCenter.Send(this, "FromFiltersPage"); // Sends this view model
+                    });
+                }),
+                Heading = AppResources.MyMPButtonText
+            };
             AnsweringMPsOther = new ClickableListViewModel(FilterChoices.AnsweringMPsListsNotMine)
             {
                 EditListCommand = new Command(() =>
@@ -144,7 +156,7 @@ namespace RightToAskClient.ViewModels
             // commands
             AnsweringMPsMineFilterCommand = new Command(() =>
             {
-                _ = EditSelectedAnsweringMPsClicked().ContinueWith((_) =>
+                _ = EditSelectedAnsweringMPsMineClicked().ContinueWith((_) =>
                   {
                       MessagingCenter.Send(this, "FromFiltersPage"); // Sends this view model
                 });
@@ -254,6 +266,7 @@ namespace RightToAskClient.ViewModels
             OnPropertyChanged("SelectedAnsweringMyMPsText");
             OnPropertyChanged("PublicAuthoritiesText");
             OnPropertyChanged("AnsweringMPsOther");
+            OnPropertyChanged("AnsweringMPsMine");
             
             OtherRightToAskUserText = CreateTextGivenListEntities(OtherRightToAskUserList);
             CommitteeText = CreateTextGivenListCommittees(CommitteeList);
@@ -284,7 +297,7 @@ namespace RightToAskClient.ViewModels
             return text;
         }
 
-        private async Task EditSelectedAnsweringMPsClicked()
+        private async Task EditSelectedAnsweringMPsMineClicked()
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {

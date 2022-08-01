@@ -50,6 +50,7 @@
                         <xct:Expander.Content>
                             <StackLayout>
                                 <!--<Label Text="Answered By" Style="{StaticResource LeftMedium}"/>-->
+                                <!-- 
                                 <StackLayout Spacing="0" Margin="0" Padding="0">
                                     <Label Text="My MP" Style="{StaticResource ClickableHeader}" >
                                         <Label.GestureRecognizers>
@@ -61,7 +62,8 @@
                                             <TapGestureRecognizer Command="{Binding AnsweringMPsMineFilterCommand}"/>
                                         </Label.GestureRecognizers>
                                     </Label>
-                                </StackLayout>
+                                </StackLayout> -->
+                                <views:ClickableListView BindingContext="{Binding AnsweringMPsMine}"/>
                                 <views:ClickableListView BindingContext="{Binding AnsweringMPsOther}"/>
                                 <!--
                                 <StackLayout Spacing="0" Margin="0" Padding="0">
