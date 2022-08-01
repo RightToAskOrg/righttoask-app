@@ -31,6 +31,7 @@
             <!-- Darkest: #36642f -->
             <!-- almost-darkest: #538740 -->
             <!-- lighter: #77af53 #85bf5c #96c973 #a9d28c #c1dfac #d9eccc #f0f8eb (lightest) -->
+            <!-- Complementary: #6f4291 -->
             <!-- Based on emu-neck blue Primary #18a9c7 
                 Darkest: #035f68
                 Lighter: #83dcf0     -->
@@ -55,8 +56,11 @@
             
             <!-- Second theme colour -->
             <Color x:Key="ClickableLinkColor">#695f44</Color> 
-            <Color x:Key="ClickableLinkColorDark">#a79c7e</Color> 
+            <Color x:Key="ClickableLinkColorDark">#a79c7e</Color>  
+            
             <!-- Not used 
+            <Color x:Key="ClickableLinkColor">#6f4291</Color> 
+            <Color x:Key="ClickableLinkColorDark">#ad7cbf</Color> 
             <Color x:Key="ClickableLinkColor2">#9a4119</Color> 
             <Color x:Key="ClickableLinkColor2Dark">#9a4119</Color> 
             <Color x:Key="ClickableLinkColor1">#035f68</Color> 
@@ -75,8 +79,13 @@
             
             <!-- white/grey/black/beige text & background colors -->
             <Color x:Key="WindowBackgroundColor">#f2f2f7</Color>
-            <Color x:Key="WindowBackgroundColorDark">#14171c</Color>
+            <!-- <Color x:Key="WindowBackgroundColorDark">#14171c</Color>-->
+            <Color x:Key="WindowBackgroundColorDark">#000000</Color>
             
+            <!-- One of these is light brown, the other dark purple. Not currently a coherent style.-->
+            <Color x:Key="EmuFeatherBackgroundColor">#c7bb9d</Color>    
+            <Color x:Key="EmuFeatherBackgroundColorDark">#271f03</Color> 
+              
             <Color x:Key="TextColor">black</Color>
             <Color x:Key="TextColorGreen">#36642f</Color>
             <Color x:Key="TextColorGray">Gray</Color>
@@ -262,7 +271,8 @@
                 <Setter Property="Padding" Value="0"></Setter>
             </Style>
             <Style x:Key="AppThemeFramePadding" TargetType="Frame">
-                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}"></Setter>
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}"></Setter> 
+                <!-- <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource EmuFeatherBackgroundColor}, Dark={StaticResource EmuFeatherBackgroundColorDark}}"></Setter>-->
                 <Setter Property="CornerRadius" Value="0"></Setter>
                 <Setter Property="BorderColor" Value="{StaticResource FrameColor}"></Setter>
                 <Setter Property="Padding" Value="5"></Setter>
