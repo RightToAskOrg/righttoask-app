@@ -53,25 +53,22 @@
                                 <views:ClickableListView BindingContext="{Binding AnsweringMPsMine}"/>
                                 <views:ClickableListView BindingContext="{Binding AnsweringMPsOther}"/>
                                 <views:ClickableListView BindingContext="{Binding AnsweringAuthorities}"/>
-                                <!--
-                                <StackLayout Spacing="0" Margin="0" Padding="0">
-                                    <Label Text="Public Authority" Style="{StaticResource ClickableHeader}" >
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding AnsweringAuthoritiesFilterCommand}"/>
-                                        </Label.GestureRecognizers>
-                                    </Label>
-                                    <Label Text="{Binding PublicAuthoritiesText}" Style="{StaticResource NormalText}">
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding AnsweringAuthoritiesFilterCommand}"/>
-                                        </Label.GestureRecognizers>
-                                    </Label>
-                                </StackLayout> -->
-                                <Grid ColumnDefinitions="auto,*,*,*">
-                                    <Label Grid.Column="0" Text="Answer Staus?" VerticalOptions="Center"/>
-                                    <Button Grid.Column="1" Text="Not Answered" FontSize="Micro"/>
-                                    <Button Grid.Column="2" Text="Partially Answered" FontSize="Micro"/>
-                                    <Button Grid.Column="3" Text="Fully Answered" FontSize="Micro"/>
-                                </Grid>
+                                <Label Text="Answered?" Padding="10,0,0,0" 
+                                       Style="{StaticResource NormalText}" VerticalOptions="Center"/>
+                                <StackLayout Orientation="Horizontal" Spacing="40" HorizontalOptions="CenterAndExpand">
+                                    <StackLayout Orientation="Horizontal" VerticalOptions="Center">
+                                        <CheckBox IsChecked="False" />
+                                        <Label Text="No" Style="{StaticResource NormalText}" VerticalTextAlignment="Center" />
+                                    </StackLayout>
+                                    <StackLayout Orientation="Horizontal" VerticalOptions="Center">
+                                        <CheckBox IsChecked="False" />
+                                        <Label Text="Yes" Style="{StaticResource NormalText}" VerticalTextAlignment="Center" />
+                                    </StackLayout>
+                                    <StackLayout Orientation="Horizontal" VerticalOptions="Center">
+                                        <CheckBox IsChecked="True" />
+                                        <Label Text="Either" Style="{StaticResource NormalText}" VerticalTextAlignment="Center" />
+                                    </StackLayout>
+                                </StackLayout>
                             </StackLayout>
                         </xct:Expander.Content>
                     </xct:Expander>
