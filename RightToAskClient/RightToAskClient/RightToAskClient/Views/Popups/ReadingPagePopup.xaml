@@ -19,19 +19,16 @@
                      BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}">
             <StackLayout VerticalOptions="FillAndExpand" BackgroundColor="Transparent">
                 <Label Text="{xct:Translate ReadingPageHeader1}" VerticalOptions="Center"
-                       VerticalTextAlignment="Center" LineHeight="1.3"
-                       HorizontalOptions="Start" HorizontalTextAlignment="Start" Style="{StaticResource LeftJustifiedPopupText}"
-                       TextColor="{AppThemeBinding Light={StaticResource TextColor}, 
-                   Dark={StaticResource TextColorDark}}" />
+                       VerticalTextAlignment="Center" LineHeight="1.3" Style="{StaticResource PopupText}" />
                 <Grid ColumnDefinitions="*,*" VerticalOptions="EndAndExpand" BackgroundColor="Transparent">
-                    <Button Text="{xct:Translate OKText}" Grid.Column="1" Clicked="Button_Clicked" FontAttributes="Bold" FontSize="Large"
-                            TextColor="{StaticResource TextColorGreen}" HeightRequest="50"
-                            BackgroundColor="Transparent" Margin="0" Padding="0" HorizontalOptions="FillAndExpand" />
+                    <Button Text="{xct:Translate OKText}" Grid.Column="1" Clicked="Button_Clicked" 
+                            Style="{StaticResource PopupOKButton}" />
                 </Grid>
+                <!--
                 <StackLayout Orientation="Horizontal" Margin="0,0,0,0">
                     <Label Text="Don't show this again: " VerticalOptions="Center" />
                     <CheckBox IsChecked="{Binding DontShowFirstTimeReadingPopup}" />
-                </StackLayout>
+                </StackLayout>  -->
             </StackLayout>
         </StackLayout>
     </ScrollView>

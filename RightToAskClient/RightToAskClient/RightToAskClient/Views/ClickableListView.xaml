@@ -16,7 +16,7 @@
         </Label>
     </StackLayout>
     <Label Text="{Binding ListDisplayText}" Style="{StaticResource NormalText}"
-           Margin="10,0,10,10">
+           LineBreakMode="WordWrap" Margin="10,0,10,10">
     </Label>
             <StackLayout.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding EditListCommand}" />

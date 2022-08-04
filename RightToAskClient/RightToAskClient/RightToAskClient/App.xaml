@@ -12,6 +12,7 @@
         <ResourceDictionary>
             <!--Converter-->
             <helpers:InvertConvert x:Key="cnvInvert" />
+            <helpers:NullorEmptyConvert x:Key="emptyToFalse" />
             <!-- Website colors -->
             <!--
             light green: #649b49

@@ -10,17 +10,14 @@
                BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}">
         <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent">
             <Label x:Name="mainTitle" VerticalOptions="StartAndExpand" VerticalTextAlignment="Center" 
-                   HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource Header1}"
+                   HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource PopupHeaderText}"
                    TextColor="{AppThemeBinding Light={StaticResource TextColor}, 
                    Dark={StaticResource TextColorDark}}"/>
             <Label x:Name="mainMessage" VerticalOptions="StartAndExpand" VerticalTextAlignment="Center" 
-                   HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource Header2}"
-                   TextColor="{AppThemeBinding Light={StaticResource TextColor}, 
-                   Dark={StaticResource TextColorDark}}"/>
+                   HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource PopupText}"/>
             <Grid ColumnDefinitions="*,*" VerticalOptions="EndAndExpand">
-                <Button x:Name="okButton" Grid.Column="1" Clicked="okButton_Clicked" FontSize="Small" 
-                        TextColor="{StaticResource TextColorGreen}" HeightRequest="50" BackgroundColor="Transparent" Margin="0" 
-                        Padding="0" HorizontalOptions="FillAndExpand"/>
+                <Button x:Name="okButton" Grid.Column="1" Clicked="okButton_Clicked" 
+                        Style="{StaticResource PopupOKButton}" />
             </Grid>
         </StackLayout>
     </Frame>
