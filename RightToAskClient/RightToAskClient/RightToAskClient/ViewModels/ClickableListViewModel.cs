@@ -25,6 +25,12 @@ namespace RightToAskClient.ViewModels
             get => createText();
         }
 
+        private readonly Func<bool> _anySelections;
+        public bool AnySelections 
+        {
+            get => _anySelections();
+        }
+
         private string _heading = "";
 
         public string Heading
@@ -40,12 +46,14 @@ namespace RightToAskClient.ViewModels
         {
             SubscribeToTheRightMessages();
             createText = (() => CreateTextGivenListSelectableEntities<MP>(mpList));
+            _anySelections = () => mpList.SelectedEntities.Any();
         }
         
         public ClickableListViewModel(SelectableList<Authority> authorityList)
         {
             SubscribeToTheRightMessages();
             createText = (() => CreateTextGivenListSelectableEntities<Authority>(authorityList));
+            _anySelections = () => authorityList.SelectedEntities.Any();
         }
 
         // commands

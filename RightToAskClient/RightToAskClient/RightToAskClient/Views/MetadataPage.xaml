@@ -22,9 +22,9 @@
                     <StackLayout>
                         <Label Text="{xct:Translate WhoShouldAnswerTitle}" Style="{StaticResource Header2}" />
                         <StackLayout>
-                            <views:ClickableListView BindingContext="{Binding AnsweringMPsMine}"/>
-                            <views:ClickableListView BindingContext="{Binding AnsweringMPsOther}"/>
-                            <views:ClickableListView BindingContext="{Binding AnsweringAuthorities}"/>
+                            <views:ClickableListView x:Name="myMPsToAnswer" BindingContext="{Binding AnsweringMPsMine}"/>
+                            <views:ClickableListView x:Name="otherMPsToAnswer" BindingContext="{Binding AnsweringMPsOther}"/>
+                            <views:ClickableListView x:Name="authoritiesToAnswer" BindingContext="{Binding AnsweringAuthorities}"/>
                             <!-- 
                             <StackLayout Spacing="0" Margin="0" Padding="0">
                                 <Label Text="My MP" Style="{StaticResource ClickableHeader}">
@@ -89,7 +89,7 @@
                                 </Label>
                             </StackLayout> -->
                            
-                            <views:ClickableListView BindingContext="{Binding AskingMPsMine}"/>
+                            <views:ClickableListView x:Name="myMPsToRaise" BindingContext="{Binding AskingMPsMine}"/>
                             <StackLayout Spacing="0" Margin="0" Padding="0">
                                 <Label Text="Committee" Style="{StaticResource ClickableHeader}">
                                     <Label.GestureRecognizers>
@@ -116,7 +116,7 @@
                                 </Label>
                             </StackLayout>
                             -->
-                            <views:ClickableListView BindingContext="{Binding AskingMPsOther}"></views:ClickableListView>
+                            <views:ClickableListView x:Name="otherMPsToRaise" BindingContext="{Binding AskingMPsOther}"/>
                             <StackLayout Spacing="0" Margin="0" Padding="0">
                                 <Label Text="Right to Ask Participant" Style="{StaticResource ClickableHeader}">
                                     <Label.GestureRecognizers>
