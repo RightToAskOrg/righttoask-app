@@ -252,6 +252,12 @@
   <data name="IAmAStaffer" xml:space="preserve">
     <value>I am their staffer</value>
   </data>
+  <data name="IncludeAnsweredQuestions" xml:space="preserve">
+    <value>Include answered questions?</value>
+  </data>
+  <data name="IncludeUnansweredQuestions" xml:space="preserve">
+    <value>Include questions with no answer? </value>
+  </data>
   <data name="KeepQuestionButtonText" xml:space="preserve">
     <value>Publish</value>
   </data>

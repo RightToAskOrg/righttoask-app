@@ -53,22 +53,12 @@
                                 <views:ClickableListView BindingContext="{Binding AnsweringMPsMine}"/>
                                 <views:ClickableListView BindingContext="{Binding AnsweringMPsOther}"/>
                                 <views:ClickableListView BindingContext="{Binding AnsweringAuthorities}"/>
-                                <Label Text="Answered?" Padding="10,0,0,0" 
-                                       Style="{StaticResource NormalText}" VerticalOptions="Center"/>
-                                <StackLayout Orientation="Horizontal" Spacing="40" HorizontalOptions="CenterAndExpand">
-                                    <StackLayout Orientation="Horizontal" VerticalOptions="Center">
-                                        <CheckBox IsChecked="False" />
-                                        <Label Text="No" Style="{StaticResource NormalText}" VerticalTextAlignment="Center" />
-                                    </StackLayout>
-                                    <StackLayout Orientation="Horizontal" VerticalOptions="Center">
-                                        <CheckBox IsChecked="False" />
-                                        <Label Text="Yes" Style="{StaticResource NormalText}" VerticalTextAlignment="Center" />
-                                    </StackLayout>
-                                    <StackLayout Orientation="Horizontal" VerticalOptions="Center">
-                                        <CheckBox IsChecked="True" />
-                                        <Label Text="Either" Style="{StaticResource NormalText}" VerticalTextAlignment="Center" />
-                                    </StackLayout>
-                                </StackLayout>
+                                <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="Auto, Auto" RowSpacing="10">
+                                        <Label Grid.Column="0" Text="{xct:Translate IncludeAnsweredQuestions}" Style="{StaticResource NormalText}" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" />
+                                        <CheckBox Grid.Column="1" IsChecked="True" />
+                                        <Label Grid.Row="1" Grid.Column="0" Text="{xct:Translate IncludeUnansweredQuestions}" Style="{StaticResource NormalText}" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" />
+                                        <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="True" />
+                                </Grid>
                             </StackLayout>
                         </xct:Expander.Content>
                     </xct:Expander>

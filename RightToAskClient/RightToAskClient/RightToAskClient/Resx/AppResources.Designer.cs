@@ -315,6 +315,18 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string IncludeAnsweredQuestions {
+            get {
+                return ResourceManager.GetString("IncludeAnsweredQuestions", resourceCulture);
+            }
+        }
+        
+        internal static string IncludeUnansweredQuestions {
+            get {
+                return ResourceManager.GetString("IncludeUnansweredQuestions", resourceCulture);
+            }
+        }
+        
         internal static string KeepQuestionButtonText {
             get {
                 return ResourceManager.GetString("KeepQuestionButtonText", resourceCulture);

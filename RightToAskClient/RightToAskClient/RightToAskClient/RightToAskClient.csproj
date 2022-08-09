@@ -161,6 +161,7 @@
     <Compile Remove="Views\ExploringPage.xaml.cs" />
     <Compile Remove="Views\ExploringPageWithSearch.xaml.cs" />
     <Compile Remove="Views\ExploringPageWithSearchAndPreSelections.xaml.cs" />
+    <Compile Remove="Views\EmptySelectableListSearchView.xaml.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Views\SecondPage_old.xaml" />
@@ -255,6 +256,7 @@
     <EmbeddedResource Remove="Views\ExploringPage.xaml" />
     <EmbeddedResource Remove="Views\ExploringPageWithSearch.xaml" />
     <EmbeddedResource Remove="Views\ExploringPageWithSearchAndPreSelections.xaml" />
+    <EmbeddedResource Remove="Views\EmptySelectableListSearchView.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Essentials">
@@ -266,9 +268,6 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>AppResources.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Views\EmptySelectableListSearchView.xaml.cs">
-      <DependentUpon>EmptySelectableListSearchView.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\QuestionDraftingPage.xaml.cs">
       <DependentUpon>QuestionDraftingPage.xaml</DependentUpon>
@@ -298,9 +297,6 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\EmptyCollectionView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\EmptySelectableListSearchView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\FlowOptionPage.xaml">
