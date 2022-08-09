@@ -147,6 +147,9 @@
   <data name="AskerPermissions" xml:space="preserve">
     <value>Allow other users to add more people to raise the question?</value>
   </data>
+  <data name="AuthorityLabel" xml:space="preserve">
+    <value>Public Authority</value>
+  </data>
   <data name="AuthorityFilterLabelText" xml:space="preserve">
     <value>Authorities who should answer the question</value>
   </data>
@@ -249,6 +252,12 @@
   <data name="IAmAStaffer" xml:space="preserve">
     <value>I am their staffer</value>
   </data>
+  <data name="IncludeAnsweredQuestions" xml:space="preserve">
+    <value>Include answered questions?</value>
+  </data>
+  <data name="IncludeUnansweredQuestions" xml:space="preserve">
+    <value>Include questions with no answer? </value>
+  </data>
   <data name="KeepQuestionButtonText" xml:space="preserve">
     <value>Publish</value>
   </data>
@@ -303,6 +312,9 @@
   <data name="NavigateOKText" xml:space="preserve">
     <value>Open in web browser</value>
   </data>
+  <data name="NoneDefaultText" xml:space="preserve">
+    <value>None</value>
+  </data>
   <data name="NextButtonText" xml:space="preserve">
     <value>Next</value>
   </data>
@@ -317,6 +329,9 @@
   </data>
   <data name="OrHeaderText" xml:space="preserve">
     <value>Or</value>
+  </data>
+  <data name="OtherMP" xml:space="preserve">
+    <value>Other MPs</value>
   </data>
   <data name="OtherMPAnswerFilterLabelText" xml:space="preserve">
     <value>Other MPs who should answer the question</value>
@@ -444,11 +459,14 @@
   <data name="SuccessfullyUpdatedAccountText" xml:space="preserve">
     <value>Your account details were successfully updated.</value>
   </data>
+  <data name="TapToEditText" xml:space="preserve">
+    <value>Tap to edit</value>
+  </data>
   <data name="TapToEditFiltersText" xml:space="preserve">
     <value>Filters - Tap to edit</value>
   </data>
   <data name="ToBeAnsweredByText" xml:space="preserve">
-    <value>To be answered by</value>
+    <value>Answered by</value>
   </data>
   <data name="ThatsMe" xml:space="preserve">
     <value>That's me</value>
@@ -781,55 +799,73 @@
     <value>How To Publish</value>
   </data>
   <data name="HowToStep1" xml:space="preserve">
-    <value>your specific question.</value>
+    <value>your question.</value>
   </data>
   <data name="HowToStep1Bold" xml:space="preserve">
-    <value>Compose </value>
+    <value>Write </value>
   </data>
   <data name="HowToStep1Number" xml:space="preserve">
     <value>1. </value>
   </data>
   <data name="HowToStep2" xml:space="preserve">
-    <value>to the right place. Chose to </value>
+    <value>your question to the right place. </value>
+  </data>
+  <data name="HowToStep2abold" xml:space="preserve">
+    <value>Ask a specific MP to answer </value>
   </data>
   <data name="HowToStep2a" xml:space="preserve">
-    <value>Direct your question to a specific MP to be answered within the App OR</value>
+    <value>within the App, or </value>
   </data>
   <data name="HowToStep2aLetter" xml:space="preserve">
-    <value>a. </value>
+    <value>* </value>
   </data>
   <data name="HowToStep2b" xml:space="preserve">
-    <value>Escalate your question to be Raised in Parliament, or to a Senate Committee, who should raise it and answer it (not answered within App)</value>
+    <value>Ask for it to be </value>
+  </data>
+  <data name="HowToStep2bbold" xml:space="preserve">
+    <value>raised in Parliament. </value>
+  </data>
+  <data name="HowToStep2bend" xml:space="preserve">
+    <value>Choose who should answer, and which Committee or MP should raise it. </value>
   </data>
   <data name="HowToStep2bLetter" xml:space="preserve">
-    <value>b. </value>
+    <value>* </value>
   </data>
   <data name="HowToStep2Bold1" xml:space="preserve">
-    <value>Direct your question </value>
+    <value>Direct </value>
   </data>
-  <data name="HowToStep2Bold2" xml:space="preserve">
-    <value>either: </value>
+  <data name="HowToStep2Or" xml:space="preserve">
+    <value>or </value>
   </data>
   <data name="HowToStep2Number" xml:space="preserve">
     <value>2. </value>
   </data>
   <data name="HowToStep3" xml:space="preserve">
-    <value>– don’t duplicate the same question!  Focus support and increase importance by up-voting an existing question.</value>
+    <value>Don’t duplicate the same question!  Focus support and increase importance by up-voting an existing question.</value>
   </data>
   <data name="HowToStep3Bold" xml:space="preserve">
-    <value>Review Existing Similar Questions </value>
+    <value>Review </value>
+  </data>
+  <data name="HowToStep3part2" xml:space="preserve">
+    <value>Existing Similar Questions. </value>
   </data>
   <data name="HowToStep3Number" xml:space="preserve">
     <value>3. </value>
   </data>
   <data name="HowToStep4" xml:space="preserve">
-    <value>Optional - provide additional background.</value>
+    <value>Provide additional </value>
+  </data>
+  <data name="HowToStep4Bold" xml:space="preserve">
+    <value>background </value>
+  </data>
+  <data name="HowToStep4Part2" xml:space="preserve">
+    <value>(optional).</value>
   </data>
   <data name="HowToStep4Number" xml:space="preserve">
     <value>4. </value>
   </data>
   <data name="HowToStep5" xml:space="preserve">
-    <value>your Question.</value>
+    <value>your Question!</value>
   </data>
   <data name="HowToStep5Bold" xml:space="preserve">
     <value>Publish </value>

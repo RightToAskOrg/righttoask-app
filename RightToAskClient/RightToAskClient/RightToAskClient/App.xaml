@@ -12,6 +12,7 @@
         <ResourceDictionary>
             <!--Converter-->
             <helpers:InvertConvert x:Key="cnvInvert" />
+            <helpers:NullorEmptyConvert x:Key="emptyToFalse" />
             <!-- Website colors -->
             <!--
             light green: #649b49
@@ -31,6 +32,7 @@
             <!-- Darkest: #36642f -->
             <!-- almost-darkest: #538740 -->
             <!-- lighter: #77af53 #85bf5c #96c973 #a9d28c #c1dfac #d9eccc #f0f8eb (lightest) -->
+            <!-- Complementary: #6f4291 -->
             <!-- Based on emu-neck blue Primary #18a9c7 
                 Darkest: #035f68
                 Lighter: #83dcf0     -->
@@ -54,14 +56,18 @@
             <Color x:Key="FrameColor">#c1dfac</Color> 
             
             <!-- Second theme colour -->
-            <Color x:Key="ClickableLinkColor">#9a4119</Color> 
-            <Color x:Key="ClickableLinkColorDark">#9a4119</Color> 
+            <Color x:Key="ClickableLinkColor">#695f44</Color> 
+            <Color x:Key="ClickableLinkColorDark">#a79c7e</Color>  
+            
+            <!-- Not used 
+            <Color x:Key="ClickableLinkColor">#6f4291</Color> 
+            <Color x:Key="ClickableLinkColorDark">#ad7cbf</Color> 
+            <Color x:Key="ClickableLinkColor2">#9a4119</Color> 
+            <Color x:Key="ClickableLinkColor2Dark">#9a4119</Color> 
             <Color x:Key="ClickableLinkColor1">#035f68</Color> 
             <Color x:Key="ClickableLinkColor1Dark">#18a9c7</Color> 
-            <Color x:Key="ClickableLinkColor2">#695f44</Color> 
-            <Color x:Key="ClickableLinkColor2Dark">#a79c7e</Color> 
             <Color x:Key="ClickableLinkColor3">#6453e6</Color> 
-            <Color x:Key="ClickableLinkColor3Dark">#6453e6</Color> 
+            <Color x:Key="ClickableLinkColor3Dark">#6453e6</Color>  -->
             
             <!-- Highlight / Alert colours -->
             <!-- Note that this mostly doesn't have much effect and has been separately
@@ -74,8 +80,13 @@
             
             <!-- white/grey/black/beige text & background colors -->
             <Color x:Key="WindowBackgroundColor">#f2f2f7</Color>
-            <Color x:Key="WindowBackgroundColorDark">#14171c</Color>
+            <!-- <Color x:Key="WindowBackgroundColorDark">#14171c</Color>-->
+            <Color x:Key="WindowBackgroundColorDark">#000000</Color>
             
+            <!-- One of these is light brown, the other dark purple. Not currently a coherent style.-->
+            <Color x:Key="EmuFeatherBackgroundColor">#c7bb9d</Color>    
+            <Color x:Key="EmuFeatherBackgroundColorDark">#271f03</Color> 
+              
             <Color x:Key="TextColor">black</Color>
             <Color x:Key="TextColorGreen">#36642f</Color>
             <Color x:Key="TextColorGray">Gray</Color>
@@ -86,6 +97,12 @@
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, 
                    Dark={StaticResource TextColorDark}}"></Setter>
                 <Setter Property="FontFamily" Value="AppFont"/>
+            </Style>
+            <Style x:Key="InstructionText" TargetType="Label" ApplyToDerivedTypes="True">
+                <Setter Property="TextColor"
+                        Value="{AppThemeBinding Light={StaticResource ClickableLinkColor}, 
+                   Dark={StaticResource ClickableLinkColorDark}}">
+                </Setter>
             </Style>
             <Style TargetType="Entry">
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColorGray}, 
@@ -245,8 +262,18 @@
                 <!-- <Setter Property="BorderColor" Value="{StaticResource AlertColor}"></Setter> -->
                 <Setter Property="Padding" Value="0"></Setter>
             </Style>
+            <Style x:Key="ClickableFrame" TargetType="Frame">
+                <Setter Property="BorderColor" Value="{StaticResource ClickableLinkColor}"></Setter> 
+                <Setter Property="CornerRadius" Value="10"></Setter>
+                <Setter Property="BackgroundColor" 
+                        Value="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, 
+                                                                              Dark={StaticResource WindowBackgroundColorDark}}"></Setter>
+                <!-- <Setter Property="BorderColor" Value="{StaticResource AlertColor}"></Setter> -->
+                <Setter Property="Padding" Value="0"></Setter>
+            </Style>
             <Style x:Key="AppThemeFramePadding" TargetType="Frame">
-                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}"></Setter>
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}"></Setter> 
+                <!-- <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource EmuFeatherBackgroundColor}, Dark={StaticResource EmuFeatherBackgroundColorDark}}"></Setter>-->
                 <Setter Property="CornerRadius" Value="0"></Setter>
                 <Setter Property="BorderColor" Value="{StaticResource FrameColor}"></Setter>
                 <Setter Property="Padding" Value="5"></Setter>
@@ -327,7 +354,7 @@
                 <Setter Property="Margin" Value="0, 10, 0, 0"/>
             </Style>
             <Style x:Key="ClickableHeader" TargetType="Label">
-                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource ClickableLinkColor3}, Dark={StaticResource ClickableLinkColor3Dark}}"></Setter>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource ClickableLinkColor}, Dark={StaticResource ClickableLinkColorDark}}"></Setter>
                 <Setter Property="FontSize" Value="Medium"></Setter>
                 <Setter Property="FontAttributes" Value="Bold"></Setter>
                 <Setter Property="TextDecorations" Value="Underline"/>

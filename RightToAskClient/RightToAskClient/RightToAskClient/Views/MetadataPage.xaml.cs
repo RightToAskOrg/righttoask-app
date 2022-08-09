@@ -17,8 +17,19 @@ namespace RightToAskClient.Views
         {
             InitializeComponent();
             BindingContext = FilterViewModel.Instance;
-            // update the filters on the filtersViewModelInstance
-            // FilterViewModel.Instance.ReinitData();
+
+            // Hide the clickable lists that are invisible.
+            hideEmpties(myMPsToAnswer);
+            hideEmpties(otherMPsToAnswer);
+            hideEmpties(myMPsToRaise);
+            hideEmpties(otherMPsToRaise);
+            hideEmpties(authoritiesToAnswer);
         }
+
+        private void hideEmpties(ClickableListView clickableListView)
+        {
+            clickableListView.IsVisible = (clickableListView.BindingContext as ClickableListViewModel)?.AnySelections ?? true;
+        }
+
     }
 }

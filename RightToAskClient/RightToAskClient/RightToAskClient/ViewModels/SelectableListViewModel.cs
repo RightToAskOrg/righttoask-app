@@ -116,9 +116,6 @@ namespace RightToAskClient.ViewModels
 
         public SelectableListViewModel(SelectableList<Authority> authorityLists , string message) 
 		{
-			Keyword = App.ReadingContext.Filters.SearchKeyword;
-			// SelectedAuthorities = new ObservableCollection<Authority>(authorityLists.SelectedEntities);
-			// AllEntities = new ObservableCollection<Entity>(authorityLists.AllEntities); 
 			SelectableEntities = WrapInTagsAndSortPreselections(new ObservableCollection<Entity>(authorityLists.AllEntities),  
 								authorityLists.SelectedEntities);
 
@@ -141,7 +138,6 @@ namespace RightToAskClient.ViewModels
 
 		public SelectableListViewModel(SelectableList<MP> mpLists, string message)
 		{
-			Keyword = App.ReadingContext.Filters.SearchKeyword;
 			SelectableEntities = WrapInTagsAndSortPreselections(new ObservableCollection<Entity>(mpLists.AllEntities),  mpLists.SelectedEntities);
 			
 			_titleText = "MPs";
@@ -162,10 +158,9 @@ namespace RightToAskClient.ViewModels
 		}
 		
 		// MPs are grouped only for display, but stored in simple (flat) lists.
-		// If the grouping boolean is set, group the MPs by chamber before display. 
+		// If the grouping boolean is seEnumerable<Entity> IenumerEmnumerableEntityOOnPropertyCahhanged();"EditableList"t, group the MPs by chamber before display. 
         public SelectableListViewModel(SelectableList<MP> mpLists, string message, bool grouping)
         {
-			Keyword = App.ReadingContext.Filters.SearchKeyword;
 			if (grouping)
 	        {
 		        var groupedMPs = mpLists.AllEntities.GroupBy(mp => mp.electorate.chamber);
@@ -296,11 +291,10 @@ namespace RightToAskClient.ViewModels
 						// There should be only one MP at this point, so the : should never happen.
 			            MessagingCenter.Send(this, "ReturnToAccountPage", selectedMP);
 		            });
-		            //var pageToRegisterSelectedMP = new MPRegistrationVerificationPage(_selectableMPList);
-		            //await App.Current.MainPage.Navigation.PushAsync(pageToRegisterSelectedMP);
 	            }
             }
 			// For Advanced Search outside the main flow. Pop back to wherever we came from (i.e. the advance search page).
+			// TODO - not currently working as intended. See Issue #105.
 			else
             {
 				await Shell.Current.Navigation.PopAsync();

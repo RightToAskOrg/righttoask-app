@@ -20,8 +20,13 @@ namespace RightToAskClient.ViewModels
         public static FilterViewModel Instance => _instance ??= new FilterViewModel();
 
         // properties
-        // public FilterDisplayTableView FilterDisplay = new FilterDisplayTableView();
-        public FilterChoices FilterChoices => App.ReadingContext.Filters;
+        private FilterChoices FilterChoices => App.ReadingContext.Filters;
+
+        public ClickableListViewModel AnsweringMPsOther { get; }
+        public ClickableListViewModel AnsweringMPsMine { get; }
+        public ClickableListViewModel AnsweringAuthorities { get; }
+        public ClickableListViewModel AskingMPsOther { get; }
+        public ClickableListViewModel AskingMPsMine { get; }
 
         public List<string> CommitteeList = new List<string>();
         private string _committeeText = "";
@@ -125,15 +130,74 @@ namespace RightToAskClient.ViewModels
             Title = AppResources.AdvancedSearchButtonText; 
             ReinitData(); // to set the display strings
 
-            // commands
-            AnsweringMPsFilterCommand = new Command(() =>
+            AnsweringMPsMine = new ClickableListViewModel(FilterChoices.AnsweringMPsListsMine)
             {
-                _ = EditSelectedAnsweringMPsClicked().ContinueWith((_) =>
+                // FIXME This isn't quite right when the MPs are not known - seems to push a 
+                // list to choose from and then go to a reading page, rather than popping on completion
+                // and returning to the search page.
+                EditListCommand = new Command(() =>
+                {
+                    _ = EditSelectedAnsweringMPsMineClicked().ContinueWith((_) =>
+                    {
+                        MessagingCenter.Send(this, "FromFiltersPage"); // Sends this view model
+                    });
+                }),
+                Heading = AppResources.MyMPButtonText
+            };
+            AnsweringMPsOther = new ClickableListViewModel(FilterChoices.AnsweringMPsListsNotMine)
+            {
+                EditListCommand = new Command(() =>
+                {
+                    _ = EditOtherSelectedAnsweringMPsClicked().ContinueWith((_) =>
+                    {
+                        MessagingCenter.Send(this, "FromFiltersPage");
+                    });
+                }),
+                Heading = AppResources.OtherMP,
+            };
+            AnsweringAuthorities = new ClickableListViewModel(FilterChoices.AuthorityLists)
+            {
+                EditListCommand = new Command(() =>
+                {
+                    _ = EditAuthoritiesClicked().ContinueWith((_) =>
+                    {
+                        MessagingCenter.Send(this, "FromFiltersPage");
+                    });
+                }),
+                Heading = AppResources.AuthorityLabel,
+            };
+            AskingMPsMine = new ClickableListViewModel(FilterChoices.AskingMPsListsMine)
+            {
+                EditListCommand = new Command(() =>
+                {
+                    _ = EditSelectedAskingMPsClicked().ContinueWith((_) =>
+                    {
+                        MessagingCenter.Send(this, "FromFiltersPage");
+                    });
+                }),
+                Heading = AppResources.MyMPButtonText
+            };
+            AskingMPsOther = new ClickableListViewModel(FilterChoices.AskingMPsListsNotMine)
+            {
+                EditListCommand = new Command(() =>
+                {
+                    _ = EditOtherSelectedAskingMPsClicked().ContinueWith((_) =>
+                    {
+                        MessagingCenter.Send(this, "FromFiltersPage");
+                    });
+                }),
+                Heading = AppResources.OtherMP
+            };
+
+            // commands
+            AnsweringMPsMineFilterCommand = new Command(() =>
+            {
+                _ = EditSelectedAnsweringMPsMineClicked().ContinueWith((_) =>
                   {
                       MessagingCenter.Send(this, "FromFiltersPage"); // Sends this view model
                 });
             });
-            AskingMPsFilterCommand = new Command(() =>
+            AskingMPsMineFilterCommand = new Command(() =>
             {
                 _ = EditSelectedAskingMPsClicked().ContinueWith((_) =>
                   {
@@ -194,9 +258,10 @@ namespace RightToAskClient.ViewModels
             });
         }
 
+
         // commands
-        public Command AnsweringMPsFilterCommand { get; }
-        public Command AskingMPsFilterCommand { get; }
+        public Command AnsweringMPsMineFilterCommand { get; }
+        public Command AskingMPsMineFilterCommand { get; }
         public Command AnsweringAuthoritiesFilterCommand { get; }
         public Command OtherAnsweringMPsFilterCommand { get; }
         public Command OtherAskingMPsFilterCommand { get; }
@@ -237,6 +302,12 @@ namespace RightToAskClient.ViewModels
             OnPropertyChanged("SelectedAskingMyMPsText");
             OnPropertyChanged("SelectedAnsweringMyMPsText");
             OnPropertyChanged("PublicAuthoritiesText");
+            OnPropertyChanged("AnsweringMPsOther");
+            OnPropertyChanged("AnsweringMPsMine");
+            OnPropertyChanged("AnsweringAuthorities");  
+            OnPropertyChanged("AskingMPsOther");
+            OnPropertyChanged("AskingMPsMine");
+            
             OtherRightToAskUserText = CreateTextGivenListEntities(OtherRightToAskUserList);
             CommitteeText = CreateTextGivenListCommittees(CommitteeList);
         }
@@ -266,7 +337,7 @@ namespace RightToAskClient.ViewModels
             return text;
         }
 
-        private async Task EditSelectedAnsweringMPsClicked()
+        private async Task EditSelectedAnsweringMPsMineClicked()
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {

@@ -12,7 +12,7 @@
         <Grid RowDefinitions="*,auto" ColumnDefinitions="auto,*,*,*" VerticalOptions="FillAndExpand" BackgroundColor="Transparent">
             <!--Text Across the Top Middle-->
             <StackLayout Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent">
-                <Label x:Name="popupText" Style="{StaticResource LeftJustifiedPopupText}"/>
+                <Label x:Name="popupText" Style="{StaticResource PopupText}"/>
             </StackLayout>
             <!--Emu Bottom Left-->
             <Image Grid.Column="0" Grid.Row="1" Source="{local:ImageResource RightToAskClient.Images.emu_tall.PNG}" 

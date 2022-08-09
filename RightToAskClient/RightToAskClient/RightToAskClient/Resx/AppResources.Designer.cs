@@ -105,6 +105,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string AuthorityLabel {
+            get {
+                return ResourceManager.GetString("AuthorityLabel", resourceCulture);
+            }
+        }
+        
         internal static string AuthorityFilterLabelText {
             get {
                 return ResourceManager.GetString("AuthorityFilterLabelText", resourceCulture);
@@ -309,6 +315,18 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string IncludeAnsweredQuestions {
+            get {
+                return ResourceManager.GetString("IncludeAnsweredQuestions", resourceCulture);
+            }
+        }
+        
+        internal static string IncludeUnansweredQuestions {
+            get {
+                return ResourceManager.GetString("IncludeUnansweredQuestions", resourceCulture);
+            }
+        }
+        
         internal static string KeepQuestionButtonText {
             get {
                 return ResourceManager.GetString("KeepQuestionButtonText", resourceCulture);
@@ -417,6 +435,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string NoneDefaultText {
+            get {
+                return ResourceManager.GetString("NoneDefaultText", resourceCulture);
+            }
+        }
+        
         internal static string NextButtonText {
             get {
                 return ResourceManager.GetString("NextButtonText", resourceCulture);
@@ -444,6 +468,12 @@ namespace RightToAskClient.Resx {
         internal static string OrHeaderText {
             get {
                 return ResourceManager.GetString("OrHeaderText", resourceCulture);
+            }
+        }
+        
+        internal static string OtherMP {
+            get {
+                return ResourceManager.GetString("OtherMP", resourceCulture);
             }
         }
         
@@ -696,6 +726,12 @@ namespace RightToAskClient.Resx {
         internal static string SuccessfullyUpdatedAccountText {
             get {
                 return ResourceManager.GetString("SuccessfullyUpdatedAccountText", resourceCulture);
+            }
+        }
+        
+        internal static string TapToEditText {
+            get {
+                return ResourceManager.GetString("TapToEditText", resourceCulture);
             }
         }
         
@@ -1395,6 +1431,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string HowToStep2abold {
+            get {
+                return ResourceManager.GetString("HowToStep2abold", resourceCulture);
+            }
+        }
+        
         internal static string HowToStep2a {
             get {
                 return ResourceManager.GetString("HowToStep2a", resourceCulture);
@@ -1413,6 +1455,18 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string HowToStep2bbold {
+            get {
+                return ResourceManager.GetString("HowToStep2bbold", resourceCulture);
+            }
+        }
+        
+        internal static string HowToStep2bend {
+            get {
+                return ResourceManager.GetString("HowToStep2bend", resourceCulture);
+            }
+        }
+        
         internal static string HowToStep2bLetter {
             get {
                 return ResourceManager.GetString("HowToStep2bLetter", resourceCulture);
@@ -1425,9 +1479,9 @@ namespace RightToAskClient.Resx {
             }
         }
         
-        internal static string HowToStep2Bold2 {
+        internal static string HowToStep2Or {
             get {
-                return ResourceManager.GetString("HowToStep2Bold2", resourceCulture);
+                return ResourceManager.GetString("HowToStep2Or", resourceCulture);
             }
         }
         
@@ -1449,6 +1503,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string HowToStep3part2 {
+            get {
+                return ResourceManager.GetString("HowToStep3part2", resourceCulture);
+            }
+        }
+        
         internal static string HowToStep3Number {
             get {
                 return ResourceManager.GetString("HowToStep3Number", resourceCulture);
@@ -1458,6 +1518,18 @@ namespace RightToAskClient.Resx {
         internal static string HowToStep4 {
             get {
                 return ResourceManager.GetString("HowToStep4", resourceCulture);
+            }
+        }
+        
+        internal static string HowToStep4Bold {
+            get {
+                return ResourceManager.GetString("HowToStep4Bold", resourceCulture);
+            }
+        }
+        
+        internal static string HowToStep4Part2 {
+            get {
+                return ResourceManager.GetString("HowToStep4Part2", resourceCulture);
             }
         }
         

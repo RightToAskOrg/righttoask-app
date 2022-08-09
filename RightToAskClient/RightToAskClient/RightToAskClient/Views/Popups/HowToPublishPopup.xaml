@@ -13,8 +13,8 @@
             <views:HowToPublishView VerticalOptions="FillAndExpand" Margin="0" Padding="0" BackgroundColor="Transparent"/>
             <!--Ok Button-->
             <Grid ColumnDefinitions="*,*" VerticalOptions="EndAndExpand" BackgroundColor="Transparent" Margin="0" Padding="0">
-                <Button Text="{xct:Translate OKText}" Grid.Column="1" Clicked="Button_Clicked" FontSize="Small" 
-                        TextColor="{StaticResource TextColorGreen}" HeightRequest="50" BackgroundColor="Transparent" Margin="0" Padding="0" HorizontalOptions="FillAndExpand"/>
+                <Button Text="{xct:Translate OKText}" Grid.Column="1" Clicked="Button_Clicked" 
+                        Style="{StaticResource PopupOKButton}" />
             </Grid>
         </StackLayout>
     </Frame>

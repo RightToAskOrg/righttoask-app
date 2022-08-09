@@ -96,11 +96,6 @@ namespace RightToAskClient.Models
 			}
 		}
 
-		// TODO (for Matt): do likewise with MPs lists.
-		// The 'other-MP' lists should be settable at initialization.
-		// The MyMPs lists might need to wait until registration.
-
-
 		public string SearchKeyword
 		{
 			get => _searchKeyword;

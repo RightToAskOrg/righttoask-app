@@ -5,6 +5,7 @@
              xmlns:models="clr-namespace:RightToAskClient.Models"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              xmlns:local="clr-namespace:RightToAskClient"
+             xmlns:views="clr-namespace:RightToAskClient.Views;assembly=RightToAskClient"
              x:Class="RightToAskClient.Views.MetadataPage"
              x:DataType="vm:FilterViewModel"
              Title="{xct:Translate DirectMyQuestionTitle}">
@@ -21,15 +22,19 @@
                     <StackLayout>
                         <Label Text="{xct:Translate WhoShouldAnswerTitle}" Style="{StaticResource Header2}" />
                         <StackLayout>
+                            <views:ClickableListView x:Name="myMPsToAnswer" BindingContext="{Binding AnsweringMPsMine}"/>
+                            <views:ClickableListView x:Name="otherMPsToAnswer" BindingContext="{Binding AnsweringMPsOther}"/>
+                            <views:ClickableListView x:Name="authoritiesToAnswer" BindingContext="{Binding AnsweringAuthorities}"/>
+                            <!-- 
                             <StackLayout Spacing="0" Margin="0" Padding="0">
                                 <Label Text="My MP" Style="{StaticResource ClickableHeader}">
                                     <Label.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding AnsweringMPsFilterCommand}"/>
+                                        <TapGestureRecognizer Command="{Binding AnsweringMPsMineFilterCommand}"/>
                                     </Label.GestureRecognizers>
                                 </Label>
                                 <Label Text="{Binding SelectedAnsweringMyMPsText}">
                                     <Label.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding AnsweringMPsFilterCommand}"/>
+                                        <TapGestureRecognizer Command="{Binding AnsweringMPsMineFilterCommand}"/>
                                     </Label.GestureRecognizers>
                                 </Label>
                             </StackLayout>
@@ -56,7 +61,7 @@
                                         <TapGestureRecognizer Command="{Binding AnsweringAuthoritiesFilterCommand}"/>
                                     </Label.GestureRecognizers>
                                 </Label>
-                            </StackLayout>
+                            </StackLayout> -->
                         </StackLayout>
                         <!-- Ask the user whether they allow other users to add QuestionAnswerers. (Y/N) -->
                         <StackLayout Orientation="Horizontal">
@@ -70,18 +75,21 @@
                         <Label Text="{xct:Translate OptionBText4}" Style="{StaticResource Header2}" />
                         <!--Filters-->
                         <StackLayout>
+                            <!-- 
                             <StackLayout Spacing="0" Margin="0" Padding="0">
                                 <Label Text="My MP" Style="{StaticResource ClickableHeader}">
                                     <Label.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding AskingMPsFilterCommand}"/>
+                                        <TapGestureRecognizer Command="{Binding AskingMPsMineFilterCommand}"/>
                                     </Label.GestureRecognizers>
                                 </Label>
                                 <Label Text="{Binding SelectedAskingMyMPsText}">
                                     <Label.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding AskingMPsFilterCommand}"/>
+                                        <TapGestureRecognizer Command="{Binding AskingMPsMineFilterCommand}"/>
                                     </Label.GestureRecognizers>
                                 </Label>
-                            </StackLayout>
+                            </StackLayout> -->
+                           
+                            <views:ClickableListView x:Name="myMPsToRaise" BindingContext="{Binding AskingMPsMine}"/>
                             <StackLayout Spacing="0" Margin="0" Padding="0">
                                 <Label Text="Committee" Style="{StaticResource ClickableHeader}">
                                     <Label.GestureRecognizers>
@@ -94,6 +102,7 @@
                                     </Label.GestureRecognizers>
                                 </Label>
                             </StackLayout>
+                            <!-- 
                             <StackLayout Spacing="0" Margin="0" Padding="0">
                                 <Label Text="Other MP" Style="{StaticResource ClickableHeader}">
                                     <Label.GestureRecognizers>
@@ -106,6 +115,8 @@
                                     </Label.GestureRecognizers>
                                 </Label>
                             </StackLayout>
+                            -->
+                            <views:ClickableListView x:Name="otherMPsToRaise" BindingContext="{Binding AskingMPsOther}"/>
                             <StackLayout Spacing="0" Margin="0" Padding="0">
                                 <Label Text="Right to Ask Participant" Style="{StaticResource ClickableHeader}">
                                     <Label.GestureRecognizers>
