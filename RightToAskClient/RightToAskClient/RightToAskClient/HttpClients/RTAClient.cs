@@ -24,6 +24,8 @@ namespace RightToAskClient.HttpClients
         private static string QnUrl = BaseUrl + "/new_question";
         private static string EditQnUrl = BaseUrl + "/edit_question";
         private static string MPListUrl = BaseUrl + "/MPs.json";
+        private static string CommitteeListUrl = BaseUrl + "/committees.json";
+        private static string HearingsListUrl = BaseUrl + "/hearings.json";
         private static string UserListUrl = BaseUrl + "/get_user_list";
         private static string QuestionListUrl = BaseUrl + "/get_question_list";
         private static string QuestionUrl = BaseUrl + "/get_question" + "?question_id=";

@@ -144,6 +144,22 @@ namespace RightToAskClient.Models
 		    WA_Legislative_Council
 	    }
 
+	    [JsonConverter(typeof(JsonStringEnumConverter))]
+	    public enum CommitteeType
+	    {
+		    [EnumMember(Value = "ADMIN")]
+		    ADMIN,
+		    
+		    [EnumMember(Value = "STAND")]
+		    STAND,
+		    
+		    [EnumMember(Value = "SELECT")]
+		    SELECT,
+		    
+		    [EnumMember(Value = "SESSION")]
+		    SESSION
+	    }
+
 	    // Find all the MPs given a state and a list of electorates.
 	    // States are "electorates" in the Senate, i.e. of the form
 	    // ElectorateWithChamber(ParliamentData.Chamber.Australian_Senate, state));
