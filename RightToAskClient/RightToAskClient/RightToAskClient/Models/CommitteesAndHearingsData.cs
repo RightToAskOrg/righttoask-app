@@ -18,5 +18,14 @@ namespace RightToAskClient.Models
     {
         public static readonly UpdatableCommitteesAndHearingsData CommitteesData =
             new UpdatableCommitteesAndHearingsData();
+        
+        
+	    public static ObservableCollection<Committee> AllCommittees 
+	    {
+		    get
+		    {
+			    return new ObservableCollection<Committee>(CommitteesData.Committees);
+		    }
+	    }
     }
 }

@@ -252,7 +252,6 @@ namespace RightToAskClient.ViewModels
             {
                 Question.AnswerInApp = false;
                 AnswerInApp = false;
-                // var selectableList = new SelectableList<Authority>(ParliamentData.AllAuthorities, App.ReadingContext.Filters.SelectedAuthorities); 
                 var PageToSearchAuthorities
                     = new SelectableListPage(App.ReadingContext.Filters.AuthorityLists, "Choose authorities");
                 await Shell.Current.Navigation.PushAsync(PageToSearchAuthorities).ContinueWith((_) => 
@@ -293,7 +292,6 @@ namespace RightToAskClient.ViewModels
             });
             SelectCommitteeButtonCommand = new AsyncCommand(async () =>
             {
-                App.ReadingContext.Filters.SelectedAskingCommittee.Add("Senate Estimates tomorrow");
                 SelectButtonText = AppResources.SelectedButtonText;
                 // then navigate to the reading page
                 await Shell.Current.GoToAsync(nameof(ReadingPage));

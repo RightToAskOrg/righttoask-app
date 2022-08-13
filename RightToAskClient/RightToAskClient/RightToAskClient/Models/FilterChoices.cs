@@ -14,7 +14,7 @@ namespace RightToAskClient.Models
 		// private ObservableCollection<MP> _selectedAskingMPs = new ObservableCollection<MP>();
 		// private ObservableCollection<MP> _selectedAskingMPsMine = new ObservableCollection<MP>();
 		// private ObservableCollection<Authority> _selectedAuthorities = new ObservableCollection<Authority>();
-		private ObservableCollection<string> _selectedAskingCommittee = new ObservableCollection<string>();
+		// private ObservableCollection<string> _selectedAskingCommittee = new ObservableCollection<string>();
 		private ObservableCollection<Person?> _selectedAskingUsers = new ObservableCollection<Person?>();
 
 		// Express each FilterChoice as a pair of lists: the whole list from which things are seleced,
@@ -117,6 +117,7 @@ namespace RightToAskClient.Models
 			}
 		}
 
+		/*
         public ObservableCollection<string> SelectedAskingCommittee
         {
             get => _selectedAskingCommittee;
@@ -126,6 +127,7 @@ namespace RightToAskClient.Models
                 OnPropertyChanged();
             }
         }
+        */
 
 		public ObservableCollection<Person?> SelectedAskingUsers
 		{
@@ -160,8 +162,8 @@ namespace RightToAskClient.Models
 	        _answeringMPsListNotMine = new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
 	        _askingMPsListNotMine =  new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
 	        _authorityLists = new SelectableList<Authority>(ParliamentData.AllAuthorities, new List<Authority>());
-	        // Doing this at init causes a nullpointer exception because App isn't loaded yet.
-	        // UpdateMyMPLists();
+	        _committeeLists =
+		        new SelectableList<Committee>(CommitteesAndHearingsData.AllCommittees, new List<Committee>());
         }
 
         public void RemoveAllSelections()
@@ -171,6 +173,7 @@ namespace RightToAskClient.Models
 	        _askingMPsListNotMine.SelectedEntities = new List<MP>();
 	        _askingMPsListMine.SelectedEntities = new List<MP>();
 	        _authorityLists.SelectedEntities = new List<Authority>();
+	        _committeeLists.SelectedEntities = new List<Committee>();
 	        SearchKeyword = "";
         }
 
@@ -188,16 +191,6 @@ namespace RightToAskClient.Models
         {
             bool isValid = false;
             bool hasInvalidData = false;
-            //if (SelectedAnsweringMPs.Any())
-            //{
-            //    foreach (MP mp in SelectedAnsweringMPs)
-            //    {
-            //        if (!mp.Validate())
-            //        {
-            //            hasInvalidData = true;
-            //        }
-            //    }
-            //}
             if (SelectedAnsweringMPsMine.Any())
             {
                 foreach (MP mp in SelectedAnsweringMPsMine)
@@ -208,16 +201,6 @@ namespace RightToAskClient.Models
                     }
                 }
             }
-            //if (SelectedAskingMPs.Any())
-            //{
-            //    foreach (MP mp in SelectedAskingMPs)
-            //    {
-            //        if (!mp.Validate())
-            //        {
-            //            hasInvalidData = true;
-            //        }
-            //    }
-            //}
             if (SelectedAskingMPsMine.Any())
             {
                 foreach (MP mp in SelectedAskingMPsMine)
@@ -238,11 +221,11 @@ namespace RightToAskClient.Models
                     }
                 }
             }
-            if (SelectedAskingCommittee.Any())
+            if (SelectedCommittees.Any())
             {
-                foreach (string com in SelectedAskingCommittee)
+                foreach (Committee com in SelectedCommittees)
                 {
-                    if (string.IsNullOrEmpty(com))
+                    if (string.IsNullOrEmpty(com.ShortestName))
                     {
                         hasInvalidData = true;
                     }

@@ -6,33 +6,44 @@ namespace RightToAskClient.Models
 {
     public class Committee : Entity
     {
-        // FIXME
-        public ParliamentData.Chamber? jurisdiction { get; set; }
+        private ParliamentData.Chamber _jurisdiction;
+        public ParliamentData.Chamber Jurisdiction => _jurisdiction;
 
-        public string name{ get; set; }
+        private string _name = "";
+        public string Name => _name;
 
-        public string url { get; set; }
+        private string _url = "";
+        public string Url => _url;
 
-        public ParliamentData.CommitteeType committee_type { get; set; }
+        private ParliamentData.CommitteeType _committeeType;
+        public ParliamentData.CommitteeType CommitteeType => _committeeType;
 
         public override string ShortestName
         {
-            get => jurisdiction+": "+name; 
+            get => _jurisdiction+": "+_name; 
         }
         
         // Contstructor
         public Committee(CommitteeInfo info)
         {
-            
+            _jurisdiction = info.jurisdiction; 
+            _name = info.name;
+            _url = info.url;
+            _committeeType = info.committee_type;
         }
         
-        public override bool DataEquals(object obj)
+        // No need for the urls to be equal.
+        public override bool DataEquals(object other)
         {
-            throw new System.NotImplementedException();
+            var committee = other as Committee;
+            return (committee != null)
+                   && _name == committee.Name
+                   && _jurisdiction == committee.Jurisdiction
+                   && _committeeType == committee.CommitteeType;
         }
         public override string GetName()
         {
-            throw new System.NotImplementedException();
+            return _jurisdiction+" "+_committeeType+" "+_name; 
         }
     }
 }

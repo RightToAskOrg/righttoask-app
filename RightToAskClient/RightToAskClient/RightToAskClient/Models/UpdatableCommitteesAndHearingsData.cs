@@ -21,9 +21,9 @@ namespace RightToAskClient.Models
      * */
     public class UpdatableCommitteesAndHearingsData
     {
-        private List<CommitteeInfo> _committees = new List<CommitteeInfo>();
+        private List<Committee> _committees = new List<Committee>();
 
-        public List<CommitteeInfo> Committees
+        public List<Committee> Committees
         {
             get => _committees;
         }
@@ -46,8 +46,8 @@ namespace RightToAskClient.Models
 
             if (String.IsNullOrEmpty(serverCommitteeList.Err))
             {
-                _committees = serverCommitteeList.Ok;
                 _isInitialised = true;
+                _committees = serverCommitteeList.Ok.Select(com => new Committee(com)).ToList();
                 return new Result<bool>() { Ok = true };
             }
 

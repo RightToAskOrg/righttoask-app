@@ -894,4 +894,10 @@
   <data name="TrendingMyElectorateText" xml:space="preserve">
     <value>Trending in my electorate</value>
   </data>
+  <data name="SelectableListCommitteePopupText" xml:space="preserve">
+    <value>Choose a committee</value>
+  </data>
+  <data name="CommitteeText" xml:space="preserve">
+    <value>Committee</value>
+  </data>
 </root>

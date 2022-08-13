@@ -6,7 +6,7 @@ namespace RightToAskClient.Models.ServerCommsData
     public class CommitteeInfo
     {
         [JsonPropertyName("jurisdiction")]
-        public ParliamentData.Chamber? jurisdiction { get; set; }
+        public ParliamentData.Chamber jurisdiction { get; set; }
 
         [JsonPropertyName("name")]
         public string name{ get; set; }

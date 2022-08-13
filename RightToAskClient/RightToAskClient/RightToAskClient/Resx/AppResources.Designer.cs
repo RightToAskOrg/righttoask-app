@@ -1598,5 +1598,17 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("TrendingMyElectorateText", resourceCulture);
             }
         }
+        
+        internal static string SelectableListCommitteePopupText {
+            get {
+                return ResourceManager.GetString("SelectableListCommitteePopupText", resourceCulture);
+            }
+        }
+        
+        internal static string CommitteeText {
+            get {
+                return ResourceManager.GetString("CommitteeText", resourceCulture);
+            }
+        }
     }
 }
