@@ -19,6 +19,18 @@ namespace RightToAskClient.Models
 
 		// Express each FilterChoice as a pair of lists: the whole list from which things are seleced,
 		// and the list of selections.
+		private SelectableList<Committee> _committeeLists
+			= new SelectableList<Committee>(new List<Committee>(), new List<Committee>());
+			
+		public SelectableList<Committee> CommitteeLists
+		{
+			get => _committeeLists;
+		}
+		public List<Committee> SelectedCommittees
+		{
+			get => _committeeLists.SelectedEntities as List<Committee> ?? new List<Committee>();
+		}
+		
 		private SelectableList<Authority> _authorityLists
 			= new SelectableList<Authority>(new List<Authority>(), new List<Authority>());
 			
@@ -29,7 +41,6 @@ namespace RightToAskClient.Models
 		public List<Authority> SelectedAuthorities
 		{
 			get => _authorityLists.SelectedEntities as List<Authority> ?? new List<Authority>();
-			set => _authorityLists.SelectedEntities = value;
 		}
 		
 		private SelectableList<MP> _answeringMPsListMine 

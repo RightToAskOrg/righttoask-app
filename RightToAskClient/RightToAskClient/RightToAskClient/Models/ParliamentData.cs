@@ -18,6 +18,8 @@ namespace RightToAskClient.Models
     {
 	    public static readonly UpdatableParliamentAndMPData MPAndOtherData = new UpdatableParliamentAndMPData();
 
+	    public static readonly UpdatableCommitteesAndHearingsData CommitteesAndHearings = new UpdatableCommitteesAndHearingsData();
+
 	    public static ObservableCollection<MP> AllMPs
 	    {
 		    get

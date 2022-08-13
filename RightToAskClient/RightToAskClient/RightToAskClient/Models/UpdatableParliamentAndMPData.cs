@@ -29,6 +29,10 @@ namespace RightToAskClient.Models
 			};
 		
 		private bool _isInitialised;  // Defaults to false.
+		public bool IsInitialised
+		{
+			get => _isInitialised;
+		} 
 
 		public List<MP> AllMPs  
 		{
@@ -159,13 +163,6 @@ namespace RightToAskClient.Models
 		}
 
 
-		public bool IsInitialised
-		{
-			get
-			{
-				return _isInitialised;
-			}
-		} 
 
 		public List<string> ListElectoratesInChamber(ParliamentData.Chamber chamber)
 		{

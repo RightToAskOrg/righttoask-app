@@ -83,6 +83,17 @@ namespace RightToAskClient.HttpClients
                 Err = errorMessage 
             };
         }
+
+        public static async Task<Result<List<CommitteeInfo>>> GetCommitteeData()
+        {
+            return await Client.DoGetResultRequest<List<CommitteeInfo>>(CommitteeListUrl);
+        }
+        
+        // TODO Correct types.
+        public static async Task<Result<List<CommitteeInfo>>> GetHearingsData()
+        {
+            return await Client.DoGetResultRequest<List<CommitteeInfo>>(HearingsListUrl);
+        }
         
         /* Currently unused, but will be used when we want to get lists of other users
          * for DMs or following
