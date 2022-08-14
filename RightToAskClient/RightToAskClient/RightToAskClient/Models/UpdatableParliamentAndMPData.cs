@@ -85,9 +85,9 @@ namespace RightToAskClient.Models
 		// or there are no changes since last time.
 		// TODO This isn't very elegantly structured - redo so the init of other data structures
 		// isn't repeated.
-		public async void TryInit()
+		public async Task<bool> TryInit()
 		{
-			if (_isInitialised) return;
+			if (_isInitialised) return true;
 			Result<bool> success;
 
 			// get data from local first
@@ -107,7 +107,7 @@ namespace RightToAskClient.Models
 				_isInitialised = true;
 				QuestionViewModel.Instance.UpdateMPButtons();
 				App.ReadingContext.Filters.InitSelectableLists();
-				return;
+				return true;
 			}
 			
 			ErrorMessage = success.Err ?? "";
@@ -119,11 +119,12 @@ namespace RightToAskClient.Models
 				_isInitialised = true;
 				QuestionViewModel.Instance.UpdateMPButtons();
 				App.ReadingContext.Filters.InitSelectableLists();
-				return;
+				return true;
 			}
 
 			ErrorMessage += success.Err;
 			Debug.WriteLine(@"\tERROR {0}", success.Err);
+			return false;
 		}
 
 		private Result<bool> TryInitialisingFromStoredData()

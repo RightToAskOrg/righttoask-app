@@ -86,7 +86,8 @@ namespace RightToAskClient.HttpClients
 
         public static async Task<Result<List<CommitteeInfo>>> GetCommitteeData()
         {
-            return await Client.DoGetResultRequest<List<CommitteeInfo>>(CommitteeListUrl);
+            var committeeList =await Client.DoGetJSONRequest<List<CommitteeInfo>>(CommitteeListUrl);
+            return committeeList;
         }
         
         // TODO Correct types.

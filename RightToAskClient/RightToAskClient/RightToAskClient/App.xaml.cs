@@ -41,11 +41,11 @@ namespace RightToAskClient
             MainPage = new AppShell();
         }
 
-        protected override void OnStart()
+        protected override async void OnStart()
         {
             // ResetAppData(); // Toggle this line in and out as needed instead of resetting the emulator every time
-            ParliamentData.MPAndOtherData.TryInit();
-            ParliamentData.CommitteesAndHearings.TryInitialisingFromServer();
+            var MPInitSuccess = await ParliamentData.MPAndOtherData.TryInit();
+            var CommitteeInitSuccess = await ParliamentData.CommitteesAndHearings.TryInitialisingFromServer();
             
             // get account info from preferences
             var registrationPref = Preferences.Get(Constants.RegistrationInfo, "");

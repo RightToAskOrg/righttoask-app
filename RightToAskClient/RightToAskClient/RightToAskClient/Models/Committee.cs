@@ -6,8 +6,8 @@ namespace RightToAskClient.Models
 {
     public class Committee : Entity
     {
-        private ParliamentData.Chamber _jurisdiction;
-        public ParliamentData.Chamber Jurisdiction => _jurisdiction;
+        private ParliamentData.Jurisdiction _jurisdiction;
+        public ParliamentData.Jurisdiction Jurisdiction => _jurisdiction;
 
         private string _name = "";
         public string Name => _name;
@@ -15,8 +15,8 @@ namespace RightToAskClient.Models
         private string _url = "";
         public string Url => _url;
 
-        private ParliamentData.CommitteeType _committeeType;
-        public ParliamentData.CommitteeType CommitteeType => _committeeType;
+        private string _committeeType;
+        public string CommitteeType => _committeeType;
 
         public override string ShortestName
         {
