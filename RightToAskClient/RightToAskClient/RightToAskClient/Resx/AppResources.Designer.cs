@@ -1611,6 +1611,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string ParliamentaryCommitteeText {
+            get {
+                return ResourceManager.GetString("ParliamentaryCommitteeText", resourceCulture);
+            }
+        }
+        
         internal static string CommitteeText {
             get {
                 return ResourceManager.GetString("CommitteeText", resourceCulture);

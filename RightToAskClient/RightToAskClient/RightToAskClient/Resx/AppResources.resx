@@ -900,6 +900,9 @@
   <data name="SelectableListCommitteePopupText" xml:space="preserve">
     <value>Choose a committee</value>
   </data>
+  <data name="ParliamentaryCommitteeText" xml:space="preserve">
+    <value>Parliamentary Committee</value>
+  </data>
   <data name="CommitteeText" xml:space="preserve">
     <value>Committee</value>
   </data>

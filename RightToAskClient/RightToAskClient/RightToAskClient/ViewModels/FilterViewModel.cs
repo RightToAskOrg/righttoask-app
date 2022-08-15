@@ -189,7 +189,8 @@ namespace RightToAskClient.ViewModels
                     {
                         MessagingCenter.Send(this, "FromFiltersPage");
                     });
-                })
+                }),
+                Heading = AppResources.ParliamentaryCommitteeText
             };
             // commands
             AnsweringMPsMineFilterCommand = new Command(() =>
