@@ -45,7 +45,7 @@ namespace RightToAskClient
         {
             // ResetAppData(); // Toggle this line in and out as needed instead of resetting the emulator every time
             var MPInitSuccess = await ParliamentData.MPAndOtherData.TryInit();
-            var CommitteeInitSuccess = await ParliamentData.CommitteesAndHearings.TryInitialisingFromServer();
+            var CommitteeInitSuccess = await CommitteesAndHearingsData.CommitteesData.TryInitialisingFromServer();
             
             // get account info from preferences
             var registrationPref = Preferences.Get(Constants.RegistrationInfo, "");

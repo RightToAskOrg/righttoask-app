@@ -11,14 +11,9 @@ using RightToAskClient.ViewModels;
 
 namespace RightToAskClient.Models
 {
-    /* This class initialises all the data about MPs and Parliamentary structures that we
-     * get from the server, on the basis that it might change. It also tries initialising from
-     * a file if the server is unreachable.
-     * This means the MPs and their information, plus info about electorate names and which
-     * states or regions they're in.
-     * Currently, we only bother with Vic sub-regions, because although WA (at the time of
-     * writing) still has them, they are planning to abolish them.
-     * */
+    /* This class initialises all the data about Parliamentary committees that we
+     * get from the server.
+     */
     public class UpdatableCommitteesAndHearingsData
     {
         private List<Committee> _committees = new List<Committee>();
@@ -44,10 +39,12 @@ namespace RightToAskClient.Models
                 return new Result<bool>() { Err = "Could not reach server." };
             }
 
+            // Success. Set list of selectable committees and update filters to reflect new list.
             if (String.IsNullOrEmpty(serverCommitteeList.Err))
             {
                 _isInitialised = true;
                 _committees = serverCommitteeList.Ok.Select(com => new Committee(com)).ToList();
+				App.ReadingContext.Filters.InitSelectableLists();
                 return new Result<bool>() { Ok = true };
             }
 

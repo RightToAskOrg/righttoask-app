@@ -156,7 +156,6 @@ namespace RightToAskClient.Models
         // This is necessary on startup because of the need to update the AllMPs list.
         // It's still helpful for them to use the constructor because if this data structure
         // is initialized after the MP read-in, the constructor should suffice.
-        // TODO add code to update all Committees too.
         public void InitSelectableLists()
         {
 	        _answeringMPsListNotMine = new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
