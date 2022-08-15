@@ -185,7 +185,7 @@ namespace RightToAskClient.ViewModels
             {
                 EditListCommand = new Command(() =>
                 {
-                    _ = EditCommitteesClicked().ContinueWith((_) =>
+                    _ = NavigationUtils.EditCommitteesClicked().ContinueWith((_) =>
                     {
                         MessagingCenter.Send(this, "FromFiltersPage");
                     });
@@ -359,12 +359,6 @@ namespace RightToAskClient.ViewModels
             await App.Current.MainPage.Navigation.PushAsync(departmentExploringPage);
         }
 
-        private async Task EditCommitteesClicked()
-        {
-            var committeeSelectableListPage
-                = new SelectableListPage(App.ReadingContext.Filters.CommitteeLists, AppResources.CommitteeText, false);
-            await App.Current.MainPage.Navigation.PushAsync(committeeSelectableListPage);
-        }
 
         private async Task EditOtherSelectedAnsweringMPsClicked()
         {

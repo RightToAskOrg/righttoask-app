@@ -290,12 +290,14 @@ namespace RightToAskClient.ViewModels
                     MessagingCenter.Send(this, "OptionBGoToAskingPageNext"); // Sends this view model
                 });
             });
+            /*
             SelectCommitteeButtonCommand = new AsyncCommand(async () =>
             {
                 SelectButtonText = AppResources.SelectedButtonText;
                 // then navigate to the reading page
                 await Shell.Current.GoToAsync(nameof(ReadingPage));
             });
+            */
             UpvoteCommand = new AsyncCommand(async () =>
             {
                 await DoRegistrationCheck();
@@ -383,7 +385,7 @@ namespace RightToAskClient.ViewModels
         public IAsyncCommand QuestionSuggesterCommand { get; }
         public IAsyncCommand BackCommand { get; }
         public Command SaveQuestionCommand { get; }
-        public IAsyncCommand SelectCommitteeButtonCommand { get; }
+        // public IAsyncCommand SelectCommitteeButtonCommand { get; }
         public IAsyncCommand UpvoteCommand { get; }
         public Command SaveAnswerCommand { get; }
         public Command EditAnswerCommand { get; }
@@ -417,9 +419,17 @@ namespace RightToAskClient.ViewModels
         }
 
         // methods for selecting who will raise your question
-        private void OnFindCommitteeButtonClicked()
+        private async void OnFindCommitteeButtonClicked()
         {
-            RaisedByOptionSelected = true;
+            if (CommitteesAndHearingsData.CommitteesData.IsInitialised)
+            {
+                RaisedByOptionSelected = true;
+                await NavigationUtils.EditCommitteesClicked().ContinueWith((_) =>
+                {
+                    MessagingCenter.Send(this, "GoToReadingPage"); // Sends this view model
+                    MessagingCenter.Send(this, "OptionBAskingNow");
+                });
+            }
         }
 
         // Note that the non-waiting for this asyc method means that the rest of the page can keep
