@@ -255,6 +255,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string FederalParliamentText {
+            get {
+                return ResourceManager.GetString("FederalParliamentText", resourceCulture);
+            }
+        }
+        
         internal static string FindCommitteeButtonText {
             get {
                 return ResourceManager.GetString("FindCommitteeButtonText", resourceCulture);

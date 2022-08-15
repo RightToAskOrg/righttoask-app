@@ -1,6 +1,7 @@
 
 
 using RightToAskClient.Models.ServerCommsData;
+using RightToAskClient.Resx;
 
 namespace RightToAskClient.Models
 {
@@ -44,6 +45,14 @@ namespace RightToAskClient.Models
         public override string GetName()
         {
             return _jurisdiction+" "+_committeeType+" "+_name; 
+        }
+
+        public override string ToString()
+        {
+            string descr = (_jurisdiction == ParliamentData.Jurisdiction.Federal)
+                ? AppResources.FederalParliamentText
+                : _jurisdiction.ToString();
+            return _name+"\n"+descr; 
         }
     }
 }

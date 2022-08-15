@@ -222,6 +222,9 @@
   <data name="FailedToUpdateAccountText" xml:space="preserve">
     <value>Server Error: Your account details could not be changed at this time.</value>
   </data>
+  <data name="FederalParliamentText" xml:space="preserve">
+    <value>Parliament of Australia</value>
+  </data>
   <data name="FindCommitteeButtonText" xml:space="preserve">
     <value>Find a Committee</value>
   </data>
