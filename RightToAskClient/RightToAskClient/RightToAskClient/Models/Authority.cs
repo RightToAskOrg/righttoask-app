@@ -82,8 +82,10 @@ namespace RightToAskClient.Models
         // Equality is satisfied if the names are equal
         // TODO we may want to edit with server to consider whether a level/jurisdiction should be considered too, 
         // e.g. "department of health" "vic" or something.
-        public bool Equals(Authority other)
+        public bool Equals(Authority? other)
         {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
             return _authorityName == other.AuthorityName;
         }
 

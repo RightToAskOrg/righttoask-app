@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using RightToAskClient.Helpers;
 using RightToAskClient.Models;
 using RightToAskClient.Resx;
 using RightToAskClient.Views;

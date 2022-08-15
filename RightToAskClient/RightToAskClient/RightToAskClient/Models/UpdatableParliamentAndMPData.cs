@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using RightToAskClient.Helpers;
 using RightToAskClient.HttpClients;
 using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.ViewModels;

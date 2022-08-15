@@ -1,5 +1,6 @@
 using RightToAskClient.ViewModels;
 using RightToAskClient.Views;
+using RightToAskClient.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -138,17 +139,19 @@ namespace RightToAskClient.Models
             }
         }
 
-        public string QuestionAnswerers => "" 
-            + String.Join(", ",Filters.SelectedAnsweringMPsNotMine.Select(mp => mp.ShortestName))
-            + String.Join(", ",Filters.SelectedAnsweringMPsMine.Select(mp => mp.ShortestName))
-            + String.Join(", ",Filters.SelectedAuthorities.Select(a => a.ShortestName));
+        public string QuestionAnswerers =>  
+            Extensions.JoinFilter(", ",
+                String.Join(", ",Filters.SelectedAnsweringMPsNotMine.Select(mp => mp.ShortestName)),
+                String.Join(", ",Filters.SelectedAnsweringMPsMine.Select(mp => mp.ShortestName)),
+                String.Join(", ",Filters.SelectedAuthorities.Select(a => a.ShortestName)));
 
         // The MPs or committee who are meant to ask the question
-        public string QuestionAskers => ""
-            + String.Join(", ", Filters.SelectedAskingMPsNotMine.Select(mp => mp.ShortestName))
-            + String.Join(", ", Filters.SelectedAskingMPsMine.Select(mp => mp.ShortestName));
-        // TODO add:
-            // + String.Join(",",Filters.SelectedAskingCommittee.Select(... ))
+        public string QuestionAskers =>
+            Extensions.JoinFilter(", ",
+                String.Join(", ", Filters.SelectedAskingMPsNotMine.Select(mp => mp.ShortestName)), 
+                String.Join(", ", Filters.SelectedAskingMPsMine.Select(mp => mp.ShortestName)), 
+                String.Join(",", Filters.SelectedCommittees.Select(com => com.ShortestName)));
+            // TODO add:
             // + String.Join(",",Filters.SelectedAskingUsers.Select(....));
             
         
@@ -240,23 +243,6 @@ namespace RightToAskClient.Models
             get => _cancelClicked;
             set => SetProperty(ref _cancelClicked, value);
         }
-        /*
-        public override string ToString ()
-        {
-            
-            List<string> questionAnswerersList 
-                = QuestionAnswerers.Select(ans => ans.GetName()).ToList();
-            // view.Select(f => return new { Food = f, Selected = selectedFood.Contains(f)});
-            return QuestionText+ "\n" +
-                   "Suggested by: " + QuestionSuggester + '\n' +
-                   "To be asked by: " + QuestionAsker + '\n' +
-                   // var readablePhrase = string.Join(" ", words); 
-                   "To be answered by: " + string.Join(", ", questionAnswerersList) + '\n' +
-                   "UpVotes: " + UpVotes+ '\n' +
-                   // "DownVotes: " + DownVotes + '\n' +
-                   "Link/Answer: " + LinkOrAnswer;
-        }
-        */
 
         // constructor needed for command creation
         public Question()
@@ -289,16 +275,10 @@ namespace RightToAskClient.Models
                     {
                         await Shell.Current.GoToAsync($"{nameof(RegisterPage1)}");
                     }
-                    //bool registerNow = await App.Current.MainPage.DisplayAlert(AppResources.MakeAccountQuestionText, message, AppResources.OKText, AppResources.NotNowAnswerText);
-                    //if (registerNow)
-                    //{
-                    //    await Shell.Current.GoToAsync($"{nameof(RegisterPage1)}");
-                    //}
                 }
             });
             QuestionDetailsCommand = new Command(() =>
             {
-                //QuestionViewModel.Instance.SelectedQuestion = this;
                 QuestionViewModel.Instance.Question = this;
                 QuestionViewModel.Instance.IsNewQuestion = false;
                 _ = Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
@@ -436,6 +416,16 @@ namespace RightToAskClient.Models
                                 // If all else fails, add bare-bones MP data we got from the server.
                                 Filters.SelectedAskingMPsNotMine.Add(entity.AsMP);
                             }
+                        }
+                    }
+                    else if (entity.AsCommittee != null)
+                    {
+                        // Add the relevant committee from AllCommittees if we can find it.
+                        if (!CanFindInListBThenAddToListA<Committee>(entity.AsCommittee, Filters.SelectedCommittees,
+                            CommitteesAndHearingsData.AllCommittees))
+                        {
+                            // If all else fails, add bare-bones Committee data we got from the server.
+                            Filters.SelectedCommittees.Add(entity.AsCommittee);
                         }
                     }
                 }

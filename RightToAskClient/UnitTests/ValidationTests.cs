@@ -253,7 +253,7 @@ namespace UnitTests
             Assert.True(isValidRegistration);
             Assert.True(!string.IsNullOrEmpty(validRegistration.uid));
             Assert.True(!string.IsNullOrEmpty(validRegistration.public_key));
-            Assert.False(validRegistration.electorates?.Any());
+            Assert.False(validRegistration.Electorates?.Any());
             return validRegistration;
         }
 
@@ -265,7 +265,7 @@ namespace UnitTests
             Registration validRegistrationWithValidElectorate = new Registration();
             validRegistrationWithValidElectorate.uid = "TestUId02";
             validRegistrationWithValidElectorate.public_key = "fakeButValidPublicKey2";
-            validRegistrationWithValidElectorate.electorates = new ObservableCollection<ElectorateWithChamber>() { electorateWithChamber };
+            validRegistrationWithValidElectorate.Electorates = new ObservableCollection<ElectorateWithChamber>() { electorateWithChamber };
             // act
             bool isValidRegistrationWithValidElectorate = validRegistrationWithValidElectorate.Validate();
             bool validElectorate = electorateWithChamber.Validate();
@@ -274,7 +274,7 @@ namespace UnitTests
             Assert.True(isValidRegistrationWithValidElectorate);
             Assert.True(!string.IsNullOrEmpty(validRegistrationWithValidElectorate.uid));
             Assert.True(!string.IsNullOrEmpty(validRegistrationWithValidElectorate.public_key));
-            Assert.True(validRegistrationWithValidElectorate.electorates?.Any());
+            Assert.True(validRegistrationWithValidElectorate.Electorates?.Any());
             Assert.True(validElectorate);
         }
 
@@ -287,7 +287,7 @@ namespace UnitTests
             Registration validRegistrationWithInvalidElectorate = new Registration();
             validRegistrationWithInvalidElectorate.uid = "TestUId02";
             validRegistrationWithInvalidElectorate.public_key = "fakeButValidPublicKey2";
-            validRegistrationWithInvalidElectorate.electorates = new ObservableCollection<ElectorateWithChamber>() { invalidElectorateWithChamber };
+            validRegistrationWithInvalidElectorate.Electorates = new ObservableCollection<ElectorateWithChamber>() { invalidElectorateWithChamber };
 
             // act
             bool isValidRegistrationWithInvalidElectorate = validRegistrationWithInvalidElectorate.Validate();
@@ -297,7 +297,7 @@ namespace UnitTests
             Assert.False(isValidRegistrationWithInvalidElectorate);
             Assert.True(!string.IsNullOrEmpty(validRegistrationWithInvalidElectorate.uid));
             Assert.True(!string.IsNullOrEmpty(validRegistrationWithInvalidElectorate.public_key));
-            Assert.True(validRegistrationWithInvalidElectorate.electorates?.Any());
+            Assert.True(validRegistrationWithInvalidElectorate.Electorates?.Any());
             Assert.False(invalidElectorate);
         }
 
@@ -314,7 +314,7 @@ namespace UnitTests
             Assert.False(isInvalidRegistration);
             Assert.True(string.IsNullOrEmpty(invalidRegistration.uid));
             Assert.True(string.IsNullOrEmpty(invalidRegistration.public_key));
-            Assert.False(invalidRegistration.electorates?.Any());
+            Assert.False(invalidRegistration.Electorates?.Any());
         }
 
         [Fact]

@@ -6,6 +6,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using RightToAskClient.Models;
 using RightToAskClient.CryptoUtils;
+using RightToAskClient.Helpers;
 using Xamarin.Essentials;
 using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Resx;

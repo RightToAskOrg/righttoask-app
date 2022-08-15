@@ -8,6 +8,7 @@ using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using System.Threading;
 using Org.BouncyCastle.Tls;
+using RightToAskClient.Helpers;
 using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Resx;
 
@@ -83,7 +84,7 @@ namespace RightToAskClient.Models
 		    WA
 	    }
 
-	    public static readonly Dictionary<string, List<Chamber>> Parliaments = new Dictionary<string, List<Chamber>>
+	    public static readonly Dictionary<string, List<ParliamentData.Chamber>> Parliaments = new Dictionary<string, List<Chamber>>
 	    {
 		    { State.ACT, new List<Chamber> { Chamber.ACT_Legislative_Assembly } },
 		    { State.NSW, new List<Chamber> { Chamber.NSW_Legislative_Assembly, Chamber.NSW_Legislative_Council } },

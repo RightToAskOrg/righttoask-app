@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text.Json;
 using RightToAskClient.Models;
 
-namespace RightToAskClient
+namespace RightToAskClient.Helpers
 {
 	public static class FileIO
 	{

@@ -13,6 +13,7 @@ namespace RightToAskClient.Models.ServerCommsData
             surname = mp.surname;
         }
 
+        // Empty constructor for json serialisation
         public MPId()
         {
         }
@@ -27,8 +28,10 @@ namespace RightToAskClient.Models.ServerCommsData
         public ElectorateWithChamber electorate { get; set; }
 
         // This allows for set-based Linq list operations such as removing duplicates.
-        public bool Equals(MPId other)
+        public bool Equals(MPId? other)
         {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
             return first_name == other.first_name
                    && surname == other.surname
                    && electorate.chamber == other.electorate.chamber
