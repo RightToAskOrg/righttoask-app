@@ -1,6 +1,6 @@
 using RightToAskClient.Models;
 
-namespace RightToAskClient
+namespace RightToAskClient.Helpers
 {
     public static class EnumExtensions
     {

@@ -8,6 +8,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using RightToAskClient;
 using RightToAskClient.CryptoUtils;
+using RightToAskClient.Helpers;
 using RightToAskClient.HttpClients;
 using RightToAskClient.Models;
 using RightToAskClient.Models.ServerCommsData;

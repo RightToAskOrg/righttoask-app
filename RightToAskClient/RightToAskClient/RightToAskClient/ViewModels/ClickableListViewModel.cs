@@ -56,6 +56,13 @@ namespace RightToAskClient.ViewModels
             _anySelections = () => authorityList.SelectedEntities.Any();
         }
 
+        public ClickableListViewModel(SelectableList<Committee> committeeList)
+        {
+            SubscribeToTheRightMessages();
+            createText = (() => CreateTextGivenListSelectableEntities<Committee>(committeeList));
+            _anySelections = () => committeeList.SelectedEntities.Any();
+        }
+
         // commands
         public Command EditListCommand { get; set; }
         

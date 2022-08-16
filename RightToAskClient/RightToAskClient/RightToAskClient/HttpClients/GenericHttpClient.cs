@@ -46,8 +46,6 @@ namespace RightToAskClient.HttpClients
         }
         
         
-        // TODO This is just a copy paste of DoGetRequest, with small changes
-        // for automated JSON serialising
         public async Task<Result<T>> DoGetJSONRequest<T>(string uriString)
         {
             Uri uri = new Uri(uriString);

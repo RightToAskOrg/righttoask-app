@@ -24,6 +24,7 @@ namespace RightToAskClient.Views
             hideEmpties(myMPsToRaise);
             hideEmpties(otherMPsToRaise);
             hideEmpties(authoritiesToAnswer);
+            hideEmpties(committees);
         }
 
         private void hideEmpties(ClickableListView clickableListView)

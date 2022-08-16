@@ -9,6 +9,8 @@ using Xamarin.Forms;
 /* This class contains some utilities for popping up and using pages, which may be accessed
  * at any time by the app, for example the pages for finding your MP, which needs to be
  * popped whenever you do something requiring knowing your MPs but haven't found them yet.
+ * TODO The Authority-selecting list should probably be here too, rather than being repeated in the Advanced Search and
+ * Question-Answerer steps.
  */
 namespace RightToAskClient
 {
@@ -74,6 +76,13 @@ namespace RightToAskClient
             SelectableListPage mpsPage =
                 new SelectableListPage(App.ReadingContext.Filters.AskingMPsListsNotMine, message, false);
             await Application.Current.MainPage.Navigation.PushAsync(mpsPage);
+        }
+        
+        public static async Task EditCommitteesClicked()
+        {
+            var committeeSelectableListPage
+                = new SelectableListPage(App.ReadingContext.Filters.CommitteeLists, AppResources.CommitteeText, false);
+            await App.Current.MainPage.Navigation.PushAsync(committeeSelectableListPage);
         }
     }
 }

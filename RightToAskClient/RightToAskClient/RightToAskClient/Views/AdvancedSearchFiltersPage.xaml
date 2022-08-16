@@ -80,45 +80,9 @@
                         </xct:Expander.Header>
                         <xct:Expander.Content>
                             <StackLayout>
-                                <!--
-                                <StackLayout Spacing="0" Margin="0" Padding="0">
-                                    <Label Text="My MP" Style="{StaticResource ClickableHeader}" >
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding AskingMPsMineFilterCommand}"/>
-                                        </Label.GestureRecognizers>
-                                    </Label>
-                                    <Label Text="{Binding SelectedAskingMyMPsText}" Style="{StaticResource NormalText}">
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding AskingMPsMineFilterCommand}"/>
-                                        </Label.GestureRecognizers>
-                                    </Label>
-                                </StackLayout> -->
                                 <views:ClickableListView BindingContext="{Binding AskingMPsMine}"/>
-                                <StackLayout Spacing="0" Margin="0" Padding="0">
-                                    <Label Text="Committee" Style="{StaticResource ClickableHeader}" >
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding NotSureCommand}"/>
-                                        </Label.GestureRecognizers>
-                                    </Label>
-                                    <Label Text="{Binding CommitteeText}" Style="{StaticResource NormalText}">
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding NotSureCommand}"/>
-                                        </Label.GestureRecognizers>
-                                    </Label>
-                                </StackLayout>
                                 <views:ClickableListView BindingContext="{Binding AskingMPsOther}"></views:ClickableListView>
-                                <!-- <StackLayout Spacing="0" Margin="0" Padding="0">
-                                    <Label Text="Other MP" Style="{StaticResource ClickableHeader}" >
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding OtherAskingMPsFilterCommand}"/>
-                                        </Label.GestureRecognizers>
-                                    </Label>
-                                    <Label Text="{Binding SelectedAskingMPsText}" Style="{StaticResource NormalText}">
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding OtherAskingMPsFilterCommand}"/>
-                                        </Label.GestureRecognizers>
-                                    </Label>
-                                </StackLayout> -->
+                                <views:ClickableListView BindingContext="{Binding Committees}"/>
                                 <StackLayout Spacing="0" Margin="0" Padding="0">
                                     <Label Text="Right to Ask Participant" Style="{StaticResource ClickableHeader}" >
                                         <Label.GestureRecognizers>

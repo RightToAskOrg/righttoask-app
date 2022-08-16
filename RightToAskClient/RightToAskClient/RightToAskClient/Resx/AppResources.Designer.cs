@@ -255,6 +255,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string FederalParliamentText {
+            get {
+                return ResourceManager.GetString("FederalParliamentText", resourceCulture);
+            }
+        }
+        
         internal static string FindCommitteeButtonText {
             get {
                 return ResourceManager.GetString("FindCommitteeButtonText", resourceCulture);
@@ -1596,6 +1602,24 @@ namespace RightToAskClient.Resx {
         internal static string TrendingMyElectorateText {
             get {
                 return ResourceManager.GetString("TrendingMyElectorateText", resourceCulture);
+            }
+        }
+        
+        internal static string SelectableListCommitteePopupText {
+            get {
+                return ResourceManager.GetString("SelectableListCommitteePopupText", resourceCulture);
+            }
+        }
+        
+        internal static string ParliamentaryCommitteeText {
+            get {
+                return ResourceManager.GetString("ParliamentaryCommitteeText", resourceCulture);
+            }
+        }
+        
+        internal static string CommitteeText {
+            get {
+                return ResourceManager.GetString("CommitteeText", resourceCulture);
             }
         }
     }

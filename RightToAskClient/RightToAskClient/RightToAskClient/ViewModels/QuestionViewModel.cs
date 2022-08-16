@@ -14,6 +14,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using RightToAskClient.Annotations;
+using RightToAskClient.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -252,7 +253,6 @@ namespace RightToAskClient.ViewModels
             {
                 Question.AnswerInApp = false;
                 AnswerInApp = false;
-                // var selectableList = new SelectableList<Authority>(ParliamentData.AllAuthorities, App.ReadingContext.Filters.SelectedAuthorities); 
                 var PageToSearchAuthorities
                     = new SelectableListPage(App.ReadingContext.Filters.AuthorityLists, "Choose authorities");
                 await Shell.Current.Navigation.PushAsync(PageToSearchAuthorities).ContinueWith((_) => 
@@ -291,13 +291,14 @@ namespace RightToAskClient.ViewModels
                     MessagingCenter.Send(this, "OptionBGoToAskingPageNext"); // Sends this view model
                 });
             });
+            /*
             SelectCommitteeButtonCommand = new AsyncCommand(async () =>
             {
-                App.ReadingContext.Filters.SelectedAskingCommittee.Add("Senate Estimates tomorrow");
                 SelectButtonText = AppResources.SelectedButtonText;
                 // then navigate to the reading page
                 await Shell.Current.GoToAsync(nameof(ReadingPage));
             });
+            */
             UpvoteCommand = new AsyncCommand(async () =>
             {
                 await DoRegistrationCheck();
@@ -385,16 +386,13 @@ namespace RightToAskClient.ViewModels
         public IAsyncCommand QuestionSuggesterCommand { get; }
         public IAsyncCommand BackCommand { get; }
         public Command SaveQuestionCommand { get; }
-        public IAsyncCommand SelectCommitteeButtonCommand { get; }
+        // public IAsyncCommand SelectCommitteeButtonCommand { get; }
         public IAsyncCommand UpvoteCommand { get; }
         public Command SaveAnswerCommand { get; }
         public Command EditAnswerCommand { get; }
         public IAsyncCommand OptionACommand { get; }
         public IAsyncCommand OptionBCommand { get; }
         public IAsyncCommand ToMetadataPageCommand { get; }
-        public IAsyncCommand ToDetailsPageCommand { get; }
-        public Command AnsweringMPsFilterCommand { get; }
-        public Command AskingMPsFilterCommand { get; }
 
         public void ResetInstance()
         {
@@ -419,9 +417,17 @@ namespace RightToAskClient.ViewModels
         }
 
         // methods for selecting who will raise your question
-        private void OnFindCommitteeButtonClicked()
+        private async void OnFindCommitteeButtonClicked()
         {
-            RaisedByOptionSelected = true;
+            if (CommitteesAndHearingsData.CommitteesData.IsInitialised)
+            {
+                RaisedByOptionSelected = true;
+                await NavigationUtils.EditCommitteesClicked().ContinueWith((_) =>
+                {
+                    MessagingCenter.Send(this, "GoToReadingPage"); // Sends this view model
+                    MessagingCenter.Send(this, "OptionBAskingNow");
+                });
+            }
         }
 
         // Note that the non-waiting for this asyc method means that the rest of the page can keep
@@ -458,12 +464,11 @@ namespace RightToAskClient.ViewModels
             await Shell.Current.GoToAsync(nameof(ReadingPage));
         }
 
-        // TODO: Implement an ExporingPage constructor for people.
+        // TODO: Implement SearchableListPage constructor for people.
         private async void UserShouldRaiseButtonClicked()
         {
             RaisedByOptionSelected = true;
             AnotherUserButtonText = "Not Implemented Yet";
-            await Shell.Current.GoToAsync(nameof(ReadingPage));
         }
 
         private async void OnOtherMPRaiseButtonClicked()
@@ -480,22 +485,6 @@ namespace RightToAskClient.ViewModels
                 RedoButtonsForUnreadableMPData();
             }
         }
-
-        // If we already know the electorates (and hence responsible MPs), go
-        // straight to the Explorer page that lists them.
-        // If we don't, go to the page for entering address and finding them.
-        // It will pop back to here.
-        /*
-        private async void OnAnsweredByMPButtonClicked(object sender, EventArgs e)
-        {
-            await NavigationUtils.PushMyAnsweringMPsExploringPage();
-        }
-
-        private async void OnAnswerByOtherMPButtonClicked(object sender, EventArgs e)
-        {
-            await NavigationUtils.PushAnsweringMPsNotMineSelectableListPage();
-        }
-        */
 
         private async void SubmitNewQuestionButton_OnClicked()
         {
@@ -533,9 +522,6 @@ namespace RightToAskClient.ViewModels
         {
             if (!App.ReadingContext.ThisParticipant.IsRegistered)
             {
-                //string message = AppResources.CreateAccountPopUpText;
-                //bool registerNow
-                //    = await App.Current.MainPage.DisplayAlert(AppResources.MakeAccountQuestionText, message, AppResources.OKText, AppResources.NotNowAnswerText);
                 var popup = new TwoButtonPopup(QuestionViewModel.Instance, AppResources.MakeAccountQuestionText, AppResources.CreateAccountPopUpText, AppResources.CancelButtonText, AppResources.OKText);
                 _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
                 if (ApproveButtonClicked)
@@ -553,7 +539,7 @@ namespace RightToAskClient.ViewModels
             if (!App.ReadingContext.ThisParticipant.IsRegistered) return;
 
             // Insert the question into our own list even if it doesn't upload.
-            App.ReadingContext.ExistingQuestions.Insert(0, Question);
+            // App.ReadingContext.ExistingQuestions.Insert(0, Question);
 
             // TODO use returnedData to record questionID, version, hash
             (bool isValid, string errorMessage, string returnedData) successfulSubmission = await BuildSignAndUploadNewQuestion();
@@ -620,8 +606,6 @@ namespace RightToAskClient.ViewModels
         }
 
         // TODO: This is where we'll need to record the hash, version, and other server responses.
-        // TODO** string may not be the correct deserialisation type for the response from the 
-        // server.
         private async Task<(bool isValid, string errorMessage, string)> BuildSignAndUploadNewQuestion()
         {
             var serverQuestion = new QuestionSendToServer(Question);
@@ -666,12 +650,17 @@ namespace RightToAskClient.ViewModels
                 Concat(Question.Filters.SelectedAuthorities.Select(a => new PersonID(a))).ToList();
             currentQuestionForUpload.entity_who_should_answer_the_question = answerers;
 
-            // Entities who should raise the question - currently just MPs.
-            // TODO add committees, other users, etc.
+            // Entities who should raise the question - currently just MPs and committees.
+            // TODO add other users.
             var MPAskers = Question.Filters.SelectedAskingMPsNotMine.Union(Question.Filters.SelectedAskingMPsMine);
             var MPAskersServerData = MPAskers.Select(mp => new PersonID(new MPId(mp)));
-
-            List<PersonID> askers = MPAskersServerData.ToList();
+            
+            // Add committees, guaranteed not to be duplicates.
+            var CommitteeAskers = Question.Filters.SelectedCommittees;
+            // var CommitteeAskersServerData = CommitteeAskers.Select(c => new PersonID(new CommitteeInfo(c)));
+            
+            List<PersonID> askers = MPAskersServerData.
+                Concat(CommitteeAskers.Select(c => new PersonID(new CommitteeInfo(c)))).ToList();
             currentQuestionForUpload.mp_who_should_ask_the_question = askers;
         }
     }

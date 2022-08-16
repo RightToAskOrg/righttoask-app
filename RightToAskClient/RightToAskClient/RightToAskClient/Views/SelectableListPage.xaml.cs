@@ -46,6 +46,13 @@ namespace RightToAskClient.Views
 			//AuthorityListView.ItemsSource = authorityLists.AllEntities;
 		}
 
+        public SelectableListPage(SelectableList<Committee> committeeLists, string message, bool grouping)
+        {
+	        InitializeComponent();
+	        var vm = new SelectableListViewModel(committeeLists, message);
+	        BindingContext = vm;
+        }
+
         public SelectableListPage(SelectableList<MP> MPLists, string message, bool grouping)
         {
 			InitializeComponent();

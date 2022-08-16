@@ -5,6 +5,7 @@
 
 using System;
 using System.Text.Json.Serialization;
+using RightToAskClient.Helpers;
 using RightToAskClient.Models.ServerCommsData;
 
 namespace RightToAskClient.Models

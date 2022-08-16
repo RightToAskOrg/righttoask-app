@@ -8,6 +8,7 @@ using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using System.Threading;
 using Org.BouncyCastle.Tls;
+using RightToAskClient.Helpers;
 using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Resx;
 
@@ -83,7 +84,7 @@ namespace RightToAskClient.Models
 		    WA
 	    }
 
-	    public static readonly Dictionary<string, List<Chamber>> Parliaments = new Dictionary<string, List<Chamber>>
+	    public static readonly Dictionary<string, List<ParliamentData.Chamber>> Parliaments = new Dictionary<string, List<Chamber>>
 	    {
 		    { State.ACT, new List<Chamber> { Chamber.ACT_Legislative_Assembly } },
 		    { State.NSW, new List<Chamber> { Chamber.NSW_Legislative_Assembly, Chamber.NSW_Legislative_Council } },
@@ -142,6 +143,102 @@ namespace RightToAskClient.Models
 
 		    [EnumMember(Value = "WA_Legislative_Council")]
 		    WA_Legislative_Council
+	    }
+
+	    /* Somewhat repetitious of the chambers and states, but necessary because 'jurisdiction' is used to describe
+	     * committees which may be joint, and therefore not connected with a single chamber. So this is all the states,
+	     * plus all the chambers, plus a special value 'Federal' for joint federal committees.
+	     */
+	    [JsonConverter(typeof(JsonStringEnumConverter))]
+	    public enum Jurisdiction
+	    {
+		    [EnumMember(Value = "ACT")]
+		    ACT,
+		    
+		    [EnumMember(Value = "NSW")]
+		    NSW,
+		    
+		    [EnumMember(Value = "NT")]
+		    NT,
+		    
+		    [EnumMember(Value = "QLD")]
+		    QLD,
+		    
+		    [EnumMember(Value = "SA")]
+		    SA,
+		    
+		    [EnumMember(Value = "TAS")]
+		    TAS,
+		    
+		    [EnumMember(Value = "VIC")]
+		    VIC,
+		    
+		    [EnumMember(Value = "WA")]
+		    WA,
+		    
+		    [EnumMember(Value = "Federal")]
+		    Federal,
+		    
+		    [EnumMember(Value = "ACT_Legislative_Assembly")]
+		    ACT_Legislative_Assembly,
+
+		    [EnumMember(Value = "Australian_House_Of_Representatives")]
+		    Australian_House_Of_Representatives,
+
+		    [EnumMember(Value = "Australian_Senate")]
+		    Australian_Senate,
+
+		    [EnumMember(Value = "NSW_Legislative_Assembly")]
+		    NSW_Legislative_Assembly,
+
+		    [EnumMember(Value = "NSW_Legislative_Council")]
+		    NSW_Legislative_Council,
+
+		    [EnumMember(Value = "NT_Legislative_Assembly")]
+		    NT_Legislative_Assembly,
+
+		    [EnumMember(Value = "Qld_Legislative_Assembly")]
+		    Qld_Legislative_Assembly,
+
+		    [EnumMember(Value = "SA_House_Of_Assembly")]
+		    SA_House_Of_Assembly,
+
+		    [EnumMember(Value = "SA_Legislative_Council")]
+		    SA_Legislative_Council,
+
+		    [EnumMember(Value = "Tas_House_Of_Assembly")]
+		    Tas_House_Of_Assembly,
+
+		    [EnumMember(Value = "Tas_Legislative_Council")]
+		    Tas_Legislative_Council,
+
+		    [EnumMember(Value = "Vic_Legislative_Assembly")]
+		    Vic_Legislative_Assembly,
+
+		    [EnumMember(Value = "Vic_Legislative_Council")]
+		    Vic_Legislative_Council,
+
+		    [EnumMember(Value = "WA_Legislative_Assembly")]
+		    WA_Legislative_Assembly,
+
+		    [EnumMember(Value = "WA_Legislative_Council")]
+		    WA_Legislative_Council
+	    }
+	    
+	    [JsonConverter(typeof(JsonStringEnumConverter))]
+	    public enum CommitteeType
+	    {
+		    [EnumMember(Value = "ADMIN")]
+		    ADMIN,
+		    
+		    [EnumMember(Value = "STAND")]
+		    STAND,
+		    
+		    [EnumMember(Value = "SELECT")]
+		    SELECT,
+		    
+		    [EnumMember(Value = "SESSION")]
+		    SESSION
 	    }
 
 	    // Find all the MPs given a state and a list of electorates.

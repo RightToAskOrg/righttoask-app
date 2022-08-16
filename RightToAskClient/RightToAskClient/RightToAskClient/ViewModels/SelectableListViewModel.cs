@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using RightToAskClient.Helpers;
 using RightToAskClient.Models;
 using RightToAskClient.Resx;
 using RightToAskClient.Views;
@@ -136,6 +137,27 @@ namespace RightToAskClient.ViewModels
 			SubscribeToTheRightMessages();
 		}
 
+		public SelectableListViewModel(SelectableList<Committee> committeeLists, string message)
+		{
+			SelectableEntities = WrapInTagsAndSortPreselections(new ObservableCollection<Entity>(committeeLists.AllEntities),  
+				committeeLists.SelectedEntities);
+
+			_titleText = AppResources.CommitteeText; 
+			IntroText = message;
+			PopupLabelText = AppResources.SelectableListCommitteePopupText;
+			DoneButtonCommand = new AsyncCommand(async () =>
+            {
+                DoneButton_OnClicked(
+	                () => UpdateSelectedList<Committee>(committeeLists)       
+	                );
+				MessagingCenter.Send(this, "UpdateFilters");
+            });
+			SearchToolbarCommand = new Command(() =>
+			{
+				ShowSearchFrame = !ShowSearchFrame; // just toggle it
+			});
+			SubscribeToTheRightMessages();
+		}
 		public SelectableListViewModel(SelectableList<MP> mpLists, string message)
 		{
 			SelectableEntities = WrapInTagsAndSortPreselections(new ObservableCollection<Entity>(mpLists.AllEntities),  mpLists.SelectedEntities);

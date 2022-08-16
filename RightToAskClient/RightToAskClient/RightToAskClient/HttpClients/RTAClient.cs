@@ -6,6 +6,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using RightToAskClient.Models;
 using RightToAskClient.CryptoUtils;
+using RightToAskClient.Helpers;
 using Xamarin.Essentials;
 using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Resx;
@@ -24,6 +25,8 @@ namespace RightToAskClient.HttpClients
         private static string QnUrl = BaseUrl + "/new_question";
         private static string EditQnUrl = BaseUrl + "/edit_question";
         private static string MPListUrl = BaseUrl + "/MPs.json";
+        private static string CommitteeListUrl = BaseUrl + "/committees.json";
+        private static string HearingsListUrl = BaseUrl + "/hearings.json";
         private static string UserListUrl = BaseUrl + "/get_user_list";
         private static string QuestionListUrl = BaseUrl + "/get_question_list";
         private static string QuestionUrl = BaseUrl + "/get_question" + "?question_id=";
@@ -80,6 +83,18 @@ namespace RightToAskClient.HttpClients
             {
                 Err = errorMessage 
             };
+        }
+
+        public static async Task<Result<List<CommitteeInfo>>> GetCommitteeData()
+        {
+            var committeeList =await Client.DoGetJSONRequest<List<CommitteeInfo>>(CommitteeListUrl);
+            return committeeList;
+        }
+        
+        // TODO Correct types.
+        public static async Task<Result<List<CommitteeInfo>>> GetHearingsData()
+        {
+            return await Client.DoGetResultRequest<List<CommitteeInfo>>(HearingsListUrl);
         }
         
         /* Currently unused, but will be used when we want to get lists of other users

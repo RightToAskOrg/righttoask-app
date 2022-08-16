@@ -32,22 +32,28 @@ namespace RightToAskClient.Models.ServerCommsData
         [JsonPropertyName("MP")]
         public MPId? MP { get; set; }
         
+        
         // TODO Should change this to 'Authority'? 
         [JsonPropertyName("Organisation")]
         public string? Organisation { get; set; }
+        
+        [JsonPropertyName("Committee")]
+        public CommitteeInfo? Committee { get; set; }
+        public PersonID(Person user)
+        {
+            User = user.RegistrationInfo.uid;
+        }
         public PersonID(MPId mpId)
         {
             MP = mpId;
         }
-
         public PersonID(Authority a)
         {
             Organisation = a.AuthorityName;
         }
-
-        public PersonID(Person user)
+        public PersonID(CommitteeInfo committee)
         {
-            User = user.RegistrationInfo.uid;
+            Committee = committee;
         }
 
         // TODO at the moment, each of these simply generates the minimal data structure with a string
@@ -57,28 +63,11 @@ namespace RightToAskClient.Models.ServerCommsData
         // for internal app use.
         
         [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
-        public Authority? AsAuthority
-        {
-            get
-            {
-                if (String.IsNullOrWhiteSpace(User) && MP is null && !String.IsNullOrWhiteSpace(Organisation))
-                {
-                    Debug.Assert(Organisation != null, nameof(Organisation) + " != null");
-                    // The auto analyser doesn't seem to realise that it just checked this for null.
-                    // Nevertheless the assignment is guaranteed not to be null because we checked.
-                    return new Authority(Organisation!);
-                }
-
-                return null;
-            }   
-        }
-        
-        [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
         public Person? AsRTAUser 
         {
             get
             {
-                if (!String.IsNullOrWhiteSpace(User) && MP is null && String.IsNullOrWhiteSpace(Organisation))
+                if (!String.IsNullOrWhiteSpace(User) && MP is null && Committee is null && String.IsNullOrWhiteSpace(Organisation))
                 {
                     // The auto analyser doesn't seem to realise that it just checked this for null.
                     // Nevertheless the assignment to uid is guaranteed not to be null because we checked.
@@ -89,13 +78,15 @@ namespace RightToAskClient.Models.ServerCommsData
                 return null;
             }
         }
+        
+        
 
         [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
         public MP? AsMP
         {
             get
             {
-                if (String.IsNullOrWhiteSpace(User) && MP != null && String.IsNullOrWhiteSpace(Organisation))
+                if (String.IsNullOrWhiteSpace(User) && MP != null && Committee is null && String.IsNullOrWhiteSpace(Organisation))
                 {
                     return new MP(MP);
                 }
@@ -105,15 +96,50 @@ namespace RightToAskClient.Models.ServerCommsData
 
         }
 
+        [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
+        public Authority? AsAuthority
+        {
+            get
+            {
+                if (String.IsNullOrWhiteSpace(User) && MP is null && Committee is null && !String.IsNullOrWhiteSpace(Organisation))
+                {
+                    Debug.Assert(Organisation != null, nameof(Organisation) + " != null");
+                    // The auto analyser doesn't seem to realise that it just checked this for null.
+                    // Nevertheless the assignment is guaranteed not to be null because we checked.
+                    return new Authority(Organisation!);
+                }
+
+                return null;
+            }   
+        }
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
+        public Committee? AsCommittee
+        {
+            get
+            {
+                if (String.IsNullOrWhiteSpace(User) && MP is null && Committee != null && String.IsNullOrWhiteSpace(Organisation))
+                {
+                    return new Committee(Committee);
+                }
+
+                return null;
+            }
+
+        }
 
         // This allows for set-based Linq list operations such as removing duplicates.
-        public bool Equals(PersonID other)
+        public bool Equals(PersonID? other)
         {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
             // Note that null == null.
             return other.User == User
                    && other.Organisation == Organisation
                    && (MP is null && other.MP is null ||
-                       MP != null && other.MP != null && MP.Equals(other.MP));
+                       MP != null && other.MP != null && MP.Equals(other.MP))
+                   && (Committee is null && other.Committee is null ||
+                       Committee != null && other.Committee != null && Committee.Equals(other.Committee));
         }
     }
 }

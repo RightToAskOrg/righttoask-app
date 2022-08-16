@@ -14,11 +14,23 @@ namespace RightToAskClient.Models
 		// private ObservableCollection<MP> _selectedAskingMPs = new ObservableCollection<MP>();
 		// private ObservableCollection<MP> _selectedAskingMPsMine = new ObservableCollection<MP>();
 		// private ObservableCollection<Authority> _selectedAuthorities = new ObservableCollection<Authority>();
-		private ObservableCollection<string> _selectedAskingCommittee = new ObservableCollection<string>();
+		// private ObservableCollection<string> _selectedAskingCommittee = new ObservableCollection<string>();
 		private ObservableCollection<Person?> _selectedAskingUsers = new ObservableCollection<Person?>();
 
 		// Express each FilterChoice as a pair of lists: the whole list from which things are seleced,
 		// and the list of selections.
+		private SelectableList<Committee> _committeeLists
+			= new SelectableList<Committee>(new List<Committee>(), new List<Committee>());
+			
+		public SelectableList<Committee> CommitteeLists
+		{
+			get => _committeeLists;
+		}
+		public List<Committee> SelectedCommittees
+		{
+			get => _committeeLists.SelectedEntities as List<Committee> ?? new List<Committee>();
+		}
+		
 		private SelectableList<Authority> _authorityLists
 			= new SelectableList<Authority>(new List<Authority>(), new List<Authority>());
 			
@@ -29,7 +41,6 @@ namespace RightToAskClient.Models
 		public List<Authority> SelectedAuthorities
 		{
 			get => _authorityLists.SelectedEntities as List<Authority> ?? new List<Authority>();
-			set => _authorityLists.SelectedEntities = value;
 		}
 		
 		private SelectableList<MP> _answeringMPsListMine 
@@ -106,6 +117,7 @@ namespace RightToAskClient.Models
 			}
 		}
 
+		/*
         public ObservableCollection<string> SelectedAskingCommittee
         {
             get => _selectedAskingCommittee;
@@ -115,6 +127,7 @@ namespace RightToAskClient.Models
                 OnPropertyChanged();
             }
         }
+        */
 
 		public ObservableCollection<Person?> SelectedAskingUsers
 		{
@@ -143,14 +156,13 @@ namespace RightToAskClient.Models
         // This is necessary on startup because of the need to update the AllMPs list.
         // It's still helpful for them to use the constructor because if this data structure
         // is initialized after the MP read-in, the constructor should suffice.
-        // TODO add code to update all Committees too.
         public void InitSelectableLists()
         {
 	        _answeringMPsListNotMine = new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
 	        _askingMPsListNotMine =  new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
 	        _authorityLists = new SelectableList<Authority>(ParliamentData.AllAuthorities, new List<Authority>());
-	        // Doing this at init causes a nullpointer exception because App isn't loaded yet.
-	        // UpdateMyMPLists();
+	        _committeeLists =
+		        new SelectableList<Committee>(CommitteesAndHearingsData.AllCommittees, new List<Committee>());
         }
 
         public void RemoveAllSelections()
@@ -160,6 +172,7 @@ namespace RightToAskClient.Models
 	        _askingMPsListNotMine.SelectedEntities = new List<MP>();
 	        _askingMPsListMine.SelectedEntities = new List<MP>();
 	        _authorityLists.SelectedEntities = new List<Authority>();
+	        _committeeLists.SelectedEntities = new List<Committee>();
 	        SearchKeyword = "";
         }
 
@@ -177,16 +190,6 @@ namespace RightToAskClient.Models
         {
             bool isValid = false;
             bool hasInvalidData = false;
-            //if (SelectedAnsweringMPs.Any())
-            //{
-            //    foreach (MP mp in SelectedAnsweringMPs)
-            //    {
-            //        if (!mp.Validate())
-            //        {
-            //            hasInvalidData = true;
-            //        }
-            //    }
-            //}
             if (SelectedAnsweringMPsMine.Any())
             {
                 foreach (MP mp in SelectedAnsweringMPsMine)
@@ -197,16 +200,6 @@ namespace RightToAskClient.Models
                     }
                 }
             }
-            //if (SelectedAskingMPs.Any())
-            //{
-            //    foreach (MP mp in SelectedAskingMPs)
-            //    {
-            //        if (!mp.Validate())
-            //        {
-            //            hasInvalidData = true;
-            //        }
-            //    }
-            //}
             if (SelectedAskingMPsMine.Any())
             {
                 foreach (MP mp in SelectedAskingMPsMine)
@@ -227,11 +220,11 @@ namespace RightToAskClient.Models
                     }
                 }
             }
-            if (SelectedAskingCommittee.Any())
+            if (SelectedCommittees.Any())
             {
-                foreach (string com in SelectedAskingCommittee)
+                foreach (Committee com in SelectedCommittees)
                 {
-                    if (string.IsNullOrEmpty(com))
+                    if (string.IsNullOrEmpty(com.ShortestName))
                     {
                         hasInvalidData = true;
                     }
