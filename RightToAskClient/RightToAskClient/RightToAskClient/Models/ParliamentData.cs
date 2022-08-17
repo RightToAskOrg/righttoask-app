@@ -11,6 +11,7 @@ using Org.BouncyCastle.Tls;
 using RightToAskClient.Helpers;
 using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Resx;
+using Xamarin.CommunityToolkit.Converters;
 
 namespace RightToAskClient.Models
 {
@@ -24,14 +25,6 @@ namespace RightToAskClient.Models
 		    get
 		    {
 			    return new ObservableCollection<MP>(MPAndOtherData.AllMPs);
-		    }
-	    }
-
-	    public static List<RegionsContained> FederalElectoratesAsStates
-	    {
-		    get
-		    {
-			    return MPAndOtherData.FederalElectoratesByState;
 		    }
 	    }
 
@@ -74,16 +67,26 @@ namespace RightToAskClient.Models
 
 	    public enum StateEnum
 	    {
+		    [EnumMember(Value = "ACT")]
 		    ACT,
+		    [EnumMember(Value = "NSW")]
 		    NSW,
+		    [EnumMember(Value = "NT")]
 		    NT,
+		    [EnumMember(Value = "QLD")]
 		    QLD,
+		    [EnumMember(Value = "SA")]
 		    SA,
+		    [EnumMember(Value = "TAS")]
 		    TAS,
+		    [EnumMember(Value = "VIC")]
 		    VIC,
+		    [EnumMember(Value = "WA")]
 		    WA
 	    }
 
+	    public static List<string> StateStrings => Enum.GetNames(typeof(StateEnum)).ToList();
+	    
 	    public static readonly Dictionary<string, List<ParliamentData.Chamber>> Parliaments = new Dictionary<string, List<Chamber>>
 	    {
 		    { State.ACT, new List<Chamber> { Chamber.ACT_Legislative_Assembly } },
@@ -260,19 +263,23 @@ namespace RightToAskClient.Models
 	    public static readonly ObservableCollection<Authority> AllAuthorities =
 		    new ObservableCollection<Authority>(ReadAuthoritiesFromFiles());
 	    
-	    // Ideally, this would return only the electorates in the state, but at the moment we don't have a good
-	    // way of identifying which House of Reps electorates correspond to which states.
-	    public static List<string> AllHouseOfRepsElectorates
+	    public static List<string> AllFederalElectorates => 
+				    MPAndOtherData.ListElectoratesInChamber(Chamber.Australian_House_Of_Representatives);
+	    // If state matches anything in the regions list, return only the electorates in the state. 
+	    // Otherwise return the lot. 
+	    public static List<string> HouseOfRepsElectorates(string state)
 	    {
-		    get
+		    if (MPAndOtherData.IsInitialised)
 		    {
-			    if (MPAndOtherData.IsInitialised)
-			    {
-				    return MPAndOtherData.ListElectoratesInChamber(Chamber.Australian_House_Of_Representatives);
-			    }
+			    var electoratesList = MPAndOtherData.FederalElectoratesByState.Find(rc => rc.super_region == state)
+				    .regions.ToList();
 
-			    return new List<string>();
+			    return electoratesList.Any()
+				    ? electoratesList
+				    : MPAndOtherData.ListElectoratesInChamber(Chamber.Australian_House_Of_Representatives);
 		    }
+
+			return new List<string>();
 	    }
 	    
 	    private static List<Chamber> StateLowerHouseChambers = new List<Chamber>
@@ -438,27 +445,10 @@ namespace RightToAskClient.Models
 			return (choosableHouseMessage, inferredHouseMessage, region);
 		}
 		
-	    // TODO: add logic for inferred other houses.
-	    // FIXME this isn't updated to work for Tas. The assumption is that it's being given the lower house region
-	    // in all states, but it needs to be the upper house in Tas.
-	    /*
-	    public static List<ElectorateWithChamber> GetStateElectoratesGivenOneRegion(string state, string region)
-	    {
-		    Result<Chamber> chamber = GetLowerHouseChamber(state);
-		    if (!String.IsNullOrEmpty(chamber.Err))
-		    {
-			    Debug.WriteLine("Error: Couldn't find lower house chamber for " + state);
-			    return new List<ElectorateWithChamber>();
-		    }
-
-            return new List<ElectorateWithChamber>() { new ElectorateWithChamber(chamber.Ok, region) };
-		}
-		*/
-
 		// Used because the Geoscape API returns electorates in all Uppercase, which messes with the URL for the webview that displays the map of electorates
 		public static string ConvertGeoscapeElectorateToStandard(string state, string electorate)
 		{
-			List<string> options = AllHouseOfRepsElectorates;
+			List<string> options = AllFederalElectorates;
 			string result = "";
 			for (int i = 0; i < options.Count - 1; i++)
 			{

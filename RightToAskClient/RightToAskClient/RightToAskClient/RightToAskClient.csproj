@@ -245,8 +245,6 @@
     <EmbeddedResource Remove="Views\ListPage.xaml" />
     <None Remove="Resources\GeoscapeAPIKey" />
     <EmbeddedResource Include="Resources\GeoscapeAPIKey" />
-    <None Remove="Resources\MPs.json" />
-    <EmbeddedResource Include="Resources\MPs.json" />
     <EmbeddedResource Remove="Views\AuthoritiesRTKCategories.xaml" />
     <None Remove="Resources\server.config" />
     <None Remove="Resources\serverconfig.json" />
@@ -258,6 +256,8 @@
     <EmbeddedResource Remove="Views\ExploringPageWithSearch.xaml" />
     <EmbeddedResource Remove="Views\ExploringPageWithSearchAndPreSelections.xaml" />
     <EmbeddedResource Remove="Views\EmptySelectableListSearchView.xaml" />
+    <None Remove="Resources\MPs.json" />
+    <EmbeddedResource Include="Resources\MPs.json" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Essentials">

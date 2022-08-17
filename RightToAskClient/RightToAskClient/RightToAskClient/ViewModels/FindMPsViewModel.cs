@@ -118,7 +118,7 @@ namespace RightToAskClient.ViewModels
         
         public List<string> FederalElectorates
         {
-            get => ParliamentData.AllHouseOfRepsElectorates;
+            get => ParliamentData.HouseOfRepsElectorates(_state);
         }
         
         private ObservableCollection<string> _allStateChoosableElectorates = new ObservableCollection<string>();
