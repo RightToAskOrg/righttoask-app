@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using RightToAskClient.Models.ServerCommsData;
+using SQLite;
 using static Xamarin.Forms.Editor;
 using Switch = Xamarin.Forms.Switch;
 
@@ -96,12 +97,22 @@ namespace RightToAskClient
                     }
                 }
             }
-            // sets state pickers
+            // If we already have stored a state, use it. 
+            ReadingContext.ThisParticipant.RegistrationInfo.StateKnown = false; // Should already be the default.
+            string stateString =  Preferences.Get(Constants.State, "");
+            Result <ParliamentData.StateEnum> state = ParliamentData.StateStringToEnum(stateString);
+            if (String.IsNullOrEmpty(state.Err))
+            {
+                ReadingContext.ThisParticipant.RegistrationInfo.StateKnown = true;
+                ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsEnum = state.Ok;
+            }
+            
+            /*
             int stateID = Preferences.Get(Constants.StateID, -1);
             if (stateID >= 0)
             {
                 ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsIndex = stateID;
-            }
+            } */
 
             // set popup bool
             ReadingContext.DontShowFirstTimeReadingPopup = Preferences.Get(Constants.DontShowFirstTimeReadingPopup, false);

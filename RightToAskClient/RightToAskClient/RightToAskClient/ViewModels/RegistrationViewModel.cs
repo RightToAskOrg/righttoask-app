@@ -75,23 +75,28 @@ namespace RightToAskClient.ViewModels
 
         public string State
         {
-            get => _registration.SelectedStateAsIndex >= 0 
-                    && _registration.SelectedStateAsIndex < ParliamentData.StatesAndTerritories.Count 
-                    ? ParliamentData.StatesAndTerritories[SelectedStateAsIndex] : "";
+            get => _registration.StateKnown
+                ? _registration.SelectedStateAsEnum.ToString()
+                : "";
         }
 
+
+        private bool _stateKnown;
+        private int _selectedStateAsInt = -1;
         public int SelectedStateAsIndex
         {
-            get => _registration.SelectedStateAsIndex;
+            get => _selectedStateAsInt;
             set
             {
-                _registration.SelectedStateAsIndex = value;
+                (_stateKnown, _) =  App.ReadingContext.ThisParticipant.RegistrationInfo.UpdateStateStorePreferences(SelectedStateAsIndex);
+                // _registration.SelectedStateAsIndex = value;
                 // At the moment, this means that there is no way that someone who has previously selected a state can
                 // revert to the point where there is no state
+                /*
                 if (SelectedStateAsIndex != -1)
                 {
                     _registrationUpdates.state = State;
-                }
+                } */
                 OnPropertyChanged("State");
             }
         }
@@ -276,20 +281,28 @@ namespace RightToAskClient.ViewModels
             // Otherwise, if we're looking at someone else, just tell them it's another
             // person's profile.
             // TODO Clarify meaning of ReadingOnly - looks like it has a few different uses.
-            if (!App.ReadingContext.IsReadingOnly)
-            {
-                SelectedStateAsIndex = Preferences.Get(Constants.StateID, -1);
+            // Also note that (at the moment) we only use this ViewModel for viewing your own profile.
+            // Perhaps we should unify this with OtherUserProfileViewModel, but at the moment they're separate.
+            // if (!App.ReadingContext.IsReadingOnly)
+            // {
+            
+            // TODO: I don't think an alternative retrieval of the State, as an enum, should be necessary here,
+            // because we'll simply use the value stored in _registration, even if the person is not registered.
+           //      SelectedStateAsIndex = Preferences.Get(Constants.StateID, -1);
+                
                 ShowUpdateAccountButton = App.ReadingContext.ThisParticipant.IsRegistered;
                 Title = App.ReadingContext.ThisParticipant.IsRegistered ? AppResources.EditYourAccountTitle : AppResources.CreateAccountTitle;
                 PopupLabelText = App.ReadingContext.ThisParticipant.IsRegistered ? AppResources.EditAccountPopupText : AppResources.CreateNewAccountPopupText;
                 
                 _selectableMPList = new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
-            }
-            else
+            // }
+            /*
+             * else
             {
                 Title = AppResources.UserProfileTitle;
                 PopupLabelText = AppResources.OtherUserProfilePopupText;
             }
+            */
 
             // commands
             ChooseMPToRegisterButtonCommand = new AsyncCommand(async () =>
@@ -303,7 +316,7 @@ namespace RightToAskClient.ViewModels
             });
             UpdateAccountButtonCommand = new Command(() =>
             {
-                SaveToPreferences();
+                SaveRegistrationToPreferences();
                 SendUpdatedUserToServer();
             });
             UpdateMPsButtonCommand = new Command(() =>
@@ -405,6 +418,7 @@ namespace RightToAskClient.ViewModels
         // public key and uid. Electorates are optional.
         private async void OnSaveButtonClicked()
         {
+            SaveRegistrationToPreferences();
             Debug.Assert(!App.ReadingContext.ThisParticipant.IsRegistered);
 
             _registration.public_key = App.ReadingContext.ThisParticipant.MyPublicKey();
@@ -442,8 +456,6 @@ namespace RightToAskClient.ViewModels
 
         private async Task SendNewUserToServer()
         {
-            // TODO should this call to SaveToPreferences simply the first thing in OnSaveButtonClicked?
-            SaveToPreferences();
 
             var httpResponse = await RTAClient.RegisterNewUser(_registration);
             var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
@@ -467,12 +479,12 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        private void SaveToPreferences()
+        private void SaveRegistrationToPreferences()
         {
             // save registration to preferences
             var registrationObjectToSave = JsonSerializer.Serialize(new ServerUser(_registration));
             Preferences.Set(Constants.RegistrationInfo, registrationObjectToSave);
-            Preferences.Set(Constants.StateID, SelectedStateAsIndex); // stored as an int as used for the other page(s) state pickers
+            // Preferences.Set(Constants.State, _registration.SelectedStateAsEnum.ToString()); 
         }
 
         private async void SendUpdatedUserToServer()

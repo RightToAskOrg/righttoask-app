@@ -467,7 +467,7 @@ namespace RightToAskClient.ViewModels
         {
             var fullAddress = JsonSerializer.Serialize(Address);
             Preferences.Set(Constants.Address, fullAddress); // save the full address
-            Preferences.Set(Constants.StateID, SelectedStateAsInt);
+            Preferences.Set(Constants.State, SelectedStateEnum.ToString());
         }
 
         // This is the Legislative Assembly Electorate, except in Tas where it's the Legislative Council.
@@ -552,16 +552,11 @@ namespace RightToAskClient.ViewModels
 
         private void OnStatePickerSelectedIndexChanged()
         {
-            // Check that it isn't -1 (no selection) or (unexpected) a value that doesn't correspond to a valid state enum.
-            if (Enum.IsDefined(typeof(ParliamentData.StateEnum), SelectedStateAsInt))
-            {
-                // App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsIndex = SelectedStateAsInt;
-                SelectedStateEnum = (ParliamentData.StateEnum)Enum.ToObject(typeof(ParliamentData.StateEnum), SelectedStateAsInt);
-                App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsEnum = SelectedStateEnum;
+            (_stateKnown, SelectedStateEnum) = App.ReadingContext.ThisParticipant.RegistrationInfo.UpdateStateStorePreferences(SelectedStateAsInt);
                 
+                if (_stateKnown)
+                {
                 // This will give us the right message about the upper-house electorate and a blank inferred electorate.
-                
-                // _state = App.ReadingContext.ThisParticipant.RegistrationInfo.State;
                 UpdateElectorateInferencesFromStateAndCommElectorate(SelectedStateEnum, "", "");
                 (StateChoosableElectorateHeader, StateInferredElectorateHeader, StateInferredElectorate)
                     = ParliamentData.InferOtherChamberInfoGivenOneRegion(SelectedStateEnum, "", "");
@@ -571,10 +566,9 @@ namespace RightToAskClient.ViewModels
 
         private void CheckPostcode()
         {
-            switch (SelectedStateAsInt)
+            switch (SelectedStateEnum)
             {
-                // ACT
-                case 0:
+                case ParliamentData.StateEnum.ACT:
                     int postcode = 0; 
                     int.TryParse(Address.Postcode, out postcode);
                     if((postcode >= 2600 && postcode <= 2618) 
@@ -588,7 +582,7 @@ namespace RightToAskClient.ViewModels
                     }
                     break;
                 // NSW
-                case 1:
+                case ParliamentData.StateEnum.NSW:
                     int.TryParse(Address.Postcode, out postcode);
                     if ((postcode >= 2000 && postcode <= 2599)
                         || (postcode >= 2619 && postcode <= 2898)
@@ -602,7 +596,7 @@ namespace RightToAskClient.ViewModels
                     }
                     break;
                 // NT
-                case 2:
+                case ParliamentData.StateEnum.NT:
                     int.TryParse(Address.Postcode, out postcode);
                     if (postcode >= 0800 && postcode <= 0899)
                     {
@@ -614,7 +608,7 @@ namespace RightToAskClient.ViewModels
                     }
                     break;
                 // QLD
-                case 3:
+                case ParliamentData.StateEnum.QLD:
                     int.TryParse(Address.Postcode, out postcode);
                     if (postcode >= 4000 && postcode <= 4999)
                     {
@@ -626,7 +620,7 @@ namespace RightToAskClient.ViewModels
                     }
                     break;
                 // SA
-                case 4:
+                case ParliamentData.StateEnum.SA:
                     int.TryParse(Address.Postcode, out postcode);
                     if (postcode >= 5000 && postcode <= 5799)
                     {
@@ -638,7 +632,7 @@ namespace RightToAskClient.ViewModels
                     }
                     break;
                 // TAS
-                case 5:
+                case ParliamentData.StateEnum.TAS:
                     int.TryParse(Address.Postcode, out postcode);
                     if (postcode >= 7000 && postcode <= 7799)
                     {
@@ -650,7 +644,7 @@ namespace RightToAskClient.ViewModels
                     }
                     break;
                 // VIC
-                case 6:
+                case ParliamentData.StateEnum.VIC:
                     int.TryParse(Address.Postcode, out postcode);
                     if (postcode >= 3000 && postcode <= 3999)
                     {
@@ -662,7 +656,7 @@ namespace RightToAskClient.ViewModels
                     }
                     break;
                 // WA
-                case 7:
+                case ParliamentData.StateEnum.WA:
                     int.TryParse(Address.Postcode, out postcode);
                     if (postcode >= 6000 && postcode <= 6797)
                     {

@@ -21,7 +21,7 @@ namespace RightToAskClient
         // Preferences storage strings
         public static string IsRegistered = "IsRegistered";
         public static string RegistrationInfo = "RegistrationInfo";
-        public static string StateID = "StateID";
+        public static string State = "State";
         public static string DontShowFirstTimeReadingPopup = "DontShowFirstTimeReadingPopup";
         public static string ShowHowToPublishPopup = "ShowHowToPublishPopup";
         public static string HasQuestions = "HasQuestions";

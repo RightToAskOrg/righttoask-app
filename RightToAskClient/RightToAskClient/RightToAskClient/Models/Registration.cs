@@ -9,6 +9,7 @@ using RightToAskClient.Annotations;
 using RightToAskClient.Helpers;
 using RightToAskClient.Models.ServerCommsData;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Essentials;
 
 namespace RightToAskClient.Models
 {
@@ -186,6 +187,26 @@ namespace RightToAskClient.Models
                 }
             }
             return isValid;
+        }
+
+        // Note that this will *not* update if the person doesn't select anything.
+        public (bool success, ParliamentData.StateEnum state) UpdateStateStorePreferences(int selectedStateAsInt)
+        {
+            // Check that it isn't -1 (no selection) or (unexpected) a value that doesn't correspond to a valid state enum.
+            ParliamentData.StateEnum successState = default(ParliamentData.StateEnum);
+            bool successBool = false;
+
+            if (Enum.IsDefined(typeof(ParliamentData.StateEnum), selectedStateAsInt))
+            {
+                successState =
+                    (ParliamentData.StateEnum)Enum.ToObject(typeof(ParliamentData.StateEnum), selectedStateAsInt);
+                successBool = true;
+                App.ReadingContext.ThisParticipant.RegistrationInfo.StateKnown = successBool;
+                App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsEnum = successState;
+                Preferences.Set(Constants.State, successState.ToString());
+            }
+
+            return (successBool, successState);
         }
     }
 }
