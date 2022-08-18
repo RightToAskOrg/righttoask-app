@@ -44,10 +44,10 @@
                         <!--State Selector/Picker-->
                         <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Margin="1,0,0,0">
                             <Label Text="{xct:Translate MPsHeaderText2}" FontSize="Medium" HorizontalOptions="Start" VerticalOptions="Center" />
-                            <!-- <Picker Title="{Binding StatePickerTitle}" ItemsSource="{Binding StatePicker}" 
-					            Style="{StaticResource CenterFramePicker}" SelectedIndex="{Binding SelectedState}">  -->
                             <Picker Title="{Binding StatePickerTitle}" ItemsSource="{Binding StatePicker}" 
-					            Style="{StaticResource CenterFramePicker}" SelectedIndex="{Binding SelectedStateEnum, Converter={StaticResource Key=intEnum}}">
+					            Style="{StaticResource CenterFramePicker}" SelectedIndex="{Binding SelectedStateAsInt}">  
+                            <!-- <Picker Title="{Binding StatePickerTitle}" ItemsSource="{Binding StatePicker}" 
+					            Style="{StaticResource CenterFramePicker}" SelectedIndex="{Binding SelectedStateEnum, Converter={StaticResource Key=intEnum}}"> -->
                             </Picker>
                         </StackLayout>
                         <StackLayout Margin="0" Padding="0" Spacing="0" IsVisible="{Binding ShowStateOnly, Converter={StaticResource Key=cnvInvert}}">
@@ -76,7 +76,7 @@
                         <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Margin="0" Padding="0">
                             <Label Text="{xct:Translate MPsHeaderText2}" FontSize="Medium" HorizontalOptions="Start" VerticalOptions="Center" />
                             <Picker Title="{Binding StatePickerTitle}" ItemsSource="{Binding StatePicker}" 
-					        Style="{StaticResource CenterFramePicker}" SelectedIndex="{Binding SelectedState}">
+					        Style="{StaticResource CenterFramePicker}" SelectedIndex="{Binding SelectedStateAsInt}">
                             </Picker>
                         </StackLayout>
                         <StackLayout Margin="0" Padding="0" Spacing="0" IsVisible="{Binding ShowStateOnly, Converter={StaticResource Key=cnvInvert}}">

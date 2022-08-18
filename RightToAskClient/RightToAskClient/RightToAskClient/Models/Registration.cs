@@ -45,6 +45,23 @@ namespace RightToAskClient.Models
             get => _selectedStateAsIndex;
             set => SetProperty(ref _selectedStateAsIndex, value); 
         }
+
+        private bool _stateKnown = false;
+        public bool StateKnown
+        {
+            get => _stateKnown;
+            set => SetProperty(ref _stateKnown, value);
+
+        }
+        private ParliamentData.StateEnum _selectedStateAsEnum;
+
+        public ParliamentData.StateEnum SelectedStateAsEnum
+        {
+            get => _selectedStateAsEnum;
+            set => SetProperty(ref _selectedStateAsEnum, value);
+        }
+        
+        
         private List<ElectorateWithChamber> _electorates = new List<ElectorateWithChamber>();
 
         public Registration()

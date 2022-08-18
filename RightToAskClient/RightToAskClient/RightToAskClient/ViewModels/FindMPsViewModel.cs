@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using RightToAskClient.Helpers;
 using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
@@ -77,16 +78,16 @@ namespace RightToAskClient.ViewModels
             get => _statePickerTitle;
             set => SetProperty(ref _statePickerTitle, value);
         }
-        private int _selectedState = -1;
-        public int SelectedState
+        private int _selectedStateAsInt = -1;
+        public int SelectedStateAsInt
         {
             get
             {
-                return _selectedState;
+                return _selectedStateAsInt;
             }
             set
             {
-                SetProperty(ref _selectedState, value);
+                SetProperty(ref _selectedStateAsInt, value);
                 OnStatePickerSelectedIndexChanged();
             }
         }
@@ -94,15 +95,8 @@ namespace RightToAskClient.ViewModels
         private ParliamentData.StateEnum _selectedStateEnum;
         public ParliamentData.StateEnum SelectedStateEnum
         {
-            get
-            {
-                return _selectedStateEnum;
-            }
-            set
-            {
-                SetProperty(ref _selectedStateEnum, value);
-                OnStatePickerSelectedIndexChanged();
-            }
+            get => _selectedStateEnum;
+            private set => SetProperty(ref _selectedStateEnum, value);
         }
         
         // The index of the selected state electorate in the (current)
@@ -225,6 +219,8 @@ namespace RightToAskClient.ViewModels
             get => _postcodeIsValid;
             set => SetProperty(ref _postcodeIsValid, value);
         }
+
+        private bool _stateKnown;
         #endregion
 
         // constructor
@@ -238,17 +234,18 @@ namespace RightToAskClient.ViewModels
             _launchMPsSelectionPageNext = true;
 
             // set the state index pickers
-            SelectedState = App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsIndex;
+            // SelectedStateAsInt = App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsIndex;
+            _stateKnown = App.ReadingContext.ThisParticipant.RegistrationInfo.StateKnown;
             
             // set the pickers to update their content lists here if state was already indicated elsewhere in the application
-            // TODO These two conditions are equivalent - we probably only need one.
-            if (SelectedState != -1 && !string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.RegistrationInfo.State))
+            if(_stateKnown) 
             {
-                _state = ParliamentData.StatesAndTerritories[SelectedState];
-                string choosableStateElectorate = (_state == ParliamentData.State.TAS )
+                // _state = ParliamentData.StatesAndTerritories[SelectedStateAsInt];
+                SelectedStateEnum = App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsEnum;
+                string choosableStateElectorate = (SelectedStateEnum == ParliamentData.StateEnum.TAS )
                    ? App.ReadingContext.ThisParticipant.StateUpperHouseElectorate
                    : App.ReadingContext.ThisParticipant.StateLowerHouseElectorate;
-                UpdateElectorateInferencesFromStateAndCommElectorate(App.ReadingContext.ThisParticipant.RegistrationInfo.State,
+                UpdateElectorateInferencesFromStateAndCommElectorate(SelectedStateEnum,
                     choosableStateElectorate,
                     App.ReadingContext.ThisParticipant.CommonwealthElectorate);
             }
@@ -457,7 +454,7 @@ namespace RightToAskClient.ViewModels
 
         private void AddElectorates(GeoscapeAddressFeature addressData)
         {
-            string state = App.ReadingContext.ThisParticipant.RegistrationInfo.State;
+            ParliamentData.StateEnum state = App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsEnum;
             App.ReadingContext.ThisParticipant.RegistrationInfo.Electorates 
                 = new ObservableCollection<ElectorateWithChamber>(ParliamentData.GetElectoratesFromGeoscapeAddress(state, addressData));
             App.ReadingContext.ThisParticipant.MPsKnown = true;
@@ -470,7 +467,7 @@ namespace RightToAskClient.ViewModels
         {
             var fullAddress = JsonSerializer.Serialize(Address);
             Preferences.Set(Constants.Address, fullAddress); // save the full address
-            Preferences.Set(Constants.StateID, SelectedState);
+            Preferences.Set(Constants.StateID, SelectedStateAsInt);
         }
 
         // This is the Legislative Assembly Electorate, except in Tas where it's the Legislative Council.
@@ -482,13 +479,13 @@ namespace RightToAskClient.ViewModels
                 && !String.IsNullOrEmpty(AllStateChoosableElectorates[SelectedStateElectorateIndex]))
             {
                 var chosenElectorate = AllStateChoosableElectorates[SelectedStateElectorateIndex];
-                var state = App.ReadingContext.ThisParticipant.RegistrationInfo.State;
+                var state = App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsEnum;
                 App.ReadingContext.ThisParticipant.RegistrationInfo.Electorates
                     // TODO Perhaps Electorates should be a List rather than an Observable Collection.
                     = new ObservableCollection<ElectorateWithChamber>(ParliamentData.FindAllRelevantElectorates(state,
                         chosenElectorate, App.ReadingContext.ThisParticipant.CommonwealthElectorate));
                 (_, _, StateInferredElectorate) 
-                    = ParliamentData.InferOtherChamberInfoGivenOneRegion(state, chosenElectorate, 
+                    = ParliamentData.InferOtherChamberInfoGivenOneRegion(SelectedStateEnum, chosenElectorate, 
                         App.ReadingContext.ThisParticipant.CommonwealthElectorate);
             }
             RevealNextStepIfElectoratesKnown();
@@ -505,15 +502,15 @@ namespace RightToAskClient.ViewModels
                 ShowMapOfElectorate(FederalElectorates[SelectedFederalElectorate]);
                 
                 // For Tasmania, we need your federal electorate to infer your state Legislative Assembly electorate.
-                var state = App.ReadingContext.ThisParticipant.RegistrationInfo.State;
+                var state = App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsEnum;
                     // TODO Consider whether electorates should be readonly and instead have a function that updates them
                     // given this info.
                     App.ReadingContext.ThisParticipant.RegistrationInfo.Electorates
                         = new ObservableCollection<ElectorateWithChamber>(ParliamentData.FindAllRelevantElectorates(state,
                         "", FederalElectorates[SelectedFederalElectorate]));
-                if (state == ParliamentData.State.TAS)
+                if (state == ParliamentData.StateEnum.TAS)
                 {
-                    UpdateElectorateInferencesFromStateAndCommElectorate(state, "", FederalElectorates[SelectedFederalElectorate]);
+                    UpdateElectorateInferencesFromStateAndCommElectorate(SelectedStateEnum, "", FederalElectorates[SelectedFederalElectorate]);
                 }
                 RevealNextStepIfElectoratesKnown();
             }
@@ -535,10 +532,10 @@ namespace RightToAskClient.ViewModels
         // can choose from, and the inferred electorates' title and contents.
         // This will often be called with only partial information (e.g. with a known state but only blank
         // electorates), in which case it fills in as much as it can and leaves the rest as empty strings.
-        private void UpdateElectorateInferencesFromStateAndCommElectorate(string state, string stateElectorate, string commElectorate)
+        private void UpdateElectorateInferencesFromStateAndCommElectorate(ParliamentData.StateEnum state, string stateElectorate, string commElectorate)
         {
             var newChoosableElectorateList =
-                state == ParliamentData.State.TAS
+                state == ParliamentData.StateEnum.TAS
                     ? ParliamentData.ListElectoratesInStateUpperHouse(state)
                     : ParliamentData.ListElectoratesInStateLowerHouse(state);
 
@@ -555,22 +552,26 @@ namespace RightToAskClient.ViewModels
 
         private void OnStatePickerSelectedIndexChanged()
         {
-            if (SelectedState != -1)
+            // Check that it isn't -1 (no selection) or (unexpected) a value that doesn't correspond to a valid state enum.
+            if (Enum.IsDefined(typeof(ParliamentData.StateEnum), SelectedStateAsInt))
             {
-                App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsIndex = SelectedState;
+                // App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsIndex = SelectedStateAsInt;
+                SelectedStateEnum = (ParliamentData.StateEnum)Enum.ToObject(typeof(ParliamentData.StateEnum), SelectedStateAsInt);
+                App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsEnum = SelectedStateEnum;
                 
                 // This will give us the right message about the upper-house electorate and a blank inferred electorate.
-                _state = App.ReadingContext.ThisParticipant.RegistrationInfo.State;
-                UpdateElectorateInferencesFromStateAndCommElectorate(_state, "", "");
+                
+                // _state = App.ReadingContext.ThisParticipant.RegistrationInfo.State;
+                UpdateElectorateInferencesFromStateAndCommElectorate(SelectedStateEnum, "", "");
                 (StateChoosableElectorateHeader, StateInferredElectorateHeader, StateInferredElectorate)
-                    = ParliamentData.InferOtherChamberInfoGivenOneRegion(_state, "", "");
+                    = ParliamentData.InferOtherChamberInfoGivenOneRegion(SelectedStateEnum, "", "");
                 ShowStateOnly = false;
             }
         }
 
         private void CheckPostcode()
         {
-            switch (SelectedState)
+            switch (SelectedStateAsInt)
             {
                 // ACT
                 case 0:

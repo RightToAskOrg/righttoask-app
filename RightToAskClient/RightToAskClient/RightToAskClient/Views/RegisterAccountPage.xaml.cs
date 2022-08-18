@@ -21,6 +21,7 @@ namespace RightToAskClient.Views
             reg.ReinitRegistrationUpdates();
         }
 
+        /*
         void OnStatePickerSelectedIndexChanged(object sender, EventArgs e)
         {
             Picker picker = (Picker)sender;
@@ -32,6 +33,7 @@ namespace RightToAskClient.Views
                 App.ReadingContext.ThisParticipant.UpdateChambers(state);
             }
         }
+        */
 
         private void OnRegisterEmailFieldCompleted(object sender, EventArgs e)
         {
