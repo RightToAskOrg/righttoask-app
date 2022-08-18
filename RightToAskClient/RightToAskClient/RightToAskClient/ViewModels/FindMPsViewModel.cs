@@ -70,7 +70,7 @@ namespace RightToAskClient.ViewModels
             get => _showAddressStack;
             set => SetProperty(ref _showAddressStack, value);
         }
-        public List<string> StatePicker => ParliamentData.StatesAndTerritories;
+        public List<string> StatePicker => ParliamentData.StateStrings;
         private string _statePickerTitle = String.IsNullOrEmpty(App.ReadingContext.ThisParticipant.RegistrationInfo.State) ? "Choose State or Territory" : App.ReadingContext.ThisParticipant.RegistrationInfo.State;
         public string StatePickerTitle
         {
@@ -87,6 +87,20 @@ namespace RightToAskClient.ViewModels
             set
             {
                 SetProperty(ref _selectedState, value);
+                OnStatePickerSelectedIndexChanged();
+            }
+        }
+
+        private ParliamentData.StateEnum _selectedStateEnum;
+        public ParliamentData.StateEnum SelectedStateEnum
+        {
+            get
+            {
+                return _selectedStateEnum;
+            }
+            set
+            {
+                SetProperty(ref _selectedStateEnum, value);
                 OnStatePickerSelectedIndexChanged();
             }
         }
