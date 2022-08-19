@@ -503,6 +503,15 @@ namespace RightToAskClient.ViewModels
                 return;
             }
             
+            // Check whether the state has been updated (in the FindMPs page).
+            // If it has, update the display on this page and add the new state
+            // to _registrationUpdates.
+            if (_registration.StateKnown && (int)_registration.SelectedStateAsEnum != SelectedStateAsIndex)
+            {
+                _registrationUpdates.state = _registration.SelectedStateAsEnum.ToString();
+                SelectedStateAsIndex = (int)_registration.SelectedStateAsEnum;
+                OnPropertyChanged(State);
+            }
             // Update the electorate-updates that will be sent to the server,
             // based on what was updated by the MP-finding page, if it is actually changed.
             // This will update both _registrationUpdates and _registration.
