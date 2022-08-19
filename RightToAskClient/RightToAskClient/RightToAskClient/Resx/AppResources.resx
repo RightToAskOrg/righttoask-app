@@ -811,7 +811,7 @@
     <value>1. </value>
   </data>
   <data name="HowToStep2" xml:space="preserve">
-    <value>your question to the right place. </value>
+    <value>your question</value>
   </data>
   <data name="HowToStep2abold" xml:space="preserve">
     <value>Ask a specific MP to answer </value>
@@ -844,7 +844,7 @@
     <value>2. </value>
   </data>
   <data name="HowToStep3" xml:space="preserve">
-    <value>Don’t duplicate the same question!  Focus support and increase importance by up-voting an existing question.</value>
+    <value>Don’t duplicate the same question!  Focus support, if you can, by up-voting an existing question instead.</value>
   </data>
   <data name="HowToStep3Bold" xml:space="preserve">
     <value>Review </value>
@@ -856,13 +856,13 @@
     <value>3. </value>
   </data>
   <data name="HowToStep4" xml:space="preserve">
-    <value>Provide additional </value>
+    <value>Provide </value>
   </data>
   <data name="HowToStep4Bold" xml:space="preserve">
     <value>background </value>
   </data>
   <data name="HowToStep4Part2" xml:space="preserve">
-    <value>(optional).</value>
+    <value>(optional)</value>
   </data>
   <data name="HowToStep4Number" xml:space="preserve">
     <value>4. </value>
