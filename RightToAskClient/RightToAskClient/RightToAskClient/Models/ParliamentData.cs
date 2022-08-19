@@ -125,25 +125,22 @@ namespace RightToAskClient.Models
 		    { StateEnum.WA, new List<Chamber> { Chamber.WA_Legislative_Assembly, Chamber.WA_Legislative_Council } },
 	    };
 
-	    //
+	    // These are deliberately sorted in a way that hopefully reflects the order of importance and locality - first
+	    // the House of Representatives, then the state lower house (or only) chambers, then the Senate, then the state
+	    // upper house chambers. Of course, this is a matter of opinion. This reflects the order the MP lists will be
+	    // shown.
 	    
 	    [JsonConverter(typeof(JsonStringEnumConverter))]
 	    public enum Chamber
 	    {
-		    [EnumMember(Value = "ACT_Legislative_Assembly")]
-		    ACT_Legislative_Assembly,
-
 		    [EnumMember(Value = "Australian_House_Of_Representatives")]
 		    Australian_House_Of_Representatives,
 
-		    [EnumMember(Value = "Australian_Senate")]
-		    Australian_Senate,
+		    [EnumMember(Value = "ACT_Legislative_Assembly")]
+		    ACT_Legislative_Assembly,
 
 		    [EnumMember(Value = "NSW_Legislative_Assembly")]
 		    NSW_Legislative_Assembly,
-
-		    [EnumMember(Value = "NSW_Legislative_Council")]
-		    NSW_Legislative_Council,
 
 		    [EnumMember(Value = "NT_Legislative_Assembly")]
 		    NT_Legislative_Assembly,
@@ -154,23 +151,29 @@ namespace RightToAskClient.Models
 		    [EnumMember(Value = "SA_House_Of_Assembly")]
 		    SA_House_Of_Assembly,
 
-		    [EnumMember(Value = "SA_Legislative_Council")]
-		    SA_Legislative_Council,
-
 		    [EnumMember(Value = "Tas_House_Of_Assembly")]
 		    Tas_House_Of_Assembly,
-
-		    [EnumMember(Value = "Tas_Legislative_Council")]
-		    Tas_Legislative_Council,
 
 		    [EnumMember(Value = "Vic_Legislative_Assembly")]
 		    Vic_Legislative_Assembly,
 
-		    [EnumMember(Value = "Vic_Legislative_Council")]
-		    Vic_Legislative_Council,
-
 		    [EnumMember(Value = "WA_Legislative_Assembly")]
 		    WA_Legislative_Assembly,
+
+		    [EnumMember(Value = "Australian_Senate")]
+		    Australian_Senate,
+
+		    [EnumMember(Value = "NSW_Legislative_Council")]
+		    NSW_Legislative_Council,
+
+		    [EnumMember(Value = "SA_Legislative_Council")]
+		    SA_Legislative_Council,
+
+		    [EnumMember(Value = "Tas_Legislative_Council")]
+		    Tas_Legislative_Council,
+
+		    [EnumMember(Value = "Vic_Legislative_Council")]
+		    Vic_Legislative_Council,
 
 		    [EnumMember(Value = "WA_Legislative_Council")]
 		    WA_Legislative_Council
@@ -285,7 +288,7 @@ namespace RightToAskClient.Models
 				// Add the MPs in single-electorate houses, i.e. the upper houses of some parliaments.
 			    || electorates.Exists(e => e.chamber == mp.electorate.chamber && IsSingleElectorate(e.chamber))
 			    
-			    ).ToList();
+			    ).OrderBy(mp => mp.electorate.chamber).ToList();
 	    }
 
 	    public static readonly ObservableCollection<Authority> AllAuthorities =
@@ -301,7 +304,7 @@ namespace RightToAskClient.Models
 		    {
 			    List<string> electoratesList = MPAndOtherData.FederalElectoratesByState.
 				    Find(rc => rc.super_region.Equals(state, StringComparison.OrdinalIgnoreCase))?
-				    .regions.ToList() ?? new List<string>();
+				    .regions.OrderBy(r=>r).ToList() ?? new List<string>();
 
 			    return electoratesList.Any()
 				    ? electoratesList
