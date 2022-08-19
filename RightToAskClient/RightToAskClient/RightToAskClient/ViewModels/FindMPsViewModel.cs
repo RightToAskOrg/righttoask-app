@@ -24,6 +24,7 @@ namespace RightToAskClient.ViewModels
 
         private string _state = "";
         private Address _address = new Address();
+        private Registration _registration = App.ReadingContext.ThisParticipant.RegistrationInfo;
         public Address Address
         {
             get => _address;
@@ -63,20 +64,34 @@ namespace RightToAskClient.ViewModels
         public bool ShowKnowElectoratesFrame
         {
             get => _showKnowElectoratesFrame;
-            set => SetProperty(ref _showKnowElectoratesFrame, value);
+            set
+            {
+                // Make sure all the data in the 'know electorates' frame is refreshed.
+                SetProperty(ref _showKnowElectoratesFrame, value); 
+                OnPropertyChanged("StatePickerTitle"); 
+                OnPropertyChanged("FederalElectorate");
+                OnPropertyChanged("StateChoosableElectorate");
+                OnPropertyChanged("StateInferredElectorate");
+            }
         }
         private bool _showAddressStack = false;
         public bool ShowAddressStack
         {
             get => _showAddressStack;
-            set => SetProperty(ref _showAddressStack, value);
+            set
+            {
+                // Make sure the state data in the address frame is refreshed.
+                SetProperty(ref _showAddressStack, value);
+                OnPropertyChanged("StatePickerTitle");
+            }
         }
         public List<string> StatePicker => ParliamentData.StateStrings;
-        private string _statePickerTitle = String.IsNullOrEmpty(App.ReadingContext.ThisParticipant.RegistrationInfo.State) ? "Choose State or Territory" : App.ReadingContext.ThisParticipant.RegistrationInfo.State;
+        // private string _statePickerTitle = String.IsNullOrEmpty(App.ReadingContext.ThisParticipant.RegistrationInfo.State) ? "Choose State or Territory" : App.ReadingContext.ThisParticipant.RegistrationInfo.State;
         public string StatePickerTitle
         {
-            get => _statePickerTitle;
-            set => SetProperty(ref _statePickerTitle, value);
+            get => _registration.StateKnown
+                ? _registration.SelectedStateAsEnum.ToString()
+                : AppResources.ChooseStateOrTerritory;
         }
         private int _selectedStateAsInt = -1;
         public int SelectedStateAsInt

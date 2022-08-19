@@ -113,11 +113,14 @@ namespace RightToAskClient.ViewModels
                 OnPropertyChanged("Electorates");
             }
         }
+        
+        /*
         public Registration Registration
         {
             get => _registration;
             set => SetProperty(ref _registration, value);
         }
+        */
 
         // This is for selecting MPs if you're registering as an MP or staffer account
         private SelectableList<MP> _selectableMPList = new SelectableList<MP>(new List<MP>(), new List<MP>());
