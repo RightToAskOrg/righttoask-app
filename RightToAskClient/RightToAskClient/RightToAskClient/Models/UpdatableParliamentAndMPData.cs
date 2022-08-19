@@ -169,15 +169,7 @@ namespace RightToAskClient.Models
 		public List<string> ListElectoratesInChamber(ParliamentData.Chamber chamber)
 		{
 			return new List<string>(AllMPs.Where(mp => mp.electorate.chamber == chamber)
-				.Select(mp => mp.electorate.region));
+				.Select(mp => mp.electorate.region).Distinct().OrderBy(r=>r));
 		}
-		
-		public List<ElectorateWithChamber> ListElectoratePairsInChamber(ParliamentData.Chamber chamber)
-		{
-			return new List<ElectorateWithChamber>(AllMPs.Where(mp => mp.electorate.chamber == chamber)
-				.Select(mp => new ElectorateWithChamber(chamber, mp.electorate.region)));
-		}
-		
-		
 	}
 }

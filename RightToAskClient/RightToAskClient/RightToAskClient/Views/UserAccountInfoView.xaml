@@ -10,16 +10,6 @@
         <StackLayout>
             <Grid RowDefinitions="Auto, Auto, Auto"
                   ColumnDefinitions="*, 2*">
-                <!--
-                <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions> -->
             <Label Text="{xct:Translate UserNameHeaderText}" Style="{StaticResource Header2}" />
                 <!-- Styled in code-behind according to whether this is permitted edits. -->
                 <Entry x:Name="UIDEntry" Grid.Column="1" Text="{Binding UserID}" Placeholder="{xct:Translate UIDPlaceholderText}" />

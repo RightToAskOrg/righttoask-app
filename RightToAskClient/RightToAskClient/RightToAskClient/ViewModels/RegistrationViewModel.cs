@@ -33,11 +33,12 @@ namespace RightToAskClient.ViewModels
         // Note this is used only for updating an existing registration - new registrations are handled
         // with _registration.
         private ServerUser _registrationUpdates = new ServerUser();
-        private ObservableCollection<ElectorateWithChamber> _oldElectorates;
+        private List<ElectorateWithChamber> _oldElectorates;
 
         public void ReinitRegistrationUpdates()
         {
-            _oldElectorates = new ObservableCollection<ElectorateWithChamber>(_registration.Electorates);
+            // Note this has to be a new copy, because we want to compare it with an updated electorate list.
+            _oldElectorates = new List<ElectorateWithChamber>(_registration.Electorates);
             _registrationUpdates = new ServerUser() { uid = _registration.uid };
         }
         // UserID, DisplayName, State, SelectedStateAsInt and Electorates are all just reflections of their 
@@ -75,30 +76,37 @@ namespace RightToAskClient.ViewModels
 
         public string State
         {
-            get => _registration.SelectedStateAsIndex >= 0 
-                    && _registration.SelectedStateAsIndex < ParliamentData.StatesAndTerritories.Count 
-                    ? ParliamentData.StatesAndTerritories[SelectedStateAsIndex] : "";
+            get => _registration.StateKnown
+                ? _registration.SelectedStateAsEnum.ToString()
+                : "";
         }
 
+
+        private bool _stateKnown;
+        private int _selectedStateAsIndex = -1;
         public int SelectedStateAsIndex
         {
-            get => _registration.SelectedStateAsIndex;
+            get => _selectedStateAsIndex;
             set
             {
-                _registration.SelectedStateAsIndex = value;
-                // At the moment, this means that there is no way that someone who has previously selected a state can
+                _selectedStateAsIndex = value;
+                ParliamentData.StateEnum selectedState;
+                (_stateKnown, selectedState) =  App.ReadingContext.ThisParticipant.RegistrationInfo.UpdateStateStorePreferences(SelectedStateAsIndex);
+                
+                // Include new state in updates. At the moment, this means that there is no way that
+                // someone who has previously selected a state can
                 // revert to the point where there is no state
-                if (SelectedStateAsIndex != -1)
+                if (_stateKnown)
                 {
-                    _registrationUpdates.state = State;
-                }
+                    _registrationUpdates.state = selectedState.ToString();
+                } 
                 OnPropertyChanged("State");
             }
         }
 
         // Electorates need to be updated in _registration and also in _registrationUpdates in case they are being altered
         // in an update to an existing registration.
-        public ObservableCollection<ElectorateWithChamber> Electorates
+        public List<ElectorateWithChamber> Electorates
         {
             get => _registration.Electorates;
             set
@@ -108,12 +116,7 @@ namespace RightToAskClient.ViewModels
                 OnPropertyChanged("Electorates");
             }
         }
-        public Registration Registration
-        {
-            get => _registration;
-            set => SetProperty(ref _registration, value);
-        }
-
+        
         // This is for selecting MPs if you're registering as an MP or staffer account
         private SelectableList<MP> _selectableMPList = new SelectableList<MP>(new List<MP>(), new List<MP>());
         
@@ -276,20 +279,23 @@ namespace RightToAskClient.ViewModels
             // Otherwise, if we're looking at someone else, just tell them it's another
             // person's profile.
             // TODO Clarify meaning of ReadingOnly - looks like it has a few different uses.
-            if (!App.ReadingContext.IsReadingOnly)
-            {
-                SelectedStateAsIndex = Preferences.Get(Constants.StateID, -1);
+            // Also note that (at the moment) we only use this ViewModel for viewing your own profile.
+            // Perhaps we should unify this with OtherUserProfileViewModel, but at the moment they're separate.
+            // if (!App.ReadingContext.IsReadingOnly)
+            
                 ShowUpdateAccountButton = App.ReadingContext.ThisParticipant.IsRegistered;
                 Title = App.ReadingContext.ThisParticipant.IsRegistered ? AppResources.EditYourAccountTitle : AppResources.CreateAccountTitle;
                 PopupLabelText = App.ReadingContext.ThisParticipant.IsRegistered ? AppResources.EditAccountPopupText : AppResources.CreateNewAccountPopupText;
                 
                 _selectableMPList = new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
-            }
-            else
+            // }
+            /*
+             * else
             {
                 Title = AppResources.UserProfileTitle;
                 PopupLabelText = AppResources.OtherUserProfilePopupText;
             }
+            */
 
             // commands
             ChooseMPToRegisterButtonCommand = new AsyncCommand(async () =>
@@ -303,14 +309,14 @@ namespace RightToAskClient.ViewModels
             });
             UpdateAccountButtonCommand = new Command(() =>
             {
-                SaveToPreferences();
+                SaveRegistrationToPreferences();
                 SendUpdatedUserToServer();
             });
             UpdateMPsButtonCommand = new Command(() =>
             {
                 // We need this because we don't necessarily know that the electorates 
                 // will change just because we go to the find-new-electorates page.
-                _oldElectorates = new ObservableCollection<ElectorateWithChamber>(_registration.Electorates);
+                _oldElectorates = new List<ElectorateWithChamber>(_registration.Electorates);
                 
                 NavigateToFindMPsPage();
             });
@@ -405,6 +411,7 @@ namespace RightToAskClient.ViewModels
         // public key and uid. Electorates are optional.
         private async void OnSaveButtonClicked()
         {
+            SaveRegistrationToPreferences();
             Debug.Assert(!App.ReadingContext.ThisParticipant.IsRegistered);
 
             _registration.public_key = App.ReadingContext.ThisParticipant.MyPublicKey();
@@ -442,8 +449,6 @@ namespace RightToAskClient.ViewModels
 
         private async Task SendNewUserToServer()
         {
-            // TODO should this call to SaveToPreferences simply the first thing in OnSaveButtonClicked?
-            SaveToPreferences();
 
             var httpResponse = await RTAClient.RegisterNewUser(_registration);
             var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
@@ -467,12 +472,12 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        private void SaveToPreferences()
+        private void SaveRegistrationToPreferences()
         {
             // save registration to preferences
             var registrationObjectToSave = JsonSerializer.Serialize(new ServerUser(_registration));
             Preferences.Set(Constants.RegistrationInfo, registrationObjectToSave);
-            Preferences.Set(Constants.StateID, SelectedStateAsIndex); // stored as an int as used for the other page(s) state pickers
+            // Preferences.Set(Constants.State, _registration.SelectedStateAsEnum.ToString()); 
         }
 
         private async void SendUpdatedUserToServer()
@@ -486,6 +491,15 @@ namespace RightToAskClient.ViewModels
                 return;
             }
             
+            // Check whether the state has been updated (in the FindMPs page).
+            // If it has, update the display on this page and add the new state
+            // to _registrationUpdates.
+            if (_registration.StateKnown && (int)_registration.SelectedStateAsEnum != SelectedStateAsIndex)
+            {
+                _registrationUpdates.state = _registration.SelectedStateAsEnum.ToString();
+                SelectedStateAsIndex = (int)_registration.SelectedStateAsEnum;
+                OnPropertyChanged(State);
+            }
             // Update the electorate-updates that will be sent to the server,
             // based on what was updated by the MP-finding page, if it is actually changed.
             // This will update both _registrationUpdates and _registration.

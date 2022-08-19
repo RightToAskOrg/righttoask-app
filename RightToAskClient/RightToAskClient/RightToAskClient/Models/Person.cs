@@ -23,7 +23,7 @@ namespace RightToAskClient.Models
         // Initially, when we don't know the state, it's only the Australian
 		// Parliament.
 		protected List<ParliamentData.Chamber> ChambersRepresentedIn 
-			= ParliamentData.FindChambers("");
+			= ParliamentData.FindFederalChambers();
 
 
 
@@ -104,9 +104,10 @@ namespace RightToAskClient.Models
 			return _registrationInfo.display_name;
 		}
 		
-		public void UpdateChambers(string state)
+		// Call only if state is known (i.e. not the default ACT).
+		public void UpdateChambers(ParliamentData.StateEnum state)
 		{
-			ChambersRepresentedIn = ParliamentData.FindChambers(state);
+			ChambersRepresentedIn = ParliamentData.FindChambers(state, true);
 		}
         public override bool DataEquals(object other)
         {

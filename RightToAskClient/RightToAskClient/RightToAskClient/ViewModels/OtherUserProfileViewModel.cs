@@ -84,16 +84,6 @@ namespace RightToAskClient.ViewModels
                 }
                 MessagingCenter.Unsubscribe<QuestionViewModel, ServerUser>(this, "OtherUser");
             });
-
-            //MessagingCenter.Subscribe<QuestionViewModel, Question>(this, "OtherUserQuestion", (sender, arg) =>
-            //{
-            //    Question _otherUserQuestion = arg;
-            //    if (_otherUserQuestion != null)
-            //    {
-            //        OtherUserDisplayName = _otherUserQuestion.QuestionSuggester;
-            //        Title = string.Format(AppResources.OtherUserProfileTitle, _otherUserQuestion.QuestionSuggester);
-            //    }
-            //});
         }
     }
 }

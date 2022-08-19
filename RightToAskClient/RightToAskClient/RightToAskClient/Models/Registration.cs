@@ -9,6 +9,7 @@ using RightToAskClient.Annotations;
 using RightToAskClient.Helpers;
 using RightToAskClient.Models.ServerCommsData;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Essentials;
 
 namespace RightToAskClient.Models
 {
@@ -21,32 +22,31 @@ namespace RightToAskClient.Models
 
         public string State
         {
-            get
-            {
-                if (0 <= _selectedStateAsIndex && _selectedStateAsIndex < ParliamentData.StatesAndTerritories.Count)
-                {
-                     return ParliamentData.StatesAndTerritories[_selectedStateAsIndex];       
-                }
-
-                return "";
-            }
-            private set => state = value;
+            get => _stateKnown ? SelectedStateAsEnum.ToString() : "";
         }
 
         public string uid { get; set; } = "";
 
         private int _selectedStateAsIndex = -1;
         
-        // State, as an index into ParliamentData.StatesAndTerritories
-        // Setting this value also updates the chambers.
-        // TODO: Should it clear electorates that are not in the relevant state any more?
-        public int SelectedStateAsIndex
+        private bool _stateKnown = false;
+        public bool StateKnown
         {
-            get => _selectedStateAsIndex;
-            set => SetProperty(ref _selectedStateAsIndex, value); 
+            get => _stateKnown;
+            set => SetProperty(ref _stateKnown, value);
+
         }
+        private ParliamentData.StateEnum _selectedStateAsEnum;
+
+        public ParliamentData.StateEnum SelectedStateAsEnum
+        {
+            get => _selectedStateAsEnum;
+            set => SetProperty(ref _selectedStateAsEnum, value);
+        }
+        
         private List<ElectorateWithChamber> _electorates = new List<ElectorateWithChamber>();
 
+        // Necesary for java serialisation & deserlialisation.
         public Registration()
         {
         }
@@ -55,18 +55,29 @@ namespace RightToAskClient.Models
         {
             display_name = input.display_name ?? "";
             public_key = input.public_key ?? "";
-            state = input.state ?? "";
+            var stateResult = ParliamentData.StateStringToEnum(input.state ?? "");
+            if (!String.IsNullOrEmpty(stateResult.Err))
+            {
+                StateKnown = true;
+                SelectedStateAsEnum = stateResult.Ok;
+            }
+            else
+            {
+                StateKnown = false;
+                SelectedStateAsEnum = default;
+            }
+            
             uid = input.uid ?? "";
-            _electorates = (input.electorates ?? new ObservableCollection<ElectorateWithChamber>()).ToList();
+            _electorates = input.electorates;
             // TODO add badges
             // badges = input.badges;
         }
 
         // Whenever electorates are updated (by this and by AddElectorateRemoveDuplicates), we need to tell the 
         // Filters to update the list of 'my MPs'.
-        public ObservableCollection<ElectorateWithChamber> Electorates 
+        public List<ElectorateWithChamber> Electorates 
         {
-            get { return new ObservableCollection<ElectorateWithChamber>(_electorates); }
+            get => _electorates; 
             set 
             {
                 SetProperty(ref _electorates, value.ToList());
@@ -130,13 +141,6 @@ namespace RightToAskClient.Models
             };
         }
 
-        /*
-        public void UpdateMultipleElectoratesRemoveDuplicates(ObservableCollection<ElectorateWithChamber> value)
-        {
-            throw new NotImplementedException();
-        }
-        */
-
         public bool Validate()
         {
             bool isValid = false;
@@ -169,6 +173,26 @@ namespace RightToAskClient.Models
                 }
             }
             return isValid;
+        }
+
+        // Note that this will *not* update if the person doesn't select anything.
+        public (bool success, ParliamentData.StateEnum state) UpdateStateStorePreferences(int selectedStateAsInt)
+        {
+            // Check that it isn't -1 (no selection) or (unexpected) a value that doesn't correspond to a valid state enum.
+            ParliamentData.StateEnum successState = default(ParliamentData.StateEnum);
+            bool successBool = false;
+
+            if (Enum.IsDefined(typeof(ParliamentData.StateEnum), selectedStateAsInt))
+            {
+                successState =
+                    (ParliamentData.StateEnum)Enum.ToObject(typeof(ParliamentData.StateEnum), selectedStateAsInt);
+                successBool = true;
+                App.ReadingContext.ThisParticipant.RegistrationInfo.StateKnown = successBool;
+                App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsEnum = successState;
+                Preferences.Set(Constants.State, successState.ToString());
+            }
+
+            return (successBool, successState);
         }
     }
 }

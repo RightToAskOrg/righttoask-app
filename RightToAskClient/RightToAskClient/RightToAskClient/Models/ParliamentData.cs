@@ -11,6 +11,7 @@ using Org.BouncyCastle.Tls;
 using RightToAskClient.Helpers;
 using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Resx;
+using Xamarin.CommunityToolkit.Converters;
 
 namespace RightToAskClient.Models
 {
@@ -27,14 +28,6 @@ namespace RightToAskClient.Models
 		    }
 	    }
 
-	    public static List<RegionsContained> FederalElectoratesAsStates
-	    {
-		    get
-		    {
-			    return MPAndOtherData.FederalElectoratesByState;
-		    }
-	    }
-
 	    public static List<RegionsContained> VicRegions
 	    {
 		    get
@@ -44,75 +37,82 @@ namespace RightToAskClient.Models
 
 	    }
 
-	    public static readonly List<string> StatesAndTerritories
-		    = StatesAsStringList();
-
-	    private static List<string> StatesAsStringList()
+	    public static List<string> StatesAndTerritories
 	    {
-		    var stateList = new List<string>();
-		    FieldInfo[] fields = (typeof(State).GetFields());
-
-		    for (int i = 0; i < fields.Length; i++)
+		    get
 		    {
-			    stateList.Add(fields[i].GetValue(typeof(State)).ToString());
+			    var emptyList = new List<StateEnum>();
+			    StateEnum[] statesarray =  Enum.GetValues(typeof(StateEnum)) as StateEnum[] ?? Array.Empty<StateEnum>();
+				emptyList.AddRange(statesarray);
+				return	emptyList.Select(s => s.ToString()).ToList();
 		    }
-
-		    return stateList;
-	    }
-
-	    public static class State
-	    {
-		    public const string ACT = "ACT";
-		    public const string NSW = "NSW";
-		    public const string NT = "NT";
-		    public const string QLD = "QLD";
-		    public const string SA = "SA";
-		    public const string TAS = "TAS";
-		    public const string VIC = "VIC";
-		    public const string WA = "WA";
-	    }
+		}
 
 	    public enum StateEnum
 	    {
+		    [EnumMember(Value = "ACT")]
 		    ACT,
+		    [EnumMember(Value = "NSW")]
 		    NSW,
+		    [EnumMember(Value = "NT")]
 		    NT,
+		    [EnumMember(Value = "QLD")]
 		    QLD,
+		    [EnumMember(Value = "SA")]
 		    SA,
+		    [EnumMember(Value = "TAS")]
 		    TAS,
+		    [EnumMember(Value = "VIC")]
 		    VIC,
+		    [EnumMember(Value = "WA")]
 		    WA
 	    }
 
-	    public static readonly Dictionary<string, List<ParliamentData.Chamber>> Parliaments = new Dictionary<string, List<Chamber>>
+	    public static List<string> StateStrings => Enum.GetNames(typeof(StateEnum)).ToList();
+
+	    public static Result<StateEnum> StateStringToEnum(string state)
 	    {
-		    { State.ACT, new List<Chamber> { Chamber.ACT_Legislative_Assembly } },
-		    { State.NSW, new List<Chamber> { Chamber.NSW_Legislative_Assembly, Chamber.NSW_Legislative_Council } },
-		    { State.NT, new List<Chamber> { Chamber.NT_Legislative_Assembly } },
-		    { State.QLD, new List<Chamber> { Chamber.Qld_Legislative_Assembly } },
-		    { State.SA, new List<Chamber> { Chamber.SA_House_Of_Assembly, Chamber.SA_Legislative_Council } },
-		    { State.TAS, new List<Chamber> { Chamber.Tas_House_Of_Assembly, Chamber.Tas_Legislative_Council } },
-		    { State.VIC, new List<Chamber> { Chamber.Vic_Legislative_Assembly, Chamber.Vic_Legislative_Council } },
-		    { State.WA, new List<Chamber> { Chamber.WA_Legislative_Assembly, Chamber.WA_Legislative_Council } },
+			var success = Enum.TryParse(state, true, out StateEnum value);
+			if (success)
+			{
+				return new Result<StateEnum>() { Ok = value };
+			}
+			else
+			{
+				var error = "Couldn't parse state: " + state;
+				Debug.WriteLine(error);
+				return new Result<StateEnum>() { Err = error};
+			}
+	    }
+	    
+	    public static readonly Dictionary<StateEnum, List<ParliamentData.Chamber>> Parliaments = new Dictionary<StateEnum, List<Chamber>>
+	    {
+		    { StateEnum.ACT, new List<Chamber> { Chamber.ACT_Legislative_Assembly } },
+		    { StateEnum.NSW, new List<Chamber> { Chamber.NSW_Legislative_Assembly, Chamber.NSW_Legislative_Council } },
+		    { StateEnum.NT, new List<Chamber> { Chamber.NT_Legislative_Assembly } },
+		    { StateEnum.QLD, new List<Chamber> { Chamber.Qld_Legislative_Assembly } },
+		    { StateEnum.SA, new List<Chamber> { Chamber.SA_House_Of_Assembly, Chamber.SA_Legislative_Council } },
+		    { StateEnum.TAS, new List<Chamber> { Chamber.Tas_House_Of_Assembly, Chamber.Tas_Legislative_Council } },
+		    { StateEnum.VIC, new List<Chamber> { Chamber.Vic_Legislative_Assembly, Chamber.Vic_Legislative_Council } },
+		    { StateEnum.WA, new List<Chamber> { Chamber.WA_Legislative_Assembly, Chamber.WA_Legislative_Council } },
 	    };
 
+	    // These are deliberately sorted in a way that hopefully reflects the order of importance and locality - first
+	    // the House of Representatives, then the state lower house (or only) chambers, then the Senate, then the state
+	    // upper house chambers. Of course, this is a matter of opinion. This reflects the order the MP lists will be
+	    // shown.
+	    
 	    [JsonConverter(typeof(JsonStringEnumConverter))]
 	    public enum Chamber
 	    {
-		    [EnumMember(Value = "ACT_Legislative_Assembly")]
-		    ACT_Legislative_Assembly,
-
 		    [EnumMember(Value = "Australian_House_Of_Representatives")]
 		    Australian_House_Of_Representatives,
 
-		    [EnumMember(Value = "Australian_Senate")]
-		    Australian_Senate,
+		    [EnumMember(Value = "ACT_Legislative_Assembly")]
+		    ACT_Legislative_Assembly,
 
 		    [EnumMember(Value = "NSW_Legislative_Assembly")]
 		    NSW_Legislative_Assembly,
-
-		    [EnumMember(Value = "NSW_Legislative_Council")]
-		    NSW_Legislative_Council,
 
 		    [EnumMember(Value = "NT_Legislative_Assembly")]
 		    NT_Legislative_Assembly,
@@ -123,23 +123,29 @@ namespace RightToAskClient.Models
 		    [EnumMember(Value = "SA_House_Of_Assembly")]
 		    SA_House_Of_Assembly,
 
-		    [EnumMember(Value = "SA_Legislative_Council")]
-		    SA_Legislative_Council,
-
 		    [EnumMember(Value = "Tas_House_Of_Assembly")]
 		    Tas_House_Of_Assembly,
-
-		    [EnumMember(Value = "Tas_Legislative_Council")]
-		    Tas_Legislative_Council,
 
 		    [EnumMember(Value = "Vic_Legislative_Assembly")]
 		    Vic_Legislative_Assembly,
 
-		    [EnumMember(Value = "Vic_Legislative_Council")]
-		    Vic_Legislative_Council,
-
 		    [EnumMember(Value = "WA_Legislative_Assembly")]
 		    WA_Legislative_Assembly,
+
+		    [EnumMember(Value = "Australian_Senate")]
+		    Australian_Senate,
+
+		    [EnumMember(Value = "NSW_Legislative_Council")]
+		    NSW_Legislative_Council,
+
+		    [EnumMember(Value = "SA_Legislative_Council")]
+		    SA_Legislative_Council,
+
+		    [EnumMember(Value = "Tas_Legislative_Council")]
+		    Tas_Legislative_Council,
+
+		    [EnumMember(Value = "Vic_Legislative_Council")]
+		    Vic_Legislative_Council,
 
 		    [EnumMember(Value = "WA_Legislative_Council")]
 		    WA_Legislative_Council
@@ -254,25 +260,30 @@ namespace RightToAskClient.Models
 				// Add the MPs in single-electorate houses, i.e. the upper houses of some parliaments.
 			    || electorates.Exists(e => e.chamber == mp.electorate.chamber && IsSingleElectorate(e.chamber))
 			    
-			    ).ToList();
+			    ).OrderBy(mp => mp.electorate.chamber).ToList();
 	    }
 
 	    public static readonly ObservableCollection<Authority> AllAuthorities =
 		    new ObservableCollection<Authority>(ReadAuthoritiesFromFiles());
 	    
-	    // Ideally, this would return only the electorates in the state, but at the moment we don't have a good
-	    // way of identifying which House of Reps electorates correspond to which states.
-	    public static List<string> AllHouseOfRepsElectorates
+	    public static List<string> AllFederalElectorates => 
+				    MPAndOtherData.ListElectoratesInChamber(Chamber.Australian_House_Of_Representatives);
+	    // If state matches anything in the regions list, return only the electorates in the state. 
+	    // Otherwise return the lot. 
+	    public static List<string> HouseOfRepsElectorates(string state)
 	    {
-		    get
+		    if (MPAndOtherData.IsInitialised)
 		    {
-			    if (MPAndOtherData.IsInitialised)
-			    {
-				    return MPAndOtherData.ListElectoratesInChamber(Chamber.Australian_House_Of_Representatives);
-			    }
+			    List<string> electoratesList = MPAndOtherData.FederalElectoratesByState.
+				    Find(rc => rc.super_region.Equals(state, StringComparison.OrdinalIgnoreCase))?
+				    .regions.OrderBy(r=>r).ToList() ?? new List<string>();
 
-			    return new List<string>();
+			    return electoratesList.Any()
+				    ? electoratesList
+				    : MPAndOtherData.ListElectoratesInChamber(Chamber.Australian_House_Of_Representatives);
 		    }
+
+			return new List<string>();
 	    }
 	    
 	    private static List<Chamber> StateLowerHouseChambers = new List<Chamber>
@@ -350,43 +361,48 @@ namespace RightToAskClient.Models
 		 * If the string input doesn't match any states, it simply
 		 * returns the federal chambers.
 		 */
-		public static List<Chamber> FindChambers(string state)
+		public static List<Chamber> FindFederalChambers()
 		{
-			var chambersForTheState = new List<Chamber>();
-
-			if (StatesAndTerritories.Contains(state))
+			return new List<Chamber>()
 			{
-				chambersForTheState.Add(Chamber.Australian_House_Of_Representatives);
-				chambersForTheState.Add(Chamber.Australian_Senate);
+				Chamber.Australian_House_Of_Representatives,
+				Chamber.Australian_Senate
+			};
+		}
+		public static List<Chamber> FindChambers(StateEnum state, bool stateKnown)
+		{
+			var chambersForTheState = FindFederalChambers();
 
-				switch (state.ToUpper())
+			if (stateKnown)
+			{
+				switch (state)
 				{
-					case (State.ACT):
+					case (StateEnum.ACT):
 						chambersForTheState.Add(Chamber.ACT_Legislative_Assembly);
 						break;
-					case (State.NSW):
+					case (StateEnum.NSW):
 						chambersForTheState.Add(Chamber.NSW_Legislative_Assembly);
 						chambersForTheState.Add(Chamber.NSW_Legislative_Council);
 						break;
-					case (State.NT):
+					case (StateEnum.NT):
 						chambersForTheState.Add(Chamber.NT_Legislative_Assembly);
 						break;
-					case (State.QLD):
+					case (StateEnum.QLD):
 						chambersForTheState.Add(Chamber.Qld_Legislative_Assembly);
 						break;
-					case (State.SA):
+					case (StateEnum.SA):
 						chambersForTheState.Add(Chamber.SA_House_Of_Assembly);
 						chambersForTheState.Add(Chamber.SA_Legislative_Council);
 						break;
-					case (State.VIC):
+					case (StateEnum.VIC):
 						chambersForTheState.Add(Chamber.Vic_Legislative_Assembly);
 						chambersForTheState.Add(Chamber.Vic_Legislative_Council);
 						break;
-					case (State.TAS):
+					case (StateEnum.TAS):
 						chambersForTheState.Add(Chamber.Tas_House_Of_Assembly);
 						chambersForTheState.Add(Chamber.Tas_Legislative_Council);
 						break;
-					case (State.WA):
+					case (StateEnum.WA):
 						chambersForTheState.Add(Chamber.WA_Legislative_Assembly);
 						chambersForTheState.Add(Chamber.WA_Legislative_Council);
 						break;
@@ -400,7 +416,7 @@ namespace RightToAskClient.Models
         // infer a specific upper house state. For yet others, the upper house is a single electorate.
         // When called with neither state nor commonwealth regions, it returns the right message (which is a function of
         // state) and a blank region.
-		public static (string, string, string) InferOtherChamberInfoGivenOneRegion(string state, string stateRegion, string commRegion)
+		public static (string, string, string) InferOtherChamberInfoGivenOneRegion(StateEnum state, string stateRegion, string commRegion)
 		{
 			string region = String.Empty;
 			string inferredHouseMessage = String.Empty;
@@ -415,19 +431,19 @@ namespace RightToAskClient.Models
 			{
 				 inferredHouseMessage = String.Format(AppResources.UpperHouseIsSingleElectorateText, state);
 			} 
-			else if (state == State.WA)
+			else if (state == StateEnum.WA)
 			{
 				 inferredHouseMessage = AppResources.UpperHouseWANotWorkingText;
 			}
 			else
 			{
 				var electorateList = FindAllRelevantElectorates(state, stateRegion, commRegion);
-				if (state == State.VIC)
+				if (state == StateEnum.VIC)
 				{
 					inferredHouseMessage = AppResources.UpperHouseElectorateText;
 					region = electorateList.Find(ec => ec.chamber == Chamber.Vic_Legislative_Council)?.region ?? "";
 				}
-				else if (state == State.TAS)
+				else if (state == StateEnum.TAS)
 				{
 					inferredHouseMessage = AppResources.TasLowerHouseElectorateText;
 					choosableHouseMessage = AppResources.UpperHouseElectorateText;
@@ -438,27 +454,10 @@ namespace RightToAskClient.Models
 			return (choosableHouseMessage, inferredHouseMessage, region);
 		}
 		
-	    // TODO: add logic for inferred other houses.
-	    // FIXME this isn't updated to work for Tas. The assumption is that it's being given the lower house region
-	    // in all states, but it needs to be the upper house in Tas.
-	    /*
-	    public static List<ElectorateWithChamber> GetStateElectoratesGivenOneRegion(string state, string region)
-	    {
-		    Result<Chamber> chamber = GetLowerHouseChamber(state);
-		    if (!String.IsNullOrEmpty(chamber.Err))
-		    {
-			    Debug.WriteLine("Error: Couldn't find lower house chamber for " + state);
-			    return new List<ElectorateWithChamber>();
-		    }
-
-            return new List<ElectorateWithChamber>() { new ElectorateWithChamber(chamber.Ok, region) };
-		}
-		*/
-
 		// Used because the Geoscape API returns electorates in all Uppercase, which messes with the URL for the webview that displays the map of electorates
 		public static string ConvertGeoscapeElectorateToStandard(string state, string electorate)
 		{
-			List<string> options = AllHouseOfRepsElectorates;
+			List<string> options = AllFederalElectorates;
 			string result = "";
 			for (int i = 0; i < options.Count - 1; i++)
 			{
@@ -473,7 +472,7 @@ namespace RightToAskClient.Models
 
 
 
-	    public static List<string> ListElectoratesInStateLowerHouse(string state)
+	    public static List<string> ListElectoratesInStateLowerHouse(StateEnum state)
 	    {
 		    Result<Chamber> possibleChamber = GetLowerHouseChamber(state);
 		    if (MPAndOtherData.IsInitialised && possibleChamber.Err.IsNullOrEmpty())
@@ -484,10 +483,11 @@ namespace RightToAskClient.Models
 		    return new List<string>();
 	    }
 
-	    // TODO This can probably guarantee a result (i.e. Chamber) when state -> enum.
-	    public static Result<Chamber> GetLowerHouseChamber(string state)
+	    // Call only when state known.
+	    // TODO This can probably guarantee a result given a valid state.
+	    public static Result<Chamber> GetLowerHouseChamber(StateEnum state)
 	    {
-		    List<Chamber> chamberList = FindChambers(state).Where(p => IsLowerHouseChamber(p)).ToList();
+		    List<Chamber> chamberList = FindChambers(state, true).Where(p => IsLowerHouseChamber(p)).ToList();
 		    if (chamberList.IsNullOrEmpty() || chamberList.Count() > 1)
 		    {
 			    Debug.WriteLine("Error: " + chamberList.Count() + " lower house chambers in " + state);
@@ -500,7 +500,7 @@ namespace RightToAskClient.Models
 	    // Not every state has an upper house, so failing to find one is not necessarily an error.
 	    // So we return empty but don't log an error. 
 	    // After that, it's just like the lower-house lookup.
-	    public static List<string> ListElectoratesInStateUpperHouse(string state)
+	    public static List<string> ListElectoratesInStateUpperHouse(StateEnum state)
 	    {
 		    if (!HasUpperHouse(state))
 		    {
@@ -516,11 +516,12 @@ namespace RightToAskClient.Models
 		    return new List<string>();
 	    }
 
-	    public static Result<Chamber> GetUpperHouseChamber(string state)
+	    // Some states have no upper house, in which case this returns an error.
+	    public static Result<Chamber> GetUpperHouseChamber(StateEnum state)
 	    {
 		    if (HasUpperHouse(state))
 		    {
-			    List<Chamber> chamberList = FindChambers(state).Where(c => IsUpperHouseChamber(c)).ToList();
+			    List<Chamber> chamberList = FindChambers(state,true).Where(c => IsUpperHouseChamber(c)).ToList();
 			    if (chamberList.IsNullOrEmpty() || chamberList.Count > 1)
 			    {
 				    Debug.WriteLine("Error: " + chamberList.Count() + " lower house chambers in " + state);
@@ -533,20 +534,20 @@ namespace RightToAskClient.Models
 		    return new Result<Chamber>() { Err = "This state has no upper house." };
 	    }
 
-	    public static bool HasUpperHouse(string state)
+	    public static bool HasUpperHouse(StateEnum state)
 	    {
 		    return Parliaments[state].Count() == 2;
 	    }
 
 	    // Note that this is currently *not* true for WA, but will be when proposed electoral reforms
 	    // are enacted.
-	    private static bool UpperHouseIsSingleElectorate(string state)
+	    private static bool UpperHouseIsSingleElectorate(StateEnum state)
 	    {
-		    return state == State.NSW || state == State.SA;
+		    return state == StateEnum.NSW || state == StateEnum.SA;
 	    }
 
 	    public static readonly List<string> Domains =
-		    new List<string>((Enum.GetValues(typeof(Chamber)) as IEnumerable<Chamber>)
+		    new List<string>(((Enum.GetValues(typeof(Chamber)) as IEnumerable<Chamber>))
 			    .Select(c => GetDomain(c)).Distinct());
 	    public static string GetDomain(Chamber electorateChamber) => electorateChamber switch
 	    {
@@ -567,7 +568,7 @@ namespace RightToAskClient.Models
 		    Chamber.WA_Legislative_Council => "parliament.wa.gov.au"
 	    };
     
-        public static List<ElectorateWithChamber> GetElectoratesFromGeoscapeAddress(string state, GeoscapeAddressFeature addressData)
+        public static List<ElectorateWithChamber> GetElectoratesFromGeoscapeAddress(StateEnum state, GeoscapeAddressFeature addressData)
         {
 	        var commElectoralRegion = addressData.Properties?.CommonwealthElectorate?.CommElectoralName ?? "";
 	        var stateElectoralRegion = addressData.Properties?.StateElectorate?.StateElectoralName ?? "";
@@ -578,15 +579,10 @@ namespace RightToAskClient.Models
 	    // Finds as many electorates as can be inferred from the given information.
 	    // This is highly dependent on specific details of states and hence full of special cases.
 	    // 
-	    public static List<ElectorateWithChamber> FindAllRelevantElectorates(string state, string stateRegion,
+	    public static List<ElectorateWithChamber> FindAllRelevantElectorates(StateEnum state, string stateRegion,
 		    string commRegion)
 	    {
 		    List<ElectorateWithChamber> electorateList = new List<ElectorateWithChamber>();
-		    if (String.IsNullOrEmpty(state))
-		    {
-			    return electorateList;
-		    }
-
 		    
 		    // House of Representatives Electorate
 		    if (!String.IsNullOrEmpty(commRegion))
@@ -598,11 +594,11 @@ namespace RightToAskClient.Models
 		    // State Lower House Electorates. Tas is special because the region returned by Geoscape
 		    // is the Upper House (Legislative Council) Electorate - Lower House Electorates match Commonwealth ones.
 		    // For all the rest, Geoscape's stateRegion is the Lower House Electorate.
-		    if (state == State.TAS && !String.IsNullOrEmpty(commRegion))
+		    if (state == StateEnum.TAS && !String.IsNullOrEmpty(commRegion))
 		    {
 			    electorateList.Add(new ElectorateWithChamber(Chamber.Tas_House_Of_Assembly, commRegion));
 		    }
-		    else if (state != State.TAS && !String.IsNullOrEmpty(stateRegion))
+		    else if (state != StateEnum.TAS && !String.IsNullOrEmpty(stateRegion))
 		    {
 			    // guaranteed of a result here.
 			    var chamberResult = GetLowerHouseChamber(state);
@@ -615,15 +611,15 @@ namespace RightToAskClient.Models
 
 		    // TODO move states to enum.
 		    // Each state is a Senate 'region'
-		    electorateList.Add(new ElectorateWithChamber(Chamber.Australian_Senate, state));
+		    electorateList.Add(new ElectorateWithChamber(Chamber.Australian_Senate, state.ToString()));
 		    
 		    // State Upper House electorates
-		    if (state == State.TAS && !String.IsNullOrEmpty(stateRegion))
+		    if (state == StateEnum.TAS && !String.IsNullOrEmpty(stateRegion))
 		    {
 			    electorateList.Add(new ElectorateWithChamber(Chamber.Tas_Legislative_Council, stateRegion));
 		    }
 			    // TODO: Do likewise for WA.
-		    else if (state == State.VIC && !String.IsNullOrEmpty(stateRegion))
+		    else if (state == StateEnum.VIC && !String.IsNullOrEmpty(stateRegion))
 		    {
 			    var superRegionsContained 
 				    = VicRegions.Find(rc => rc.regions.Contains(stateRegion,StringComparer.OrdinalIgnoreCase ));

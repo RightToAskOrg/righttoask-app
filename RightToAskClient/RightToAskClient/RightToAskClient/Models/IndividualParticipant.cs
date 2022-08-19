@@ -143,7 +143,7 @@ namespace RightToAskClient.Models
 			// before  they have the chance to create an account
             else if (!IsRegistered && MPsKnown)
             {
-				if (RegistrationInfo.SelectedStateAsIndex != -1)
+				if (RegistrationInfo.StateKnown)
                 {
 					isValid = true;
 				}

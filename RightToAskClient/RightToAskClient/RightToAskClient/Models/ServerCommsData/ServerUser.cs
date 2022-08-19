@@ -26,7 +26,7 @@ namespace RightToAskClient.Models.ServerCommsData
         public string? state { get; set; }
 
         [JsonPropertyName("electorates")]
-        public ObservableCollection<ElectorateWithChamber>? electorates { get; set; } 
+        public List<ElectorateWithChamber>? electorates { get; set; } 
 
         [JsonPropertyName("badges")] 
         public List<string>? badges { get; set; } 

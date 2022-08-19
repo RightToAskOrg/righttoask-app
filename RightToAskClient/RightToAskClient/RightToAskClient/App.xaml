@@ -13,6 +13,7 @@
             <!--Converter-->
             <helpers:InvertConvert x:Key="cnvInvert" />
             <helpers:NullorEmptyConvert x:Key="emptyToFalse" />
+            <helpers:IntEnumConverter x:Key="intEnum" />
             <!-- Website colors -->
             <!--
             light green: #649b49

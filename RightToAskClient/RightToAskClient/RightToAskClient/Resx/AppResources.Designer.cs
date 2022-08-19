@@ -1622,5 +1622,11 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("CommitteeText", resourceCulture);
             }
         }
+        
+        internal static string ChooseStateOrTerritory {
+            get {
+                return ResourceManager.GetString("ChooseStateOrTerritory", resourceCulture);
+            }
+        }
     }
 }
