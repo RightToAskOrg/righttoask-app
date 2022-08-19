@@ -47,34 +47,6 @@ namespace RightToAskClient.Models
 				return	emptyList.Select(s => s.ToString()).ToList();
 		    }
 		}
-	    /*
-	    private static List<string> StatesAsStringList()
-	    {
-		    var stateList = new List<string>();
-		    FieldInfo[] fields = (typeof(State).GetFields());
-
-		    for (int i = 0; i < fields.Length; i++)
-		    {
-			    stateList.Add(fields[i].GetValue(typeof(State)).ToString());
-		    }
-
-		    return stateList;
-	    }
-	    */
-
-	    /*
-	    public static class State
-	    {
-		    public const string ACT = "ACT";
-		    public const string NSW = "NSW";
-		    public const string NT = "NT";
-		    public const string QLD = "QLD";
-		    public const string SA = "SA";
-		    public const string TAS = "TAS";
-		    public const string VIC = "VIC";
-		    public const string WA = "WA";
-	    }
-	    */
 
 	    public enum StateEnum
 	    {
@@ -566,13 +538,6 @@ namespace RightToAskClient.Models
 	    {
 		    return Parliaments[state].Count() == 2;
 	    }
-	    
-	    /*
-	    public static bool HasUpperHouse(string state)
-	    {
-		    return Parliaments[state].Count() == 2;
-	    }
-	    */
 
 	    // Note that this is currently *not* true for WA, but will be when proposed electoral reforms
 	    // are enacted.

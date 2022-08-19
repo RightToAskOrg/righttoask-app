@@ -117,14 +117,6 @@ namespace RightToAskClient.ViewModels
             }
         }
         
-        /*
-        public Registration Registration
-        {
-            get => _registration;
-            set => SetProperty(ref _registration, value);
-        }
-        */
-
         // This is for selecting MPs if you're registering as an MP or staffer account
         private SelectableList<MP> _selectableMPList = new SelectableList<MP>(new List<MP>(), new List<MP>());
         
@@ -290,12 +282,7 @@ namespace RightToAskClient.ViewModels
             // Also note that (at the moment) we only use this ViewModel for viewing your own profile.
             // Perhaps we should unify this with OtherUserProfileViewModel, but at the moment they're separate.
             // if (!App.ReadingContext.IsReadingOnly)
-            // {
             
-            // TODO: I don't think an alternative retrieval of the State, as an enum, should be necessary here,
-            // because we'll simply use the value stored in _registration, even if the person is not registered.
-           //      SelectedStateAsIndex = Preferences.Get(Constants.StateID, -1);
-                
                 ShowUpdateAccountButton = App.ReadingContext.ThisParticipant.IsRegistered;
                 Title = App.ReadingContext.ThisParticipant.IsRegistered ? AppResources.EditYourAccountTitle : AppResources.CreateAccountTitle;
                 PopupLabelText = App.ReadingContext.ThisParticipant.IsRegistered ? AppResources.EditAccountPopupText : AppResources.CreateNewAccountPopupText;
