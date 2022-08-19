@@ -472,7 +472,7 @@ namespace RightToAskClient.ViewModels
         {
             ParliamentData.StateEnum state = App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsEnum;
             App.ReadingContext.ThisParticipant.RegistrationInfo.Electorates 
-                = new ObservableCollection<ElectorateWithChamber>(ParliamentData.GetElectoratesFromGeoscapeAddress(state, addressData));
+                = ParliamentData.GetElectoratesFromGeoscapeAddress(state, addressData);
             App.ReadingContext.ThisParticipant.MPsKnown = true;
             Preferences.Set(Constants.MPsKnown, true);
         }
@@ -497,9 +497,8 @@ namespace RightToAskClient.ViewModels
                 var chosenElectorate = AllStateChoosableElectorates[SelectedStateElectorateIndex];
                 var state = App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsEnum;
                 App.ReadingContext.ThisParticipant.RegistrationInfo.Electorates
-                    // TODO Perhaps Electorates should be a List rather than an Observable Collection.
-                    = new ObservableCollection<ElectorateWithChamber>(ParliamentData.FindAllRelevantElectorates(state,
-                        chosenElectorate, App.ReadingContext.ThisParticipant.CommonwealthElectorate));
+                    = ParliamentData.FindAllRelevantElectorates(state,
+                        chosenElectorate, App.ReadingContext.ThisParticipant.CommonwealthElectorate);
                 (_, _, StateInferredElectorate) 
                     = ParliamentData.InferOtherChamberInfoGivenOneRegion(SelectedStateEnum, chosenElectorate, 
                         App.ReadingContext.ThisParticipant.CommonwealthElectorate);
@@ -522,8 +521,7 @@ namespace RightToAskClient.ViewModels
                     // TODO Consider whether electorates should be readonly and instead have a function that updates them
                     // given this info.
                     App.ReadingContext.ThisParticipant.RegistrationInfo.Electorates
-                        = new ObservableCollection<ElectorateWithChamber>(ParliamentData.FindAllRelevantElectorates(state,
-                        "", FederalElectorates[SelectedFederalElectorate]));
+                        = ParliamentData.FindAllRelevantElectorates(state, "", FederalElectorates[SelectedFederalElectorate]);
                 if (state == ParliamentData.StateEnum.TAS)
                 {
                     UpdateElectorateInferencesFromStateAndCommElectorate(SelectedStateEnum, "", FederalElectorates[SelectedFederalElectorate]);

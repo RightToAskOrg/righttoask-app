@@ -68,16 +68,16 @@ namespace RightToAskClient.Models
             }
             
             uid = input.uid ?? "";
-            _electorates = (input.electorates ?? new ObservableCollection<ElectorateWithChamber>()).ToList();
+            _electorates = input.electorates;
             // TODO add badges
             // badges = input.badges;
         }
 
         // Whenever electorates are updated (by this and by AddElectorateRemoveDuplicates), we need to tell the 
         // Filters to update the list of 'my MPs'.
-        public ObservableCollection<ElectorateWithChamber> Electorates 
+        public List<ElectorateWithChamber> Electorates 
         {
-            get { return new ObservableCollection<ElectorateWithChamber>(_electorates); }
+            get => _electorates; 
             set 
             {
                 SetProperty(ref _electorates, value.ToList());

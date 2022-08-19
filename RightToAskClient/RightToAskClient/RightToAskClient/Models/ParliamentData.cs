@@ -125,6 +125,8 @@ namespace RightToAskClient.Models
 		    { StateEnum.WA, new List<Chamber> { Chamber.WA_Legislative_Assembly, Chamber.WA_Legislative_Council } },
 	    };
 
+	    //
+	    
 	    [JsonConverter(typeof(JsonStringEnumConverter))]
 	    public enum Chamber
 	    {

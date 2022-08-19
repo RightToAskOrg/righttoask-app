@@ -33,11 +33,12 @@ namespace RightToAskClient.ViewModels
         // Note this is used only for updating an existing registration - new registrations are handled
         // with _registration.
         private ServerUser _registrationUpdates = new ServerUser();
-        private ObservableCollection<ElectorateWithChamber> _oldElectorates;
+        private List<ElectorateWithChamber> _oldElectorates;
 
         public void ReinitRegistrationUpdates()
         {
-            _oldElectorates = new ObservableCollection<ElectorateWithChamber>(_registration.Electorates);
+            // Note this has to be a new copy, because we want to compare it with an updated electorate list.
+            _oldElectorates = new List<ElectorateWithChamber>(_registration.Electorates);
             _registrationUpdates = new ServerUser() { uid = _registration.uid };
         }
         // UserID, DisplayName, State, SelectedStateAsInt and Electorates are all just reflections of their 
@@ -105,7 +106,7 @@ namespace RightToAskClient.ViewModels
 
         // Electorates need to be updated in _registration and also in _registrationUpdates in case they are being altered
         // in an update to an existing registration.
-        public ObservableCollection<ElectorateWithChamber> Electorates
+        public List<ElectorateWithChamber> Electorates
         {
             get => _registration.Electorates;
             set
@@ -328,7 +329,7 @@ namespace RightToAskClient.ViewModels
             {
                 // We need this because we don't necessarily know that the electorates 
                 // will change just because we go to the find-new-electorates page.
-                _oldElectorates = new ObservableCollection<ElectorateWithChamber>(_registration.Electorates);
+                _oldElectorates = new List<ElectorateWithChamber>(_registration.Electorates);
                 
                 NavigateToFindMPsPage();
             });
