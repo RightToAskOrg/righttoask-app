@@ -22,7 +22,6 @@ namespace RightToAskClient.ViewModels
     {
         #region Properties
 
-        private string _state = "";
         private Address _address = new Address();
         private Registration _registration = App.ReadingContext.ThisParticipant.RegistrationInfo;
         public Address Address
@@ -72,6 +71,7 @@ namespace RightToAskClient.ViewModels
                 OnPropertyChanged("FederalElectorate");
                 OnPropertyChanged("StateChoosableElectorate");
                 OnPropertyChanged("StateInferredElectorate");
+                // OnPropertyChanged("FederalElectorates");
             }
         }
         private bool _showAddressStack = false;
@@ -141,7 +141,7 @@ namespace RightToAskClient.ViewModels
         
         public List<string> FederalElectorates
         {
-            get => ParliamentData.HouseOfRepsElectorates(_state);
+            get => ParliamentData.HouseOfRepsElectorates(SelectedStateEnum.ToString());
         }
         
         private ObservableCollection<string> _allStateChoosableElectorates = new ObservableCollection<string>();
@@ -151,7 +151,7 @@ namespace RightToAskClient.ViewModels
         }
         
         private string _stateChoosableElectorateHeader 
-            =  App.ReadingContext.ThisParticipant.RegistrationInfo.State == ParliamentData.State.TAS
+            =  App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsEnum == ParliamentData.StateEnum.TAS
             ? string.Format("State Legislative Council Electorate: {0:F0}", App.ReadingContext.ThisParticipant.StateUpperHouseElectorate)
             : string.Format("State Legislative Assembly Electorate: {0:F0}", App.ReadingContext.ThisParticipant.StateLowerHouseElectorate) ;
 
@@ -162,7 +162,7 @@ namespace RightToAskClient.ViewModels
             }
         
         private string _stateChoosableElectorate
-            =  App.ReadingContext.ThisParticipant.RegistrationInfo.State == ParliamentData.State.TAS
+            =  App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsEnum == ParliamentData.StateEnum.TAS
             ? App.ReadingContext.ThisParticipant.StateUpperHouseElectorate 
             : App.ReadingContext.ThisParticipant.StateLowerHouseElectorate;
 
@@ -177,7 +177,7 @@ namespace RightToAskClient.ViewModels
         }
 
         private string _stateInferredElectorateHeader  
-            =  App.ReadingContext.ThisParticipant.RegistrationInfo.State == ParliamentData.State.TAS
+            =  App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsEnum == ParliamentData.StateEnum.TAS
             ? "State Legislative Assembly Electorate: " : "State Legislative Council Electorate: ";
         
         public string StateInferredElectorateHeader
@@ -187,7 +187,7 @@ namespace RightToAskClient.ViewModels
         }
         
         private string _stateInferredElectorate  
-            =  App.ReadingContext.ThisParticipant.RegistrationInfo.State == ParliamentData.State.TAS
+            =  App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsEnum == ParliamentData.StateEnum.TAS
             ? App.ReadingContext.ThisParticipant.StateLowerHouseElectorate 
             : App.ReadingContext.ThisParticipant.StateUpperHouseElectorate;
         
@@ -564,6 +564,8 @@ namespace RightToAskClient.ViewModels
 
             (StateChoosableElectorateHeader, StateInferredElectorateHeader, StateInferredElectorate) 
                     = ParliamentData.InferOtherChamberInfoGivenOneRegion(state, stateElectorate, commElectorate);
+            
+            OnPropertyChanged("FederalElectorates");
         }
 
         private void OnStatePickerSelectedIndexChanged()

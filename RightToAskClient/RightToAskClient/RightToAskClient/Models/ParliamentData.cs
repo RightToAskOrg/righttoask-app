@@ -37,9 +37,17 @@ namespace RightToAskClient.Models
 
 	    }
 
-	    public static readonly List<string> StatesAndTerritories
-		    = StatesAsStringList();
-
+	    public static List<string> StatesAndTerritories
+	    {
+		    get
+		    {
+			    var emptyList = new List<StateEnum>();
+			    StateEnum[] statesarray =  Enum.GetValues(typeof(StateEnum)) as StateEnum[] ?? Array.Empty<StateEnum>();
+				emptyList.AddRange(statesarray);
+				return	emptyList.Select(s => s.ToString()).ToList();
+		    }
+		}
+	    /*
 	    private static List<string> StatesAsStringList()
 	    {
 		    var stateList = new List<string>();
@@ -52,7 +60,9 @@ namespace RightToAskClient.Models
 
 		    return stateList;
 	    }
+	    */
 
+	    /*
 	    public static class State
 	    {
 		    public const string ACT = "ACT";
@@ -64,6 +74,7 @@ namespace RightToAskClient.Models
 		    public const string VIC = "VIC";
 		    public const string WA = "WA";
 	    }
+	    */
 
 	    public enum StateEnum
 	    {
@@ -286,7 +297,8 @@ namespace RightToAskClient.Models
 	    {
 		    if (MPAndOtherData.IsInitialised)
 		    {
-			    List<string> electoratesList = MPAndOtherData.FederalElectoratesByState.Find(rc => rc.super_region == state)?
+			    List<string> electoratesList = MPAndOtherData.FederalElectoratesByState.
+				    Find(rc => rc.super_region.Equals(state, StringComparison.OrdinalIgnoreCase))?
 				    .regions.ToList() ?? new List<string>();
 
 			    return electoratesList.Any()
