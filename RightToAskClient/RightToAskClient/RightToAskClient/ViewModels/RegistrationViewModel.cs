@@ -82,21 +82,23 @@ namespace RightToAskClient.ViewModels
 
 
         private bool _stateKnown;
-        private int _selectedStateAsInt = -1;
+        private int _selectedStateAsIndex = -1;
         public int SelectedStateAsIndex
         {
-            get => _selectedStateAsInt;
+            get => _selectedStateAsIndex;
             set
             {
-                (_stateKnown, _) =  App.ReadingContext.ThisParticipant.RegistrationInfo.UpdateStateStorePreferences(SelectedStateAsIndex);
-                // _registration.SelectedStateAsIndex = value;
-                // At the moment, this means that there is no way that someone who has previously selected a state can
+                _selectedStateAsIndex = value;
+                ParliamentData.StateEnum selectedState;
+                (_stateKnown, selectedState) =  App.ReadingContext.ThisParticipant.RegistrationInfo.UpdateStateStorePreferences(SelectedStateAsIndex);
+                
+                // Include new state in updates. At the moment, this means that there is no way that
+                // someone who has previously selected a state can
                 // revert to the point where there is no state
-                /*
-                if (SelectedStateAsIndex != -1)
+                if (_stateKnown)
                 {
-                    _registrationUpdates.state = State;
-                } */
+                    _registrationUpdates.state = selectedState.ToString();
+                } 
                 OnPropertyChanged("State");
             }
         }

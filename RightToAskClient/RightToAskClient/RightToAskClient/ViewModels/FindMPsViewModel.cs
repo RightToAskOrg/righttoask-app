@@ -248,15 +248,16 @@ namespace RightToAskClient.ViewModels
             ShowMapFrame = false;
             _launchMPsSelectionPageNext = true;
 
-            // set the state index pickers
-            // SelectedStateAsInt = App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsIndex;
             _stateKnown = App.ReadingContext.ThisParticipant.RegistrationInfo.StateKnown;
             
             // set the pickers to update their content lists here if state was already indicated elsewhere in the application
             if(_stateKnown) 
             {
-                // _state = ParliamentData.StatesAndTerritories[SelectedStateAsInt];
                 SelectedStateEnum = App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsEnum;
+                
+                // set the state index pickers
+                SelectedStateAsInt = (int)SelectedStateEnum;
+                
                 string choosableStateElectorate = (SelectedStateEnum == ParliamentData.StateEnum.TAS )
                    ? App.ReadingContext.ThisParticipant.StateUpperHouseElectorate
                    : App.ReadingContext.ThisParticipant.StateLowerHouseElectorate;

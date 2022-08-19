@@ -22,31 +22,13 @@ namespace RightToAskClient.Models
 
         public string State
         {
-            get
-            {
-                if (0 <= _selectedStateAsIndex && _selectedStateAsIndex < ParliamentData.StatesAndTerritories.Count)
-                {
-                     return ParliamentData.StatesAndTerritories[_selectedStateAsIndex];       
-                }
-
-                return "";
-            }
-            private set => state = value;
+            get => _stateKnown ? SelectedStateAsEnum.ToString() : "";
         }
 
         public string uid { get; set; } = "";
 
         private int _selectedStateAsIndex = -1;
         
-        // State, as an index into ParliamentData.StatesAndTerritories
-        // Setting this value also updates the chambers.
-        // TODO: Should it clear electorates that are not in the relevant state any more?
-        public int SelectedStateAsIndex
-        {
-            get => _selectedStateAsIndex;
-            set => SetProperty(ref _selectedStateAsIndex, value); 
-        }
-
         private bool _stateKnown = false;
         public bool StateKnown
         {
@@ -62,9 +44,9 @@ namespace RightToAskClient.Models
             set => SetProperty(ref _selectedStateAsEnum, value);
         }
         
-        
         private List<ElectorateWithChamber> _electorates = new List<ElectorateWithChamber>();
 
+        // Necesary for java serialisation & deserlialisation.
         public Registration()
         {
         }
@@ -73,7 +55,18 @@ namespace RightToAskClient.Models
         {
             display_name = input.display_name ?? "";
             public_key = input.public_key ?? "";
-            state = input.state ?? "";
+            var stateResult = ParliamentData.StateStringToEnum(input.state ?? "");
+            if (!String.IsNullOrEmpty(stateResult.Err))
+            {
+                StateKnown = true;
+                SelectedStateAsEnum = stateResult.Ok;
+            }
+            else
+            {
+                StateKnown = false;
+                SelectedStateAsEnum = default;
+            }
+            
             uid = input.uid ?? "";
             _electorates = (input.electorates ?? new ObservableCollection<ElectorateWithChamber>()).ToList();
             // TODO add badges
