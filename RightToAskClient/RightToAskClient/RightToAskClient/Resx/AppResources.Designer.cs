@@ -981,6 +981,18 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string MainPageInMyElectorateAccessibilityLabelHelpText {
+            get {
+                return ResourceManager.GetString("MainPageInMyElectorateAccessibilityLabelHelpText", resourceCulture);
+            }
+        }
+        
+        internal static string MainPageTrendingNowInMyElectorateAccessibilityLabelName {
+            get {
+                return ResourceManager.GetString("MainPageTrendingNowInMyElectorateAccessibilityLabelName", resourceCulture);
+            }
+        }
+        
         internal static string MainPageTrendingNowAccessibilityLabelHelpText {
             get {
                 return ResourceManager.GetString("MainPageTrendingNowAccessibilityLabelHelpText", resourceCulture);
@@ -1599,9 +1611,9 @@ namespace RightToAskClient.Resx {
             }
         }
         
-        internal static string TrendingMyElectorateText {
+        internal static string InMyElectorateText {
             get {
-                return ResourceManager.GetString("TrendingMyElectorateText", resourceCulture);
+                return ResourceManager.GetString("InMyElectorateText", resourceCulture);
             }
         }
         

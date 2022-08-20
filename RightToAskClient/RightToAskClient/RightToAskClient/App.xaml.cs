@@ -65,20 +65,24 @@ namespace RightToAskClient
                 // We have a problem if our stored registration is null but we think we registered successfully.
                 Debug.Assert(registrationObj != null || registrationSuccess is false);
                 
-                // if we got electorates, let the app know to skip the Find My MPs step
-                if (ReadingContext.ThisParticipant.RegistrationInfo.Electorates.Any())
+                // If we got electorates, let the app know to skip the Find My MPs step
+                // TODO We may want to distinguish between ElectoratesKnown and Electorates.Any, because
+                // the latter is true if only the state is known (Senate State being an electorate).
+                // At the moment, this will set ElectoratesKnown, in both the app and the preferences, when the person
+                // has selected their state, regardless of whether we know their electorate.
+                bool electoratesKnown = Preferences.Get(Constants.ElectoratesKnown, false);
+                ReadingContext.ThisParticipant.ElectoratesKnown = electoratesKnown;
+                if(electoratesKnown) 
                 {
-                    ReadingContext.ThisParticipant.MPsKnown = true;
-                    Preferences.Set(Constants.MPsKnown, true);
 			        ReadingContext.Filters.UpdateMyMPLists();
                 }
                 
                 // Retrieve MP/staffer registration. Note that staffers have both the IsVerifiedMPAccount flag and the
                 // IsVerifiedMPStafferAccount flag set to true.
-                bool isMPAccount = Preferences.Get(Constants.IsVerifiedMPAccount, false);
-                if (isMPAccount)
+                bool isVerifiedMPAccount = Preferences.Get(Constants.IsVerifiedMPAccount, false);
+                ReadingContext.ThisParticipant.IsVerifiedMPAccount = isVerifiedMPAccount;
+                if (isVerifiedMPAccount)
                 {
-                    ReadingContext.ThisParticipant.IsVerifiedMPAccount = isMPAccount;
                     ReadingContext.ThisParticipant.IsVerifiedMPStafferAccount =
                         Preferences.Get(Constants.IsVerifiedMPStafferAccount, false);
                     var MPRepresentingjson = Preferences.Get(Constants.MPRegisteredAs, "");
@@ -97,23 +101,17 @@ namespace RightToAskClient
                     }
                 }
             }
-            // If we already have stored a state, use it. 
+            
+            // If we already have stored a valid state, use it and set StateKnown to true.
             ReadingContext.ThisParticipant.RegistrationInfo.StateKnown = false; // Should already be the default.
             string stateString =  Preferences.Get(Constants.State, "");
             Result <ParliamentData.StateEnum> state = ParliamentData.StateStringToEnum(stateString);
-            if (String.IsNullOrEmpty(state.Err))
+            if (String.IsNullOrEmpty(state.Err) && !String.IsNullOrEmpty(stateString))
             {
                 ReadingContext.ThisParticipant.RegistrationInfo.StateKnown = true;
                 ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsEnum = state.Ok;
             }
             
-            /*
-            int stateID = Preferences.Get(Constants.StateID, -1);
-            if (stateID >= 0)
-            {
-                ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsIndex = stateID;
-            } */
-
             // set popup bool
             ReadingContext.DontShowFirstTimeReadingPopup = Preferences.Get(Constants.DontShowFirstTimeReadingPopup, false);
             ReadingContext.ShowHowToPublishPopup = Preferences.Get(Constants.ShowHowToPublishPopup, true);

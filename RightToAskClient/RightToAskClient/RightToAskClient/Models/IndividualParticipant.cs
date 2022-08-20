@@ -20,14 +20,14 @@ namespace RightToAskClient.Models
             // = await ClientSignatureGenerationService.CreateClientSignatureGenerationService();
 		public IndividualParticipant() 
 		{
-			MPsKnown = false;
+			ElectoratesKnown = false;
 			IsRegistered = false;
 			initializeCryptographicKeys();
 			// _signatureService = await ClientSignatureGenerationService.CreateClientSignatureGenerationService();
 		}
 
 		public bool IsRegistered { get; set; }
-		public bool MPsKnown { get; set; }
+		public bool ElectoratesKnown { get; set; }
 		public bool AddressUpdated { get; set; }
 		public bool HasQuestions { get; set; }
 		public bool IsVerifiedMPAccount { get; set; }
@@ -141,7 +141,7 @@ namespace RightToAskClient.Models
             }
 			// if they are not registered, they could still have MPs known if they are in the process of creating their first question
 			// before  they have the chance to create an account
-            else if (!IsRegistered && MPsKnown)
+            else if (!IsRegistered && ElectoratesKnown)
             {
 				if (RegistrationInfo.StateKnown)
                 {

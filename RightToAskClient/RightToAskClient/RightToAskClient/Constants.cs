@@ -25,7 +25,7 @@ namespace RightToAskClient
         public static string DontShowFirstTimeReadingPopup = "DontShowFirstTimeReadingPopup";
         public static string ShowHowToPublishPopup = "ShowHowToPublishPopup";
         public static string HasQuestions = "HasQuestions";
-        public static string MPsKnown = "MPsKnown";
+        public static string ElectoratesKnown = "ElectoratesKnown";
         public static string IsVerifiedMPStafferAccount = "IsVerifiedMPStafferAccount";
         public static string IsVerifiedMPAccount = "IsVerifiedMPAccount";
         public static string MPRegisteredAs= "MPRegisteredAs";
