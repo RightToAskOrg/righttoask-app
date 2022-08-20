@@ -586,10 +586,10 @@
     <value>Help other people direct their questions</value>
   </data>
   <data name="MainPageInMyElectorateAccessibilityLabelHelpText" xml:space="preserve">
-    <value>Shows that this Trending Now header applies only to things trending in their electorate.</value>
+    <value>This Trending Now header applies only to things trending in their electorate.</value>
   </data>
   <data name="MainPageTrendingNowInMyElectorateAccessibilityLabelName" xml:space="preserve">
-    <value>In my electorate frame heading text.</value>
+    <value>Trending in my electorate frame heading text.</value>
   </data>
   <data name="MainPageTrendingNowAccessibilityLabelHelpText" xml:space="preserve">
     <value>This is the Trending Now header for this frame/bubble that is meant to indicate that clicking on this area of the screen will bring the user to a reading page filled with questions in the app that are currently trending based on a filtered search.</value>

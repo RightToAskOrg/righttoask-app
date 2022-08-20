@@ -18,7 +18,6 @@ namespace RightToAskClient.Models
         // TODO: Move MP / staffer reg in here.
         public string display_name { get; set; } = "";
         public string public_key { get; set; } = "";
-        private string state { get; set; } = "";
 
         public string State
         {

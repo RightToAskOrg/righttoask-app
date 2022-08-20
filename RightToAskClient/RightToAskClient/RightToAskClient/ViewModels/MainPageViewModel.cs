@@ -23,22 +23,6 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _showTrendingMyElectorate, value);
         }
 
-        /*
-        private string _searchText = "";
-        public string SearchText
-        {
-            get => _searchText;
-            set
-            {
-                _ = SetProperty(ref _searchText, value);
-                App.ReadingContext.Filters.SearchKeyword = value;
-                if (!string.IsNullOrEmpty(_searchText))
-                {
-                    App.ReadingContext.IsReadingOnly = true;
-                }
-            }
-        } */
-
         public MainPageViewModel()
         {
             PopupLabelText = AppResources.MainPagePopupText;
