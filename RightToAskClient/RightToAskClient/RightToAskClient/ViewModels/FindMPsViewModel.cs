@@ -471,10 +471,15 @@ namespace RightToAskClient.ViewModels
         private void AddElectorates(GeoscapeAddressFeature addressData)
         {
             ParliamentData.StateEnum state = App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsEnum;
-            App.ReadingContext.ThisParticipant.RegistrationInfo.Electorates 
-                = ParliamentData.GetElectoratesFromGeoscapeAddress(state, addressData);
-            App.ReadingContext.ThisParticipant.MPsKnown = true;
-            Preferences.Set(Constants.MPsKnown, true);
+            var electorates = ParliamentData.GetElectoratesFromGeoscapeAddress(state, addressData);
+            App.ReadingContext.ThisParticipant.RegistrationInfo.Electorates = electorates;
+            
+            // There really shouldn't be any scenario in which there aren't any electorates here, unless something goes
+            // wrong extracting Electorate strings from the Geoscape address.
+            if (electorates.Any())
+            {
+                CommunicateElectoratesKnown();        
+            }
         }
 
         // At the moment, this does nothing, since there's no notion of not 
@@ -503,7 +508,7 @@ namespace RightToAskClient.ViewModels
                     = ParliamentData.InferOtherChamberInfoGivenOneRegion(SelectedStateEnum, chosenElectorate, 
                         App.ReadingContext.ThisParticipant.CommonwealthElectorate);
             }
-            RevealNextStepIfElectoratesKnown();
+            RevealNextStepAndCommunicateIfElectoratesKnown();
         }
 
         private void OnFederalElectoratePickerSelectedIndexChanged()
@@ -526,18 +531,24 @@ namespace RightToAskClient.ViewModels
                 {
                     UpdateElectorateInferencesFromStateAndCommElectorate(SelectedStateEnum, "", FederalElectorates[SelectedFederalElectorate]);
                 }
-                RevealNextStepIfElectoratesKnown();
+                RevealNextStepAndCommunicateIfElectoratesKnown();
             }
         }
 
-        private void RevealNextStepIfElectoratesKnown()
+        private void RevealNextStepAndCommunicateIfElectoratesKnown()
         {
             if (!String.IsNullOrEmpty(StateChoosableElectorate) || SelectedFederalElectorate != -1)
             {
                 ShowFindMPsButton = true;
+                CommunicateElectoratesKnown();
             }
-            App.ReadingContext.ThisParticipant.MPsKnown = true;
-            Preferences.Set(Constants.MPsKnown, true);
+        }
+
+        private void CommunicateElectoratesKnown()
+        {
+            App.ReadingContext.ThisParticipant.ElectoratesKnown = true;
+            Preferences.Set(Constants.ElectoratesKnown, true);
+            MessagingCenter.Send(this, Constants.ElectoratesKnown);
         }
 
         // Get the information appropriate to show to a user who is choosing their electorates, as a function 

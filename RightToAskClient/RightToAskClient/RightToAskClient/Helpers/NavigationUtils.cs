@@ -51,7 +51,7 @@ namespace RightToAskClient
         {
             var thisParticipant = App.ReadingContext.ThisParticipant;
 
-            if (!thisParticipant.MPsKnown)
+            if (!thisParticipant.ElectoratesKnown)
             {
                 var registrationPage = new RegisterPage2();
                 return registrationPage;

@@ -389,7 +389,7 @@ namespace RightToAskClient.ViewModels
                 ShowSeeQuestionsButton = false;
                 ShowFollowButton = false;
 
-                if (!App.ReadingContext.ThisParticipant.MPsKnown)
+                if (!App.ReadingContext.ThisParticipant.ElectoratesKnown)
                 {
                     RegisterCitizenButtonText = "Next: Find your electorates";
                 }
@@ -419,7 +419,7 @@ namespace RightToAskClient.ViewModels
             if (string.IsNullOrEmpty(regTest))
             {
                 // see if we need to push the electorates page or if we push the server account things
-                if (!App.ReadingContext.ThisParticipant.MPsKnown)
+                if (!App.ReadingContext.ThisParticipant.ElectoratesKnown)
                 {
                     // if MPs have not been found for this user yet, prompt to find them
                     var popup = new TwoButtonPopup(this, AppResources.MPsPopupTitle, AppResources.MPsPopupText, AppResources.SkipButtonText, AppResources.YesButtonText);

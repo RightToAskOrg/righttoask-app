@@ -149,7 +149,7 @@ namespace UnitTests
             // arrange
             IndividualParticipant ip = new IndividualParticipant();
             ip.IsRegistered = false;
-            ip.MPsKnown = true;
+            ip.ElectoratesKnown = true;
 
             // act
             bool isValid = ip.Validate();
@@ -157,7 +157,7 @@ namespace UnitTests
             // assert
             Assert.True(isValid);
             Assert.NotNull(ip.RegistrationInfo); // always has a default registration info object created. Generates public key
-            Assert.True(ip.MPsKnown);
+            Assert.True(ip.ElectoratesKnown);
             Assert.False(ip.IsRegistered);
             Assert.True(string.IsNullOrEmpty(ip.RegistrationInfo.uid));
             Assert.True(!string.IsNullOrEmpty(ip.RegistrationInfo.public_key));
@@ -170,7 +170,7 @@ namespace UnitTests
             // arrange
             IndividualParticipant ip = new IndividualParticipant();
             ip.IsRegistered = false;
-            ip.MPsKnown = false;
+            ip.ElectoratesKnown = false;
             ip.RegistrationInfo.SelectedStateAsIndex = 0;
 
             // act
@@ -179,7 +179,7 @@ namespace UnitTests
             // assert
             Assert.False(isValid);
             Assert.NotNull(ip.RegistrationInfo); // always has a default registration info object created. Generates public key
-            Assert.False(ip.MPsKnown);
+            Assert.False(ip.ElectoratesKnown);
             Assert.False(ip.IsRegistered);
             Assert.True(string.IsNullOrEmpty(ip.RegistrationInfo.uid));
             Assert.True(!string.IsNullOrEmpty(ip.RegistrationInfo.public_key));

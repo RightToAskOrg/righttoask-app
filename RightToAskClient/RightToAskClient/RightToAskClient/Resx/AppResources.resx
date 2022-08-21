@@ -585,6 +585,12 @@
   <data name="MainPageSubheader3Text" xml:space="preserve">
     <value>Help other people direct their questions</value>
   </data>
+  <data name="MainPageInMyElectorateAccessibilityLabelHelpText" xml:space="preserve">
+    <value>This Trending Now header applies only to things trending in their electorate.</value>
+  </data>
+  <data name="MainPageTrendingNowInMyElectorateAccessibilityLabelName" xml:space="preserve">
+    <value>Trending in my electorate frame heading text.</value>
+  </data>
   <data name="MainPageTrendingNowAccessibilityLabelHelpText" xml:space="preserve">
     <value>This is the Trending Now header for this frame/bubble that is meant to indicate that clicking on this area of the screen will bring the user to a reading page filled with questions in the app that are currently trending based on a filtered search.</value>
   </data>
@@ -894,7 +900,7 @@
   <data name="MyQuestionsTitleText" xml:space="preserve">
     <value>My Questions</value>
   </data>
-  <data name="TrendingMyElectorateText" xml:space="preserve">
+  <data name="InMyElectorateText" xml:space="preserve">
     <value>Trending in my electorate</value>
   </data>
   <data name="SelectableListCommitteePopupText" xml:space="preserve">

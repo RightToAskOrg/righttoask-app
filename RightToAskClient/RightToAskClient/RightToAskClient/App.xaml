@@ -302,7 +302,6 @@
             <Style x:Key="PopupHeaderText" TargetType="Label">
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource HeadingTextColor }, Dark={StaticResource HeadingTextColorDark}}"></Setter>
                 <Setter Property="FontSize" Value="Large"></Setter>
-                <Setter Property="FontSize" Value="Large"></Setter>
                 <Setter Property="FontAttributes" Value="Bold"></Setter>
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
             </Style>
@@ -380,7 +379,6 @@
             </Style>
             <Style x:Key="QuestionButtonText" TargetType="Label">
                 <Setter Property="TextColor" Value="{StaticResource TextColorGray}"></Setter>
-                <Setter Property="FontSize" Value="Small"></Setter>
                 <Setter Property="VerticalOptions" Value="Center"></Setter>
                 <Setter Property="FontSize" Value="Small"></Setter>
             </Style>
