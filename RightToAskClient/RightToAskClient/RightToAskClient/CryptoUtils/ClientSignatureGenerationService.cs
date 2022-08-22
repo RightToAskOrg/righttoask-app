@@ -24,7 +24,8 @@ using Xamarin.Essentials;
  * here: https://docs.microsoft.com/en-us/xamarin/essentials/secure-storage
  * but the code needs a round of expert review before it is used or copied.
  * TODO: Note that I have not yet done either of the platform-specific setups recommended on that page:
- * we'll need to ask for iOS entitlements, and we'll need to turn off backup on Android.
+ * we'll need to ask for iOS entitlements for running in a simulator, as described here: and we'll need to turn off backup on Android.
+ * https://docs.microsoft.com/en-us/xamarin/essentials/secure-storage?tabs=ios#platform-implementation-specifics
  *
  * Use of private initialiser to deal with asynchrony is based on suggestion here:
  * https://endjin.com/blog/2020/08/fully-initialize-types-in-constructor-csharp-nullable-async-factory-pattern

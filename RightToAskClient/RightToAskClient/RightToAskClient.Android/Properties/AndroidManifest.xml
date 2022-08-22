@@ -1,8 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Excluding SecureStore from full backup content, as recommended in
+https://docs.microsoft.com/en-us/xamarin/essentials/secure-storage?tabs=android#platform-implementation-specifics  
+Note that attempting to do this via AssemblyInfo.cs didn't work due to a problem
+of types (https://github.com/xamarin/xamarin-android/issues/2386)
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.companyname.RightToAskClient">
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="30" />
 	<application android:label="RightToAskClient.Android" android:networkSecurityConfig="@xml/network_security_config" 
 				 android:theme="@style/MainTheme"
+				 android:fullBackupContent="@xml/auto_backup_rules"
 				 android:icon="@mipmap/ic_launcher"
 				 android:roundIcon="@mipmap/ic_launcher_round"></application>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
