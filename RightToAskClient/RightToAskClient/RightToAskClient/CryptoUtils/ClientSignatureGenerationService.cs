@@ -23,8 +23,8 @@ using Xamarin.Essentials;
  * Also note I (VT) am not an expert in Xamarin secure storage, and have endeavoured to follow the instructions
  * here: https://docs.microsoft.com/en-us/xamarin/essentials/secure-storage
  * but the code needs a round of expert review before it is used or copied.
- * TODO: Note that I have not yet done either of the platform-specific setups recommended on that page:
- * we'll need to ask for iOS entitlements for running in a simulator, as described here: and we'll need to turn off backup on Android.
+ * TODO: Note that I have not yet done the iOS platform-specific setups recommended on that page, which seem to relate
+ * only to simulators. We'll need to ask for iOS entitlements for running in a simulator, as described here.
  * https://docs.microsoft.com/en-us/xamarin/essentials/secure-storage?tabs=ios#platform-implementation-specifics
  *
  * Use of private initialiser to deal with asynchrony is based on suggestion here:
@@ -34,7 +34,7 @@ namespace RightToAskClient.CryptoUtils
 {
     public static class ClientSignatureGenerationService
     {
-        private static Ed25519PrivateKeyParameters? _myKeyPair ; // = await MakeMyKey();
+        private static Ed25519PrivateKeyParameters? _myKeyPair ; 
 
         private static Ed25519Signer MySigner = new Ed25519Signer();
 
@@ -44,22 +44,7 @@ namespace RightToAskClient.CryptoUtils
             get => _initSuccessful;
             private set => _initSuccessful = value;
         }
-        /*
-        static ClientSignatureGenerationService(Ed25519PrivateKeyParameters myKey)
-        {
-            MyKeyPair = myKey;
-            _myPublicKey = myKey.GeneratePublicKey();
-            MySigner.Init(true, MyKeyPair);
-        } */
         
-        // Constructor
-        /*
-        static ClientSignatureGenerationService()
-        {
-            
-        }
-        */
-
         public static async Task<bool> Init()
         {
             var generationResult = await MakeMyKey();
