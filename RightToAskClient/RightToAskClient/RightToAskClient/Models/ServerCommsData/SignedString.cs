@@ -1,9 +1,4 @@
-using System;
-using System.Text;
-using Org.BouncyCastle.Crypto.Parameters;
-using RightToAskClient.CryptoUtils;
-
-namespace RightToAskClient.Models
+namespace RightToAskClient.Models.ServerCommsData
 {
     // Signature is base64 encoded.
     public class SignedString
