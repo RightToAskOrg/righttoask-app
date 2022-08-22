@@ -1,7 +1,4 @@
 using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using RightToAskClient.Annotations;
 using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace RightToAskClient.Models

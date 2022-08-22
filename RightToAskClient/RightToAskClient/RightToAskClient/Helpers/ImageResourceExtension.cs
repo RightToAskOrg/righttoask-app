@@ -12,7 +12,7 @@ namespace RightToAskClient
     {
         public string? Source { get; set; }
 
-        public object ProvideValue(IServiceProvider serviceProvider)
+        public object? ProvideValue(IServiceProvider serviceProvider)
         {
             if (Source == null)
             {

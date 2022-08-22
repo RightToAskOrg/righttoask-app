@@ -236,10 +236,10 @@ namespace RightToAskClient.Models
                 {
                     for (int i = 0; i < SelectedAskingUsers.Count-1; i++)
                     {
-                        if (SelectedAskingUsers[i] != null)
+	                    var user = SelectedAskingUsers[i];
+                        if (user != null)
                         {
-                            bool temp = SelectedAskingUsers[i].Validate();
-                            if (SelectedAskingUsers[i].Validate())
+                            if (user.Validate())
                             {
                                 hasInvalidData = true;
                             }

@@ -26,7 +26,7 @@ namespace RightToAskClient.Models.ServerCommsData
             {
                 byte[] signaturebytes = Convert.FromBase64String(signature);
                 var ClientPublicKey = new Ed25519PublicKeyParameters(Convert.FromBase64String(App.ReadingContext.ThisParticipant.RegistrationInfo.public_key));
-                bool validSig = ServerSignatureVerificationService.VerifySignature(message, signaturebytes, ClientPublicKey);
+                bool validSig = SignatureVerificationService.VerifySignature(message, signaturebytes, ClientPublicKey);
                 if (validSig)
                 {
                     hasInvalidData = false;

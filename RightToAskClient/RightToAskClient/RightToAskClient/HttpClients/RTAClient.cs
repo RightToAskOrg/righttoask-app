@@ -18,8 +18,9 @@ namespace RightToAskClient.HttpClients
     public static class RTAClient
     {
         
-        private static string BaseUrl = SetUpServerConfig();
-
+        private static (string key, string url)  serverConfig = SetUpServerConfig();
+        private static string serverPublicKey = serverConfig.key;
+        private static string BaseUrl = serverConfig.url;
         private static string RegUrl = BaseUrl + "/new_registration";
         private static string EditUserUrl = BaseUrl + "/edit_user";
         private static string QnUrl = BaseUrl + "/new_question";
@@ -48,12 +49,6 @@ namespace RightToAskClient.HttpClients
             };
         
         private static readonly GenericHttpClient Client = new GenericHttpClient(_serializerOptions);
-        
-        public static string? ServerPublicKey
-        {
-            get;
-            private set;
-        }
 
         // This is true if the config is validly initialized, i.e. we got a consistent, readable config file with
         // a non-null public key and (if remote server was selected) a non-null remote url.
@@ -194,7 +189,7 @@ namespace RightToAskClient.HttpClients
                 return new Result<string>() { Err = serverResponse.Err };
             }
 
-            if (!serverResponse.Ok.verifies(ServerSignatureVerificationService.ServerPublicKey))
+            if (!SignatureVerificationService.VerifySignature(serverResponse.Ok, serverPublicKey)) //  
             {
                 Debug.WriteLine(@"\t Error registering new " + typeDescr + ": Signature verification failed");
                 return new Result<string>() { Err = "Server signature verification failed" };
@@ -269,21 +264,20 @@ namespace RightToAskClient.HttpClients
         // Otherwise use default URL for localhost.
         // Also sets public key of the server we're using, as read from server config file.
         // If the config file can't be read or parsed, set url and public key to emptylist.
-        private static string SetUpServerConfig()
+        private static (string,string) SetUpServerConfig()
         {
             var serialiserOptions = new JsonSerializerOptions();
             Result<ServerConfig> readResult = FileIO.ReadDataFromStoredJson<ServerConfig>(Constants.ServerConfigFile, serialiserOptions);
 
+            string url="";
+            string key="";
             // Set url and public key to empty string if setup file can't be read.
             if (!readResult.Err.IsNullOrEmpty())
             {
                 Debug.WriteLine("Error reading server config file: "+readResult.Err);
-                ServerPublicKey = "";
-                return "";
+                return (key,url);
             }
 
-            string url;
-            string key;
             
             // Remote server use.
             if (readResult.Ok.remoteServerUse)
@@ -296,17 +290,16 @@ namespace RightToAskClient.HttpClients
                 url = Constants.DefaultLocalhostUrl;
             }
             
-            // Something went wrong. Leave ServerInit false and write to debug.
+            // Something went wrong. Leave key and url blank and write to debug.
             if (url.IsNullOrEmpty() || key.IsNullOrEmpty())
             {
                 Debug.WriteLine("Server config error. Check your serverconfig.json file. "+"url = "+url+". Public key = "+key);
-                return "";
+                return ("","");
             }
 
             // Success.
-            ServerPublicKey = key;
             // ServerConfigValidInit = true;
-            return url;
+            return (key, url);
         }
     }
 }

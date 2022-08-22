@@ -10,12 +10,5 @@ namespace RightToAskClient.Models
     {
         public string message { get; set; } = "";
         public string signature { get; set; } = "";
-
-        public bool verifies(Ed25519PublicKeyParameters pubKey)
-        {
-            byte[] signaturebytes = Convert.FromBase64String(signature);
-
-            return ServerSignatureVerificationService.VerifySignature(message, signaturebytes, pubKey);
-        }
     }
 }

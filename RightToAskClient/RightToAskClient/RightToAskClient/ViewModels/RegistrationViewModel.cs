@@ -414,7 +414,7 @@ namespace RightToAskClient.ViewModels
             SaveRegistrationToPreferences();
             Debug.Assert(!App.ReadingContext.ThisParticipant.IsRegistered);
 
-            _registration.public_key = App.ReadingContext.ThisParticipant.MyPublicKey();
+            _registration.public_key = ClientSignatureGenerationService.MyPublicKey; 
             var regTest = _registration.IsValid().Err;
             if (string.IsNullOrEmpty(regTest))
             {
@@ -540,7 +540,6 @@ namespace RightToAskClient.ViewModels
             }
             else
             {
-                //await App.Current.MainPage.DisplayAlert(AppResources.NoAccountChangesDetectedTitle, AppResources.NoAccountChangesDetectedAlertText, AppResources.OKText);
                 var popup = new OneButtonPopup(AppResources.NoAccountChangesDetectedAlertText, AppResources.OKText);
                 await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
             }
