@@ -96,24 +96,6 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _questionsToDisplay, value);
         }
 
-        /*
-        private List<string> _questionIds = new List<string>();
-        private List<string> QuestionIds
-        {
-            get => _questionIds;
-            set => SetProperty(ref _questionIds, value);
-        }
-        */
-
-        /*
-        private List<QuestionReceiveFromServer> _serverQuestions = new List<QuestionReceiveFromServer>();
-        public List<QuestionReceiveFromServer> ServerQuestions
-        {
-            get => _serverQuestions;
-            set => SetProperty(ref _serverQuestions, value);
-        }
-        */
-
         private bool _isRefreshing = true;
         public bool IsRefreshing
         {
@@ -354,49 +336,46 @@ namespace RightToAskClient.ViewModels
         // by searching, drafting a question, 'what's trending' etc.
         private async Task<Result<List<string>>> GetAppropriateQuestionList()
         {
-            // Ask for questions similar to the Draft question text and/or the keyword.
-            if (!String.IsNullOrWhiteSpace(DraftQuestion + Keyword))
+            FilterChoices filters = App.ReadingContext.Filters;
+            var serverSearchQuestion = new QuestionSendToServer()
             {
-                var serverSearchQuestion = new QuestionSendToServer()
-                {
-                    question_text = DraftQuestion + " " + Keyword
-                };
+                question_text = DraftQuestion + " " + Keyword
+            };
+            
+            // Ask for questions similar to the Draft question text and/or the keyword.
+            if( String.IsNullOrWhiteSpace(serverSearchQuestion.question_text) 
+                && !serverSearchQuestion.TranscribeQuestionFiltersForUpload(filters))
+            {
+                // If we're just looking at what's trending, show everything
+                // Expect App.ReadingContext.TrendingNow, but not necessarily because, for example,
+                // you might have drafted a blank question
+                return await RTAClient.GetQuestionList();
+            }
+            else
+            {
+                // Search based on filters and/or search/draft words.
                 Result<List<ScoredIDs>> scoredList = await RTAClient.GetSimilarQuestionIDs(serverSearchQuestion);
 
                 // Error
                 if (!String.IsNullOrEmpty(scoredList?.Err))
                 {
-                    return new Result<List<string>>()
-                    {
-                        Err = scoredList.Err
-                    };
+                    return new Result<List<string>>() { Err = scoredList.Err };
                 }
 
                 // If we've successfully retrieved a list of scored question IDs, filter them
                 // to select the ones we want
-                List<string> questionIDsOverThreshold = scoredList.Ok.Where(q => q.score > Constants.similarityThreshold)
-                    .Select(q => q.id).ToList();
-
+                List<string> questionIDsOverThreshold = scoredList.Ok
+                    .Where(q => q.score > Constants.similarityThreshold).Select(q => q.id).ToList();
                 if (questionIDsOverThreshold.Any())
                 {
-                    return new Result<List<string>>()
-                    {
-                        Ok = questionIDsOverThreshold
-                    };
+                    return new Result<List<string>>() { Ok = questionIDsOverThreshold };
                 }
                 else
                 {
-                    return new Result<List<string>>()
-                    {
-                        Err = AppResources.EmptyMatchingQuestionCollectionViewString
-                    };
+                    return new Result<List<string>>() { Err = AppResources.EmptyMatchingQuestionCollectionViewString };
                 }
             }
             
-            // If we're just looking at what's trending, show everything
-            // Expect App.ReadingContext.TrendingNow, but not necessarily because, for example,
-            // you might have drafted a blank question
-            return await RTAClient.GetQuestionList();
         }
     }
 }

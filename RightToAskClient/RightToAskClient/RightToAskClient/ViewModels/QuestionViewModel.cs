@@ -610,7 +610,7 @@ namespace RightToAskClient.ViewModels
         {
             var serverQuestion = new QuestionSendToServer(Question);
             setQuestionEditPermissions(serverQuestion);
-            TranscribeQuestionFiltersForUpload(serverQuestion);
+            // serverQuestion.TranscribeQuestionFiltersForUpload(App.ReadingContext.Filters);
 
             Result<string> httpResponse = await RTAClient.RegisterNewQuestion(serverQuestion);
             return RTAClient.ValidateHttpResponse(httpResponse, "Question Upload");
@@ -633,35 +633,6 @@ namespace RightToAskClient.ViewModels
         {
             serverQuestionUpdates.who_should_answer_the_question_permissions = _whoShouldAnswerItPermissions;
             serverQuestionUpdates.who_should_ask_the_question_permissions = _whoShouldAskItPermissions;
-        }
-        
-        // Interprets the current filters into the right form for server upload.
-        // This clearly doesn't work for *updates* - it simply reports the current settings
-        // regardless of whether they have been altered.
-        private void TranscribeQuestionFiltersForUpload(QuestionSendToServer currentQuestionForUpload)
-        {
-            // We take the (duplicate-removing) union of selected MPs, because at the moment the UI doesn't remove 
-            // your MPs from the 'other MPs' list and the user may have selected the same MP in both categories.
-            var MPAnswerers = Question.Filters.SelectedAnsweringMPsNotMine.Union(Question.Filters.SelectedAnsweringMPsMine);
-            var MPanswerersServerData = MPAnswerers.Select(mp => new PersonID(new MPId(mp)));
-            
-            // Add authorities, guaranteed not to be duplicates.
-            List<PersonID> answerers = MPanswerersServerData.
-                Concat(Question.Filters.SelectedAuthorities.Select(a => new PersonID(a))).ToList();
-            currentQuestionForUpload.entity_who_should_answer_the_question = answerers;
-
-            // Entities who should raise the question - currently just MPs and committees.
-            // TODO add other users.
-            var MPAskers = Question.Filters.SelectedAskingMPsNotMine.Union(Question.Filters.SelectedAskingMPsMine);
-            var MPAskersServerData = MPAskers.Select(mp => new PersonID(new MPId(mp)));
-            
-            // Add committees, guaranteed not to be duplicates.
-            var CommitteeAskers = Question.Filters.SelectedCommittees;
-            // var CommitteeAskersServerData = CommitteeAskers.Select(c => new PersonID(new CommitteeInfo(c)));
-            
-            List<PersonID> askers = MPAskersServerData.
-                Concat(CommitteeAskers.Select(c => new PersonID(new CommitteeInfo(c)))).ToList();
-            currentQuestionForUpload.mp_who_should_ask_the_question = askers;
         }
     }
 }
