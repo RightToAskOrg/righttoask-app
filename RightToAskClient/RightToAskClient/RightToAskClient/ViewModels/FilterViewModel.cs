@@ -71,16 +71,7 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        // public List<Authority> PublicAuthoritiesList = new List<Authority>();
-        // private string _publicAuthoritiesText = "";
-        // VT Note to Matt: See how I've refactored this so that there's no need to update -
-        // it isn't really a separate data structure at all, just a formatted way of reading
-        // the SelectedAuthorities.
-        public string PublicAuthoritiesText => CreateTextGivenListEntities(FilterChoices.SelectedAuthorities.ToList());
-        public string SelectedAnsweringMyMPsText => CreateTextGivenListEntities(FilterChoices.SelectedAnsweringMPsMine.ToList());
-        public string SelectedAskingMyMPsText => CreateTextGivenListEntities(FilterChoices.SelectedAskingMPsMine.ToList());
-        public string SelectedAskingMPsText => CreateTextGivenListEntities(FilterChoices.SelectedAskingMPsNotMine.ToList());
-        public string SelectedAnsweringMPsText => CreateTextGivenListEntities(FilterChoices.SelectedAnsweringMPsNotMine.ToList());
+        // public string SelectedAnsweringMPsText => CreateTextGivenListEntities(FilterChoices.SelectedAnsweringMPsNotMine.ToList());
 
         public bool CameFromMainPage = false;
 
@@ -128,6 +119,7 @@ namespace RightToAskClient.ViewModels
                 // FIXME This isn't quite right when the MPs are not known - seems to push a 
                 // list to choose from and then go to a reading page, rather than popping on completion
                 // and returning to the search page.
+                // See Issue #105
                 EditListCommand = new Command(() =>
                 {
                     _ = EditSelectedAnsweringMPsMineClicked().ContinueWith((_) =>

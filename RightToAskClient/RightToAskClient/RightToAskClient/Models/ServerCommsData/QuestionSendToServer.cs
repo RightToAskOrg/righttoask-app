@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Serialization;
 
 // Data structure for serialising question data to send to the server,
@@ -77,9 +78,39 @@ namespace RightToAskClient.Models.ServerCommsData
                 background = question.Background;
             }
 
+            TranscribeQuestionFiltersForUpload(question.Filters);
+            
             //TODO: Add other structures.
         }
+        
+        // Returns true if there were any non-empty filters present.
+        public bool TranscribeQuestionFiltersForUpload(FilterChoices filters)
+        {
+            // We take the (duplicate-removing) union of selected MPs, because at the moment the UI doesn't remove 
+            // your MPs from the 'other MPs' list and the user may have selected the same MP in both categories.
+            var MPAnswerers = filters.SelectedAnsweringMPsNotMine.Union(filters.SelectedAnsweringMPsMine);
+            var MPanswerersServerData = MPAnswerers.Select(mp => new PersonID(new MPId(mp)));
+            
+            // Add authorities, guaranteed not to be duplicates.
+            List<PersonID> answerers = MPanswerersServerData.
+                Concat(filters.SelectedAuthorities.Select(a => new PersonID(a))).ToList();
+            entity_who_should_answer_the_question = answerers;
 
+            // Entities who should raise the question - currently just MPs and committees.
+            // TODO add other users.
+            var MPAskers = filters.SelectedAskingMPsNotMine.Union(filters.SelectedAskingMPsMine);
+            var MPAskersServerData = MPAskers.Select(mp => new PersonID(new MPId(mp)));
+            
+            // Add committees, guaranteed not to be duplicates.
+            var CommitteeAskers = filters.SelectedCommittees;
+            // var CommitteeAskersServerData = CommitteeAskers.Select(c => new PersonID(new CommitteeInfo(c)));
+            
+            List<PersonID> askers = MPAskersServerData.
+                Concat(CommitteeAskers.Select(c => new PersonID(new CommitteeInfo(c)))).ToList();
+            mp_who_should_ask_the_question = askers;
+
+            return askers.Any() || answerers.Any();
+        }
         public bool ValidateNewQuestion()
         {
             bool isValid = false;
