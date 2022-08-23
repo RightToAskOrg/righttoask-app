@@ -1,6 +1,4 @@
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace RightToAskClient.Models
@@ -30,15 +28,20 @@ namespace RightToAskClient.Models
 
 		public bool ShowHowToPublishPopup { get; set; } = true;
 
-		public event PropertyChangedEventHandler? PropertyChanged;
+		// public event PropertyChangedEventHandler? PropertyChanged;
 
         public ReadingContext()
         {
+	        // Also initialises signing keys etc.
+	        // Consider awaiting. I don't think so, though, because there's no reason everything else should wait for it.
+	        ThisParticipant.Init();
         }
+        /*
         public void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        */
         
 		// Things about this user.
 		// These selections are made at registration, or at 'complete registration.'

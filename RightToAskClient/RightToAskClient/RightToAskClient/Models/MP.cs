@@ -14,7 +14,7 @@ namespace RightToAskClient.Models
 
     {
         [JsonPropertyName("first_name")]
-        public string first_name { get; set; }
+        public string? first_name { get; set; }
         // public ParliamentData.Chamber ChamberSeatedIn { get; set; }
 
         [JsonPropertyName("surname")] 
@@ -22,7 +22,7 @@ namespace RightToAskClient.Models
 
 
         [JsonPropertyName("electorate")] 
-        public ElectorateWithChamber electorate { get; set; }
+        public ElectorateWithChamber? electorate { get; set; }
 
         // TODO consider making this a specific appropriate type
         [JsonPropertyName("email")]

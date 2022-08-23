@@ -1,6 +1,5 @@
 using System;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -24,42 +23,58 @@ using Xamarin.Essentials;
  * Also note I (VT) am not an expert in Xamarin secure storage, and have endeavoured to follow the instructions
  * here: https://docs.microsoft.com/en-us/xamarin/essentials/secure-storage
  * but the code needs a round of expert review before it is used or copied.
- * TODO: Note that I have not yet done either of the platform-specific setups recommended on that page:
- * we'll need to ask for iOS entitlements, and we'll need to turn off backup on Android.
+ * TODO: Note that I have not yet done the iOS platform-specific setups recommended on that page, which seem to relate
+ * only to simulators. We'll need to ask for iOS entitlements for running in a simulator, as described here.
+ * https://docs.microsoft.com/en-us/xamarin/essentials/secure-storage?tabs=ios#platform-implementation-specifics
  *
  * Use of private initialiser to deal with asynchrony is based on suggestion here:
  * https://endjin.com/blog/2020/08/fully-initialize-types-in-constructor-csharp-nullable-async-factory-pattern
  */
 namespace RightToAskClient.CryptoUtils
 {
-    public class ClientSignatureGenerationService
+    public static class ClientSignatureGenerationService
     {
-        // private static readonly AsymmetricCipherKeyPair MyKeyPair = await MakeMyKey();
+        private static Ed25519PrivateKeyParameters? _myKeyPair ; 
 
-        // private static Ed25519PublicKeyParameters? _myPublicKey  = MyKeyPair.Public as Ed25519PublicKeyParameters;
+        private static Ed25519Signer MySigner = new Ed25519Signer();
 
-        //private static Ed25519PrivateKeyParameters MyKeyPair; // = await MakeMyKey();
-
-        private Ed25519PrivateKeyParameters MyKeyPair; // = await MakeMyKey();
-
-        private Ed25519PublicKeyParameters _myPublicKey;
-
-        private static Ed25519Signer MySigner;
-
-        private ClientSignatureGenerationService(Ed25519PrivateKeyParameters myKey)
+        private static bool _initSuccessful = false;
+        public static bool InitSuccessful
         {
-            MyKeyPair = myKey;
-            _myPublicKey = myKey.GeneratePublicKey();
-            MySigner = MakeMySigner();
+            get => _initSuccessful;
+            private set => _initSuccessful = value;
+        }
+        
+        public static async Task<bool> Init()
+        {
+            var generationResult = await MakeMyKey();
+            if (!String.IsNullOrEmpty(generationResult.Err))
+            {
+                // Key generation unsuccessful.
+                return false;
+            }
+            
+            _myKeyPair = generationResult.Ok;
+            // _myPublicKey = _myKeyPair.GeneratePublicKey();
+            MySigner.Init(true, _myKeyPair);
+            InitSuccessful = true;
+            return true;
         }
 
+        /*
         public static async Task<ClientSignatureGenerationService> CreateClientSignatureGenerationService()
         {
             Ed25519PrivateKeyParameters myKeyPair = await MakeMyKey();
             return new ClientSignatureGenerationService(myKeyPair);
         }
+        */
 
-        public string MyPublicKey()
+        public static string MyPublicKey
+        {
+            get => Convert.ToBase64String(_myKeyPair?.GeneratePublicKey().GetEncoded() ?? Array.Empty<byte>());
+        }
+        /*
+        public static string MyPublicKey()
         {
             if (_myPublicKey.GetEncoded() != null)
             {
@@ -71,8 +86,9 @@ namespace RightToAskClient.CryptoUtils
                 return "";
             }
         }
+        */
 
-        private static async Task<Ed25519PrivateKeyParameters> MakeMyKey()
+        private static async Task<Result<Ed25519PrivateKeyParameters>> MakeMyKey()
         {
             // First see if there's already a stored key. If so, use that.
             try
@@ -83,7 +99,10 @@ namespace RightToAskClient.CryptoUtils
                 if (!String.IsNullOrEmpty(signingKeyAsString))
                 {
                     var privateKey = new Ed25519PrivateKeyParameters(Convert.FromBase64String(signingKeyAsString));
-                    return privateKey;
+                    return new Result<Ed25519PrivateKeyParameters>()
+                    {
+                        Ok = privateKey
+                    };
                 }
             }
             // If there's an exception, write a debug message and continue through generating a new one.
@@ -111,22 +130,32 @@ namespace RightToAskClient.CryptoUtils
                     await SecureStorage.SetAsync("signing_key", keyAsString);
                 }
             }
+            // Better not to try registering a key that you haven't successfully stored for later.
             catch (Exception ex)
             {
                 Debug.WriteLine("Error storing signing key" + ex.Message);
+                return new Result<Ed25519PrivateKeyParameters>()
+                {
+                    Err = "Error storing signing key" + ex.Message
+                };
             }
 
-            return signingKey;
+            if (signingKey is null)
+            {
+                return new Result<Ed25519PrivateKeyParameters>()
+                {
+                    Err = "Error generating signing key"
+                };
+            }
+            
+            // signingKey is guaranteed not to be null. All good.
+            return new Result<Ed25519PrivateKeyParameters>()
+            {
+                Ok = signingKey
+            };
         }
 
-        private Ed25519Signer MakeMySigner()
-        {
-            var signer = new Ed25519Signer();
-            signer.Init(true, MyKeyPair);
-            return signer;
-        }
-
-        public ClientSignedUnparsed SignMessage<T>(T message, string userID)
+        public static ClientSignedUnparsed SignMessage<T>(T message, string userID)
         {
             JsonSerializerOptions serializerOptions = new JsonSerializerOptions
             {

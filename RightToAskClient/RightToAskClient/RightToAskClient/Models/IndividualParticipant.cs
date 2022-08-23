@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 using RightToAskClient.CryptoUtils;
 using RightToAskClient.Models.ServerCommsData;
 
@@ -16,17 +17,17 @@ namespace RightToAskClient.Models
 	// in addition to the public data in 'Person'
 	public class IndividualParticipant : Person 
     {
-	    private ClientSignatureGenerationService _signatureService;
+	    // private ClientSignatureGenerationService _signatureService;
             // = await ClientSignatureGenerationService.CreateClientSignatureGenerationService();
 		public IndividualParticipant() 
 		{
 			ElectoratesKnown = false;
 			IsRegistered = false;
-			initializeCryptographicKeys();
-			// _signatureService = await ClientSignatureGenerationService.CreateClientSignatureGenerationService();
+			SigningKeyRetrieved = false;
 		}
 
 		public bool IsRegistered { get; set; }
+		public bool SigningKeyRetrieved { get; set; }
 		public bool ElectoratesKnown { get; set; }
 		public bool AddressUpdated { get; set; }
 		public bool HasQuestions { get; set; }
@@ -49,79 +50,17 @@ namespace RightToAskClient.Models
 		public List<string> ReportedQuestionIDs { get; set; } = new List<string>();
 		public List<string> RemovedQuestionIDs { get; set; } = new List<string>();
 
-		// When your electorate gets updated, we automatically update your MPs.
-		// TODO: Think about whether we need to check that we're not duplicating
-		// inconsistent chambers/electorates.
-		private void UpdateElectorate(ElectorateWithChamber knownElectorate)
-		{
-			RegistrationInfo.AddElectorateRemoveDuplicates(knownElectorate);
-		}
-
 		public ClientSignedUnparsed SignMessage<T>(T message)
 		{
-			return _signatureService.SignMessage(message, RegistrationInfo.uid );
+			return ClientSignatureGenerationService.SignMessage(message, RegistrationInfo.uid );
 		}
 
-		public string MyPublicKey()
+		public async Task<bool> Init()
 		{
-			return RegistrationInfo.public_key;
+			SigningKeyRetrieved = await ClientSignatureGenerationService.Init();
+			RegistrationInfo.public_key = ClientSignatureGenerationService.MyPublicKey;
+			return SigningKeyRetrieved;
 		}
-
-		private async void initializeCryptographicKeys()
-		{
-			_signatureService = await ClientSignatureGenerationService.CreateClientSignatureGenerationService();
-			RegistrationInfo.public_key = _signatureService.MyPublicKey();
-		}
-
-		// TODO: Do some validity checking to ensure that you're not adding inconsistent
-        // data, e.g. a state different from
-        // the expected state.
-        public void AddHouseOfRepsElectorate(string regionToAdd)
-        {
-	        UpdateElectorate( 
-		        new ElectorateWithChamber(ParliamentData.Chamber.Australian_House_Of_Representatives,
-			        regionToAdd)
-	        );
-        }
-
-        // For every state except Tas, the lower house electorate determines the upper house one
-        // (if there is one). For Tas, it's more complicated. So we hand this off to ParliamentData.
-        /*
-        public void AddStateElectoratesGivenOneRegion(string state, string regionToAdd)
-        {
-	        List<ElectorateWithChamber> electorates = ParliamentData.GetStateElectoratesGivenOneRegion(state, regionToAdd);
-	        foreach (var e in electorates)
-	        {
-		       UpdateElectorate(e); 
-	        }
-        }
-        */
-
-        /*
-        public void AddStateUpperHouseElectorate(string state, string region)
-        {
-	        if (!ParliamentData.HasUpperHouse(state))
-	        {	
-		        Debug.WriteLine("Error: Trying to add an upper house electorate for a state that doesn't have an upper house.");
-		        return;
-	        }
-	        Result<ParliamentData.Chamber> chamber = ParliamentData.GetUpperHouseChamber(state);
-	        if (chamber.Err.IsNullOrEmpty())
-	        {
-				UpdateElectorate( new ElectorateWithChamber(chamber.Ok, region) );
-	        }
-	        
-        }
-        */
-
-
-        public void AddSenatorsFromState(string state)
-        {
-	        if (ParliamentData.StatesAndTerritories.Contains(state))
-	        {
-				UpdateElectorate(new ElectorateWithChamber(ParliamentData.Chamber.Australian_Senate, state));
-	        }
-        }
 
 		public new bool Validate()
         {

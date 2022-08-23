@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Globalization;
-using RightToAskClient.Resx;
 using Xamarin.Forms;
 
 namespace RightToAskClient.Helpers

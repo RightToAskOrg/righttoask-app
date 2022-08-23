@@ -104,6 +104,7 @@
       <Generator>
       </Generator>
     </AndroidResource>
+    <AndroidResource Include="Resources\xml\auto_backup_rules.xml" />
     <AndroidResource Include="Resources\xml\network_security_config.xml" />
   </ItemGroup>
   <ItemGroup>

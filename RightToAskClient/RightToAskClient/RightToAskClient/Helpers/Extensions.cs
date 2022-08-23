@@ -37,7 +37,7 @@ namespace RightToAskClient.Helpers
         }
         public static string JoinFilter(string separator, params string[] str)
         {
-            return string.Join(separator, str?.Where(s => !string.IsNullOrEmpty(s)));
+            return string.Join(separator, str?.Where(s => !string.IsNullOrEmpty(s)) ?? Array.Empty<string>());
         }
     }
 }
