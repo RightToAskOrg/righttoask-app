@@ -85,6 +85,8 @@ namespace RightToAskClient
                 {
                     ReadingContext.ThisParticipant.IsVerifiedMPStafferAccount =
                         Preferences.Get(Constants.IsVerifiedMPStafferAccount, false);
+                    /* At the moment, we don't actually use this. Leaving in for now because the MP-match finding may be useful later.
+                     
                     var MPRepresentingjson = Preferences.Get(Constants.MPRegisteredAs, "");
                     if (!String.IsNullOrEmpty(MPRepresentingjson))
                     {
@@ -99,6 +101,7 @@ namespace RightToAskClient
                                 = matchingMPs.Any() ? matchingMPs.First() : MPRepresenting;
                         }
                     }
+                    */
                 }
             }
             

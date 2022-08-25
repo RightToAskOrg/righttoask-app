@@ -343,10 +343,16 @@ namespace RightToAskClient.ViewModels
                 }
                 if (userToSend.Ok != null)
                 {
+                    /*
+                     * Rather that pass the data via messaging centre, we'll just make a new page and
+                     * pass it via the constructor.
+                     * 
                     await Shell.Current.GoToAsync($"{nameof(OtherUserProfilePage)}").ContinueWith((_) =>
                     {
                         MessagingCenter.Send(this, "OtherUser", userToSend.Ok); // Send person or send question
-                    });
+                    }); */
+                    var userProfilePage = new OtherUserProfilePage(new Registration(userToSend.Ok));
+                    await App.Current.MainPage.Navigation.PushAsync(userProfilePage);
                 }
             });
             BackCommand = new AsyncCommand(async () =>

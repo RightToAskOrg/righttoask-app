@@ -915,4 +915,7 @@
   <data name="ChooseStateOrTerritory" xml:space="preserve">
     <value>Choose State or Territory</value>
   </data>
+  <data name="OtherUserInfoText" xml:space="preserve">
+    <value>Information about another Right To Ask participant</value>
+  </data>
 </root>

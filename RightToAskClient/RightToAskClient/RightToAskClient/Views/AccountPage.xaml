@@ -26,7 +26,7 @@
             <!-- TODO Unfortunately I think this is getting drawn, then made invisible, hence creating a lot of whitespace -->
             <StackLayout Orientation="Vertical" VerticalOptions="Center">
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                    <Button Text="{xct:Translate CompleteAccountCreationButtonText}" Style="{StaticResource DoneButton}" Command="{Binding SaveButtonCommand}" HorizontalOptions="Center" IsVisible="{Binding ShowUpdateAccountButton, Converter={StaticResource Key=cnvInvert}}"/>
+                    <Button Text="{xct:Translate CompleteAccountCreationButtonText}" Style="{StaticResource DoneButton}" Command="{Binding DoneButtonCommand}" HorizontalOptions="Center" IsVisible="{Binding ShowUpdateAccountButton, Converter={StaticResource Key=cnvInvert}}"/>
                 </StackLayout>
             </StackLayout>
             <!-- This button seems redundant because you can tap on the electorates to edit -->

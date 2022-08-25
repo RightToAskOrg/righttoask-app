@@ -3,11 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
+             xmlns:views="clr-namespace:RightToAskClient.Views"
              x:Class="RightToAskClient.Views.OtherUserProfilePage"
              xmlns:local="clr-namespace:RightToAskClient"
-             Title="{Binding Title}">
+             Title="{Binding DisplayName}">
     <ContentPage.BindingContext>
-        <vm:OtherUserProfileViewModel/>
+        <vm:RegistrationViewModel/>
     </ContentPage.BindingContext>
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
@@ -17,20 +18,11 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout Margin="20">
-            <Label Text="{xct:Translate UIDHeaderText}" Style="{StaticResource LeftSmall}"/>
-            <Label Text="{Binding OtherUserUID}" Style="{StaticResource LeftMedium}" Margin="0,0,0,20"/>
-            <Label Text="{xct:Translate DisplayNameHeaderText}" Style="{StaticResource LeftSmall}"/>
-            <Label Text="{Binding OtherUserDisplayName}" Style="{StaticResource LeftMedium}" Margin="0,0,0,20"/>
-            <Label Text="{xct:Translate StateHeaderText}" Style="{StaticResource LeftSmall}"/>
-            <Label Text="{Binding OtherUserState}"  Style="{StaticResource LeftMedium}" Margin="0,0,0,20"/>
-            <!--
-            Probably don't want to display other users' emails.
-            <Label Text="{xct:Translate EmailTitle}" Style="{StaticResource LeftSmall}"/>
-            <Label Text="{Binding OtherUserEmail}"  Style="{StaticResource LeftMedium}" Margin="0,0,0,20"/>
-            -->
-            <Label Text="{xct:Translate ElectoratesHeaderText}" Style="{StaticResource LeftSmall}"/>
-            <Label Text="{Binding ElectoratesDisplayString}" Style="{StaticResource LeftMedium}" Margin="0,0,0,20"/>
+            <views:UserAccountInfoView/>
             <!--Maybe add a list of their other submitted questions below-->
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                <Button Text="{xct:Translate OKText}" Style="{StaticResource DoneButton}" Command="{Binding CancelButtonCommand}" HorizontalOptions="Center" />
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
