@@ -43,9 +43,7 @@ namespace RightToAskClient.Models.ServerCommsData
             display_name = newReg.display_name;
             public_key = newReg.public_key;
             state = newReg.State;
-            //TODO: add this when Registration has it.
-            // badges = newReg.badges;
-
+            badges = newReg.Badges;
         }
 
         public bool Validate()

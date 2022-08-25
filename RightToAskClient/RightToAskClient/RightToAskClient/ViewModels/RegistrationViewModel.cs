@@ -120,6 +120,21 @@ namespace RightToAskClient.ViewModels
         // This is for selecting MPs if you're registering as an MP or staffer account
         private SelectableList<MP> _selectableMPList = new SelectableList<MP>(new List<MP>(), new List<MP>());
         
+        public bool IsVerifiedMPAccount
+        {
+            get => _registration?.Badges?.Any(b =>  b.badge == BadgeType.MP || b.badge == BadgeType.MPStaff) ?? false;
+        }
+
+        public bool IsVerifiedStafferAccount
+        {
+            get => _registration?.Badges?.Any(b => b.badge == BadgeType.MPStaff) ?? false;
+        }
+
+        public string MPsRepresenting
+        {
+            get => String.Join(",",_registration?.Badges?.Select(b => b.name ?? "") ?? new List<string>());
+        }
+        
         // TODO shift into Registration.
         public MP RegisteredMP { get; }
         public bool ShowStafferLabel { get; set; }

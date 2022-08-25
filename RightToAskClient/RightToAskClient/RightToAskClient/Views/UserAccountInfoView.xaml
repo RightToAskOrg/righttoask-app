@@ -24,6 +24,9 @@
                     SelectedIndex="{Binding SelectedStateAsIndex}">
             </Picker>
         </Grid>
+            <Label Text="{Binding MPsRepresenting, StringFormat='Registered MP account for {0}'}"
+                   IsVisible="{Binding IsVerifiedMPAccount}"  Style="{StaticResource NormalText}" />
+            <Label Text="Verified staffer" IsVisible="{Binding IsVerifiedStafferAccount}" Style="{StaticResource NormalText}" />
             <Label Text="{xct:Translate EditableElectoratesHeaderText}" Style="{StaticResource Header2}"/>
             <!-- The height request is a kludge because otherwise the CollectionView takes up all the rest of the page -->
             <!-- rather than resizing to fit just the number of elements it has -->

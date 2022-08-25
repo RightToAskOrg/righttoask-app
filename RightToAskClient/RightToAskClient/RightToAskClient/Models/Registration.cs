@@ -58,6 +58,7 @@ namespace RightToAskClient.Models
         }
 
         private List<Badge> _badges = new List<Badge>();
+        
         // For the moment, this indicates (only) whether the person is registered as an MP or staffer.
         public List<Badge> Badges
         {
@@ -87,9 +88,9 @@ namespace RightToAskClient.Models
             }
             
             uid = input.uid ?? "";
-            _electorates = input.electorates;
+            _electorates = input.electorates ?? new List<ElectorateWithChamber>();
             
-            _badges = input.badges;
+            _badges = input.badges ?? new List<Badge>();
         }
 
 
