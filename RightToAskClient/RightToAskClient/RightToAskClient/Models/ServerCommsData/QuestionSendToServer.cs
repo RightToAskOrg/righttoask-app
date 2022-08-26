@@ -49,7 +49,7 @@ namespace RightToAskClient.Models.ServerCommsData
 
         [JsonPropertyName("answers")]
         // public List<Tuple<string, PersonID, MPId>> answers { get; set; } 
-        public List<(string answer, PersonID? answered_by, MPId mp) >? answers { get; set; } 
+        public List<QuestionAnswer>? answers { get; set; } 
         
         // TODO This needs to be interpreted/stored carefully, because we need 'false'
         // to mean 'the user has seen it but didn't fully approve' and to distinguish this

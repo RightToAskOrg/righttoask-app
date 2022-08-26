@@ -355,16 +355,15 @@ namespace RightToAskClient.Models
             OthersCanAddAnswerers = serverQuestion.who_should_answer_the_question_permissions == RTAPermissions.Others;
             OthersCanAddAskers = serverQuestion.who_should_ask_the_question_permissions == RTAPermissions.Others;
 
+            // TODO** This should probably pull the closest matching MP from the AllMPs list rather than making a new one
             _answers = serverQuestion.answers
-                ?.Select<(string answer, PersonID answered_by, MPId mp), (string answer, Person answered_by_Person, MP
-                        answered_by_MP)>
-                    (t => (answer: t.answer, answered_by_Person: new Person(t.answered_by), answered_by_MP: new MP(t.mp))).ToList<(string,Person,MP)>() ?? new List<(string, Person, MP)>();
+                ?.Select(ans => (answer: ans.answer, answered_by_Person: new Person(ans.answered_by ?? string.Empty), answered_by_MP: new MP(ans.mp))).ToList<(string,Person,MP)>() ?? new List<(string, Person, MP)>();
             AnswerAccepted = serverQuestion.answer_accepted ?? false;
             HansardLink = serverQuestion.hansard_link ?? new List<Uri>();
             
             IsFollowupTo = serverQuestion.is_followup_to ?? "";
         }
-
+            
 
         // At the moment, if this gets an entity that it can't match, it simply adds it to the 'selected' list anyway,
         // in the minimal form it receives from the server.
@@ -506,15 +505,15 @@ namespace RightToAskClient.Models
         public void AddAnswer(string answer)
         {
             var me = App.ReadingContext.ThisParticipant;
-            var user = new PersonID(me);
-            var MP = new MPId(me.MPRegisteredAs);
-            var answerUpdate = (answer: answer, answered_by: user, mp: MP);
-            _updates.answers = new List<(string answer, PersonID? answered_by, MPId mp)>() { answerUpdate };
-            /*
-            _updates.answers = new List<(string answer, PersonID? answered_by, MPId mp)>()
+
+            _updates.answers = new List<QuestionAnswer>()
             {
-                (answer: answer, answered_by: user, mp: MP)
-            };*/
+                new QuestionAnswer()
+                {
+                    mp = new MPId(me.MPRegisteredAs),
+                    answer = answer
+                }
+            };
         }
     }
 }

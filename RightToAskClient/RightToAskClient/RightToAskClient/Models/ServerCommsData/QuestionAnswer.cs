@@ -1,19 +1,21 @@
 using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using RightToAskClient.Models.ServerCommsData;
 
-/*
 namespace RightToAskClient.Models.ServerCommsData
 {
-
-    public class QuestionAnswer : Tuple<string, PersonID, MP>
+    public class QuestionAnswer
     {
-        public QuestionAnswer(string item1, PersonID item2, MP item3,
-            List<(string answer, PersonID? answered_by, MPId mp)>? answers) : base(item1, item2, item3)
-        {
-            this.answers = answers;
-        }
 
+        // Should be omitted on sending - filled in by server.
+        [JsonPropertyName("answered_by")] 
+        public string? answered_by { get; set; } // uid.
+
+        [JsonPropertyName("mp")] 
+        public MPId mp { get; set; }
+
+        [JsonPropertyName("answer")] 
+        public string answer { get; set; }
     }
 }
-*/
