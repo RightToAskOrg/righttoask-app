@@ -918,8 +918,11 @@
   <data name="OtherUserInfoText" xml:space="preserve">
     <value>Information about another Right To Ask participant</value>
   </data>
+  <data name="LinkNotWellFormedErrorText" xml:space="preserve">
+    <value>The link is not a valid url</value>
+  </data>
   <data name="LinkPlaceholderText" xml:space="preserve">
-    <value />
+    <value>Parliamentary url</value>
   </data>
   <data name="AnswerPlaceholderText" xml:space="preserve">
     <value>Answer</value>

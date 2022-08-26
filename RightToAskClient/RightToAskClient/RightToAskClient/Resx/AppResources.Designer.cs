@@ -1647,6 +1647,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string LinkNotWellFormedErrorText {
+            get {
+                return ResourceManager.GetString("LinkNotWellFormedErrorText", resourceCulture);
+            }
+        }
+        
         internal static string LinkPlaceholderText {
             get {
                 return ResourceManager.GetString("LinkPlaceholderText", resourceCulture);

@@ -359,8 +359,19 @@ namespace RightToAskClient.Models
             _answers = serverQuestion.answers
                 ?.Select(ans => (answer: ans.answer, answered_by_Person: new Person(ans.answered_by ?? string.Empty), answered_by_MP: new MP(ans.mp))).ToList<(string,Person,MP)>() ?? new List<(string, Person, MP)>();
             AnswerAccepted = serverQuestion.answer_accepted ?? false;
-            HansardLink = serverQuestion.hansard_link ?? new List<Uri>();
-            
+            HansardLink = new List<Uri>();
+            if (serverQuestion.hansard_link != null)
+            {
+                foreach (HansardLink? link in serverQuestion.hansard_link)
+                {
+                    var possibleUrl = ParliamentData.StringToValidParliamentaryUrl(link?.url ?? "");
+                    if (String.IsNullOrEmpty(possibleUrl.Err))
+                    {
+                        HansardLink.Add(possibleUrl.Ok);
+                    }
+                }
+            }
+
             IsFollowupTo = serverQuestion.is_followup_to ?? "";
         }
             
@@ -491,12 +502,12 @@ namespace RightToAskClient.Models
         {
             if (_updates.hansard_link is null)
             {
-            _updates.hansard_link = new List<Uri>{newHansardLink};
+            _updates.hansard_link = new List<HansardLink>{new HansardLink(newHansardLink.OriginalString)};
             }
             // People may add multiple Hansard links at once.
             else
             {
-                _updates.hansard_link.Add(newHansardLink);
+                _updates.hansard_link.Add(new HansardLink(newHansardLink.OriginalString));
             }
             QuestionViewModel.Instance.Question.HansardLink.Add(newHansardLink);
             OnPropertyChanged("HansardLink");

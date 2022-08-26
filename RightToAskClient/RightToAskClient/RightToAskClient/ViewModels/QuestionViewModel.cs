@@ -55,13 +55,12 @@ namespace RightToAskClient.ViewModels
             get => _newHansardLink;
             set
             {
-                Result<Uri> urlResult = stringToValidParliamentaryUrl(value);
+                Result<Uri> urlResult = ParliamentData.StringToValidParliamentaryUrl(value);
                 if (String.IsNullOrEmpty(urlResult.Err))
                 {
-                    
-                SetProperty(ref _newHansardLink, value);
-                Question.AddHansardLink(urlResult.Ok);
-                OnPropertyChanged("HansardLink");
+                    SetProperty(ref _newHansardLink, value);
+                    Question.AddHansardLink(urlResult.Ok);
+                    OnPropertyChanged("HansardLink");
                 }
                 else
                 {
@@ -672,35 +671,5 @@ namespace RightToAskClient.ViewModels
             serverQuestionUpdates.who_should_ask_the_question_permissions = _whoShouldAskItPermissions;
         }
 
-        private Result<Uri> stringToValidParliamentaryUrl(string value)
-        {
-            try
-            {
-                var link = new Uri(value);
-                // Valid url, but not one of the allowed ones.
-                if (!ParliamentData.Domains.Contains(link.Host))
-                {
-                    return new Result<Uri>()
-                    {
-                        Err = AppResources.ParliamentaryURLErrorText
-                    };
-                }
-                else
-                {
-                    return new Result<Uri>()
-                    {
-                        Ok = link
-                    };
-                }
-            }
-            // Not a valid url 
-            catch (Exception e)
-            {
-                return new Result<Uri>()
-                {
-                    Err = e.Message,
-                };
-            }
-        }
     }
 }
