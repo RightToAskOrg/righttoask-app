@@ -123,7 +123,6 @@ namespace RightToAskClient.ViewModels
             {
                 why = new EmailValidationReason() { AsMP = !IsStaffer },
                 name = Badge.writeBadgeName(MPRepresenting, domain)
-                // MPRepresenting.first_name + " " + MPRepresenting.surname +" @"+domain
             };
             Result<string> httpResponse = await RTAClient.RequestEmailValidation(message, EmailUsername + "@" + domain);
             (bool isValid, string errorMsg, string hash) validation = RTAClient.ValidateHttpResponse(httpResponse, "Email Validation Request");

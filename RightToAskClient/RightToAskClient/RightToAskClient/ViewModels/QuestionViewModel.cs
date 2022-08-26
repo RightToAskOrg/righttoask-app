@@ -34,12 +34,50 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _question, value);
         }
 
-        private QuestionSendToServer _serverQuestionUpdates = new QuestionSendToServer();
+        private string _newAnswer = "";
+        public string NewAnswer
+        {
+            get => _newAnswer; 
+            set
+            {
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    SetProperty(ref _newAnswer, value);
+                    Question.AddAnswer(value);
+                    OnPropertyChanged("NewAnswer");
+                }
+            }
+        }
+        
+        private string? _newHansardLink; 
+        public string NewHansardLink 
+        { 
+            get => _newHansardLink;
+            set
+            {
+                Result<Uri> urlResult = stringToValidParliamentaryUrl(value);
+                if (String.IsNullOrEmpty(urlResult.Err))
+                {
+                    
+                SetProperty(ref _newHansardLink, value);
+                Question.AddHansardLink(urlResult.Ok);
+                OnPropertyChanged("HansardLink");
+                }
+                else
+                {
+                    ReportLabelText = urlResult.Err ?? "";
+                    OnPropertyChanged("ReportLabelText");
+                }
+            }
+        }
+
+        //** private QuestionSendToServer _serverQuestionUpdates = new QuestionSendToServer();
+        /*
         public QuestionSendToServer ServerQuestionUpdates
         {
-            get => _serverQuestionUpdates;
+            // get => _serverQuestionUpdates;
             set => SetProperty(ref _serverQuestionUpdates, value);
-        }
+        }*/
 
         // A collection of flags describing the state of the question,
         // whether it's a new question, whether you have permission to edit it,
@@ -321,10 +359,6 @@ namespace RightToAskClient.ViewModels
                     }
                 }
             });
-            SaveAnswerCommand = new Command(() =>
-            {
-                SaveButtonText = "Answer saving not implemented";
-            });
             SaveQuestionCommand = new Command(() =>
             {
                 SubmitNewQuestionButton_OnClicked();
@@ -394,7 +428,6 @@ namespace RightToAskClient.ViewModels
         public Command SaveQuestionCommand { get; }
         // public IAsyncCommand SelectCommitteeButtonCommand { get; }
         public IAsyncCommand UpvoteCommand { get; }
-        public Command SaveAnswerCommand { get; }
         public Command EditAnswerCommand { get; }
         public IAsyncCommand OptionACommand { get; }
         public IAsyncCommand OptionBCommand { get; }
@@ -418,7 +451,7 @@ namespace RightToAskClient.ViewModels
 
         public void ReinitQuestionUpdates()
         {
-            ServerQuestionUpdates = new QuestionSendToServer();
+            //** ServerQuestionUpdates = new QuestionSendToServer();
             Question.ReinitQuestionUpdates();
         }
 
@@ -507,7 +540,7 @@ namespace RightToAskClient.ViewModels
                 }                
             }
         }
-        
+
         // TODO Consider permissions for question editing.
         private async void EditQuestionButton_OnClicked()
         {
@@ -543,9 +576,6 @@ namespace RightToAskClient.ViewModels
         {
             // This isn't supposed to be called for unregistered participants.
             if (!App.ReadingContext.ThisParticipant.IsRegistered) return;
-
-            // Insert the question into our own list even if it doesn't upload.
-            // App.ReadingContext.ExistingQuestions.Insert(0, Question);
 
             // TODO use returnedData to record questionID, version, hash
             (bool isValid, string errorMessage, string returnedData) successfulSubmission = await BuildSignAndUploadNewQuestion();
@@ -625,6 +655,7 @@ namespace RightToAskClient.ViewModels
         private async Task<(bool isValid, string errorMessage, string returnedData)> BuildSignAndUploadQuestionUpdates()
         {
             var serverQuestionUpdates = Question.Updates;
+            // These are not necessary if they haven't changed, but it doesn't hurt to resend them.
             setQuestionEditPermissions(serverQuestionUpdates);
             
             // needs these two fields in the message payload for updates, but not for new questions.
@@ -639,6 +670,37 @@ namespace RightToAskClient.ViewModels
         {
             serverQuestionUpdates.who_should_answer_the_question_permissions = _whoShouldAnswerItPermissions;
             serverQuestionUpdates.who_should_ask_the_question_permissions = _whoShouldAskItPermissions;
+        }
+
+        private Result<Uri> stringToValidParliamentaryUrl(string value)
+        {
+            try
+            {
+                var link = new Uri(value);
+                // Valid url, but not one of the allowed ones.
+                if (!ParliamentData.Domains.Contains(link.Host))
+                {
+                    return new Result<Uri>()
+                    {
+                        Err = AppResources.ParliamentaryURLErrorText
+                    };
+                }
+                else
+                {
+                    return new Result<Uri>()
+                    {
+                        Ok = link
+                    };
+                }
+            }
+            // Not a valid url 
+            catch (Exception e)
+            {
+                return new Result<Uri>()
+                {
+                    Err = e.Message,
+                };
+            }
         }
     }
 }

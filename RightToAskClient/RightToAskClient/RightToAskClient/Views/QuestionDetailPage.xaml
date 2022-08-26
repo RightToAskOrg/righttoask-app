@@ -72,14 +72,16 @@
 			    </StackLayout>
 			    <StackLayout Orientation="Vertical"
 			                 IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
-				    <Label Text="{xct:Translate LinkAnswerHeaderText}" Style="{StaticResource Header2}"/>
-				    <Editor x:Name="LinkOrAnswerEditor" Placeholder="{xct:Translate LinkAnswerPlaceholderText}" Completed="Answer_Entered"
+				    <Label Text="{xct:Translate LinkForAnswerHeaderText}" Style="{StaticResource Header2}"/>
+				    <Editor x:Name="LinkToAnswerEditor" Placeholder="{xct:Translate LinkPlaceholderText}" Completed="Link_Entered"
 				            Style="{StaticResource NormalEditor}" />
+				    <Label Text="{xct:Translate AnswerHeaderText}" Style="{StaticResource Header2}"/>
+				    <Editor x:Name="AnswerEditor" Placeholder="{xct:Translate AnswerPlaceholderText}" Completed="Answer_Entered" />
 				    <Label Text="{xct:Translate ApproveAnswerText}" />
 			    </StackLayout>
-			    <Button Text="{Binding SaveButtonText}" Style="{StaticResource SaveButton}"
+			    <!-- <Button Text="{Binding SaveButtonText}" Style="{StaticResource SaveButton}"
 			            Command="{Binding SaveAnswerCommand}" HorizontalOptions="Center"
-			            IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}" />
+			            IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}" /> -->
 			    <Button Text="{xct:Translate EditQuestionButtonText}" Style="{StaticResource SaveButton}"
 			            Command="{Binding EditAnswerCommand}" HorizontalOptions="Center" 
 			            IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}" />

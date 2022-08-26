@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
 namespace RightToAskClient.Models.ServerCommsData
@@ -21,8 +22,13 @@ namespace RightToAskClient.Models.ServerCommsData
 
     public enum BadgeType
     {
+		[EnumMember(Value = "EmailDomain")]
         EmailDomain,
+        
+		[EnumMember(Value = "MP")]
         MP,
+        
+		[EnumMember(Value = "MPStaff")]
         MPStaff,
     }
 }

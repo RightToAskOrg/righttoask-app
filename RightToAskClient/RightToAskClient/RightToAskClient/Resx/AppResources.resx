@@ -267,7 +267,7 @@
   <data name="KeywordEntryPlaceholderText" xml:space="preserve">
     <value>Keyword</value>
   </data>
-  <data name="LinkAnswerHeaderText" xml:space="preserve">
+  <data name="LinkForAnswerHeaderText" xml:space="preserve">
     <value>Link or Answer:</value>
   </data>
   <data name="LinkAnswerPlaceholderText" xml:space="preserve">
@@ -917,5 +917,17 @@
   </data>
   <data name="OtherUserInfoText" xml:space="preserve">
     <value>Information about another Right To Ask participant</value>
+  </data>
+  <data name="LinkPlaceholderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AnswerPlaceholderText" xml:space="preserve">
+    <value>Answer</value>
+  </data>
+  <data name="ParliamentaryURLErrorText" xml:space="preserve">
+    <value>URLs must have a valid Australian Parliamentary domain</value>
+  </data>
+  <data name="AnswerHeaderText" xml:space="preserve">
+    <value>Answer</value>
   </data>
 </root>

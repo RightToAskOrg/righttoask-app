@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using RightToAskClient.Models.ServerCommsData;
@@ -27,6 +28,7 @@ namespace RightToAskClient.Models
     {
         private int _upVotes;
         private int _downVotes;
+        
         private QuestionSendToServer _updates = new QuestionSendToServer();
 
         public QuestionDetailsStatus Status { get; set; }
@@ -38,7 +40,7 @@ namespace RightToAskClient.Models
             set
             {
                 SetProperty(ref _questionText, value);
-                QuestionViewModel.Instance.ServerQuestionUpdates.question_text = _questionText;
+                //** QuestionViewModel.Instance.ServerQuestionUpdates.question_text = _questionText;
                 _updates.question_text = _questionText;
             }
         }
@@ -65,7 +67,7 @@ namespace RightToAskClient.Models
             set
             {
                 SetProperty(ref _background, value);
-                QuestionViewModel.Instance.ServerQuestionUpdates.background = _background;
+                //** QuestionViewModel.Instance.ServerQuestionUpdates.background = _background;
                 _updates.background = _background;
             }
         }
@@ -99,7 +101,7 @@ namespace RightToAskClient.Models
             set
             {
                 SetProperty(ref _questionId, value);
-                QuestionViewModel.Instance.ServerQuestionUpdates.question_id = _questionId;
+                //** QuestionViewModel.Instance.ServerQuestionUpdates.question_id = _questionId;
             }
         }
         private string _version = "";
@@ -109,7 +111,7 @@ namespace RightToAskClient.Models
             set
             {
                 SetProperty(ref _version, value);
-                QuestionViewModel.Instance.ServerQuestionUpdates.version = _version;
+                //** QuestionViewModel.Instance.ServerQuestionUpdates.version = _version;
             }
         }
 
@@ -172,15 +174,24 @@ namespace RightToAskClient.Models
             }
         }
 
+        // private List<Tuple<string, Person, MP>> _answers { get; set; }
+        public List<(string answer, Person answered_by, MP mp) >? _answers { get; set; } 
+        
+        public List<(string answer, Person, MP)> Answers 
+        { 
+            get => _answers;
+        }
+
+        
         private List<Uri> _hansardLink = new List<Uri>();
 
         public List<Uri> HansardLink
         {
             get => _hansardLink;
-            set
+            private set
             {
                 SetProperty(ref _hansardLink, value);
-                QuestionViewModel.Instance.ServerQuestionUpdates.hansard_link = _hansardLink;
+                //** QuestionViewModel.Instance.ServerQuestionUpdates.hansard_link = _hansardLink;
             }
         }
 
@@ -322,7 +333,7 @@ namespace RightToAskClient.Models
         public Command PopupCancelCommand { get; }
         public Command QuestionDetailsCommand { get; }
         public IAsyncCommand ShareCommand { get; }
-        
+
         // Call empty constructor to initialize commands etc.
         public Question(QuestionReceiveFromServer serverQuestion) : this()
         {
@@ -344,13 +355,16 @@ namespace RightToAskClient.Models
             OthersCanAddAnswerers = serverQuestion.who_should_answer_the_question_permissions == RTAPermissions.Others;
             OthersCanAddAskers = serverQuestion.who_should_ask_the_question_permissions == RTAPermissions.Others;
 
-            // TODO Add answers
-            // Answers = serverQuestion.answers ?? new List();
-
+            _answers = serverQuestion.answers
+                ?.Select<(string answer, PersonID answered_by, MPId mp), (string answer, Person answered_by_Person, MP
+                        answered_by_MP)>
+                    (t => (answer: t.answer, answered_by_Person: new Person(t.answered_by), answered_by_MP: new MP(t.mp))).ToList<(string,Person,MP)>() ?? new List<(string, Person, MP)>();
             AnswerAccepted = serverQuestion.answer_accepted ?? false;
             HansardLink = serverQuestion.hansard_link ?? new List<Uri>();
+            
             IsFollowupTo = serverQuestion.is_followup_to ?? "";
         }
+
 
         // At the moment, if this gets an entity that it can't match, it simply adds it to the 'selected' list anyway,
         // in the minimal form it receives from the server.
@@ -472,6 +486,35 @@ namespace RightToAskClient.Models
                 isValid = true;
             }
             return isValid;
+        }
+
+        public void AddHansardLink(Uri newHansardLink)
+        {
+            if (_updates.hansard_link is null)
+            {
+            _updates.hansard_link = new List<Uri>{newHansardLink};
+            }
+            // People may add multiple Hansard links at once.
+            else
+            {
+                _updates.hansard_link.Add(newHansardLink);
+            }
+            QuestionViewModel.Instance.Question.HansardLink.Add(newHansardLink);
+            OnPropertyChanged("HansardLink");
+        }
+
+        public void AddAnswer(string answer)
+        {
+            var me = App.ReadingContext.ThisParticipant;
+            var user = new PersonID(me);
+            var MP = new MPId(me.MPRegisteredAs);
+            var answerUpdate = (answer: answer, answered_by: user, mp: MP);
+            _updates.answers = new List<(string answer, PersonID? answered_by, MPId mp)>() { answerUpdate };
+            /*
+            _updates.answers = new List<(string answer, PersonID? answered_by, MPId mp)>()
+            {
+                (answer: answer, answered_by: user, mp: MP)
+            };*/
         }
     }
 }

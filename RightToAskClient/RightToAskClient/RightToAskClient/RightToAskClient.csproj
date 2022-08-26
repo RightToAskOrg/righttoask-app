@@ -163,6 +163,7 @@
     <Compile Remove="Views\ExploringPageWithSearchAndPreSelections.xaml.cs" />
     <Compile Remove="Views\EmptySelectableListSearchView.xaml.cs" />
     <Compile Remove="Extensions.cs" />
+    <Compile Remove="ViewModels\OtherUserProfileViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Views\SecondPage_old.xaml" />

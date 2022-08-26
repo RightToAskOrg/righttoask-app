@@ -345,9 +345,9 @@ namespace RightToAskClient.Resx {
             }
         }
         
-        internal static string LinkAnswerHeaderText {
+        internal static string LinkForAnswerHeaderText {
             get {
-                return ResourceManager.GetString("LinkAnswerHeaderText", resourceCulture);
+                return ResourceManager.GetString("LinkForAnswerHeaderText", resourceCulture);
             }
         }
         
@@ -1644,6 +1644,30 @@ namespace RightToAskClient.Resx {
         internal static string OtherUserInfoText {
             get {
                 return ResourceManager.GetString("OtherUserInfoText", resourceCulture);
+            }
+        }
+        
+        internal static string LinkPlaceholderText {
+            get {
+                return ResourceManager.GetString("LinkPlaceholderText", resourceCulture);
+            }
+        }
+        
+        internal static string AnswerPlaceholderText {
+            get {
+                return ResourceManager.GetString("AnswerPlaceholderText", resourceCulture);
+            }
+        }
+        
+        internal static string ParliamentaryURLErrorText {
+            get {
+                return ResourceManager.GetString("ParliamentaryURLErrorText", resourceCulture);
+            }
+        }
+        
+        internal static string AnswerHeaderText {
+            get {
+                return ResourceManager.GetString("AnswerHeaderText", resourceCulture);
             }
         }
     }

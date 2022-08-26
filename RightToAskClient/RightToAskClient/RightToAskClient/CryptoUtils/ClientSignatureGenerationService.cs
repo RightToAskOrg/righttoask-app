@@ -161,6 +161,8 @@ namespace RightToAskClient.CryptoUtils
             {
                 Converters = { new JsonStringEnumConverter() },
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+                // Needed for serialising tuples.
+                IncludeFields = true
             };
             
             string serializedMessage = "";
