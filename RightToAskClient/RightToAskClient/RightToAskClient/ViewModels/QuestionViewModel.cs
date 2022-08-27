@@ -233,6 +233,7 @@ namespace RightToAskClient.ViewModels
         {
             OnPropertyChanged("MPButtonsEnabled"); // called by the UpdatableParliamentAndMPData class to update this variable in real time
         }
+        /*
         public bool NeedToFindAsker => App.ReadingContext.Filters.SelectedAnsweringMPsNotMine.IsNullOrEmpty();
 
         private RTAPermissions _whoShouldAnswerItPermissions = RTAPermissions.NoChange;
@@ -265,6 +266,7 @@ namespace RightToAskClient.ViewModels
                 //_serverQuestionUpdates.who_should_ask_the_question_permissions = value;
             }
         }
+        */
 
         public QuestionViewModel()
         {
@@ -656,8 +658,6 @@ namespace RightToAskClient.ViewModels
         private async Task<(bool isValid, string errorMessage, string)> BuildSignAndUploadNewQuestion()
         {
             var serverQuestion = new QuestionSendToServer(Question);
-            // setQuestionEditPermissions(serverQuestion);
-            // serverQuestion.TranscribeQuestionFiltersForUpload(App.ReadingContext.Filters);
 
             Result<string> httpResponse = await RTAClient.RegisterNewQuestion(serverQuestion);
             return RTAClient.ValidateHttpResponse(httpResponse, "Question Upload");
@@ -677,11 +677,13 @@ namespace RightToAskClient.ViewModels
             return RTAClient.ValidateHttpResponse(httpResponse, "Question Edit");
         }
        
+        /*
         private void setQuestionEditPermissions(QuestionSendToServer serverQuestionUpdates)
         {
             serverQuestionUpdates.who_should_answer_the_question_permissions = _whoShouldAnswerItPermissions;
             serverQuestionUpdates.who_should_ask_the_question_permissions = _whoShouldAskItPermissions;
         }
+        */
 
     }
 }

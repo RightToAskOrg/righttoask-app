@@ -57,7 +57,7 @@ namespace RightToAskClient.ViewModels
             {
                 // SetProperty(ref _othersCanAddAskers, value);
                 // QuestionViewModel.Instance.WhoShouldAskItPermissions = _othersCanAddAskers ? RTAPermissions.Others : RTAPermissions.WriterOnly;
-                QuestionViewModel.Instance.OthersCanAddQuestionAnswerers = value;
+                QuestionViewModel.Instance.OthersCanAddQuestionAskers = value;
                 // OnPropertyChanged();
             }
         }

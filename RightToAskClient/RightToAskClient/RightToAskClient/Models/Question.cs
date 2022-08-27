@@ -66,11 +66,8 @@ namespace RightToAskClient.Models
                 who_should_ask_the_question_permissions = RTAPermissions.NoChange
             };
         }
-        // TODO: As an Australian, I am suspicious of anything except Unix time. Let's just store 
-        // milliseconds, as the server does, and then display them according to the local timezone.
-        // I am reliably advised that anything else is too clever to actually work.
-        // Likewise for expiry date.
-        public DateTime UploadTimestamp { get; set; }
+        public int Timestamp { get; set; }
+        
         private string _background = "";
         public string Background
         {
@@ -345,8 +342,7 @@ namespace RightToAskClient.Models
             // question-defining fields
             QuestionSuggester = serverQuestion.author ?? "";
             QuestionText = serverQuestion.question_text ?? "";
-            // TODO Not clear whether we need this.
-            // Timestamp = serverQuestion.timestamp ?? "";
+            Timestamp =  serverQuestion.timestamp ?? 0;
             
             // bookkeeping fields
             QuestionId = serverQuestion.question_id ?? "";

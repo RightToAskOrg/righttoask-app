@@ -65,6 +65,10 @@ namespace RightToAskClient.Models.ServerCommsData
         public string? is_followup_to { get; set; } 
         
         public QuestionSendToServer () {}
+        
+        /* This is only ever used for sending *new* questions to the server, so this constructor ignores elements of
+         * question that are not sent during initial upload.
+         */
         public QuestionSendToServer(Question question)
         {
             if (!String.IsNullOrEmpty(question.QuestionText))
@@ -72,14 +76,39 @@ namespace RightToAskClient.Models.ServerCommsData
                 question_text = question.QuestionText;
             }
 
+                    
             if (!String.IsNullOrEmpty(question.Background))
             {
                 background = question.Background;
             }
 
             TranscribeQuestionFiltersForUpload(question.Filters);
+
+            who_should_answer_the_question_permissions = question.WhoShouldAnswerTheQuestionPermissions;
+            who_should_ask_the_question_permissions = question.WhoShouldAskTheQuestionPermissions;
+
+            if (!String.IsNullOrEmpty(question.IsFollowupTo))
+            {
+                is_followup_to = question.IsFollowupTo;
+            }
             
-            //TODO: Add other structures.
+            /* Never used for questions being uploaded to the server for the first time.
+             
+            if (!String.IsNullOrEmpty(question.QuestionId))
+            {
+                question_id = question.QuestionId;
+            }
+
+            if (!String.IsNullOrEmpty(question.Version))
+            {
+                version = question.Version;
+            }
+            answers = question.Answers;
+
+            answer_accepted = question.AnswerAccepted;
+
+            hansard_link = question.HansardLink;
+            */
         }
         
         // Returns true if there were any non-empty filters present.
