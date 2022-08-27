@@ -136,16 +136,17 @@ namespace RightToAskClient.ViewModels
         // TODO Can we just use this flag everywhere instead of the two above?
         public bool MPButtonsEnabled => ParliamentData.MPAndOtherData.IsInitialised;
 
-        private bool _canEditBackground;
+        // private bool _canEditBackground;
         public bool CanEditBackground
         {
             get
             {
                 string thisUser =  App.ReadingContext.ThisParticipant.RegistrationInfo.uid;
                 string questionWriter = _question.QuestionSuggester;
-                return !string.IsNullOrEmpty(thisUser) && !string.IsNullOrEmpty(questionWriter) && thisUser == questionWriter;
+                return IsNewQuestion || 
+                       (!string.IsNullOrEmpty(thisUser) && !string.IsNullOrEmpty(questionWriter) && thisUser == questionWriter);
             }
-            set => SetProperty(ref _canEditBackground, value);
+            // set => SetProperty(ref _canEditBackground, value);
         }
 
         public bool OthersCanAddQuestionAnswerers
