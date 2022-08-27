@@ -28,8 +28,14 @@ namespace RightToAskClient.Models
     {
         private int _upVotes;
         private int _downVotes;
-        
-        private QuestionSendToServer _updates = new QuestionSendToServer();
+
+        private QuestionSendToServer _updates = new QuestionSendToServer()
+        {
+            // Most updates are simply omitted when not changed, but the Permissions enum needs to send a specific
+            // "no change" value. 
+            who_should_ask_the_question_permissions = RTAPermissions.NoChange,
+            who_should_answer_the_question_permissions = RTAPermissions.NoChange
+        };
 
         public QuestionDetailsStatus Status { get; set; }
 
@@ -53,7 +59,12 @@ namespace RightToAskClient.Models
         
         public void ReinitQuestionUpdates()
         {
-            _updates = new QuestionSendToServer();
+            _updates = new QuestionSendToServer()
+            {
+                // Init explicit 'no change' value for permissions.
+                who_should_answer_the_question_permissions = RTAPermissions.NoChange,
+                who_should_ask_the_question_permissions = RTAPermissions.NoChange
+            };
         }
         // TODO: As an Australian, I am suspicious of anything except Unix time. Let's just store 
         // milliseconds, as the server does, and then display them according to the local timezone.
@@ -128,16 +139,14 @@ namespace RightToAskClient.Models
         // Whether the person writing the question allows other users to add QuestionAnswerers
         // false = RTAPermissions.WriterOnly  (default)
         // true  = RTAPermissions.Others
-        // Note that this does not need an explicit _update fix because the ViewModel takes
-        // care of the translation from 2 to 3 values.
-        private bool _othersCanAddAnswerers = false;
-        public bool OthersCanAddAnswerers
+        private RTAPermissions _whoShouldAnswerTheQuestionPermissions;
+        public RTAPermissions WhoShouldAnswerTheQuestionPermissions
         {
-            get => _othersCanAddAnswerers;
+            get => _whoShouldAnswerTheQuestionPermissions;
             set 
             {
-                SetProperty(ref _othersCanAddAnswerers, value);
-                QuestionViewModel.Instance.WhoShouldAnswerItPermissions = _othersCanAddAnswerers ? RTAPermissions.Others : RTAPermissions.WriterOnly;
+                SetProperty(ref _whoShouldAnswerTheQuestionPermissions, value);
+                _updates.who_should_answer_the_question_permissions = value;
             }
         }
 
@@ -159,22 +168,18 @@ namespace RightToAskClient.Models
         
 
         // Whether the person writing the question allows other users to add QuestionAnswerers
-        // false = RTAPermissions.WriterOnly  (default)
-        // true  = RTAPermissions.Others
-        // Note that this does not need an explicit _update fix because the ViewModel takes
-        // care of the translation from 2 to 3 values.
-        private bool _othersCanAddAskers = false;
-        public bool OthersCanAddAskers
+        private RTAPermissions _whoShouldAskTheQuestionPermissions;
+        public RTAPermissions WhoShouldAskTheQuestionPermissions
         {
-            get => _othersCanAddAskers;
+            get => _whoShouldAskTheQuestionPermissions;
             set 
             {
-                SetProperty(ref _othersCanAddAskers, value);
-                QuestionViewModel.Instance.WhoShouldAskItPermissions = _othersCanAddAskers ? RTAPermissions.Others : RTAPermissions.WriterOnly;
+                SetProperty(ref _whoShouldAskTheQuestionPermissions, value);
+                _updates.who_should_ask_the_question_permissions = value;
             }
         }
 
-        // private List<Tuple<string, Person, MP>> _answers { get; set; }
+        // A list of existing answers, specifying who gave the answer in the role of representing which MP.
         public List<(string answer, Person answered_by, MP mp) >? _answers { get; set; } 
         
         public List<(string answer, Person, MP)> Answers 
@@ -351,9 +356,9 @@ namespace RightToAskClient.Models
             Background = serverQuestion.background ?? "";
 
             interpretFilters(serverQuestion);
-            
-            OthersCanAddAnswerers = serverQuestion.who_should_answer_the_question_permissions == RTAPermissions.Others;
-            OthersCanAddAskers = serverQuestion.who_should_ask_the_question_permissions == RTAPermissions.Others;
+
+            WhoShouldAnswerTheQuestionPermissions = serverQuestion.who_should_answer_the_question_permissions;
+            WhoShouldAskTheQuestionPermissions = serverQuestion.who_should_ask_the_question_permissions;
 
             // TODO** This should probably pull the closest matching MP from the AllMPs list rather than making a new one
             _answers = serverQuestion.answers

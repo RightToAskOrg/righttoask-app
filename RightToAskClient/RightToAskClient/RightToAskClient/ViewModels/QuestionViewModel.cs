@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -147,14 +148,25 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _canEditBackground, value);
         }
 
-        public bool CanEditQuestionAnswerers
+        public bool OthersCanAddQuestionAnswerers
         {
-            get => _question.OthersCanAddAnswerers;
+            get => _question.WhoShouldAnswerTheQuestionPermissions == RTAPermissions.Others; 
+            set
+            {
+                _question.WhoShouldAnswerTheQuestionPermissions = value ? RTAPermissions.Others : RTAPermissions.WriterOnly; 
+                OnPropertyChanged();
+            } 
+            
         }
 
-        public bool CanEditQuestionAskers
+        public bool OthersCanAddQuestionAskers
         {
-            get => _question.OthersCanAddAskers;
+            get => _question.WhoShouldAskTheQuestionPermissions == RTAPermissions.Others; 
+            set
+            {
+                _question.WhoShouldAskTheQuestionPermissions = value ? RTAPermissions.Others : RTAPermissions.WriterOnly; 
+                OnPropertyChanged();
+            }
         }
         
         private bool _goHome;
@@ -531,7 +543,7 @@ namespace RightToAskClient.ViewModels
             if (App.ReadingContext.ThisParticipant.IsRegistered)
             {
                 // This isn't necessary unless the person has just registered, but is necessary if they have.
-                QuestionViewModel.Instance.Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.uid;
+                Instance.Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.uid;
                 bool validQuestion = Question.ValidateNewQuestion();
                 if (validQuestion)
                 {
@@ -644,7 +656,7 @@ namespace RightToAskClient.ViewModels
         private async Task<(bool isValid, string errorMessage, string)> BuildSignAndUploadNewQuestion()
         {
             var serverQuestion = new QuestionSendToServer(Question);
-            setQuestionEditPermissions(serverQuestion);
+            // setQuestionEditPermissions(serverQuestion);
             // serverQuestion.TranscribeQuestionFiltersForUpload(App.ReadingContext.Filters);
 
             Result<string> httpResponse = await RTAClient.RegisterNewQuestion(serverQuestion);
@@ -655,7 +667,7 @@ namespace RightToAskClient.ViewModels
         {
             var serverQuestionUpdates = Question.Updates;
             // These are not necessary if they haven't changed, but it doesn't hurt to resend them.
-            setQuestionEditPermissions(serverQuestionUpdates);
+            // setQuestionEditPermissions(serverQuestionUpdates);
             
             // needs these two fields in the message payload for updates, but not for new questions.
             serverQuestionUpdates.question_id = Question.QuestionId;

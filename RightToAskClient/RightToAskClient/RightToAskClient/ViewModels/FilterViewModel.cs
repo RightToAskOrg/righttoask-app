@@ -38,25 +38,27 @@ namespace RightToAskClient.ViewModels
         }
 
         // for the metadata page
-        private bool _othersCanAddAnswerers = false;
         public bool OthersCanAddAnswerers
         {
-            get => _othersCanAddAnswerers;
+            get => QuestionViewModel.Instance.OthersCanAddQuestionAnswerers; 
             set
             {
-                SetProperty(ref _othersCanAddAnswerers, value);
-                QuestionViewModel.Instance.WhoShouldAnswerItPermissions = _othersCanAddAnswerers ? RTAPermissions.Others : RTAPermissions.WriterOnly;
+                // SetProperty(ref _othersCanAddAnswerers, value);
+                // QuestionViewModel.Instance.WhoShouldAnswerItPermissions = _othersCanAddAnswerers ? RTAPermissions.Others : RTAPermissions.WriterOnly;
+                QuestionViewModel.Instance.OthersCanAddQuestionAnswerers = value;
+                // OnPropertyChanged();
             }
         }
 
-        private bool _othersCanAddAskers = false;
         public bool OthersCanAddAskers
         {
-            get => _othersCanAddAskers;
+            get => QuestionViewModel.Instance.OthersCanAddQuestionAskers; 
             set
             {
-                SetProperty(ref _othersCanAddAskers, value);
-                QuestionViewModel.Instance.WhoShouldAskItPermissions = _othersCanAddAskers ? RTAPermissions.Others : RTAPermissions.WriterOnly;
+                // SetProperty(ref _othersCanAddAskers, value);
+                // QuestionViewModel.Instance.WhoShouldAskItPermissions = _othersCanAddAskers ? RTAPermissions.Others : RTAPermissions.WriterOnly;
+                QuestionViewModel.Instance.OthersCanAddQuestionAnswerers = value;
+                // OnPropertyChanged();
             }
         }
 

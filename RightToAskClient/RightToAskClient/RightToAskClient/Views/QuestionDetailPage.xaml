@@ -42,7 +42,7 @@
 			    <Label Text="{Binding Question.QuestionAnswerers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
 			    <StackLayout Orientation="Horizontal" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
                     <Label Text="{xct:Translate AnswererPermissions}" Style="{StaticResource Header2}" />
-                    <CheckBox IsChecked="{Binding Question.OthersCanAddAnswerers}"/>
+                    <CheckBox IsChecked="{Binding OthersCanAddQuestionAnswerers}"/>
                 </StackLayout>
                 <!--Question Askers/Option B things-->
                 <StackLayout IsVisible="{Binding AnswerInApp, Converter={StaticResource Key=cnvInvert}}">
@@ -51,7 +51,7 @@
                     <!-- Ask the user whether they allow other users to add QuestionAskers. (Y/N) -->
                     <StackLayout Orientation="Horizontal" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
                         <Label Text="{xct:Translate AskerPermissions}" Style="{StaticResource Header2}"/>
-                        <CheckBox IsChecked="{Binding Question.OthersCanAddAskers}"/>
+                        <CheckBox IsChecked="{Binding OthersCanAddQuestionAskers}"/>
                     </StackLayout>
                 </StackLayout>
 			    <StackLayout Orientation="Horizontal">
