@@ -688,5 +688,20 @@ namespace RightToAskClient.Models
                 };
             }
         }
+
+        // See if we can find the registered MP in our existing list.
+        // Using field-equality operator.
+        // If so, just keep a pointer to it; if not, use a new MP object.
+        public static MP FindMPOrMakeNewOne(MP mpRepresenting)
+        {
+			List<MP> matchingMPs = ParliamentData.AllMPs.Where(mp => mp.Equals(mpRepresenting)).ToList();
+            return matchingMPs.Any() ? matchingMPs.First() : mpRepresenting;
+        }
+
+        public static MP FindMPOrMakeNewOne(MPId mpRepresenting)
+        {
+	        var appMP = new MP(mpRepresenting);
+	        return FindMPOrMakeNewOne(appMP);
+        }
     }
 }

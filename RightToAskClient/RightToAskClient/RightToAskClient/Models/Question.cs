@@ -356,9 +356,7 @@ namespace RightToAskClient.Models
             WhoShouldAnswerTheQuestionPermissions = serverQuestion.who_should_answer_the_question_permissions;
             WhoShouldAskTheQuestionPermissions = serverQuestion.who_should_ask_the_question_permissions;
 
-            // TODO** This should probably pull the closest matching MP from the AllMPs list rather than making a new one
-            _answers = serverQuestion.answers
-                ?.Select(ans => new Answer(ans)).ToList() ?? new List<Answer>();
+            _answers = serverQuestion.answers ?.Select(ans => new Answer(ans)).ToList() ?? new List<Answer>();
             AnswerAccepted = serverQuestion.answer_accepted ?? false;
             HansardLink = new List<Uri>();
             if (serverQuestion.hansard_link != null)
