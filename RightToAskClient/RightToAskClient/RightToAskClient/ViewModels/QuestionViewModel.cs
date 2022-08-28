@@ -49,6 +49,11 @@ namespace RightToAskClient.ViewModels
                 }
             }
         }
+
+        public List<Answer> Answers
+        {
+            get => Question.Answers;
+        }
         
         private string? _newHansardLink; 
         public string NewHansardLink 

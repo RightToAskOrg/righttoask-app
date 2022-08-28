@@ -337,6 +337,7 @@ namespace RightToAskClient.Models
         public IAsyncCommand ShareCommand { get; }
 
         // Call empty constructor to initialize commands etc.
+        // Then convert data downloaded from server into a displayable form.
         public Question(QuestionReceiveFromServer serverQuestion) : this()
         {
             // question-defining fields

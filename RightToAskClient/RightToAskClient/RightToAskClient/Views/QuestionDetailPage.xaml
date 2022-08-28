@@ -75,8 +75,19 @@
 				    <Label Text="{xct:Translate LinkForAnswerHeaderText}" Style="{StaticResource Header2}"/>
 				    <Editor x:Name="LinkToAnswerEditor" Placeholder="{xct:Translate LinkPlaceholderText}" Completed="Link_Entered"
 				            Style="{StaticResource NormalEditor}" />
+				    <!-- Answers, visible if there are any -->
 				    <Label Text="{xct:Translate AnswerHeaderText}" Style="{StaticResource Header2}"/>
-				    
+				    <StackLayout BindableLayout.ItemsSource="{Binding Answers}">
+					    <BindableLayout.ItemTemplate>
+						    <!-- <CollectionView x:Name="AnswerList" ItemsSource="{Binding Answers}" SelectionMode="None">
+					    <CollectionView.ItemTemplate> -->
+						    <DataTemplate x:DataType="models:Answer">
+							    <views:AnswerDisplayCard />
+						    </DataTemplate>
+					    </BindableLayout.ItemTemplate>
+				    </StackLayout>
+					    <!-- </CollectionView.ItemTemplate>
+				    </CollectionView> -->
 				    <Editor x:Name="AnswerEditor" Placeholder="{xct:Translate AnswerPlaceholderText}" Completed="Answer_Entered" />
 				    <Label Text="{xct:Translate ApproveAnswerText}" />
 			    </StackLayout>
