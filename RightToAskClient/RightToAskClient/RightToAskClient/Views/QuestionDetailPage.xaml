@@ -76,6 +76,7 @@
 				    <Editor x:Name="LinkToAnswerEditor" Placeholder="{xct:Translate LinkPlaceholderText}" Completed="Link_Entered"
 				            Style="{StaticResource NormalEditor}" />
 				    <Label Text="{xct:Translate AnswerHeaderText}" Style="{StaticResource Header2}"/>
+				    
 				    <Editor x:Name="AnswerEditor" Placeholder="{xct:Translate AnswerPlaceholderText}" Completed="Answer_Entered" />
 				    <Label Text="{xct:Translate ApproveAnswerText}" />
 			    </StackLayout>

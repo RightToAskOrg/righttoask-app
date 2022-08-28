@@ -177,9 +177,9 @@ namespace RightToAskClient.Models
         }
 
         // A list of existing answers, specifying who gave the answer in the role of representing which MP.
-        public List<(string answer, Person answered_by, MP mp) >? _answers { get; set; } 
+        public List<Answer>? _answers { get; set; } 
         
-        public List<(string answer, Person, MP)> Answers 
+        public List<Answer> Answers 
         { 
             get => _answers;
         }
@@ -358,7 +358,7 @@ namespace RightToAskClient.Models
 
             // TODO** This should probably pull the closest matching MP from the AllMPs list rather than making a new one
             _answers = serverQuestion.answers
-                ?.Select(ans => (answer: ans.answer, answered_by_Person: new Person(ans.answered_by ?? string.Empty), answered_by_MP: new MP(ans.mp))).ToList<(string,Person,MP)>() ?? new List<(string, Person, MP)>();
+                ?.Select(ans => new Answer(ans)).ToList() ?? new List<Answer>();
             AnswerAccepted = serverQuestion.answer_accepted ?? false;
             HansardLink = new List<Uri>();
             if (serverQuestion.hansard_link != null)
