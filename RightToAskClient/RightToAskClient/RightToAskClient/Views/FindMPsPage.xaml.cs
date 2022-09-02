@@ -28,10 +28,6 @@ namespace RightToAskClient.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RegisterPage2 : ContentPage
     {
-        // private ParliamentData.Chamber stateLCChamber=ParliamentData.Chamber.Vic_Legislative_Council;
-        // private ParliamentData.Chamber stateLAChamber=ParliamentData.Chamber.Vic_Legislative_Assembly;
-        // alreadySelectedMPs are passed in if a Selection page is to be launched next.
-        // If they're null/absent, no selection page is launched.
         public RegisterPage2()
         {
             InitializeComponent();

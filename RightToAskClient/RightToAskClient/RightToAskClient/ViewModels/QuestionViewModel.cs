@@ -50,6 +50,7 @@ namespace RightToAskClient.ViewModels
             }
         }
 
+        public bool HasAnswer => Answers.Any();
         public List<Answer> Answers
         {
             get => Question.Answers;

@@ -608,32 +608,43 @@ namespace RightToAskClient.Models
 			    }
 		    }
 
-
-		    // TODO move states to enum.
 		    // Each state is a Senate 'region'
 		    electorateList.Add(new ElectorateWithChamber(Chamber.Australian_Senate, state.ToString()));
 		    
 		    // State Upper House electorates
-		    if (state == StateEnum.TAS && !String.IsNullOrEmpty(stateRegion))
+		    if (state == StateEnum.TAS) 
 		    {
-			    electorateList.Add(new ElectorateWithChamber(Chamber.Tas_Legislative_Council, stateRegion));
-		    }
-			    // TODO: Do likewise for WA.
-		    else if (state == StateEnum.VIC && !String.IsNullOrEmpty(stateRegion))
-		    {
-			    var superRegionsContained 
-				    = VicRegions.Find(rc => rc.regions.Contains(stateRegion,StringComparer.OrdinalIgnoreCase ));
-			    if (superRegionsContained != null)
+			    if (!String.IsNullOrEmpty(stateRegion))
 			    {
-				    electorateList.Add(new ElectorateWithChamber(Chamber.Vic_Legislative_Council,
-					    superRegionsContained.super_region));
+					electorateList.Add(new ElectorateWithChamber(Chamber.Tas_Legislative_Council, stateRegion));
 			    }
 		    }
+			// TODO: Do likewise for WA.
+		    else if (state == StateEnum.VIC) 
+		    {
+			    if (!String.IsNullOrEmpty(stateRegion))
+			    {
+				    var superRegionsContained
+					    = VicRegions.Find(rc => rc.regions.Contains(stateRegion, StringComparer.OrdinalIgnoreCase));
+				    if (superRegionsContained != null)
+				    {
+					    electorateList.Add(new ElectorateWithChamber(Chamber.Vic_Legislative_Council,
+						    superRegionsContained.super_region));
+				    }
+			    }
+		    }
+			// In every other state that has an upper house, they're a single electorate not divided into regions.
 		    else if (HasUpperHouse(state))
 		    {
-			    // TODO state to enum or check for Err result.
-			    // In every other state that has an upper house, they're a single electorate not divided into regions.
-			    electorateList.Add(new ElectorateWithChamber(GetUpperHouseChamber(state).Ok, ""));
+			    var upperHouseResult = GetUpperHouseChamber(state);
+			    if (String.IsNullOrEmpty(upperHouseResult.Err))
+			    {
+					electorateList.Add(new ElectorateWithChamber(upperHouseResult.Ok, ""));
+			    }
+			    else
+			    {
+				    Debug.WriteLine(upperHouseResult.Err);
+			    }
 		    }
 
 		    return electorateList;
