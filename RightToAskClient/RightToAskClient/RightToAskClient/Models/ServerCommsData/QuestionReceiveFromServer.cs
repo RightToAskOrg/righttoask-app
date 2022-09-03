@@ -53,7 +53,8 @@ namespace RightToAskClient.Models.ServerCommsData
         // TODO: Check whether this data structure lines up with the 'QuestionAnswer' type 
         // - possibly we want to implement that explicitly.
         [JsonPropertyName("answers")]
-        public List<Tuple<string, Person, MP>>? answers { get; set; } 
+        // public List<(string, PersonID, MPId)>? answers { get; set; } 
+        public List<QuestionAnswer>? answers { get; set; } 
         
         // TODO This needs to be interpreted/stored carefully, because we need 'false'
         // to mean 'the user has seen it but didn't fully approve' and to distinguish this
@@ -63,7 +64,7 @@ namespace RightToAskClient.Models.ServerCommsData
         public bool? answer_accepted { get; set; }
         
         [JsonPropertyName("hansard_link")]
-        public List<Uri>? hansard_link { get; set; } 
+        public List<HansardLink>? hansard_link { get; set; } 
         
         [JsonPropertyName("is_followup_to")]
         public string? is_followup_to { get; set; }

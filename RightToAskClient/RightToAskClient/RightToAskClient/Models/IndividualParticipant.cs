@@ -17,8 +17,6 @@ namespace RightToAskClient.Models
 	// in addition to the public data in 'Person'
 	public class IndividualParticipant : Person 
     {
-	    // private ClientSignatureGenerationService _signatureService;
-            // = await ClientSignatureGenerationService.CreateClientSignatureGenerationService();
 		public IndividualParticipant() 
 		{
 			ElectoratesKnown = false;

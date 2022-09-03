@@ -46,6 +46,8 @@ namespace RightToAskClient.HttpClients
                 Converters = { new JsonStringEnumConverter() },
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
                 WriteIndented = false,
+                // This is necessary for serialisation and deserialisation of tuples.
+                IncludeFields = true
             };
         
         private static readonly GenericHttpClient Client = new GenericHttpClient(_serializerOptions);

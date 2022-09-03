@@ -64,6 +64,10 @@ namespace RightToAskClient.ViewModels
         }
 
         public bool ReturnToAccountPage = false;
+
+        // The domain of the email, one of 9 hardcoded valid parliamentary email domains.
+        private string domain = "";
+        
         #endregion
 
         // constructor
@@ -113,12 +117,12 @@ namespace RightToAskClient.ViewModels
         
         private async void SendMPRegistrationToServer()
         {
-            var domain = _parliamentaryDomainIndex >= 0  && _parliamentaryDomainIndex < ParliamentData.Domains.Count
+            domain = _parliamentaryDomainIndex >= 0  && _parliamentaryDomainIndex < ParliamentData.Domains.Count
                 ? ParliamentData.Domains[_parliamentaryDomainIndex] : "";
             RequestEmailValidationMessage message = new RequestEmailValidationMessage()
             {
                 why = new EmailValidationReason() { AsMP = !IsStaffer },
-                name = MPRepresenting.first_name + " " + MPRepresenting.surname +" @"+domain
+                name = Badge.writeBadgeName(MPRepresenting, domain)
             };
             Result<string> httpResponse = await RTAClient.RequestEmailValidation(message, EmailUsername + "@" + domain);
             (bool isValid, string errorMsg, string hash) validation = RTAClient.ValidateHttpResponse(httpResponse, "Email Validation Request");
@@ -134,12 +138,15 @@ namespace RightToAskClient.ViewModels
             }
         }
 
+        // TODO Note it's unclear that we really need both MPRegisteredAs and RegistrationInfo.Badges - perhaps
+        // cleaner to remove the former.
         private void SaveMPRegistrationToPreferences()
         {
             // Note that a staffer has booth of these flags set to true.
             Preferences.Set(Constants.IsVerifiedMPAccount, true);
             Preferences.Set(Constants.IsVerifiedMPStafferAccount, _isStaffer); 
             Preferences.Set(Constants.MPRegisteredAs,JsonSerializer.Serialize(MPRepresenting));
+            Preferences.Set(Constants.RegistrationInfo, JsonSerializer.Serialize(App.ReadingContext.ThisParticipant.RegistrationInfo));
         }
 
         private void StoreMPRegistration()
@@ -147,6 +154,12 @@ namespace RightToAskClient.ViewModels
             App.ReadingContext.ThisParticipant.IsVerifiedMPAccount = true;
             App.ReadingContext.ThisParticipant.MPRegisteredAs = MPRepresenting;
             App.ReadingContext.ThisParticipant.IsVerifiedMPStafferAccount = _isStaffer;
+            App.ReadingContext.ThisParticipant.RegistrationInfo.Badges.Add(
+                    new Badge()
+                    {
+                        badge = IsStaffer ? BadgeType.MPStaff : BadgeType.MP,
+                        name = Badge.writeBadgeName(MPRepresenting, domain)
+                    });
         }
 
         

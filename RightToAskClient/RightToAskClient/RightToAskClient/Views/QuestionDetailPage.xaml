@@ -42,7 +42,7 @@
 			    <Label Text="{Binding Question.QuestionAnswerers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
 			    <StackLayout Orientation="Horizontal" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
                     <Label Text="{xct:Translate AnswererPermissions}" Style="{StaticResource Header2}" />
-                    <CheckBox IsChecked="{Binding Question.OthersCanAddAnswerers}"/>
+                    <CheckBox IsChecked="{Binding OthersCanAddQuestionAnswerers}"/>
                 </StackLayout>
                 <!--Question Askers/Option B things-->
                 <StackLayout IsVisible="{Binding AnswerInApp, Converter={StaticResource Key=cnvInvert}}">
@@ -51,7 +51,7 @@
                     <!-- Ask the user whether they allow other users to add QuestionAskers. (Y/N) -->
                     <StackLayout Orientation="Horizontal" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
                         <Label Text="{xct:Translate AskerPermissions}" Style="{StaticResource Header2}"/>
-                        <CheckBox IsChecked="{Binding Question.OthersCanAddAskers}"/>
+                        <CheckBox IsChecked="{Binding OthersCanAddQuestionAskers}"/>
                     </StackLayout>
                 </StackLayout>
 			    <StackLayout Orientation="Horizontal">
@@ -72,14 +72,28 @@
 			    </StackLayout>
 			    <StackLayout Orientation="Vertical"
 			                 IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
-				    <Label Text="{xct:Translate LinkAnswerHeaderText}" Style="{StaticResource Header2}"/>
-				    <Editor x:Name="LinkOrAnswerEditor" Placeholder="{xct:Translate LinkAnswerPlaceholderText}" Completed="Answer_Entered"
+				    <Label Text="{xct:Translate LinkForAnswerHeaderText}" Style="{StaticResource Header2}"/>
+				    <Editor x:Name="LinkToAnswerEditor" Placeholder="{xct:Translate LinkPlaceholderText}" Completed="Link_Entered"
 				            Style="{StaticResource NormalEditor}" />
+				    <!-- Answers, visible if there are any -->
+				    <Label Text="{xct:Translate AnswerHeaderText}" Style="{StaticResource Header2}"/>
+				    <StackLayout BindableLayout.ItemsSource="{Binding Answers}">
+					    <BindableLayout.ItemTemplate>
+						    <!-- <CollectionView x:Name="AnswerList" ItemsSource="{Binding Answers}" SelectionMode="None">
+					    <CollectionView.ItemTemplate> -->
+						    <DataTemplate x:DataType="models:Answer">
+							    <views:AnswerDisplayCard />
+						    </DataTemplate>
+					    </BindableLayout.ItemTemplate>
+				    </StackLayout>
+					    <!-- </CollectionView.ItemTemplate>
+				    </CollectionView> -->
+				    <Editor x:Name="AnswerEditor" Placeholder="{xct:Translate AnswerPlaceholderText}" Completed="Answer_Entered" />
 				    <Label Text="{xct:Translate ApproveAnswerText}" />
 			    </StackLayout>
-			    <Button Text="{Binding SaveButtonText}" Style="{StaticResource SaveButton}"
+			    <!-- <Button Text="{Binding SaveButtonText}" Style="{StaticResource SaveButton}"
 			            Command="{Binding SaveAnswerCommand}" HorizontalOptions="Center"
-			            IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}" />
+			            IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}" /> -->
 			    <Button Text="{xct:Translate EditQuestionButtonText}" Style="{StaticResource SaveButton}"
 			            Command="{Binding EditAnswerCommand}" HorizontalOptions="Center" 
 			            IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}" />

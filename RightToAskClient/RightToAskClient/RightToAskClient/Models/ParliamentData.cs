@@ -608,32 +608,43 @@ namespace RightToAskClient.Models
 			    }
 		    }
 
-
-		    // TODO move states to enum.
 		    // Each state is a Senate 'region'
 		    electorateList.Add(new ElectorateWithChamber(Chamber.Australian_Senate, state.ToString()));
 		    
 		    // State Upper House electorates
-		    if (state == StateEnum.TAS && !String.IsNullOrEmpty(stateRegion))
+		    if (state == StateEnum.TAS) 
 		    {
-			    electorateList.Add(new ElectorateWithChamber(Chamber.Tas_Legislative_Council, stateRegion));
-		    }
-			    // TODO: Do likewise for WA.
-		    else if (state == StateEnum.VIC && !String.IsNullOrEmpty(stateRegion))
-		    {
-			    var superRegionsContained 
-				    = VicRegions.Find(rc => rc.regions.Contains(stateRegion,StringComparer.OrdinalIgnoreCase ));
-			    if (superRegionsContained != null)
+			    if (!String.IsNullOrEmpty(stateRegion))
 			    {
-				    electorateList.Add(new ElectorateWithChamber(Chamber.Vic_Legislative_Council,
-					    superRegionsContained.super_region));
+					electorateList.Add(new ElectorateWithChamber(Chamber.Tas_Legislative_Council, stateRegion));
 			    }
 		    }
+			// TODO: Do likewise for WA.
+		    else if (state == StateEnum.VIC) 
+		    {
+			    if (!String.IsNullOrEmpty(stateRegion))
+			    {
+				    var superRegionsContained
+					    = VicRegions.Find(rc => rc.regions.Contains(stateRegion, StringComparer.OrdinalIgnoreCase));
+				    if (superRegionsContained != null)
+				    {
+					    electorateList.Add(new ElectorateWithChamber(Chamber.Vic_Legislative_Council,
+						    superRegionsContained.super_region));
+				    }
+			    }
+		    }
+			// In every other state that has an upper house, they're a single electorate not divided into regions.
 		    else if (HasUpperHouse(state))
 		    {
-			    // TODO state to enum or check for Err result.
-			    // In every other state that has an upper house, they're a single electorate not divided into regions.
-			    electorateList.Add(new ElectorateWithChamber(GetUpperHouseChamber(state).Ok, ""));
+			    var upperHouseResult = GetUpperHouseChamber(state);
+			    if (String.IsNullOrEmpty(upperHouseResult.Err))
+			    {
+					electorateList.Add(new ElectorateWithChamber(upperHouseResult.Ok, ""));
+			    }
+			    else
+			    {
+				    Debug.WriteLine(upperHouseResult.Err);
+			    }
 		    }
 
 		    return electorateList;
@@ -651,5 +662,57 @@ namespace RightToAskClient.Models
         }
 
         
+        public static Result<Uri> StringToValidParliamentaryUrl(string value)
+        {
+            try
+            {
+                var link = new Uri(value);
+                // Valid url, but not one of the allowed ones.
+                if (!link.IsWellFormedOriginalString())
+                {
+                    return new Result<Uri>()
+                    {
+                        Err = AppResources.LinkNotWellFormedErrorText
+                    };
+                }
+                if (!ParliamentData.Domains.Contains(link.Host))
+                {
+                    return new Result<Uri>()
+                    {
+                        Err = AppResources.ParliamentaryURLErrorText
+                    };
+                }
+                else
+                {
+                    return new Result<Uri>()
+                    {
+                        Ok = link
+                    };
+                }
+            }
+            // Not a valid url 
+            catch (Exception e)
+            {
+                return new Result<Uri>()
+                {
+                    Err = e.Message,
+                };
+            }
+        }
+
+        // See if we can find the registered MP in our existing list.
+        // Using field-equality operator.
+        // If so, just keep a pointer to it; if not, use a new MP object.
+        public static MP FindMPOrMakeNewOne(MP mpRepresenting)
+        {
+			List<MP> matchingMPs = ParliamentData.AllMPs.Where(mp => mp.Equals(mpRepresenting)).ToList();
+            return matchingMPs.Any() ? matchingMPs.First() : mpRepresenting;
+        }
+
+        public static MP FindMPOrMakeNewOne(MPId mpRepresenting)
+        {
+	        var appMP = new MP(mpRepresenting);
+	        return FindMPOrMakeNewOne(appMP);
+        }
     }
 }
