@@ -77,14 +77,6 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        //** private QuestionSendToServer _serverQuestionUpdates = new QuestionSendToServer();
-        /*
-        public QuestionSendToServer ServerQuestionUpdates
-        {
-            // get => _serverQuestionUpdates;
-            set => SetProperty(ref _serverQuestionUpdates, value);
-        }*/
-
         // A collection of flags describing the state of the question,
         // whether it's a new question, whether you have permission to edit it,
         // etc. The idea is that facts about its status should be set at init,
@@ -152,7 +144,6 @@ namespace RightToAskClient.ViewModels
                 return IsNewQuestion || 
                        (!string.IsNullOrEmpty(thisUser) && !string.IsNullOrEmpty(questionWriter) && thisUser == questionWriter);
             }
-            // set => SetProperty(ref _canEditBackground, value);
         }
 
         public bool OthersCanAddQuestionAnswerers
@@ -240,40 +231,6 @@ namespace RightToAskClient.ViewModels
         {
             OnPropertyChanged("MPButtonsEnabled"); // called by the UpdatableParliamentAndMPData class to update this variable in real time
         }
-        /*
-        public bool NeedToFindAsker => App.ReadingContext.Filters.SelectedAnsweringMPsNotMine.IsNullOrEmpty();
-
-        private RTAPermissions _whoShouldAnswerItPermissions = RTAPermissions.NoChange;
-
-        public RTAPermissions WhoShouldAnswerItPermissions
-        {
-            get => _whoShouldAnswerItPermissions;
-            set
-            {
-                // It should only be set when it changes, not set to 'no change'
-                Debug.Assert(value != RTAPermissions.NoChange);
-
-                _whoShouldAnswerItPermissions = value;
-                //Question.OthersCanAddAnswerers = value == RTAPermissions.Others;
-                //_serverQuestionUpdates.who_should_answer_the_question_permissions = value;
-            }
-        }
-
-        private RTAPermissions _whoShouldAskItPermissions = RTAPermissions.NoChange;
-        public RTAPermissions WhoShouldAskItPermissions
-        {
-            get => _whoShouldAskItPermissions;
-            set
-            {
-                // It should only be set when it changes, not set to 'no change'
-                Debug.Assert(value != RTAPermissions.NoChange);
-                
-                _whoShouldAskItPermissions = value;
-                //Question.OthersCanAddAskers = value == RTAPermissions.Others;
-                //_serverQuestionUpdates.who_should_ask_the_question_permissions = value;
-            }
-        }
-        */
 
         public QuestionViewModel()
         {
@@ -297,15 +254,6 @@ namespace RightToAskClient.ViewModels
             NavigateForwardCommand = new AsyncCommand(async () =>
             {
                 await Shell.Current.GoToAsync($"{nameof(FlowOptionPage)}");
-                //if (NeedToFindAsker)
-                //{
-                //    await Shell.Current.GoToAsync($"{nameof(QuestionAskerPage)}");
-                //}
-                //else
-                //{
-                //    App.ReadingContext.IsReadingOnly = IsReadingOnly;
-                //    await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
-                //}
             });
             OtherPublicAuthorityButtonCommand = new AsyncCommand(async () =>
             {
@@ -349,14 +297,6 @@ namespace RightToAskClient.ViewModels
                     MessagingCenter.Send(this, "OptionBGoToAskingPageNext"); // Sends this view model
                 });
             });
-            /*
-            SelectCommitteeButtonCommand = new AsyncCommand(async () =>
-            {
-                SelectButtonText = AppResources.SelectedButtonText;
-                // then navigate to the reading page
-                await Shell.Current.GoToAsync(nameof(ReadingPage));
-            });
-            */
             UpvoteCommand = new AsyncCommand(async () =>
             {
                 await DoRegistrationCheck();
@@ -446,7 +386,6 @@ namespace RightToAskClient.ViewModels
         public IAsyncCommand QuestionSuggesterCommand { get; }
         public IAsyncCommand BackCommand { get; }
         public Command SaveQuestionCommand { get; }
-        // public IAsyncCommand SelectCommitteeButtonCommand { get; }
         public IAsyncCommand UpvoteCommand { get; }
         public Command EditAnswerCommand { get; }
         public IAsyncCommand OptionACommand { get; }
@@ -471,7 +410,6 @@ namespace RightToAskClient.ViewModels
 
         public void ReinitQuestionUpdates()
         {
-            //** ServerQuestionUpdates = new QuestionSendToServer();
             Question.ReinitQuestionUpdates();
         }
 
@@ -625,7 +563,6 @@ namespace RightToAskClient.ViewModels
             else // Pop back to readingpage. TODO: fix the context so that it doesn't think you're drafting
                 // a question.  Possibly the right thing to do is pop everything and then push a reading page.
             {
-                //await Navigation.PopAsync();
                 await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
             }
         }
@@ -639,7 +576,6 @@ namespace RightToAskClient.ViewModels
             
             if (!successfulSubmission.isValid)
             {
-                // await App.Current.MainPage.DisplayAlert("Error editing question", successfulSubmission.errorMessage, "OK");
                 string message = string.Format(AppResources.EditQuestionErrorText, successfulSubmission.errorMessage);
                 var popup2 = new OneButtonPopup(message, AppResources.OKText);
                 _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup2);
@@ -673,8 +609,6 @@ namespace RightToAskClient.ViewModels
         private async Task<(bool isValid, string errorMessage, string returnedData)> BuildSignAndUploadQuestionUpdates()
         {
             var serverQuestionUpdates = Question.Updates;
-            // These are not necessary if they haven't changed, but it doesn't hurt to resend them.
-            // setQuestionEditPermissions(serverQuestionUpdates);
             
             // needs these two fields in the message payload for updates, but not for new questions.
             serverQuestionUpdates.question_id = Question.QuestionId;
@@ -683,14 +617,5 @@ namespace RightToAskClient.ViewModels
             Result<string> httpResponse = await RTAClient.UpdateExistingQuestion(serverQuestionUpdates);
             return RTAClient.ValidateHttpResponse(httpResponse, "Question Edit");
         }
-       
-        /*
-        private void setQuestionEditPermissions(QuestionSendToServer serverQuestionUpdates)
-        {
-            serverQuestionUpdates.who_should_answer_the_question_permissions = _whoShouldAnswerItPermissions;
-            serverQuestionUpdates.who_should_ask_the_question_permissions = _whoShouldAskItPermissions;
-        }
-        */
-
     }
 }
