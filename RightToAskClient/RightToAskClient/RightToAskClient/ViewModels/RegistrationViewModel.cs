@@ -116,6 +116,11 @@ namespace RightToAskClient.ViewModels
                 OnPropertyChanged("Electorates");
             }
         }
+
+        public string BadgesSummary
+        {
+            get => String.Join(",", _registration.Badges.Select(b => b.ToString()).ToList());
+        }
         
         // This is for selecting MPs if you're registering as an MP or staffer account
         private SelectableList<MP> _selectableMPList = new SelectableList<MP>(new List<MP>(), new List<MP>());
@@ -274,7 +279,7 @@ namespace RightToAskClient.ViewModels
             _registration = reg;
             ReportLabelText = "";
             CanEditUID = false;
-            PopupLabelText = AppResources.OtherUserInfoText; 
+            PopupLabelText = AppResources.OtherUserInfoText;
             
             // First do default command init, to make sure nothing is null.
             SetDefaultCommands();

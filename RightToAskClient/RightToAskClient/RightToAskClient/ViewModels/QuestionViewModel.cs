@@ -345,7 +345,8 @@ namespace RightToAskClient.ViewModels
                     {
                         MessagingCenter.Send(this, "OtherUser", userToSend.Ok); // Send person or send question
                     }); */
-                    var userProfilePage = new OtherUserProfilePage(new Registration(userToSend.Ok));
+                    var newReg = new Registration(userToSend.Ok);
+                    var userProfilePage = new OtherUserProfilePage(newReg);
                     await App.Current.MainPage.Navigation.PushAsync(userProfilePage);
                 }
             });

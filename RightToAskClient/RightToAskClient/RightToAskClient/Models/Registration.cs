@@ -92,19 +92,6 @@ namespace RightToAskClient.Models
             _badges = input.badges ?? new List<Badge>();
         }
 
-        // Whenever electorates are updated (by this and by AddElectorateRemoveDuplicates), we need to tell the 
-        // Filters to update the list of 'my MPs'.
-        public List<ElectorateWithChamber> Electorates 
-        {
-            get => _electorates; 
-            set 
-            {
-                SetProperty(ref _electorates, value.ToList());
-                App.ReadingContext.Filters.UpdateMyMPLists();
-            } 
-        }
-
-
         /* Accept a new electorate and chamber, remove any earlier ones that are inconsistent.
 		 * Note: this assumes that nobody is ever represented in two different regions in the one
 		 * chamber. This is true throughout Aus, but may be untrue elsewhere. Of course, each region

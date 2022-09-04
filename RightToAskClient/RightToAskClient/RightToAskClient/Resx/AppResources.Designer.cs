@@ -309,6 +309,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string For {
+            get {
+                return ResourceManager.GetString("For", resourceCulture);
+            }
+        }
+        
         internal static string HomeButtonText {
             get {
                 return ResourceManager.GetString("HomeButtonText", resourceCulture);

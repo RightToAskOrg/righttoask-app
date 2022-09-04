@@ -249,6 +249,9 @@
   <data name="FollowButtonText" xml:space="preserve">
     <value>Follow {0}</value>
   </data>
+  <data name="For" xml:space="preserve">
+    <value>for</value>
+  </data>
   <data name="HomeButtonText" xml:space="preserve">
     <value>Home</value>
   </data>
