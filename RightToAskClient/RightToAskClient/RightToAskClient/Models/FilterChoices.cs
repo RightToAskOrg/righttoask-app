@@ -117,18 +117,6 @@ namespace RightToAskClient.Models
 			}
 		}
 
-		/*
-        public ObservableCollection<string> SelectedAskingCommittee
-        {
-            get => _selectedAskingCommittee;
-            set
-            {
-                _selectedAskingCommittee = value;
-                OnPropertyChanged();
-            }
-        }
-        */
-
 		public ObservableCollection<Person?> SelectedAskingUsers
 		{
 			get => _selectedAskingUsers;
@@ -139,6 +127,12 @@ namespace RightToAskClient.Models
 			}
 		}
 
+		/* We have one instance of FilterChoices in the (static) reading context,
+		 * for which init must be redone explicitly after details such as MPs, Committees
+		 * etc are read. The other instances are related to specific questions as they are
+		 * downloaded - in these cases, the Init in the constructor is all that's needed
+		 * because the other information is already set up.
+		 */
 		public FilterChoices()
 		{
 			InitSelectableLists();

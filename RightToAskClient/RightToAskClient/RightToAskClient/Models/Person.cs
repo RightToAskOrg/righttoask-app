@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using RightToAskClient.Models.ServerCommsData;
 
 // This class represents a human, who might be 
 // an MP or a non-MP participant.
@@ -93,6 +94,11 @@ namespace RightToAskClient.Models
 		public Person(string user)
 		{
 			RegistrationInfo = new Registration() { uid = user };
+		}
+		
+		public Person(ServerUser user)
+		{
+			RegistrationInfo = new Registration(user);
 		}
 
 		protected Person()

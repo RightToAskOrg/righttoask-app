@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -38,14 +39,24 @@ namespace RightToAskClient.Models.ServerCommsData
 
         public ServerUser(Registration newReg)
         {
-            electorates = newReg.Electorates;
+            // Compulsory fields
             uid = newReg.uid;
             display_name = newReg.display_name;
             public_key = newReg.public_key;
-            state = newReg.State;
-            //TODO: add this when Registration has it.
-            // badges = newReg.badges;
-
+            
+            // Optional fields. Add only if non-empty.
+            if (newReg.Electorates.Any())
+            {
+                electorates = newReg.Electorates;
+            }
+            if (!String.IsNullOrEmpty(newReg.State))
+            {
+                state = newReg.State;
+            }
+            if (newReg.Badges.Any())
+            {
+                badges = newReg.Badges;
+            }
         }
 
         public bool Validate()

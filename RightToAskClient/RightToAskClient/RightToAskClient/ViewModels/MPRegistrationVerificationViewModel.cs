@@ -118,7 +118,8 @@ namespace RightToAskClient.ViewModels
             RequestEmailValidationMessage message = new RequestEmailValidationMessage()
             {
                 why = new EmailValidationReason() { AsMP = !IsStaffer },
-                name = MPRepresenting.first_name + " " + MPRepresenting.surname +" @"+domain
+                name = MPRepresenting.BadgeName(),
+                // name = MPRepresenting.first_name + " " + MPRepresenting.surname +" @"+domain
             };
             Result<string> httpResponse = await RTAClient.RequestEmailValidation(message, EmailUsername + "@" + domain);
             (bool isValid, string errorMsg, string hash) validation = RTAClient.ValidateHttpResponse(httpResponse, "Email Validation Request");
@@ -147,6 +148,10 @@ namespace RightToAskClient.ViewModels
             App.ReadingContext.ThisParticipant.IsVerifiedMPAccount = true;
             App.ReadingContext.ThisParticipant.MPRegisteredAs = MPRepresenting;
             App.ReadingContext.ThisParticipant.IsVerifiedMPStafferAccount = _isStaffer;
+            
+            // At the moment, we never actually use our own badges, but seems best to keep
+            // the data structures consistent.
+            App.ReadingContext.ThisParticipant.RegistrationInfo.Badges.Add(MPRepresenting.BadgeName());
         }
 
         

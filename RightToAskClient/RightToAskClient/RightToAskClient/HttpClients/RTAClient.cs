@@ -97,7 +97,7 @@ namespace RightToAskClient.HttpClients
          */
         public static async Task<Result<List<string>>> GetUserList()
         {
-            return await Client.DoGetResultRequest<List<string>>(UserListUrl);
+            return await Client.DoGetJSONRequest<List<string>>(UserListUrl);
         }
 
         public static async Task<Result<string>> RegisterNewUser(Registration newReg)

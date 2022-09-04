@@ -36,12 +36,6 @@ namespace RightToAskClient.Models
 	        // Consider awaiting. I don't think so, though, because there's no reason everything else should wait for it.
 	        ThisParticipant.Init();
         }
-        /*
-        public void OnPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        */
         
 		// Things about this user.
 		// These selections are made at registration, or at 'complete registration.'

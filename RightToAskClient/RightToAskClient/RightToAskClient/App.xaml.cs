@@ -48,6 +48,9 @@ namespace RightToAskClient
             var MPInitSuccess = await ParliamentData.MPAndOtherData.TryInit();
             var CommitteeInitSuccess = await CommitteesAndHearingsData.CommitteesData.TryInitialisingFromServer();
             
+            // Order is important here: the Filters need to be (re-)initialised after we've read MP and Committee data.
+		    ReadingContext.Filters.InitSelectableLists();
+            
             // get account info from preferences
             var registrationPref = Preferences.Get(Constants.RegistrationInfo, "");
             if (!string.IsNullOrEmpty(registrationPref))

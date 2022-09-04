@@ -97,7 +97,7 @@ namespace RightToAskClient.Models
 			{
 				_isInitialised = true;
 				QuestionViewModel.Instance.UpdateMPButtons(); 
-				App.ReadingContext.Filters.InitSelectableLists();
+				// App.ReadingContext.Filters.InitSelectableLists();
 				//return;
 			}
 
@@ -107,7 +107,7 @@ namespace RightToAskClient.Models
 			{
 				_isInitialised = true;
 				QuestionViewModel.Instance.UpdateMPButtons();
-				App.ReadingContext.Filters.InitSelectableLists();
+				// App.ReadingContext.Filters.InitSelectableLists();
 				return true;
 			}
 			
@@ -119,7 +119,7 @@ namespace RightToAskClient.Models
 			{
 				_isInitialised = true;
 				QuestionViewModel.Instance.UpdateMPButtons();
-				App.ReadingContext.Filters.InitSelectableLists();
+				// App.ReadingContext.Filters.InitSelectableLists();
 				return true;
 			}
 

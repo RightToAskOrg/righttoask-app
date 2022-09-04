@@ -7,6 +7,7 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using RightToAskClient.Annotations;
 using RightToAskClient.Models;
 
 /* This makes a small wrapper around the HttpClient class.

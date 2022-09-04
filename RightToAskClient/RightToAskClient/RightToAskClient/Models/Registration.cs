@@ -45,6 +45,14 @@ namespace RightToAskClient.Models
         
         private List<ElectorateWithChamber> _electorates = new List<ElectorateWithChamber>();
 
+        private List<String> _badges = new List<string>();
+
+        public List<String> Badges
+        {
+            get => _badges;
+            set => SetProperty(ref _badges, value);
+        }
+
         // Necesary for java serialisation & deserlialisation.
         public Registration()
         {
@@ -67,9 +75,8 @@ namespace RightToAskClient.Models
             }
             
             uid = input.uid ?? "";
-            _electorates = input.electorates;
-            // TODO add badges
-            // badges = input.badges;
+            _electorates = input.electorates ?? new List<ElectorateWithChamber>();
+            Badges = input.badges ?? new List<string>();
         }
 
         // Whenever electorates are updated (by this and by AddElectorateRemoveDuplicates), we need to tell the 
