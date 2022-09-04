@@ -27,7 +27,7 @@ namespace RightToAskClient.ViewModels
 
         // The complete information about this user's current registration, including any updates that have been made
         // on this page.
-        private Registration _registration = App.ReadingContext.ThisParticipant.RegistrationInfo;
+        private Registration _registration = new Registration(); 
 
         // The updates that have been made to this user's registration on this page
         // Note this is used only for updating an existing registration - new registrations are handled
@@ -120,8 +120,22 @@ namespace RightToAskClient.ViewModels
         // This is for selecting MPs if you're registering as an MP or staffer account
         private SelectableList<MP> _selectableMPList = new SelectableList<MP>(new List<MP>(), new List<MP>());
         
-        // TODO shift into Registration.
-        public MP RegisteredMP { get; }
+        public bool IsVerifiedMPAccount
+        {
+            get => _registration?.Badges?.Any(b =>  b.badge == BadgeType.MP || b.badge == BadgeType.MPStaff) ?? false;
+        }
+
+        public bool IsVerifiedStafferAccount
+        {
+            get => _registration?.Badges?.Any(b => b.badge == BadgeType.MPStaff) ?? false;
+        }
+
+        public string MPsRepresenting
+        {
+            get => String.Join(",",_registration?.Badges?.Select(b => b.name ?? "") ?? new List<string>());
+        }
+        
+        // public MP RegisteredMP { get; }
         public bool ShowStafferLabel { get; set; }
         public bool ShowExistingMPRegistrationLabel { get; set; } = false;
         
@@ -253,17 +267,32 @@ namespace RightToAskClient.ViewModels
 
         #endregion
 
-        // constructor
+        // Constructors
+        // Constructor with explicit registration info assumes it's someone else's registration info and initialises accordingly.
+        public RegistrationViewModel(Registration reg)
+        {
+            _registration = reg;
+            ReportLabelText = "";
+            CanEditUID = false;
+            PopupLabelText = AppResources.OtherUserInfoText; 
+            
+            // First do default command init, to make sure nothing is null.
+            SetDefaultCommands();
+        }
+        
+        // Parameterless constructor sets defaults assuming it's the registration for this app user, i.e ThisParticipant.
         public RegistrationViewModel()
         {
             // initialize defaults
             ReportLabelText = "";
             var me = App.ReadingContext.ThisParticipant;
+            _registration = me.RegistrationInfo; 
             ShowUpdateAccountButton = me.IsRegistered;
             ShowRegisterMPButton = me.IsRegistered;
             ShowExistingMPRegistrationLabel = me.IsVerifiedMPAccount || me.IsVerifiedMPStafferAccount;
             ShowStafferLabel = me.IsVerifiedMPStafferAccount;
-            RegisteredMP = me.MPRegisteredAs;
+            
+            // RegisteredMP = me.MPRegisteredAs;
             
             ShowTheRightButtonsAsync(_registration.display_name);
             RegisterMPButtonText = AppResources.RegisterMPAccountButtonText;
@@ -283,78 +312,66 @@ namespace RightToAskClient.ViewModels
             // Perhaps we should unify this with OtherUserProfileViewModel, but at the moment they're separate.
             // if (!App.ReadingContext.IsReadingOnly)
             
-                ShowUpdateAccountButton = App.ReadingContext.ThisParticipant.IsRegistered;
-                Title = App.ReadingContext.ThisParticipant.IsRegistered ? AppResources.EditYourAccountTitle : AppResources.CreateAccountTitle;
-                PopupLabelText = App.ReadingContext.ThisParticipant.IsRegistered ? AppResources.EditAccountPopupText : AppResources.CreateNewAccountPopupText;
+            ShowUpdateAccountButton = App.ReadingContext.ThisParticipant.IsRegistered;
+            Title = App.ReadingContext.ThisParticipant.IsRegistered ? AppResources.EditYourAccountTitle : AppResources.CreateAccountTitle;
+            PopupLabelText = App.ReadingContext.ThisParticipant.IsRegistered ? AppResources.EditAccountPopupText : AppResources.CreateNewAccountPopupText;
                 
-                _selectableMPList = new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
-            // }
-            /*
-             * else
+            _selectableMPList = new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
+
+            SetDefaultCommands();
+        }
+            // commands
+            private void SetDefaultCommands()
             {
-                Title = AppResources.UserProfileTitle;
-                PopupLabelText = AppResources.OtherUserProfilePopupText;
+
+                ChooseMPToRegisterButtonCommand = new AsyncCommand(async () =>
+                {
+                    SelectMPForRegistration();
+                    // StoreMPRegistration();
+                });
+                DoneButtonCommand = new Command(() => { OnSaveButtonClicked(); });
+                UpdateAccountButtonCommand = new Command(() =>
+                {
+                    SaveRegistrationToPreferences();
+                    SendUpdatedUserToServer();
+                });
+                UpdateMPsButtonCommand = new Command(() =>
+                {
+                    // We need this because we don't necessarily know that the electorates 
+                    // will change just because we go to the find-new-electorates page.
+                    _oldElectorates = new List<ElectorateWithChamber>(_registration.Electorates);
+
+                    NavigateToFindMPsPage();
+                });
+                FollowButtonCommand = new Command(() => { FollowButtonText = "Following not implemented"; });
+                DMButtonCommand = new Command(() => { DMButtonText = "DMs not implemented"; });
+                CancelButtonCommand = new AsyncCommand(async () =>
+                {
+                    //await Navigation.PopAsync();
+                    await Shell.Current.GoToAsync("..");
+                });
+                // At the moment, this pushes a brand new question-reading page,
+                // which is meant to have only questions from this person, but
+                // at the moment just has everything.
+                // 
+                // Think a bit harder about how people will navigate or understand this:
+                // Will they expect to be adding a new stack layer, or popping off old ones?
+                SeeQuestionsButtonCommand = new AsyncCommand(async () =>
+                {
+                    await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
+                });
             }
-            */
 
             // commands
-            ChooseMPToRegisterButtonCommand = new AsyncCommand(async () =>
-            {
-                SelectMPForRegistration();
-                // StoreMPRegistration();
-            }); 
-            SaveButtonCommand = new Command(() =>
-            {
-                OnSaveButtonClicked();
-            });
-            UpdateAccountButtonCommand = new Command(() =>
-            {
-                SaveRegistrationToPreferences();
-                SendUpdatedUserToServer();
-            });
-            UpdateMPsButtonCommand = new Command(() =>
-            {
-                // We need this because we don't necessarily know that the electorates 
-                // will change just because we go to the find-new-electorates page.
-                _oldElectorates = new List<ElectorateWithChamber>(_registration.Electorates);
-                
-                NavigateToFindMPsPage();
-            });
-            FollowButtonCommand = new Command(() =>
-            {
-                FollowButtonText = "Following not implemented";
-            });
-            DMButtonCommand = new Command(() =>
-            {
-                DMButtonText = "DMs not implemented";
-            });
-            CancelButtonCommand = new AsyncCommand(async () =>
-            {
-                //await Navigation.PopAsync();
-                await Shell.Current.GoToAsync("..");
-            });
-            // At the moment, this pushes a brand new question-reading page,
-            // which is meant to have only questions from this person, but
-            // at the moment just has everything.
-            // 
-            // Think a bit harder about how people will navigate or understand this:
-            // Will they expect to be adding a new stack layer, or popping off old ones?
-            SeeQuestionsButtonCommand = new AsyncCommand(async () =>
-            {
-                await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
-            });
-        }
-
-        // commands
-        public Command SaveButtonCommand { get; }
-        public Command UpdateAccountButtonCommand { get; }
-        public AsyncCommand ChooseMPToRegisterButtonCommand { get; }
-        public Command UpdateMPsButtonCommand { get; }
+        public Command DoneButtonCommand { get; private set;}
+        public Command UpdateAccountButtonCommand { get; private set;}
+        public AsyncCommand ChooseMPToRegisterButtonCommand { get; private set; }
+        public Command UpdateMPsButtonCommand { get; private set; }
         public Command RegisterOrgButtonCommand { get; }
-        public Command FollowButtonCommand { get; }
-        public Command DMButtonCommand { get; }
-        public IAsyncCommand CancelButtonCommand { get; }
-        public IAsyncCommand SeeQuestionsButtonCommand { get; }
+        public Command FollowButtonCommand { get; private set; }
+        public Command DMButtonCommand { get; private set; }
+        public IAsyncCommand CancelButtonCommand { get; private set; }
+        public IAsyncCommand SeeQuestionsButtonCommand { get; private set; }
 
 
         #region Methods

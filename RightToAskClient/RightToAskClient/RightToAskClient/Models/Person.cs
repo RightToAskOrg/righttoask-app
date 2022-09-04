@@ -101,6 +101,18 @@ namespace RightToAskClient.Models
 			RegistrationInfo = new Registration(user);
 		}
 
+		public Person(PersonID user)
+		{
+			if (!(user.AsRTAUser is null))
+			{
+				RegistrationInfo = user.AsRTAUser.RegistrationInfo;
+			}
+			else
+			{
+				RegistrationInfo = new Registration();
+			}
+		}
+
 		protected Person()
 		{
 		}

@@ -79,31 +79,28 @@ namespace RightToAskClient.Views
                                          !String.IsNullOrWhiteSpace(QuestionViewModel.Instance.Question.Background);
             BackgroundLabel.IsVisible = BackgroundEditor.IsVisible;
 
-            // TODO When we split up the answering from the link-adding, only MPs will be able to answer.
-            LinkOrAnswerEditor.Style = normalEditorStyle;
+            // Only MPs can answer questions.
+            bool isMP = App.ReadingContext.ThisParticipant.IsVerifiedMPAccount;
+            AnswerEditor.Style = isMP ? normalEditorStyle : disabledEditorStyle;
+            AnswerEditor.IsEnabled = isMP;
         }
 
-        // TODO At the moment, this just interprets a single string as a single URL, but we should 
-        // actually have two entry fields:
-        // - One for MPs allows free-form answers, and we'll need a list because MPs can answer other
-        // MPs' answers.
-        // - One for other participants allows only Hansard links, which should also be allowed to be a list.
-        // MPs should see both options; ordinary users can read the free-form answers but only add Hansard urls.
-        // FIXME 
         private void Answer_Entered(object sender, EventArgs e)
         {
-            // Do nothing at the moment.
-            
-            // For free-form answers:
-            // QuestionViewModel.Instance.Question.HansardLink = ((Editor)sender).Text;
             // For Hansard links:
-            // QuestionViewModel.Instance.Question.HansardLink = new List<Uri>(((Editor)sender).Text);  );
+            QuestionViewModel.Instance.NewAnswer = ((Editor)sender).Text;  
         }
 
+        private void Link_Entered(object sender, EventArgs e)
+        {
+            QuestionViewModel.Instance.NewHansardLink = ((Editor)sender).Text;
+        }
+        
         protected override bool OnBackButtonPressed()
         {
             App.Current.MainPage.Navigation.PopToRootAsync();
             return true;
         }
+
     }
 }

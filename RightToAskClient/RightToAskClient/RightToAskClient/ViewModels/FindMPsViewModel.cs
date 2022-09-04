@@ -104,6 +104,7 @@ namespace RightToAskClient.ViewModels
             {
                 SetProperty(ref _selectedStateAsInt, value);
                 OnStatePickerSelectedIndexChanged();
+                OnPropertyChanged("FederalElectorates");
             }
         }
 
@@ -221,6 +222,7 @@ namespace RightToAskClient.ViewModels
         
         /*
          * Now-deprecated option to not save your address. We can probably delete this now.
+         * Note: leaving in because we may decide to do this (again).
         private bool _promptAddressSave = false;
         public bool PromptAddressSave
         {
@@ -521,13 +523,12 @@ namespace RightToAskClient.ViewModels
                 ShowMapFrame = true;
                 ShowMapOfElectorate(FederalElectorates[SelectedFederalElectorate]);
                 
+                // TODO Consider whether electorates should be readonly and instead have a function that updates them
+                // given this info.
+                App.ReadingContext.ThisParticipant.RegistrationInfo.Electorates
+                        = ParliamentData.FindAllRelevantElectorates(SelectedStateEnum, "", FederalElectorates[SelectedFederalElectorate]);
                 // For Tasmania, we need your federal electorate to infer your state Legislative Assembly electorate.
-                var state = App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsEnum;
-                    // TODO Consider whether electorates should be readonly and instead have a function that updates them
-                    // given this info.
-                    App.ReadingContext.ThisParticipant.RegistrationInfo.Electorates
-                        = ParliamentData.FindAllRelevantElectorates(state, "", FederalElectorates[SelectedFederalElectorate]);
-                if (state == ParliamentData.StateEnum.TAS)
+                if (SelectedStateEnum == ParliamentData.StateEnum.TAS)
                 {
                     UpdateElectorateInferencesFromStateAndCommElectorate(SelectedStateEnum, "", FederalElectorates[SelectedFederalElectorate]);
                 }
@@ -552,7 +553,7 @@ namespace RightToAskClient.ViewModels
         }
 
         // Get the information appropriate to show to a user who is choosing their electorates, as a function 
-        // of the state and (sometimes) the other electorates we now.
+        // of the state and (sometimes) the other electorates we know.
         // Sets the description of the state electorate they can choose, the list of available electorates they
         // can choose from, and the inferred electorates' title and contents.
         // This will often be called with only partial information (e.g. with a known state but only blank
@@ -566,15 +567,13 @@ namespace RightToAskClient.ViewModels
 
             AllStateChoosableElectorates.Clear();   
             
-            foreach (var electorate in newChoosableElectorateList)
+            foreach (string electorate in newChoosableElectorateList)
             {
                 AllStateChoosableElectorates.Add(electorate);   
             }
 
             (StateChoosableElectorateHeader, StateInferredElectorateHeader, StateInferredElectorate) 
                     = ParliamentData.InferOtherChamberInfoGivenOneRegion(state, stateElectorate, commElectorate);
-            
-            OnPropertyChanged("FederalElectorates");
         }
 
         private void OnStatePickerSelectedIndexChanged()

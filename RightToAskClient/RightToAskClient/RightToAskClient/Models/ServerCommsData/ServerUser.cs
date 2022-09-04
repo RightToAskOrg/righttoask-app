@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -30,7 +29,7 @@ namespace RightToAskClient.Models.ServerCommsData
         public List<ElectorateWithChamber>? electorates { get; set; } 
 
         [JsonPropertyName("badges")] 
-        public List<string>? badges { get; set; } 
+        public List<Badge>? badges { get; set; } 
 
         // This empty constructor is necessary for deserialization.
         public ServerUser()

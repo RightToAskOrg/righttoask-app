@@ -47,10 +47,9 @@ namespace RightToAskClient.Models.ServerCommsData
         [JsonPropertyName("who_should_answer_the_question_permissions")]
         public RTAPermissions who_should_answer_the_question_permissions { get; set; }
 
-        // TODO: Check whether this data structure lines up with the 'QuestionAnswer' type 
-        // - possibly we want to implement that explicitly.
         [JsonPropertyName("answers")]
-        public List<Tuple<string, Person, MP>>? answers { get; set; } 
+        // public List<Tuple<string, PersonID, MPId>> answers { get; set; } 
+        public List<QuestionAnswer>? answers { get; set; } 
         
         // TODO This needs to be interpreted/stored carefully, because we need 'false'
         // to mean 'the user has seen it but didn't fully approve' and to distinguish this
@@ -60,12 +59,16 @@ namespace RightToAskClient.Models.ServerCommsData
         public bool? answer_accepted { get; set; }
         
         [JsonPropertyName("hansard_link")]
-        public List<Uri> hansard_link { get; set; } 
+        public List<HansardLink> hansard_link { get; set; } 
         
         [JsonPropertyName("is_followup_to")]
         public string? is_followup_to { get; set; } 
         
         public QuestionSendToServer () {}
+        
+        /* This is only ever used for sending *new* questions to the server, so this constructor ignores elements of
+         * question that are not sent during initial upload.
+         */
         public QuestionSendToServer(Question question)
         {
             if (!String.IsNullOrEmpty(question.QuestionText))
@@ -73,14 +76,39 @@ namespace RightToAskClient.Models.ServerCommsData
                 question_text = question.QuestionText;
             }
 
+                    
             if (!String.IsNullOrEmpty(question.Background))
             {
                 background = question.Background;
             }
 
             TranscribeQuestionFiltersForUpload(question.Filters);
+
+            who_should_answer_the_question_permissions = question.WhoShouldAnswerTheQuestionPermissions;
+            who_should_ask_the_question_permissions = question.WhoShouldAskTheQuestionPermissions;
+
+            if (!String.IsNullOrEmpty(question.IsFollowupTo))
+            {
+                is_followup_to = question.IsFollowupTo;
+            }
             
-            //TODO: Add other structures.
+            /* Never used for questions being uploaded to the server for the first time.
+             
+            if (!String.IsNullOrEmpty(question.QuestionId))
+            {
+                question_id = question.QuestionId;
+            }
+
+            if (!String.IsNullOrEmpty(question.Version))
+            {
+                version = question.Version;
+            }
+            answers = question.Answers;
+
+            answer_accepted = question.AnswerAccepted;
+
+            hansard_link = question.HansardLink;
+            */
         }
         
         // Returns true if there were any non-empty filters present.

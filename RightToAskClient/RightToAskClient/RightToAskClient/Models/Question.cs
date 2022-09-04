@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using RightToAskClient.Models.ServerCommsData;
@@ -27,7 +28,14 @@ namespace RightToAskClient.Models
     {
         private int _upVotes;
         private int _downVotes;
-        private QuestionSendToServer _updates = new QuestionSendToServer();
+
+        private QuestionSendToServer _updates = new QuestionSendToServer()
+        {
+            // Most updates are simply omitted when not changed, but the Permissions enum needs to send a specific
+            // "no change" value. 
+            who_should_ask_the_question_permissions = RTAPermissions.NoChange,
+            who_should_answer_the_question_permissions = RTAPermissions.NoChange
+        };
 
         public QuestionDetailsStatus Status { get; set; }
 
@@ -38,7 +46,7 @@ namespace RightToAskClient.Models
             set
             {
                 SetProperty(ref _questionText, value);
-                QuestionViewModel.Instance.ServerQuestionUpdates.question_text = _questionText;
+                //** QuestionViewModel.Instance.ServerQuestionUpdates.question_text = _questionText;
                 _updates.question_text = _questionText;
             }
         }
@@ -51,13 +59,15 @@ namespace RightToAskClient.Models
         
         public void ReinitQuestionUpdates()
         {
-            _updates = new QuestionSendToServer();
+            _updates = new QuestionSendToServer()
+            {
+                // Init explicit 'no change' value for permissions.
+                who_should_answer_the_question_permissions = RTAPermissions.NoChange,
+                who_should_ask_the_question_permissions = RTAPermissions.NoChange
+            };
         }
-        // TODO: As an Australian, I am suspicious of anything except Unix time. Let's just store 
-        // milliseconds, as the server does, and then display them according to the local timezone.
-        // I am reliably advised that anything else is too clever to actually work.
-        // Likewise for expiry date.
-        public DateTime UploadTimestamp { get; set; }
+        public int Timestamp { get; set; }
+        
         private string _background = "";
         public string Background
         {
@@ -65,7 +75,7 @@ namespace RightToAskClient.Models
             set
             {
                 SetProperty(ref _background, value);
-                QuestionViewModel.Instance.ServerQuestionUpdates.background = _background;
+                //** QuestionViewModel.Instance.ServerQuestionUpdates.background = _background;
                 _updates.background = _background;
             }
         }
@@ -99,7 +109,7 @@ namespace RightToAskClient.Models
             set
             {
                 SetProperty(ref _questionId, value);
-                QuestionViewModel.Instance.ServerQuestionUpdates.question_id = _questionId;
+                //** QuestionViewModel.Instance.ServerQuestionUpdates.question_id = _questionId;
             }
         }
         private string _version = "";
@@ -109,7 +119,7 @@ namespace RightToAskClient.Models
             set
             {
                 SetProperty(ref _version, value);
-                QuestionViewModel.Instance.ServerQuestionUpdates.version = _version;
+                //** QuestionViewModel.Instance.ServerQuestionUpdates.version = _version;
             }
         }
 
@@ -126,16 +136,14 @@ namespace RightToAskClient.Models
         // Whether the person writing the question allows other users to add QuestionAnswerers
         // false = RTAPermissions.WriterOnly  (default)
         // true  = RTAPermissions.Others
-        // Note that this does not need an explicit _update fix because the ViewModel takes
-        // care of the translation from 2 to 3 values.
-        private bool _othersCanAddAnswerers = false;
-        public bool OthersCanAddAnswerers
+        private RTAPermissions _whoShouldAnswerTheQuestionPermissions;
+        public RTAPermissions WhoShouldAnswerTheQuestionPermissions
         {
-            get => _othersCanAddAnswerers;
+            get => _whoShouldAnswerTheQuestionPermissions;
             set 
             {
-                SetProperty(ref _othersCanAddAnswerers, value);
-                QuestionViewModel.Instance.WhoShouldAnswerItPermissions = _othersCanAddAnswerers ? RTAPermissions.Others : RTAPermissions.WriterOnly;
+                SetProperty(ref _whoShouldAnswerTheQuestionPermissions, value);
+                _updates.who_should_answer_the_question_permissions = value;
             }
         }
 
@@ -157,30 +165,35 @@ namespace RightToAskClient.Models
         
 
         // Whether the person writing the question allows other users to add QuestionAnswerers
-        // false = RTAPermissions.WriterOnly  (default)
-        // true  = RTAPermissions.Others
-        // Note that this does not need an explicit _update fix because the ViewModel takes
-        // care of the translation from 2 to 3 values.
-        private bool _othersCanAddAskers = false;
-        public bool OthersCanAddAskers
+        private RTAPermissions _whoShouldAskTheQuestionPermissions;
+        public RTAPermissions WhoShouldAskTheQuestionPermissions
         {
-            get => _othersCanAddAskers;
+            get => _whoShouldAskTheQuestionPermissions;
             set 
             {
-                SetProperty(ref _othersCanAddAskers, value);
-                QuestionViewModel.Instance.WhoShouldAskItPermissions = _othersCanAddAskers ? RTAPermissions.Others : RTAPermissions.WriterOnly;
+                SetProperty(ref _whoShouldAskTheQuestionPermissions, value);
+                _updates.who_should_ask_the_question_permissions = value;
             }
         }
 
+        // A list of existing answers, specifying who gave the answer in the role of representing which MP.
+        public List<Answer>? _answers { get; set; } 
+        
+        public List<Answer> Answers 
+        { 
+            get => _answers;
+        }
+
+        
         private List<Uri> _hansardLink = new List<Uri>();
 
         public List<Uri> HansardLink
         {
             get => _hansardLink;
-            set
+            private set
             {
                 SetProperty(ref _hansardLink, value);
-                QuestionViewModel.Instance.ServerQuestionUpdates.hansard_link = _hansardLink;
+                //** QuestionViewModel.Instance.ServerQuestionUpdates.hansard_link = _hansardLink;
             }
         }
 
@@ -322,15 +335,15 @@ namespace RightToAskClient.Models
         public Command PopupCancelCommand { get; }
         public Command QuestionDetailsCommand { get; }
         public IAsyncCommand ShareCommand { get; }
-        
+
         // Call empty constructor to initialize commands etc.
+        // Then convert data downloaded from server into a displayable form.
         public Question(QuestionReceiveFromServer serverQuestion) : this()
         {
             // question-defining fields
             QuestionSuggester = serverQuestion.author ?? "";
             QuestionText = serverQuestion.question_text ?? "";
-            // TODO Not clear whether we need this.
-            // Timestamp = serverQuestion.timestamp ?? "";
+            Timestamp =  serverQuestion.timestamp ?? 0;
             
             // bookkeeping fields
             QuestionId = serverQuestion.question_id ?? "";
@@ -340,17 +353,28 @@ namespace RightToAskClient.Models
             Background = serverQuestion.background ?? "";
 
             interpretFilters(serverQuestion);
-            
-            OthersCanAddAnswerers = serverQuestion.who_should_answer_the_question_permissions == RTAPermissions.Others;
-            OthersCanAddAskers = serverQuestion.who_should_ask_the_question_permissions == RTAPermissions.Others;
 
-            // TODO Add answers
-            // Answers = serverQuestion.answers ?? new List();
+            WhoShouldAnswerTheQuestionPermissions = serverQuestion.who_should_answer_the_question_permissions;
+            WhoShouldAskTheQuestionPermissions = serverQuestion.who_should_ask_the_question_permissions;
 
+            _answers = serverQuestion.answers ?.Select(ans => new Answer(ans)).ToList() ?? new List<Answer>();
             AnswerAccepted = serverQuestion.answer_accepted ?? false;
-            HansardLink = serverQuestion.hansard_link ?? new List<Uri>();
+            HansardLink = new List<Uri>();
+            if (serverQuestion.hansard_link != null)
+            {
+                foreach (HansardLink? link in serverQuestion.hansard_link)
+                {
+                    var possibleUrl = ParliamentData.StringToValidParliamentaryUrl(link?.url ?? "");
+                    if (String.IsNullOrEmpty(possibleUrl.Err))
+                    {
+                        HansardLink.Add(possibleUrl.Ok);
+                    }
+                }
+            }
+
             IsFollowupTo = serverQuestion.is_followup_to ?? "";
         }
+            
 
         // At the moment, if this gets an entity that it can't match, it simply adds it to the 'selected' list anyway,
         // in the minimal form it receives from the server.
@@ -472,6 +496,35 @@ namespace RightToAskClient.Models
                 isValid = true;
             }
             return isValid;
+        }
+
+        public void AddHansardLink(Uri newHansardLink)
+        {
+            if (_updates.hansard_link is null)
+            {
+            _updates.hansard_link = new List<HansardLink>{new HansardLink(newHansardLink.OriginalString)};
+            }
+            // People may add multiple Hansard links at once.
+            else
+            {
+                _updates.hansard_link.Add(new HansardLink(newHansardLink.OriginalString));
+            }
+            QuestionViewModel.Instance.Question.HansardLink.Add(newHansardLink);
+            OnPropertyChanged("HansardLink");
+        }
+
+        public void AddAnswer(string answer)
+        {
+            var me = App.ReadingContext.ThisParticipant;
+
+            _updates.answers = new List<QuestionAnswer>()
+            {
+                new QuestionAnswer()
+                {
+                    mp = new MPId(me.MPRegisteredAs),
+                    answer = answer
+                }
+            };
         }
     }
 }

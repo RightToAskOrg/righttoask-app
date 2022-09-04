@@ -15,7 +15,7 @@ namespace RightToAskClient.HttpClients
             new JsonSerializerOptions
             {
                 Converters = { new JsonStringEnumConverter() },
-                WriteIndented = false
+                WriteIndented = false,
                 // TODO I *think* this is the right thing to use for deserialising addresses
                 // with possibly absent elements.
                 // DefaultIgnoreCondition = JsonIgnoreCondition.Always

@@ -26,17 +26,22 @@
             <!-- TODO Unfortunately I think this is getting drawn, then made invisible, hence creating a lot of whitespace -->
             <StackLayout Orientation="Vertical" VerticalOptions="Center">
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                    <Button Text="{xct:Translate CompleteAccountCreationButtonText}" Style="{StaticResource DoneButton}" Command="{Binding SaveButtonCommand}" HorizontalOptions="Center" IsVisible="{Binding ShowUpdateAccountButton, Converter={StaticResource Key=cnvInvert}}"/>
+                    <Button Text="{xct:Translate CompleteAccountCreationButtonText}" Style="{StaticResource DoneButton}" Command="{Binding DoneButtonCommand}" HorizontalOptions="Center" IsVisible="{Binding ShowUpdateAccountButton, Converter={StaticResource Key=cnvInvert}}"/>
                 </StackLayout>
             </StackLayout>
             <!-- This button seems redundant because you can tap on the electorates to edit -->
             <!-- <Button Text="{xct:Translate UpdateMPsButtonText}" Style="{StaticResource DoneButton}" Command="{Binding UpdateMPsButtonCommand}" IsVisible="{Binding ShowUpdateAccountButton}"/> -->
+            <!-- 
+            <Label Text="{Binding RegisteredMP.ShortestName, StringFormat='Registered MP account for {0}'}"
+                   IsVisible="{Binding ShowExistingMPRegistrationLabel}" Style="{StaticResource NormalText}" />
+            <Label Text="Verified staffer" IsVisible="{Binding ShowStafferLabel}" Style="{StaticResource NormalText}" /> -->
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-            <Label Text="{xct:Translate MPRegistrationOptionText}" Style="{StaticResource NormalText}" VerticalOptions="Center" />
-            <Button Text="{Binding RegisterMPButtonText}" Command="{Binding ChooseMPToRegisterButtonCommand}" IsVisible="{Binding ShowRegisterMPButton}" Style="{StaticResource DoneButton}" HorizontalOptions="Center"/>
+                <Label Text="{xct:Translate MPRegistrationOptionText}" Style="{StaticResource NormalText}"
+                       VerticalOptions="Center" />
+                <Button Text="{Binding RegisterMPButtonText}" Command="{Binding ChooseMPToRegisterButtonCommand}"
+                        IsVisible="{Binding ShowRegisterMPButton}" Style="{StaticResource DoneButton}"
+                        HorizontalOptions="Center" />
             </StackLayout>
-            <Label Text="{Binding RegisteredMP.ShortestName, StringFormat='Registered MP account for {0}'}" IsVisible="{Binding ShowExistingMPRegistrationLabel}" />
-            <Label Text="Verified staffer" IsVisible="{Binding ShowStafferLabel}" />
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

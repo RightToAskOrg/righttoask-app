@@ -45,12 +45,25 @@ namespace RightToAskClient.Models
         
         private List<ElectorateWithChamber> _electorates = new List<ElectorateWithChamber>();
 
-        private List<String> _badges = new List<string>();
+        // Whenever electorates are updated (by this and by AddElectorateRemoveDuplicates), we need to tell the 
+        // Filters to update the list of 'my MPs'.
+        public List<ElectorateWithChamber> Electorates 
+        {
+            get => _electorates; 
+            set 
+            {
+                SetProperty(ref _electorates, value.ToList());
+                App.ReadingContext.Filters.UpdateMyMPLists();
+            } 
+        }
 
-        public List<String> Badges
+        private List<Badge> _badges = new List<Badge>();
+        
+        // For the moment, this indicates (only) whether the person is registered as an MP or staffer.
+        public List<Badge> Badges
         {
             get => _badges;
-            set => SetProperty(ref _badges, value);
+            set => SetProperty(ref _badges, value.ToList());
         }
 
         // Necesary for java serialisation & deserlialisation.
@@ -76,7 +89,7 @@ namespace RightToAskClient.Models
             
             uid = input.uid ?? "";
             _electorates = input.electorates ?? new List<ElectorateWithChamber>();
-            Badges = input.badges ?? new List<string>();
+            _badges = input.badges ?? new List<Badge>();
         }
 
         // Whenever electorates are updated (by this and by AddElectorateRemoveDuplicates), we need to tell the 
@@ -90,6 +103,7 @@ namespace RightToAskClient.Models
                 App.ReadingContext.Filters.UpdateMyMPLists();
             } 
         }
+
 
         /* Accept a new electorate and chamber, remove any earlier ones that are inconsistent.
 		 * Note: this assumes that nobody is ever represented in two different regions in the one
@@ -112,18 +126,6 @@ namespace RightToAskClient.Models
             throw new NotImplementedException();
         }
 
-        // TODO: Perhaps put this in ParliamentData and let it take _electorates as
-        // an input.
-        public string findElectorateGivenPredicate(Predicate<ElectorateWithChamber> func)
-        {
-            var electoratePair = _electorates.Find(func);
-            if (electoratePair is null)
-            {
-                return "";
-            }
-
-            return electoratePair.region;
-        }
         public Result<bool> IsValid()
         {
             List<string> errorFields = new List<string>();

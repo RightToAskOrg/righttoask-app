@@ -61,12 +61,12 @@
                                 </Label>
                             </StackLayout>
                         </StackLayout>
-                        <!-- Ask the user whether they allow other users to add QuestionAskers. (Y/N) -->
-                        <StackLayout Orientation="Horizontal">
-                            <Label Text="{xct:Translate AskerPermissions}" Style="{StaticResource NormalText}"/>
-                            <CheckBox IsChecked="{Binding OthersCanAddAskers}"/>
-                        </StackLayout>
                     </StackLayout>
+                </StackLayout>
+                <!-- Ask the user whether they allow other users to add QuestionAskers. (Y/N) -->
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="{xct:Translate AskerPermissions}" Style="{StaticResource NormalText}" />
+                    <CheckBox IsChecked="{Binding OthersCanAddAskers}" />
                 </StackLayout>
                 <Button Text="{xct:Translate NextButtonText}" Style="{StaticResource DoneButton}"  Command="{Binding ToDetailsPageCommand}" HorizontalOptions="End"/>
             </StackLayout>
