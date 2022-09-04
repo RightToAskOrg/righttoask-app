@@ -222,6 +222,7 @@ namespace RightToAskClient.ViewModels
         
         /*
          * Now-deprecated option to not save your address. We can probably delete this now.
+         * Note: leaving in because we may decide to do this (again).
         private bool _promptAddressSave = false;
         public bool PromptAddressSave
         {
