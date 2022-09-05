@@ -423,6 +423,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string MPSelectionText {
+            get {
+                return ResourceManager.GetString("MPSelectionText", resourceCulture);
+            }
+        }
+        
         internal static string MyMPButtonText {
             get {
                 return ResourceManager.GetString("MyMPButtonText", resourceCulture);

@@ -306,6 +306,9 @@
   <data name="MPsHeaderText2" xml:space="preserve">
     <value>I live in </value>
   </data>
+  <data name="MPSelectionText" xml:space="preserve">
+    <value>Select the MP you represent</value>
+  </data>
   <data name="MyMPButtonText" xml:space="preserve">
     <value>My MP</value>
   </data>

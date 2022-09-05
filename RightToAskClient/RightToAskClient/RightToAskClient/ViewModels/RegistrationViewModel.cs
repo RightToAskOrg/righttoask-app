@@ -570,16 +570,18 @@ namespace RightToAskClient.ViewModels
         private async void SelectMPForRegistration()
         {
             var pageToSearchMPs
-                    = new SelectableListPage(_selectableMPList, "Select the MP you represent", false);
+                    = new SelectableListPage(_selectableMPList, AppResources.MPSelectionText , false, true, true);
 
             // The user is first sent to pageToSearchMPs, and then on to pageToRegisterSelectedMP.
             // When done, they're popped all the way back here to the Account Page. 
-            await Shell.Current.Navigation.PushAsync(pageToSearchMPs).ContinueWith(async (_) => 
+            await Shell.Current.Navigation.PushAsync(pageToSearchMPs);
+                
+                /*.ContinueWith(async (_) => 
             {
                 MessagingCenter.Send(this, "RegMPAccount", _selectableMPList);
                 //var pageToRegisterSelectedMP = new MPRegistrationVerificationPage(_selectableMPList);
                 //await App.Current.MainPage.Navigation.PushAsync(pageToRegisterSelectedMP);
-            });
+            }); */
             ShowRegisterMPReportLabel = true;
 
             // TODO: This isn't quite right because if the registration is unsuccessful it will still show.

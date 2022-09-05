@@ -54,10 +54,10 @@ namespace RightToAskClient.Views
 	        BindingContext = vm;
         }
 
-        public SelectableListPage(SelectableList<MP> MPLists, string message, bool grouping)
+        public SelectableListPage(SelectableList<MP> MPLists, string message, bool grouping=false, bool singleSelection=false, bool registerMP=false)
         {
 			InitializeComponent();
-			var vm = new SelectableListViewModel(MPLists, message, grouping);
+			var vm = new SelectableListViewModel(MPLists, message, grouping, singleSelection, registerMP);
 			BindingContext = vm;	
         }
 

@@ -162,8 +162,8 @@ namespace RightToAskClient.ViewModels
 				MessagingCenter.Send(this, "UpdateFilters");
             });
 		}
-		public SelectableListViewModel(SelectableList<MP> mpLists, string message, bool singleSelection=false) : this(message, singleSelection
-		)
+		/*
+		public SelectableListViewModel(SelectableList<MP> mpLists, string message, bool singleSelection=false) : this(message, singleSelection)
 		{
 			SelectableEntities = WrapInTagsAndSortPreselections(new ObservableCollection<Entity>(mpLists.AllEntities),  mpLists.SelectedEntities);
 			
@@ -177,11 +177,13 @@ namespace RightToAskClient.ViewModels
 				MessagingCenter.Send(this, "UpdateFilters");
             });
 		}
+		*/
 		
 		// MPs are grouped only for display, but stored in simple (flat) lists.
 		// If the grouping boolean is set, group the MPs by chamber before display. 
-        public SelectableListViewModel(SelectableList<MP> mpLists, string message, bool grouping, bool singleSelection=false) : this(message, singleSelection)
+        public SelectableListViewModel(SelectableList<MP> mpLists, string message, bool grouping=false, bool singleSelection=false, bool registerMPAccount=false) : this(message, singleSelection)
         {
+	        RegisterMPAccount = registerMPAccount;
 			if (grouping)
 	        {
 		        var groupedMPs = mpLists.AllEntities.GroupBy(mp => mp.electorate.chamber);
@@ -249,6 +251,7 @@ namespace RightToAskClient.ViewModels
 				GoToAskingPageNext = true;
 				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionBGoToAskingPageNext");
 			});
+			/*
 			MessagingCenter.Subscribe<RegistrationViewModel, SelectableList<MP>>(this, "RegMPAccount", (sender, arg) => 
 			{
 				RegisterMPAccount = true;
@@ -257,6 +260,7 @@ namespace RightToAskClient.ViewModels
 				// SelectableEntities = (SelectableList<MP>)arg;
 				MessagingCenter.Unsubscribe<RegistrationViewModel>(this, "RegMPAccount");
 			});
+			*/
 			MessagingCenter.Subscribe<FilterViewModel>(this, "FromFiltersPage", (sender) =>
 			{
 				DoneButtonText = AppResources.DoneButtonText;
