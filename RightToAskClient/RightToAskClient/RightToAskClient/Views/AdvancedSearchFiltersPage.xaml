@@ -137,6 +137,7 @@
                         </xct:Expander.Content>
                     </xct:Expander>
                 </Frame>
+                <Label Text="{Binding ReportLabelText}"/>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

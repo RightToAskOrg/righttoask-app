@@ -29,7 +29,7 @@ namespace RightToAskClient.HttpClients
         private static string CommitteeListUrl = BaseUrl + "/committees.json";
         private static string HearingsListUrl = BaseUrl + "/hearings.json";
         private static string UserListUrl = BaseUrl + "/get_user_list" ;
-        private static string SearchUserUrl = BaseUrl + "search_user"+ "?search=";
+        private static string SearchUserUrl = BaseUrl + "/search_user"+ "?badge=true&search=";
         private static string QuestionListUrl = BaseUrl + "/get_question_list";
         private static string QuestionUrl = BaseUrl + "/get_question" + "?question_id=";
         private static string UserUrl = BaseUrl + "/get_user" + "?uid=";
@@ -102,9 +102,9 @@ namespace RightToAskClient.HttpClients
         }
         */
 
-        public static async Task<Result<List<Registration>>> SearchUser(string userString)
+        public static async Task<Result<List<ServerUser>>> SearchUser(string userString)
         {
-            return await Client.DoGetJSONRequest<List<Registration>>(SearchUserUrl+userString);
+            return await Client.DoGetResultRequest<List<ServerUser>>(SearchUserUrl+Uri.EscapeDataString(userString));
         }
 
         public static async Task<Result<string>> RegisterNewUser(Registration newReg)
@@ -133,13 +133,13 @@ namespace RightToAskClient.HttpClients
 
         public static async Task<Result<QuestionReceiveFromServer>> GetQuestionById(string questionId)
         {
-            string GetQuestionUrl = QuestionUrl + questionId;
+            string GetQuestionUrl = QuestionUrl + Uri.EscapeDataString(questionId);
             return await Client.DoGetResultRequest<QuestionReceiveFromServer>(GetQuestionUrl);
         }
 
         public static async Task<Result<ServerUser>> GetUserById(string userId)
         {
-            string GetUserUrl = UserUrl + userId;
+            string GetUserUrl = UserUrl + Uri.EscapeDataString(userId);
             return await Client.DoGetResultRequest<ServerUser>(GetUserUrl);
         }
 
