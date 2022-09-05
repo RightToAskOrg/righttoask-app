@@ -10,12 +10,17 @@ using Xamarin.CommunityToolkit.ObjectModel;
 using RightToAskClient.Resx;
 using Xamarin.Forms;
 using System.Threading.Tasks;
+using RightToAskClient.HttpClients;
 using RightToAskClient.Models.ServerCommsData;
 
 namespace RightToAskClient.ViewModels
 {
     public class FilterViewModel : BaseViewModel
     {
+        /* FIXME It would make a lot more sense to set this up with either an empty constructor
+         * (for the ReadingContext filters) or an explicit/new on (for a fresh question etc).
+         * The instance is only used in the Metadata page. Not clear that this is logically correct.
+         */
         private static FilterViewModel? _instance;
         public static FilterViewModel Instance => _instance ??= new FilterViewModel();
 
@@ -222,9 +227,12 @@ namespace RightToAskClient.ViewModels
                       MessagingCenter.Send(this, "FromFiltersPage");
                   });
             });
-            RightToAskUserCommand = new Command(() =>
+            WrittenByRightToAskUserCommand = new AsyncCommand(async () =>
             {
-                // not implemented yet
+                _ = SearchUserWrittenByClicked().ContinueWith((_) =>
+                  {
+                      MessagingCenter.Send(this, "FromFiltersPage");
+                  });
             });
             NotSureCommand = new Command(() =>
             {
@@ -256,13 +264,14 @@ namespace RightToAskClient.ViewModels
         }
 
 
+
         // commands
         public Command AnsweringMPsMineFilterCommand { get; }
         public Command AskingMPsMineFilterCommand { get; }
         public Command AnsweringAuthoritiesFilterCommand { get; }
         public Command OtherAnsweringMPsFilterCommand { get; }
         public Command OtherAskingMPsFilterCommand { get; }
-        public Command RightToAskUserCommand { get; }
+        public AsyncCommand WrittenByRightToAskUserCommand { get; }
         public Command NotSureCommand { get; }
         public Command SearchCommand { get; }
         public IAsyncCommand BackCommand { get; }
@@ -348,7 +357,6 @@ namespace RightToAskClient.ViewModels
             string message = "Choose others to add";
 
             var departmentExploringPage
-                // = new ExploringPageWithSearchAndPreSelections(App.ReadingContext.Filters.SelectedAuthorities, message);
                 = new SelectableListPage(App.ReadingContext.Filters.AuthorityLists, message);
             await App.Current.MainPage.Navigation.PushAsync(departmentExploringPage);
         }
@@ -378,6 +386,28 @@ namespace RightToAskClient.ViewModels
             }
         }
 
+        private async Task SearchUserWrittenByClicked()
+        {
+            string teststring = "Test";
+
+            var searchResults = await RTAClient.SearchUser(teststring);
+            if (!String.IsNullOrEmpty(searchResults.Err))
+            {
+                ReportLabelText = searchResults.Err ?? string.Empty;
+            }
+            else if (!searchResults.Ok.Any())
+            {
+                ReportLabelText = AppResources.NoParticipantsFoundText;
+            }
+            else
+            {
+                List<Person> matchingParticipants = searchResults.Ok.Select(u => new Person(u)).ToList();
+                SelectableList<Person> selectableParticipants = new SelectableList<Person>(matchingParticipants);
+                var participantsSearchSelectionPage
+                    = new SelectableListPage(selectableParticipants, AppResources.ChooseParticipantsText);
+                await App.Current.MainPage.Navigation.PushAsync(participantsSearchSelectionPage);
+            }
+        }
         private async void ApplyFiltersAndSearch()
         {
             // TODO apply filters to the list of questions

@@ -166,6 +166,7 @@
     <Compile Remove="Models\UpdatableOtherUserData.cs" />
     <Compile Remove="ViewModels\OtherUserProfileViewModel.cs" />
     <Compile Remove="Models\NewQuestionCommand.cs" />
+    <Compile Remove="Models\ServerCommsData\UserSearchResults.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Views\SecondPage_old.xaml" />

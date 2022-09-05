@@ -115,7 +115,7 @@ namespace RightToAskClient.ViewModels
 
 
 
-        public SelectableListViewModel(SelectableList<Authority> authorityLists , string message) 
+        public SelectableListViewModel(SelectableList<Authority> authorityLists , string message)
 		{
 			SelectableEntities = WrapInTagsAndSortPreselections(new ObservableCollection<Entity>(authorityLists.AllEntities),  
 								authorityLists.SelectedEntities);
@@ -137,6 +137,27 @@ namespace RightToAskClient.ViewModels
 			SubscribeToTheRightMessages();
 		}
 
+        public SelectableListViewModel(SelectableList<Person> participantLists , string message)
+		{
+			SelectableEntities = WrapInTagsAndSortPreselections(new ObservableCollection<Entity>(participantLists.AllEntities),  
+								participantLists.SelectedEntities);
+
+			_titleText = "Authorities";
+			IntroText = message;
+			PopupLabelText = AppResources.SelectableListAuthoritiesPopupText;
+			DoneButtonCommand = new AsyncCommand(async () =>
+            {
+                DoneButton_OnClicked(
+	                () => UpdateSelectedList<Person>(participantLists)       
+	                );
+				MessagingCenter.Send(this, "UpdateFilters");
+            });
+			SearchToolbarCommand = new Command(() =>
+			{
+				ShowSearchFrame = !ShowSearchFrame; // just toggle it
+			});
+			SubscribeToTheRightMessages();
+		}
 		public SelectableListViewModel(SelectableList<Committee> committeeLists, string message)
 		{
 			SelectableEntities = WrapInTagsAndSortPreselections(new ObservableCollection<Entity>(committeeLists.AllEntities),  
@@ -223,7 +244,12 @@ namespace RightToAskClient.ViewModels
 			SubscribeToTheRightMessages();
         }
 
-		private void SubscribeToTheRightMessages()
+        public SelectableListViewModel(SelectableList<Person> matchingParticipants, string message, bool grouping)
+        {
+	        throw new NotImplementedException();
+        }
+
+        private void SubscribeToTheRightMessages()
 		{
 			MessagingCenter.Subscribe<FindMPsViewModel, bool>(this, "PreviousPage", (sender, arg) =>
 			{

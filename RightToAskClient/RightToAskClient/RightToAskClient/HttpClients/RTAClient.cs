@@ -28,7 +28,8 @@ namespace RightToAskClient.HttpClients
         private static string MPListUrl = BaseUrl + "/MPs.json";
         private static string CommitteeListUrl = BaseUrl + "/committees.json";
         private static string HearingsListUrl = BaseUrl + "/hearings.json";
-        private static string UserListUrl = BaseUrl + "/get_user_list";
+        private static string UserListUrl = BaseUrl + "/get_user_list" ;
+        private static string SearchUserUrl = BaseUrl + "search_user"+ "?search=";
         private static string QuestionListUrl = BaseUrl + "/get_question_list";
         private static string QuestionUrl = BaseUrl + "/get_question" + "?question_id=";
         private static string UserUrl = BaseUrl + "/get_user" + "?uid=";
@@ -94,12 +95,16 @@ namespace RightToAskClient.HttpClients
             return await Client.DoGetResultRequest<List<CommitteeInfo>>(HearingsListUrl);
         }
         
-        /* Currently unused, but will be used when we want to get lists of other users
-         * for DMs or following
-         */
+        /* Testing only. 
         public static async Task<Result<List<string>>> GetUserList()
         {
             return await Client.DoGetJSONRequest<List<string>>(UserListUrl);
+        }
+        */
+
+        public static async Task<Result<List<Registration>>> SearchUser(string userString)
+        {
+            return await Client.DoGetJSONRequest<List<Registration>>(SearchUserUrl+userString);
         }
 
         public static async Task<Result<string>> RegisterNewUser(Registration newReg)

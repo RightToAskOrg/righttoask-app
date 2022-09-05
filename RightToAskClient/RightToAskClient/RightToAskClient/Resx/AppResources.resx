@@ -159,6 +159,9 @@
   <data name="CancelButtonText" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="ChooseParticipantsText" xml:space="preserve">
+    <value>Search Right To Ask Participants</value>
+  </data>
   <data name="ChooseParliamentaryEmailDomain" xml:space="preserve">
     <value>Parliamentary email domain</value>
   </data>
@@ -324,6 +327,9 @@
   <data name="NextButtonText" xml:space="preserve">
     <value>Next</value>
   </data>
+  <data name="NoParticipantsFoundText" xml:space="preserve">
+    <value>No matching identities or names</value>
+  </data>
   <data name="NotSureButtonText" xml:space="preserve">
     <value>Not Sure</value>
   </data>
@@ -347,6 +353,9 @@
   </data>
   <data name="OtherUserProfileTitle" xml:space="preserve">
     <value>{0}'s Profile</value>
+  </data>
+  <data name="ParticipantText" xml:space="preserve">
+    <value>Right To Ask participants</value>
   </data>
   <data name="PostcodeHeaderText" xml:space="preserve">
     <value>Postcode</value>

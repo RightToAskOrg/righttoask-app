@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Org.BouncyCastle.Asn1.Tsp;
 using RightToAskClient.Models;
 using RightToAskClient.ViewModels;
 using Xamarin.Forms;
@@ -62,8 +63,15 @@ namespace RightToAskClient.Views
 			//SelectableListView.IsGroupingEnabled = grouping;
 			//SelectableListView.GroupDisplayBinding = vm.GroupDisplay;
         }
-		
-		/* TODO It wold probably be more elegantly MVVM if this was in the ViewModel rather than the code-behind, but I
+
+        public SelectableListPage(SelectableList<Person> matchingParticipants, string message)
+        {
+	        InitializeComponent();
+	        var vm = new SelectableListViewModel(matchingParticipants, message, false);
+	        BindingContext = vm;
+        }
+
+        /* TODO It wold probably be more elegantly MVVM if this was in the ViewModel rather than the code-behind, but I
 		 * can't figure out how to bind an ItemTappedEvent.
 		 */
 		protected void OnEntity_Selected(object sender, ItemTappedEventArgs e)

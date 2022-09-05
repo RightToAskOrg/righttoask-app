@@ -129,6 +129,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string ChooseParticipantsText {
+            get {
+                return ResourceManager.GetString("ChooseParticipantsText", resourceCulture);
+            }
+        }
+        
         internal static string ChooseParliamentaryEmailDomain {
             get {
                 return ResourceManager.GetString("ChooseParliamentaryEmailDomain", resourceCulture);
@@ -459,6 +465,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string NoParticipantsFoundText {
+            get {
+                return ResourceManager.GetString("NoParticipantsFoundText", resourceCulture);
+            }
+        }
+        
         internal static string NotSureButtonText {
             get {
                 return ResourceManager.GetString("NotSureButtonText", resourceCulture);
@@ -504,6 +516,12 @@ namespace RightToAskClient.Resx {
         internal static string OtherUserProfileTitle {
             get {
                 return ResourceManager.GetString("OtherUserProfileTitle", resourceCulture);
+            }
+        }
+        
+        internal static string ParticipantText {
+            get {
+                return ResourceManager.GetString("ParticipantText", resourceCulture);
             }
         }
         

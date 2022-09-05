@@ -26,6 +26,8 @@
         </Grid>
             <Label Text="{Binding BadgesSummary, StringFormat='Registered MP account for {0}'}"
                    IsVisible="{Binding IsVerifiedMPAccount}"  Style="{StaticResource NormalText}" />
+            <Label Text="{Binding BadgesSummary, StringFormat='Registered MP account for {0}'}"
+                   IsVisible="{Binding IsVerifiedMPAccount}"  Style="{StaticResource NormalText}" />
             <!-- <Label Text="Verified staffer" IsVisible="{Binding IsVerifiedStafferAccount}" Style="{StaticResource NormalText}" /> -->
             <Label Text="{xct:Translate EditableElectoratesHeaderText}" Style="{StaticResource Header2}"/>
             <!-- The height request is a kludge because otherwise the CollectionView takes up all the rest of the page -->
