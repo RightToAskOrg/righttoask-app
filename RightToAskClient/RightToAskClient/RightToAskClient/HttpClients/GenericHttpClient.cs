@@ -92,10 +92,24 @@ namespace RightToAskClient.HttpClients
             }
         }
         
-        // TODO: This shouldn't be necessary any more - just unify with
-        // DoGetJsonRequest
+        /* Unwinds the double layer of Result<> when the server itself responds with a Result<T> data structure.
+         */
         public async Task<Result<T>> DoGetResultRequest<T>(string uriString)
         {
+            var result = await DoGetJSONRequest<Result<T>>(uriString);
+            if (!String.IsNullOrEmpty(result.Err) || !String.IsNullOrEmpty(result.Ok.Err))
+            {
+                return new Result<T>
+                {
+                    Err = result?.Err + result?.Ok?.Err
+                };
+            }
+
+            return new Result<T>()
+            {
+                Ok = result.Ok.Ok
+            };
+            /*
             Uri uri = new Uri(uriString);
             try
             {
@@ -132,6 +146,7 @@ namespace RightToAskClient.HttpClients
                 return new Result<T>()
                     { Err = "Error connecting to server." + ex.Message };
             }
+            */
         }
 
         // Tin is the type of the thing we post, which is also the input type of this function.

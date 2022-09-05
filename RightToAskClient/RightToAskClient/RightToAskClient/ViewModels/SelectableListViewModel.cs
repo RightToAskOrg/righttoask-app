@@ -104,8 +104,8 @@ namespace RightToAskClient.ViewModels
 			}
 		}
 
-		public IAsyncCommand DoneButtonCommand { get; }
-		public Command SearchToolbarCommand { get; }
+		public IAsyncCommand DoneButtonCommand { get; private set; }
+		public Command SearchToolbarCommand { get; private set; }
 
 		// TODO These are just copy-pasted from the old code-behind. Might need a bit more thought.
 		public bool CameFromReg2Page = false;
@@ -115,13 +115,12 @@ namespace RightToAskClient.ViewModels
 
 
 
-        public SelectableListViewModel(SelectableList<Authority> authorityLists , string message)
+        public SelectableListViewModel(SelectableList<Authority> authorityLists , string message) : this(message)
 		{
 			SelectableEntities = WrapInTagsAndSortPreselections(new ObservableCollection<Entity>(authorityLists.AllEntities),  
 								authorityLists.SelectedEntities);
 
 			_titleText = "Authorities";
-			IntroText = message;
 			PopupLabelText = AppResources.SelectableListAuthoritiesPopupText;
 			DoneButtonCommand = new AsyncCommand(async () =>
             {
@@ -130,21 +129,15 @@ namespace RightToAskClient.ViewModels
 	                );
 				MessagingCenter.Send(this, "UpdateFilters");
             });
-			SearchToolbarCommand = new Command(() =>
-			{
-				ShowSearchFrame = !ShowSearchFrame; // just toggle it
-			});
-			SubscribeToTheRightMessages();
 		}
 
-        public SelectableListViewModel(SelectableList<Person> participantLists , string message)
+        public SelectableListViewModel(SelectableList<Person> participantLists , string message) : this(message)
 		{
 			SelectableEntities = WrapInTagsAndSortPreselections(new ObservableCollection<Entity>(participantLists.AllEntities),  
 								participantLists.SelectedEntities);
 
-			_titleText = "Authorities";
-			IntroText = message;
-			PopupLabelText = AppResources.SelectableListAuthoritiesPopupText;
+			_titleText = AppResources.ParticipantText;
+			PopupLabelText = AppResources.ParticipantPopupText;
 			DoneButtonCommand = new AsyncCommand(async () =>
             {
                 DoneButton_OnClicked(
@@ -152,19 +145,14 @@ namespace RightToAskClient.ViewModels
 	                );
 				MessagingCenter.Send(this, "UpdateFilters");
             });
-			SearchToolbarCommand = new Command(() =>
-			{
-				ShowSearchFrame = !ShowSearchFrame; // just toggle it
-			});
-			SubscribeToTheRightMessages();
+		
 		}
-		public SelectableListViewModel(SelectableList<Committee> committeeLists, string message)
+		public SelectableListViewModel(SelectableList<Committee> committeeLists, string message) : this(message)
 		{
 			SelectableEntities = WrapInTagsAndSortPreselections(new ObservableCollection<Entity>(committeeLists.AllEntities),  
 				committeeLists.SelectedEntities);
 
 			_titleText = AppResources.CommitteeText; 
-			IntroText = message;
 			PopupLabelText = AppResources.SelectableListCommitteePopupText;
 			DoneButtonCommand = new AsyncCommand(async () =>
             {
@@ -173,18 +161,12 @@ namespace RightToAskClient.ViewModels
 	                );
 				MessagingCenter.Send(this, "UpdateFilters");
             });
-			SearchToolbarCommand = new Command(() =>
-			{
-				ShowSearchFrame = !ShowSearchFrame; // just toggle it
-			});
-			SubscribeToTheRightMessages();
 		}
-		public SelectableListViewModel(SelectableList<MP> mpLists, string message)
+		public SelectableListViewModel(SelectableList<MP> mpLists, string message) : this(message)
 		{
 			SelectableEntities = WrapInTagsAndSortPreselections(new ObservableCollection<Entity>(mpLists.AllEntities),  mpLists.SelectedEntities);
 			
 			_titleText = "MPs";
-			IntroText = message;
 			PopupLabelText = AppResources.SelectableListMPsPopupText;
 			DoneButtonCommand = new AsyncCommand(async () =>
             {
@@ -193,16 +175,11 @@ namespace RightToAskClient.ViewModels
 	                );
 				MessagingCenter.Send(this, "UpdateFilters");
             });
-			SearchToolbarCommand = new Command(() =>
-			{
-				ShowSearchFrame = !ShowSearchFrame; // just toggle it
-			});
-			SubscribeToTheRightMessages();
 		}
 		
 		// MPs are grouped only for display, but stored in simple (flat) lists.
 		// If the grouping boolean is seEnumerable<Entity> IenumerEmnumerableEntityOOnPropertyCahhanged();"EditableList"t, group the MPs by chamber before display. 
-        public SelectableListViewModel(SelectableList<MP> mpLists, string message, bool grouping)
+        public SelectableListViewModel(SelectableList<MP> mpLists, string message, bool grouping) : this(message)
         {
 			if (grouping)
 	        {
@@ -228,7 +205,6 @@ namespace RightToAskClient.ViewModels
 			}
 	        
 			_titleText = "Grouped MPs";
-			IntroText = message;
 			PopupLabelText = AppResources.SelectableListMPsPopupText;
 			DoneButtonCommand = new AsyncCommand(async () =>
             {
@@ -237,20 +213,18 @@ namespace RightToAskClient.ViewModels
 	                );
 				MessagingCenter.Send(this, "UpdateFilters");
             });
+        }
+
+        /*
+         * Setting the things common to all the specific types for reuse in all constructors.
+         */
+        private SelectableListViewModel(string message)
+        {
+			IntroText = message;
 			SearchToolbarCommand = new Command(() =>
 			{
 				ShowSearchFrame = !ShowSearchFrame; // just toggle it
 			});
-			SubscribeToTheRightMessages();
-        }
-
-        public SelectableListViewModel(SelectableList<Person> matchingParticipants, string message, bool grouping)
-        {
-	        throw new NotImplementedException();
-        }
-
-        private void SubscribeToTheRightMessages()
-		{
 			MessagingCenter.Subscribe<FindMPsViewModel, bool>(this, "PreviousPage", (sender, arg) =>
 			{
 				if (arg)

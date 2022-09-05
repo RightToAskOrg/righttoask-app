@@ -354,6 +354,9 @@
   <data name="OtherUserProfileTitle" xml:space="preserve">
     <value>{0}'s Profile</value>
   </data>
+  <data name="ParticipantPopupText" xml:space="preserve">
+    <value>Search for other participants by ID or name</value>
+  </data>
   <data name="ParticipantText" xml:space="preserve">
     <value>Right To Ask participants</value>
   </data>

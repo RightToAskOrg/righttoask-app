@@ -59,15 +59,12 @@ namespace RightToAskClient.Views
 			InitializeComponent();
 			var vm = new SelectableListViewModel(MPLists, message, grouping);
 			BindingContext = vm;	
-			//SelectableListView.ItemsSource = grouping ? (IEnumerable)vm.SelectableGroupedEntities : vm.SelectableEntities;
-			//SelectableListView.IsGroupingEnabled = grouping;
-			//SelectableListView.GroupDisplayBinding = vm.GroupDisplay;
         }
 
         public SelectableListPage(SelectableList<Person> matchingParticipants, string message)
         {
 	        InitializeComponent();
-	        var vm = new SelectableListViewModel(matchingParticipants, message, false);
+	        var vm = new SelectableListViewModel(matchingParticipants, message);
 	        BindingContext = vm;
         }
 

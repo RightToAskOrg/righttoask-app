@@ -519,6 +519,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string ParticipantPopupText {
+            get {
+                return ResourceManager.GetString("ParticipantPopupText", resourceCulture);
+            }
+        }
+        
         internal static string ParticipantText {
             get {
                 return ResourceManager.GetString("ParticipantText", resourceCulture);
