@@ -127,7 +127,7 @@ namespace RightToAskClient.ViewModels
 			DoneButtonCommand = new AsyncCommand(async () =>
             {
                 DoneButton_OnClicked(
-	                () => UpdateSelectedList<Authority>(authorityLists)       
+	                () => UpdateSelectedList<Authority>(authorityLists), singleSelection       
 	                );
 				MessagingCenter.Send(this, "UpdateFilters");
             });
@@ -143,7 +143,7 @@ namespace RightToAskClient.ViewModels
 			DoneButtonCommand = new AsyncCommand(async () =>
             {
                 DoneButton_OnClicked(
-	                () => UpdateSelectedList<Person>(participantLists)       
+	                () => UpdateSelectedList<Person>(participantLists), singleSelection
 	                );
 				MessagingCenter.Send(this, "UpdateFilters");
             });
@@ -159,7 +159,7 @@ namespace RightToAskClient.ViewModels
 			DoneButtonCommand = new AsyncCommand(async () =>
             {
                 DoneButton_OnClicked(
-	                () => UpdateSelectedList<Committee>(committeeLists)       
+	                () => UpdateSelectedList<Committee>(committeeLists), singleSelection       
 	                );
 				MessagingCenter.Send(this, "UpdateFilters");
             });
@@ -198,7 +198,7 @@ namespace RightToAskClient.ViewModels
 			DoneButtonCommand = new AsyncCommand(async () =>
             {
                 DoneButton_OnClicked(
-	                () => UpdateSelectedList<MP>(mpLists)       
+	                () => UpdateSelectedList<MP>(mpLists), singleSelection
 	                );
 				MessagingCenter.Send(this, "UpdateFilters");
             });
@@ -211,16 +211,6 @@ namespace RightToAskClient.ViewModels
         {
 			IntroText = message;
 
-			// Enforce single selection rule if required, otherwise allow anything.
-			if (singleSelection)
-			{
-				_selectionRulesCheckingCommand = () => verifySingleSelection();
-			}
-			else
-			{
-				_selectionRulesCheckingCommand = () => new Task<bool>( () => true);
-			}
-			
 			SearchToolbarCommand = new Command(() =>
 			{
 				ShowSearchFrame = !ShowSearchFrame; // just toggle it
@@ -279,11 +269,12 @@ namespace RightToAskClient.ViewModels
 		// TODO Consider whether the semantics of 'back' should be different from
 		// 'done', i.e. whether 'back' should undo.
 		// Also consider whether this should raise a warning if neither of the types match.
-		private async void DoneButton_OnClicked(Action updateAction)
+		private async void DoneButton_OnClicked(Action updateAction, bool singleSelection)
 		{
 
 			// Check whether the existing selections match requirements. This will pop up a warning if not.
-			if (! await _selectionRulesCheckingCommand())
+			bool validSelection = await verifyValidSelection(singleSelection);
+			if (! validSelection)
 			{
 				return;
 			}
@@ -353,17 +344,22 @@ namespace RightToAskClient.ViewModels
 			return selected.FirstOrDefault() as T ?? new T();
 		}
 
-		private async Task<bool> verifySingleSelection()
+		/* The only validity condition currently implemented is single Selection.
+		 * If the singleSelection input is false, any selection is accepted.
+		 */
+		private async Task<bool> verifyValidSelection(bool singleSelection)
 		{
-			IEnumerable<Entity> selected = SelectableEntities.Where(w => w.Selected).Select(t => t.TagEntity);
-			if (selected.IsNullOrEmpty() || selected.Count() > 1)
+			if (singleSelection)
 			{
-				await App.Current.MainPage.DisplayAlert("You must select exactly one option.", 
-					"You have selected "+selected?.Count(), "OK");
-				return false;
+				IEnumerable<Entity> selected = SelectableEntities.Where(w => w.Selected).Select(t => t.TagEntity);
+				if (selected.IsNullOrEmpty() || selected.Count() > 1)
+				{
+					await App.Current.MainPage.DisplayAlert("You must select exactly one option.",
+						"You have selected " + selected?.Count(), "OK");
+					return false;
+				}
 			}
-			
-			// selected.Count == 1.
+			// selected.Count == 1 or singleSelection not required.
 			return true;
 		}
 
