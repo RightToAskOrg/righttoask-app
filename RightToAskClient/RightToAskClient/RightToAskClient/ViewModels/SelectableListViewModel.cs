@@ -116,7 +116,7 @@ namespace RightToAskClient.ViewModels
 		// For verifying that the selections meet whatever constraints they need to. At the moment,
 		// the only functional one is enforcing a single selection.
 		
-		private Task<bool> _selectionRulesCheckingCommand;
+		private Func<Task<bool>> _selectionRulesCheckingCommand;
 		public SelectableListViewModel(SelectableList<Authority> authorityLists, string message, bool singleSelection = false) : this(message, singleSelection)
 		{
 			SelectableEntities = WrapInTagsAndSortPreselections(new ObservableCollection<Entity>(authorityLists.AllEntities),  
@@ -210,15 +210,15 @@ namespace RightToAskClient.ViewModels
         private SelectableListViewModel(string message, bool singleSelection=false)
         {
 			IntroText = message;
-			
+
 			// Enforce single selection rule if required, otherwise allow anything.
 			if (singleSelection)
 			{
-				_selectionRulesCheckingCommand = verifySingleSelection();
+				_selectionRulesCheckingCommand = () => verifySingleSelection();
 			}
 			else
 			{
-				_selectionRulesCheckingCommand = new Task<bool>(() => true);
+				_selectionRulesCheckingCommand = () => new Task<bool>( () => true);
 			}
 			
 			SearchToolbarCommand = new Command(() =>
@@ -283,7 +283,7 @@ namespace RightToAskClient.ViewModels
 		{
 
 			// Check whether the existing selections match requirements. This will pop up a warning if not.
-			if (! await _selectionRulesCheckingCommand)
+			if (! await _selectionRulesCheckingCommand())
 			{
 				return;
 			}

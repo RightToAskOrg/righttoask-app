@@ -310,14 +310,14 @@ namespace RightToAskClient.ViewModels
                         string message =
                             "These are your MPs.  Select the one(s) who should raise the question in Parliament";
                         mpsSearchableListPage = new SelectableListPage(App.ReadingContext.Filters.AskingMPsListsMine,
-                            message, true);
+                            message);
                     }
                     // Option A - our MP should be answering the question.
                     else
                     {
                         string message = "These are your MPs.  Select the one(s) who should answer the question";
                         mpsSearchableListPage = new SelectableListPage(App.ReadingContext.Filters.AnsweringMPsListsMine,
-                            message, true);
+                            message);
                     }
 
                     MessagingCenter.Send(this, "GoToReadingPage");

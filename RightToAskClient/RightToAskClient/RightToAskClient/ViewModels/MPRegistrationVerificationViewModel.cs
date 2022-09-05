@@ -77,7 +77,7 @@ namespace RightToAskClient.ViewModels
             {
                 MPRepresenting = arg;
                 ReturnToAccountPage = true;
-                MessagingCenter.Unsubscribe<RegistrationViewModel>(this, "ReturnToAccountPage");
+                MessagingCenter.Unsubscribe<SelectableListViewModel>(this, "ReturnToAccountPage");
             });
 
             SendMPVerificationEmailCommand = new Command(() => { SendMPRegistrationToServer(); });

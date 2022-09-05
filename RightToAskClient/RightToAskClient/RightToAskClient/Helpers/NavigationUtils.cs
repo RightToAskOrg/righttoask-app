@@ -23,7 +23,7 @@ namespace RightToAskClient
             //TODO** Seems unnecessary if our MPs are not initialized. 
             // Below, don't make the pages that are never used. The code is (somewhat redundant but)
             // correct but names are confusing.
-            var mpsSelectableListPage = new SelectableListPage(App.ReadingContext.Filters.AnsweringMPsListsMine, message, true);
+            var mpsSelectableListPage = new SelectableListPage(App.ReadingContext.Filters.AnsweringMPsListsMine, message);
             var nextPage = ListMPsFindFirstIfNotAlreadyKnown(mpsSelectableListPage);
             await Application.Current.MainPage.Navigation.PushAsync(nextPage);
         }
@@ -32,7 +32,7 @@ namespace RightToAskClient
         {
             string message = "These are your MPs.  Select the one(s) who should raise the question in Parliament";
 
-            var mpsSelectableListPage = new SelectableListPage(App.ReadingContext.Filters.AskingMPsListsMine, message, true);
+            var mpsSelectableListPage = new SelectableListPage(App.ReadingContext.Filters.AskingMPsListsMine, message);
             await LaunchMPFindingAndSelectingPages(mpsSelectableListPage);
         }
 
