@@ -113,9 +113,9 @@ namespace RightToAskClient.ViewModels
 		public bool GoToAskingPageNext = false;
 		public bool RegisterMPAccount = false;
 
+		private bool _enforceSingleSelection = false;
 
-
-        public SelectableListViewModel(SelectableList<Authority> authorityLists , string message) : this(message)
+        public SelectableListViewModel(SelectableList<Authority> authorityLists , string message, bool singleSelection=false) : this(message, singleSelection)
 		{
 			SelectableEntities = WrapInTagsAndSortPreselections(new ObservableCollection<Entity>(authorityLists.AllEntities),  
 								authorityLists.SelectedEntities);
@@ -131,7 +131,7 @@ namespace RightToAskClient.ViewModels
             });
 		}
 
-        public SelectableListViewModel(SelectableList<Person> participantLists , string message) : this(message)
+        public SelectableListViewModel(SelectableList<Person> participantLists , string message, bool singleSelection=false) : this(message, singleSelection)
 		{
 			SelectableEntities = WrapInTagsAndSortPreselections(new ObservableCollection<Entity>(participantLists.AllEntities),  
 								participantLists.SelectedEntities);
@@ -147,7 +147,7 @@ namespace RightToAskClient.ViewModels
             });
 		
 		}
-		public SelectableListViewModel(SelectableList<Committee> committeeLists, string message) : this(message)
+		public SelectableListViewModel(SelectableList<Committee> committeeLists, string message, bool singleSelection=false) : this(message, singleSelection)
 		{
 			SelectableEntities = WrapInTagsAndSortPreselections(new ObservableCollection<Entity>(committeeLists.AllEntities),  
 				committeeLists.SelectedEntities);
@@ -162,7 +162,8 @@ namespace RightToAskClient.ViewModels
 				MessagingCenter.Send(this, "UpdateFilters");
             });
 		}
-		public SelectableListViewModel(SelectableList<MP> mpLists, string message) : this(message)
+		public SelectableListViewModel(SelectableList<MP> mpLists, string message, bool singleSelection=false) : this(message, singleSelection
+		)
 		{
 			SelectableEntities = WrapInTagsAndSortPreselections(new ObservableCollection<Entity>(mpLists.AllEntities),  mpLists.SelectedEntities);
 			
@@ -178,8 +179,8 @@ namespace RightToAskClient.ViewModels
 		}
 		
 		// MPs are grouped only for display, but stored in simple (flat) lists.
-		// If the grouping boolean is seEnumerable<Entity> IenumerEmnumerableEntityOOnPropertyCahhanged();"EditableList"t, group the MPs by chamber before display. 
-        public SelectableListViewModel(SelectableList<MP> mpLists, string message, bool grouping) : this(message)
+		// If the grouping boolean is set, group the MPs by chamber before display. 
+        public SelectableListViewModel(SelectableList<MP> mpLists, string message, bool grouping, bool singleSelection=false) : this(message, singleSelection)
         {
 			if (grouping)
 	        {
@@ -218,7 +219,7 @@ namespace RightToAskClient.ViewModels
         /*
          * Setting the things common to all the specific types for reuse in all constructors.
          */
-        private SelectableListViewModel(string message)
+        private SelectableListViewModel(string message, bool singleSelection=false)
         {
 			IntroText = message;
 			SearchToolbarCommand = new Command(() =>
@@ -310,7 +311,6 @@ namespace RightToAskClient.ViewModels
 		            await Shell.Current.GoToAsync(nameof(MPRegistrationVerificationPage)).ContinueWith((_) =>
 		            {
 			            // send a message to the MPRegistrationViewModel to pop back to the account page at the end
-						// There should be only one MP at this point, so the : should never happen.
 			            MessagingCenter.Send(this, "ReturnToAccountPage", selectedMP);
 		            });
 	            }
@@ -325,7 +325,7 @@ namespace RightToAskClient.ViewModels
 		}
 
 		// Used for settings where the user has to select exactly one Entity from the list
-		// e.g. when they're registering for an MP-linked account.
+		// e.g. when they're registering for an MP-linked account or selecting a user to follow or read questions from.
 		// The type-T return parameter is the single selected item, if there is one.
 		// The boolean indicates whether there's a single selection.
 		private async Task<(bool,T)> verifySingleSelection<T>() where T : class, new()

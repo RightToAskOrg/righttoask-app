@@ -172,12 +172,7 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _showRegisterOrgButton, value);
         }
 
-        private string _registerOrgButtonText = "";
-        public string RegisterOrgButtonText
-        {
-            get => _registerOrgButtonText;
-            set => SetProperty(ref _registerOrgButtonText, value);
-        }
+        public string RegisterOrgButtonText => AppResources.RegisterOrganisationAccountButtonText;
 
         private bool _showRegisterMPButton;
         public bool ShowRegisterMPButton
@@ -186,7 +181,7 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _showRegisterMPButton, value);
         }
 
-        public string RegisterMPButtonText { get; set; }
+        public string RegisterMPButtonText => AppResources.RegisterMPAccountButtonText;
         
         private bool _showDoneButton = false;
         public bool ShowDoneButton
@@ -274,7 +269,7 @@ namespace RightToAskClient.ViewModels
 
         // Constructors
         // Constructor with explicit registration info assumes it's someone else's registration info and initialises accordingly.
-        public RegistrationViewModel(Registration reg)
+        public RegistrationViewModel(Registration reg) : this(false)
         {
             _registration = reg;
             ReportLabelText = "";
@@ -282,57 +277,42 @@ namespace RightToAskClient.ViewModels
             PopupLabelText = AppResources.OtherUserInfoText;
             
             // First do default command init, to make sure nothing is null.
-            SetDefaultCommands();
+            // SetDefaultCommands();
+            ShowTheRightButtonsForOtherUser(reg.display_name);
         }
         
         // Parameterless constructor sets defaults assuming it's the registration for this app user, i.e ThisParticipant.
-        public RegistrationViewModel()
+        public RegistrationViewModel() : this(false)
         {
             // initialize defaults
-            ReportLabelText = "";
             var me = App.ReadingContext.ThisParticipant;
+            Title = me.IsRegistered ? AppResources.EditYourAccountTitle : AppResources.CreateAccountTitle;
+            // Title = App.ReadingContext.ThisParticipant.IsRegistered ? AppResources.EditYourAccountTitle : AppResources.CreateAccountTitle;
+            ReportLabelText = "";
             _registration = me.RegistrationInfo; 
-            ShowUpdateAccountButton = me.IsRegistered;
-            ShowRegisterMPButton = me.IsRegistered;
-            ShowExistingMPRegistrationLabel = me.IsVerifiedMPAccount || me.IsVerifiedMPStafferAccount;
-            ShowStafferLabel = me.IsVerifiedMPStafferAccount;
             
-            // RegisteredMP = me.MPRegisteredAs;
-            
-            ShowTheRightButtonsAsync(_registration.display_name);
-            RegisterMPButtonText = AppResources.RegisterMPAccountButtonText;
-            RegisterOrgButtonText = AppResources.RegisterOrganisationAccountButtonText;
+            ShowTheRightButtonsForOwnAccount();
             CanEditUID = !me.IsRegistered;
 
             // uid should still be sent in the 'update' even though it doesn't change.
             _registrationUpdates.uid = _registration.uid;
             _oldElectorates = _registration.Electorates;
 
-            // If this is this user's profile, show them IndividualParticipant data
-            // (if there is any) and give them the option to edit (or make new).
-            // Otherwise, if we're looking at someone else, just tell them it's another
-            // person's profile.
-            // TODO Clarify meaning of ReadingOnly - looks like it has a few different uses.
-            // Also note that (at the moment) we only use this ViewModel for viewing your own profile.
-            // Perhaps we should unify this with OtherUserProfileViewModel, but at the moment they're separate.
-            // if (!App.ReadingContext.IsReadingOnly)
-            
-            ShowUpdateAccountButton = App.ReadingContext.ThisParticipant.IsRegistered;
-            Title = App.ReadingContext.ThisParticipant.IsRegistered ? AppResources.EditYourAccountTitle : AppResources.CreateAccountTitle;
             PopupLabelText = App.ReadingContext.ThisParticipant.IsRegistered ? AppResources.EditAccountPopupText : AppResources.CreateNewAccountPopupText;
                 
             _selectableMPList = new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
 
-            SetDefaultCommands();
+            // SetDefaultCommands();
         }
-            // commands
-            private void SetDefaultCommands()
+        
+        // Constructor called by other constructors - sets up commands, even those that aren't used.
+        // boolean input isn't used except to distinguish from default/empty constructor.
+        
+            private RegistrationViewModel(bool notUsed)
             {
-
                 ChooseMPToRegisterButtonCommand = new AsyncCommand(async () =>
                 {
                     SelectMPForRegistration();
-                    // StoreMPRegistration();
                 });
                 DoneButtonCommand = new Command(() => { OnSaveButtonClicked(); });
                 UpdateAccountButtonCommand = new Command(() =>
@@ -367,6 +347,11 @@ namespace RightToAskClient.ViewModels
                 });
             }
 
+            internal static RegistrationViewModel OnCreateInstance(bool notUsed)
+            {
+                return new RegistrationViewModel(notUsed);
+            }
+
             // commands
         public Command DoneButtonCommand { get; private set;}
         public Command UpdateAccountButtonCommand { get; private set;}
@@ -392,40 +377,43 @@ namespace RightToAskClient.ViewModels
         // Show and label different buttons according to whether we're registering
         // as a new user, editing our own existing profile, 
         // or viewing someone else's profile.
-        public async Task ShowTheRightButtonsAsync(string name)
+        public void ShowTheRightButtonsForOtherUser(string name)
         {
-            if (App.ReadingContext.IsReadingOnly)
-            {
-                ShowRegisterCitizenButton = false;
-                ShowRegisterOrgButton = false;
-                ShowRegisterMPButton = false;
-                ShowDoneButton = false;
+            ShowRegisterCitizenButton = false;
+            ShowRegisterOrgButton = false;
+            ShowRegisterMPButton = false;
+            ShowDoneButton = false;
 
-                DMButtonText = string.Format(AppResources.DMButtonText, name);
-                SeeQuestionsButtonText = string.Format(AppResources.SeeQuestionsButtonText, name);
-                FollowButtonText = string.Format(AppResources.FollowButtonText, name);
+            DMButtonText = string.Format(AppResources.DMButtonText, name);
+            SeeQuestionsButtonText = string.Format(AppResources.SeeQuestionsButtonText, name);
+            FollowButtonText = string.Format(AppResources.FollowButtonText, name);
+        }
+
+        public void ShowTheRightButtonsForOwnAccount()
+        {
+            var me = App.ReadingContext.ThisParticipant;
+            ShowUpdateAccountButton = me.IsRegistered;
+            ShowRegisterMPButton = me.IsRegistered;
+            ShowExistingMPRegistrationLabel = me.IsVerifiedMPAccount || me.IsVerifiedMPStafferAccount;
+            ShowStafferLabel = me.IsVerifiedMPStafferAccount;
+            ShowDMButton = false;
+            ShowSeeQuestionsButton = false;
+            ShowFollowButton = false;
+
+            if (!App.ReadingContext.ThisParticipant.ElectoratesKnown)
+            {
+                RegisterCitizenButtonText = "Next: Find your electorates";
+            }
+
+            if (!App.ReadingContext.ThisParticipant.IsRegistered)
+            {
+                ShowRegisterCitizenButton = true;
+                ShowRegisterOrgButton = true;
+                ShowRegisterMPButton = true;
             }
             else
             {
-                ShowDMButton = false;
-                ShowSeeQuestionsButton = false;
-                ShowFollowButton = false;
-
-                if (!App.ReadingContext.ThisParticipant.ElectoratesKnown)
-                {
-                    RegisterCitizenButtonText = "Next: Find your electorates";
-                }
-
-                if (!App.ReadingContext.ThisParticipant.IsRegistered)
-                {
-                    ShowRegisterCitizenButton = true;
-                    ShowRegisterOrgButton = true;
-                    ShowRegisterMPButton = true;
-                }
-                else
-                {
-                    ShowRegisterCitizenButton = false;
-                }
+                ShowRegisterCitizenButton = false;
             }
         }
 

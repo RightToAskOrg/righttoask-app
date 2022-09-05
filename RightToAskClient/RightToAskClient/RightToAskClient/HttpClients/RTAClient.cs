@@ -32,6 +32,7 @@ namespace RightToAskClient.HttpClients
         private static string SearchUserUrl = BaseUrl + "/search_user"+ "?badges=true&search=";
         private static string QuestionListUrl = BaseUrl + "/get_question_list";
         private static string QuestionUrl = BaseUrl + "/get_question" + "?question_id=";
+        private static string GetQuestionByWriterUrl = BaseUrl + "/get_questions_created_by_user" + "?uid=";
         private static string UserUrl = BaseUrl + "/get_user" + "?uid=";
         private static string EmailValidationUrl = BaseUrl + "/request_email_validation";
         private static string EmailValidationPINUrl = BaseUrl + "/email_proof";
@@ -139,10 +140,16 @@ namespace RightToAskClient.HttpClients
 
         public static async Task<Result<ServerUser>> GetUserById(string userId)
         {
-            string GetUserUrl = UserUrl + Uri.EscapeDataString(userId);
-            return await Client.DoGetResultRequest<ServerUser>(GetUserUrl);
+            string getUserUrl = UserUrl + Uri.EscapeDataString(userId);
+            return await Client.DoGetResultRequest<ServerUser>(getUserUrl);
         }
+        
 
+        public static async Task<Result<ServerUser>> GetQuestionsByWriterId(string userId)
+        {
+            string getQuestionByWriterUrl = GetQuestionByWriterUrl + Uri.EscapeDataString(userId);
+            return await Client.DoGetResultRequest<ServerUser>(getQuestionByWriterUrl);
+        }
         public static async Task<Result<string>> RegisterNewQuestion(QuestionSendToServer newQuestion)
         {
             return await SignAndSendDataToServer<QuestionSendToServer>(newQuestion, AppResources.QuestionErrorTypeDescription, QnUrl,"Error publishing New Question");
