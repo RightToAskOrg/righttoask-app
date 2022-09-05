@@ -113,9 +113,11 @@ namespace RightToAskClient.ViewModels
 		public bool GoToAskingPageNext = false;
 		public bool RegisterMPAccount = false;
 
-		private bool _enforceSingleSelection = false;
-
-        public SelectableListViewModel(SelectableList<Authority> authorityLists , string message, bool singleSelection=false) : this(message, singleSelection)
+		// For verifying that the selections meet whatever constraints they need to. At the moment,
+		// the only functional one is enforcing a single selection.
+		
+		private Task<bool> _selectionRulesCheckingCommand;
+		public SelectableListViewModel(SelectableList<Authority> authorityLists, string message, bool singleSelection = false) : this(message, singleSelection)
 		{
 			SelectableEntities = WrapInTagsAndSortPreselections(new ObservableCollection<Entity>(authorityLists.AllEntities),  
 								authorityLists.SelectedEntities);
@@ -162,22 +164,6 @@ namespace RightToAskClient.ViewModels
 				MessagingCenter.Send(this, "UpdateFilters");
             });
 		}
-		/*
-		public SelectableListViewModel(SelectableList<MP> mpLists, string message, bool singleSelection=false) : this(message, singleSelection)
-		{
-			SelectableEntities = WrapInTagsAndSortPreselections(new ObservableCollection<Entity>(mpLists.AllEntities),  mpLists.SelectedEntities);
-			
-			_titleText = "MPs";
-			PopupLabelText = AppResources.SelectableListMPsPopupText;
-			DoneButtonCommand = new AsyncCommand(async () =>
-            {
-                DoneButton_OnClicked(
-	                () => UpdateSelectedList<MP>(mpLists)       
-	                );
-				MessagingCenter.Send(this, "UpdateFilters");
-            });
-		}
-		*/
 		
 		// MPs are grouped only for display, but stored in simple (flat) lists.
 		// If the grouping boolean is set, group the MPs by chamber before display. 
@@ -224,10 +210,22 @@ namespace RightToAskClient.ViewModels
         private SelectableListViewModel(string message, bool singleSelection=false)
         {
 			IntroText = message;
+			
+			// Enforce single selection rule if required, otherwise allow anything.
+			if (singleSelection)
+			{
+				_selectionRulesCheckingCommand = verifySingleSelection();
+			}
+			else
+			{
+				_selectionRulesCheckingCommand = new Task<bool>(() => true);
+			}
+			
 			SearchToolbarCommand = new Command(() =>
 			{
 				ShowSearchFrame = !ShowSearchFrame; // just toggle it
 			});
+			
 			MessagingCenter.Subscribe<FindMPsViewModel, bool>(this, "PreviousPage", (sender, arg) =>
 			{
 				if (arg)
@@ -251,16 +249,6 @@ namespace RightToAskClient.ViewModels
 				GoToAskingPageNext = true;
 				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionBGoToAskingPageNext");
 			});
-			/*
-			MessagingCenter.Subscribe<RegistrationViewModel, SelectableList<MP>>(this, "RegMPAccount", (sender, arg) => 
-			{
-				RegisterMPAccount = true;
-				var list = arg;
-				// Do something with the passed in list here
-				// SelectableEntities = (SelectableList<MP>)arg;
-				MessagingCenter.Unsubscribe<RegistrationViewModel>(this, "RegMPAccount");
-			});
-			*/
 			MessagingCenter.Subscribe<FilterViewModel>(this, "FromFiltersPage", (sender) =>
 			{
 				DoneButtonText = AppResources.DoneButtonText;
@@ -293,9 +281,19 @@ namespace RightToAskClient.ViewModels
 		// Also consider whether this should raise a warning if neither of the types match.
 		private async void DoneButton_OnClicked(Action updateAction)
 		{
+
+			// Check whether the existing selections match requirements. This will pop up a warning if not.
+			if (! await _selectionRulesCheckingCommand)
+			{
+				return;
+			}
+			
 			// reset keyword search filter
 			Keyword = "";
+			
+			// Updates the relevant selectable list, i.e. update the SelectedEntities
 			updateAction();
+			
 			// Option B. We've finished choosing who should answer it, so now find out who should ask it.
 			if (GoToAskingPageNext)
             {
@@ -308,16 +306,18 @@ namespace RightToAskClient.ViewModels
 			}
 			else if (RegisterMPAccount)
             {
-	            // Check that only one MP has been selected.
-	            (bool correct, MP selectedMP) = await verifySingleSelection<MP>(); 
+	            // We have already checked that only one MP has been selected.
+	            /*(bool correct, MP selectedMP) = await verifySingleSelection<MP>(); 
 	            if (correct)
 	            {
+	            */
+	            MP selectedMP = findSelectedOne<MP>();
 		            await Shell.Current.GoToAsync(nameof(MPRegistrationVerificationPage)).ContinueWith((_) =>
 		            {
 			            // send a message to the MPRegistrationViewModel to pop back to the account page at the end
 			            MessagingCenter.Send(this, "ReturnToAccountPage", selectedMP);
 		            });
-	            }
+	            // }
             }
 			// For Advanced Search outside the main flow. Pop back to wherever we came from (i.e. the advance search page).
 			// TODO - not currently working as intended. See Issue #105.
@@ -343,7 +343,28 @@ namespace RightToAskClient.ViewModels
 			}
 			
 			// selected.Count == 1.
-			return (true, selected.FirstOrDefault() as T);
+			return (true, selected.FirstOrDefault() as T ?? new T());
+		}
+
+		// This only makes sense after checking there is only a single one. If so, it returns it.
+		private T findSelectedOne<T>() where T : class, new()
+		{
+			IEnumerable<Entity> selected = SelectableEntities.Where(w => w.Selected).Select(t => t.TagEntity);
+			return selected.FirstOrDefault() as T ?? new T();
+		}
+
+		private async Task<bool> verifySingleSelection()
+		{
+			IEnumerable<Entity> selected = SelectableEntities.Where(w => w.Selected).Select(t => t.TagEntity);
+			if (selected.IsNullOrEmpty() || selected.Count() > 1)
+			{
+				await App.Current.MainPage.DisplayAlert("You must select exactly one option.", 
+					"You have selected "+selected?.Count(), "OK");
+				return false;
+			}
+			
+			// selected.Count == 1.
+			return true;
 		}
 
 		private void UpdateSelectedList<T>(SelectableList<T> entities) where T:Entity
