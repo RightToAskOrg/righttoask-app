@@ -95,6 +95,16 @@ namespace RightToAskClient.Models
 		{
 			RegistrationInfo = new Registration() { uid = user };
 		}
+		
+		public Person(ServerUser user)
+		{
+			RegistrationInfo = new Registration(user);
+		}
+
+		public Person(Registration reg)
+		{
+			RegistrationInfo = reg;
+		}
 
 		public Person(PersonID user)
 		{
@@ -132,6 +142,13 @@ namespace RightToAskClient.Models
         {
 			return RegistrationInfo.Validate();
         }
+
+		public override string ToString()
+		{
+			string displayBadges = String.Join(",", RegistrationInfo.Badges);
+			string addBadges = displayBadges.Any() ? "\n" + displayBadges : string.Empty;
+			return RegistrationInfo.display_name + " @" + RegistrationInfo.uid + addBadges;
+		}
     }
 
 }

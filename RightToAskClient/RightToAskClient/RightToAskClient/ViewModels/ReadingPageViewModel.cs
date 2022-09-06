@@ -112,12 +112,16 @@ namespace RightToAskClient.ViewModels
                 OnPropertyChanged();
             }
         }
+        
+        private string WriterOnlyUid = String.Empty;
+        private bool ReadByQuestionWriter = false;
 
         // constructor
         public ReadingPageViewModel()
         {
             PopupLabelText = AppResources.ReadingPageHeader1;
             Keyword = App.ReadingContext.Filters.SearchKeyword;
+
 
             if (!string.IsNullOrEmpty(App.ReadingContext.DraftQuestion))
             {
@@ -148,7 +152,9 @@ namespace RightToAskClient.ViewModels
                 var popup = new ReadingPagePopup(this);
                 _ = App.Current.MainPage.Navigation.ShowPopupAsync(popup);
             }
+            
 
+            
             KeepQuestionButtonCommand = new AsyncCommand(async () =>
             {
                 OnSaveButtonClicked();
@@ -195,9 +201,29 @@ namespace RightToAskClient.ViewModels
                 }
                 QuestionsToDisplay.Remove(questionToRemove);
             });
+            
+            
+            MessagingCenter.Subscribe<SelectableListViewModel>(this,"ReadQuestionsWithASingleQuestionWriter", (sender) =>
+            {
+                var questionWriter = App.ReadingContext.Filters.QuestionWriterLists.SelectedEntities.FirstOrDefault();
+                if (questionWriter is null)
+                {
+                    Debug.WriteLine("Error: ReadingPage for single question writer but no selection.");
+                }
 
+                ReadByQuestionWriter = true;
+                WriterOnlyUid = questionWriter?.RegistrationInfo.uid ?? string.Empty;
+                MessagingCenter.Unsubscribe<SelectableListViewModel>(this, "ReadQuestionsWithASingleQuestionWriter");
+                Heading1 = AppResources.QuestionWriterReadingPageHeaderText+" "+questionWriter?.RegistrationInfo.display_name;
+                
+                RefreshCommand.ExecuteAsync();
+            });
+            
             // Get the question list for display
-            RefreshCommand.ExecuteAsync();
+            if (!ReadByQuestionWriter)
+            {
+                RefreshCommand.ExecuteAsync();
+            }
         }
 
         // commands
@@ -333,10 +359,30 @@ namespace RightToAskClient.ViewModels
 
         // Gets the list of question IDs, using 'similarity' material
         // depending on whether this page was reached
-        // by searching, drafting a question, 'what's trending' etc.
+        // by searching, drafting a question, 'what's trending' or by looking for all the questions written by a
+        // given user.
         private async Task<Result<List<string>>> GetAppropriateQuestionList()
         {
             FilterChoices filters = App.ReadingContext.Filters;
+            // If we're looking for all the questions written by a given user, just request them.
+            if (ReadByQuestionWriter && !String.IsNullOrWhiteSpace(WriterOnlyUid))
+            {
+                var questionIDs = await RTAClient.GetQuestionsByWriterId(WriterOnlyUid);
+                if (!String.IsNullOrEmpty(questionIDs.Err))
+                {
+                    return new Result<List<string>>()
+                    {
+                        Err = questionIDs.Err
+                    };
+                }
+
+                return new Result<List<string>>()
+                {
+                    Ok = questionIDs.Ok
+                };
+            } else 
+            // else use the filters to search for similar questions.
+            {
             var serverSearchQuestion = new QuestionSendToServer()
             {
                 question_text = DraftQuestion + " " + Keyword
@@ -375,7 +421,7 @@ namespace RightToAskClient.ViewModels
                     return new Result<List<string>>() { Err = AppResources.EmptyMatchingQuestionCollectionViewString };
                 }
             }
-            
+            }
         }
     }
 }

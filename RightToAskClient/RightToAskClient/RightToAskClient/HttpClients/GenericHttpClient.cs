@@ -7,6 +7,7 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using RightToAskClient.Annotations;
 using RightToAskClient.Models;
 
 /* This makes a small wrapper around the HttpClient class.
@@ -91,46 +92,23 @@ namespace RightToAskClient.HttpClients
             }
         }
         
-        // TODO: This shouldn't be necessary any more - just unify with
-        // DoGetJsonRequest
+        /* Unwinds the double layer of Result<> when the server itself responds with a Result<T> data structure.
+         */
         public async Task<Result<T>> DoGetResultRequest<T>(string uriString)
         {
-            Uri uri = new Uri(uriString);
-            try
+            var result = await DoGetJSONRequest<Result<T>>(uriString);
+            if (!String.IsNullOrEmpty(result.Err) || !String.IsNullOrEmpty(result.Ok.Err))
             {
-                HttpResponseMessage response = await _client.GetAsync(uri);
-
-                if (response is null || !response.IsSuccessStatusCode)
+                return new Result<T>
                 {
-                    return new Result<T>
-                    {
-                        Err = "Error connecting to server." + response?.StatusCode + response?.ReasonPhrase
-                    };
-                }
-
-                string content = await response.Content.ReadAsStringAsync();
-                var deserialisedResponse = JsonSerializer.Deserialize<Result<T>>(content, _serializerOptions);
-
-                if (deserialisedResponse is null)
-                {
-                    return new Result<T>
-                    {
-                        Err = "Error deserialising server response."
-                    };
-                }
-
-                // TODO - there may need to be specific error handling for each server. For example, 
-                // Geoscape returns a special value "Enumeration yielded no results" in Results.Empty 
-                // when the address didn't match anything.
-
-                return deserialisedResponse;
+                    Err = result?.Err + result?.Ok?.Err
+                };
             }
-            catch (Exception ex)
+
+            return new Result<T>()
             {
-                Debug.WriteLine(@"\tERROR {0}", ex.Message);
-                return new Result<T>()
-                    { Err = "Error connecting to server." + ex.Message };
-            }
+                Ok = result.Ok.Ok
+            };
         }
 
         // Tin is the type of the thing we post, which is also the input type of this function.

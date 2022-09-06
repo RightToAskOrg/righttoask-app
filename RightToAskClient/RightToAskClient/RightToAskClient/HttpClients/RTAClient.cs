@@ -28,9 +28,11 @@ namespace RightToAskClient.HttpClients
         private static string MPListUrl = BaseUrl + "/MPs.json";
         private static string CommitteeListUrl = BaseUrl + "/committees.json";
         private static string HearingsListUrl = BaseUrl + "/hearings.json";
-        private static string UserListUrl = BaseUrl + "/get_user_list";
+        private static string UserListUrl = BaseUrl + "/get_user_list" ;
+        private static string SearchUserUrl = BaseUrl + "/search_user"+ "?badges=true&search=";
         private static string QuestionListUrl = BaseUrl + "/get_question_list";
         private static string QuestionUrl = BaseUrl + "/get_question" + "?question_id=";
+        private static string GetQuestionByWriterUrl = BaseUrl + "/get_questions_created_by_user" + "?uid=";
         private static string UserUrl = BaseUrl + "/get_user" + "?uid=";
         private static string EmailValidationUrl = BaseUrl + "/request_email_validation";
         private static string EmailValidationPINUrl = BaseUrl + "/email_proof";
@@ -94,12 +96,16 @@ namespace RightToAskClient.HttpClients
             return await Client.DoGetResultRequest<List<CommitteeInfo>>(HearingsListUrl);
         }
         
-        /* Currently unused, but will be used when we want to get lists of other users
-         * for DMs or following
-         */
+        /* Testing only. 
         public static async Task<Result<List<string>>> GetUserList()
         {
-            return await Client.DoGetResultRequest<List<string>>(UserListUrl);
+            return await Client.DoGetJSONRequest<List<string>>(UserListUrl);
+        }
+        */
+
+        public static async Task<Result<List<ServerUser>>> SearchUser(string userString)
+        {
+            return await Client.DoGetResultRequest<List<ServerUser>>(SearchUserUrl+Uri.EscapeDataString(userString));
         }
 
         public static async Task<Result<string>> RegisterNewUser(Registration newReg)
@@ -128,16 +134,22 @@ namespace RightToAskClient.HttpClients
 
         public static async Task<Result<QuestionReceiveFromServer>> GetQuestionById(string questionId)
         {
-            string GetQuestionUrl = QuestionUrl + questionId;
+            string GetQuestionUrl = QuestionUrl + Uri.EscapeDataString(questionId);
             return await Client.DoGetResultRequest<QuestionReceiveFromServer>(GetQuestionUrl);
         }
 
         public static async Task<Result<ServerUser>> GetUserById(string userId)
         {
-            string GetUserUrl = UserUrl + userId;
-            return await Client.DoGetResultRequest<ServerUser>(GetUserUrl);
+            string getUserUrl = UserUrl + Uri.EscapeDataString(userId);
+            return await Client.DoGetResultRequest<ServerUser>(getUserUrl);
         }
+        
 
+        public static async Task<Result<List<string>>> GetQuestionsByWriterId(string userId)
+        {
+            string getQuestionByWriterUrl = GetQuestionByWriterUrl + Uri.EscapeDataString(userId);
+            return await Client.DoGetResultRequest<List<string>>(getQuestionByWriterUrl);
+        }
         public static async Task<Result<string>> RegisterNewQuestion(QuestionSendToServer newQuestion)
         {
             return await SignAndSendDataToServer<QuestionSendToServer>(newQuestion, AppResources.QuestionErrorTypeDescription, QnUrl,"Error publishing New Question");

@@ -76,7 +76,7 @@ namespace RightToAskClient.Models
             display_name = input.display_name ?? "";
             public_key = input.public_key ?? "";
             var stateResult = ParliamentData.StateStringToEnum(input.state ?? "");
-            if (!String.IsNullOrEmpty(stateResult.Err))
+            if (String.IsNullOrEmpty(stateResult.Err))
             {
                 StateKnown = true;
                 SelectedStateAsEnum = stateResult.Ok;
@@ -89,10 +89,8 @@ namespace RightToAskClient.Models
             
             uid = input.uid ?? "";
             _electorates = input.electorates ?? new List<ElectorateWithChamber>();
-            
             _badges = input.badges ?? new List<Badge>();
         }
-
 
         /* Accept a new electorate and chamber, remove any earlier ones that are inconsistent.
 		 * Note: this assumes that nobody is ever represented in two different regions in the one

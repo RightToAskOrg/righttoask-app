@@ -16,8 +16,8 @@ namespace RightToAskClient.Views
     {
         public OtherUserProfilePage(Registration user)
         {
-            BindingContext = new RegistrationViewModel(); 
             InitializeComponent();
+            BindingContext = new RegistrationViewModel(user); 
         }
     }
 }

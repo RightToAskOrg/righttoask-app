@@ -104,8 +104,8 @@ namespace RightToAskClient.ViewModels
 			}
 		}
 
-		public IAsyncCommand DoneButtonCommand { get; }
-		public Command SearchToolbarCommand { get; }
+		public IAsyncCommand DoneButtonCommand { get; private set; }
+		public Command SearchToolbarCommand { get; private set; }
 
 		// TODO These are just copy-pasted from the old code-behind. Might need a bit more thought.
 		public bool CameFromReg2Page = false;
@@ -113,76 +113,66 @@ namespace RightToAskClient.ViewModels
 		public bool GoToAskingPageNext = false;
 		public bool RegisterMPAccount = false;
 
+		// For verifying that the selections meet whatever constraints they need to. At the moment,
+		// the only functional one is enforcing a single selection.
+		private Func<Task<bool>> _selectionRulesCheckingCommand;
 
-
-        public SelectableListViewModel(SelectableList<Authority> authorityLists , string message) 
+		private bool goToReadingPageWithSingleQuestionWriter = false; 
+		public SelectableListViewModel(SelectableList<Authority> authorityLists, string message, bool singleSelection = false) : this(message, singleSelection)
 		{
 			SelectableEntities = WrapInTagsAndSortPreselections(new ObservableCollection<Entity>(authorityLists.AllEntities),  
 								authorityLists.SelectedEntities);
 
 			_titleText = "Authorities";
-			IntroText = message;
 			PopupLabelText = AppResources.SelectableListAuthoritiesPopupText;
 			DoneButtonCommand = new AsyncCommand(async () =>
             {
                 DoneButton_OnClicked(
-	                () => UpdateSelectedList<Authority>(authorityLists)       
+	                () => UpdateSelectedList<Authority>(authorityLists), singleSelection       
 	                );
 				MessagingCenter.Send(this, "UpdateFilters");
             });
-			SearchToolbarCommand = new Command(() =>
-			{
-				ShowSearchFrame = !ShowSearchFrame; // just toggle it
-			});
-			SubscribeToTheRightMessages();
 		}
 
-		public SelectableListViewModel(SelectableList<Committee> committeeLists, string message)
+        public SelectableListViewModel(SelectableList<Person> participantLists , string message, bool singleSelection=false) : this(message, singleSelection)
+		{
+			SelectableEntities = WrapInTagsAndSortPreselections(new ObservableCollection<Entity>(participantLists.AllEntities),  
+								participantLists.SelectedEntities);
+
+			_titleText = AppResources.ParticipantText;
+			PopupLabelText = AppResources.ParticipantPopupText;
+			DoneButtonCommand = new AsyncCommand(async () =>
+            {
+                DoneButton_OnClicked(
+	                () => UpdateSelectedList<Person>(participantLists), singleSelection
+	                );
+				MessagingCenter.Send(this, "UpdateFilters");
+            });
+		
+		}
+		public SelectableListViewModel(SelectableList<Committee> committeeLists, string message, bool singleSelection=false) : this(message, singleSelection)
 		{
 			SelectableEntities = WrapInTagsAndSortPreselections(new ObservableCollection<Entity>(committeeLists.AllEntities),  
 				committeeLists.SelectedEntities);
 
 			_titleText = AppResources.CommitteeText; 
-			IntroText = message;
 			PopupLabelText = AppResources.SelectableListCommitteePopupText;
 			DoneButtonCommand = new AsyncCommand(async () =>
             {
                 DoneButton_OnClicked(
-	                () => UpdateSelectedList<Committee>(committeeLists)       
+	                () => UpdateSelectedList<Committee>(committeeLists), singleSelection       
 	                );
 				MessagingCenter.Send(this, "UpdateFilters");
             });
-			SearchToolbarCommand = new Command(() =>
-			{
-				ShowSearchFrame = !ShowSearchFrame; // just toggle it
-			});
-			SubscribeToTheRightMessages();
-		}
-		public SelectableListViewModel(SelectableList<MP> mpLists, string message)
-		{
-			SelectableEntities = WrapInTagsAndSortPreselections(new ObservableCollection<Entity>(mpLists.AllEntities),  mpLists.SelectedEntities);
-			
-			_titleText = "MPs";
-			IntroText = message;
-			PopupLabelText = AppResources.SelectableListMPsPopupText;
-			DoneButtonCommand = new AsyncCommand(async () =>
-            {
-                DoneButton_OnClicked(
-	                () => UpdateSelectedList<MP>(mpLists)       
-	                );
-				MessagingCenter.Send(this, "UpdateFilters");
-            });
-			SearchToolbarCommand = new Command(() =>
-			{
-				ShowSearchFrame = !ShowSearchFrame; // just toggle it
-			});
-			SubscribeToTheRightMessages();
 		}
 		
 		// MPs are grouped only for display, but stored in simple (flat) lists.
-		// If the grouping boolean is seEnumerable<Entity> IenumerEmnumerableEntityOOnPropertyCahhanged();"EditableList"t, group the MPs by chamber before display. 
-        public SelectableListViewModel(SelectableList<MP> mpLists, string message, bool grouping)
+		// If the grouping boolean is set, group the MPs by chamber before display. 
+		// TODO: At the moment, grouping is not working, mostly as a result of not having carefully
+		// thought through how it should interact with searching and preselection.
+		public SelectableListViewModel(SelectableList<MP> mpLists, string message, bool grouping=false, bool singleSelection=false, bool registerMPAccount=false) : this(message, singleSelection)
         {
+	        RegisterMPAccount = registerMPAccount;
 			if (grouping)
 	        {
 		        var groupedMPs = mpLists.AllEntities.GroupBy(mp => mp.electorate.chamber);
@@ -207,24 +197,28 @@ namespace RightToAskClient.ViewModels
 			}
 	        
 			_titleText = "Grouped MPs";
-			IntroText = message;
 			PopupLabelText = AppResources.SelectableListMPsPopupText;
 			DoneButtonCommand = new AsyncCommand(async () =>
             {
                 DoneButton_OnClicked(
-	                () => UpdateSelectedList<MP>(mpLists)       
+	                () => UpdateSelectedList<MP>(mpLists), singleSelection
 	                );
 				MessagingCenter.Send(this, "UpdateFilters");
             });
+        }
+
+        /*
+         * Setting the things common to all the specific types for reuse in all constructors.
+         */
+        private SelectableListViewModel(string message, bool singleSelection=false)
+        {
+			IntroText = message;
+
 			SearchToolbarCommand = new Command(() =>
 			{
 				ShowSearchFrame = !ShowSearchFrame; // just toggle it
 			});
-			SubscribeToTheRightMessages();
-        }
-
-		private void SubscribeToTheRightMessages()
-		{
+			
 			MessagingCenter.Subscribe<FindMPsViewModel, bool>(this, "PreviousPage", (sender, arg) =>
 			{
 				if (arg)
@@ -238,6 +232,11 @@ namespace RightToAskClient.ViewModels
 				GoToReadingPageFinally = true;
 				MessagingCenter.Unsubscribe<FindMPsViewModel>(this, "GoToReadingPage");
 			});
+			MessagingCenter.Subscribe<FilterViewModel>(this, "GoToReadingPageWithSingleQuestionWriter", (sender) =>
+			{
+				goToReadingPageWithSingleQuestionWriter = true;
+				MessagingCenter.Unsubscribe<FilterViewModel>(this, "GoToReadingPageWithSingleQuestionWriter");
+			});
 			MessagingCenter.Subscribe<QuestionViewModel>(this, "GoToReadingPage", (sender) =>
 			{
 				GoToReadingPageFinally = true;
@@ -248,14 +247,6 @@ namespace RightToAskClient.ViewModels
 				GoToAskingPageNext = true;
 				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionBGoToAskingPageNext");
 			});
-			MessagingCenter.Subscribe<RegistrationViewModel, SelectableList<MP>>(this, "RegMPAccount", (sender, arg) => 
-			{
-				RegisterMPAccount = true;
-				var list = arg;
-				// Do something with the passed in list here
-				// SelectableEntities = (SelectableList<MP>)arg;
-				MessagingCenter.Unsubscribe<RegistrationViewModel>(this, "RegMPAccount");
-			});
 			MessagingCenter.Subscribe<FilterViewModel>(this, "FromFiltersPage", (sender) =>
 			{
 				DoneButtonText = AppResources.DoneButtonText;
@@ -263,7 +254,8 @@ namespace RightToAskClient.ViewModels
 			});
 		}
 
-		public class TaggedGroupedEntities : ObservableCollection<Tag<Entity>>
+
+        public class TaggedGroupedEntities : ObservableCollection<Tag<Entity>>
 		{
 			public TaggedGroupedEntities(ParliamentData.Chamber chamber, ObservableCollection<Tag<Entity>> entityGroup) : base(entityGroup)
 			{
@@ -286,16 +278,38 @@ namespace RightToAskClient.ViewModels
 		// TODO Consider whether the semantics of 'back' should be different from
 		// 'done', i.e. whether 'back' should undo.
 		// Also consider whether this should raise a warning if neither of the types match.
-		private async void DoneButton_OnClicked(Action updateAction)
+		private async void DoneButton_OnClicked(Action updateAction, bool singleSelection)
 		{
+
+			// Check whether the existing selections match requirements. This will pop up a warning if not.
+			bool validSelection = await verifyValidSelection(singleSelection);
+			if (! validSelection)
+			{
+				return;
+			}
+			
 			// reset keyword search filter
 			Keyword = "";
+			
+			// Updates the relevant selectable list, i.e. update the SelectedEntities
 			updateAction();
+			
 			// Option B. We've finished choosing who should answer it, so now find out who should ask it.
 			if (GoToAskingPageNext)
             {
 				await Shell.Current.GoToAsync(nameof(QuestionAskerPage));
             }
+			// Read questions by a single author. Order matters here - putting this first means that if there are both
+			// filters and an author selected, we ignore the filters and look only for questions written by the selected
+			// participant.
+			else if (goToReadingPageWithSingleQuestionWriter)
+			{
+				await Shell.Current.GoToAsync(nameof(ReadingPage)).ContinueWith((_) =>
+		            {
+			            //	Tell the reading page to ignore (other) filters and just look for questions with a single writer. 
+						MessagingCenter.Send(this, "ReadQuestionsWithASingleQuestionWriter"); 
+		            });
+			}
 			// Either Option A, or Option B and we've finished finding out who should ask it.
 			else if (GoToReadingPageFinally)
 			{
@@ -303,17 +317,18 @@ namespace RightToAskClient.ViewModels
 			}
 			else if (RegisterMPAccount)
             {
-	            // Check that only one MP has been selected.
-	            (bool correct, MP selectedMP) = await verifySingleSelection<MP>(); 
+	            // We have already checked that only one MP has been selected.
+	            /*(bool correct, MP selectedMP) = await verifySingleSelection<MP>(); 
 	            if (correct)
 	            {
+	            */
+	            MP selectedMP = Extensions.findSelectedOne<MP>(SelectableEntities);
 		            await Shell.Current.GoToAsync(nameof(MPRegistrationVerificationPage)).ContinueWith((_) =>
 		            {
 			            // send a message to the MPRegistrationViewModel to pop back to the account page at the end
-						// There should be only one MP at this point, so the : should never happen.
 			            MessagingCenter.Send(this, "ReturnToAccountPage", selectedMP);
 		            });
-	            }
+	            // }
             }
 			// For Advanced Search outside the main flow. Pop back to wherever we came from (i.e. the advance search page).
 			// TODO - not currently working as intended. See Issue #105.
@@ -325,7 +340,7 @@ namespace RightToAskClient.ViewModels
 		}
 
 		// Used for settings where the user has to select exactly one Entity from the list
-		// e.g. when they're registering for an MP-linked account.
+		// e.g. when they're registering for an MP-linked account or selecting a user to follow or read questions from.
 		// The type-T return parameter is the single selected item, if there is one.
 		// The boolean indicates whether there's a single selection.
 		private async Task<(bool,T)> verifySingleSelection<T>() where T : class, new()
@@ -339,7 +354,26 @@ namespace RightToAskClient.ViewModels
 			}
 			
 			// selected.Count == 1.
-			return (true, selected.FirstOrDefault() as T);
+			return (true, selected.FirstOrDefault() as T ?? new T());
+		}
+
+		/* The only validity condition currently implemented is single Selection.
+		 * If the singleSelection input is false, any selection is accepted.
+		 */
+		private async Task<bool> verifyValidSelection(bool singleSelection)
+		{
+			if (singleSelection)
+			{
+				IEnumerable<Entity> selected = SelectableEntities.Where(w => w.Selected).Select(t => t.TagEntity);
+				if (selected.IsNullOrEmpty() || selected.Count() > 1)
+				{
+					await App.Current.MainPage.DisplayAlert("You must select exactly one option.",
+						"You have selected " + selected?.Count(), "OK");
+					return false;
+				}
+			}
+			// selected.Count == 1 or singleSelection not required.
+			return true;
 		}
 
 		private void UpdateSelectedList<T>(SelectableList<T> entities) where T:Entity

@@ -44,12 +44,12 @@
                             <StackLayout Spacing="0" Margin="0" Padding="0">
                                 <Label Text="Right to Ask Participant" Style="{StaticResource ClickableHeader}">
                                     <Label.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding RightToAskUserCommand}"/>
+                                        <TapGestureRecognizer Command="{Binding WrittenByRightToAskUserCommand}"/>
                                     </Label.GestureRecognizers>
                                 </Label>
                                 <Label Text="{Binding OtherRightToAskUserText}">
                                     <Label.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding RightToAskUserCommand}"/>
+                                        <TapGestureRecognizer Command="{Binding WrittenByRightToAskUserCommand}"/>
                                     </Label.GestureRecognizers>
                                 </Label>
                             </StackLayout>

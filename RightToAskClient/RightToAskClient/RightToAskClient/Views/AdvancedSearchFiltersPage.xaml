@@ -86,12 +86,12 @@
                                 <StackLayout Spacing="0" Margin="0" Padding="0">
                                     <Label Text="Right to Ask Participant" Style="{StaticResource ClickableHeader}" >
                                         <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding RightToAskUserCommand}"/>
+                                            <TapGestureRecognizer Command="{Binding WrittenByRightToAskUserCommand}"/>
                                         </Label.GestureRecognizers>
                                     </Label>
                                     <Label Text="{Binding OtherRightToAskUserText}" Style="{StaticResource NormalText}">
                                         <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding RightToAskUserCommand}"/>
+                                            <TapGestureRecognizer Command="{Binding WrittenByRightToAskUserCommand}"/>
                                         </Label.GestureRecognizers>
                                     </Label>
                                 </StackLayout>
@@ -122,21 +122,27 @@
                             </StackLayout>
                         </xct:Expander.Header>
                         <xct:Expander.Content>
-                            <StackLayout Spacing="0" Margin="0" Padding="0">
+                            <StackLayout Spacing="0" Margin="0" Padding="0" Orientation="Horizontal">
+                                <SearchBar Placeholder="{xct:Translate ParticipantSearchBarPlaceholderText}" Text="{Binding QuestionWriterSearchText}" 
+                                   Style="{StaticResource GreenSearchBar}" SearchCommand="{Binding WrittenByRightToAskUserCommand}"/>
+                                <Button Text="{xct:Translate GoButtonText}" Style="{StaticResource NextButton}" Command="{Binding WrittenByRightToAskUserCommand}"/>
+                                <!-- 
                                 <Label Text="Right to Ask Participant" Style="{StaticResource ClickableHeader}" >
                                     <Label.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding RightToAskUserCommand}"/>
+                                        <TapGestureRecognizer Command="{Binding WrittenByRightToAskUserCommand}"/>
                                     </Label.GestureRecognizers>
                                 </Label>
                                 <Label Text="{Binding OtherRightToAskUserText}" Style="{StaticResource NormalText}">
                                     <Label.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding RightToAskUserCommand}"/>
+                                        <TapGestureRecognizer Command="{Binding WrittenByRightToAskUserCommand}"/>
                                     </Label.GestureRecognizers>
                                 </Label>
+                                -->
                             </StackLayout>
                         </xct:Expander.Content>
                     </xct:Expander>
                 </Frame>
+                <Label Text="{Binding ReportLabelText}"/>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Org.BouncyCastle.Asn1.Tsp;
 using RightToAskClient.Models;
 using RightToAskClient.ViewModels;
 using Xamarin.Forms;
@@ -27,43 +28,35 @@ namespace RightToAskClient.Views
 	{
 		private readonly object _entityLists;
 
-		// TODO These are probably no longer necessary here.
-		// Possibly they should be bindable properties of the view model;
-		// Possibly they should just be set by default in the view model, as they are now.
-		// public bool CameFromReg2Page = false;
-		// public bool GoToReadingPageNext = false;
-		// public bool OptionB = false;
-
-        public SelectableListPage(SelectableList<Authority> authorityLists , string message) 
+        public SelectableListPage(SelectableList<Authority> authorityLists , string message, bool singleSelection=false) 
 		{
 			InitializeComponent();
-			var vm = new SelectableListViewModel(authorityLists, message);
+			var vm = new SelectableListViewModel(authorityLists, message, singleSelection);
 			BindingContext = vm;
-			//SelectableListView.ItemsSource = vm.SelectableEntities;
-			//SelectableListView.IsGroupingEnabled = false;
-			// Note this overrides the base setting of AuthorityListView.ItemsSource, which 
-			// otherwise includes both selected and non-selected items.
-			//AuthorityListView.ItemsSource = authorityLists.AllEntities;
 		}
 
-        public SelectableListPage(SelectableList<Committee> committeeLists, string message, bool grouping)
+        public SelectableListPage(SelectableList<Committee> committeeLists, string message, bool singleSelection=false)
         {
 	        InitializeComponent();
-	        var vm = new SelectableListViewModel(committeeLists, message);
+	        var vm = new SelectableListViewModel(committeeLists, message, singleSelection);
 	        BindingContext = vm;
         }
 
-        public SelectableListPage(SelectableList<MP> MPLists, string message, bool grouping)
+        public SelectableListPage(SelectableList<MP> MPLists, string message, bool grouping=false, bool singleSelection=false, bool registerMP=false)
         {
 			InitializeComponent();
-			var vm = new SelectableListViewModel(MPLists, message, grouping);
+			var vm = new SelectableListViewModel(MPLists, message, grouping, singleSelection, registerMP);
 			BindingContext = vm;	
-			//SelectableListView.ItemsSource = grouping ? (IEnumerable)vm.SelectableGroupedEntities : vm.SelectableEntities;
-			//SelectableListView.IsGroupingEnabled = grouping;
-			//SelectableListView.GroupDisplayBinding = vm.GroupDisplay;
         }
-		
-		/* TODO It wold probably be more elegantly MVVM if this was in the ViewModel rather than the code-behind, but I
+
+        public SelectableListPage(SelectableList<Person> matchingParticipants, string message, bool singleSelection)
+        {
+	        InitializeComponent();
+	        var vm = new SelectableListViewModel(matchingParticipants, message, singleSelection);
+	        BindingContext = vm;
+        }
+
+        /* TODO It wold probably be more elegantly MVVM if this was in the ViewModel rather than the code-behind, but I
 		 * can't figure out how to bind an ItemTappedEvent.
 		 */
 		protected void OnEntity_Selected(object sender, ItemTappedEventArgs e)

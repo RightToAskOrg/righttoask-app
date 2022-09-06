@@ -15,8 +15,23 @@ namespace RightToAskClient.Models
 		// private ObservableCollection<MP> _selectedAskingMPsMine = new ObservableCollection<MP>();
 		// private ObservableCollection<Authority> _selectedAuthorities = new ObservableCollection<Authority>();
 		// private ObservableCollection<string> _selectedAskingCommittee = new ObservableCollection<string>();
-		private ObservableCollection<Person?> _selectedAskingUsers = new ObservableCollection<Person?>();
+		//
+		//private ObservableCollection<Person?> _selectedAskingUsers = new ObservableCollection<Person?>();
+		private SelectableList<Person> _questionWriterLists
+			= new SelectableList<Person>(new List<Person>(), new List<Person>());
 
+		// The writer of questions, for pages where we want to see all the questions written by a certain person.
+		// Needs a public setter because the list of options is taken from what the user searches for.
+		public SelectableList<Person> QuestionWriterLists
+		{
+			get => _questionWriterLists;
+			set
+			{
+				_questionWriterLists = value;
+				OnPropertyChanged();
+			}
+		}
+		
 		// Express each FilterChoice as a pair of lists: the whole list from which things are seleced,
 		// and the list of selections.
 		private SelectableList<Committee> _committeeLists
@@ -117,28 +132,13 @@ namespace RightToAskClient.Models
 			}
 		}
 
-		/*
-        public ObservableCollection<string> SelectedAskingCommittee
-        {
-            get => _selectedAskingCommittee;
-            set
-            {
-                _selectedAskingCommittee = value;
-                OnPropertyChanged();
-            }
-        }
-        */
 
-		public ObservableCollection<Person?> SelectedAskingUsers
-		{
-			get => _selectedAskingUsers;
-			set
-			{
-				_selectedAskingUsers = value;
-				OnPropertyChanged();
-			}
-		}
-
+		/* We have one instance of FilterChoices in the (static) reading context,
+		 * for which init must be redone explicitly after details such as MPs, Committees
+		 * etc are read. The other instances are related to specific questions as they are
+		 * downloaded - in these cases, the Init in the constructor is all that's needed
+		 * because the other information is already set up.
+		 */
 		public FilterChoices()
 		{
 			InitSelectableLists();
@@ -158,6 +158,7 @@ namespace RightToAskClient.Models
         // is initialized after the MP read-in, the constructor should suffice.
         public void InitSelectableLists()
         {
+	        // Note: No init for question writers, because it needs to be initialised when the user searches for names.
 	        _answeringMPsListNotMine = new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
 	        _askingMPsListNotMine =  new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
 	        _authorityLists = new SelectableList<Authority>(ParliamentData.AllAuthorities, new List<Authority>());
@@ -173,6 +174,7 @@ namespace RightToAskClient.Models
 	        _askingMPsListMine.SelectedEntities = new List<MP>();
 	        _authorityLists.SelectedEntities = new List<Authority>();
 	        _committeeLists.SelectedEntities = new List<Committee>();
+	        _questionWriterLists.SelectedEntities = new List<Person>();
 	        SearchKeyword = "";
         }
 
@@ -230,23 +232,7 @@ namespace RightToAskClient.Models
                     }
                 }
             }
-            if (SelectedAskingUsers != null)
-            {
-                if (SelectedAskingUsers.Any())
-                {
-                    for (int i = 0; i < SelectedAskingUsers.Count-1; i++)
-                    {
-	                    var user = SelectedAskingUsers[i];
-                        if (user != null)
-                        {
-                            if (user.Validate())
-                            {
-                                hasInvalidData = true;
-                            }
-                        }
-                    }
-                }
-            }
+            
             isValid = !hasInvalidData;
             return isValid;
         }

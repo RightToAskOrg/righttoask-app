@@ -159,6 +159,9 @@
   <data name="CancelButtonText" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="ChooseParticipantsText" xml:space="preserve">
+    <value>Search Right To Ask Participants</value>
+  </data>
   <data name="ChooseParliamentaryEmailDomain" xml:space="preserve">
     <value>Parliamentary email domain</value>
   </data>
@@ -249,6 +252,9 @@
   <data name="FollowButtonText" xml:space="preserve">
     <value>Follow {0}</value>
   </data>
+  <data name="For" xml:space="preserve">
+    <value>for</value>
+  </data>
   <data name="HomeButtonText" xml:space="preserve">
     <value>Home</value>
   </data>
@@ -300,6 +306,9 @@
   <data name="MPsHeaderText2" xml:space="preserve">
     <value>I live in </value>
   </data>
+  <data name="MPSelectionText" xml:space="preserve">
+    <value>Select the MP you represent</value>
+  </data>
   <data name="MyMPButtonText" xml:space="preserve">
     <value>My MP</value>
   </data>
@@ -320,6 +329,9 @@
   </data>
   <data name="NextButtonText" xml:space="preserve">
     <value>Next</value>
+  </data>
+  <data name="NoParticipantsFoundText" xml:space="preserve">
+    <value>No matching identities or names</value>
   </data>
   <data name="NotSureButtonText" xml:space="preserve">
     <value>Not Sure</value>
@@ -345,6 +357,12 @@
   <data name="OtherUserProfileTitle" xml:space="preserve">
     <value>{0}'s Profile</value>
   </data>
+  <data name="ParticipantPopupText" xml:space="preserve">
+    <value>Search for other participants by ID or name</value>
+  </data>
+  <data name="ParticipantText" xml:space="preserve">
+    <value>Right To Ask participants</value>
+  </data>
   <data name="PostcodeHeaderText" xml:space="preserve">
     <value>Postcode</value>
   </data>
@@ -362,6 +380,9 @@
   </data>
   <data name="QuestionHeaderText" xml:space="preserve">
     <value>Question: </value>
+  </data>
+  <data name="QuestionWriterReadingPageHeaderText" xml:space="preserve">
+    <value>Questions by</value>
   </data>
   <data name="QuestionWriterHeaderText" xml:space="preserve">
     <value>Question Writer:</value>
@@ -389,6 +410,9 @@
   </data>
   <data name="SaveAnswerButtonText" xml:space="preserve">
     <value>Save Answer</value>
+  </data>
+  <data name="ParticipantSearchBarPlaceholderText" xml:space="preserve">
+    <value>Name or ID</value>
   </data>
   <data name="SearchBarPlaceholderText" xml:space="preserve">
     <value>Search for keyword</value>

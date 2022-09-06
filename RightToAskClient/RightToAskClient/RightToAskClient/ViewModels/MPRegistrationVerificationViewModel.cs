@@ -77,7 +77,7 @@ namespace RightToAskClient.ViewModels
             {
                 MPRepresenting = arg;
                 ReturnToAccountPage = true;
-                MessagingCenter.Unsubscribe<RegistrationViewModel>(this, "ReturnToAccountPage");
+                MessagingCenter.Unsubscribe<SelectableListViewModel>(this, "ReturnToAccountPage");
             });
 
             SendMPVerificationEmailCommand = new Command(() => { SendMPRegistrationToServer(); });
@@ -122,6 +122,7 @@ namespace RightToAskClient.ViewModels
             RequestEmailValidationMessage message = new RequestEmailValidationMessage()
             {
                 why = new EmailValidationReason() { AsMP = !IsStaffer },
+                // name = MPRepresenting.first_name + " " + MPRepresenting.surname +" @"+domain
                 name = Badge.writeBadgeName(MPRepresenting, domain)
             };
             Result<string> httpResponse = await RTAClient.RequestEmailValidation(message, EmailUsername + "@" + domain);
@@ -146,7 +147,8 @@ namespace RightToAskClient.ViewModels
             Preferences.Set(Constants.IsVerifiedMPAccount, true);
             Preferences.Set(Constants.IsVerifiedMPStafferAccount, _isStaffer); 
             Preferences.Set(Constants.MPRegisteredAs,JsonSerializer.Serialize(MPRepresenting));
-            Preferences.Set(Constants.RegistrationInfo, JsonSerializer.Serialize(App.ReadingContext.ThisParticipant.RegistrationInfo));
+            var registrationObjectToSave = new ServerUser(App.ReadingContext.ThisParticipant.RegistrationInfo);
+            Preferences.Set(Constants.RegistrationInfo, JsonSerializer.Serialize(registrationObjectToSave));
         }
 
         private void StoreMPRegistration()
