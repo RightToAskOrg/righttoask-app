@@ -147,7 +147,8 @@ namespace RightToAskClient.ViewModels
             Preferences.Set(Constants.IsVerifiedMPAccount, true);
             Preferences.Set(Constants.IsVerifiedMPStafferAccount, _isStaffer); 
             Preferences.Set(Constants.MPRegisteredAs,JsonSerializer.Serialize(MPRepresenting));
-            Preferences.Set(Constants.RegistrationInfo, JsonSerializer.Serialize(App.ReadingContext.ThisParticipant.RegistrationInfo));
+            var registrationObjectToSave = new ServerUser(App.ReadingContext.ThisParticipant.RegistrationInfo);
+            Preferences.Set(Constants.RegistrationInfo, JsonSerializer.Serialize(registrationObjectToSave));
         }
 
         private void StoreMPRegistration()

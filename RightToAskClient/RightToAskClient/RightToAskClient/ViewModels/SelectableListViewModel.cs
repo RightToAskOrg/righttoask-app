@@ -167,7 +167,9 @@ namespace RightToAskClient.ViewModels
 		
 		// MPs are grouped only for display, but stored in simple (flat) lists.
 		// If the grouping boolean is set, group the MPs by chamber before display. 
-        public SelectableListViewModel(SelectableList<MP> mpLists, string message, bool grouping=false, bool singleSelection=false, bool registerMPAccount=false) : this(message, singleSelection)
+		// TODO: At the moment, grouping is not working, mostly as a result of not having carefully
+		// thought through how it should interact with searching and preselection.
+		public SelectableListViewModel(SelectableList<MP> mpLists, string message, bool grouping=false, bool singleSelection=false, bool registerMPAccount=false) : this(message, singleSelection)
         {
 	        RegisterMPAccount = registerMPAccount;
 			if (grouping)
