@@ -76,7 +76,7 @@ namespace RightToAskClient.Models
             display_name = input.display_name ?? "";
             public_key = input.public_key ?? "";
             var stateResult = ParliamentData.StateStringToEnum(input.state ?? "");
-            if (!String.IsNullOrEmpty(stateResult.Err))
+            if (String.IsNullOrEmpty(stateResult.Err))
             {
                 StateKnown = true;
                 SelectedStateAsEnum = stateResult.Ok;
