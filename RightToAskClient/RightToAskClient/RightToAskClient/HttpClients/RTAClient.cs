@@ -145,10 +145,10 @@ namespace RightToAskClient.HttpClients
         }
         
 
-        public static async Task<Result<ServerUser>> GetQuestionsByWriterId(string userId)
+        public static async Task<Result<List<string>>> GetQuestionsByWriterId(string userId)
         {
             string getQuestionByWriterUrl = GetQuestionByWriterUrl + Uri.EscapeDataString(userId);
-            return await Client.DoGetResultRequest<ServerUser>(getQuestionByWriterUrl);
+            return await Client.DoGetResultRequest<List<string>>(getQuestionByWriterUrl);
         }
         public static async Task<Result<string>> RegisterNewQuestion(QuestionSendToServer newQuestion)
         {
