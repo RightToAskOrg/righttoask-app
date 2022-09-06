@@ -633,6 +633,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string ParticipantSearchBarPlaceholderText {
+            get {
+                return ResourceManager.GetString("ParticipantSearchBarPlaceholderText", resourceCulture);
+            }
+        }
+        
         internal static string SearchBarPlaceholderText {
             get {
                 return ResourceManager.GetString("SearchBarPlaceholderText", resourceCulture);

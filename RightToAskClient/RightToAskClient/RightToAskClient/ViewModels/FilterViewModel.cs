@@ -59,6 +59,15 @@ namespace RightToAskClient.ViewModels
             
             
         }
+
+        private string _questionWriterSearchText = "";
+
+        public string QuestionWriterSearchText
+        {
+            get => _questionWriterSearchText;
+            set => SetProperty(ref _questionWriterSearchText, value);
+        }
+        
         // for the metadata page
         public bool OthersCanAddAnswerers
         {
@@ -384,9 +393,9 @@ namespace RightToAskClient.ViewModels
 
         private async Task SearchUserWrittenByClicked()
         {
-            string teststring = "Test";
+            string searchString = QuestionWriterSearchText;
 
-            var searchResults = await RTAClient.SearchUser(teststring);
+            var searchResults = await RTAClient.SearchUser(searchString);
             if (!String.IsNullOrEmpty(searchResults.Err))
             {
                 ReportLabelText = searchResults.Err ?? string.Empty;
