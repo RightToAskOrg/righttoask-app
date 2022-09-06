@@ -115,8 +115,9 @@ namespace RightToAskClient.ViewModels
 
 		// For verifying that the selections meet whatever constraints they need to. At the moment,
 		// the only functional one is enforcing a single selection.
-		
 		private Func<Task<bool>> _selectionRulesCheckingCommand;
+
+		private bool goToReadingPageWithSingleQuestionWriter = false; 
 		public SelectableListViewModel(SelectableList<Authority> authorityLists, string message, bool singleSelection = false) : this(message, singleSelection)
 		{
 			SelectableEntities = WrapInTagsAndSortPreselections(new ObservableCollection<Entity>(authorityLists.AllEntities),  
@@ -231,6 +232,11 @@ namespace RightToAskClient.ViewModels
 				GoToReadingPageFinally = true;
 				MessagingCenter.Unsubscribe<FindMPsViewModel>(this, "GoToReadingPage");
 			});
+			MessagingCenter.Subscribe<FilterViewModel>(this, "GoToReadingPageWithSingleQuestionWriter", (sender) =>
+			{
+				goToReadingPageWithSingleQuestionWriter = true;
+				MessagingCenter.Unsubscribe<FilterViewModel>(this, "GoToReadingPageWithSingleQuestionWriter");
+			});
 			MessagingCenter.Subscribe<QuestionViewModel>(this, "GoToReadingPage", (sender) =>
 			{
 				GoToReadingPageFinally = true;
@@ -248,7 +254,8 @@ namespace RightToAskClient.ViewModels
 			});
 		}
 
-		public class TaggedGroupedEntities : ObservableCollection<Tag<Entity>>
+
+        public class TaggedGroupedEntities : ObservableCollection<Tag<Entity>>
 		{
 			public TaggedGroupedEntities(ParliamentData.Chamber chamber, ObservableCollection<Tag<Entity>> entityGroup) : base(entityGroup)
 			{
@@ -292,6 +299,17 @@ namespace RightToAskClient.ViewModels
             {
 				await Shell.Current.GoToAsync(nameof(QuestionAskerPage));
             }
+			// Read questions by a single author. Order matters here - putting this first means that if there are both
+			// filters and an author selected, we ignore the filters and look only for questions written by the selected
+			// participant.
+			else if (goToReadingPageWithSingleQuestionWriter)
+			{
+				await Shell.Current.GoToAsync(nameof(ReadingPage)).ContinueWith((_) =>
+		            {
+			            //	Tell the reading page to ignore (other) filters and just look for questions with a single writer. 
+						MessagingCenter.Send(this, "ReadQuestionsWithASingleQuestionWriter"); 
+		            });
+			}
 			// Either Option A, or Option B and we've finished finding out who should ask it.
 			else if (GoToReadingPageFinally)
 			{
@@ -304,7 +322,7 @@ namespace RightToAskClient.ViewModels
 	            if (correct)
 	            {
 	            */
-	            MP selectedMP = findSelectedOne<MP>();
+	            MP selectedMP = Extensions.findSelectedOne<MP>(SelectableEntities);
 		            await Shell.Current.GoToAsync(nameof(MPRegistrationVerificationPage)).ContinueWith((_) =>
 		            {
 			            // send a message to the MPRegistrationViewModel to pop back to the account page at the end
@@ -337,13 +355,6 @@ namespace RightToAskClient.ViewModels
 			
 			// selected.Count == 1.
 			return (true, selected.FirstOrDefault() as T ?? new T());
-		}
-
-		// This only makes sense after checking there is only a single one. If so, it returns it.
-		private T findSelectedOne<T>() where T : class, new()
-		{
-			IEnumerable<Entity> selected = SelectableEntities.Where(w => w.Selected).Select(t => t.TagEntity);
-			return selected.FirstOrDefault() as T ?? new T();
 		}
 
 		/* The only validity condition currently implemented is single Selection.

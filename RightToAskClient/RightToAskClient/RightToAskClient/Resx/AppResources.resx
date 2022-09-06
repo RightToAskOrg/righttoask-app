@@ -381,6 +381,9 @@
   <data name="QuestionHeaderText" xml:space="preserve">
     <value>Question: </value>
   </data>
+  <data name="QuestionWriterReadingPageHeaderText" xml:space="preserve">
+    <value>Questions by</value>
+  </data>
   <data name="QuestionWriterHeaderText" xml:space="preserve">
     <value>Question Writer:</value>
   </data>

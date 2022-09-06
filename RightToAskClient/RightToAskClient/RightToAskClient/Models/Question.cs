@@ -422,12 +422,14 @@ namespace RightToAskClient.Models
             {
                 foreach (var entity in serverQuestion.mp_who_should_ask_the_question)
                 {
-                    // TODO SelectedAskingUsers isn't used anywhere yet.
+                    // SelectedAskingUsers isn't used anywhere yet.
+                    /*
                     if (entity.AsRTAUser != null)
                     {
-                        Filters.SelectedAskingUsers.Add(entity.AsRTAUser);
-                    }
-                    else if (entity.AsMP != null)
+                        Filters.SelectedQuestionAsker.Add(entity.AsRTAUser);
+                    } else
+                    */
+                    if (entity.AsMP != null)
                     {
                         // If the MP is one of mine, add it to AskingMPsMine
                         var myMPs = ParliamentData.FindAllMPsGivenElectorates(App.ReadingContext.ThisParticipant.RegistrationInfo.Electorates.ToList());

@@ -49,10 +49,10 @@ namespace RightToAskClient.Views
 			BindingContext = vm;	
         }
 
-        public SelectableListPage(SelectableList<Person> matchingParticipants, string message)
+        public SelectableListPage(SelectableList<Person> matchingParticipants, string message, bool singleSelection)
         {
 	        InitializeComponent();
-	        var vm = new SelectableListViewModel(matchingParticipants, message);
+	        var vm = new SelectableListViewModel(matchingParticipants, message, singleSelection);
 	        BindingContext = vm;
         }
 

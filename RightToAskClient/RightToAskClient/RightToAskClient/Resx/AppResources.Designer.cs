@@ -573,6 +573,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string QuestionWriterReadingPageHeaderText {
+            get {
+                return ResourceManager.GetString("QuestionWriterReadingPageHeaderText", resourceCulture);
+            }
+        }
+        
         internal static string QuestionWriterHeaderText {
             get {
                 return ResourceManager.GetString("QuestionWriterHeaderText", resourceCulture);

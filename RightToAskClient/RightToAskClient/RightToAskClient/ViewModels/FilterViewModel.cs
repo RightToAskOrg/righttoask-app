@@ -18,14 +18,14 @@ namespace RightToAskClient.ViewModels
     public class FilterViewModel : BaseViewModel
     {
         /* FIXME It would make a lot more sense to set this up with either an empty constructor
-         * (for the ReadingContext filters) or an explicit/new on (for a fresh question etc).
+         * (for the ReadingContext filters) or an explicit/new one (for a fresh question etc).
          * The instance is only used in the Metadata page. Not clear that this is logically correct.
          */
         private static FilterViewModel? _instance;
         public static FilterViewModel Instance => _instance ??= new FilterViewModel();
 
         // properties
-        private FilterChoices FilterChoices => App.ReadingContext.Filters;
+        private FilterChoices globalFilterChoices => App.ReadingContext.Filters;
 
         public ClickableListViewModel AnsweringMPsOther { get; }
         public ClickableListViewModel AnsweringMPsMine { get; }
@@ -33,8 +33,8 @@ namespace RightToAskClient.ViewModels
         public ClickableListViewModel AskingMPsOther { get; }
         public ClickableListViewModel AskingMPsMine { get; }
         public ClickableListViewModel Committees { get; }
+        
 
-        public List<Person> OtherRightToAskUserList = new List<Person>();
         private string _otherRightToAskUserText = "";
         public string OtherRightToAskUserText
         {
@@ -42,6 +42,23 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _otherRightToAskUserText, value);
         }
 
+        private SelectableList<Person> _selectableParticipants; 
+
+        public string QuestionWriter
+        {
+            get
+            {
+                var writers = _selectableParticipants.SelectedEntities;
+                if (writers != null && writers.Any())
+                {
+                    return writers.FirstOrDefault().ToString();
+                }
+
+                return "";
+            }
+            
+            
+        }
         // for the metadata page
         public bool OthersCanAddAnswerers
         {
@@ -121,7 +138,7 @@ namespace RightToAskClient.ViewModels
             Title = AppResources.AdvancedSearchButtonText; 
             ReinitData(); // to set the display strings
 
-            AnsweringMPsMine = new ClickableListViewModel(FilterChoices.AnsweringMPsListsMine)
+            AnsweringMPsMine = new ClickableListViewModel(globalFilterChoices.AnsweringMPsListsMine)
             {
                 // FIXME This isn't quite right when the MPs are not known - seems to push a 
                 // list to choose from and then go to a reading page, rather than popping on completion
@@ -136,7 +153,7 @@ namespace RightToAskClient.ViewModels
                 }),
                 Heading = AppResources.MyMPButtonText
             };
-            AnsweringMPsOther = new ClickableListViewModel(FilterChoices.AnsweringMPsListsNotMine)
+            AnsweringMPsOther = new ClickableListViewModel(globalFilterChoices.AnsweringMPsListsNotMine)
             {
                 EditListCommand = new Command(() =>
                 {
@@ -147,7 +164,7 @@ namespace RightToAskClient.ViewModels
                 }),
                 Heading = AppResources.OtherMP,
             };
-            AnsweringAuthorities = new ClickableListViewModel(FilterChoices.AuthorityLists)
+            AnsweringAuthorities = new ClickableListViewModel(globalFilterChoices.AuthorityLists)
             {
                 EditListCommand = new Command(() =>
                 {
@@ -158,7 +175,7 @@ namespace RightToAskClient.ViewModels
                 }),
                 Heading = AppResources.AuthorityLabel,
             };
-            AskingMPsMine = new ClickableListViewModel(FilterChoices.AskingMPsListsMine)
+            AskingMPsMine = new ClickableListViewModel(globalFilterChoices.AskingMPsListsMine)
             {
                 EditListCommand = new Command(() =>
                 {
@@ -169,7 +186,7 @@ namespace RightToAskClient.ViewModels
                 }),
                 Heading = AppResources.MyMPButtonText
             };
-            AskingMPsOther = new ClickableListViewModel(FilterChoices.AskingMPsListsNotMine)
+            AskingMPsOther = new ClickableListViewModel(globalFilterChoices.AskingMPsListsNotMine)
             {
                 EditListCommand = new Command(() =>
                 {
@@ -180,7 +197,7 @@ namespace RightToAskClient.ViewModels
                 }),
                 Heading = AppResources.OtherMP
             };
-            Committees = new ClickableListViewModel(FilterChoices.CommitteeLists)
+            Committees = new ClickableListViewModel(globalFilterChoices.CommitteeLists)
             {
                 EditListCommand = new Command(() =>
                 {
@@ -290,7 +307,7 @@ namespace RightToAskClient.ViewModels
             //SelectedAskingMyMPsList = FilterChoices.SelectedAskingMPsMine.ToList();
             //SelectedAnsweringMyMPsList = FilterChoices.SelectedAnsweringMPsMine.ToList();
             // PublicAuthoritiesList = FilterChoices.SelectedAuthorities.ToList();
-            OtherRightToAskUserList = FilterChoices.SelectedAskingUsers.ToList();
+            // OtherRightToAskUserList = FilterChoices.SelectedAskingUsers.ToList();
             // CommitteeList = FilterChoices.SelectedCommittee.ToList();
 
             // create strings from those lists
@@ -314,34 +331,13 @@ namespace RightToAskClient.ViewModels
             OnPropertyChanged("AskingMPsOther");
             OnPropertyChanged("AskingMPsMine");
             OnPropertyChanged("SelectedCommittees");
+            OnPropertyChanged("QuestionWriter");
             
-            OtherRightToAskUserText = CreateTextGivenListEntities(OtherRightToAskUserList);
-            // CommitteeText = CreateTextGivenListCommittees(CommitteeList);
         }
 
         public string CreateTextGivenListEntities(IEnumerable<Entity> entityList)
         {
             return String.Join(", ", entityList.Select(e => e.ShortestName));
-        }
-
-        // TODO merge into CreateTextGivenListEntities.
-        public string CreateTextGivenListCommittees(List<string> committeeList)
-        {
-            string text = "";
-            for (int i = 0; i < committeeList.Count; i++)
-            {
-                text += committeeList[i].ToString();
-                if (i == committeeList.Count - 1)
-                {
-                    // no comma + space
-                    continue;
-                }
-                else
-                {
-                    text += ", ";
-                }
-            }
-            return text;
         }
 
         private async Task EditSelectedAnsweringMPsMineClicked()
@@ -402,15 +398,17 @@ namespace RightToAskClient.ViewModels
             else
             {
                 List<Person> matchingParticipants = searchResults.Ok.Select(u => new Person(u)).ToList();
-                SelectableList<Person> selectableParticipants = new SelectableList<Person>(matchingParticipants);
+                _selectableParticipants = new SelectableList<Person>(matchingParticipants);
+                App.ReadingContext.Filters.QuestionWriterLists = _selectableParticipants;
                 var participantsSearchSelectionPage
-                    = new SelectableListPage(selectableParticipants, AppResources.ChooseParticipantsText);
-                await App.Current.MainPage.Navigation.PushAsync(participantsSearchSelectionPage);
+                    = new SelectableListPage(_selectableParticipants, AppResources.ChooseParticipantsText, true);
+                await App.Current.MainPage.Navigation.PushAsync(participantsSearchSelectionPage).ContinueWith( (_) =>
+                    MessagingCenter.Send(this, "GoToReadingPageWithSingleQuestionWriter")
+                );
             }
         }
         private async void ApplyFiltersAndSearch()
         {
-            // TODO apply filters to the list of questions
             if (CameFromMainPage)
             {
                 await Shell.Current.GoToAsync(nameof(ReadingPage));

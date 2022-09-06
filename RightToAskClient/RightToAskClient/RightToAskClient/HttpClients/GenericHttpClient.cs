@@ -109,44 +109,6 @@ namespace RightToAskClient.HttpClients
             {
                 Ok = result.Ok.Ok
             };
-            /*
-            Uri uri = new Uri(uriString);
-            try
-            {
-                HttpResponseMessage response = await _client.GetAsync(uri);
-
-                if (response is null || !response.IsSuccessStatusCode)
-                {
-                    return new Result<T>
-                    {
-                        Err = "Error connecting to server." + response?.StatusCode + response?.ReasonPhrase
-                    };
-                }
-
-                string content = await response.Content.ReadAsStringAsync();
-                var deserialisedResponse = JsonSerializer.Deserialize<Result<T>>(content, _serializerOptions);
-
-                if (deserialisedResponse is null)
-                {
-                    return new Result<T>
-                    {
-                        Err = "Error deserialising server response."
-                    };
-                }
-
-                // TODO - there may need to be specific error handling for each server. For example, 
-                // Geoscape returns a special value "Enumeration yielded no results" in Results.Empty 
-                // when the address didn't match anything.
-
-                return deserialisedResponse;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(@"\tERROR {0}", ex.Message);
-                return new Result<T>()
-                    { Err = "Error connecting to server." + ex.Message };
-            }
-            */
         }
 
         // Tin is the type of the thing we post, which is also the input type of this function.

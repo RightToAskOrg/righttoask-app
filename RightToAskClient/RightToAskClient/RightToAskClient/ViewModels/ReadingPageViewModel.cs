@@ -112,12 +112,15 @@ namespace RightToAskClient.ViewModels
                 OnPropertyChanged();
             }
         }
+        
+        private string WriterOnlyUid = String.Empty;
 
         // constructor
         public ReadingPageViewModel()
         {
             PopupLabelText = AppResources.ReadingPageHeader1;
             Keyword = App.ReadingContext.Filters.SearchKeyword;
+
 
             if (!string.IsNullOrEmpty(App.ReadingContext.DraftQuestion))
             {
@@ -148,7 +151,19 @@ namespace RightToAskClient.ViewModels
                 var popup = new ReadingPagePopup(this);
                 _ = App.Current.MainPage.Navigation.ShowPopupAsync(popup);
             }
-
+            
+            MessagingCenter.Subscribe<SelectableListViewModel>(this,"ReadQuestionsWithASingleQuestionWriter", (sender) =>
+            {
+                var questionWriter = App.ReadingContext.Filters.QuestionWriterLists.SelectedEntities.FirstOrDefault();
+                if (questionWriter is null)
+                {
+                    Debug.WriteLine("Error: ReadingPage for single question writer but no selection.");
+                }
+                WriterOnlyUid = questionWriter?.RegistrationInfo.uid ?? string.Empty;
+                MessagingCenter.Unsubscribe<SelectableListViewModel>(this, "ReadQuestionsWithASingleQuestionWriter");
+                Heading1 = AppResources.QuestionWriterReadingPageHeaderText+" "+questionWriter?.RegistrationInfo.display_name;
+            });
+            
             KeepQuestionButtonCommand = new AsyncCommand(async () =>
             {
                 OnSaveButtonClicked();
