@@ -30,6 +30,7 @@ namespace RightToAskClient.ViewModels
             MessagingCenter.Subscribe<FindMPsViewModel>(this, Constants.ElectoratesKnown, (sender) =>
             {
                 ShowTrendingMyElectorate = true;
+                OnPropertyChanged("ShowTrendingMyElectorate");
                 MessagingCenter.Unsubscribe<FindMPsViewModel>(this, Constants.ElectoratesKnown);
             });
             // commands
