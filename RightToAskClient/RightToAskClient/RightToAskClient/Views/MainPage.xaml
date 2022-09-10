@@ -29,11 +29,12 @@
                 </StackLayout>
                 <!--Centered Layout-->
                     <!-- ** <StackLayout VerticalOptions="CenterAndExpand" Spacing="10" BackgroundColor="Transparent"> -->
-                    <Grid ColumnDefinitions="*,2*,*" RowDefinitions="*,*,*" HorizontalOptions="Center">
+                    <Grid ColumnDefinitions="*,2*,*" RowDefinitions="*,*,*,*" HorizontalOptions="FillAndExpand" >
+                         
                         <!--Side by Side Trending Buttons-->
                         <StackLayout Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" HorizontalOptions="Center" Orientation="Horizontal" BackgroundColor="Transparent" >
                             <!-- Request the same width for the first as the second button, to make them match -->
-                            <Frame WidthRequest="{Binding Path=Width, Source={x:Reference SearchFrame}}" Style="{StaticResource SubtleFrame}" HeightRequest="135" HorizontalOptions="FillAndExpand" Margin="0,0,0,0">
+                            <Frame WidthRequest="{Binding Path=Width, Source={x:Reference SearchFrame}}" Style="{StaticResource SubtleFrame}" HorizontalOptions="FillAndExpand" Margin="0,0,0,0">
                                 <Grid RowDefinitions="*,*,*">
                                     <Label Grid.Row="0" Text="{xct:Translate TrendingButtonText}" Style="{StaticResource Header1}" 
                                    VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="0,10,0,0"
@@ -51,7 +52,7 @@
                                 </Grid>
                             </Frame>
                             <!-- Trending in my Electorate Button-->
-                            <Frame x:Name="myElectorateTrendingButton" IsVisible="{Binding ShowTrendingMyElectorate}" WidthRequest="{Binding Path=Width, Source={x:Reference SearchFrame}}" Style="{StaticResource SubtleFrame}" HeightRequest="135" HorizontalOptions="FillAndExpand" Margin="0,0,10,0">
+                            <Frame x:Name="myElectorateTrendingButton" IsVisible="{Binding ShowTrendingMyElectorate}" WidthRequest="{Binding Path=Width, Source={x:Reference SearchFrame}}" Style="{StaticResource SubtleFrame}" HorizontalOptions="FillAndExpand" Margin="0,0,10,0">
                                 <Grid RowDefinitions="Auto,Auto,Auto">
                                     <Label Grid.Row="0" Style="{StaticResource Header1}" 
                                            Text="{xct:Translate InMyElectorateText}" LineBreakMode="WordWrap"
@@ -74,7 +75,7 @@
                         <!--Search Button-->
                         <!-- Takes up half the space, but sits in the centre -->
                         <!--** <Grid ColumnDefinitions="*,2*,*" HorizontalOptions="Center"> -->
-                            <Frame Grid.Column="1" Grid.Row="1" x:Name="SearchFrame" HorizontalOptions="FillAndExpand" Style="{StaticResource SubtleFrame}" HeightRequest="135" Padding="15">
+                            <Frame Grid.Column="1" Grid.Row="1" x:Name="SearchFrame" HorizontalOptions="FillAndExpand" Style="{StaticResource SubtleFrame}" >
                                 <Grid RowDefinitions="*,*">
                                     <Label Grid.Row="0" Text="{xct:Translate SearchBarTitle}" Style="{StaticResource Header1}"/>
                                     <Image x:Name="searchImage" Grid.Row="1" Margin="0" HorizontalOptions="Center" VerticalOptions="Center"
@@ -112,10 +113,9 @@
                                 </Grid>
                             </Frame>
                         </Grid>  -->
-                        <!--Draft Button Double-->
                         <StackLayout Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" HorizontalOptions="Center" Orientation="Horizontal" BackgroundColor="Transparent" >
                         <!-- <Grid Grid.Column="" ColumnDefinitions="*,*" BackgroundColor="Transparent" IsVisible="{Binding ShowMyQuestions}"> -->
-                            <Frame WidthRequest="{Binding Path=Width, Source={x:Reference SearchFrame}}" Style="{StaticResource SubtleFrame}" HeightRequest="135" HorizontalOptions="FillAndExpand" Margin="0,0,0,0">
+                            <Frame WidthRequest="{Binding Path=Width, Source={x:Reference SearchFrame}}" Style="{StaticResource SubtleFrame}" HorizontalOptions="FillAndExpand" Margin="0,0,0,0">
                                 <Grid RowDefinitions="*,*">
                                     <StackLayout Grid.Row="0" Grid.RowSpan="2">
                                         <Label Text="{xct:Translate MainPageHeader2Text}" Style="{StaticResource Header1}" Margin="0,10,0,0"/>
@@ -131,7 +131,7 @@
                                 </Grid>
                             </Frame>
                             <!--My Questions Button-->
-                            <Frame WidthRequest="{Binding Path=Width, Source={x:Reference SearchFrame}}" IsVisible="{Binding ShowMyQuestions}" Style="{StaticResource SubtleFrame}" HeightRequest="135" HorizontalOptions="FillAndExpand" Margin="0,0,10,0">
+                            <Frame WidthRequest="{Binding Path=Width, Source={x:Reference SearchFrame}}" IsVisible="{Binding ShowMyQuestions}" Style="{StaticResource SubtleFrame}" HorizontalOptions="FillAndExpand" Margin="0,0,10,0">
                                 <Grid RowDefinitions="*,*">
                                     <StackLayout Grid.Row="0" Grid.RowSpan="2">
                                         <Label Text="{xct:Translate MyQuestionsTitleText}" Style="{StaticResource Header1}" Margin="0,10,0,0"/>
@@ -148,6 +148,23 @@
                             </Frame>
                         </StackLayout>
                         <!-- </Grid>  -->
+            <!-- Show questions for me  -->
+            <Frame  Grid.Column="1" Grid.Row="3" IsVisible="{Binding ShowQuestionsForMe}" WidthRequest="{Binding Path=Width, Source={x:Reference SearchFrame}}" Style="{StaticResource SubtleFrame}" HorizontalOptions="Center" Margin="0,0,0,0">
+                <Grid RowDefinitions="*,*">
+                    <StackLayout Grid.Row="0" Grid.RowSpan="2">
+                        <Label Text="{xct:Translate QuestionsForMeTitleText}" Style="{StaticResource Header1}" Margin="0,10,0,0"/>
+                        <Image x:Name="questionsForMe" Margin="0" HorizontalOptions="Center" VerticalOptions="CenterAndExpand"
+                               Source="{local:ImageResource RightToAskClient.Images.half_roo.png}" WidthRequest="75"
+                               AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{xct:Translate DraftImageAccessibilityNameText}"
+                               AutomationProperties.HelpText="{xct:Translate DraftImageAccessibilityHelpText}"/>
+                    </StackLayout>
+                    <Button Grid.Row="0" Grid.RowSpan="2" Style="{StaticResource TransparentSquareButton}" 
+                            Command="{Binding DraftingButtonCommand}" BorderColor="{StaticResource Primary}" 
+                            AutomationProperties.LabeledBy="{x:Reference draftImage2}">
+                    </Button>
+                </Grid>
+            </Frame>
+                        <!--Draft Button Double-->
                     </Grid>
                     <!--** </StackLayout> -->
                 <!-- </StackLayout> -->

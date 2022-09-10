@@ -23,6 +23,13 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _showTrendingMyElectorate, value);
         }
 
+        private bool _showQuestionsForMe = false;
+        public bool ShowQuestionsForMe
+        {
+            get => _showQuestionsForMe;
+            set => SetProperty(ref _showQuestionsForMe, value);
+        }
+
         public MainPageViewModel()
         {
             PopupLabelText = AppResources.MainPagePopupText;
@@ -33,6 +40,7 @@ namespace RightToAskClient.ViewModels
                 OnPropertyChanged("ShowTrendingMyElectorate");
                 MessagingCenter.Unsubscribe<FindMPsViewModel>(this, Constants.ElectoratesKnown);
             });
+            //TODO Do similarly for ShowMyQuestions and ShowQuestionsForMe
             // commands
             TrendingNowButtonCommand = new AsyncCommand(async () =>
             {

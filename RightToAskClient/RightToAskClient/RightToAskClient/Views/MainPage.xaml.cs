@@ -21,6 +21,7 @@ namespace RightToAskClient.Views
             // because this is the first page loaded in the application
             vm.ShowMyQuestions = Preferences.Get(Constants.HasQuestions, false);
             vm.ShowTrendingMyElectorate = Preferences.Get(Constants.ElectoratesKnown, false);
+            vm.ShowQuestionsForMe = Preferences.Get(Constants.IsVerifiedMPAccount, false);
         }
     }
 }
