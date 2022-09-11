@@ -88,6 +88,7 @@ namespace RightToAskClient.ViewModels
                 {
                     StoreMPRegistration();
                     SaveMPRegistrationToPreferences();
+                    MessagingCenter.Send(this, Constants.IsVerifiedMPAccount);
                     // navigate back to account page
                     if (ReturnToAccountPage)
                     {
@@ -164,7 +165,6 @@ namespace RightToAskClient.ViewModels
                     });
         }
 
-        
         private async Task<bool> SendMPRegistrationPINToServer()
         {
             var msg = new EmailValidationPIN()

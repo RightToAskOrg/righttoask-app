@@ -921,8 +921,11 @@
   <data name="DontShowAgainText" xml:space="preserve">
     <value>Don't show this again: </value>
   </data>
+  <data name="QuestionsForMeTitleText" xml:space="preserve">
+    <value>Questions for me</value>
+  </data>
   <data name="MyQuestionsTitleText" xml:space="preserve">
-    <value>My Questions</value>
+    <value>My questions</value>
   </data>
   <data name="InMyElectorateText" xml:space="preserve">
     <value>Trending in my electorate</value>

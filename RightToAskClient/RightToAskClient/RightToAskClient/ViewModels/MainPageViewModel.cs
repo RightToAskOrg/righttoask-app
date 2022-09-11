@@ -13,14 +13,33 @@ namespace RightToAskClient.ViewModels
         public bool ShowMyQuestions
         {
             get => _showMyQuestions;
-            set => SetProperty(ref _showMyQuestions, value);
+            set
+            {
+                _showMyQuestions = value;
+                OnPropertyChanged();
+            }
         }
 
         private bool _showTrendingMyElectorate = false;
         public bool ShowTrendingMyElectorate
         {
             get => _showTrendingMyElectorate;
-            set => SetProperty(ref _showTrendingMyElectorate, value);
+            set
+            {
+                _showTrendingMyElectorate = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _showQuestionsForMe = false;
+        public bool ShowQuestionsForMe
+        {
+            get => _showQuestionsForMe;
+            set
+            {
+                _showQuestionsForMe = value;
+                OnPropertyChanged();
+            }
         }
 
         public MainPageViewModel()
@@ -31,6 +50,16 @@ namespace RightToAskClient.ViewModels
             {
                 ShowTrendingMyElectorate = true;
                 MessagingCenter.Unsubscribe<FindMPsViewModel>(this, Constants.ElectoratesKnown);
+            });
+            MessagingCenter.Subscribe<QuestionViewModel>(this, Constants.HasQuestions, (sender) =>
+            {
+                ShowMyQuestions = true;
+                MessagingCenter.Unsubscribe<FindMPsViewModel>(this, Constants.HasQuestions);
+            });
+            MessagingCenter.Subscribe<MPRegistrationVerificationViewModel>(this, Constants.IsVerifiedMPAccount, (sender) =>
+            {
+                ShowQuestionsForMe = true;
+                MessagingCenter.Unsubscribe<MPRegistrationVerificationViewModel>(this, Constants.IsVerifiedMPAccount);
             });
             // commands
             TrendingNowButtonCommand = new AsyncCommand(async () =>

@@ -1653,6 +1653,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string QuestionsForMeTitleText {
+            get {
+                return ResourceManager.GetString("QuestionsForMeTitleText", resourceCulture);
+            }
+        }
+        
         internal static string MyQuestionsTitleText {
             get {
                 return ResourceManager.GetString("MyQuestionsTitleText", resourceCulture);
