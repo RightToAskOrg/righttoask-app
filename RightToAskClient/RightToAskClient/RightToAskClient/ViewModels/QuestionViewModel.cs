@@ -303,8 +303,10 @@ namespace RightToAskClient.ViewModels
                 if (App.ReadingContext.ThisParticipant.IsRegistered)
                 {
                     // upvoting a question will add it to their list
+                    // TODO We probably want to separate having _written_ questions from having upvoted them.
                     App.ReadingContext.ThisParticipant.HasQuestions = true;
                     Preferences.Set(Constants.HasQuestions, true);
+                    MessagingCenter.Send(this, Constants.HasQuestions);
                     if (Question.AlreadyUpvoted)
                     {
                         Question.UpVotes--;
@@ -551,6 +553,7 @@ namespace RightToAskClient.ViewModels
             // creating a question will add it to their list
             App.ReadingContext.ThisParticipant.HasQuestions = true;
             Preferences.Set(Constants.HasQuestions, true);
+            MessagingCenter.Send(this, Constants.HasQuestions);
 
             //FIXME update version, just like for edits.
 
