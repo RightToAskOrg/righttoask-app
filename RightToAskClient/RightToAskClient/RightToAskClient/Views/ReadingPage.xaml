@@ -52,6 +52,24 @@
                     </Grid>
                 </StackLayout>
             </Frame>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                <Label Text="Sort by" Style="{StaticResource Header2}" HorizontalOptions="StartAndExpand" />
+
+                <Label Text="My electorate only" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand"
+                       Style="{StaticResource RightSmallText}" />
+                <CheckBox></CheckBox>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <RadioButton Content="Date"
+                             GroupName="sortOptions" />
+                <RadioButton Content="Up-votes"
+                             GroupName="sortOptions" />
+                <RadioButton Content="Trending"
+                             GroupName="sortOptions" />
+                <RadioButton Content="Surprise me"
+                             IsChecked="True"
+                             GroupName="sortOptions" />
+            </StackLayout>
             <!--Questions Scroll View with Floating Draft Button-->
             <Grid RowDefinitions="*,*" ColumnDefinitions="*,*" VerticalOptions="FillAndExpand">
                 <RefreshView Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="2" IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">

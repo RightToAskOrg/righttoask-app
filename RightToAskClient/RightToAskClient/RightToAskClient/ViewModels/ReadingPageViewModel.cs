@@ -121,6 +121,9 @@ namespace RightToAskClient.ViewModels
         {
             PopupLabelText = AppResources.ReadingPageHeader1;
             Keyword = App.ReadingContext.Filters.SearchKeyword;
+            
+            // If we're already searching for something, show the user what.
+            ShowSearchFrame = !String.IsNullOrWhiteSpace(Keyword); 
 
 
             if (!string.IsNullOrEmpty(App.ReadingContext.DraftQuestion))
