@@ -26,7 +26,7 @@ namespace RightToAskClient.ViewModels
             InfoPopupCommand = new AsyncCommand(async () =>
             {
                 //Page.Navigation.ShowPopup(new InfoPopup());
-                var popup = new InfoPopup(PopupLabelText);
+                var popup = new InfoPopup(PopupHeaderText,PopupLabelText, AppResources.OKText);
                 _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
             });
             ApproveCommand = new Command(() =>
@@ -56,6 +56,13 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref title, value);
         }
 
+        private string _popupHeaderText = "";
+        public string PopupHeaderText
+        {
+            get => _popupHeaderText;
+            set => SetProperty(ref _popupHeaderText, value);
+        }
+        
         private string _popupLabelText = "";
         public string PopupLabelText
         {

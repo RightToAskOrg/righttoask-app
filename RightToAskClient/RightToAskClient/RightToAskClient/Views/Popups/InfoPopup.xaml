@@ -1,27 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<xct:Popup xmlns="http://xamarin.com/schemas/2014/forms"
+<!-- At the moment, this doesn't change anything from the one-button popup. -->
+<views:OneButtonPopup xmlns="http://xamarin.com/schemas/2014/forms"
            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
            xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
            xmlns:local="clr-namespace:RightToAskClient"
+           xmlns:views="clr-namespace:RightToAskClient.Views;assembly=RightToAskClient"
            x:Class="RightToAskClient.Views.InfoPopup"
            Size="300,300"
            IsLightDismissEnabled="True"
            Color="Transparent"><!--***NOTE*** xct:Popup uses Color property to set what would normally be the BackgroundColor for most properties-->
-    <Frame CornerRadius="10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="40"
-        BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}">
-        <Grid RowDefinitions="*,auto" ColumnDefinitions="auto,*,*,*" VerticalOptions="FillAndExpand" BackgroundColor="Transparent">
-            <!--Text Across the Top Middle-->
-            <StackLayout Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent">
-                <Label x:Name="popupText" Style="{StaticResource PopupText}"/>
-            </StackLayout>
-            <!--Emu Bottom Left-->
-            <Image Grid.Column="0" Grid.Row="1" Source="{local:ImageResource RightToAskClient.Images.emu_tall.PNG}" 
-                   WidthRequest="100" HeightRequest="100" Rotation="0" VerticalOptions="End" BackgroundColor="Transparent"/>
-            <!--Acknowledge/Dismiss Button Bottom Right-->
-            <Grid Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="1" ColumnDefinitions="*,*" VerticalOptions="End" BackgroundColor="Transparent">
-                <Button x:Name="okButton" Style="{StaticResource PopupOKButton}" Text="{xct:Translate OKText}" 
-                        Grid.Column="1" Clicked="okButton_Clicked" />
-            </Grid>
-        </Grid>
-    </Frame>        
-</xct:Popup>
+</views:OneButtonPopup>

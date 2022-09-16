@@ -645,9 +645,25 @@
   <data name="MakeAccountQuestionText" xml:space="preserve">
     <value>Make an account?</value>
   </data>
+  <data name="SortByText" xml:space="preserve">
+    <value>Sort by</value>
+  </data>
+  <data name="MyElectorateOnlyText" xml:space="preserve">
+    <value>My electorate only</value>
+  </data>
+  <data name="DateText" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="UpVotesText" xml:space="preserve">
+    <value>Up-votes</value>
+  </data>
+  <data name="SurpriseMeText" xml:space="preserve">
+    <value>Surprise me</value>
+  </data>
   <data name="NotNowAnswerText" xml:space="preserve">
     <value>Not now</value>
   </data>
+  
   <data name="EmptyMatchingQuestionCollectionViewString" xml:space="preserve">
     <value>No Similar Questions Found.</value>
   </data>

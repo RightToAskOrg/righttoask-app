@@ -2,21 +2,24 @@
 <xct:Popup xmlns="http://xamarin.com/schemas/2014/forms"
            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"    
            xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+           xmlns:local="clr-namespace:RightToAskClient"
            x:Class="RightToAskClient.Views.OneButtonPopup"
-           Size="300,200"
+           Size="300,300"
            IsLightDismissEnabled="True"
            Color="Transparent">
     <Frame CornerRadius="10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
                BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}">
         <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent">
             <Label x:Name="mainTitle" VerticalOptions="StartAndExpand" VerticalTextAlignment="Center" 
-                   HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource PopupHeaderText}"
-                   TextColor="{AppThemeBinding Light={StaticResource TextColor}, 
-                   Dark={StaticResource TextColorDark}}"/>
+                   HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource PopupHeaderText}" />
             <Label x:Name="mainMessage" VerticalOptions="StartAndExpand" VerticalTextAlignment="Center" 
                    HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource PopupText}"/>
             <Grid ColumnDefinitions="*,*" VerticalOptions="EndAndExpand">
-                <Button x:Name="okButton" Grid.Column="1" Clicked="okButton_Clicked" 
+            <!--Emu Bottom Left-->
+            <Image Grid.Column="0" Grid.Row="0" Source="{local:ImageResource RightToAskClient.Images.emu_tall.PNG}" 
+                   WidthRequest="100" HeightRequest="100" Rotation="0" VerticalOptions="End" BackgroundColor="Transparent"/>
+            <!--Acknowledge/Dismiss Button Bottom Right-->
+                <Button x:Name="okButton" Grid.Column="1" Grid.Row="0" HorizontalOptions="Center" VerticalOptions="End" Clicked="okButton_Clicked" 
                         Style="{StaticResource PopupOKButton}" />
             </Grid>
         </StackLayout>

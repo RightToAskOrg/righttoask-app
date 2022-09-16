@@ -119,7 +119,6 @@ namespace RightToAskClient.ViewModels
         // constructor
         public ReadingPageViewModel()
         {
-            PopupLabelText = AppResources.ReadingPageHeader1;
             Keyword = App.ReadingContext.Filters.SearchKeyword;
             
             // If we're already searching for something, show the user what.
@@ -150,13 +149,17 @@ namespace RightToAskClient.ViewModels
                 Title = AppResources.SimilarQuestionsTitle;
                 ShowQuestionFrame = true;
             }
+            
+            PopupLabelText = AppResources.ReadingPageHeader1;
+            PopupHeaderText = Heading1;
+            
             if (!App.ReadingContext.DontShowFirstTimeReadingPopup)
             {
-                var popup = new ReadingPagePopup(this);
-                _ = App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                InfoPopupCommand.ExecuteAsync();
+                
+                // Only show it once.
+                DontShowFirstTimeReadingPopup = true;
             }
-            
-
             
             KeepQuestionButtonCommand = new AsyncCommand(async () =>
             {

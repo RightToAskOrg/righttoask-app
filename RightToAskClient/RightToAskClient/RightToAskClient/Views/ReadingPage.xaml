@@ -52,30 +52,31 @@
                     </Grid>
                 </StackLayout>
             </Frame>
-            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                <Label Text="Sort by" Style="{StaticResource Header2}" HorizontalOptions="StartAndExpand" />
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Padding="10,10,10,0">
+                <Label Text="{xct:Translate SortByText}" Style="{StaticResource Header2}" HorizontalOptions="StartAndExpand" VerticalOptions="Center"/>
 
-                <Label Text="My electorate only" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand"
+                <Label Text="{xct:Translate MyElectorateOnlyText}" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand"
                        Style="{StaticResource RightSmallText}" />
                 <CheckBox></CheckBox>
             </StackLayout>
-            <StackLayout Orientation="Horizontal">
-                <RadioButton Content="Date"
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Padding="0,0,0,10">
+                <RadioButton Content="{xct:Translate DateText}"
                              GroupName="sortOptions" />
-                <RadioButton Content="Up-votes"
+                <RadioButton Content="{xct:Translate UpVotesText}"
                              GroupName="sortOptions" />
-                <RadioButton Content="Trending"
+                <RadioButton Content="{xct:Translate TrendingButtonText}"
                              GroupName="sortOptions" />
-                <RadioButton Content="Surprise me"
+                <RadioButton Content="{xct:Translate SurpriseMeText}"
                              IsChecked="True"
                              GroupName="sortOptions" />
             </StackLayout>
+            <BoxView />
             <!--Questions Scroll View with Floating Draft Button-->
             <Grid RowDefinitions="*,*" ColumnDefinitions="*,*" VerticalOptions="FillAndExpand">
                 <RefreshView Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="2" IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
                     <ScrollView VerticalOptions="FillAndExpand">
                         <StackLayout><!--Heading text moved inside of the scrollview to have it scroll off the page-->
-                            <Label Text="{Binding Heading1}" Style="{StaticResource Header1}" HorizontalTextAlignment="Center"/>
+                            <!-- <Label Text="{Binding Heading1}" Style="{StaticResource Header1}" HorizontalTextAlignment="Center"/> -->
                             <!--Moved to the info popup potentially-->
                             <!--<Label Text="{xct:Translate ReadingPageHeader1}" Style="{StaticResource Header2}" HorizontalTextAlignment="Center"/>-->
                             <CollectionView x:Name="QuestionList" ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None" 

@@ -1101,6 +1101,36 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string SortByText {
+            get {
+                return ResourceManager.GetString("SortByText", resourceCulture);
+            }
+        }
+        
+        internal static string MyElectorateOnlyText {
+            get {
+                return ResourceManager.GetString("MyElectorateOnlyText", resourceCulture);
+            }
+        }
+        
+        internal static string DateText {
+            get {
+                return ResourceManager.GetString("DateText", resourceCulture);
+            }
+        }
+        
+        internal static string UpVotesText {
+            get {
+                return ResourceManager.GetString("UpVotesText", resourceCulture);
+            }
+        }
+        
+        internal static string SurpriseMeText {
+            get {
+                return ResourceManager.GetString("SurpriseMeText", resourceCulture);
+            }
+        }
+        
         internal static string NotNowAnswerText {
             get {
                 return ResourceManager.GetString("NotNowAnswerText", resourceCulture);

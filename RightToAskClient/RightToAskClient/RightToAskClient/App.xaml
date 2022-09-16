@@ -150,6 +150,7 @@
                    Dark={StaticResource TextColorDark}}" />
                                    <Setter Property="Opacity"
                                         Value="1" />
+                                <Setter Property="FontAttributes" Value="Bold"/>
                             </VisualState.Setters>
                         </VisualState>
                     </VisualStateGroup>
@@ -330,6 +331,7 @@
                 <Setter Property="FontSize" Value="Large"></Setter>
                 <Setter Property="FontAttributes" Value="Bold"></Setter>
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
             </Style>
             <Style x:Key="LeftJustifiedPopupText" TargetType="Label">
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, 
