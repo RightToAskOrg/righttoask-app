@@ -134,10 +134,6 @@
     <Compile Remove="Views\ListSelection.cs" />
     <Compile Remove="Controls\FilterDisplayTableView.cs" />
     <Compile Remove="Models\MPGroupedByChamber.cs" />
-    <Compile Update="Views\Popups\InfoPopup.xaml.cs">
-      <DependentUpon>InfoPopup.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Views\Popups\HowToPublishPopup.xaml.cs">
       <DependentUpon>HowToPublishPopup.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -262,6 +258,7 @@
     <EmbeddedResource Remove="Views\EmptySelectableListSearchView.xaml" />
     <None Remove="Resources\MPs.json" />
     <EmbeddedResource Include="Resources\MPs.json" />
+    <EmbeddedResource Remove="Views\Popups\InfoPopup.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Essentials">
@@ -328,5 +325,8 @@
     <EmbeddedResource Update="Views\UserAccountInfoView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Popups\InfoPopup.xaml" />
   </ItemGroup>
 </Project>

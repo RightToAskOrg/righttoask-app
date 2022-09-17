@@ -183,6 +183,9 @@
   <data name="DiscardDraftButtonText" xml:space="preserve">
     <value>Discard</value>
   </data>
+  <data name="DismissText" xml:space="preserve">
+    <value>Dismiss</value>
+  </data>
   <data name="DisplayNameHeaderText" xml:space="preserve">
     <value>Display Name</value>
   </data>
@@ -274,7 +277,7 @@
     <value>Keyword</value>
   </data>
   <data name="LinkForAnswerHeaderText" xml:space="preserve">
-    <value>Link or Answer:</value>
+    <value>Link to answer in Hansard:</value>
   </data>
   <data name="LinkAnswerPlaceholderText" xml:space="preserve">
     <value>Add an answer or a Hansard link to an answer</value>

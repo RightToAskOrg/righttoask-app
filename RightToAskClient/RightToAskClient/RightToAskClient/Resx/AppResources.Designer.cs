@@ -177,6 +177,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string DismissText {
+            get {
+                return ResourceManager.GetString("DismissText", resourceCulture);
+            }
+        }
+        
         internal static string DisplayNameHeaderText {
             get {
                 return ResourceManager.GetString("DisplayNameHeaderText", resourceCulture);
