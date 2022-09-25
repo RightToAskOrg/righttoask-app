@@ -232,7 +232,7 @@
     <value>Parliament of Australia</value>
   </data>
   <data name="FindCommitteeButtonText" xml:space="preserve">
-    <value>Find a Committee</value>
+    <value>A Committee</value>
   </data>
   <data name="FindElectoratesButtonText" xml:space="preserve">
     <value>Next: Find Your Electorates</value>
@@ -263,6 +263,15 @@
   </data>
   <data name="IAmAStaffer" xml:space="preserve">
     <value>I am their staffer</value>
+  </data>
+  <data name="InAppHeaderText" xml:space="preserve">
+    <value>In the app</value>
+  </data>
+  <data name="InAppExplText" xml:space="preserve">
+    <value>Get an answer here in the app. This works best if you asked your own MP.</value>
+  </data>
+  <data name="InParliamentHeaderText" xml:space="preserve">
+    <value>Get your question raised in Parliament. Choose who should raise it.</value>
   </data>
   <data name="IncludeAnsweredQuestions" xml:space="preserve">
     <value>Include answered questions?</value>
@@ -465,20 +474,29 @@
   <data name="Step2BodyText2" xml:space="preserve">
     <value>Should it be raised by...</value>
   </data>
-  <data name="Step2BodyText3" xml:space="preserve">
-    <value>a Parliamentary Committee, such as Senate Estimates?</value>
+  <data name="InParliamentExplText" xml:space="preserve">
+    <value>e.g. Senate Estimates, or your state's Environment and Planning Committee. Best if the Committee is currently inquiring into something relevant.</value>
   </data>
-  <data name="Step2BodyText4" xml:space="preserve">
-    <value>or by your MP, perhaps in a special session for constituent questions?</value>
+  <data name="MyMPExplText" xml:space="preserve">
+    <value>Perhaps in a special session for constituent questions. A good choice if you are not sure.</value>
   </data>
   <data name="Step2BodyText5" xml:space="preserve">
     <value>or by some other MP?</value>
   </data>
+  <data name="OtherMPRaiseExplText" xml:space="preserve">
+    <value>Choose one interested in the issue.</value>
+  </data>
   <data name="Step2BodyText6" xml:space="preserve">
     <value>a journalist or other RightToAsk participant?</value>
   </data>
-  <data name="Step2BodyText7" xml:space="preserve">
-    <value>or are you just not sure?</value>
+  <data name="LeaveBlank" xml:space="preserve">
+    <value>Leave Blank</value>
+  </data>
+  <data name="LeaveBlankExplText" xml:space="preserve">
+    <value>You can ask other Right To Ask Participants to direct it.</value>
+  </data>
+  <data name="OR" xml:space="preserve">
+    <value>Or</value>
   </data>
   <data name="RaiseQuestionTitle" xml:space="preserve">
     <value>Raise My Question</value>
@@ -562,7 +580,7 @@
     <value>Draft a Question</value>
   </data>
   <data name="RaiseQuestionHeaderText" xml:space="preserve">
-    <value>Now, we'll help you direct your question to where it might get answered. Choose who should raise it.</value>
+    <value>Now, we'll help you direct your question to where it might get answered.</value>
   </data>
   <data name="OptionAText1" xml:space="preserve">
     <value>Get an answer in the app</value>

@@ -108,11 +108,8 @@ namespace RightToAskClient.ViewModels
             set
             {
                 SetProperty(ref _raisedByOptionSelected, value);
-                if (_raisedByOptionSelected)
-                {
-                    Question.AnswerInApp = false;
-                    AnswerInApp = false;
-                }
+                AnswerInApp = !_raisedByOptionSelected;
+                Question.AnswerInApp = AnswerInApp;
             }
         }
 
@@ -372,6 +369,9 @@ namespace RightToAskClient.ViewModels
 
         private Command? _findCommitteeCommand;
         public Command FindCommitteeCommand => _findCommitteeCommand ??= new Command(OnFindCommitteeButtonClicked);
+        private Command? _answerInAppCommand;
+        public Command AnswerInAppCommand => _answerInAppCommand ??= new Command(OnAnswerInAppButtonClicked);
+
         private Command? _myMpRaiseCommand;
         public Command MyMPRaiseCommand => _myMpRaiseCommand ??= new Command(OnMyMPRaiseButtonClicked);
         private Command? _otherMPRaiseCommand;
@@ -417,6 +417,14 @@ namespace RightToAskClient.ViewModels
         }
 
         // methods for selecting who will raise your question
+        
+        // Nobody raises the question - just asking for an answer in the app.
+        private async void OnAnswerInAppButtonClicked()
+        {
+            RaisedByOptionSelected = false;
+            await Shell.Current.GoToAsync(nameof(ReadingPage));
+        }
+
         private async void OnFindCommitteeButtonClicked()
         {
             if (CommitteesAndHearingsData.CommitteesData.IsInitialised)

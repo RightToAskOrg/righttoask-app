@@ -339,6 +339,24 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string InAppHeaderText {
+            get {
+                return ResourceManager.GetString("InAppHeaderText", resourceCulture);
+            }
+        }
+        
+        internal static string InAppExplText {
+            get {
+                return ResourceManager.GetString("InAppExplText", resourceCulture);
+            }
+        }
+        
+        internal static string InParliamentHeaderText {
+            get {
+                return ResourceManager.GetString("InParliamentHeaderText", resourceCulture);
+            }
+        }
+        
         internal static string IncludeAnsweredQuestions {
             get {
                 return ResourceManager.GetString("IncludeAnsweredQuestions", resourceCulture);
@@ -741,15 +759,15 @@ namespace RightToAskClient.Resx {
             }
         }
         
-        internal static string Step2BodyText3 {
+        internal static string InParliamentExplText {
             get {
-                return ResourceManager.GetString("Step2BodyText3", resourceCulture);
+                return ResourceManager.GetString("InParliamentExplText", resourceCulture);
             }
         }
         
-        internal static string Step2BodyText4 {
+        internal static string MyMPExplText {
             get {
-                return ResourceManager.GetString("Step2BodyText4", resourceCulture);
+                return ResourceManager.GetString("MyMPExplText", resourceCulture);
             }
         }
         
@@ -759,15 +777,33 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string OtherMPRaiseExplText {
+            get {
+                return ResourceManager.GetString("OtherMPRaiseExplText", resourceCulture);
+            }
+        }
+        
         internal static string Step2BodyText6 {
             get {
                 return ResourceManager.GetString("Step2BodyText6", resourceCulture);
             }
         }
         
-        internal static string Step2BodyText7 {
+        internal static string LeaveBlank {
             get {
-                return ResourceManager.GetString("Step2BodyText7", resourceCulture);
+                return ResourceManager.GetString("LeaveBlank", resourceCulture);
+            }
+        }
+        
+        internal static string LeaveBlankExplText {
+            get {
+                return ResourceManager.GetString("LeaveBlankExplText", resourceCulture);
+            }
+        }
+        
+        internal static string OR {
+            get {
+                return ResourceManager.GetString("OR", resourceCulture);
             }
         }
         
