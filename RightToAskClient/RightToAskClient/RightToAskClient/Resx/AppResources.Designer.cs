@@ -789,9 +789,9 @@ namespace RightToAskClient.Resx {
             }
         }
         
-        internal static string LeaveBlank {
+        internal static string DontKnowTitle {
             get {
-                return ResourceManager.GetString("LeaveBlank", resourceCulture);
+                return ResourceManager.GetString("DontKnowTitle", resourceCulture);
             }
         }
         

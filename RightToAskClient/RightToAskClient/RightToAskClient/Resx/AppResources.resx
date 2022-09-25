@@ -475,10 +475,10 @@
     <value>Should it be raised by...</value>
   </data>
   <data name="InParliamentExplText" xml:space="preserve">
-    <value>e.g. Senate Estimates, or your state's Environment and Planning Committee. Best if the Committee is currently inquiring into something relevant.</value>
+    <value>e.g., Senate Estimates. Ideal if the Committee is holding a relevant inquiry.</value>
   </data>
   <data name="MyMPExplText" xml:space="preserve">
-    <value>Perhaps in a special session for constituent questions. A good choice if you are not sure.</value>
+    <value>A good choice if you are not sure.</value>
   </data>
   <data name="Step2BodyText5" xml:space="preserve">
     <value>or by some other MP?</value>
@@ -489,11 +489,11 @@
   <data name="Step2BodyText6" xml:space="preserve">
     <value>a journalist or other RightToAsk participant?</value>
   </data>
-  <data name="LeaveBlank" xml:space="preserve">
-    <value>Leave Blank</value>
+  <data name="DontKnowTitle" xml:space="preserve">
+    <value>Don't know</value>
   </data>
   <data name="LeaveBlankExplText" xml:space="preserve">
-    <value>You can ask other Right To Ask Participants to direct it.</value>
+    <value>Leave Blank. You can ask other Right To Ask participants to direct it.</value>
   </data>
   <data name="OR" xml:space="preserve">
     <value>Or</value>
@@ -580,7 +580,7 @@
     <value>Draft a Question</value>
   </data>
   <data name="RaiseQuestionHeaderText" xml:space="preserve">
-    <value>Now, we'll help you direct your question to where it might get answered.</value>
+    <value>Now direct your question to where it might get answered.</value>
   </data>
   <data name="OptionAText1" xml:space="preserve">
     <value>Get an answer in the app</value>

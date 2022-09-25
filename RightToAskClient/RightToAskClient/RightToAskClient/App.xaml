@@ -175,8 +175,11 @@
             </Style>
             <Style TargetType="BoxView" ApplyToDerivedTypes="True">
                 <Setter Property="HeightRequest" Value="2"></Setter>
-                <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource TextColor}, 
-                   Dark={StaticResource TextColorDark}}"></Setter>
+                <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource HeadingTextColor }, 
+                   Dark={StaticResource HeadingTextColorDark}}"></Setter>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"></Setter>
+                <Setter Property="VerticalOptions" Value="End" ></Setter>
+                <Setter Property = "Margin" Value="0,0,0,5"/>
             </Style>
             <!--Specific Styles-->
             <Style x:Key="DefaultButton" TargetType="Button" ApplyToDerivedTypes="True">
