@@ -416,6 +416,14 @@
             <Style x:Key="StagnantColor" TargetType="Label">
                 <Setter Property="TextColor" Value="{StaticResource Primary}"></Setter>
             </Style>
+            <!-- For buttons that stay with a pale background regardless of theme -->
+            <Style x:Key="PaleButtonText" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource HeadingTextColor}"></Setter>
+                <Setter Property="FontSize" Value="Medium"></Setter>
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="VerticalOptions" Value="Center"></Setter>
+                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
+            </Style>
             <Style x:Key="HeaderButtonText" TargetType="Label">
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColorDark}}"></Setter>
                 <Setter Property="FontSize" Value="Medium"></Setter>

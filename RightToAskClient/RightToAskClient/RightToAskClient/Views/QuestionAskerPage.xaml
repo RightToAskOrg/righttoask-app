@@ -22,9 +22,9 @@
                 <Label Text="{xct:Translate RaiseQuestionHeaderText}" Style="{StaticResource Header1}" HorizontalTextAlignment="Center" VerticalOptions="Start"/>
                 <BoxView />
                 <Grid RowDefinitions="*,auto,*,*,*,*,auto,*" ColumnDefinitions="*,2*" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="10" ColumnSpacing="10" Margin="10">
-                    <Frame Grid.Row="0" Grid.Column="0" Style="{StaticResource InvisibleButtonFrame}">
+                    <Frame Grid.Row="0" Grid.Column="0" Style="{StaticResource SubtleFrame}">
                         <Grid RowDefinitions="*" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                            <Label Grid.Row="0" Text="{xct:Translate InAppHeaderText}" Style="{StaticResource HeaderButtonText}"/>
+                            <Label Grid.Row="0" Text="{xct:Translate InAppHeaderText}" Style="{StaticResource PaleButtonText}"/>
                             <Button Grid.Row="0" Style="{StaticResource TransparentSquareButton}" 
                                 Command="{Binding AnswerInAppCommand}"/>
                         </Grid>
@@ -34,30 +34,30 @@
                     <StackLayout Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="2" HorizontalOptions="FillAndExpand" VerticalOptions="Center">
                         <BoxView /> 
                         <Label Text="{xct:Translate OR}"  Style="{StaticResource Header2}" VerticalTextAlignment="End" VerticalOptions="End" />
-                        <BoxView HeightRequest="3" HorizontalOptions="FillAndExpand" VerticalOptions="End" Margin="0,0,0,5"/>
+                        <BoxView Margin="0,0,0,5"/>
                     </StackLayout>
-                    <Label Grid.Row="2" Grid.ColumnSpan="2" Text="{xct:Translate InParliamentHeaderText}" Style="{StaticResource Header2}" />
-                    <Frame Grid.Row="3" Grid.Column="0" Style="{StaticResource InvisibleButtonFrame}">
+                    <Label Grid.Row="2" Grid.ColumnSpan="2" Text="{xct:Translate InParliamentHeaderText}" Style="{StaticResource Header2}" HorizontalTextAlignment="Center" />
+                    <Frame Grid.Row="3" Grid.Column="0" Style="{StaticResource SubtleFrame}">
                         <Grid RowDefinitions="*" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                            <Label Grid.Row="0" TextColor="Black" Text="{xct:Translate FindCommitteeButtonText}" Style="{StaticResource HeaderButtonText}"/>
+                            <Label Grid.Row="0" Text="{xct:Translate FindCommitteeButtonText}" Style="{StaticResource PaleButtonText}"/>
                             <Button Grid.Row="0" Style="{StaticResource TransparentSquareButton}" 
                                 Command="{Binding FindCommitteeCommand}"/>
                         </Grid>
                     </Frame>
                     <Label Grid.Row="3" Grid.Column="1" Style="{StaticResource NormalText}"
                            Text = "{xct:Translate InParliamentExplText}" VerticalTextAlignment="Center" />
-                    <Frame Grid.Row="4" Grid.Column="0" Style="{StaticResource InvisibleButtonFrame}">
+                    <Frame Grid.Row="4" Grid.Column="0" Style="{StaticResource SubtleFrame}">
                         <Grid RowDefinitions="*">
-                            <Label Grid.Row="0" TextColor="Black" Text="{xct:Translate MyMPButtonText}" Style="{StaticResource HeaderButtonText}"/>
+                            <Label Grid.Row="0" Text="{xct:Translate MyMPButtonText}" Style="{StaticResource PaleButtonText}"/>
                             <Button Grid.Row="0" Style="{StaticResource TransparentSquareButton}" 
                                 Command="{Binding MyMPRaiseCommand}" CommandParameter="1"/>
                         </Grid>
                     </Frame>
                     <Label Grid.Row="4" Grid.Column="1" Style="{StaticResource NormalText}"
                            Text = "{xct:Translate MyMPExplText}"  VerticalTextAlignment="Center" />
-                    <Frame Grid.Row="5" Grid.Column="0" Style="{StaticResource InvisibleButtonFrame}">
+                    <Frame Grid.Row="5" Grid.Column="0" Style="{StaticResource SubtleFrame}">
                         <Grid RowDefinitions="*">
-                            <Label Grid.Row="0" TextColor="Black" Text="{xct:Translate AnotherMPButtonText}" Style="{StaticResource HeaderButtonText}"/>
+                            <Label Grid.Row="0" Text="{xct:Translate AnotherMPButtonText}" Style="{StaticResource PaleButtonText}"/>
                             <Button Grid.Row="0" Style="{StaticResource TransparentSquareButton}" 
                                 Command="{Binding OtherMPRaiseCommand}" CommandParameter="2"/>
                         </Grid>
@@ -65,22 +65,22 @@
                     <Label Grid.Row="5" Grid.Column="1" Style="{StaticResource NormalText}"
                            Text = "{xct:Translate OtherMPRaiseExplText}" VerticalTextAlignment="Center" />
                     <!-- We may add this later, but comment out for now.
-                    <Frame Grid.Row="4" Grid.Column="0" Style="{StaticResource InvisibleButtonFrame}">
+                    <Frame Grid.Row="4" Grid.Column="0" Style="{StaticResource SubtleFrame}">
                         <Grid RowDefinitions="*,*">
-                            <Label Grid.Row="0" TextColor="Black" Text="{xct:Translate AnotherUserButtonText}" Style="{StaticResource HeaderButtonText}"/>
-                            <Label Grid.Row="1" TextColor="Black" Text="Blank here." Style="{StaticResource BodyButtonText}"/>
+                            <Label Grid.Row="0" Text="{xct:Translate AnotherUserButtonText}" Style="{StaticResource PaleButtonText}"/>
+                            <Label Grid.Row="1"  Text="Blank here." Style="{StaticResource BodyButtonText}"/>
                             <Button Grid.RowSpan="2" Style="{StaticResource TransparentSquareButton}" 
                                 Command="{Binding UserShouldRaiseCommand}" CommandParameter="3" />
                         </Grid>
                     </Frame> -->
                     <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand" Grid.Row="6" Grid.ColumnSpan="2">
-                        <BoxView HeightRequest="3" />
+                        <BoxView />
                         <Label Text="{xct:Translate OR}"  Style="{StaticResource Header2}" />
-                        <BoxView HeightRequest="3" />
+                        <BoxView />
                     </StackLayout>
-                    <Frame Grid.Row="7" Grid.Column="0" Style="{StaticResource InvisibleButtonFrame}">
+                    <Frame Grid.Row="7" Grid.Column="0" Style="{StaticResource SubtleFrame}">
                         <Grid RowDefinitions="*">
-                            <Label Grid.Row="0" TextColor="Black" Text="{xct:Translate DontKnowTitle}" Style="{StaticResource HeaderButtonText}"/>
+                            <Label Grid.Row="0" Text="{xct:Translate DontKnowTitle}" Style="{StaticResource PaleButtonText}"/>
                             <Button Grid.Row="0" Style="{StaticResource TransparentSquareButton}" 
                                 Command="{Binding NotSureWhoShouldRaiseCommand}" CommandParameter="4" />
                         </Grid>
