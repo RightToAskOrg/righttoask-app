@@ -322,7 +322,7 @@
     <value>Are you an MP or staffer?</value>
   </data>
   <data name="MPsHeaderText1" xml:space="preserve">
-    <value>Your MPs are defined by the electorate you live in</value>
+    <value>Choose or search for your electorates</value>
   </data>
   <data name="MPsHeaderText2" xml:space="preserve">
     <value>I live in </value>
