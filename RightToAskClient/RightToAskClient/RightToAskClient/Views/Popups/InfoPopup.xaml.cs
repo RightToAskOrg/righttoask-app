@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RightToAskClient.Annotations;
 using Xamarin.CommunityToolkit.UI.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -10,17 +11,14 @@ using Xamarin.Forms.Xaml;
 namespace RightToAskClient.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class InfoPopup : Popup
+    public partial class InfoPopup : OneButtonPopup
     {
-        public InfoPopup(string message)
+        public InfoPopup([NotNull] string message, [NotNull] string buttonText) : base(message, buttonText)
         {
-            InitializeComponent();
-            popupText.Text = message;
         }
 
-        private void okButton_Clicked(object sender, EventArgs e)
+        public InfoPopup([NotNull] string title, [NotNull] string message, [NotNull] string buttonText) : base(title, message, buttonText)
         {
-            Dismiss("Dismissed");
         }
     }
 }

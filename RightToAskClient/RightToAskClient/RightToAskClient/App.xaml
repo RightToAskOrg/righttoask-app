@@ -131,6 +131,33 @@
                 </Setter>
                 <Setter Property = "Scale" Value = "1.5" />
             </Style>
+            <Style TargetType="RadioButton">
+                <!-- <Setter Property="Color" Value="{StaticResource WattleYellow}"/> -->
+                <Setter Property = "VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CheckedStates">
+                        <VisualState x:Name="Unchecked">
+                            <VisualState.Setters>
+                                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, 
+                                                                                    Dark={StaticResource TextColorDark}}" />
+                                  <Setter Property="Opacity"
+                                        Value="0.5" /> 
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Checked">
+                            <VisualState.Setters>
+                                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, 
+                   Dark={StaticResource TextColorDark}}" />
+                                   <Setter Property="Opacity"
+                                        Value="1" />
+                                <Setter Property="FontAttributes" Value="Bold"/>
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter>
+                <Setter Property="FontSize" Value="Small"/>
+            </Style>
             <Style TargetType="SearchBar">
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, 
                    Dark={StaticResource TextColorDark}}"></Setter>
@@ -148,8 +175,11 @@
             </Style>
             <Style TargetType="BoxView" ApplyToDerivedTypes="True">
                 <Setter Property="HeightRequest" Value="2"></Setter>
-                <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource TextColor}, 
-                   Dark={StaticResource TextColorDark}}"></Setter>
+                <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource HeadingTextColor }, 
+                   Dark={StaticResource HeadingTextColorDark}}"></Setter>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"></Setter>
+                <Setter Property="VerticalOptions" Value="End" ></Setter>
+                <Setter Property = "Margin" Value="0,0,0,5"/>
             </Style>
             <!--Specific Styles-->
             <Style x:Key="DefaultButton" TargetType="Button" ApplyToDerivedTypes="True">
@@ -304,6 +334,7 @@
                 <Setter Property="FontSize" Value="Large"></Setter>
                 <Setter Property="FontAttributes" Value="Bold"></Setter>
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
             </Style>
             <Style x:Key="LeftJustifiedPopupText" TargetType="Label">
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, 
@@ -385,6 +416,14 @@
             <Style x:Key="StagnantColor" TargetType="Label">
                 <Setter Property="TextColor" Value="{StaticResource Primary}"></Setter>
             </Style>
+            <!-- For buttons that stay with a pale background regardless of theme -->
+            <Style x:Key="PaleButtonText" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource HeadingTextColor}"></Setter>
+                <Setter Property="FontSize" Value="Medium"></Setter>
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="VerticalOptions" Value="Center"></Setter>
+                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
+            </Style>
             <Style x:Key="HeaderButtonText" TargetType="Label">
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColorDark}}"></Setter>
                 <Setter Property="FontSize" Value="Medium"></Setter>
@@ -428,6 +467,14 @@
                 <Setter Property="TextColor" Value="Black"></Setter>
                 <Setter Property="FontSize" Value="Medium"></Setter>
                 <Setter Property="HorizontalOptions" Value="Start"></Setter>
+            </Style>
+            <Style x:Key="RightSmallText" TargetType="Label">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, 
+                    Dark={StaticResource TextColorDark}}"></Setter>
+                <Setter Property="FontSize" Value="Small"></Setter>
+                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="HorizontalTextAlignment" Value="End"></Setter>
+                <Setter Property="HorizontalOptions" Value="End"></Setter>
             </Style>
             <Style x:Key="LeftFrameText" TargetType="Label">
                 <Setter Property="TextColor" Value="Black"></Setter>

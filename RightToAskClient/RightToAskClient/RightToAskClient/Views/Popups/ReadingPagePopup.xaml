@@ -18,6 +18,7 @@
                      Padding="40"
                      BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}">
             <StackLayout VerticalOptions="FillAndExpand" BackgroundColor="Transparent">
+                <Label Text="{Binding Heading1}" Style="{StaticResource PopupHeaderText}" />
                 <Label Text="{xct:Translate ReadingPageHeader1}" VerticalOptions="Center"
                        VerticalTextAlignment="Center" LineHeight="1.3" Style="{StaticResource PopupText}" />
                 <Grid ColumnDefinitions="*,*" VerticalOptions="EndAndExpand" BackgroundColor="Transparent">

@@ -177,6 +177,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string DismissText {
+            get {
+                return ResourceManager.GetString("DismissText", resourceCulture);
+            }
+        }
+        
         internal static string DisplayNameHeaderText {
             get {
                 return ResourceManager.GetString("DisplayNameHeaderText", resourceCulture);
@@ -330,6 +336,24 @@ namespace RightToAskClient.Resx {
         internal static string IAmAStaffer {
             get {
                 return ResourceManager.GetString("IAmAStaffer", resourceCulture);
+            }
+        }
+        
+        internal static string InAppHeaderText {
+            get {
+                return ResourceManager.GetString("InAppHeaderText", resourceCulture);
+            }
+        }
+        
+        internal static string InAppExplText {
+            get {
+                return ResourceManager.GetString("InAppExplText", resourceCulture);
+            }
+        }
+        
+        internal static string InParliamentHeaderText {
+            get {
+                return ResourceManager.GetString("InParliamentHeaderText", resourceCulture);
             }
         }
         
@@ -735,15 +759,15 @@ namespace RightToAskClient.Resx {
             }
         }
         
-        internal static string Step2BodyText3 {
+        internal static string InParliamentExplText {
             get {
-                return ResourceManager.GetString("Step2BodyText3", resourceCulture);
+                return ResourceManager.GetString("InParliamentExplText", resourceCulture);
             }
         }
         
-        internal static string Step2BodyText4 {
+        internal static string MyMPExplText {
             get {
-                return ResourceManager.GetString("Step2BodyText4", resourceCulture);
+                return ResourceManager.GetString("MyMPExplText", resourceCulture);
             }
         }
         
@@ -753,15 +777,33 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string OtherMPRaiseExplText {
+            get {
+                return ResourceManager.GetString("OtherMPRaiseExplText", resourceCulture);
+            }
+        }
+        
         internal static string Step2BodyText6 {
             get {
                 return ResourceManager.GetString("Step2BodyText6", resourceCulture);
             }
         }
         
-        internal static string Step2BodyText7 {
+        internal static string DontKnowTitle {
             get {
-                return ResourceManager.GetString("Step2BodyText7", resourceCulture);
+                return ResourceManager.GetString("DontKnowTitle", resourceCulture);
+            }
+        }
+        
+        internal static string LeaveBlankExplText {
+            get {
+                return ResourceManager.GetString("LeaveBlankExplText", resourceCulture);
+            }
+        }
+        
+        internal static string OR {
+            get {
+                return ResourceManager.GetString("OR", resourceCulture);
             }
         }
         
@@ -1098,6 +1140,36 @@ namespace RightToAskClient.Resx {
         internal static string MakeAccountQuestionText {
             get {
                 return ResourceManager.GetString("MakeAccountQuestionText", resourceCulture);
+            }
+        }
+        
+        internal static string SortByText {
+            get {
+                return ResourceManager.GetString("SortByText", resourceCulture);
+            }
+        }
+        
+        internal static string MyElectorateOnlyText {
+            get {
+                return ResourceManager.GetString("MyElectorateOnlyText", resourceCulture);
+            }
+        }
+        
+        internal static string DateText {
+            get {
+                return ResourceManager.GetString("DateText", resourceCulture);
+            }
+        }
+        
+        internal static string UpVotesText {
+            get {
+                return ResourceManager.GetString("UpVotesText", resourceCulture);
+            }
+        }
+        
+        internal static string SurpriseMeText {
+            get {
+                return ResourceManager.GetString("SurpriseMeText", resourceCulture);
             }
         }
         
