@@ -231,6 +231,18 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string FederalElectoratePickerTitle {
+            get {
+                return ResourceManager.GetString("FederalElectoratePickerTitle", resourceCulture);
+            }
+        }
+        
+        internal static string SelectElectorate {
+            get {
+                return ResourceManager.GetString("SelectElectorate", resourceCulture);
+            }
+        }
+        
         internal static string EditableElectoratesHeaderText {
             get {
                 return ResourceManager.GetString("EditableElectoratesHeaderText", resourceCulture);

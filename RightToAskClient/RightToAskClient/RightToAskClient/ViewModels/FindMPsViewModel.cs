@@ -161,11 +161,12 @@ namespace RightToAskClient.ViewModels
             get => _stateChoosableElectorateHeader;
             set => SetProperty(ref _stateChoosableElectorateHeader, value);
             }
-        
+
         private string _stateChoosableElectorate
-            =  App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsEnum == ParliamentData.StateEnum.TAS
-            ? App.ReadingContext.ThisParticipant.StateUpperHouseElectorate 
-            : App.ReadingContext.ThisParticipant.StateLowerHouseElectorate;
+            = "Select: " + 
+            (App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsEnum == ParliamentData.StateEnum.TAS
+                    ? App.ReadingContext.ThisParticipant.StateUpperHouseElectorate
+                    : App.ReadingContext.ThisParticipant.StateLowerHouseElectorate);
 
         public string StateChoosableElectorate
         {
@@ -198,7 +199,7 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _stateInferredElectorate, value);
         }
         
-        private string _federalElectoratePickerTitle = string.Format("Federal Electorate: {0:F0}", App.ReadingContext.ThisParticipant.CommonwealthElectorate);
+        private string _federalElectoratePickerTitle = string.Format("Select: {0:F0}", App.ReadingContext.ThisParticipant.CommonwealthElectorate);
         public string FederalElectoratePickerTitle
         {
             get => _federalElectoratePickerTitle;

@@ -210,6 +210,12 @@
   <data name="EditYourAccountTitle" xml:space="preserve">
     <value>Edit Your Account</value>
   </data>
+  <data name="FederalElectoratePickerTitle" xml:space="preserve">
+    <value>House of Representatives electorate</value>
+  </data>
+  <data name="SelectElectorate" xml:space="preserve">
+    <value>Select Electorate</value>
+  </data>
   <data name="EditableElectoratesHeaderText" xml:space="preserve">
     <value>Electorates</value>
   </data>
@@ -628,7 +634,7 @@
     <value>Image of a piece of paper with writing on it and a pencil pointing at and touching part of that page.</value>
   </data>
   <data name="LegislativeAssemblyText" xml:space="preserve">
-    <value>Legislative Assembly</value>
+    <value>Legislative Assembly electorate</value>
   </data>
   <data name="TasLowerHouseElectorateText" xml:space="preserve">
     <value>House of Assembly electorate</value>
@@ -989,7 +995,7 @@
     <value>Committee</value>
   </data>
   <data name="ChooseStateOrTerritory" xml:space="preserve">
-    <value>Choose State or Territory</value>
+    <value>State or Territory</value>
   </data>
   <data name="OtherUserInfoText" xml:space="preserve">
     <value>Information about another Right To Ask participant</value>

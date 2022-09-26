@@ -40,39 +40,33 @@
                 </Frame>
                 <!--Known Electorates Section-->
                 <Frame Style="{StaticResource SubtleFrame}" IsVisible="{Binding ShowKnowElectoratesFrame}">
-                    <StackLayout Margin="2" Spacing="0">
+                    <Grid ColumnDefinitions="*,*" Margin="10" RowSpacing="10">
                         <!--State Selector/Picker-->
-                        <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Margin="1,0,0,0">
-                            <Label Text="{xct:Translate MPsHeaderText2}" FontSize="Medium" HorizontalOptions="Start" VerticalOptions="Center" />
-                            <Picker Title="{Binding StatePickerTitle}" ItemsSource="{Binding StatePicker}" 
-					            Style="{StaticResource CenterFramePicker}" SelectedIndex="{Binding SelectedStateAsInt}">  
+                            <Label Grid.Row="0" Grid.Column="0" Text="{xct:Translate ChooseStateOrTerritory}" HorizontalTextAlignment="Start" VerticalOptions="Center" Style="{StaticResource PaleButtonText}" />
+                            <Picker  Grid.Row="0" Grid.Column="1" Title="{Binding StatePickerTitle}" ItemsSource="{Binding StatePicker}" 
+					            Style="{StaticResource CenterFramePicker}" HorizontalOptions="FillAndExpand" SelectedIndex="{Binding SelectedStateAsInt}">  
                             </Picker>
-                        </StackLayout>
-                        <StackLayout Margin="0" Padding="0" Spacing="0" IsVisible="{Binding ShowStateOnly, Converter={StaticResource Key=cnvInvert}}">
-                            <Picker Margin="0" Style="{StaticResource LeftFramePicker}" Title="{Binding FederalElectoratePickerTitle}" ItemsSource="{Binding FederalElectorates}"
-                                SelectedIndex="{Binding SelectedFederalElectorate}" MinimumWidthRequest="200">
+                            <Label Grid.Row="1" Grid.Column="0" Text="{xct:Translate FederalElectoratePickerTitle}" HorizontalTextAlignment="Start" VerticalOptions="Center" Style="{StaticResource PaleButtonText}" />
+                            <Picker Grid.Row="1" Grid.Column="1" Margin="0" Style="{StaticResource CenterFramePicker}" IsVisible="{Binding ShowStateOnly, Converter={StaticResource Key=cnvInvert}}" Title="{Binding FederalElectoratePickerTitle}" ItemsSource="{Binding FederalElectorates}"
+                                SelectedIndex="{Binding SelectedFederalElectorate}" MinimumWidthRequest="200" HorizontalOptions="Fill" HorizontalTextAlignment="Start">
                             </Picker>
                             <!-- Everywhere but Tasmania, the electorate you choose is your Legislative Assembly Electorate. In Tas, it's your Legislative Council Electorate.
                                 Along with your House of Representatives electorate, this is enough to infer all your other electorates. -->
-                            <StackLayout Orientation="Horizontal">
-                                <Label Text="{Binding StateChoosableElectorateHeader}"/>
-                                <Picker Margin="0" Style="{StaticResource LeftFramePicker}" ItemsSource="{Binding AllStateChoosableElectorates}"
-                                        Title="{Binding StateChoosableElectorate}" MinimumWidthRequest="200" SelectedIndex="{Binding SelectedStateElectorateIndex}" > 
-                                </Picker>
-                            </StackLayout>
-                            <StackLayout HorizontalOptions="Start" Orientation="Horizontal">
-                                <Label Text="{Binding StateInferredElectorateHeader}"></Label>
-                                <Label Text="{Binding StateInferredElectorate}"></Label>
-                            </StackLayout>
-                        </StackLayout>
-                    </StackLayout>
+                            <Label Grid.Row="2" Grid.Column="0" Text="{Binding StateChoosableElectorateHeader}" HorizontalTextAlignment="Start" Style="{StaticResource PaleButtonText}"/>
+                            <Picker Grid.Row="2" Grid.Column="1" Margin="0" Style="{StaticResource CenterFramePicker}" HorizontalOptions="Fill" ItemsSource="{Binding AllStateChoosableElectorates}" 
+                                    Title="{Binding StateChoosableElectorate}" SelectedIndex="{Binding SelectedStateElectorateIndex}" > 
+                            </Picker>
+                            <Label  Grid.Row="3" Grid.Column="0" Text="{Binding StateInferredElectorateHeader}" Style="{StaticResource PaleButtonText}" HorizontalTextAlignment="Start"></Label>
+                            <Label  Grid.Row="3" Grid.Column="1" Text="{Binding StateInferredElectorate}" Style="{StaticResource PaleButtonText}" HorizontalTextAlignment="Start"></Label>
+                    </Grid>
                 </Frame>
                 <!--Address Lookup Stack-->
                 <Frame Style="{StaticResource SubtleFrame}" IsVisible="{Binding ShowAddressStack}">
                     <StackLayout Margin="2" Spacing="0">
                         <!--State Selector/Picker-->
                         <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Margin="0" Padding="0">
-                            <Label Text="{xct:Translate MPsHeaderText2}" FontSize="Medium" HorizontalOptions="Start" VerticalOptions="Center" />
+                            <Label Text="{xct:Translate ChooseStateOrTerritory}" HorizontalTextAlignment="Start" VerticalOptions="Center" Style="{StaticResource PaleButtonText}" />
+                            <!-- <Label Text="{xct:Translate MPsHeaderText2}" FontSize="Medium" HorizontalOptions="Start" VerticalOptions="Center" /> -->
                             <Picker Title="{Binding StatePickerTitle}" ItemsSource="{Binding StatePicker}" 
 					        Style="{StaticResource CenterFramePicker}" SelectedIndex="{Binding SelectedStateAsInt}">
                             </Picker>
