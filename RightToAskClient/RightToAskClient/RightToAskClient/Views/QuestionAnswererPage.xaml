@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:local="clr-namespace:RightToAskClient"
+             x:Class="RightToAskClient.Views.QuestionAnswererPage"
+             Title="{xct:Translate WhoShouldAnswerTitle}" 
+             x:DataType="vm:QuestionViewModel">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel" 
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.home4.png}" Priority="0"/>
+        <ToolbarItem Text="{xct:Translate InfoPopupButtonText}" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.help_75.png}"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>        
+        <StackLayout x:Name="questionAnswerer" VerticalOptions="FillAndExpand" Margin="10">
+        <Label Text="{xct:Translate AnswerQuestionHeaderText}" Style="{StaticResource Header1}" HorizontalTextAlignment="Center" VerticalOptions="Start"/>
+        <BoxView />
+        <Grid RowDefinitions="auto,auto,auto,auto"  ColumnDefinitions="2*,3*" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="10">
+                    <Button Grid.Row="0" Grid.Column="0" Text="{xct:Translate MyMPButtonText}" Style="{StaticResource TallGreenButton}" 
+                            Command="{Binding AnsweredByMyMPCommand}" Margin="10"/>
+                    <!-- <Button Grid.Row="1" Grid.Column="0" Text="{xct:Translate AnotherMPButtonText}" Style="{StaticResource TallTallGreenButton}" 
+                            Command="{Binding AnsweredByOtherMPCommand}" Margin="10"/> -->
+                    <!--<Label Grid.Row="1" Grid.ColumnSpan="2" Text="{xct:Translate OptionBText3}" Style="{StaticResource CenterFrameTextSmall}" VerticalOptions="Center"/>-->
+                    <Label Grid.Row="0" Grid.Column="1" Text="{xct:Translate MyMPAnswerExplText}" Style="{StaticResource NormalText}" VerticalTextAlignment="Center"/> 
+                    <Button Grid.Row="1" Grid.Column="0" Text="{xct:Translate AnotherMPButtonText}" Style="{StaticResource TallGreenButton}" 
+                            Command="{Binding AnsweredByOtherMPCommandOptionB}" Margin="10"/>
+                    <Label Grid.Row="1" Grid.Column="1" Text="{xct:Translate OtherMPAnswerExplText}" Style="{StaticResource NormalText}" VerticalTextAlignment="Center"/> 
+                    <Button Grid.Row="2" Grid.Column="0" Text="{xct:Translate PublicAuthorityButtonText}" Style="{StaticResource TallGreenButton}"
+                            Command="{Binding OtherPublicAuthorityButtonCommand}" Margin="10"/>
+                    <Label Grid.Row="2" Grid.Column="1" Text="{xct:Translate AuthorityAnswerExplText}" Style="{StaticResource NormalText}" VerticalTextAlignment="Center"/> 
+                    <Button Grid.Row="3" Grid.Column="0" Text="{xct:Translate DontKnowTitle}" Style="{StaticResource TallGreenButton}"
+                            Command="{Binding LeaveAnswererBlankButtonCommand}" Margin="10"/>
+                    <Label Grid.Row="3" Grid.Column="1" Text="{xct:Translate LeaveBlankExplText}" Style="{StaticResource NormalText}" VerticalTextAlignment="Center"/> 
+        </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

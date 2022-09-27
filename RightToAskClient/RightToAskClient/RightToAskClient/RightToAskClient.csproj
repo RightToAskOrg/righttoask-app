@@ -301,7 +301,7 @@
     <EmbeddedResource Update="Views\EmptyCollectionView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\FlowOptionPage.xaml">
+    <EmbeddedResource Update="Views\QuestionAnswererPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\HowToPublishPage.xaml">

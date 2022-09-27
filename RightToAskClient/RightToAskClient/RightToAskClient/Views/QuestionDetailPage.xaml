@@ -22,6 +22,11 @@
 	<ContentPage.Content>
 		<ScrollView>
 			<StackLayout x:Name="WholePage" Margin="20">
+				<StackLayout Orientation="Vertical" IsVisible="{Binding IsNewQuestion}">
+					<Label Text="{xct:Translate QuestionReviewHeaderText}" HorizontalTextAlignment="Center" Style="{StaticResource Header1}"
+					       HorizontalOptions="StartAndExpand" />
+					<BoxView />
+				</StackLayout>
 				<StackLayout Orientation="Horizontal" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
 					<Label Text="{xct:Translate QuestionHeaderText}" Style="{StaticResource Header2}"
 					       HorizontalOptions="StartAndExpand" />

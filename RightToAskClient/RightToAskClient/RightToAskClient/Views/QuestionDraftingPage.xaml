@@ -29,7 +29,7 @@
 			<Label Style="{StaticResource ReportLabel}" Text="{xct:Translate MyQuestionCharLimitText}" />
 			<Label Style="{StaticResource ReportLabel}" Text="{Binding ReportLabelText}" IsVisible="{Binding MPButtonsEnabled, Converter={StaticResource Key=cnvInvert}}"/>
 			<StackLayout Orientation="Horizontal" HorizontalOptions="End" VerticalOptions="End" Margin="0,40,0,0" >
-                <Button Text="{xct:Translate NextButtonText}" Style="{StaticResource NextButton}"  Command="{Binding NavigateForwardCommand}" IsVisible="{Binding IsReadingOnly, Converter={StaticResource Key=cnvInvert}}"/>
+                <Button Text="{xct:Translate NextButtonText}" Style="{StaticResource NextButton}"  Command="{Binding QuestionDraftDoneCommand}" IsVisible="{Binding IsReadingOnly, Converter={StaticResource Key=cnvInvert}}"/>
 			</StackLayout>
 		</StackLayout>
 	</ContentPage.Content>

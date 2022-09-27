@@ -19,6 +19,8 @@
         <ScrollView>
             <StackLayout x:Name="WholePage" Margin="20">
                 <StackLayout>
+                    <Label Text="{xct:Translate MetadataHeaderText}" Style="{StaticResource Header1}" HorizontalTextAlignment="Center" VerticalOptions="Start"/>
+                    <BoxView />
                     <StackLayout>
                         <Label Text="{xct:Translate WhoShouldAnswerTitle}" Style="{StaticResource Header2}" />
                         <StackLayout>
@@ -41,6 +43,7 @@
                             <views:ClickableListView x:Name="myMPsToRaise" BindingContext="{Binding AskingMPsMine}"/>
                             <views:ClickableListView x:Name="otherMPsToRaise" BindingContext="{Binding AskingMPsOther}"/>
                             <views:ClickableListView x:Name="committees" BindingContext="{Binding Committees}" />
+                            <!-- For the possibility of asking other RTA participants (non-MPs) to raise things. Omitted for now.
                             <StackLayout Spacing="0" Margin="0" Padding="0">
                                 <Label Text="Right to Ask Participant" Style="{StaticResource ClickableHeader}">
                                     <Label.GestureRecognizers>
@@ -53,6 +56,7 @@
                                     </Label.GestureRecognizers>
                                 </Label>
                             </StackLayout>
+                            -->
                             <StackLayout Spacing="0" Margin="0" Padding="0">
                                 <Label Text="Not Stated">
                                     <Label.GestureRecognizers>

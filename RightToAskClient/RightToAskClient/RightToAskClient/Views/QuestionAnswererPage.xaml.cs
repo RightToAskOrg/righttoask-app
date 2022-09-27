@@ -11,9 +11,9 @@ using Xamarin.Forms.Xaml;
 namespace RightToAskClient.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class FlowOptionPage : ContentPage
+    public partial class QuestionAnswererPage : ContentPage
     {
-        public FlowOptionPage()
+        public QuestionAnswererPage()
         {
             InitializeComponent();
 

@@ -87,6 +87,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string AnswerQuestionHeaderText {
+            get {
+                return ResourceManager.GetString("AnswerQuestionHeaderText", resourceCulture);
+            }
+        }
+        
         internal static string ApproveAnswerText {
             get {
                 return ResourceManager.GetString("ApproveAnswerText", resourceCulture);
@@ -222,6 +228,18 @@ namespace RightToAskClient.Resx {
         internal static string EditYourAccountTitle {
             get {
                 return ResourceManager.GetString("EditYourAccountTitle", resourceCulture);
+            }
+        }
+        
+        internal static string FederalElectoratePickerTitle {
+            get {
+                return ResourceManager.GetString("FederalElectoratePickerTitle", resourceCulture);
+            }
+        }
+        
+        internal static string SelectElectorate {
+            get {
+                return ResourceManager.GetString("SelectElectorate", resourceCulture);
             }
         }
         
@@ -402,6 +420,12 @@ namespace RightToAskClient.Resx {
         internal static string MainPageHeader2Text {
             get {
                 return ResourceManager.GetString("MainPageHeader2Text", resourceCulture);
+            }
+        }
+        
+        internal static string MetadataHeaderText {
+            get {
+                return ResourceManager.GetString("MetadataHeaderText", resourceCulture);
             }
         }
         
@@ -588,6 +612,12 @@ namespace RightToAskClient.Resx {
         internal static string QuestionDetailsTitle {
             get {
                 return ResourceManager.GetString("QuestionDetailsTitle", resourceCulture);
+            }
+        }
+        
+        internal static string QuestionReviewHeaderText {
+            get {
+                return ResourceManager.GetString("QuestionReviewHeaderText", resourceCulture);
             }
         }
         
@@ -966,6 +996,24 @@ namespace RightToAskClient.Resx {
         internal static string DraftMyQuestionTitle {
             get {
                 return ResourceManager.GetString("DraftMyQuestionTitle", resourceCulture);
+            }
+        }
+        
+        internal static string MyMPAnswerExplText {
+            get {
+                return ResourceManager.GetString("MyMPAnswerExplText", resourceCulture);
+            }
+        }
+        
+        internal static string OtherMPAnswerExplText {
+            get {
+                return ResourceManager.GetString("OtherMPAnswerExplText", resourceCulture);
+            }
+        }
+        
+        internal static string AuthorityAnswerExplText {
+            get {
+                return ResourceManager.GetString("AuthorityAnswerExplText", resourceCulture);
             }
         }
         

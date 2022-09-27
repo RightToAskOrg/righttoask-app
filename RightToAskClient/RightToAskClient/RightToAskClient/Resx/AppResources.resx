@@ -121,7 +121,7 @@
     <value>Failed to sign user update message</value>
   </data>
   <data name="AddBackgroundPlaceholderText" xml:space="preserve">
-    <value>Add Background (optional)</value>
+    <value>(Optional) links or background</value>
   </data>
   <data name="AdvancedSearchOptions" xml:space="preserve">
     <value>Advanced Search Options</value>
@@ -137,6 +137,9 @@
   </data>
   <data name="AnswererPermissions" xml:space="preserve">
     <value>Allow other users to add more people to answer the question?</value>
+  </data>
+  <data name="AnswerQuestionHeaderText" xml:space="preserve">
+    <value>Who should answer your question?</value>
   </data>
   <data name="ApproveAnswerText" xml:space="preserve">
     <value>Approve this answer?</value>
@@ -154,7 +157,7 @@
     <value>Authorities who should answer the question</value>
   </data>
   <data name="BackgroundHeaderText" xml:space="preserve">
-    <value>Tell others enough background to understand your question</value>
+    <value>Do you want to add more information to explain the question?</value>
   </data>
   <data name="CancelButtonText" xml:space="preserve">
     <value>Cancel</value>
@@ -206,6 +209,12 @@
   </data>
   <data name="EditYourAccountTitle" xml:space="preserve">
     <value>Edit Your Account</value>
+  </data>
+  <data name="FederalElectoratePickerTitle" xml:space="preserve">
+    <value>House of Representatives electorate</value>
+  </data>
+  <data name="SelectElectorate" xml:space="preserve">
+    <value>Select Electorate</value>
   </data>
   <data name="EditableElectoratesHeaderText" xml:space="preserve">
     <value>Electorates</value>
@@ -297,6 +306,9 @@
   <data name="MainPageHeader2Text" xml:space="preserve">
     <value>Write a question</value>
   </data>
+  <data name="MetadataHeaderText" xml:space="preserve">
+    <value>Review your directions</value>
+  </data>
   <data name="MainPageHeaderText" xml:space="preserve">
     <value>Read and vote on questions</value>
   </data>
@@ -313,7 +325,7 @@
     <value>Are you an MP or staffer?</value>
   </data>
   <data name="MPsHeaderText1" xml:space="preserve">
-    <value>Your MPs are defined by the electorate you live in</value>
+    <value>Choose or search for your electorates</value>
   </data>
   <data name="MPsHeaderText2" xml:space="preserve">
     <value>I live in </value>
@@ -389,6 +401,9 @@
   </data>
   <data name="QuestionDetailsTitle" xml:space="preserve">
     <value>Question Details</value>
+  </data>
+  <data name="QuestionReviewHeaderText" xml:space="preserve">
+    <value>Review your question</value>
   </data>
   <data name="QuestionHeaderText" xml:space="preserve">
     <value>Question: </value>
@@ -579,6 +594,15 @@
   <data name="DraftMyQuestionTitle" xml:space="preserve">
     <value>Draft a Question</value>
   </data>
+  <data name="MyMPAnswerExplText" xml:space="preserve">
+    <value>We will help you find yours if you do not know who they are.</value>
+  </data>
+  <data name="OtherMPAnswerExplText" xml:space="preserve">
+    <value>For example, the Premier, Prime Minister or relevant minister.</value>
+  </data>
+  <data name="AuthorityAnswerExplText" xml:space="preserve">
+    <value>For example, the ABS, a government department,  or the Murray-Darling Basin Authority.</value>
+  </data>
   <data name="RaiseQuestionHeaderText" xml:space="preserve">
     <value>Now direct your question to where it might get answered.</value>
   </data>
@@ -607,7 +631,7 @@
     <value>Who should raise it?</value>
   </data>
   <data name="WhoShouldAnswerTitle" xml:space="preserve">
-    <value>Who Should Answer?</value>
+    <value>Who answers</value>
   </data>
   <data name="DraftImageAccessibilityHelpText" xml:space="preserve">
     <value>This image is to help show that you draft your questions by clicking here.</value>
@@ -616,7 +640,7 @@
     <value>Image of a piece of paper with writing on it and a pencil pointing at and touching part of that page.</value>
   </data>
   <data name="LegislativeAssemblyText" xml:space="preserve">
-    <value>Legislative Assembly</value>
+    <value>Legislative Assembly electorate</value>
   </data>
   <data name="TasLowerHouseElectorateText" xml:space="preserve">
     <value>House of Assembly electorate</value>
@@ -977,7 +1001,7 @@
     <value>Committee</value>
   </data>
   <data name="ChooseStateOrTerritory" xml:space="preserve">
-    <value>Choose State or Territory</value>
+    <value>State or Territory</value>
   </data>
   <data name="OtherUserInfoText" xml:space="preserve">
     <value>Information about another Right To Ask participant</value>

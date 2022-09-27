@@ -16,6 +16,7 @@
     <ContentPage.Content>
         <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" Padding="10">
             <Label Text="{xct:Translate BackgroundHeaderText}" Style="{StaticResource Header1}" />
+            <BoxView />
             <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Padding="20">
                 <Editor MaxLength="280" HeightRequest="200" WidthRequest="320" IsEnabled="{Binding CanEditBackground, Mode=OneWay}"
                         Style="{StaticResource NormalEditor}" Text="{Binding Question.Background}" Placeholder="{xct:Translate AddBackgroundPlaceholderText}">
