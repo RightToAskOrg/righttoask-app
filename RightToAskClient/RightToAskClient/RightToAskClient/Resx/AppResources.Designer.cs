@@ -423,6 +423,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string MetadataHeaderText {
+            get {
+                return ResourceManager.GetString("MetadataHeaderText", resourceCulture);
+            }
+        }
+        
         internal static string MainPageHeaderText {
             get {
                 return ResourceManager.GetString("MainPageHeaderText", resourceCulture);
@@ -606,6 +612,12 @@ namespace RightToAskClient.Resx {
         internal static string QuestionDetailsTitle {
             get {
                 return ResourceManager.GetString("QuestionDetailsTitle", resourceCulture);
+            }
+        }
+        
+        internal static string QuestionReviewHeaderText {
+            get {
+                return ResourceManager.GetString("QuestionReviewHeaderText", resourceCulture);
             }
         }
         

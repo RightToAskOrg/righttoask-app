@@ -19,6 +19,8 @@
         <ScrollView>
             <StackLayout x:Name="WholePage" Margin="20">
                 <StackLayout>
+                    <Label Text="{xct:Translate MetadataHeaderText}" Style="{StaticResource Header1}" HorizontalTextAlignment="Center" VerticalOptions="Start"/>
+                    <BoxView />
                     <StackLayout>
                         <Label Text="{xct:Translate WhoShouldAnswerTitle}" Style="{StaticResource Header2}" />
                         <StackLayout>

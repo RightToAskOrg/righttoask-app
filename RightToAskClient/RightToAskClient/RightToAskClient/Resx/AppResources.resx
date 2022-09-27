@@ -306,6 +306,9 @@
   <data name="MainPageHeader2Text" xml:space="preserve">
     <value>Write a question</value>
   </data>
+  <data name="MetadataHeaderText" xml:space="preserve">
+    <value>Review your directions</value>
+  </data>
   <data name="MainPageHeaderText" xml:space="preserve">
     <value>Read and vote on questions</value>
   </data>
@@ -398,6 +401,9 @@
   </data>
   <data name="QuestionDetailsTitle" xml:space="preserve">
     <value>Question Details</value>
+  </data>
+  <data name="QuestionReviewHeaderText" xml:space="preserve">
+    <value>Review your question</value>
   </data>
   <data name="QuestionHeaderText" xml:space="preserve">
     <value>Question: </value>

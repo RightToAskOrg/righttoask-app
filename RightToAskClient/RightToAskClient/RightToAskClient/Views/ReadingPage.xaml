@@ -25,6 +25,10 @@
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout x:Name="WholePage" HorizontalOptions="Center" VerticalOptions="FillAndExpand" Spacing="0">
+            <!-- Instructions for focus support. Show and hide when we're showing/hiding the question frame. --> 
+            <Label Text="{xct:Translate FocusSupportInstructionQuestionDrafting}"  Style = "{StaticResource Header1}"
+                   IsVisible="{Binding ShowQuestionFrame}" />
+            <BoxView />
             <!--Search Frame-->
             <Frame Style="{StaticResource AppThemeGreenFrame}" Margin="0" Padding="0" IsVisible="{Binding ShowSearchFrame}">
                 <StackLayout>
@@ -70,7 +74,6 @@
                              IsChecked="True"
                              GroupName="sortOptions" />
             </StackLayout>
-            <BoxView />
             <!--Questions Scroll View with Floating Draft Button-->
             <Grid RowDefinitions="*,*" ColumnDefinitions="*,*" VerticalOptions="FillAndExpand">
                 <RefreshView Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="2" IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
