@@ -18,7 +18,7 @@ namespace RightToAskClient
             Routing.RegisterRoute("//MainPage/SecondPage", typeof(SecondPage));
             Routing.RegisterRoute(nameof(ReadingPage), typeof(ReadingPage));
             Routing.RegisterRoute(nameof(OtherUserProfilePage), typeof(OtherUserProfilePage));
-            Routing.RegisterRoute(nameof(FlowOptionPage), typeof(FlowOptionPage));
+            Routing.RegisterRoute(nameof(QuestionAnswererPage), typeof(QuestionAnswererPage));
             Routing.RegisterRoute(nameof(AdvancedSearchFiltersPage), typeof(AdvancedSearchFiltersPage));
             Routing.RegisterRoute(nameof(MPRegistrationVerificationPage), typeof(MPRegistrationVerificationPage));
             Routing.RegisterRoute(nameof(QuestionBackgroundPage), typeof(QuestionBackgroundPage));

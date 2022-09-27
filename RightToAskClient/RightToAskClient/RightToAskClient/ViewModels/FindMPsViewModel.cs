@@ -212,7 +212,10 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _doneButtonText, value);
         }
         private bool _launchMPsSelectionPageNext = false;
-        private bool _optionB = false;
+        
+        // This indicates, when we're choosing from a list of MPs, whether they're asking the question (true) or
+        // answering it (false).
+        private bool _choosingAskingMP = false;
 
         private string _mapURL = "";
         public string MapURL
@@ -281,15 +284,17 @@ namespace RightToAskClient.ViewModels
                 _launchMPsSelectionPageNext = false;
                 MessagingCenter.Unsubscribe<RegistrationViewModel>(this, "FromReg1");
             });
+            /*
             // TODO Not sure we ever use this.
             MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionBGoToAskingPageNext", sender =>
             {
-                _optionB = true;
+                _choosingAskingMP = true;
                 MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionBGoToAskingPageNext");
             });
+            */
             MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionBAskingNow", sender =>
             {
-                _optionB = true;
+                _choosingAskingMP = true;
                 MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionBAskingNow");
             });
 
@@ -305,15 +310,15 @@ namespace RightToAskClient.ViewModels
                 //    - after that, navigate forward to a ReadingPage;
                 if (_launchMPsSelectionPageNext)
                 {
-                    // Option B - our MP is asking the question
-                    if (_optionB)
+                    // Our MP is asking the question
+                    if (_choosingAskingMP)
                     {
                         string message =
                             "These are your MPs.  Select the one(s) who should raise the question in Parliament";
                         mpsSearchableListPage = new SelectableListPage(App.ReadingContext.Filters.AskingMPsListsMine,
                             message);
                     }
-                    // Option A - our MP should be answering the question.
+                    // Our MP should be answering the question.
                     else
                     {
                         string message = "These are your MPs.  Select the one(s) who should answer the question";
@@ -325,7 +330,7 @@ namespace RightToAskClient.ViewModels
 
                     await App.Current.MainPage.Navigation.PushAsync(mpsSearchableListPage);
                     _launchMPsSelectionPageNext = false;
-                    _optionB = false;
+                    _choosingAskingMP = false;
                     DoneButtonText = AppResources.DoneButtonText;
                 }
                 // We are here from the registration page - no need to select any MPs

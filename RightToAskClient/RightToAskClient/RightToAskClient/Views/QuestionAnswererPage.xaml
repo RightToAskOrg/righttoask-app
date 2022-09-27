@@ -4,7 +4,7 @@
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:local="clr-namespace:RightToAskClient"
-             x:Class="RightToAskClient.Views.FlowOptionPage"
+             x:Class="RightToAskClient.Views.QuestionAnswererPage"
              Title="{xct:Translate WhoShouldAnswerTitle}" 
              x:DataType="vm:QuestionViewModel">
     <ContentPage.ToolbarItems>
@@ -31,7 +31,7 @@
                             Command="{Binding OtherPublicAuthorityButtonCommand}" Margin="10"/>
                     <Label Grid.Row="2" Grid.Column="1" Text="{xct:Translate AuthorityAnswerExplText}" Style="{StaticResource NormalText}" VerticalTextAlignment="Center"/> 
                     <Button Grid.Row="3" Grid.Column="0" Text="{xct:Translate DontKnowTitle}" Style="{StaticResource TallGreenButton}"
-                            Command="{Binding OtherPublicAuthorityButtonCommand}" Margin="10"/>
+                            Command="{Binding LeaveAnswererBlankButtonCommand}" Margin="10"/>
                     <Label Grid.Row="3" Grid.Column="1" Text="{xct:Translate LeaveBlankExplText}" Style="{StaticResource NormalText}" VerticalTextAlignment="Center"/> 
         </Grid>
         </StackLayout>

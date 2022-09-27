@@ -100,8 +100,10 @@ namespace RightToAskClient.ViewModels
         }
 
         // Whether the 'Option B' path, in which you choose both someone to answer 
-        // and someone to raise the question, has been selected.
-        private bool _raisedByOptionSelected;
+        // and someone to raise the question, has been selected. This is the opposite of
+        // 'AnswerInApp.' Default to true unless the user explicitly chooses to get an answer
+        // in the app.
+        private bool _raisedByOptionSelected = true;
         public bool RaisedByOptionSelected
         {
             get => _raisedByOptionSelected;
@@ -239,23 +241,19 @@ namespace RightToAskClient.ViewModels
             {
                 await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
             });
-            // If in read-only mode, initiate a question-reading page.
-            // Similarly if my MP is answering.
-            // If drafting, load a question-asker page, which will then 
-            // lead to a question-reading page.
-            //
-            // TODO also doesn't do the right thing if you've previously selected
-            // someone other than your MP.  In other words, it should enforce exclusivity -
-            // either your MP(s) answer it, or an authority or other MP answers it.
-            // At the moment this exclusivity is not enforced.
-            NavigateForwardCommand = new AsyncCommand(async () =>
+            QuestionDraftDoneCommand = new AsyncCommand(async () =>
             {
-                await Shell.Current.GoToAsync($"{nameof(FlowOptionPage)}");
+                await Shell.Current.GoToAsync($"{nameof(QuestionAnswererPage)}");
+            });
+            // For skipping choices - just navigate forwards
+            LeaveAnswererBlankButtonCommand = new AsyncCommand(async () =>
+            {
+                await Shell.Current.GoToAsync($"{nameof(QuestionAskerPage)}");
             });
             OtherPublicAuthorityButtonCommand = new AsyncCommand(async () =>
             {
-                Question.AnswerInApp = false;
-                AnswerInApp = false;
+                // Question.AnswerInApp = false;
+                // AnswerInApp = false;
                 var PageToSearchAuthorities
                     = new SelectableListPage(App.ReadingContext.Filters.AuthorityLists, "Choose authorities");
                 await Shell.Current.Navigation.PushAsync(PageToSearchAuthorities).ContinueWith((_) => 
@@ -269,26 +267,28 @@ namespace RightToAskClient.ViewModels
             // It will pop back to here.
             AnsweredByMyMPCommand = new AsyncCommand(async () =>
             {
-                Question.AnswerInApp = true;
-                AnswerInApp = true;
+                // Question.AnswerInApp = true;
+                // AnswerInApp = true;
                 await NavigationUtils.PushMyAnsweringMPsExploringPage().ContinueWith((_) =>
                 {
-                    MessagingCenter.Send(this, "GoToReadingPage"); // Sends this view model
+                    MessagingCenter.Send(this, "OptionBGoToAskingPageNext"); // Sends this view model
                 });
             });
+            /*
             AnsweredByOtherMPCommand = new AsyncCommand(async () =>
             {
                 Question.AnswerInApp = true;
                 AnswerInApp = true;
                 await NavigationUtils.PushAnsweringMPsNotMineSelectableListPage().ContinueWith((_) =>
                 {
-                    MessagingCenter.Send(this, "GoToReadingPage"); // Sends this view model
+                    MessagingCenter.Send(this, "OptionBGoToAskingPageNext"); // Sends this view model
                 });
             });
+            */
             AnsweredByOtherMPCommandOptionB = new AsyncCommand(async () =>
             {
-                Question.AnswerInApp = false;
-                AnswerInApp = false;
+                // Question.AnswerInApp = false;
+                // AnswerInApp = false;
                 await NavigationUtils.PushAnsweringMPsNotMineSelectableListPage().ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, "OptionBGoToAskingPageNext"); // Sends this view model
@@ -381,10 +381,11 @@ namespace RightToAskClient.ViewModels
         private Command? _notSureWhoShouldRaiseCommand;
         public Command NotSureWhoShouldRaiseCommand => _notSureWhoShouldRaiseCommand ??= new Command(NotSureWhoShouldRaiseButtonClicked);
         public IAsyncCommand ProceedToReadingPageCommand { get; }
-        public IAsyncCommand NavigateForwardCommand { get; }
+        public IAsyncCommand LeaveAnswererBlankButtonCommand { get; }
+        public IAsyncCommand QuestionDraftDoneCommand { get; }
         public IAsyncCommand OtherPublicAuthorityButtonCommand { get; }
         public IAsyncCommand AnsweredByMyMPCommand { get; }
-        public IAsyncCommand AnsweredByOtherMPCommand { get; }
+        // public IAsyncCommand AnsweredByOtherMPCommand { get; }
         public IAsyncCommand AnsweredByOtherMPCommandOptionB { get; }
         public IAsyncCommand QuestionSuggesterCommand { get; }
         public IAsyncCommand BackCommand { get; }
@@ -401,7 +402,7 @@ namespace RightToAskClient.ViewModels
             Question = new Question();
             IsNewQuestion = false;
             IsReadingOnly = App.ReadingContext.IsReadingOnly; // crashes here if setting up existing test questions
-            RaisedByOptionSelected = false;
+            RaisedByOptionSelected = true;
             AnotherUserButtonText = AppResources.AnotherUserButtonText;
             NotSureWhoShouldRaiseButtonText = AppResources.NotSureButtonText;
             SelectButtonText = AppResources.SelectButtonText;
@@ -468,7 +469,6 @@ namespace RightToAskClient.ViewModels
         private async void NotSureWhoShouldRaiseButtonClicked()
         {
             RaisedByOptionSelected = true;
-            NotSureWhoShouldRaiseButtonText = "Not implemented yet";
             await Shell.Current.GoToAsync(nameof(ReadingPage));
         }
 
