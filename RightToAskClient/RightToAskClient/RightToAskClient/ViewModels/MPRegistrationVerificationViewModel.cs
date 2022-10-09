@@ -100,10 +100,7 @@ namespace RightToAskClient.ViewModels
         
         // methods
         private string _registerMPReportLabelText = "";
-        public string RegisterMPReportLabelText
-        {
-            get => _registerMPReportLabelText;
-        }
+        public string RegisterMPReportLabelText => _registerMPReportLabelText;
 
         private bool _showRegisterMPReportLabel;
         public bool ShowRegisterMPReportLabel

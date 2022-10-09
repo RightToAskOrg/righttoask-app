@@ -15,10 +15,7 @@ namespace RightToAskClient.Models
         public string display_name { get; set; } = "";
         public string public_key { get; set; } = "";
 
-        public string State
-        {
-            get => _stateKnown ? SelectedStateAsEnum.ToString() : "";
-        }
+        public string State => _stateKnown ? SelectedStateAsEnum.ToString() : "";
 
         public string uid { get; set; } = "";
 

@@ -35,10 +35,7 @@ namespace RightToAskClient.Models
         [JsonPropertyName("party")]
         public string party { get; set; }= "";
 
-        public override string ShortestName
-        {
-            get { return first_name + " " + surname; }
-        }
+        public override string ShortestName => first_name + " " + surname;
 
         private string salutation = "";
 

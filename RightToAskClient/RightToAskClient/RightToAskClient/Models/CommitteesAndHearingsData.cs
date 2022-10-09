@@ -9,12 +9,6 @@ namespace RightToAskClient.Models
             new UpdatableCommitteesAndHearingsData();
         
         
-	    public static ObservableCollection<Committee> AllCommittees 
-	    {
-		    get
-		    {
-			    return new ObservableCollection<Committee>(CommitteesData.Committees);
-		    }
-	    }
+	    public static ObservableCollection<Committee> AllCommittees => new ObservableCollection<Committee>(CommitteesData.Committees);
     }
 }

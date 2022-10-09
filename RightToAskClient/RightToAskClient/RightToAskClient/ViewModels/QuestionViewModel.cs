@@ -42,11 +42,8 @@ namespace RightToAskClient.ViewModels
         }
 
         public bool HasAnswer => Answers.Any();
-        public List<Answer> Answers
-        {
-            get => Question.Answers;
-        }
-        
+        public List<Answer> Answers => Question.Answers;
+
         private string? _newHansardLink; 
         public string NewHansardLink 
         { 

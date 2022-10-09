@@ -14,17 +14,11 @@ namespace RightToAskClient.Models
     {
         private List<Committee> _committees = new List<Committee>();
 
-        public List<Committee> Committees
-        {
-            get => _committees;
-        }
-        
-        
-		private bool _isInitialised;  // Defaults to false.
-		public bool IsInitialised
-		{
-			get => _isInitialised;
-		}
+        public List<Committee> Committees => _committees;
+
+
+        private bool _isInitialised;  // Defaults to false.
+		public bool IsInitialised => _isInitialised;
 
 
         public async Task<Result<bool>> TryInitialisingFromServer()

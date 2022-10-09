@@ -86,10 +86,7 @@ namespace RightToAskClient.Models
         public FilterChoices Filters
         {
             get => _filters;
-            set
-            {
-                SetProperty(ref _filters, value);
-            }
+            set => SetProperty(ref _filters, value);
         }
         
         // TODO do updates.
@@ -102,21 +99,15 @@ namespace RightToAskClient.Models
         public string QuestionId
         {
             get => _questionId;
-            set
-            {
-                SetProperty(ref _questionId, value);
-                //** QuestionViewModel.Instance.ServerQuestionUpdates.question_id = _questionId;
-            }
+            set => SetProperty(ref _questionId, value);
+            //** QuestionViewModel.Instance.ServerQuestionUpdates.question_id = _questionId;
         }
         private string _version = "";
         public string Version
         {
             get => _version;
-            set
-            {
-                SetProperty(ref _version, value);
-                //** QuestionViewModel.Instance.ServerQuestionUpdates.version = _version;
-            }
+            set => SetProperty(ref _version, value);
+            //** QuestionViewModel.Instance.ServerQuestionUpdates.version = _version;
         }
 
         // The person who suggested the question
@@ -175,22 +166,16 @@ namespace RightToAskClient.Models
         // A list of existing answers, specifying who gave the answer in the role of representing which MP.
         public List<Answer>? _answers { get; set; } 
         
-        public List<Answer> Answers 
-        { 
-            get => _answers;
-        }
+        public List<Answer> Answers => _answers;
 
-        
+
         private List<Uri> _hansardLink = new List<Uri>();
 
         public List<Uri> HansardLink
         {
             get => _hansardLink;
-            private set
-            {
-                SetProperty(ref _hansardLink, value);
-                //** QuestionViewModel.Instance.ServerQuestionUpdates.hansard_link = _hansardLink;
-            }
+            private set => SetProperty(ref _hansardLink, value);
+            //** QuestionViewModel.Instance.ServerQuestionUpdates.hansard_link = _hansardLink;
         }
 
         public int UpVotes
@@ -200,10 +185,7 @@ namespace RightToAskClient.Models
         }
         public int DownVotes 
         {
-            get
-            {
-                return _downVotes;
-            }
+            get => _downVotes;
             set
             {
                 _downVotes = value;

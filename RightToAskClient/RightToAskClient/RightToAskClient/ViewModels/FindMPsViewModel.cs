@@ -84,19 +84,15 @@ namespace RightToAskClient.ViewModels
         }
         public List<string> StatePicker => ParliamentData.StateStrings;
         // private string _statePickerTitle = String.IsNullOrEmpty(App.ReadingContext.ThisParticipant.RegistrationInfo.State) ? "Choose State or Territory" : App.ReadingContext.ThisParticipant.RegistrationInfo.State;
-        public string StatePickerTitle
-        {
-            get => _registration.StateKnown
+        public string StatePickerTitle =>
+            _registration.StateKnown
                 ? _registration.SelectedStateAsEnum.ToString()
                 : AppResources.ChooseStateOrTerritory;
-        }
+
         private int _selectedStateAsInt = -1;
         public int SelectedStateAsInt
         {
-            get
-            {
-                return _selectedStateAsInt;
-            }
+            get => _selectedStateAsInt;
             set
             {
                 SetProperty(ref _selectedStateAsInt, value);
@@ -137,17 +133,11 @@ namespace RightToAskClient.ViewModels
             }
         }
         
-        public List<string> FederalElectorates
-        {
-            get => ParliamentData.HouseOfRepsElectorates(SelectedStateEnum.ToString());
-        }
-        
+        public List<string> FederalElectorates => ParliamentData.HouseOfRepsElectorates(SelectedStateEnum.ToString());
+
         private ObservableCollection<string> _allStateChoosableElectorates = new ObservableCollection<string>();
-        public ObservableCollection<string> AllStateChoosableElectorates
-        {
-            get => _allStateChoosableElectorates;
-        }
-        
+        public ObservableCollection<string> AllStateChoosableElectorates => _allStateChoosableElectorates;
+
         private string _stateChoosableElectorateHeader 
             =  App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsEnum == ParliamentData.StateEnum.TAS
             ? string.Format("State Legislative Council Electorate: {0:F0}", App.ReadingContext.ThisParticipant.StateUpperHouseElectorate)
@@ -168,11 +158,8 @@ namespace RightToAskClient.ViewModels
         public string StateChoosableElectorate
         {
             get => _stateChoosableElectorate;
-            set
-            {
-                SetProperty(ref _stateChoosableElectorate, value);
-                // OnStateChoosableElectoratePickerSelectedIndexChanged();
-            }
+            set => SetProperty(ref _stateChoosableElectorate, value);
+            // OnStateChoosableElectoratePickerSelectedIndexChanged();
         }
 
         private string _stateInferredElectorateHeader  

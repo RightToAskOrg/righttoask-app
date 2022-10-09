@@ -27,17 +27,11 @@ namespace RightToAskClient.Models
             }
         }
 
-        public T TagEntity
-        {
-            get
-            {
-                return _tagEntity;
-            }
-        }
+        public T TagEntity => _tagEntity;
 
         public bool Selected
         {
-            get { return _selected; }
+            get => _selected;
             set
             {
                 _selected = value;

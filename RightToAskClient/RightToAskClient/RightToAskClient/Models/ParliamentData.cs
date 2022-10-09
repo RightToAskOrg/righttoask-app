@@ -16,22 +16,9 @@ namespace RightToAskClient.Models
     {
 	    public static readonly UpdatableParliamentAndMPData MPAndOtherData = new UpdatableParliamentAndMPData();
 
-	    public static ObservableCollection<MP> AllMPs
-	    {
-		    get
-		    {
-			    return new ObservableCollection<MP>(MPAndOtherData.AllMPs);
-		    }
-	    }
+	    public static ObservableCollection<MP> AllMPs => new ObservableCollection<MP>(MPAndOtherData.AllMPs);
 
-	    public static List<RegionsContained> VicRegions
-	    {
-		    get
-		    {
-			    return MPAndOtherData.VicRegions;
-		    }
-
-	    }
+	    public static List<RegionsContained> VicRegions => MPAndOtherData.VicRegions;
 
 	    public static List<string> StatesAndTerritories
 	    {

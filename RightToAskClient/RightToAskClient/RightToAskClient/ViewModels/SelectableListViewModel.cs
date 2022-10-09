@@ -51,11 +51,8 @@ namespace RightToAskClient.ViewModels
 		}
 
 		// The already-selected ones, for display at the top.
-		public IEnumerable<Tag<Entity>> PreSelectedEntities
-		{
-			get => SelectableEntities.Where(te => te.Selected);
-		}
-		
+		public IEnumerable<Tag<Entity>> PreSelectedEntities => SelectableEntities.Where(te => te.Selected);
+
 		private string _introText = "";
 		public string IntroText
 		{
@@ -71,10 +68,7 @@ namespace RightToAskClient.ViewModels
 		}
 
 		private Binding _groupDisplay = new Binding("Chamber");
-		public Binding GroupDisplay
-		{
-			get => _groupDisplay;
-		}
+		public Binding GroupDisplay => _groupDisplay;
 
 		private string _doneButtonText = AppResources.NextButtonText;
 		public string DoneButtonText

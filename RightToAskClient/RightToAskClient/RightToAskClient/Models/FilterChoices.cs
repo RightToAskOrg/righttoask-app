@@ -36,33 +36,21 @@ namespace RightToAskClient.Models
 		private SelectableList<Committee> _committeeLists
 			= new SelectableList<Committee>(new List<Committee>(), new List<Committee>());
 			
-		public SelectableList<Committee> CommitteeLists
-		{
-			get => _committeeLists;
-		}
-		public List<Committee> SelectedCommittees
-		{
-			get => _committeeLists.SelectedEntities as List<Committee> ?? new List<Committee>();
-		}
-		
+		public SelectableList<Committee> CommitteeLists => _committeeLists;
+
+		public List<Committee> SelectedCommittees => _committeeLists.SelectedEntities as List<Committee> ?? new List<Committee>();
+
 		private SelectableList<Authority> _authorityLists
 			= new SelectableList<Authority>(new List<Authority>(), new List<Authority>());
 			
-		public SelectableList<Authority> AuthorityLists
-		{
-			get => _authorityLists;
-		}
-		public List<Authority> SelectedAuthorities
-		{
-			get => _authorityLists.SelectedEntities as List<Authority> ?? new List<Authority>();
-		}
-		
+		public SelectableList<Authority> AuthorityLists => _authorityLists;
+
+		public List<Authority> SelectedAuthorities => _authorityLists.SelectedEntities as List<Authority> ?? new List<Authority>();
+
 		private SelectableList<MP> _answeringMPsListMine 
 			= new SelectableList<MP>(new List<MP>(), new List<MP>());
-		public SelectableList<MP> AnsweringMPsListsMine
-		{
-			get => _answeringMPsListMine;
-		}
+		public SelectableList<MP> AnsweringMPsListsMine => _answeringMPsListMine;
+
 		public List<MP> SelectedAnsweringMPsMine
 		{
 			get => _answeringMPsListMine.SelectedEntities as List<MP> ?? new List<MP>();
@@ -75,10 +63,8 @@ namespace RightToAskClient.Models
 
 		private SelectableList<MP> _askingMPsListMine
 			= new SelectableList<MP>(new List<MP>(), new List<MP>());
-		public SelectableList<MP> AskingMPsListsMine
-		{
-			get => _askingMPsListMine;
-		}
+		public SelectableList<MP> AskingMPsListsMine => _askingMPsListMine;
+
 		public List<MP> SelectedAskingMPsMine
 		{
 			get => _askingMPsListMine.SelectedEntities as List<MP> ?? new List<MP>();
@@ -91,10 +77,8 @@ namespace RightToAskClient.Models
 		
 		private SelectableList<MP> _answeringMPsListNotMine
 			= new SelectableList<MP>(new List<MP>(), new List<MP>());
-		public SelectableList<MP> AnsweringMPsListsNotMine
-		{
-			get => _answeringMPsListNotMine;
-		}
+		public SelectableList<MP> AnsweringMPsListsNotMine => _answeringMPsListNotMine;
+
 		public List<MP> SelectedAnsweringMPsNotMine
 		{
 			get => _answeringMPsListNotMine.SelectedEntities as List<MP> ?? new List<MP>();
@@ -107,10 +91,8 @@ namespace RightToAskClient.Models
 
 		private SelectableList<MP> _askingMPsListNotMine
 			= new SelectableList<MP>(new List<MP>(), new List<MP>());
-		public SelectableList<MP> AskingMPsListsNotMine
-		{
-			get => _askingMPsListNotMine;
-		}
+		public SelectableList<MP> AskingMPsListsNotMine => _askingMPsListNotMine;
+
 		public List<MP> SelectedAskingMPsNotMine
 		{
 			get =>  _askingMPsListNotMine.SelectedEntities as List<MP> ?? new List<MP>();

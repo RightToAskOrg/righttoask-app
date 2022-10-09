@@ -12,16 +12,10 @@ namespace RightToAskClient.ViewModels
 
         private Func<string> createText;
 
-        public string ListDisplayText
-        {
-            get => createText();
-        }
+        public string ListDisplayText => createText();
 
         private readonly Func<bool> _anySelections;
-        public bool AnySelections 
-        {
-            get => _anySelections();
-        }
+        public bool AnySelections => _anySelections();
 
         private string _heading = "";
 

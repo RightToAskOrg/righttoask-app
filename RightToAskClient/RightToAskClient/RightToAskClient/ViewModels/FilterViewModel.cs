@@ -68,25 +68,21 @@ namespace RightToAskClient.ViewModels
         public bool OthersCanAddAnswerers
         {
             get => QuestionViewModel.Instance.OthersCanAddQuestionAnswerers; 
-            set
-            {
+            set =>
                 // SetProperty(ref _othersCanAddAnswerers, value);
                 // QuestionViewModel.Instance.WhoShouldAnswerItPermissions = _othersCanAddAnswerers ? RTAPermissions.Others : RTAPermissions.WriterOnly;
                 QuestionViewModel.Instance.OthersCanAddQuestionAnswerers = value;
-                // OnPropertyChanged();
-            }
+            // OnPropertyChanged();
         }
 
         public bool OthersCanAddAskers
         {
             get => QuestionViewModel.Instance.OthersCanAddQuestionAskers; 
-            set
-            {
+            set =>
                 // SetProperty(ref _othersCanAddAskers, value);
                 // QuestionViewModel.Instance.WhoShouldAskItPermissions = _othersCanAddAskers ? RTAPermissions.Others : RTAPermissions.WriterOnly;
                 QuestionViewModel.Instance.OthersCanAddQuestionAskers = value;
-                // OnPropertyChanged();
-            }
+            // OnPropertyChanged();
         }
 
         private bool _answerInApp;

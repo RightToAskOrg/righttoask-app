@@ -31,8 +31,8 @@ namespace RightToAskClient.Controls
 
         public string ClickableListLabel
         {
-            get { return (string)GetValue(clickableListLabelProperty); }
-            set { SetValue(clickableListLabelProperty, value); }
+            get => (string)GetValue(clickableListLabelProperty);
+            set => SetValue(clickableListLabelProperty, value);
         }
         
         private readonly BindableProperty clickableListLabelProperty = BindableProperty.Create(
@@ -52,8 +52,8 @@ namespace RightToAskClient.Controls
         
         public ObservableCollection<T> ClickableListContents
         {
-            get { return (ObservableCollection<T>)GetValue(clickableListContentsProperty); }
-            set { SetValue(clickableListContentsProperty, value); }
+            get => (ObservableCollection<T>)GetValue(clickableListContentsProperty);
+            set => SetValue(clickableListContentsProperty, value);
         }
 
         private readonly BindableProperty clickableListContentsProperty = BindableProperty.Create(
@@ -90,8 +90,8 @@ namespace RightToAskClient.Controls
 
         public EventHandler UpdateAction
         {
-            get { return (EventHandler)GetValue(updateActionProperty); }
-            set { SetValue(updateActionProperty, value); }
+            get => (EventHandler)GetValue(updateActionProperty);
+            set => SetValue(updateActionProperty, value);
         }
 
         private readonly BindableProperty updateActionProperty = BindableProperty.Create(

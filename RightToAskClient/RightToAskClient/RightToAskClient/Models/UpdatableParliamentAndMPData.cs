@@ -30,10 +30,7 @@ namespace RightToAskClient.Models
 			};
 		
 		private bool _isInitialised;  // Defaults to false.
-		public bool IsInitialised
-		{
-			get => _isInitialised;
-		} 
+		public bool IsInitialised => _isInitialised;
 
 		public List<MP> AllMPs  
 		{
@@ -55,16 +52,10 @@ namespace RightToAskClient.Models
 				return new List<RegionsContained>(_allMPsData.FederalElectoratesByState ?? new RegionsContained[]{});
 			}
 		}
-		public List<RegionsContained> VicRegions
-		{
-			get
-			{
-				return new List<RegionsContained>(_allMPsData.VicRegions ?? Array.Empty<RegionsContained>());
-			}
-		}
+		public List<RegionsContained> VicRegions => new List<RegionsContained>(_allMPsData.VicRegions ?? Array.Empty<RegionsContained>());
 
-		
-        private JsonSerializerOptions serializerOptions = new JsonSerializerOptions
+
+		private JsonSerializerOptions serializerOptions = new JsonSerializerOptions
             {
                 Converters = { new JsonStringEnumConverter() },
                 WriteIndented = false,

@@ -14,7 +14,7 @@ namespace RightToAskClient.Models
 
         public string AuthorityName
         {
-            get { return _authorityName; }
+            get => _authorityName;
             set
             {
                 _authorityName = value;
@@ -26,13 +26,11 @@ namespace RightToAskClient.Models
         }
 
         // Return the nickname if there is one, otherwise the long name.
-        public override string ShortestName
-        {
-            get { return _nickName != "" ? _nickName : _authorityName;}
-        }
+        public override string ShortestName => _nickName != "" ? _nickName : _authorityName;
+
         public string NickName
         {
-            get { return _nickName; }
+            get => _nickName;
             set
             {
                 _nickName = value;
@@ -41,7 +39,7 @@ namespace RightToAskClient.Models
         }
         public string RightToKnowURLSuffix
         {
-            get { return _rightToKnowURLSuffix; }
+            get => _rightToKnowURLSuffix;
             set
             {
                 _rightToKnowURLSuffix = value;
@@ -50,7 +48,7 @@ namespace RightToAskClient.Models
         }
         public UrlWebViewSource URL
         {
-            get { return _url; }
+            get => _url;
             set
             {
                 _url = value;

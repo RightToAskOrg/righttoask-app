@@ -68,10 +68,7 @@ namespace RightToAskClient.CryptoUtils
         }
         */
 
-        public static string MyPublicKey
-        {
-            get => Convert.ToBase64String(_myKeyPair?.GeneratePublicKey().GetEncoded() ?? Array.Empty<byte>());
-        }
+        public static string MyPublicKey => Convert.ToBase64String(_myKeyPair?.GeneratePublicKey().GetEncoded() ?? Array.Empty<byte>());
         /*
         public static string MyPublicKey()
         {

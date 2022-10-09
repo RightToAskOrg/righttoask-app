@@ -19,11 +19,8 @@ namespace RightToAskClient.Models
         private string _committeeType;
         public string CommitteeType => _committeeType;
 
-        public override string ShortestName
-        {
-            get => _jurisdiction+": "+_name; 
-        }
-        
+        public override string ShortestName => _jurisdiction+": "+_name;
+
         // Contstructor
         public Committee(CommitteeInfo info)
         {

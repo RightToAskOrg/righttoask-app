@@ -27,14 +27,8 @@ namespace RightToAskClient.Controls
 			= BindableProperty.Create(nameof(ToBeIncremented), typeof(Question), typeof(ToggleButton));  
 		public Question ToBeIncremented 
 		{  
-			get 
-			{  
-			 	return (Question) GetValue(ToBeIncrementedProperty);  
-			}  
-			set 
-			{  
-				SetValue(ToBeIncrementedProperty, value);  
-			}  
+			get => (Question) GetValue(ToBeIncrementedProperty);
+			set => SetValue(ToBeIncrementedProperty, value);
 		}  
 		
 		/* This should never be called with a BindingContext that isn't a 
