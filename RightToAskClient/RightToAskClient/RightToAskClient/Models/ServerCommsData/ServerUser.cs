@@ -45,7 +45,7 @@ namespace RightToAskClient.Models.ServerCommsData
             {
                 electorates = newReg.Electorates;
             }
-            if (!String.IsNullOrEmpty(newReg.State))
+            if (!string.IsNullOrEmpty(newReg.State))
             {
                 state = newReg.State;
             }
@@ -57,7 +57,7 @@ namespace RightToAskClient.Models.ServerCommsData
 
         public bool Validate()
         {
-            bool isValid = false;
+            var isValid = false;
             if (!string.IsNullOrEmpty(uid)
                 && !string.IsNullOrEmpty(public_key)
                 && !string.IsNullOrEmpty(state))

@@ -32,7 +32,7 @@ namespace RightToAskClient.ViewModels
             get => _newAnswer; 
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
+                if (!string.IsNullOrWhiteSpace(value))
                 {
                     SetProperty(ref _newAnswer, value);
                     Question.AddAnswer(value);
@@ -50,8 +50,8 @@ namespace RightToAskClient.ViewModels
             get => _newHansardLink;
             set
             {
-                Result<Uri> urlResult = ParliamentData.StringToValidParliamentaryUrl(value);
-                if (String.IsNullOrEmpty(urlResult.Err))
+                var urlResult = ParliamentData.StringToValidParliamentaryUrl(value);
+                if (string.IsNullOrEmpty(urlResult.Err))
                 {
                     SetProperty(ref _newHansardLink, value);
                     Question.AddHansardLink(urlResult.Ok);
@@ -126,8 +126,8 @@ namespace RightToAskClient.ViewModels
         {
             get
             {
-                string thisUser =  App.ReadingContext.ThisParticipant.RegistrationInfo.uid;
-                string questionWriter = _question.QuestionSuggester;
+                var thisUser =  App.ReadingContext.ThisParticipant.RegistrationInfo.uid;
+                var questionWriter = _question.QuestionSuggester;
                 return IsNewQuestion || 
                        (!string.IsNullOrEmpty(thisUser) && !string.IsNullOrEmpty(questionWriter) && thisUser == questionWriter);
             }
@@ -212,7 +212,7 @@ namespace RightToAskClient.ViewModels
         }
 
 
-        public string QuestionSuggesterButtonText => QuestionViewModel.Instance.IsNewQuestion ? AppResources.EditProfileButtonText : String.Format(AppResources.ViewOtherUserProfile, QuestionViewModel.Instance.Question.QuestionSuggester);
+        public string QuestionSuggesterButtonText => QuestionViewModel.Instance.IsNewQuestion ? AppResources.EditProfileButtonText : string.Format(AppResources.ViewOtherUserProfile, QuestionViewModel.Instance.Question.QuestionSuggester);
 
         public void UpdateMPButtons()
         {
@@ -316,7 +316,7 @@ namespace RightToAskClient.ViewModels
             });
             QuestionSuggesterCommand = new AsyncCommand(async () =>
             {
-                string userId = Question.QuestionSuggester;
+                var userId = Question.QuestionSuggester;
                 var userToSend = await RTAClient.GetUserById(userId);
                 if (userToSend.Err != null)
                 {
@@ -490,7 +490,7 @@ namespace RightToAskClient.ViewModels
             {
                 // This isn't necessary unless the person has just registered, but is necessary if they have.
                 Instance.Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.uid;
-                bool validQuestion = Question.ValidateNewQuestion();
+                var validQuestion = Question.ValidateNewQuestion();
                 if (validQuestion)
                 {
                     SendNewQuestionToServer();
@@ -505,7 +505,7 @@ namespace RightToAskClient.ViewModels
 
             if (App.ReadingContext.ThisParticipant.IsRegistered)
             {
-                bool validQuestion = Question.ValidateUpdateQuestion();
+                var validQuestion = Question.ValidateUpdateQuestion();
                 if (validQuestion) 
                 {
                     sendQuestionEditToServer();
@@ -572,11 +572,11 @@ namespace RightToAskClient.ViewModels
             // This isn't supposed to be called for unregistered participants.
             if (!App.ReadingContext.ThisParticipant.IsRegistered) return;
             
-            (bool isValid, string errorMessage, string returnedData) successfulSubmission = await BuildSignAndUploadQuestionUpdates();
+            var successfulSubmission = await BuildSignAndUploadQuestionUpdates();
             
             if (!successfulSubmission.isValid)
             {
-                string message = string.Format(AppResources.EditQuestionErrorText, successfulSubmission.errorMessage);
+                var message = string.Format(AppResources.EditQuestionErrorText, successfulSubmission.errorMessage);
                 var popup2 = new OneButtonPopup(message, AppResources.OKText);
                 _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup2);
                 ReportLabelText = "Error editing question: " + successfulSubmission.errorMessage;
@@ -602,7 +602,7 @@ namespace RightToAskClient.ViewModels
         {
             var serverQuestion = new QuestionSendToServer(Question);
 
-            Result<string> httpResponse = await RTAClient.RegisterNewQuestion(serverQuestion);
+            var httpResponse = await RTAClient.RegisterNewQuestion(serverQuestion);
             return RTAClient.ValidateHttpResponse(httpResponse, "Question Upload");
         }
 
@@ -614,7 +614,7 @@ namespace RightToAskClient.ViewModels
             serverQuestionUpdates.question_id = Question.QuestionId;
             serverQuestionUpdates.version = Question.Version;
 
-            Result<string> httpResponse = await RTAClient.UpdateExistingQuestion(serverQuestionUpdates);
+            var httpResponse = await RTAClient.UpdateExistingQuestion(serverQuestionUpdates);
             return RTAClient.ValidateHttpResponse(httpResponse, "Question Edit");
         }
     }

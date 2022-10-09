@@ -18,14 +18,14 @@ namespace RightToAskClient.Models.ServerCommsData
 
         public bool Validate()
         {
-            bool isValid = false;
-            bool hasInvalidData = false;
+            var isValid = false;
+            var hasInvalidData = false;
             // if user is me, check for valid signature
             if (user == App.ReadingContext.ThisParticipant.RegistrationInfo.uid)
             {
-                byte[] signaturebytes = Convert.FromBase64String(signature);
+                var signaturebytes = Convert.FromBase64String(signature);
                 var ClientPublicKey = new Ed25519PublicKeyParameters(Convert.FromBase64String(App.ReadingContext.ThisParticipant.RegistrationInfo.public_key));
-                bool validSig = SignatureVerificationService.VerifySignature(message, signaturebytes, ClientPublicKey);
+                var validSig = SignatureVerificationService.VerifySignature(message, signaturebytes, ClientPublicKey);
                 if (validSig)
                 {
                     hasInvalidData = false;

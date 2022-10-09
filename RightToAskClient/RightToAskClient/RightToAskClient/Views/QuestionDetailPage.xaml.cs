@@ -52,8 +52,8 @@ namespace RightToAskClient.Views
             
             QuestionViewModel.Instance.PopupLabelText = AppResources.QuestionDetailPopupText;
             
-            Style normalEditorStyle = App.Current.Resources["NormalEditor"] as Style;
-            Style disabledEditorStyle = App.Current.Resources["DisabledEditor"] as Style;
+            var normalEditorStyle = App.Current.Resources["NormalEditor"] as Style;
+            var disabledEditorStyle = App.Current.Resources["DisabledEditor"] as Style;
             
             if (QuestionViewModel.Instance.IsNewQuestion)
             {
@@ -70,11 +70,11 @@ namespace RightToAskClient.Views
                 QuestionViewModel.Instance.CanEditBackground ? normalEditorStyle : disabledEditorStyle;
             // Don't bother displaying it if it has no content and you can't edit it.
             BackgroundEditor.IsVisible = QuestionViewModel.Instance.CanEditBackground ||
-                                         !String.IsNullOrWhiteSpace(QuestionViewModel.Instance.Question.Background);
+                                         !string.IsNullOrWhiteSpace(QuestionViewModel.Instance.Question.Background);
             BackgroundLabel.IsVisible = BackgroundEditor.IsVisible;
 
             // Only MPs can answer questions.
-            bool isMP = App.ReadingContext.ThisParticipant.IsVerifiedMPAccount;
+            var isMP = App.ReadingContext.ThisParticipant.IsVerifiedMPAccount;
             AnswerEditor.Style = isMP ? normalEditorStyle : disabledEditorStyle;
             AnswerEditor.IsEnabled = isMP;
         }

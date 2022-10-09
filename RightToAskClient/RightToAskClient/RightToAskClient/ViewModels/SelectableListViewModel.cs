@@ -168,8 +168,8 @@ namespace RightToAskClient.ViewModels
 			if (grouping)
 	        {
 		        var groupedMPs = mpLists.AllEntities.GroupBy(mp => mp.electorate.chamber);
-		        List<TaggedGroupedEntities> groupedMPsWithTags = new List<TaggedGroupedEntities>();
-		        foreach (IGrouping<ParliamentData.Chamber, MP> group in groupedMPs)
+		        var groupedMPsWithTags = new List<TaggedGroupedEntities>();
+		        foreach (var group in groupedMPs)
 		        {
 			        groupedMPsWithTags.Add(new TaggedGroupedEntities(
 				        group.Key,
@@ -274,7 +274,7 @@ namespace RightToAskClient.ViewModels
 		{
 
 			// Check whether the existing selections match requirements. This will pop up a warning if not.
-			bool validSelection = await verifyValidSelection(singleSelection);
+			var validSelection = await verifyValidSelection(singleSelection);
 			if (! validSelection)
 			{
 				return;
@@ -314,7 +314,7 @@ namespace RightToAskClient.ViewModels
 	            if (correct)
 	            {
 	            */
-	            MP selectedMP = Extensions.findSelectedOne<MP>(SelectableEntities);
+	            var selectedMP = Extensions.findSelectedOne<MP>(SelectableEntities);
 		            await Shell.Current.GoToAsync(nameof(MPRegistrationVerificationPage)).ContinueWith((_) =>
 		            {
 			            // send a message to the MPRegistrationViewModel to pop back to the account page at the end
@@ -337,7 +337,7 @@ namespace RightToAskClient.ViewModels
 		// The boolean indicates whether there's a single selection.
 		private async Task<(bool,T)> verifySingleSelection<T>() where T : class, new()
 		{
-			IEnumerable<Entity> selected = SelectableEntities.Where(w => w.Selected).Select(t => t.TagEntity);
+			var selected = SelectableEntities.Where(w => w.Selected).Select(t => t.TagEntity);
 			if (selected.IsNullOrEmpty() || selected.Count() > 1)
 			{
 				await App.Current.MainPage.DisplayAlert("You must select exactly one option.", 
@@ -356,7 +356,7 @@ namespace RightToAskClient.ViewModels
 		{
 			if (singleSelection)
 			{
-				IEnumerable<Entity> selected = SelectableEntities.Where(w => w.Selected).Select(t => t.TagEntity);
+				var selected = SelectableEntities.Where(w => w.Selected).Select(t => t.TagEntity);
 				if (selected.IsNullOrEmpty() || selected.Count() > 1)
 				{
 					await App.Current.MainPage.DisplayAlert("You must select exactly one option.",
@@ -373,7 +373,7 @@ namespace RightToAskClient.ViewModels
 			var newSelectedEntities = new List<T>();
 			
 			var toBeIncluded = SelectableEntities.Where(w => w.Selected).Select(t => t.TagEntity);	
-			foreach (Entity selectedEntity in toBeIncluded)
+			foreach (var selectedEntity in toBeIncluded)
 			{
 				// There shouldn't be duplicates, but check just in case.
 				if (!newSelectedEntities.Contains(selectedEntity))

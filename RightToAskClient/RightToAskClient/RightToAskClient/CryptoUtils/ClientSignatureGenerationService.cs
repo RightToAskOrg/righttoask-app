@@ -47,7 +47,7 @@ namespace RightToAskClient.CryptoUtils
         public static async Task<bool> Init()
         {
             var generationResult = await MakeMyKey();
-            if (!String.IsNullOrEmpty(generationResult.Err))
+            if (!string.IsNullOrEmpty(generationResult.Err))
             {
                 // Key generation unsuccessful.
                 return false;
@@ -92,7 +92,7 @@ namespace RightToAskClient.CryptoUtils
                 var signingKeyAsString = await SecureStorage.GetAsync("signing_key");
 
                 // If there's an existing key, return it.
-                if (!String.IsNullOrEmpty(signingKeyAsString))
+                if (!string.IsNullOrEmpty(signingKeyAsString))
                 {
                     var privateKey = new Ed25519PrivateKeyParameters(Convert.FromBase64String(signingKeyAsString));
                     return new Result<Ed25519PrivateKeyParameters>()
@@ -114,14 +114,14 @@ namespace RightToAskClient.CryptoUtils
             var keyPairGenerator = new Ed25519KeyPairGenerator();
 
             keyPairGenerator.Init(new Ed25519KeyGenerationParameters(new SecureRandom()));
-            Ed25519PrivateKeyParameters? signingKey = keyPairGenerator.GenerateKeyPair().Private as Ed25519PrivateKeyParameters;
+            var signingKey = keyPairGenerator.GenerateKeyPair().Private as Ed25519PrivateKeyParameters;
 
             // and store it. 
             try
             {
                 var encodedSigningKey = signingKey?.GetEncoded() ?? Array.Empty<byte>();
-                string keyAsString = Convert.ToBase64String(encodedSigningKey);
-                if (!String.IsNullOrEmpty(keyAsString))
+                var keyAsString = Convert.ToBase64String(encodedSigningKey);
+                if (!string.IsNullOrEmpty(keyAsString))
                 {
                     await SecureStorage.SetAsync("signing_key", keyAsString);
                 }
@@ -153,7 +153,7 @@ namespace RightToAskClient.CryptoUtils
 
         public static ClientSignedUnparsed SignMessage<T>(T message, string userID)
         {
-            JsonSerializerOptions serializerOptions = new JsonSerializerOptions
+            var serializerOptions = new JsonSerializerOptions
             {
                 Converters = { new JsonStringEnumConverter() },
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
@@ -161,9 +161,9 @@ namespace RightToAskClient.CryptoUtils
                 IncludeFields = true
             };
             
-            string serializedMessage = "";
+            var serializedMessage = "";
             byte[] messageBytes;
-            string sig = "";
+            var sig = "";
 
             try
             {

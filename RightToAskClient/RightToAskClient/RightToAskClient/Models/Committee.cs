@@ -46,7 +46,7 @@ namespace RightToAskClient.Models
 
         public override string ToString()
         {
-            string descr = (_jurisdiction == ParliamentData.Jurisdiction.Federal)
+            var descr = (_jurisdiction == ParliamentData.Jurisdiction.Federal)
                 ? AppResources.FederalParliamentText
                 : _jurisdiction.ToString();
             return _name+"\n"+descr; 

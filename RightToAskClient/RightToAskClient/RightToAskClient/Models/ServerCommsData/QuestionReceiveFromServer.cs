@@ -69,7 +69,7 @@ namespace RightToAskClient.Models.ServerCommsData
         
         public bool Validate()
         {
-            bool isValid = false;
+            var isValid = false;
             // might need to include timestamp as well
             if (!string.IsNullOrEmpty(author)
                 && !string.IsNullOrEmpty(question_id)

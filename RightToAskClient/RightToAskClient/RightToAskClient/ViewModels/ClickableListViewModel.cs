@@ -54,8 +54,8 @@ namespace RightToAskClient.ViewModels
         
         private string CreateTextGivenListSelectableEntities<T>(SelectableList<T> entityList) where T:Entity
         {
-            string namesList = String.Join(", ", entityList.SelectedEntities.Select(e => e.ShortestName));
-            return String.IsNullOrEmpty(namesList) ? AppResources.NoneDefaultText : namesList ;
+            var namesList = string.Join(", ", entityList.SelectedEntities.Select(e => e.ShortestName));
+            return string.IsNullOrEmpty(namesList) ? AppResources.NoneDefaultText : namesList ;
         }
 
         // For updating the display when the data from the filters has changed.

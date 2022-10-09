@@ -25,12 +25,12 @@ namespace RightToAskClient.CryptoUtils
         public static bool VerifySignature(SignedString signedString, string publicKey)
         {
             var keyResult = ConvertSPKIRawToBase64String(publicKey);
-            if (!String.IsNullOrEmpty(keyResult.Err))
+            if (!string.IsNullOrEmpty(keyResult.Err))
             {
                 return false;
             }
             
-            byte[] signaturebytes = Convert.FromBase64String(signedString.signature);
+            var signaturebytes = Convert.FromBase64String(signedString.signature);
             return VerifySignature(signedString.message, signaturebytes, keyResult.Ok);
         }
         private static Result<Ed25519PublicKeyParameters> ConvertSPKIRawToBase64String(string keyAsString)

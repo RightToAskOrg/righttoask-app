@@ -37,7 +37,7 @@ namespace RightToAskClient.Views
 
         protected override bool OnBackButtonPressed()
         {
-            bool result = true;
+            var result = true;
             Device.BeginInvokeOnMainThread(() =>
             {
                 result = DisplayPromptBeforeNavigating();

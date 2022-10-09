@@ -193,7 +193,7 @@ namespace RightToAskClient.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Right To Ask (V4).
+        ///   Looks up a localized string similar to Right To Ask (V5).
         /// </summary>
         internal static string ApplicationTitle {
             get {

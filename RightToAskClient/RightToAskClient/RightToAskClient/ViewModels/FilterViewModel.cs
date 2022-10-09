@@ -106,7 +106,7 @@ namespace RightToAskClient.ViewModels
             get => _keyword;
             set
             {
-                bool changed = SetProperty(ref _keyword, value);
+                var changed = SetProperty(ref _keyword, value);
                 if (changed)
                 {
                     App.ReadingContext.Filters.SearchKeyword = _keyword;
@@ -338,7 +338,7 @@ namespace RightToAskClient.ViewModels
 
         public string CreateTextGivenListEntities(IEnumerable<Entity> entityList)
         {
-            return String.Join(", ", entityList.Select(e => e.ShortestName));
+            return string.Join(", ", entityList.Select(e => e.ShortestName));
         }
 
         private async Task EditSelectedAnsweringMPsMineClicked()
@@ -351,7 +351,7 @@ namespace RightToAskClient.ViewModels
 
         private async Task EditAuthoritiesClicked()
         {
-            string message = "Choose others to add";
+            var message = "Choose others to add";
 
             var departmentExploringPage
                 = new SelectableListPage(App.ReadingContext.Filters.AuthorityLists, message);
@@ -385,10 +385,10 @@ namespace RightToAskClient.ViewModels
 
         private async Task SearchUserWrittenByClicked()
         {
-            string searchString = QuestionWriterSearchText;
+            var searchString = QuestionWriterSearchText;
 
             var searchResults = await RTAClient.SearchUser(searchString);
-            if (!String.IsNullOrEmpty(searchResults.Err))
+            if (!string.IsNullOrEmpty(searchResults.Err))
             {
                 ReportLabelText = searchResults.Err ?? string.Empty;
             }
@@ -398,7 +398,7 @@ namespace RightToAskClient.ViewModels
             }
             else
             {
-                List<Person> matchingParticipants = searchResults.Ok.Select(u => new Person(u)).ToList();
+                var matchingParticipants = searchResults.Ok.Select(u => new Person(u)).ToList();
                 _selectableParticipants = new SelectableList<Person>(matchingParticipants);
                 App.ReadingContext.Filters.QuestionWriterLists = _selectableParticipants;
                 var participantsSearchSelectionPage

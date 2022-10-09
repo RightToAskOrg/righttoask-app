@@ -17,14 +17,14 @@ namespace RightToAskClient.Helpers
 			try
 			{
 				var streamResult = TryToGetFileStream(filename);
-				if (!String.IsNullOrEmpty(streamResult.Err))
+				if (!string.IsNullOrEmpty(streamResult.Err))
 				{
 					return new Result<T>() { Err = streamResult.Err };
 				}
 				
 				using (var sr = new StreamReader(streamResult.Ok))
 				{
-					string dataString = sr.ReadToEnd();
+					var dataString = sr.ReadToEnd();
 					deserializedData = (T)JsonSerializer.Deserialize<T>(dataString, jsonSerializerOptions);
 				}
 			}
@@ -49,7 +49,7 @@ namespace RightToAskClient.Helpers
 
 			if (deserializedData is null)
 			{
-				string error = "Error: Could not deserialize" + filename;
+				var error = "Error: Could not deserialize" + filename;
 				Debug.WriteLine(error);
 				return new Result<T>() { Err = error };
 			}
@@ -72,15 +72,15 @@ namespace RightToAskClient.Helpers
 				}
 				*/
 				var streamResult = TryToGetFileStream(filename);
-				if (!String.IsNullOrEmpty(streamResult.Err))
+				if (!string.IsNullOrEmpty(streamResult.Err))
 				{
 					return new Result<string>() { Err = streamResult.Err };
 				}
 				
 				using (var sr = new StreamReader(streamResult.Ok))
 				{
-					string data = sr.ReadLine() ?? string.Empty;
-					if (!String.IsNullOrEmpty(data))
+					var data = sr.ReadLine() ?? string.Empty;
+					if (!string.IsNullOrEmpty(data))
 					{
 						return new Result<string>() { Ok = data };
 					}
@@ -101,7 +101,7 @@ namespace RightToAskClient.Helpers
 			try
 			{
 				var streamResult = TryToGetFileStream(filename);
-				if (!String.IsNullOrEmpty(streamResult.Err))
+				if (!string.IsNullOrEmpty(streamResult.Err))
 				{
 					return;
 				}
@@ -131,7 +131,7 @@ namespace RightToAskClient.Helpers
 		private static Result<Stream> TryToGetFileStream(string filename)
 		{
 				var assembly = IntrospectionExtensions.GetTypeInfo(typeof(ReadingContext)).Assembly;
-				Stream? stream = assembly.GetManifestResourceStream("RightToAskClient.Resources." + filename);
+				var stream = assembly.GetManifestResourceStream("RightToAskClient.Resources." + filename);
 				if (stream is null)
 				{
 					Debug.WriteLine("Could not find file: " + filename);

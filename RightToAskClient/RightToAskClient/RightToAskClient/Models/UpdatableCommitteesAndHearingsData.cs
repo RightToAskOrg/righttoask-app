@@ -23,14 +23,14 @@ namespace RightToAskClient.Models
 
         public async Task<Result<bool>> TryInitialisingFromServer()
         {
-            Result<List<CommitteeInfo>>? serverCommitteeList = await RTAClient.GetCommitteeData();
+            var serverCommitteeList = await RTAClient.GetCommitteeData();
             if (serverCommitteeList is null)
             {
                 return new Result<bool>() { Err = "Could not reach server." };
             }
 
             // Success. Set list of selectable committees and update filters to reflect new list.
-            if (String.IsNullOrEmpty(serverCommitteeList.Err))
+            if (string.IsNullOrEmpty(serverCommitteeList.Err))
             {
                 _isInitialised = true;
                 _committees = serverCommitteeList.Ok.Select(com => new Committee(com)).ToList();

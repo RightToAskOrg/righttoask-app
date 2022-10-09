@@ -112,7 +112,7 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        public string BadgesSummary => String.Join(",", _registration.Badges.Select(b => b.ToString()).ToList());
+        public string BadgesSummary => string.Join(",", _registration.Badges.Select(b => b.ToString()).ToList());
 
         // This is for selecting MPs if you're registering as an MP or staffer account
         private SelectableList<MP> _selectableMPList = new SelectableList<MP>(new List<MP>(), new List<MP>());
@@ -121,7 +121,7 @@ namespace RightToAskClient.ViewModels
 
         public bool IsVerifiedStafferAccount => _registration?.Badges?.Any(b => b.badge == BadgeType.MPStaff) ?? false;
 
-        public string MPsRepresenting => String.Join(",",_registration?.Badges?.Select(b => b.name ?? "") ?? new List<string>());
+        public string MPsRepresenting => string.Join(",",_registration?.Badges?.Select(b => b.name ?? "") ?? new List<string>());
 
         // public MP RegisteredMP { get; }
         public bool ShowStafferLabel { get; set; }
@@ -478,7 +478,7 @@ namespace RightToAskClient.ViewModels
             // Shouldn't be updating a non-existent user. 
             Debug.Assert(App.ReadingContext.ThisParticipant.IsRegistered);
 
-            bool hasChanges = false;
+            var hasChanges = false;
             if (_registrationUpdates.uid == null)
             {
                 return;

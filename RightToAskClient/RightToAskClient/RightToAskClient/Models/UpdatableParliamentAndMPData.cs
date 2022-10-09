@@ -84,7 +84,7 @@ namespace RightToAskClient.Models
 
 			// get data from local first
 			success = TryInitialisingFromStoredData();
-			if (String.IsNullOrEmpty(success.Err))
+			if (string.IsNullOrEmpty(success.Err))
 			{
 				_isInitialised = true;
 				QuestionViewModel.Instance.UpdateMPButtons(); 
@@ -94,7 +94,7 @@ namespace RightToAskClient.Models
 
 			// TODO I believe this makes it wait a long time. Consider *not* awaiting this call.
 			success = await TryInitialisingFromServer();
-			if (String.IsNullOrEmpty(success.Err))
+			if (string.IsNullOrEmpty(success.Err))
 			{
 				_isInitialised = true;
 				QuestionViewModel.Instance.UpdateMPButtons();
@@ -106,7 +106,7 @@ namespace RightToAskClient.Models
 			Debug.WriteLine(@"\tERROR {0}", success.Err);
 
 			success = TryInitialisingFromStoredData();
-			if (String.IsNullOrEmpty(success.Err))
+			if (string.IsNullOrEmpty(success.Err))
 			{
 				_isInitialised = true;
 				QuestionViewModel.Instance.UpdateMPButtons();
@@ -122,7 +122,7 @@ namespace RightToAskClient.Models
 		private Result<bool> TryInitialisingFromStoredData()
 		{
 			var success = FileIO.ReadDataFromStoredJson<UpdatableParliamentAndMPDataStructure>(Constants.StoredMPDataFile, serializerOptions);
-			if (!String.IsNullOrEmpty(success.Err))
+			if (!string.IsNullOrEmpty(success.Err))
 			{
 				return new Result<bool>() { Err = success.Err };
 			}
@@ -137,14 +137,14 @@ namespace RightToAskClient.Models
 
 		private async Task<Result<bool>> TryInitialisingFromServer()
 		{
-			Result<UpdatableParliamentAndMPDataStructure> serverMPList = await RTAClient.GetMPsData();
+			var serverMPList = await RTAClient.GetMPsData();
 
 			if (serverMPList is null)
 			{
 				return new Result<bool>() { Err = "Could not reach server."};
 			}
 
-			if (String.IsNullOrEmpty(serverMPList.Err))
+			if (string.IsNullOrEmpty(serverMPList.Err))
 			{
 				_allMPsData = serverMPList.Ok;
 				_isInitialised = true;

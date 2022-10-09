@@ -136,16 +136,16 @@ namespace RightToAskClient.Models
 
         public string QuestionAnswerers =>  
             Extensions.JoinFilter(", ",
-                String.Join(", ",Filters.SelectedAnsweringMPsNotMine.Select(mp => mp.ShortestName)),
-                String.Join(", ",Filters.SelectedAnsweringMPsMine.Select(mp => mp.ShortestName)),
-                String.Join(", ",Filters.SelectedAuthorities.Select(a => a.ShortestName)));
+                string.Join(", ",Filters.SelectedAnsweringMPsNotMine.Select(mp => mp.ShortestName)),
+                string.Join(", ",Filters.SelectedAnsweringMPsMine.Select(mp => mp.ShortestName)),
+                string.Join(", ",Filters.SelectedAuthorities.Select(a => a.ShortestName)));
 
         // The MPs or committee who are meant to ask the question
         public string QuestionAskers =>
             Extensions.JoinFilter(", ",
-                String.Join(", ", Filters.SelectedAskingMPsNotMine.Select(mp => mp.ShortestName)), 
-                String.Join(", ", Filters.SelectedAskingMPsMine.Select(mp => mp.ShortestName)), 
-                String.Join(",", Filters.SelectedCommittees.Select(com => com.ShortestName)));
+                string.Join(", ", Filters.SelectedAskingMPsNotMine.Select(mp => mp.ShortestName)), 
+                string.Join(", ", Filters.SelectedAskingMPsMine.Select(mp => mp.ShortestName)), 
+                string.Join(",", Filters.SelectedCommittees.Select(com => com.ShortestName)));
             // TODO add:
             // + String.Join(",",Filters.SelectedAskingUsers.Select(....));
             
@@ -259,7 +259,7 @@ namespace RightToAskClient.Models
                 }
                 else
                 {
-                    string message = AppResources.CreateAccountPopUpText;
+                    var message = AppResources.CreateAccountPopUpText;
                     var popup = new TwoButtonPopup(this, AppResources.MakeAccountQuestionText, message, AppResources.NotNowAnswerText, AppResources.OKText); // this instance uses a model instead of a VM
                     _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
                     if (ApproveClicked)
@@ -340,10 +340,10 @@ namespace RightToAskClient.Models
             HansardLink = new List<Uri>();
             if (serverQuestion.hansard_link != null)
             {
-                foreach (HansardLink? link in serverQuestion.hansard_link)
+                foreach (var link in serverQuestion.hansard_link)
                 {
                     var possibleUrl = ParliamentData.StringToValidParliamentaryUrl(link?.url ?? "");
-                    if (String.IsNullOrEmpty(possibleUrl.Err))
+                    if (string.IsNullOrEmpty(possibleUrl.Err))
                     {
                         HansardLink.Add(possibleUrl.Ok);
                     }
@@ -443,7 +443,7 @@ namespace RightToAskClient.Models
         // Returns true if the item was found
         private bool CanFindInListBThenAddToListA<T>(T item, List<T> listA, IEnumerable<T> listB)  where T: Entity
         {
-            T possibleItem = listB.ToList().Find(t => t != null && t.DataEquals(item));
+            var possibleItem = listB.ToList().Find(t => t != null && t.DataEquals(item));
             if (possibleItem is null)
             {
                 return false;
@@ -456,7 +456,7 @@ namespace RightToAskClient.Models
         //validation
         public bool ValidateNewQuestion()
         {
-            bool isValid = false;
+            var isValid = false;
             // just needs question text for new questions
             if (!string.IsNullOrEmpty(QuestionText))
             {
@@ -467,7 +467,7 @@ namespace RightToAskClient.Models
 
         public bool ValidateUpdateQuestion()
         {
-            bool isValid = false;
+            var isValid = false;
             // needs more fields to update an existing question
             if (!string.IsNullOrEmpty(QuestionText)
                 && !string.IsNullOrEmpty(QuestionId)

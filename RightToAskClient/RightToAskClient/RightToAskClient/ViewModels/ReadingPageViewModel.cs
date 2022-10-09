@@ -110,7 +110,7 @@ namespace RightToAskClient.ViewModels
             }
         }
         
-        private string WriterOnlyUid = String.Empty;
+        private string WriterOnlyUid = string.Empty;
         private bool ReadByQuestionWriter;
 
         // constructor
@@ -119,7 +119,7 @@ namespace RightToAskClient.ViewModels
             Keyword = App.ReadingContext.Filters.SearchKeyword;
             
             // If we're already searching for something, show the user what.
-            ShowSearchFrame = !String.IsNullOrWhiteSpace(Keyword); 
+            ShowSearchFrame = !string.IsNullOrWhiteSpace(Keyword); 
 
 
             if (!string.IsNullOrEmpty(App.ReadingContext.DraftQuestion))
@@ -176,7 +176,7 @@ namespace RightToAskClient.ViewModels
             {
                 var questionsToDisplayList = await LoadQuestions() ?? new List<Question>();
                 QuestionsToDisplay.Clear();
-                foreach (Question q in questionsToDisplayList)
+                foreach (var q in questionsToDisplayList)
                 {  
                     QuestionsToDisplay.Add(q);
                 }
@@ -241,11 +241,11 @@ namespace RightToAskClient.ViewModels
         // helper methods
         private async void OnSaveButtonClicked()
         {
-            IndividualParticipant thisParticipant = App.ReadingContext.ThisParticipant;
+            var thisParticipant = App.ReadingContext.ThisParticipant;
 
             // Set up new question in preparation for upload. 
             // The filters are what the user has chosen through the flow.
-            Question newQuestion = new Question
+            var newQuestion = new Question
             {
                 QuestionText = App.ReadingContext.DraftQuestion,
                 QuestionSuggester = (thisParticipant.IsRegistered)
@@ -278,9 +278,9 @@ namespace RightToAskClient.ViewModels
 
         public async Task<List<Question>> LoadQuestions()
         {
-            List<QuestionReceiveFromServer> serverQuestions = new List<QuestionReceiveFromServer>();
-            List<Question> questionsToDisplay = new List<Question>();
-            Result<List<string>> httpResponse = await GetAppropriateQuestionList();
+            var serverQuestions = new List<QuestionReceiveFromServer>();
+            var questionsToDisplay = new List<Question>();
+            var httpResponse = await GetAppropriateQuestionList();
             var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
             if (!httpValidation.isValid)
             {
@@ -292,7 +292,7 @@ namespace RightToAskClient.ViewModels
             var questionIds = httpResponse.Ok;
             
             // loop through the questions
-            foreach (string questionId in questionIds)
+            foreach (var questionId in questionIds)
             {
                 // pull the individual question from the server by id
                 QuestionReceiveFromServer tempQuestion;
@@ -319,16 +319,16 @@ namespace RightToAskClient.ViewModels
             }
 
             // convert the ServerQuestions to a Displayable format
-            foreach (QuestionReceiveFromServer serverQuestion in serverQuestions)
+            foreach (var serverQuestion in serverQuestions)
             {
                 questionsToDisplay.Add(new Question(serverQuestion));
             }
 
 
             // after getting the list of questions, remove the ids for dismissed questions, and set the upvoted status of liked ones
-            for (int i = 0; i < App.ReadingContext.ThisParticipant.RemovedQuestionIDs.Count; i++)
+            for (var i = 0; i < App.ReadingContext.ThisParticipant.RemovedQuestionIDs.Count; i++)
             {
-                Question? temp = questionsToDisplay
+                var temp = questionsToDisplay
                     .FirstOrDefault(q => q.QuestionId == App.ReadingContext.ThisParticipant.RemovedQuestionIDs[i]);
                 if (temp != null)
                 {
@@ -337,9 +337,9 @@ namespace RightToAskClient.ViewModels
             }
 
             // set previously upvoted questions
-            foreach (Question q in questionsToDisplay)
+            foreach (var q in questionsToDisplay)
             {
-                foreach (string qID in App.ReadingContext.ThisParticipant.UpvotedQuestionIDs)
+                foreach (var qID in App.ReadingContext.ThisParticipant.UpvotedQuestionIDs)
                 {
                     if (q.QuestionId == qID)
                     {
@@ -348,7 +348,7 @@ namespace RightToAskClient.ViewModels
                 }
 
                 // set previously flagged/reported questions
-                foreach (string qID in App.ReadingContext.ThisParticipant.ReportedQuestionIDs)
+                foreach (var qID in App.ReadingContext.ThisParticipant.ReportedQuestionIDs)
                 {
                     if (q.QuestionId == qID)
                     {
@@ -366,12 +366,12 @@ namespace RightToAskClient.ViewModels
         // given user.
         private async Task<Result<List<string>>> GetAppropriateQuestionList()
         {
-            FilterChoices filters = App.ReadingContext.Filters;
+            var filters = App.ReadingContext.Filters;
             // If we're looking for all the questions written by a given user, just request them.
-            if (ReadByQuestionWriter && !String.IsNullOrWhiteSpace(WriterOnlyUid))
+            if (ReadByQuestionWriter && !string.IsNullOrWhiteSpace(WriterOnlyUid))
             {
                 var questionIDs = await RTAClient.GetQuestionsByWriterId(WriterOnlyUid);
-                if (!String.IsNullOrEmpty(questionIDs.Err))
+                if (!string.IsNullOrEmpty(questionIDs.Err))
                 {
                     return new Result<List<string>>()
                     {
@@ -392,7 +392,7 @@ namespace RightToAskClient.ViewModels
             };
             
             // Ask for questions similar to the Draft question text and/or the keyword.
-            if( String.IsNullOrWhiteSpace(serverSearchQuestion.question_text) 
+            if( string.IsNullOrWhiteSpace(serverSearchQuestion.question_text) 
                 && !serverSearchQuestion.TranscribeQuestionFiltersForUpload(filters))
             {
                 // If we're just looking at what's trending, show everything
@@ -403,17 +403,17 @@ namespace RightToAskClient.ViewModels
             else
             {
                 // Search based on filters and/or search/draft words.
-                Result<List<ScoredIDs>> scoredList = await RTAClient.GetSimilarQuestionIDs(serverSearchQuestion);
+                var scoredList = await RTAClient.GetSimilarQuestionIDs(serverSearchQuestion);
 
                 // Error
-                if (!String.IsNullOrEmpty(scoredList?.Err))
+                if (!string.IsNullOrEmpty(scoredList?.Err))
                 {
                     return new Result<List<string>>() { Err = scoredList.Err };
                 }
 
                 // If we've successfully retrieved a list of scored question IDs, filter them
                 // to select the ones we want
-                List<string> questionIDsOverThreshold = scoredList.Ok
+                var questionIDsOverThreshold = scoredList.Ok
                     .Where(q => q.score > Constants.similarityThreshold).Select(q => q.id).ToList();
                 if (questionIDsOverThreshold.Any())
                 {

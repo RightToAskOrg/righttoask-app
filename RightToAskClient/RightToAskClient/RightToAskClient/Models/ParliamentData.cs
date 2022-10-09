@@ -25,7 +25,7 @@ namespace RightToAskClient.Models
 		    get
 		    {
 			    var emptyList = new List<StateEnum>();
-			    StateEnum[] statesarray =  Enum.GetValues(typeof(StateEnum)) as StateEnum[] ?? Array.Empty<StateEnum>();
+			    var statesarray =  Enum.GetValues(typeof(StateEnum)) as StateEnum[] ?? Array.Empty<StateEnum>();
 				emptyList.AddRange(statesarray);
 				return	emptyList.Select(s => s.ToString()).ToList();
 		    }
@@ -257,7 +257,7 @@ namespace RightToAskClient.Models
 	    {
 		    if (MPAndOtherData.IsInitialised)
 		    {
-			    List<string> electoratesList = MPAndOtherData.FederalElectoratesByState.
+			    var electoratesList = MPAndOtherData.FederalElectoratesByState.
 				    Find(rc => rc.super_region.Equals(state, StringComparison.OrdinalIgnoreCase))?
 				    .regions.OrderBy(r=>r).ToList() ?? new List<string>();
 
@@ -324,7 +324,7 @@ namespace RightToAskClient.Models
 		    if (words.Length >= 3)
 		    {
 
-			    Authority newAuthority = new Authority()
+			    var newAuthority = new Authority()
 			    {
 				    AuthorityName = words[0],
 				    NickName = words[1],
@@ -401,18 +401,18 @@ namespace RightToAskClient.Models
         // state) and a blank region.
 		public static (string, string, string) InferOtherChamberInfoGivenOneRegion(StateEnum state, string stateRegion, string commRegion)
 		{
-			string region = String.Empty;
-			string inferredHouseMessage = String.Empty;
-			string choosableHouseMessage = AppResources.LegislativeAssemblyText;
+			var region = string.Empty;
+			var inferredHouseMessage = string.Empty;
+			var choosableHouseMessage = AppResources.LegislativeAssemblyText;
 			
 			
 			if (!HasUpperHouse(state))
 			{
-				 inferredHouseMessage = String.Format(AppResources.NoUpperHousePickerTitle, state);
+				 inferredHouseMessage = string.Format(AppResources.NoUpperHousePickerTitle, state);
 			}
 			else if (UpperHouseIsSingleElectorate(state))
 			{
-				 inferredHouseMessage = String.Format(AppResources.UpperHouseIsSingleElectorateText, state);
+				 inferredHouseMessage = string.Format(AppResources.UpperHouseIsSingleElectorateText, state);
 			} 
 			else if (state == StateEnum.WA)
 			{
@@ -440,9 +440,9 @@ namespace RightToAskClient.Models
 		// Used because the Geoscape API returns electorates in all Uppercase, which messes with the URL for the webview that displays the map of electorates
 		public static string ConvertGeoscapeElectorateToStandard(string state, string electorate)
 		{
-			List<string> options = AllFederalElectorates;
-			string result = "";
-			for (int i = 0; i < options.Count - 1; i++)
+			var options = AllFederalElectorates;
+			var result = "";
+			for (var i = 0; i < options.Count - 1; i++)
 			{
 				if (options[i].ToUpper() == electorate.ToUpper())
 				{
@@ -457,7 +457,7 @@ namespace RightToAskClient.Models
 
 	    public static List<string> ListElectoratesInStateLowerHouse(StateEnum state)
 	    {
-		    Result<Chamber> possibleChamber = GetLowerHouseChamber(state);
+		    var possibleChamber = GetLowerHouseChamber(state);
 		    if (MPAndOtherData.IsInitialised && possibleChamber.Err.IsNullOrEmpty())
 		    {
 			    return MPAndOtherData.ListElectoratesInChamber(possibleChamber.Ok);
@@ -470,7 +470,7 @@ namespace RightToAskClient.Models
 	    // TODO This can probably guarantee a result given a valid state.
 	    public static Result<Chamber> GetLowerHouseChamber(StateEnum state)
 	    {
-		    List<Chamber> chamberList = FindChambers(state, true).Where(p => IsLowerHouseChamber(p)).ToList();
+		    var chamberList = FindChambers(state, true).Where(p => IsLowerHouseChamber(p)).ToList();
 		    if (chamberList.IsNullOrEmpty() || chamberList.Count() > 1)
 		    {
 			    Debug.WriteLine("Error: " + chamberList.Count() + " lower house chambers in " + state);
@@ -490,7 +490,7 @@ namespace RightToAskClient.Models
 			    return new List<string>();
 		    }
 
-		    Result<Chamber> possibleChamber = GetUpperHouseChamber(state);
+		    var possibleChamber = GetUpperHouseChamber(state);
 		    if (MPAndOtherData.IsInitialised && possibleChamber.Err.IsNullOrEmpty())
 		    {
 			    return MPAndOtherData.ListElectoratesInChamber(possibleChamber.Ok);
@@ -504,7 +504,7 @@ namespace RightToAskClient.Models
 	    {
 		    if (HasUpperHouse(state))
 		    {
-			    List<Chamber> chamberList = FindChambers(state,true).Where(c => IsUpperHouseChamber(c)).ToList();
+			    var chamberList = FindChambers(state,true).Where(c => IsUpperHouseChamber(c)).ToList();
 			    if (chamberList.IsNullOrEmpty() || chamberList.Count > 1)
 			    {
 				    Debug.WriteLine("Error: " + chamberList.Count() + " lower house chambers in " + state);
@@ -565,10 +565,10 @@ namespace RightToAskClient.Models
 	    public static List<ElectorateWithChamber> FindAllRelevantElectorates(StateEnum state, string stateRegion,
 		    string commRegion)
 	    {
-		    List<ElectorateWithChamber> electorateList = new List<ElectorateWithChamber>();
+		    var electorateList = new List<ElectorateWithChamber>();
 		    
 		    // House of Representatives Electorate
-		    if (!String.IsNullOrEmpty(commRegion))
+		    if (!string.IsNullOrEmpty(commRegion))
 		    {
 			    electorateList.Add(new ElectorateWithChamber(Chamber.Australian_House_Of_Representatives,
 				    commRegion));
@@ -577,15 +577,15 @@ namespace RightToAskClient.Models
 		    // State Lower House Electorates. Tas is special because the region returned by Geoscape
 		    // is the Upper House (Legislative Council) Electorate - Lower House Electorates match Commonwealth ones.
 		    // For all the rest, Geoscape's stateRegion is the Lower House Electorate.
-		    if (state == StateEnum.TAS && !String.IsNullOrEmpty(commRegion))
+		    if (state == StateEnum.TAS && !string.IsNullOrEmpty(commRegion))
 		    {
 			    electorateList.Add(new ElectorateWithChamber(Chamber.Tas_House_Of_Assembly, commRegion));
 		    }
-		    else if (state != StateEnum.TAS && !String.IsNullOrEmpty(stateRegion))
+		    else if (state != StateEnum.TAS && !string.IsNullOrEmpty(stateRegion))
 		    {
 			    // guaranteed of a result here.
 			    var chamberResult = GetLowerHouseChamber(state);
-			    if (String.IsNullOrEmpty(chamberResult.Err))
+			    if (string.IsNullOrEmpty(chamberResult.Err))
 			    {
 				    electorateList.Add(new ElectorateWithChamber(chamberResult.Ok, stateRegion));
 			    }
@@ -597,7 +597,7 @@ namespace RightToAskClient.Models
 		    // State Upper House electorates
 		    if (state == StateEnum.TAS) 
 		    {
-			    if (!String.IsNullOrEmpty(stateRegion))
+			    if (!string.IsNullOrEmpty(stateRegion))
 			    {
 					electorateList.Add(new ElectorateWithChamber(Chamber.Tas_Legislative_Council, stateRegion));
 			    }
@@ -605,7 +605,7 @@ namespace RightToAskClient.Models
 			// TODO: Do likewise for WA.
 		    else if (state == StateEnum.VIC) 
 		    {
-			    if (!String.IsNullOrEmpty(stateRegion))
+			    if (!string.IsNullOrEmpty(stateRegion))
 			    {
 				    var superRegionsContained
 					    = VicRegions.Find(rc => rc.regions.Contains(stateRegion, StringComparer.OrdinalIgnoreCase));
@@ -620,7 +620,7 @@ namespace RightToAskClient.Models
 		    else if (HasUpperHouse(state))
 		    {
 			    var upperHouseResult = GetUpperHouseChamber(state);
-			    if (String.IsNullOrEmpty(upperHouseResult.Err))
+			    if (string.IsNullOrEmpty(upperHouseResult.Err))
 			    {
 					electorateList.Add(new ElectorateWithChamber(upperHouseResult.Ok, ""));
 			    }
@@ -688,7 +688,7 @@ namespace RightToAskClient.Models
         // If so, just keep a pointer to it; if not, use a new MP object.
         public static MP FindMPOrMakeNewOne(MP mpRepresenting)
         {
-			List<MP> matchingMPs = ParliamentData.AllMPs.Where(mp => mp.Equals(mpRepresenting)).ToList();
+			var matchingMPs = ParliamentData.AllMPs.Where(mp => mp.Equals(mpRepresenting)).ToList();
             return matchingMPs.Any() ? matchingMPs.First() : mpRepresenting;
         }
 

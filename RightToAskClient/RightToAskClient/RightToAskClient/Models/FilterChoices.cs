@@ -171,11 +171,11 @@ namespace RightToAskClient.Models
 
         public bool Validate()
         {
-            bool isValid = false;
-            bool hasInvalidData = false;
+            var isValid = false;
+            var hasInvalidData = false;
             if (SelectedAnsweringMPsMine.Any())
             {
-                foreach (MP mp in SelectedAnsweringMPsMine)
+                foreach (var mp in SelectedAnsweringMPsMine)
                 {
                     if (!mp.Validate())
                     {
@@ -185,7 +185,7 @@ namespace RightToAskClient.Models
             }
             if (SelectedAskingMPsMine.Any())
             {
-                foreach (MP mp in SelectedAskingMPsMine)
+                foreach (var mp in SelectedAskingMPsMine)
                 {
                     if (!mp.Validate())
                     {
@@ -195,7 +195,7 @@ namespace RightToAskClient.Models
             }
             if (SelectedAuthorities.Any())
             {
-                foreach (Authority auth in SelectedAuthorities)
+                foreach (var auth in SelectedAuthorities)
                 {
                     if (!auth.Validate())
                     {
@@ -205,7 +205,7 @@ namespace RightToAskClient.Models
             }
             if (SelectedCommittees.Any())
             {
-                foreach (Committee com in SelectedCommittees)
+                foreach (var com in SelectedCommittees)
                 {
                     if (string.IsNullOrEmpty(com.ShortestName))
                     {

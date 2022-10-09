@@ -67,7 +67,7 @@ namespace RightToAskClient.Models.ServerCommsData
         {
             get
             {
-                if (!String.IsNullOrWhiteSpace(User) && MP is null && Committee is null && String.IsNullOrWhiteSpace(Organisation))
+                if (!string.IsNullOrWhiteSpace(User) && MP is null && Committee is null && string.IsNullOrWhiteSpace(Organisation))
                 {
                     // The auto analyser doesn't seem to realise that it just checked this for null.
                     // Nevertheless the assignment to uid is guaranteed not to be null because we checked.
@@ -86,7 +86,7 @@ namespace RightToAskClient.Models.ServerCommsData
         {
             get
             {
-                if (String.IsNullOrWhiteSpace(User) && MP != null && Committee is null && String.IsNullOrWhiteSpace(Organisation))
+                if (string.IsNullOrWhiteSpace(User) && MP != null && Committee is null && string.IsNullOrWhiteSpace(Organisation))
                 {
                     return new MP(MP);
                 }
@@ -101,7 +101,7 @@ namespace RightToAskClient.Models.ServerCommsData
         {
             get
             {
-                if (String.IsNullOrWhiteSpace(User) && MP is null && Committee is null && !String.IsNullOrWhiteSpace(Organisation))
+                if (string.IsNullOrWhiteSpace(User) && MP is null && Committee is null && !string.IsNullOrWhiteSpace(Organisation))
                 {
                     Debug.Assert(Organisation != null, nameof(Organisation) + " != null");
                     // The auto analyser doesn't seem to realise that it just checked this for null.
@@ -118,7 +118,7 @@ namespace RightToAskClient.Models.ServerCommsData
         {
             get
             {
-                if (String.IsNullOrWhiteSpace(User) && MP is null && Committee != null && String.IsNullOrWhiteSpace(Organisation))
+                if (string.IsNullOrWhiteSpace(User) && MP is null && Committee != null && string.IsNullOrWhiteSpace(Organisation))
                 {
                     return new Committee(Committee);
                 }

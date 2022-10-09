@@ -61,8 +61,8 @@ namespace RightToAskClient.HttpClients
 
         public static async Task<Result<UpdatableParliamentAndMPDataStructure>> GetMPsData()
         {
-            string errorMessage = "Could not download MP data. You can still read and submit questions, but we can't find MPs.";
-            Result<UpdatableParliamentAndMPDataStructure>? httpResponse =await Client.DoGetJSONRequest<UpdatableParliamentAndMPDataStructure>(MPListUrl);
+            var errorMessage = "Could not download MP data. You can still read and submit questions, but we can't find MPs.";
+            var httpResponse =await Client.DoGetJSONRequest<UpdatableParliamentAndMPDataStructure>(MPListUrl);
             
             // Note: the compiler warns this null check is unnecessary, but an exception is sometimes thrown here without this check.
             // I am confused about why this is necessary, but empirically it definitely is.
@@ -71,7 +71,7 @@ namespace RightToAskClient.HttpClients
                 return new Result<UpdatableParliamentAndMPDataStructure>() { Err = errorMessage };
             }
 
-            if(String.IsNullOrEmpty(httpResponse.Err))
+            if(string.IsNullOrEmpty(httpResponse.Err))
             {
                 return httpResponse;
             }
@@ -133,20 +133,20 @@ namespace RightToAskClient.HttpClients
 
         public static async Task<Result<QuestionReceiveFromServer>> GetQuestionById(string questionId)
         {
-            string GetQuestionUrl = QuestionUrl + Uri.EscapeDataString(questionId);
+            var GetQuestionUrl = QuestionUrl + Uri.EscapeDataString(questionId);
             return await Client.DoGetResultRequest<QuestionReceiveFromServer>(GetQuestionUrl);
         }
 
         public static async Task<Result<ServerUser>> GetUserById(string userId)
         {
-            string getUserUrl = UserUrl + Uri.EscapeDataString(userId);
+            var getUserUrl = UserUrl + Uri.EscapeDataString(userId);
             return await Client.DoGetResultRequest<ServerUser>(getUserUrl);
         }
         
 
         public static async Task<Result<List<string>>> GetQuestionsByWriterId(string userId)
         {
-            string getQuestionByWriterUrl = GetQuestionByWriterUrl + Uri.EscapeDataString(userId);
+            var getQuestionByWriterUrl = GetQuestionByWriterUrl + Uri.EscapeDataString(userId);
             return await Client.DoGetResultRequest<List<string>>(getQuestionByWriterUrl);
         }
         public static async Task<Result<string>> RegisterNewQuestion(QuestionSendToServer newQuestion)
@@ -161,8 +161,8 @@ namespace RightToAskClient.HttpClients
 
         public static async Task<Result<string>> RequestEmailValidation(RequestEmailValidationMessage msg, string email)
         {
-            ClientSignedUnparsed signedMsg =  App.ReadingContext.ThisParticipant.SignMessage(msg);
-            RequestEmailValidationAPICall serverSend = new RequestEmailValidationAPICall()
+            var signedMsg =  App.ReadingContext.ThisParticipant.SignMessage(msg);
+            var serverSend = new RequestEmailValidationAPICall()
             {
                 email = email,
                 message = signedMsg.message,
@@ -182,8 +182,8 @@ namespace RightToAskClient.HttpClients
         // "description" and "error string" are for reporting errors in upload and signing resp.
         private static async Task<Result<string>> SignAndSendDataToServer<T>(T data, string description, string url, string errorString)
         {
-            ClientSignedUnparsed signedUserMessage = App.ReadingContext.ThisParticipant.SignMessage(data);
-            if (!String.IsNullOrEmpty(signedUserMessage.signature))
+            var signedUserMessage = App.ReadingContext.ThisParticipant.SignMessage(data);
+            if (!string.IsNullOrEmpty(signedUserMessage.signature))
             {
                 return await SendDataToServerVerifySignedResponse<ClientSignedUnparsed>(signedUserMessage, description, url);
             }
@@ -197,7 +197,7 @@ namespace RightToAskClient.HttpClients
         {
             var serverResponse = await SendDataToServerReturnResponse<Tupload, SignedString>(newThing, typeDescr, uri);
 
-            if (!String.IsNullOrEmpty(serverResponse.Err))
+            if (!string.IsNullOrEmpty(serverResponse.Err))
             {
                 return new Result<string>() { Err = serverResponse.Err };
             }
@@ -233,10 +233,10 @@ namespace RightToAskClient.HttpClients
                 = await Client.PostGenericItemAsync<Result<TReturn>, Tupload>(newThing, uri);
 
             // http errors
-            if (String.IsNullOrEmpty(httpResponse.Err))
+            if (string.IsNullOrEmpty(httpResponse.Err))
             {
                 // Error responses from the server
-                if (String.IsNullOrEmpty(httpResponse.Ok.Err))
+                if (string.IsNullOrEmpty(httpResponse.Ok.Err))
                 {
 
                     return new Result<TReturn>() { Ok = httpResponse.Ok.Ok };
@@ -255,7 +255,7 @@ namespace RightToAskClient.HttpClients
         // errors from question-upload errors.
         public static (bool isValid, string errorMessage, T returnedData) ValidateHttpResponse<T>(Result<T> response, string messageTopic) where T : new()
         {
-            if (String.IsNullOrEmpty(response.Err))
+            if (string.IsNullOrEmpty(response.Err))
             {
                 return (true, "", response.Ok);
             }
@@ -265,7 +265,7 @@ namespace RightToAskClient.HttpClients
         // overload because string doesn't satisfy T: new() 
         public static (bool isValid, string errorMessage, string returnedData) ValidateHttpResponse(Result<string> response, string messageTopic) 
         {
-            if (String.IsNullOrEmpty(response.Err))
+            if (string.IsNullOrEmpty(response.Err))
             {
                 return (true, "", response.Ok);
             }
@@ -280,10 +280,10 @@ namespace RightToAskClient.HttpClients
         private static (string,string) SetUpServerConfig()
         {
             var serialiserOptions = new JsonSerializerOptions();
-            Result<ServerConfig> readResult = FileIO.ReadDataFromStoredJson<ServerConfig>(Constants.ServerConfigFile, serialiserOptions);
+            var readResult = FileIO.ReadDataFromStoredJson<ServerConfig>(Constants.ServerConfigFile, serialiserOptions);
 
-            string url="";
-            string key="";
+            var url="";
+            var key="";
             // Set url and public key to empty string if setup file can't be read.
             if (!readResult.Err.IsNullOrEmpty())
             {

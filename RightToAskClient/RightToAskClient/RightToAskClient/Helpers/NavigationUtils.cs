@@ -15,7 +15,7 @@ namespace RightToAskClient
     {
         public static async Task PushMyAnsweringMPsExploringPage()
         {
-            string message = "These are your MPs.  Select the one(s) who should answer the question";
+            var message = "These are your MPs.  Select the one(s) who should answer the question";
 
             //TODO** Seems unnecessary if our MPs are not initialized. 
             // Below, don't make the pages that are never used. The code is (somewhat redundant but)
@@ -27,7 +27,7 @@ namespace RightToAskClient
 
         public static async Task PushMyAskingMPsExploringPage()
         {
-            string message = "These are your MPs.  Select the one(s) who should raise the question in Parliament";
+            var message = "These are your MPs.  Select the one(s) who should raise the question in Parliament";
 
             var mpsSelectableListPage = new SelectableListPage(App.ReadingContext.Filters.AskingMPsListsMine, message);
             await LaunchMPFindingAndSelectingPages(mpsSelectableListPage);
@@ -61,16 +61,16 @@ namespace RightToAskClient
 
         public static async Task PushAnsweringMPsNotMineSelectableListPage()
         {
-            string message = AppResources.SelectMPToAnswerText;
-            SelectableListPage mpsPage =
+            var message = AppResources.SelectMPToAnswerText;
+            var mpsPage =
                 new SelectableListPage(App.ReadingContext.Filters.AnsweringMPsListsNotMine, message, false);
             await Application.Current.MainPage.Navigation.PushAsync(mpsPage);
         }
 
         public static async Task PushAskingMPsNotMineSelectableListPageAsync()
         {
-            string message = AppResources.SelectMPToRaiseText; 
-            SelectableListPage mpsPage =
+            var message = AppResources.SelectMPToRaiseText; 
+            var mpsPage =
                 new SelectableListPage(App.ReadingContext.Filters.AskingMPsListsNotMine, message, false);
             await Application.Current.MainPage.Navigation.PushAsync(mpsPage);
         }

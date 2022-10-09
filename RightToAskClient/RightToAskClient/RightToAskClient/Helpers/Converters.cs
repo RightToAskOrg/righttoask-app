@@ -28,7 +28,7 @@ namespace RightToAskClient.Helpers
         {
             if (value is string)
             {
-                return String.IsNullOrEmpty(value as string);
+                return string.IsNullOrEmpty(value as string);
             }
             return false;
         }

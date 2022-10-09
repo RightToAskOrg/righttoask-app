@@ -77,11 +77,11 @@ namespace RightToAskClient.Controls
                         
                         (s, e) =>
                     {
-                        control._entityList.Text = String.Join(", ", entities.Select(a => a.ShortestName));
+                        control._entityList.Text = string.Join(", ", entities.Select(a => a.ShortestName));
                     };
                     
                     // Writing the list the first time.
-                    control._entityList.Text = String.Join(", ", entities.Select(a => a.ShortestName));
+                    control._entityList.Text = string.Join(", ", entities.Select(a => a.ShortestName));
                 }
                 control._title.TextColor = Color.Black;
                 control._entityList.TextColor = Color.Black;

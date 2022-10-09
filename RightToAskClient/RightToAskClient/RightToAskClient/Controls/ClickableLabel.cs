@@ -11,7 +11,7 @@ namespace RightToAskClient.Controls
 		{
 			FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label));
 			
-			TapGestureRecognizer tapped = new TapGestureRecognizer();
+			var tapped = new TapGestureRecognizer();
 			tapped.Tapped += _tapped_Tapped;
 			GestureRecognizers.Add(tapped);
 		}

@@ -64,15 +64,15 @@ namespace RightToAskClient.Views
                 e.Cancel = true;
 
                 // display an alert
-                string alertText = AppResources.WebNavigationWarning + "\n" + destination;
-                string alertCancel = AppResources.CancelButtonText;
-                string alertConfirmation = AppResources.NavigateOKText;
+                var alertText = AppResources.WebNavigationWarning + "\n" + destination;
+                var alertCancel = AppResources.CancelButtonText;
+                var alertConfirmation = AppResources.NavigateOKText;
 
                 var popup = new TwoButtonPopup(baseViewModel, AppResources.NavigationPopupTitle, alertText, alertCancel, alertConfirmation);
                 _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
                 if (baseViewModel.ApproveButtonClicked)
                 {
-                    Uri browserDestination = new Uri(destination);
+                    var browserDestination = new Uri(destination);
                     await OpenBrowser(browserDestination);
                 }
             }

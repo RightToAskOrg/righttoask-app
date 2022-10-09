@@ -68,7 +68,7 @@ namespace RightToAskClient.Models
         public Authority() { }
         private string NickNameIfPresent()
         {
-            return String.IsNullOrEmpty(NickName) ? "" : " (" + NickName + ")";
+            return string.IsNullOrEmpty(NickName) ? "" : " (" + NickName + ")";
         }
 
         public override string GetName()
@@ -99,7 +99,7 @@ namespace RightToAskClient.Models
 
         public bool Validate()
         {
-            bool isValid = false;
+            var isValid = false;
             if (!string.IsNullOrEmpty(AuthorityName))
             {
                 isValid = true;

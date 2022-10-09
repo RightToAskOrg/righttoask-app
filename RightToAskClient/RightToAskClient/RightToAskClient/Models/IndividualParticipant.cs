@@ -57,11 +57,11 @@ namespace RightToAskClient.Models
 
 		public new bool Validate()
         {
-			bool isValid = false;
+			var isValid = false;
 			// if they are registered, they need valid registration info
             if (IsRegistered)
             {
-				bool validSuper = base.Validate();
+				var validSuper = base.Validate();
                 if (validSuper)
                 {
 					isValid = true;
