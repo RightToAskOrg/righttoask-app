@@ -99,8 +99,7 @@ namespace RightToAskClient.ViewModels
         public IAsyncCommand SubmitMPRegistrationPINCommand { get; }
         
         // methods
-        private string _registerMPReportLabelText = "";
-        public string RegisterMPReportLabelText => _registerMPReportLabelText;
+        public string RegisterMPReportLabelText { get; } = "";
 
         private bool _showRegisterMPReportLabel;
         public bool ShowRegisterMPReportLabel

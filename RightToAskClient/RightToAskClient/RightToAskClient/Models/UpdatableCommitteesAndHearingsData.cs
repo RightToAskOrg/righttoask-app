@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using RightToAskClient.HttpClients;
-using RightToAskClient.Models.ServerCommsData;
 
 namespace RightToAskClient.Models
 {
@@ -12,13 +10,10 @@ namespace RightToAskClient.Models
      */
     public class UpdatableCommitteesAndHearingsData
     {
-        private List<Committee> _committees = new List<Committee>();
-
-        public List<Committee> Committees => _committees;
+        public List<Committee> Committees { get; private set; } = new List<Committee>();
 
 
-        private bool _isInitialised;  // Defaults to false.
-		public bool IsInitialised => _isInitialised;
+        public bool IsInitialised { get; private set; }
 
 
         public async Task<Result<bool>> TryInitialisingFromServer()
@@ -32,8 +27,8 @@ namespace RightToAskClient.Models
             // Success. Set list of selectable committees and update filters to reflect new list.
             if (string.IsNullOrEmpty(serverCommitteeList.Err))
             {
-                _isInitialised = true;
-                _committees = serverCommitteeList.Ok.Select(com => new Committee(com)).ToList();
+                IsInitialised = true;
+                Committees = serverCommitteeList.Ok.Select(com => new Committee(com)).ToList();
 				// App.ReadingContext.Filters.InitSelectableLists();
                 return new Result<bool>() { Ok = true };
             }

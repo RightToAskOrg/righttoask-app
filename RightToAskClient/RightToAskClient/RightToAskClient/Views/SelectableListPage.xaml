@@ -30,8 +30,7 @@
                 <ListView x:Name="EntityListView" ItemsSource="{Binding FilteredSelectableEntities}"
 				    x:FieldModifier="protected" VerticalOptions="FillAndExpand" SelectionMode="None" 
 				    HasUnevenRows="True" ItemTapped="OnEntity_Selected" 
-					ItemTemplate="{StaticResource SelectableDataTemplate }">
-                </ListView>
+					ItemTemplate="{StaticResource SelectableDataTemplate }" />
             </ScrollView>
             <Button Text="{Binding DoneButtonText}" Command="{Binding DoneButtonCommand}" Style="{StaticResource DoneButton}" /> 
 		</StackLayout>

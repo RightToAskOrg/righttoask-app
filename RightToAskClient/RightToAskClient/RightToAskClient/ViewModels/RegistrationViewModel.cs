@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.Json;
@@ -54,7 +53,7 @@ namespace RightToAskClient.ViewModels
             set
             {
                 _registration.uid = value;
-                OnPropertyChanged("UserID");
+                OnPropertyChanged();
             }
         }
 
@@ -67,7 +66,7 @@ namespace RightToAskClient.ViewModels
             {
                 _registration.display_name = value;
                 _registrationUpdates.display_name = value;
-                OnPropertyChanged("DisplayName");
+                OnPropertyChanged();
             }
         }
 
@@ -108,7 +107,7 @@ namespace RightToAskClient.ViewModels
             {
                 _registration.Electorates = value;
                 _registrationUpdates.electorates = _registration.Electorates;
-                OnPropertyChanged("Electorates");
+                OnPropertyChanged();
             }
         }
 

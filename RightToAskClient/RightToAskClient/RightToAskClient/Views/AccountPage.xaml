@@ -5,7 +5,6 @@
              xmlns:views="clr-namespace:RightToAskClient.Views"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              xmlns:local="clr-namespace:RightToAskClient"
-             xmlns:models="clr-namespace:RightToAskClient.Models;assembly=RightToAskClient"
              x:Class="RightToAskClient.Views.AccountPage"
              x:DataType="vm:RegistrationViewModel"
              Shell.FlyoutBehavior="Flyout"

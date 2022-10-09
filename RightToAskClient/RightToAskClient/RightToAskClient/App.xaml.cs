@@ -1,5 +1,4 @@
-﻿using System;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 using RightToAskClient.Models;
 using Xamarin.CommunityToolkit.Helpers;
 using RightToAskClient.Resx;

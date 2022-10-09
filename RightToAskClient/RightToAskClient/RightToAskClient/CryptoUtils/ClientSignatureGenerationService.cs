@@ -29,6 +29,7 @@ using Xamarin.Essentials;
  * Use of private initialiser to deal with asynchrony is based on suggestion here:
  * https://endjin.com/blog/2020/08/fully-initialize-types-in-constructor-csharp-nullable-async-factory-pattern
  */
+
 namespace RightToAskClient.CryptoUtils
 {
     public static class ClientSignatureGenerationService
@@ -37,13 +38,8 @@ namespace RightToAskClient.CryptoUtils
 
         private static Ed25519Signer MySigner = new Ed25519Signer();
 
-        private static bool _initSuccessful;
-        public static bool InitSuccessful
-        {
-            get => _initSuccessful;
-            private set => _initSuccessful = value;
-        }
-        
+        public static bool InitSuccessful { get; private set; }
+
         public static async Task<bool> Init()
         {
             var generationResult = await MakeMyKey();
@@ -162,13 +158,12 @@ namespace RightToAskClient.CryptoUtils
             };
             
             var serializedMessage = "";
-            byte[] messageBytes;
             var sig = "";
 
             try
             {
                 serializedMessage = JsonSerializer.Serialize(message, serializerOptions);
-                messageBytes = Encoding.UTF8.GetBytes(serializedMessage);
+                var messageBytes = Encoding.UTF8.GetBytes(serializedMessage);
 
                 MySigner.BlockUpdate(messageBytes, 0, messageBytes.Length);
                 sig = Convert.ToBase64String(MySigner.GenerateSignature());

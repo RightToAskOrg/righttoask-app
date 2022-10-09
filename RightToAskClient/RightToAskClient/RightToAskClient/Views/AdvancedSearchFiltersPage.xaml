@@ -81,7 +81,7 @@
                         <xct:Expander.Content>
                             <StackLayout>
                                 <views:ClickableListView BindingContext="{Binding AskingMPsMine}"/>
-                                <views:ClickableListView BindingContext="{Binding AskingMPsOther}"></views:ClickableListView>
+                                <views:ClickableListView BindingContext="{Binding AskingMPsOther}" />
                                 <views:ClickableListView BindingContext="{Binding Committees}"/>
                                 <StackLayout Spacing="0" Margin="0" Padding="0">
                                     <Label Text="Right to Ask Participant" Style="{StaticResource ClickableHeader}" >

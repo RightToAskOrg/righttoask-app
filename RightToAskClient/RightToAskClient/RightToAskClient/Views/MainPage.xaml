@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:resx="clr-namespace:RightToAskClient.Resx"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              xmlns:local="clr-namespace:RightToAskClient"
@@ -69,8 +68,7 @@
                                    VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="0,10,0,0"
                                    AutomationProperties.IsInAccessibleTree="True"
                                    AutomationProperties.Name="{xct:Translate MainPageTrendingNowInMyElectorateAccessibilityLabelName}"
-                                   AutomationProperties.HelpText="{xct:Translate MainPageInMyElectorateAccessibilityLabelHelpText}">
-                            </Label>
+                                   AutomationProperties.HelpText="{xct:Translate MainPageInMyElectorateAccessibilityLabelHelpText}" />
                             <Image x:Name="trendingImage2" Grid.Row="1"
                                    Source="{local:ImageResource RightToAskClient.Images.trending_up_48.png}"
                                    xct:IconTintColorEffect.TintColor="{StaticResource Primary}" WidthRequest="50"
@@ -103,8 +101,7 @@
                                AutomationProperties.HelpText="{xct:Translate DraftImageAccessibilityHelpText}" />
                         <Button Grid.Row="0" Grid.RowSpan="2" Style="{StaticResource TransparentSquareButton}"
                                 Command="{Binding AdvancedSearchButtonCommand}" BorderColor="{StaticResource Primary}"
-                                AutomationProperties.LabeledBy="{x:Reference searchImage}">
-                        </Button>
+                                AutomationProperties.LabeledBy="{x:Reference searchImage}" />
                     </Grid>
                 </Frame>
                 <!-- Write a question button, which adds 'my questions' button if you've written any -->
@@ -126,8 +123,7 @@
                             </StackLayout>
                             <Button Grid.Row="0" Grid.RowSpan="2" Style="{StaticResource TransparentSquareButton}"
                                     Command="{Binding DraftingButtonCommand}" BorderColor="{StaticResource Primary}"
-                                    AutomationProperties.LabeledBy="{x:Reference draftImage1}">
-                            </Button>
+                                    AutomationProperties.LabeledBy="{x:Reference draftImage1}" />
                         </Grid>
                     </Frame>
                     <!--My Questions Button-->
@@ -148,8 +144,7 @@
                             </StackLayout>
                             <Button Grid.Row="0" Grid.RowSpan="2" Style="{StaticResource TransparentSquareButton}"
                                     Command="{Binding DraftingButtonCommand}" BorderColor="{StaticResource Primary}"
-                                    AutomationProperties.LabeledBy="{x:Reference draftImage2}">
-                            </Button>
+                                    AutomationProperties.LabeledBy="{x:Reference draftImage2}" />
                         </Grid>
                     </Frame>
                 </StackLayout>
@@ -171,8 +166,7 @@
                         </StackLayout>
                         <Button Grid.Row="0" Grid.RowSpan="2" Style="{StaticResource TransparentSquareButton}"
                                 Command="{Binding DraftingButtonCommand}" BorderColor="{StaticResource Primary}"
-                                AutomationProperties.LabeledBy="{x:Reference draftImage2}">
-                        </Button>
+                                AutomationProperties.LabeledBy="{x:Reference draftImage2}" />
                     </Grid>
                 </Frame>
             </Grid>

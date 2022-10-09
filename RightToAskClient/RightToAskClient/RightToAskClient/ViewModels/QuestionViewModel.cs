@@ -3,7 +3,6 @@ using RightToAskClient.Models;
 using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Resx;
 using RightToAskClient.Views;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -36,7 +35,7 @@ namespace RightToAskClient.ViewModels
                 {
                     SetProperty(ref _newAnswer, value);
                     Question.AddAnswer(value);
-                    OnPropertyChanged("NewAnswer");
+                    OnPropertyChanged();
                 }
             }
         }

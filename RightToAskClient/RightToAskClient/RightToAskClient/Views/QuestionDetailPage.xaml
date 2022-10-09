@@ -3,8 +3,6 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="clr-namespace:RightToAskClient.Views;assembly=RightToAskClient"
-             xmlns:rightToAskClient="clr-namespace:RightToAskClient;assembly=RightToAskClient"
-             xmlns:controls="clr-namespace:RightToAskClient.Controls;assembly=RightToAskClient"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:models="clr-namespace:RightToAskClient.Models;assembly=RightToAskClient"
              xmlns:local="clr-namespace:RightToAskClient"
@@ -74,8 +72,7 @@
 					<Label Text="{xct:Translate QuestionWriterHeaderText}" Style="{StaticResource Header2}" />
 					<Label Text="{Binding Question.QuestionSuggester, StringFormat='{0:F0}'}"
 					       Style="{StaticResource NormalText}" Margin="0, 10, 0, 0"
-					       IsEnabled="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
-					</Label>
+					       IsEnabled="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}" />
 				</StackLayout>
 				<!-- Background -->
 				<StackLayout Orientation="Vertical">

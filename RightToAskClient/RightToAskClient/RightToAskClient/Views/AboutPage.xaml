@@ -26,8 +26,7 @@
             </StackLayout>
             <WebView x:Name="webView" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
                      Source="https://righttoask.democracydevelopers.org.au/what-it-does/"
-                     Navigating="OnWebViewNavigating">
-            </WebView>
+                     Navigating="OnWebViewNavigating" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

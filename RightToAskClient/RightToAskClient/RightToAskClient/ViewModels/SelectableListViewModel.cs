@@ -67,8 +67,7 @@ namespace RightToAskClient.ViewModels
 			set => SetProperty(ref _titleText, value);
 		}
 
-		private Binding _groupDisplay = new Binding("Chamber");
-		public Binding GroupDisplay => _groupDisplay;
+		public Binding GroupDisplay { get; } = new Binding("Chamber");
 
 		private string _doneButtonText = AppResources.NextButtonText;
 		public string DoneButtonText

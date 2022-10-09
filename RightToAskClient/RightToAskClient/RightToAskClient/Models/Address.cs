@@ -1,4 +1,3 @@
-using System;
 using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace RightToAskClient.Models

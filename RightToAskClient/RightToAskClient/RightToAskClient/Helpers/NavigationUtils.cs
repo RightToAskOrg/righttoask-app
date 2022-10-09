@@ -63,7 +63,7 @@ namespace RightToAskClient
         {
             var message = AppResources.SelectMPToAnswerText;
             var mpsPage =
-                new SelectableListPage(App.ReadingContext.Filters.AnsweringMPsListsNotMine, message, false);
+                new SelectableListPage(App.ReadingContext.Filters.AnsweringMPsListsNotMine, message);
             await Application.Current.MainPage.Navigation.PushAsync(mpsPage);
         }
 
@@ -71,14 +71,14 @@ namespace RightToAskClient
         {
             var message = AppResources.SelectMPToRaiseText; 
             var mpsPage =
-                new SelectableListPage(App.ReadingContext.Filters.AskingMPsListsNotMine, message, false);
+                new SelectableListPage(App.ReadingContext.Filters.AskingMPsListsNotMine, message);
             await Application.Current.MainPage.Navigation.PushAsync(mpsPage);
         }
         
         public static async Task EditCommitteesClicked()
         {
             var committeeSelectableListPage
-                = new SelectableListPage(App.ReadingContext.Filters.CommitteeLists, AppResources.CommitteeText, false);
+                = new SelectableListPage(App.ReadingContext.Filters.CommitteeLists, AppResources.CommitteeText);
             await App.Current.MainPage.Navigation.PushAsync(committeeSelectableListPage);
         }
     }

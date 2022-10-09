@@ -2,7 +2,6 @@
 using RightToAskClient.Models;
 using RightToAskClient.Resx;
 using RightToAskClient.Views;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -135,8 +134,7 @@ namespace RightToAskClient.ViewModels
         
         public List<string> FederalElectorates => ParliamentData.HouseOfRepsElectorates(SelectedStateEnum.ToString());
 
-        private ObservableCollection<string> _allStateChoosableElectorates = new ObservableCollection<string>();
-        public ObservableCollection<string> AllStateChoosableElectorates => _allStateChoosableElectorates;
+        public ObservableCollection<string> AllStateChoosableElectorates { get; } = new ObservableCollection<string>();
 
         private string _stateChoosableElectorateHeader 
             =  App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsEnum == ParliamentData.StateEnum.TAS

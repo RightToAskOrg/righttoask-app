@@ -33,72 +33,59 @@ namespace RightToAskClient.Models
 		
 		// Express each FilterChoice as a pair of lists: the whole list from which things are seleced,
 		// and the list of selections.
-		private SelectableList<Committee> _committeeLists
-			= new SelectableList<Committee>(new List<Committee>(), new List<Committee>());
-			
-		public SelectableList<Committee> CommitteeLists => _committeeLists;
 
-		public List<Committee> SelectedCommittees => _committeeLists.SelectedEntities as List<Committee> ?? new List<Committee>();
+		public SelectableList<Committee> CommitteeLists { get; private set; } = new SelectableList<Committee>(new List<Committee>(), new List<Committee>());
 
-		private SelectableList<Authority> _authorityLists
-			= new SelectableList<Authority>(new List<Authority>(), new List<Authority>());
-			
-		public SelectableList<Authority> AuthorityLists => _authorityLists;
+		public List<Committee> SelectedCommittees => CommitteeLists.SelectedEntities as List<Committee> ?? new List<Committee>();
 
-		public List<Authority> SelectedAuthorities => _authorityLists.SelectedEntities as List<Authority> ?? new List<Authority>();
+		public SelectableList<Authority> AuthorityLists { get; private set; } = new SelectableList<Authority>(new List<Authority>(), new List<Authority>());
 
-		private SelectableList<MP> _answeringMPsListMine 
-			= new SelectableList<MP>(new List<MP>(), new List<MP>());
-		public SelectableList<MP> AnsweringMPsListsMine => _answeringMPsListMine;
+		public List<Authority> SelectedAuthorities => AuthorityLists.SelectedEntities as List<Authority> ?? new List<Authority>();
+
+		public SelectableList<MP> AnsweringMPsListsMine { get; } = new SelectableList<MP>(new List<MP>(), new List<MP>());
 
 		public List<MP> SelectedAnsweringMPsMine
 		{
-			get => _answeringMPsListMine.SelectedEntities as List<MP> ?? new List<MP>();
+			get => AnsweringMPsListsMine.SelectedEntities as List<MP> ?? new List<MP>();
 			set
 			{
-				_answeringMPsListMine.SelectedEntities = value;
+				AnsweringMPsListsMine.SelectedEntities = value;
 				OnPropertyChanged();
 			}
 		}
 
-		private SelectableList<MP> _askingMPsListMine
-			= new SelectableList<MP>(new List<MP>(), new List<MP>());
-		public SelectableList<MP> AskingMPsListsMine => _askingMPsListMine;
+		public SelectableList<MP> AskingMPsListsMine { get; } = new SelectableList<MP>(new List<MP>(), new List<MP>());
 
 		public List<MP> SelectedAskingMPsMine
 		{
-			get => _askingMPsListMine.SelectedEntities as List<MP> ?? new List<MP>();
+			get => AskingMPsListsMine.SelectedEntities as List<MP> ?? new List<MP>();
 			set
 			{
-				_askingMPsListMine.SelectedEntities = value;
+				AskingMPsListsMine.SelectedEntities = value;
 				OnPropertyChanged();
 			}
 		}
-		
-		private SelectableList<MP> _answeringMPsListNotMine
-			= new SelectableList<MP>(new List<MP>(), new List<MP>());
-		public SelectableList<MP> AnsweringMPsListsNotMine => _answeringMPsListNotMine;
+
+		public SelectableList<MP> AnsweringMPsListsNotMine { get; private set; } = new SelectableList<MP>(new List<MP>(), new List<MP>());
 
 		public List<MP> SelectedAnsweringMPsNotMine
 		{
-			get => _answeringMPsListNotMine.SelectedEntities as List<MP> ?? new List<MP>();
+			get => AnsweringMPsListsNotMine.SelectedEntities as List<MP> ?? new List<MP>();
 			set
 			{
-				_answeringMPsListNotMine.SelectedEntities = value;
+				AnsweringMPsListsNotMine.SelectedEntities = value;
 				OnPropertyChanged();
 			}
 		}
 
-		private SelectableList<MP> _askingMPsListNotMine
-			= new SelectableList<MP>(new List<MP>(), new List<MP>());
-		public SelectableList<MP> AskingMPsListsNotMine => _askingMPsListNotMine;
+		public SelectableList<MP> AskingMPsListsNotMine { get; private set; } = new SelectableList<MP>(new List<MP>(), new List<MP>());
 
 		public List<MP> SelectedAskingMPsNotMine
 		{
-			get =>  _askingMPsListNotMine.SelectedEntities as List<MP> ?? new List<MP>();
+			get =>  AskingMPsListsNotMine.SelectedEntities as List<MP> ?? new List<MP>();
 			set
 			{
-				_askingMPsListNotMine.SelectedEntities = value;
+				AskingMPsListsNotMine.SelectedEntities = value;
 				OnPropertyChanged();
 			}
 		}
@@ -140,21 +127,21 @@ namespace RightToAskClient.Models
         public void InitSelectableLists()
         {
 	        // Note: No init for question writers, because it needs to be initialised when the user searches for names.
-	        _answeringMPsListNotMine = new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
-	        _askingMPsListNotMine =  new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
-	        _authorityLists = new SelectableList<Authority>(ParliamentData.AllAuthorities, new List<Authority>());
-	        _committeeLists =
+	        AnsweringMPsListsNotMine = new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
+	        AskingMPsListsNotMine =  new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
+	        AuthorityLists = new SelectableList<Authority>(ParliamentData.AllAuthorities, new List<Authority>());
+	        CommitteeLists =
 		        new SelectableList<Committee>(CommitteesAndHearingsData.AllCommittees, new List<Committee>());
         }
 
         public void RemoveAllSelections()
         {
-	        _answeringMPsListNotMine.SelectedEntities = new List<MP>();
-	        _answeringMPsListMine.SelectedEntities = new List<MP>();
-	        _askingMPsListNotMine.SelectedEntities = new List<MP>();
-	        _askingMPsListMine.SelectedEntities = new List<MP>();
-	        _authorityLists.SelectedEntities = new List<Authority>();
-	        _committeeLists.SelectedEntities = new List<Committee>();
+	        AnsweringMPsListsNotMine.SelectedEntities = new List<MP>();
+	        AnsweringMPsListsMine.SelectedEntities = new List<MP>();
+	        AskingMPsListsNotMine.SelectedEntities = new List<MP>();
+	        AskingMPsListsMine.SelectedEntities = new List<MP>();
+	        AuthorityLists.SelectedEntities = new List<Authority>();
+	        CommitteeLists.SelectedEntities = new List<Committee>();
 	        _questionWriterLists.SelectedEntities = new List<Person>();
 	        SearchKeyword = "";
         }
@@ -165,8 +152,8 @@ namespace RightToAskClient.Models
         // it's still possible for the question to go to 'my MP' when that person is their previous MP.
         public void UpdateMyMPLists()
         {
-	        _answeringMPsListMine.AllEntities = ParliamentData.FindAllMPsGivenElectorates(App.ReadingContext.ThisParticipant.RegistrationInfo.Electorates.ToList());
-	        _askingMPsListMine.AllEntities = _answeringMPsListMine.AllEntities;
+	        AnsweringMPsListsMine.AllEntities = ParliamentData.FindAllMPsGivenElectorates(App.ReadingContext.ThisParticipant.RegistrationInfo.Electorates.ToList());
+	        AskingMPsListsMine.AllEntities = AnsweringMPsListsMine.AllEntities;
         }
 
         public bool Validate()

@@ -25,14 +25,6 @@ namespace RightToAskClient.Models
         private int _upVotes;
         private int _downVotes;
 
-        private QuestionSendToServer _updates = new QuestionSendToServer()
-        {
-            // Most updates are simply omitted when not changed, but the Permissions enum needs to send a specific
-            // "no change" value. 
-            who_should_ask_the_question_permissions = RTAPermissions.NoChange,
-            who_should_answer_the_question_permissions = RTAPermissions.NoChange
-        };
-
         public QuestionDetailsStatus Status { get; set; }
 
         private string _questionText = "";
@@ -43,7 +35,7 @@ namespace RightToAskClient.Models
             {
                 SetProperty(ref _questionText, value);
                 //** QuestionViewModel.Instance.ServerQuestionUpdates.question_text = _questionText;
-                _updates.question_text = _questionText;
+                Updates.question_text = _questionText;
             }
         }
 
@@ -51,11 +43,17 @@ namespace RightToAskClient.Models
         public bool PopupResponse { get; set; } = false;
 
         // Lists the updates that have occurred since construction.
-        public QuestionSendToServer Updates => _updates; 
-        
+        public QuestionSendToServer Updates { get; private set; } = new QuestionSendToServer()
+        {
+            // Most updates are simply omitted when not changed, but the Permissions enum needs to send a specific
+            // "no change" value. 
+            who_should_ask_the_question_permissions = RTAPermissions.NoChange,
+            who_should_answer_the_question_permissions = RTAPermissions.NoChange
+        };
+
         public void ReinitQuestionUpdates()
         {
-            _updates = new QuestionSendToServer()
+            Updates = new QuestionSendToServer()
             {
                 // Init explicit 'no change' value for permissions.
                 who_should_answer_the_question_permissions = RTAPermissions.NoChange,
@@ -72,7 +70,7 @@ namespace RightToAskClient.Models
             {
                 SetProperty(ref _background, value);
                 //** QuestionViewModel.Instance.ServerQuestionUpdates.background = _background;
-                _updates.background = _background;
+                Updates.background = _background;
             }
         }
 
@@ -130,7 +128,7 @@ namespace RightToAskClient.Models
             set 
             {
                 SetProperty(ref _whoShouldAnswerTheQuestionPermissions, value);
-                _updates.who_should_answer_the_question_permissions = value;
+                Updates.who_should_answer_the_question_permissions = value;
             }
         }
 
@@ -159,7 +157,7 @@ namespace RightToAskClient.Models
             set 
             {
                 SetProperty(ref _whoShouldAskTheQuestionPermissions, value);
-                _updates.who_should_ask_the_question_permissions = value;
+                Updates.who_should_ask_the_question_permissions = value;
             }
         }
 
@@ -480,14 +478,14 @@ namespace RightToAskClient.Models
 
         public void AddHansardLink(Uri newHansardLink)
         {
-            if (_updates.hansard_link is null)
+            if (Updates.hansard_link is null)
             {
-            _updates.hansard_link = new List<HansardLink>{new HansardLink(newHansardLink.OriginalString)};
+            Updates.hansard_link = new List<HansardLink>{new HansardLink(newHansardLink.OriginalString)};
             }
             // People may add multiple Hansard links at once.
             else
             {
-                _updates.hansard_link.Add(new HansardLink(newHansardLink.OriginalString));
+                Updates.hansard_link.Add(new HansardLink(newHansardLink.OriginalString));
             }
             QuestionViewModel.Instance.Question.HansardLink.Add(newHansardLink);
             OnPropertyChanged("HansardLink");
@@ -497,7 +495,7 @@ namespace RightToAskClient.Models
         {
             var me = App.ReadingContext.ThisParticipant;
 
-            _updates.answers = new List<QuestionAnswer>()
+            Updates.answers = new List<QuestionAnswer>()
             {
                 new QuestionAnswer()
                 {

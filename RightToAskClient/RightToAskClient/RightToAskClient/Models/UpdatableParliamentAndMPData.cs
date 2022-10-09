@@ -28,9 +28,8 @@ namespace RightToAskClient.Models
 				mps = new MP[] { },
 				FederalElectoratesByState = new RegionsContained[] { }
 			};
-		
-		private bool _isInitialised;  // Defaults to false.
-		public bool IsInitialised => _isInitialised;
+
+		public bool IsInitialised { get; private set; }
 
 		public List<MP> AllMPs  
 		{
@@ -79,14 +78,14 @@ namespace RightToAskClient.Models
 		// isn't repeated.
 		public async Task<bool> TryInit()
 		{
-			if (_isInitialised) return true;
+			if (IsInitialised) return true;
 			Result<bool> success;
 
 			// get data from local first
 			success = TryInitialisingFromStoredData();
 			if (string.IsNullOrEmpty(success.Err))
 			{
-				_isInitialised = true;
+				IsInitialised = true;
 				QuestionViewModel.Instance.UpdateMPButtons(); 
 				// App.ReadingContext.Filters.InitSelectableLists();
 				//return;
@@ -96,7 +95,7 @@ namespace RightToAskClient.Models
 			success = await TryInitialisingFromServer();
 			if (string.IsNullOrEmpty(success.Err))
 			{
-				_isInitialised = true;
+				IsInitialised = true;
 				QuestionViewModel.Instance.UpdateMPButtons();
 				// App.ReadingContext.Filters.InitSelectableLists();
 				return true;
@@ -108,7 +107,7 @@ namespace RightToAskClient.Models
 			success = TryInitialisingFromStoredData();
 			if (string.IsNullOrEmpty(success.Err))
 			{
-				_isInitialised = true;
+				IsInitialised = true;
 				QuestionViewModel.Instance.UpdateMPButtons();
 				// App.ReadingContext.Filters.InitSelectableLists();
 				return true;
@@ -128,7 +127,7 @@ namespace RightToAskClient.Models
 			}
 			
 			_allMPsData = success.Ok;
-			_isInitialised = true;
+			IsInitialised = true;
 			// TODO this seem to be called twice. Prob don't need both.
 			QuestionViewModel.Instance.UpdateMPButtons();
 			return new Result<bool>() { Ok = true };
@@ -147,7 +146,7 @@ namespace RightToAskClient.Models
 			if (string.IsNullOrEmpty(serverMPList.Err))
 			{
 				_allMPsData = serverMPList.Ok;
-				_isInitialised = true;
+				IsInitialised = true;
 				QuestionViewModel.Instance.UpdateMPButtons();
 				return new Result<bool>() { Ok = true };
 			}

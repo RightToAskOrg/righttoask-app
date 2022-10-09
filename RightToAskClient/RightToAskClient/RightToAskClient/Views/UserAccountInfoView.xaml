@@ -21,9 +21,8 @@
             <Picker Grid.Row="2" Grid.Column="1" Title="{Binding State,  StringFormat='{0:F0}'}"
                     ItemsSource="{Binding StateList}"
                     Style="{StaticResource LeftPicker}"
-                    SelectedIndex="{Binding SelectedStateAsIndex}">
-            </Picker>
-        </Grid>
+                    SelectedIndex="{Binding SelectedStateAsIndex}" />
+            </Grid>
             <Label Text="{Binding BadgesSummary, StringFormat='Registered MP account for {0}'}"
                    IsVisible="{Binding IsVerifiedMPAccount}"  Style="{StaticResource NormalText}" />
             <!-- <Label Text="Verified staffer" IsVisible="{Binding IsVerifiedStafferAccount}" Style="{StaticResource NormalText}" /> -->

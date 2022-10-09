@@ -4,7 +4,6 @@
            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
            xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
            xmlns:viewmodels="clr-namespace:RightToAskClient.ViewModels"
-           xmlns:models="clr-namespace:RightToAskClient.Models"
            x:DataType="viewmodels:ReadingPageViewModel"
            x:Class="RightToAskClient.Views.ReadingPagePopup"
            Size="300,300"
