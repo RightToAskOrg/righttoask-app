@@ -37,7 +37,7 @@ namespace RightToAskClient.CryptoUtils
 
         private static Ed25519Signer MySigner = new Ed25519Signer();
 
-        private static bool _initSuccessful = false;
+        private static bool _initSuccessful;
         public static bool InitSuccessful
         {
             get => _initSuccessful;

@@ -32,7 +32,7 @@ namespace RightToAskClient.ViewModels
 			private set => SetProperty(ref _filteredSelectableEntities, value);
 		}
 
-		private bool _showFilteredResults = false;
+		private bool _showFilteredResults;
 		public bool ShowFilteredResults
 		{
 			get => _showFilteredResults;
@@ -83,7 +83,7 @@ namespace RightToAskClient.ViewModels
 			set => SetProperty(ref _doneButtonText, value);
 		}
 
-		private bool _showSearchFrame = false;
+		private bool _showSearchFrame;
 		public bool ShowSearchFrame
 		{
 			get => _showSearchFrame;
@@ -106,16 +106,16 @@ namespace RightToAskClient.ViewModels
 		public Command SearchToolbarCommand { get; private set; }
 
 		// TODO These are just copy-pasted from the old code-behind. Might need a bit more thought.
-		public bool CameFromReg2Page = false;
-		public bool GoToReadingPageFinally = false;
-		public bool GoToAskingPageNext = false;
-		public bool RegisterMPAccount = false;
+		public bool CameFromReg2Page;
+		public bool GoToReadingPageFinally;
+		public bool GoToAskingPageNext;
+		public bool RegisterMPAccount;
 
 		// For verifying that the selections meet whatever constraints they need to. At the moment,
 		// the only functional one is enforcing a single selection.
 		private Func<Task<bool>> _selectionRulesCheckingCommand;
 
-		private bool goToReadingPageWithSingleQuestionWriter = false; 
+		private bool goToReadingPageWithSingleQuestionWriter; 
 		public SelectableListViewModel(SelectableList<Authority> authorityLists, string message, bool singleSelection = false) : this(message, singleSelection)
 		{
 			SelectableEntities = WrapInTagsAndSortPreselections(new ObservableCollection<Entity>(authorityLists.AllEntities),  

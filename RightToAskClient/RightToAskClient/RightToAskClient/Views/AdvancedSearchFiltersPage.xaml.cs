@@ -7,7 +7,7 @@ namespace RightToAskClient.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AdvancedSearchFiltersPage : ContentPage
     {
-        public bool CameFromMainPage = false;
+        public bool CameFromMainPage;
         public AdvancedSearchFiltersPage()
         {
             //vm = new ReadingPageViewModel();

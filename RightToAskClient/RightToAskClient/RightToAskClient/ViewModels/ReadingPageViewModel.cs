@@ -27,14 +27,14 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _showQuestionFrame, value);
         }
 
-        private bool _showSearchFrame = false;
+        private bool _showSearchFrame;
         public bool ShowSearchFrame
         {
             get => _showSearchFrame;
             set => SetProperty(ref _showSearchFrame, value);
         }
 
-        private bool _dontShowFirstTimeReadingPopup = false;
+        private bool _dontShowFirstTimeReadingPopup;
         public bool DontShowFirstTimeReadingPopup
         {
             get => _dontShowFirstTimeReadingPopup;
@@ -69,7 +69,7 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        private Question? _selectedQuestion = null;
+        private Question? _selectedQuestion;
         public Question? SelectedQuestion
         {
             get => _selectedQuestion;
@@ -111,7 +111,7 @@ namespace RightToAskClient.ViewModels
         }
         
         private string WriterOnlyUid = String.Empty;
-        private bool ReadByQuestionWriter = false;
+        private bool ReadByQuestionWriter;
 
         // constructor
         public ReadingPageViewModel()

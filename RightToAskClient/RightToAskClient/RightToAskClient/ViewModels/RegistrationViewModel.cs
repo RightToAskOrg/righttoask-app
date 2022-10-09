@@ -139,16 +139,16 @@ namespace RightToAskClient.ViewModels
         
         // public MP RegisteredMP { get; }
         public bool ShowStafferLabel { get; set; }
-        public bool ShowExistingMPRegistrationLabel { get; set; } = false;
+        public bool ShowExistingMPRegistrationLabel { get; set; }
         
-        private bool _showRegisterMPReportLabel = false;
+        private bool _showRegisterMPReportLabel;
         public bool ShowRegisterMPReportLabel
         {
             get => _showRegisterMPReportLabel;
             set => SetProperty(ref _showRegisterMPReportLabel, value);
         } 
         
-        private bool _showRegisterCitizenButton = false;
+        private bool _showRegisterCitizenButton;
         public bool ShowRegisterCitizenButton
         {
             get => _showRegisterCitizenButton;
@@ -162,7 +162,7 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _registerCitizenButtonText, value);
         }
 
-        private bool _showRegisterOrgButton = false;
+        private bool _showRegisterOrgButton;
         public bool ShowRegisterOrgButton
         {
             get => _showRegisterOrgButton;
@@ -180,14 +180,14 @@ namespace RightToAskClient.ViewModels
 
         public string RegisterMPButtonText => AppResources.RegisterMPAccountButtonText;
         
-        private bool _showDoneButton = false;
+        private bool _showDoneButton;
         public bool ShowDoneButton
         {
             get => _showDoneButton;
             set => SetProperty(ref _showDoneButton, value);
         }
 
-        private bool _showDMButton = false;
+        private bool _showDMButton;
         public bool ShowDMButton
         {
             get => _showDMButton;
@@ -201,7 +201,7 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _dmButtonText, value);
         }
 
-        private bool _showSeeQuestionsButton = false;
+        private bool _showSeeQuestionsButton;
         public bool ShowSeeQuestionsButton
         {
             get => _showSeeQuestionsButton;
@@ -215,7 +215,7 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _seeQuestionsButtonText, value);
         }
 
-        private bool _showFollowButton = false;
+        private bool _showFollowButton;
         public bool ShowFollowButton
         {
             get => _showFollowButton;
@@ -236,7 +236,7 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _canEditUID, value);
         }
 
-        private bool _showUpdateAccountButton = false;
+        private bool _showUpdateAccountButton;
         public bool ShowUpdateAccountButton
         {
             get => _showUpdateAccountButton;
@@ -246,7 +246,7 @@ namespace RightToAskClient.ViewModels
         public List<string> StateList => ParliamentData.StatesAndTerritories;
 
 
-        private ElectorateWithChamber? _selectedElectorateWithChamber = null;
+        private ElectorateWithChamber? _selectedElectorateWithChamber;
         public ElectorateWithChamber? SelectedElectorateWithChamber
         {
             get => _selectedElectorateWithChamber;

@@ -24,7 +24,7 @@ namespace RightToAskClient.Models
 
         private int _selectedStateAsIndex = -1;
         
-        private bool _stateKnown = false;
+        private bool _stateKnown;
         public bool StateKnown
         {
             get => _stateKnown;

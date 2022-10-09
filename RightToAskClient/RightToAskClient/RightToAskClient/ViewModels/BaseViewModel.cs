@@ -42,7 +42,7 @@ namespace RightToAskClient.ViewModels
             });
         }
 
-        private bool _isBusy = false;
+        private bool _isBusy;
         public bool IsBusy
         {
             get => _isBusy;
@@ -78,8 +78,8 @@ namespace RightToAskClient.ViewModels
         }
 
         // booleans for feedback from generic popup button presses
-        public bool CancelButtonClicked { get; set; } = false;
-        public bool ApproveButtonClicked { get; set; } = false;
+        public bool CancelButtonClicked { get; set; }
+        public bool ApproveButtonClicked { get; set; }
 
         // commands
         public IAsyncCommand HomeButtonCommand { get; }

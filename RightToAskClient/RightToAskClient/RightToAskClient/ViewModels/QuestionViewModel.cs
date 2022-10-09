@@ -207,7 +207,7 @@ namespace RightToAskClient.ViewModels
         }
 
 
-        private bool _answerInApp = false;
+        private bool _answerInApp;
         public bool AnswerInApp
         {
             get => _answerInApp;

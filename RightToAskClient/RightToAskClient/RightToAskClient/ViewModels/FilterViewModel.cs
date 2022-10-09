@@ -89,7 +89,7 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        private bool _answerInApp = false;
+        private bool _answerInApp;
         public bool AnswerInApp
         {
             get => QuestionViewModel.Instance.AnswerInApp;
@@ -102,7 +102,7 @@ namespace RightToAskClient.ViewModels
 
         // public string SelectedAnsweringMPsText => CreateTextGivenListEntities(FilterChoices.SelectedAnsweringMPsNotMine.ToList());
 
-        public bool CameFromMainPage = false;
+        public bool CameFromMainPage;
 
         private string _keyword = "";
         public string Keyword

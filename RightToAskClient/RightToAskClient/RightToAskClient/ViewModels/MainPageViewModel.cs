@@ -9,7 +9,7 @@ namespace RightToAskClient.ViewModels
 {
     public class MainPageViewModel : BaseViewModel
     {
-        private bool _showMyQuestions = false;
+        private bool _showMyQuestions;
         public bool ShowMyQuestions
         {
             get => _showMyQuestions;
@@ -20,7 +20,7 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        private bool _showTrendingMyElectorate = false;
+        private bool _showTrendingMyElectorate;
         public bool ShowTrendingMyElectorate
         {
             get => _showTrendingMyElectorate;
@@ -31,7 +31,7 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        private bool _showQuestionsForMe = false;
+        private bool _showQuestionsForMe;
         public bool ShowQuestionsForMe
         {
             get => _showQuestionsForMe;

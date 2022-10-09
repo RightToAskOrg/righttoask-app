@@ -26,19 +26,19 @@ namespace RightToAskClient.ViewModels
             get => _address;
             set => SetProperty(ref _address, value);
         }
-        private bool _showFindMPsButton = false;
+        private bool _showFindMPsButton;
         public bool ShowFindMPsButton
         {
             get => _showFindMPsButton;
             set => SetProperty(ref _showFindMPsButton, value);
         }
-        private bool _showMapFrame = false;
+        private bool _showMapFrame;
         public bool ShowMapFrame
         {
             get => _showMapFrame;
             set => SetProperty(ref _showMapFrame, value);
         }
-        private bool _showSkipButton = false;
+        private bool _showSkipButton;
         public bool ShowSkipButton
         {
             get => _showSkipButton;
@@ -50,13 +50,13 @@ namespace RightToAskClient.ViewModels
             get => _showStateOnly;
             set => SetProperty(ref _showStateOnly, value);
         }
-        private bool _showElectoratesFrame = false;
+        private bool _showElectoratesFrame;
         public bool ShowElectoratesFrame
         {
             get => _showElectoratesFrame;
             set => SetProperty(ref _showElectoratesFrame, value);
         }
-        private bool _showKnowElectoratesFrame = false;
+        private bool _showKnowElectoratesFrame;
         public bool ShowKnowElectoratesFrame
         {
             get => _showKnowElectoratesFrame;
@@ -71,7 +71,7 @@ namespace RightToAskClient.ViewModels
                 // OnPropertyChanged("FederalElectorates");
             }
         }
-        private bool _showAddressStack = false;
+        private bool _showAddressStack;
         public bool ShowAddressStack
         {
             get => _showAddressStack;
@@ -208,11 +208,11 @@ namespace RightToAskClient.ViewModels
             get => _doneButtonText;
             set => SetProperty(ref _doneButtonText, value);
         }
-        private bool _launchMPsSelectionPageNext = false;
+        private bool _launchMPsSelectionPageNext;
         
         // This indicates, when we're choosing from a list of MPs, whether they're asking the question (true) or
         // answering it (false).
-        private bool _choosingAskingMP = false;
+        private bool _choosingAskingMP;
 
         private string _mapURL = "";
         public string MapURL
@@ -231,7 +231,7 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _promptAddressSave, value);
         }
         */
-        private bool _postcodeIsValid = false;
+        private bool _postcodeIsValid;
         public bool PostcodeIsValid
         {
             get => _postcodeIsValid;

@@ -59,7 +59,7 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _mpRegistrationPIN, value);
         }
 
-        public bool ReturnToAccountPage = false;
+        public bool ReturnToAccountPage;
 
         // The domain of the email, one of 9 hardcoded valid parliamentary email domains.
         private string domain = "";
@@ -105,7 +105,7 @@ namespace RightToAskClient.ViewModels
             get => _registerMPReportLabelText;
         }
 
-        private bool _showRegisterMPReportLabel = false;
+        private bool _showRegisterMPReportLabel;
         public bool ShowRegisterMPReportLabel
         {
             get => _showRegisterMPReportLabel;
