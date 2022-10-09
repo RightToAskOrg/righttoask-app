@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using System.Text;
-using System.Threading.Tasks;
-using RightToAskClient.Models;
 using RightToAskClient.Resx;
 using RightToAskClient.ViewModels;
 using Xamarin.CommunityToolkit.Extensions;

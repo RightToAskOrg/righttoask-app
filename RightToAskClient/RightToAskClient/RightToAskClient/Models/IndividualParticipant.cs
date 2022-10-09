@@ -1,13 +1,8 @@
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using RightToAskClient.CryptoUtils;
 using RightToAskClient.Models.ServerCommsData;
 
-using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Essentials;
-using Xamarin.Forms;
 // This class represents a person who uses the
 // system and is not an MP or org representative.
 namespace RightToAskClient.Models

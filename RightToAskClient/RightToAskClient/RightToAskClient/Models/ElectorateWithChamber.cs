@@ -1,5 +1,4 @@
 using System;
-using RightToAskClient.Models.ServerCommsData;
 
 namespace RightToAskClient.Models
 {

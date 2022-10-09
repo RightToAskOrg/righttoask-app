@@ -1,10 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using RightToAskClient.HttpClients;
-using RightToAskClient.CryptoUtils;
-using RightToAskClient.Models;
-using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.ViewModels;
 using Xamarin.Forms;
 using RightToAskClient.Resx;

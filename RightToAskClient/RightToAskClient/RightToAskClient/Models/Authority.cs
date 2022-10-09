@@ -1,6 +1,5 @@
 using System;
 using System.Diagnostics;
-using RightToAskClient.Models.ServerCommsData;
 using Xamarin.Forms;
 
 namespace RightToAskClient.Models

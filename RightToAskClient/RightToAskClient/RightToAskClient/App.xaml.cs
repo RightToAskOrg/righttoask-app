@@ -1,19 +1,12 @@
 ﻿using System;
 using Xamarin.Forms;
-using RightToAskClient.Views;
 using RightToAskClient.Models;
 using Xamarin.CommunityToolkit.Helpers;
 using RightToAskClient.Resx;
 using Xamarin.Essentials;
 using System.Text.Json;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
 using RightToAskClient.Models.ServerCommsData;
-using SQLite;
-using static Xamarin.Forms.Editor;
-using Switch = Xamarin.Forms.Switch;
 
 // [assembly: ExportFont("Roboto-Black.ttf", Alias = "AppFont")]
 // [assembly: ExportFont("OpenSans-Regular.ttf", Alias = "AppFont")]

@@ -1,17 +1,13 @@
-﻿using RightToAskClient.Controls;
-using RightToAskClient.Models;
+﻿using RightToAskClient.Models;
 using RightToAskClient.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Xml;
 using Xamarin.CommunityToolkit.ObjectModel;
 using RightToAskClient.Resx;
 using Xamarin.Forms;
 using System.Threading.Tasks;
 using RightToAskClient.HttpClients;
-using RightToAskClient.Models.ServerCommsData;
 
 namespace RightToAskClient.ViewModels
 {
