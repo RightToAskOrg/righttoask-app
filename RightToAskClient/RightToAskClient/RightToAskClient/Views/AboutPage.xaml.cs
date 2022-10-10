@@ -14,9 +14,9 @@ namespace RightToAskClient.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AboutPage : ContentPage
     {
-        private static string appDomainString = "https://righttoask.democracydevelopers.org.au/";
+        private static readonly string appDomainString = "https://righttoask.democracydevelopers.org.au/";
         private static Uri appDomain = new Uri(appDomainString);
-        private BaseViewModel baseViewModel;
+        private readonly BaseViewModel baseViewModel;
         public AboutPage()
         {
             InitializeComponent();

@@ -5,11 +5,11 @@ namespace RightToAskClient.Models
     public class Answer
     {
         // uid.
-        public string UserAnsweredBy { get; private set; } = "";
+        public string UserAnsweredBy { get; } = "";
 
-        public MP MPAnsweredBy { get; private set; } = new MP();
+        public MP MPAnsweredBy { get; } = new MP();
 
-        public string AnswerText { get; private set; } = "";
+        public string AnswerText { get; } = "";
 
         // For generating app Answer data structure from server data structure (possible nulls etc).
         public Answer(QuestionAnswer ans)

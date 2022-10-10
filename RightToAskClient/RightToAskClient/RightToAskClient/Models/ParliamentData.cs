@@ -269,7 +269,7 @@ namespace RightToAskClient.Models
 			return new List<string>();
 	    }
 	    
-	    private static List<Chamber> StateLowerHouseChambers = new List<Chamber>
+	    private static readonly List<Chamber> StateLowerHouseChambers = new List<Chamber>
 	    {
 		    Chamber.ACT_Legislative_Assembly,
 		    Chamber.NSW_Legislative_Assembly,
@@ -281,7 +281,7 @@ namespace RightToAskClient.Models
 		    Chamber.WA_Legislative_Assembly
 	    };
 
-	    private static List<Chamber> StateUpperHouseChambers = new List<Chamber>
+	    private static readonly List<Chamber> StateUpperHouseChambers = new List<Chamber>
 	    {
 		    Chamber.NSW_Legislative_Council,
 		    Chamber.SA_Legislative_Council,

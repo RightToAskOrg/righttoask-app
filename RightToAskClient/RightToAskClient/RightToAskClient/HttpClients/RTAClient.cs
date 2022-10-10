@@ -17,31 +17,31 @@ namespace RightToAskClient.HttpClients
     public static class RTAClient
     {
         
-        private static (string key, string url)  serverConfig = SetUpServerConfig();
-        private static string serverPublicKey = serverConfig.key;
-        private static string BaseUrl = serverConfig.url;
-        private static string RegUrl = BaseUrl + "/new_registration";
-        private static string EditUserUrl = BaseUrl + "/edit_user";
-        private static string QnUrl = BaseUrl + "/new_question";
-        private static string EditQnUrl = BaseUrl + "/edit_question";
-        private static string MPListUrl = BaseUrl + "/MPs.json";
-        private static string CommitteeListUrl = BaseUrl + "/committees.json";
-        private static string HearingsListUrl = BaseUrl + "/hearings.json";
+        private static readonly (string key, string url)  serverConfig = SetUpServerConfig();
+        private static readonly string serverPublicKey = serverConfig.key;
+        private static readonly string BaseUrl = serverConfig.url;
+        private static readonly string RegUrl = BaseUrl + "/new_registration";
+        private static readonly string EditUserUrl = BaseUrl + "/edit_user";
+        private static readonly string QnUrl = BaseUrl + "/new_question";
+        private static readonly string EditQnUrl = BaseUrl + "/edit_question";
+        private static readonly string MPListUrl = BaseUrl + "/MPs.json";
+        private static readonly string CommitteeListUrl = BaseUrl + "/committees.json";
+        private static readonly string HearingsListUrl = BaseUrl + "/hearings.json";
         private static string UserListUrl = BaseUrl + "/get_user_list" ;
-        private static string SearchUserUrl = BaseUrl + "/search_user"+ "?badges=true&search=";
-        private static string QuestionListUrl = BaseUrl + "/get_question_list";
-        private static string QuestionUrl = BaseUrl + "/get_question" + "?question_id=";
-        private static string GetQuestionByWriterUrl = BaseUrl + "/get_questions_created_by_user" + "?uid=";
-        private static string UserUrl = BaseUrl + "/get_user" + "?uid=";
-        private static string EmailValidationUrl = BaseUrl + "/request_email_validation";
-        private static string EmailValidationPINUrl = BaseUrl + "/email_proof";
-        private static string SimilarQuestionsUrl = BaseUrl + "/similar_questions";
+        private static readonly string SearchUserUrl = BaseUrl + "/search_user"+ "?badges=true&search=";
+        private static readonly string QuestionListUrl = BaseUrl + "/get_question_list";
+        private static readonly string QuestionUrl = BaseUrl + "/get_question" + "?question_id=";
+        private static readonly string GetQuestionByWriterUrl = BaseUrl + "/get_questions_created_by_user" + "?uid=";
+        private static readonly string UserUrl = BaseUrl + "/get_user" + "?uid=";
+        private static readonly string EmailValidationUrl = BaseUrl + "/request_email_validation";
+        private static readonly string EmailValidationPINUrl = BaseUrl + "/email_proof";
+        private static readonly string SimilarQuestionsUrl = BaseUrl + "/similar_questions";
         
         // TODO At the moment, this is not used, because we don't have a cert chain for the server Public Key.
         // Instead, the public key itself is hardcoded.
         // private static string ServerPubKeyUrl = BaseUrl + "/get_server_public_key_spki";
         
-        private static JsonSerializerOptions _serializerOptions =
+        private static readonly JsonSerializerOptions _serializerOptions =
             new JsonSerializerOptions
             {
                 Converters = { new JsonStringEnumConverter() },

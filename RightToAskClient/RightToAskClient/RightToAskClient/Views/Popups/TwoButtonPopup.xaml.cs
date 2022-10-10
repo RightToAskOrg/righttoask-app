@@ -9,8 +9,9 @@ namespace RightToAskClient.Views.Popups
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TwoButtonPopup : Popup
     {
-        BaseViewModel? baseViewModel;
-        Question? model;
+        private readonly BaseViewModel? baseViewModel;
+
+        private readonly Question? model;
         // constructor for ViewModels
         public TwoButtonPopup(BaseViewModel vm, string popupTitle, string popupText, string cancelMessage, string approveMessage)
         {

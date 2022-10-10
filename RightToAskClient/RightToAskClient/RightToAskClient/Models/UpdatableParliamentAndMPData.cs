@@ -54,7 +54,7 @@ namespace RightToAskClient.Models
 		public List<RegionsContained> VicRegions => new List<RegionsContained>(_allMPsData.VicRegions ?? Array.Empty<RegionsContained>());
 
 
-		private JsonSerializerOptions serializerOptions = new JsonSerializerOptions
+		private readonly JsonSerializerOptions serializerOptions = new JsonSerializerOptions
             {
                 Converters = { new JsonStringEnumConverter() },
                 WriteIndented = false,

@@ -23,13 +23,12 @@ namespace RightToAskClient.HttpClients
 {
     public class GenericHttpClient
     {
-        HttpClient _client;
-        JsonSerializerOptions _serializerOptions;
+        private readonly HttpClient _client;
+        private readonly JsonSerializerOptions _serializerOptions;
 
         public Result<List<string>> Items 
         { 
-            get; 
-            private set; 
+            get;
         } = new Result<List<string>>();
 
         // TODO Not sure if this is the right way to do this.

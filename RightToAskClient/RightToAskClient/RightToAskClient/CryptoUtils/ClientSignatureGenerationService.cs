@@ -36,7 +36,7 @@ namespace RightToAskClient.CryptoUtils
     {
         private static Ed25519PrivateKeyParameters? _myKeyPair ; 
 
-        private static Ed25519Signer MySigner = new Ed25519Signer();
+        private static readonly Ed25519Signer MySigner = new Ed25519Signer();
 
         public static bool InitSuccessful { get; private set; }
 

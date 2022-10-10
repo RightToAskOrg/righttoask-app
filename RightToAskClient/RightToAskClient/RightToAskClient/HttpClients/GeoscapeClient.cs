@@ -10,7 +10,7 @@ namespace RightToAskClient.HttpClients
      */
     public static class GeoscapeClient
     {
-        private static JsonSerializerOptions _serializerOptions =
+        private static readonly JsonSerializerOptions _serializerOptions =
             new JsonSerializerOptions
             {
                 Converters = { new JsonStringEnumConverter() },
@@ -20,7 +20,7 @@ namespace RightToAskClient.HttpClients
                 // DefaultIgnoreCondition = JsonIgnoreCondition.Always
             };
         
-        private static GenericHttpClient _client = new GenericHttpClient(_serializerOptions);
+        private static readonly GenericHttpClient _client = new GenericHttpClient(_serializerOptions);
 
         public static async Task<Result<GeoscapeAddressFeature>> GetFirstAddressData(string address)
         {

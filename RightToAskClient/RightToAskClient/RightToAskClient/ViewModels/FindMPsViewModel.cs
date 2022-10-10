@@ -20,7 +20,7 @@ namespace RightToAskClient.ViewModels
         #region Properties
 
         private Address _address = new Address();
-        private Registration _registration = App.ReadingContext.ThisParticipant.RegistrationInfo;
+        private readonly Registration _registration = App.ReadingContext.ThisParticipant.RegistrationInfo;
         public Address Address
         {
             get => _address;

@@ -10,7 +10,7 @@ namespace RightToAskClient.ViewModels
     {
         // properties
 
-        private Func<string> createText;
+        private readonly Func<string> createText;
 
         public string ListDisplayText => createText();
 

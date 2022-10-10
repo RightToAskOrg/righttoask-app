@@ -24,7 +24,7 @@ namespace RightToAskClient.ViewModels
 
         // The complete information about this user's current registration, including any updates that have been made
         // on this page.
-        private Registration _registration = new Registration(); 
+        private readonly Registration _registration = new Registration(); 
 
         // The updates that have been made to this user's registration on this page
         // Note this is used only for updating an existing registration - new registrations are handled
@@ -115,7 +115,7 @@ namespace RightToAskClient.ViewModels
         public string BadgesSummary => string.Join(",", _registration.Badges.Select(b => b.ToString()).ToList());
 
         // This is for selecting MPs if you're registering as an MP or staffer account
-        private SelectableList<MP> _selectableMPList = new SelectableList<MP>(new List<MP>(), new List<MP>());
+        private readonly SelectableList<MP> _selectableMPList = new SelectableList<MP>(new List<MP>(), new List<MP>());
         
         public bool IsVerifiedMPAccount => _registration?.Badges?.Any(b =>  b.badge == BadgeType.MP || b.badge == BadgeType.MPStaff) ?? false;
 
@@ -336,15 +336,15 @@ namespace RightToAskClient.ViewModels
             }
 
             // commands
-        public Command DoneButtonCommand { get; private set;}
-        public Command UpdateAccountButtonCommand { get; private set;}
-        public AsyncCommand ChooseMPToRegisterButtonCommand { get; private set; }
-        public Command UpdateMPsButtonCommand { get; private set; }
+        public Command DoneButtonCommand { get; }
+        public Command UpdateAccountButtonCommand { get; }
+        public AsyncCommand ChooseMPToRegisterButtonCommand { get; }
+        public Command UpdateMPsButtonCommand { get; }
         public Command RegisterOrgButtonCommand { get; }
-        public Command FollowButtonCommand { get; private set; }
-        public Command DMButtonCommand { get; private set; }
-        public IAsyncCommand CancelButtonCommand { get; private set; }
-        public IAsyncCommand SeeQuestionsButtonCommand { get; private set; }
+        public Command FollowButtonCommand { get; }
+        public Command DMButtonCommand { get; }
+        public IAsyncCommand CancelButtonCommand { get; }
+        public IAsyncCommand SeeQuestionsButtonCommand { get; }
 
 
         #region Methods

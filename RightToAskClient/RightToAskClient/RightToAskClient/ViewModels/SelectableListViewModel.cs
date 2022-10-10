@@ -95,8 +95,8 @@ namespace RightToAskClient.ViewModels
 			}
 		}
 
-		public IAsyncCommand DoneButtonCommand { get; private set; }
-		public Command SearchToolbarCommand { get; private set; }
+		public IAsyncCommand DoneButtonCommand { get; }
+		public Command SearchToolbarCommand { get; }
 
 		// TODO These are just copy-pasted from the old code-behind. Might need a bit more thought.
 		public bool CameFromReg2Page;
