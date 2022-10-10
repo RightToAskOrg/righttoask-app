@@ -1,5 +1,6 @@
 ﻿using RightToAskClient.Resx;
 using RightToAskClient.Views;
+using RightToAskClient.Views.Popups;
 using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
@@ -79,7 +80,7 @@ namespace RightToAskClient.ViewModels
                 if (App.ReadingContext.ShowHowToPublishPopup)
                 {
                     var popup = new HowToPublishPopup(); // this instance uses a model instead of a VM
-                    _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                    _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
                     App.ReadingContext.ShowHowToPublishPopup = false;
                     Preferences.Set(Constants.ShowHowToPublishPopup, false);
                 }

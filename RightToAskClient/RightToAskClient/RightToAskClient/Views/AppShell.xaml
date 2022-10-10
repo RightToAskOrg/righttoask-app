@@ -3,8 +3,9 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:rta="clr-namespace:RightToAskClient"
        xmlns:local="clr-namespace:RightToAskClient.Views"
+       xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
        Title="AppShell"
-       x:Class="RightToAskClient.AppShell"
+       x:Class="RightToAskClient.Views.AppShell"
        FlyoutBackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}">
 
     <!--
@@ -80,17 +81,17 @@
         FlyoutDisplayOptions="AsMultipleItems" will create a separate flyout item for each child element    
         https://docs.microsoft.com/dotnet/api/xamarin.forms.shellgroupitem.flyoutdisplayoptions?view=xamarin-forms
     -->
-    <FlyoutItem Title="Main" FlyoutIcon="{rta:ImageResource RightToAskClient.Images.home4.png}">
+    <FlyoutItem Title="Main" FlyoutIcon="{helpers:ImageResource RightToAskClient.Images.home4.png}">
         <ShellContent Route="MainPage" ContentTemplate="{DataTemplate local:MainPage}" />
     </FlyoutItem>
-    <FlyoutItem Title="About" FlyoutIcon="{rta:ImageResource RightToAskClient.Images.emu_75.png}">
+    <FlyoutItem Title="About" FlyoutIcon="{helpers:ImageResource RightToAskClient.Images.emu_75.png}">
         <ShellContent Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />
     </FlyoutItem>
     <!--
     <FlyoutItem Title="Reading Page">
         <ShellContent Route="ReadingPage" ContentTemplate="{DataTemplate local:ReadingPage}" />
     </FlyoutItem>-->
-    <FlyoutItem Title="Account" FlyoutIcon="{rta:ImageResource RightToAskClient.Images.info_48.png}">
+    <FlyoutItem Title="Account" FlyoutIcon="{helpers:ImageResource RightToAskClient.Images.info_48.png}">
         <ShellContent Route="Account" ContentTemplate="{DataTemplate local:AccountPage}" />
     </FlyoutItem>
     <FlyoutItem Title="How To">

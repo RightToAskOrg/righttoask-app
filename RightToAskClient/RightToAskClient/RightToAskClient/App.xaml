@@ -12,7 +12,7 @@
         <ResourceDictionary>
             <!--Converter-->
             <helpers:InvertConvert x:Key="cnvInvert" />
-            <helpers:NullorEmptyConvert x:Key="emptyToFalse" />
+            <helpers:NullOrEmptyConverter x:Key="emptyToFalse" />
             <helpers:IntEnumConverter x:Key="intEnum" />
             <!-- Website colors -->
             <!--

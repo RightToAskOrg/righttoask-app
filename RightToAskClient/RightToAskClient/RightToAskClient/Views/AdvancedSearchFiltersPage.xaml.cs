@@ -27,7 +27,7 @@ namespace RightToAskClient.Views
         {
             if (CameFromMainPage)
             {
-                App.Current.MainPage.Navigation.PopToRootAsync();
+                Application.Current.MainPage.Navigation.PopToRootAsync();
                 return true;
             }
             else

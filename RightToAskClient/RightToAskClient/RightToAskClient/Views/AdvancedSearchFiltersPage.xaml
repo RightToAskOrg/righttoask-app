@@ -6,13 +6,14 @@
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              xmlns:local="clr-namespace:RightToAskClient"
              xmlns:views="clr-namespace:RightToAskClient.Views;assembly=RightToAskClient"
+             xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
              Title="{Binding Title}"
              x:DataType="vm:FilterViewModel">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
-                     IconImageSource="{local:ImageResource RightToAskClient.Images.home4.png}"/>
+                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.home4.png}"/>
         <ToolbarItem Text="{xct:Translate InfoPopupButtonText}" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
-                     IconImageSource="{local:ImageResource RightToAskClient.Images.help_75.png}"/>
+                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}"/>
     </ContentPage.ToolbarItems>
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding BackCommand}"
@@ -39,10 +40,10 @@
                             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                                 <Label Text="{xct:Translate ToBeAnsweredByText}" Style="{StaticResource Header2}"
                                        Padding ="0,0,0,5" />
-                                <Image Source="{local:ImageResource RightToAskClient.Images.expand_48.png}" xct:IconTintColorEffect.TintColor="{StaticResource Primary}"  HorizontalOptions="EndAndExpand" VerticalOptions="Center">
+                                <Image Source="{helpers:ImageResource RightToAskClient.Images.expand_48.png}" xct:IconTintColorEffect.TintColor="{StaticResource Primary}"  HorizontalOptions="EndAndExpand" VerticalOptions="Center">
                                     <Image.Triggers>
                                         <DataTrigger TargetType="Image" Binding="{Binding Source={RelativeSource AncestorType={x:Type xct:Expander}}, Path=IsExpanded}" Value="True">
-                                            <Setter Property="Source" Value="{local:ImageResource RightToAskClient.Images.collapse_48.png}" />
+                                            <Setter Property="Source" Value="{helpers:ImageResource RightToAskClient.Images.collapse_48.png}" />
                                         </DataTrigger>
                                     </Image.Triggers>
                                 </Image>
@@ -69,10 +70,10 @@
                         <xct:Expander.Header>
                             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                                 <Label Text="{xct:Translate OptionBText4}" Style="{StaticResource Header2}"/>
-                                <Image Source="{local:ImageResource RightToAskClient.Images.expand_48.png}" xct:IconTintColorEffect.TintColor="{StaticResource Primary}"  HorizontalOptions="EndAndExpand" VerticalOptions="Center">
+                                <Image Source="{helpers:ImageResource RightToAskClient.Images.expand_48.png}" xct:IconTintColorEffect.TintColor="{StaticResource Primary}"  HorizontalOptions="EndAndExpand" VerticalOptions="Center">
                                     <Image.Triggers>
                                         <DataTrigger TargetType="Image" Binding="{Binding Source={RelativeSource AncestorType={x:Type xct:Expander}}, Path=IsExpanded}" Value="True">
-                                            <Setter Property="Source" Value="{local:ImageResource RightToAskClient.Images.collapse_48.png}" />
+                                            <Setter Property="Source" Value="{helpers:ImageResource RightToAskClient.Images.collapse_48.png}" />
                                         </DataTrigger>
                                     </Image.Triggers>
                                 </Image>
@@ -112,10 +113,10 @@
                         <xct:Expander.Header>
                             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                                 <Label Text="Written By" Style="{StaticResource Header2}" />
-                                <Image Source="{local:ImageResource RightToAskClient.Images.expand_48.png}" xct:IconTintColorEffect.TintColor="{StaticResource Primary}"  HorizontalOptions="EndAndExpand" VerticalOptions="Center">
+                                <Image Source="{helpers:ImageResource RightToAskClient.Images.expand_48.png}" xct:IconTintColorEffect.TintColor="{StaticResource Primary}"  HorizontalOptions="EndAndExpand" VerticalOptions="Center">
                                     <Image.Triggers>
                                         <DataTrigger TargetType="Image" Binding="{Binding Source={RelativeSource AncestorType={x:Type xct:Expander}}, Path=IsExpanded}" Value="True">
-                                            <Setter Property="Source" Value="{local:ImageResource RightToAskClient.Images.collapse_48.png}" />
+                                            <Setter Property="Source" Value="{helpers:ImageResource RightToAskClient.Images.collapse_48.png}" />
                                         </DataTrigger>
                                     </Image.Triggers>
                                 </Image>

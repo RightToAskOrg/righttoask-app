@@ -1,7 +1,6 @@
-﻿using RightToAskClient.Annotations;
-using Xamarin.Forms.Xaml;
+﻿using Xamarin.Forms.Xaml;
 
-namespace RightToAskClient.Views
+namespace RightToAskClient.Views.Popups
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class InfoPopup : OneButtonPopup

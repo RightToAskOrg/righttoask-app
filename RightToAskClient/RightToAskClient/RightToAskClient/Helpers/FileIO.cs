@@ -21,12 +21,10 @@ namespace RightToAskClient.Helpers
 				{
 					return new Result<T>() { Err = streamResult.Err };
 				}
-				
-				using (var sr = new StreamReader(streamResult.Ok))
-				{
-					var dataString = sr.ReadToEnd();
-					deserializedData = (T)JsonSerializer.Deserialize<T>(dataString, jsonSerializerOptions);
-				}
+
+				using var sr = new StreamReader(streamResult.Ok);
+				var dataString = sr.ReadToEnd();
+				deserializedData = (T)JsonSerializer.Deserialize<T>(dataString, jsonSerializerOptions);
 			}
 			catch (IOException e)
 			{
@@ -47,14 +45,15 @@ namespace RightToAskClient.Helpers
 				return new Result<T>() { Err = e.Message };
 			}
 
-			if (deserializedData is null)
+			if (deserializedData is { })
 			{
-				var error = "Error: Could not deserialize" + filename;
-				Debug.WriteLine(error);
-				return new Result<T>() { Err = error };
+				return new Result<T>() {Ok = deserializedData};
 			}
+			
+			var error = "Error: Could not deserialize" + filename;
+			Debug.WriteLine(error);
+			return new Result<T>() { Err = error };
 
-			return new Result<T>() { Ok = deserializedData };
 		}
 
 		
@@ -76,16 +75,13 @@ namespace RightToAskClient.Helpers
 				{
 					return new Result<string>() { Err = streamResult.Err };
 				}
-				
-				using (var sr = new StreamReader(streamResult.Ok))
-				{
-					var data = sr.ReadLine() ?? string.Empty;
-					if (!string.IsNullOrEmpty(data))
-					{
-						return new Result<string>() { Ok = data };
-					}
-				}
 
+				using var sr = new StreamReader(streamResult.Ok);
+				var data = sr.ReadLine() ?? string.Empty;
+				if (!string.IsNullOrEmpty(data))
+				{
+					return new Result<string>() { Ok = data };
+				}
 			}
 			catch (IOException e)
 			{
@@ -105,19 +101,16 @@ namespace RightToAskClient.Helpers
 				{
 					return;
 				}
-				
-				using (var sr = new StreamReader(streamResult.Ok))
+
+				using var sr = new StreamReader(streamResult.Ok);
+				// Read the first line, which just has headings we can ignore.
+				sr.ReadLine();
+				while (sr.ReadLine() is { } line)
 				{
-					// Read the first line, which just has headings we can ignore.
-					sr.ReadLine();
-					string? line;
-					while ((line = sr.ReadLine()) != null)
+					var MPToAdd = parseLine(line);
+					if (MPToAdd != null)
 					{
-						var MPToAdd = parseLine(line);
-						if (MPToAdd != null)
-						{
-							MPCollection.Add(MPToAdd);
-						}
+						MPCollection.Add(MPToAdd);
 					}
 				}
 			}

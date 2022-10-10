@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using RightToAskClient.Views.Popups;
 using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
@@ -269,10 +270,10 @@ namespace RightToAskClient.ViewModels
             ShowQuestionFrame = false;
 
             var popup = new TwoButtonPopup(QuestionViewModel.Instance, AppResources.DraftDiscardedPopupTitle, AppResources.FocusSupportReport, AppResources.RelatedQuestionsButtonText, AppResources.GoHomeButtonText);
-            _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+            _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
             if (ApproveButtonClicked)
             {
-                await App.Current.MainPage.Navigation.PopToRootAsync();
+                await Application.Current.MainPage.Navigation.PopToRootAsync();
             }
         }
 

@@ -3,6 +3,7 @@ using Xamarin.CommunityToolkit.ObjectModel;
 using RightToAskClient.Views;
 using Xamarin.CommunityToolkit.Extensions;
 using RightToAskClient.Resx;
+using RightToAskClient.Views.Popups;
 
 namespace RightToAskClient.ViewModels
 {
@@ -17,17 +18,17 @@ namespace RightToAskClient.ViewModels
             HomeButtonCommand = new AsyncCommand(async () =>
             {
                 var popup = new TwoButtonPopup(this, AppResources.GoHomePopupTitle, AppResources.GoHomePopupText, AppResources.CancelButtonText, AppResources.GoHomeButtonText);
-                _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
                 if (ApproveButtonClicked)
                 {
-                    await App.Current.MainPage.Navigation.PopToRootAsync();
+                    await Application.Current.MainPage.Navigation.PopToRootAsync();
                 }
             });
             InfoPopupCommand = new AsyncCommand(async () =>
             {
                 //Page.Navigation.ShowPopup(new InfoPopup());
                 var popup = new InfoPopup(PopupHeaderText,PopupLabelText, AppResources.OKText);
-                _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
             });
             ApproveCommand = new Command(() =>
             {

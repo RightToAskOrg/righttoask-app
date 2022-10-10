@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using RightToAskClient.Resx;
 using RightToAskClient.ViewModels;
+using RightToAskClient.Views.Popups;
 using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -69,7 +70,7 @@ namespace RightToAskClient.Views
                 var alertConfirmation = AppResources.NavigateOKText;
 
                 var popup = new TwoButtonPopup(baseViewModel, AppResources.NavigationPopupTitle, alertText, alertCancel, alertConfirmation);
-                _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
                 if (baseViewModel.ApproveButtonClicked)
                 {
                     var browserDestination = new Uri(destination);

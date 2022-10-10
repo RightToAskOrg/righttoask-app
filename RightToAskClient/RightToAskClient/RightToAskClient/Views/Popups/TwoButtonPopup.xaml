@@ -2,7 +2,7 @@
 <xct:Popup xmlns="http://xamarin.com/schemas/2014/forms"
            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
            xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-           x:Class="RightToAskClient.Views.TwoButtonPopup"
+           x:Class="RightToAskClient.Views.Popups.TwoButtonPopup"
            Size="300,210"
            IsLightDismissEnabled="True"
            Color="Transparent">

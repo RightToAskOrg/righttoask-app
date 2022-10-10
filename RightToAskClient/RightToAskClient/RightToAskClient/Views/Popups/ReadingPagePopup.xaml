@@ -5,7 +5,7 @@
            xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
            xmlns:viewmodels="clr-namespace:RightToAskClient.ViewModels"
            x:DataType="viewmodels:ReadingPageViewModel"
-           x:Class="RightToAskClient.Views.ReadingPagePopup"
+           x:Class="RightToAskClient.Views.Popups.ReadingPagePopup"
            Size="300,300"
            IsLightDismissEnabled="True"
            Color="Transparent">

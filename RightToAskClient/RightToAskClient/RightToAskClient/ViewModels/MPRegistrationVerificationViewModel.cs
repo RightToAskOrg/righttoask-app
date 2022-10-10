@@ -88,7 +88,7 @@ namespace RightToAskClient.ViewModels
                     // navigate back to account page
                     if (ReturnToAccountPage)
                     {
-                        await App.Current.MainPage.Navigation.PopToRootAsync();
+                        await Application.Current.MainPage.Navigation.PopToRootAsync();
                     }
                 }
             });

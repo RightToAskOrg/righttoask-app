@@ -7,15 +7,16 @@
              xmlns:models="clr-namespace:RightToAskClient.Models;assembly=RightToAskClient"
              xmlns:local="clr-namespace:RightToAskClient"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
+             xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
              x:Class="RightToAskClient.Views.QuestionDetailPage"
              x:DataType="vm:QuestionViewModel">
 	<ContentPage.ToolbarItems>
 		<ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}"
 		             x:DataType="vm:BaseViewModel"
-		             IconImageSource="{local:ImageResource RightToAskClient.Images.home4.png}" />
+		             IconImageSource="{helpers:ImageResource RightToAskClient.Images.home4.png}" />
 		<ToolbarItem Text="{xct:Translate InfoPopupButtonText}" Command="{Binding InfoPopupCommand}"
 		             x:DataType="vm:BaseViewModel"
-		             IconImageSource="{local:ImageResource RightToAskClient.Images.help_75.png}" />
+		             IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}" />
 	</ContentPage.ToolbarItems>
 	<ContentPage.Content>
 		<ScrollView>
@@ -28,14 +29,14 @@
 				<StackLayout Orientation="Horizontal" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
 					<Label Text="{xct:Translate QuestionHeaderText}" Style="{StaticResource Header2}"
 					       HorizontalOptions="StartAndExpand" />
-					<ImageButton Source="{local:ImageResource RightToAskClient.Images.thumb_up_48.png}"
+					<ImageButton Source="{helpers:ImageResource RightToAskClient.Images.thumb_up_48.png}"
 					             IsVisible="{Binding Question.AlreadyUpvoted, Converter={StaticResource Key=cnvInvert}}" Padding="5"
 					             BackgroundColor="Transparent" Command="{Binding UpvoteCommand}" HorizontalOptions="Start"
 					             xct:IconTintColorEffect.TintColor="Gray"
 					             AutomationProperties.IsInAccessibleTree="True"
 					             AutomationProperties.Name="{xct:Translate QuestionFrameThumbsUpAccessibilityName}"
 					             AutomationProperties.HelpText="{xct:Translate QuestionFrameThumbsUpAccessibilityText}" />
-					<ImageButton Source="{local:ImageResource RightToAskClient.Images.thumb_up_48.png}"
+					<ImageButton Source="{helpers:ImageResource RightToAskClient.Images.thumb_up_48.png}"
 					             BackgroundColor="Transparent" Command="{Binding UpvoteCommand}"
 					             IsVisible="{Binding Question.AlreadyUpvoted}" Padding="5"
 					             xct:IconTintColorEffect.TintColor="{StaticResource ButtonColor}" HorizontalOptions="Start"
@@ -85,14 +86,14 @@
 				<!-- Up- or dismiss-voting options -->
 				<Grid ColumnDefinitions="*,*,*,*" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
 					<StackLayout Grid.Row="0" Grid.Column="0" Orientation="Vertical">
-						<ImageButton Source="{local:ImageResource RightToAskClient.Images.trash_delete_48.png}"
+						<ImageButton Source="{helpers:ImageResource RightToAskClient.Images.trash_delete_48.png}"
 						             IsVisible="{Binding .Question.AlreadyUpvoted, Converter={StaticResource Key=cnvInvert}}" Padding="5"
 						             BackgroundColor="Transparent" Command="{Binding UpvoteCommand}" HorizontalOptions="Start"
 						             xct:IconTintColorEffect.TintColor="Gray"
 						             AutomationProperties.IsInAccessibleTree="True"
 						             AutomationProperties.Name="{xct:Translate QuestionFrameThumbsUpAccessibilityName}"
 						             AutomationProperties.HelpText="{xct:Translate QuestionFrameThumbsUpAccessibilityText}" />
-						<ImageButton Source="{local:ImageResource RightToAskClient.Images.trash_delete_48.png}"
+						<ImageButton Source="{helpers:ImageResource RightToAskClient.Images.trash_delete_48.png}"
 						             BackgroundColor="Transparent" Command="{Binding UpvoteCommand}" IsVisible="{Binding Question.AlreadyUpvoted}"
 						             Padding="5"
 						             xct:IconTintColorEffect.TintColor="{StaticResource ButtonColor}" HorizontalOptions="Start"
@@ -102,14 +103,14 @@
 						<Label Text="{xct:Translate DismissText}" Style="{StaticResource BoldNormalText}" />
 					</StackLayout>
 					<StackLayout Grid.Row="0" Grid.Column="1" Orientation="Vertical">
-						<ImageButton Source="{local:ImageResource RightToAskClient.Images.pending_48.png}"
+						<ImageButton Source="{helpers:ImageResource RightToAskClient.Images.pending_48.png}"
 						             IsVisible="{Binding Question.AlreadyUpvoted, Converter={StaticResource Key=cnvInvert}}" Padding="5"
 						             BackgroundColor="Transparent" Command="{Binding UpvoteCommand}" HorizontalOptions="Start"
 						             xct:IconTintColorEffect.TintColor="Gray"
 						             AutomationProperties.IsInAccessibleTree="True"
 						             AutomationProperties.Name="{xct:Translate QuestionFrameThumbsUpAccessibilityName}"
 						             AutomationProperties.HelpText="{xct:Translate QuestionFrameThumbsUpAccessibilityText}" />
-						<ImageButton Source="{local:ImageResource RightToAskClient.Images.pending_48.png}"
+						<ImageButton Source="{helpers:ImageResource RightToAskClient.Images.pending_48.png}"
 						             BackgroundColor="Transparent" Command="{Binding UpvoteCommand}" IsVisible="{Binding Question.AlreadyUpvoted}"
 						             Padding="5"
 						             xct:IconTintColorEffect.TintColor="{StaticResource ButtonColor}" HorizontalOptions="Start"
@@ -119,14 +120,14 @@
 						<Label Text="Meh" Style="{StaticResource BoldNormalText}" />
 					</StackLayout>
 					<StackLayout Grid.Row="0" Grid.Column="2" Orientation="Vertical">
-						<ImageButton Source="{local:ImageResource RightToAskClient.Images.thumb_up_48.png}"
+						<ImageButton Source="{helpers:ImageResource RightToAskClient.Images.thumb_up_48.png}"
 						             IsVisible="{Binding Question.AlreadyUpvoted, Converter={StaticResource Key=cnvInvert}}" Padding="5"
 						             BackgroundColor="Transparent" Command="{Binding UpvoteCommand}" HorizontalOptions="Start"
 						             xct:IconTintColorEffect.TintColor="Gray"
 						             AutomationProperties.IsInAccessibleTree="True"
 						             AutomationProperties.Name="{xct:Translate QuestionFrameThumbsUpAccessibilityName}"
 						             AutomationProperties.HelpText="{xct:Translate QuestionFrameThumbsUpAccessibilityText}" />
-						<ImageButton Source="{local:ImageResource RightToAskClient.Images.thumb_up_48.png}"
+						<ImageButton Source="{helpers:ImageResource RightToAskClient.Images.thumb_up_48.png}"
 						             BackgroundColor="Transparent" Command="{Binding UpvoteCommand}" IsVisible="{Binding Question.AlreadyUpvoted}"
 						             Padding="5"
 						             xct:IconTintColorEffect.TintColor="{StaticResource ButtonColor}" HorizontalOptions="Start"
@@ -136,14 +137,14 @@
 						<Label Text="{xct:Translate UpvoteDisplayCardButtonText}" Style="{StaticResource BoldNormalText}" />
 					</StackLayout>
 					<StackLayout Grid.Row="0" Grid.Column="3" Orientation="Vertical">
-						<ImageButton Source="{local:ImageResource RightToAskClient.Images.thumb_up_48.png}"
+						<ImageButton Source="{helpers:ImageResource RightToAskClient.Images.thumb_up_48.png}"
 						             IsVisible="{Binding Question.AlreadyUpvoted, Converter={StaticResource Key=cnvInvert}}" Padding="5"
 						             BackgroundColor="Transparent" Command="{Binding UpvoteCommand}" HorizontalOptions="Start"
 						             xct:IconTintColorEffect.TintColor="Gray"
 						             AutomationProperties.IsInAccessibleTree="True"
 						             AutomationProperties.Name="{xct:Translate QuestionFrameThumbsUpAccessibilityName}"
 						             AutomationProperties.HelpText="{xct:Translate QuestionFrameThumbsUpAccessibilityText}" />
-						<ImageButton Source="{local:ImageResource RightToAskClient.Images.thumb_up_48.png}"
+						<ImageButton Source="{helpers:ImageResource RightToAskClient.Images.thumb_up_48.png}"
 						             BackgroundColor="Transparent" Command="{Binding UpvoteCommand}" IsVisible="{Binding Question.AlreadyUpvoted}"
 						             Padding="5"
 						             xct:IconTintColorEffect.TintColor="{StaticResource ButtonColor}" HorizontalOptions="Start"
@@ -161,7 +162,7 @@
 				            Style="{StaticResource NormalEditor}" />
 				    <!-- Answers, visible if there are any -->
 				    <Label Text="{xct:Translate AnswerHeaderText}" Style="{StaticResource Header2}"/>
-				    <StackLayout BindableLayout.ItemsSource="{Binding Answers}">
+				    <StackLayout BindableLayout.ItemsSource="{Binding QuestionAnswers}">
 					    <BindableLayout.ItemTemplate>
 						    <!-- <CollectionView x:Name="AnswerList" ItemsSource="{Binding Answers}" SelectionMode="None">
 					    <CollectionView.ItemTemplate> -->

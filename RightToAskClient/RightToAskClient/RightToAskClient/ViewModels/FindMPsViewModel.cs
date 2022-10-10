@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using RightToAskClient.Views.Popups;
 using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
@@ -310,7 +311,7 @@ namespace RightToAskClient.ViewModels
 
                     MessagingCenter.Send(this, "GoToReadingPage");
 
-                    await App.Current.MainPage.Navigation.PushAsync(mpsSearchableListPage);
+                    await Application.Current.MainPage.Navigation.PushAsync(mpsSearchableListPage);
                     _launchMPsSelectionPageNext = false;
                     _choosingAskingMP = false;
                     DoneButtonText = AppResources.DoneButtonText;
@@ -318,7 +319,7 @@ namespace RightToAskClient.ViewModels
                 // We are here from the registration page - no need to select any MPs
                 else
                 {
-                    await App.Current.MainPage.Navigation.PopAsync();
+                    await Application.Current.MainPage.Navigation.PopAsync();
                 }
             });
             SubmitAddressButtonCommand = new AsyncCommand(async () =>
@@ -375,7 +376,7 @@ namespace RightToAskClient.ViewModels
             if (!PostcodeIsValid)
             {
                 var popup = new TwoButtonPopup(this, AppResources.InvalidPostcodePopupTitle, AppResources.InvalidPostcodePopupText, AppResources.CancelButtonText, AppResources.ImSureButtonText);
-                _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
                 if (ApproveButtonClicked)
                 {
                     PostcodeIsValid = true;
@@ -391,7 +392,7 @@ namespace RightToAskClient.ViewModels
                 if (string.IsNullOrEmpty(state))
                 {
                     var popup = new OneButtonPopup(AppResources.SelectStateWarningText, AppResources.OKText);
-                    _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                    _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
                     return;
                 }
 
@@ -399,7 +400,7 @@ namespace RightToAskClient.ViewModels
                 if (!string.IsNullOrEmpty(addressValidation.Err))
                 {
                     var popup = new OneButtonPopup(addressValidation.Err, AppResources.OKText);
-                    _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                    _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
                     return;
                 }
 
@@ -412,7 +413,7 @@ namespace RightToAskClient.ViewModels
                         ReportLabelText = httpResponse.Err;
                         // maybe display a popup if Electorates were not found
                         var popup = new OneButtonPopup(AppResources.ElectoratesNotFoundErrorText, AppResources.OKText);
-                        _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                        _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
                         return;
                     }
 
@@ -429,7 +430,7 @@ namespace RightToAskClient.ViewModels
                         var electoratePopupText = "Federal electorate: " + App.ReadingContext.ThisParticipant.CommonwealthElectorate +
                                                   "\n" + "State lower house electorate: " + App.ReadingContext.ThisParticipant.StateLowerHouseElectorate;
                         var electoratesFoundPopup = new OneButtonPopup(electoratePopupTitle, electoratePopupText, AppResources.OKText);
-                        _ = await App.Current.MainPage.Navigation.ShowPopupAsync(electoratesFoundPopup);
+                        _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(electoratesFoundPopup);
 
                         // just save the address all the time now if it returned a valid electorate
                         SaveAddress();
@@ -437,7 +438,7 @@ namespace RightToAskClient.ViewModels
                     else
                     {
                         var electoratesNotFoundPopup = new OneButtonPopup("Electorates not Found", "Please reformat the address and try again.", AppResources.OKText);
-                        _ = await App.Current.MainPage.Navigation.ShowPopupAsync(electoratesNotFoundPopup);
+                        _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(electoratesNotFoundPopup);
                     }
                     ShowSkipButton = false;
                     // display the map if we stored the Federal Electorate properly

@@ -52,8 +52,8 @@ namespace RightToAskClient.Views
             
             QuestionViewModel.Instance.PopupLabelText = AppResources.QuestionDetailPopupText;
             
-            var normalEditorStyle = App.Current.Resources["NormalEditor"] as Style;
-            var disabledEditorStyle = App.Current.Resources["DisabledEditor"] as Style;
+            var normalEditorStyle = Application.Current.Resources["NormalEditor"] as Style;
+            var disabledEditorStyle = Application.Current.Resources["DisabledEditor"] as Style;
             
             if (QuestionViewModel.Instance.IsNewQuestion)
             {
@@ -92,7 +92,7 @@ namespace RightToAskClient.Views
         
         protected override bool OnBackButtonPressed()
         {
-            App.Current.MainPage.Navigation.PopToRootAsync();
+            Application.Current.MainPage.Navigation.PopToRootAsync();
             return true;
         }
 

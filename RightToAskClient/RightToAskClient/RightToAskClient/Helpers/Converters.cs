@@ -8,9 +8,9 @@ namespace RightToAskClient.Helpers
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is bool)
+            if (value is bool b)
             {
-                return !(bool)value;
+                return !b;
             }
             return false;
         }
@@ -22,13 +22,13 @@ namespace RightToAskClient.Helpers
     }
 
     // Intended for use with strings. Return false if string is null or empty.
-    public class NullorEmptyConvert : IValueConverter
+    public class NullOrEmptyConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is string)
+            if (value is string s)
             {
-                return string.IsNullOrEmpty(value as string);
+                return string.IsNullOrEmpty(s);
             }
             return false;
         }

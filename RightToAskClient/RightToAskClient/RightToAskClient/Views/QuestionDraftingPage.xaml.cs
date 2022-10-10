@@ -1,6 +1,7 @@
 ﻿using System;
 using RightToAskClient.Resx;
 using RightToAskClient.ViewModels;
+using RightToAskClient.Views.Popups;
 using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.Forms;
 
@@ -50,10 +51,10 @@ namespace RightToAskClient.Views
             Device.BeginInvokeOnMainThread(async () =>
             {
                 var popup = new TwoButtonPopup(QuestionViewModel.Instance, AppResources.GoHomePopupTitle, AppResources.GoHomePopupText, AppResources.CancelButtonText, AppResources.GoHomeButtonText);
-                _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
                 if (QuestionViewModel.Instance.ApproveButtonClicked)
                 {
-                    await App.Current.MainPage.Navigation.PopToRootAsync();
+                    await Application.Current.MainPage.Navigation.PopToRootAsync();
                 }
             });
             return true; // otherwise do nothing

@@ -9,7 +9,7 @@ using Xamarin.Forms;
  * TODO The Authority-selecting list should probably be here too, rather than being repeated in the Advanced Search and
  * Question-Answerer steps.
  */
-namespace RightToAskClient
+namespace RightToAskClient.Helpers
 {
     public static class NavigationUtils
     {
@@ -79,7 +79,7 @@ namespace RightToAskClient
         {
             var committeeSelectableListPage
                 = new SelectableListPage(App.ReadingContext.Filters.CommitteeLists, AppResources.CommitteeText);
-            await App.Current.MainPage.Navigation.PushAsync(committeeSelectableListPage);
+            await Application.Current.MainPage.Navigation.PushAsync(committeeSelectableListPage);
         }
     }
 }

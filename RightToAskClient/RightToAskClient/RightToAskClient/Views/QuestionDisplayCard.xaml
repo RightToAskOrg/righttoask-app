@@ -4,6 +4,7 @@
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
              xmlns:local="clr-namespace:RightToAskClient"
              xmlns:models="clr-namespace:RightToAskClient.Models"
+             xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
              x:Class="RightToAskClient.Views.QuestionDisplayCard"
              x:DataType="models:Question">
   <ContentView.Content>
@@ -40,13 +41,13 @@
                              BackgroundColor="Transparent" Command="{Binding UpvoteCommand}" HorizontalOptions="Start" WidthRequest="50"/>-->
                 <!--UpVote Button-->
                 <StackLayout Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
-                    <ImageButton Source="{local:ImageResource RightToAskClient.Images.thumb_up_48.png}" 
+                    <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.thumb_up_48.png}" 
                              IsVisible="{Binding AlreadyUpvoted, Converter={StaticResource Key=cnvInvert}}" Padding="5"
                              BackgroundColor="Transparent" Command="{Binding UpvoteCommand}" HorizontalOptions="Start"
                              xct:IconTintColorEffect.TintColor="Gray"
                              AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{xct:Translate QuestionFrameThumbsUpAccessibilityName}"
                              AutomationProperties.HelpText="{xct:Translate QuestionFrameThumbsUpAccessibilityText}"/>
-                    <ImageButton Source="{local:ImageResource RightToAskClient.Images.thumb_up_48.png}" 
+                    <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.thumb_up_48.png}" 
                              BackgroundColor="Transparent" Command="{Binding UpvoteCommand}" IsVisible="{Binding AlreadyUpvoted}" Padding="5"
                              xct:IconTintColorEffect.TintColor="{StaticResource ButtonColor}" HorizontalOptions="Start"
                              AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{xct:Translate QuestionFrameThumbsUpAccessibilityName}"
@@ -56,7 +57,7 @@
                 </StackLayout>
                 <!--Share Button-->
                 <StackLayout Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
-                    <ImageButton  Source="{local:ImageResource RightToAskClient.Images.share_48.png}" 
+                    <ImageButton  Source="{helpers:ImageResource RightToAskClient.Images.share_48.png}" 
                              Padding="5" Command="{Binding ShareCommand}" BackgroundColor="Transparent"
                              xct:IconTintColorEffect.TintColor="Gray"
                              AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{xct:Translate QuestionFrameShareButtonAccessibilityName}"
@@ -65,12 +66,12 @@
                 </StackLayout>
                 <!--Answer/Has an Answer Buttons-->
                 <StackLayout Orientation="Horizontal" Grid.Row="2" Grid.Column="2">
-                    <ImageButton Source="{local:ImageResource RightToAskClient.Images.account_balance_48.png}" 
+                    <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.account_balance_48.png}" 
                              Padding="5" BackgroundColor="Transparent" IsVisible="{Binding HasAnswer, Converter={StaticResource Key=cnvInvert}}"
                              xct:IconTintColorEffect.TintColor="Gray"
                              AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{xct:Translate QuestionFrameAnswerButtonAccessibilityName}"
                              AutomationProperties.HelpText="{xct:Translate QuestionFrameAnswerButtonAccessibilityText}"/>
-                    <ImageButton Source="{local:ImageResource RightToAskClient.Images.assured_workload_48.png}" 
+                    <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.assured_workload_48.png}" 
                              Padding="5" BackgroundColor="Transparent" IsVisible="{Binding HasAnswer}"
                              xct:IconTintColorEffect.TintColor="{StaticResource ButtonColor}"
                              AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{xct:Translate QuestionFrameShareButtonAccessibilityName}"
@@ -79,13 +80,13 @@
                 </StackLayout>
                 <!--Report/Flag Button-->
                 <StackLayout Orientation="Horizontal" Grid.Row="2" Grid.Column="3">
-                    <ImageButton Source="{local:ImageResource RightToAskClient.Images.flag_48.png}"
+                    <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.flag_48.png}"
                              IsVisible="{Binding AlreadyReported, Converter={StaticResource Key=cnvInvert}}" Command="{Binding ReportCommand}" 
                              xct:IconTintColorEffect.TintColor="Gray"
                              Padding="5" BackgroundColor="Transparent"
                              AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{xct:Translate QuestionFrameFlagButtonAccessibilityName}"
                              AutomationProperties.HelpText="{xct:Translate QuestionFrameFlagButtonAccessibilityText}"/>
-                    <ImageButton Source="{local:ImageResource RightToAskClient.Images.flag_48.png}" 
+                    <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.flag_48.png}" 
                              Padding="5" xct:IconTintColorEffect.TintColor="{StaticResource AlertColor}" Command="{Binding ReportCommand}" 
                              IsVisible="{Binding AlreadyReported}" BackgroundColor="Transparent"
                              AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{xct:Translate QuestionFrameFlagButtonAccessibilityName}"

@@ -4,8 +4,9 @@ using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Resx;
 using RightToAskClient.Views;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using RightToAskClient.Helpers;
+using RightToAskClient.Views.Popups;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -31,17 +32,15 @@ namespace RightToAskClient.ViewModels
             get => _newAnswer; 
             set
             {
-                if (!string.IsNullOrWhiteSpace(value))
-                {
-                    SetProperty(ref _newAnswer, value);
-                    Question.AddAnswer(value);
-                    OnPropertyChanged();
-                }
+                if (string.IsNullOrWhiteSpace(value)) return;
+                
+                SetProperty(ref _newAnswer, value);
+                Question.AddAnswer(value);
+                OnPropertyChanged();
             }
         }
 
-        public bool HasAnswer => Answers.Any();
-        public List<Answer> Answers => Question.Answers;
+        public List<Answer> QuestionAnswers => Question.Answers;
 
         private string? _newHansardLink; 
         public string NewHansardLink 
@@ -333,7 +332,7 @@ namespace RightToAskClient.ViewModels
                     }); */
                     var newReg = new Registration(userToSend.Ok);
                     var userProfilePage = new OtherUserProfilePage(newReg);
-                    await App.Current.MainPage.Navigation.PushAsync(userProfilePage);
+                    await Application.Current.MainPage.Navigation.PushAsync(userProfilePage);
                 }
             });
             BackCommand = new AsyncCommand(async () =>
@@ -518,7 +517,7 @@ namespace RightToAskClient.ViewModels
             if (!App.ReadingContext.ThisParticipant.IsRegistered)
             {
                 var popup = new TwoButtonPopup(QuestionViewModel.Instance, AppResources.MakeAccountQuestionText, AppResources.CreateAccountPopUpText, AppResources.CancelButtonText, AppResources.OKText);
-                _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
                 if (ApproveButtonClicked)
                 {
                     await Shell.Current.GoToAsync($"{nameof(RegisterPage1)}");
@@ -553,11 +552,11 @@ namespace RightToAskClient.ViewModels
             //FIXME update version, just like for edits.
 
             var popup = new QuestionPublishedPopup();
-            _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+            _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
             if (GoHome)
             {
                 App.ReadingContext.Filters.RemoveAllSelections();
-                await App.Current.MainPage.Navigation.PopToRootAsync();
+                await Application.Current.MainPage.Navigation.PopToRootAsync();
             }
             else // Pop back to readingpage. TODO: fix the context so that it doesn't think you're drafting
                 // a question.  Possibly the right thing to do is pop everything and then push a reading page.
@@ -577,7 +576,7 @@ namespace RightToAskClient.ViewModels
             {
                 var message = string.Format(AppResources.EditQuestionErrorText, successfulSubmission.errorMessage);
                 var popup2 = new OneButtonPopup(message, AppResources.OKText);
-                _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup2);
+                _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup2);
                 ReportLabelText = "Error editing question: " + successfulSubmission.errorMessage;
                 return;
             }
@@ -589,10 +588,10 @@ namespace RightToAskClient.ViewModels
             // TODO: Here, we'll need to ensure we've got the right version (from the server - get it returned from
             // BuildSignAndUpload... 
             var popup = new TwoButtonPopup(QuestionViewModel.Instance, AppResources.QuestionEditSuccessfulPopupTitle, AppResources.QuestionEditSuccessfulPopupText, AppResources.StayOnCurrentPageButtonText, AppResources.GoHomeButtonText);
-            _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+            _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
             if (ApproveButtonClicked)
             {
-                await App.Current.MainPage.Navigation.PopToRootAsync();
+                await Application.Current.MainPage.Navigation.PopToRootAsync();
             }
         }
 

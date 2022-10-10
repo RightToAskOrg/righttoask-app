@@ -1,7 +1,6 @@
 ﻿using Xamarin.Forms;
-using RightToAskClient.Views;
 
-namespace RightToAskClient
+namespace RightToAskClient.Views
 {
     public partial class AppShell : Xamarin.Forms.Shell
     {

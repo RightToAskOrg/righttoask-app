@@ -3,7 +3,7 @@ using System.Reflection;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace RightToAskClient
+namespace RightToAskClient.Helpers
 {
     [ContentProperty (nameof(Source))]
     public class ImageResourceExtension : IMarkupExtension

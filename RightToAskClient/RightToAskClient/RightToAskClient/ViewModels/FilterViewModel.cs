@@ -6,6 +6,7 @@ using Xamarin.CommunityToolkit.ObjectModel;
 using RightToAskClient.Resx;
 using Xamarin.Forms;
 using System.Threading.Tasks;
+using RightToAskClient.Helpers;
 using RightToAskClient.HttpClients;
 
 namespace RightToAskClient.ViewModels
@@ -263,11 +264,11 @@ namespace RightToAskClient.ViewModels
             {
                 if (CameFromMainPage)
                 {
-                    await App.Current.MainPage.Navigation.PopToRootAsync();
+                    await Application.Current.MainPage.Navigation.PopToRootAsync();
                 }
                 else
                 {
-                    await App.Current.MainPage.Navigation.PopAsync();
+                    await Application.Current.MainPage.Navigation.PopAsync();
                 }
             });
             ForceUpdateSizeCommand = new Command(() =>
@@ -354,7 +355,7 @@ namespace RightToAskClient.ViewModels
 
             var departmentExploringPage
                 = new SelectableListPage(App.ReadingContext.Filters.AuthorityLists, message);
-            await App.Current.MainPage.Navigation.PushAsync(departmentExploringPage);
+            await Application.Current.MainPage.Navigation.PushAsync(departmentExploringPage);
         }
 
 
@@ -402,7 +403,7 @@ namespace RightToAskClient.ViewModels
                 App.ReadingContext.Filters.QuestionWriterLists = _selectableParticipants;
                 var participantsSearchSelectionPage
                     = new SelectableListPage(_selectableParticipants, AppResources.ChooseParticipantsText, true);
-                await App.Current.MainPage.Navigation.PushAsync(participantsSearchSelectionPage).ContinueWith( (_) =>
+                await Application.Current.MainPage.Navigation.PushAsync(participantsSearchSelectionPage).ContinueWith( (_) =>
                     MessagingCenter.Send(this, "GoToReadingPageWithSingleQuestionWriter")
                 );
             }
@@ -415,7 +416,7 @@ namespace RightToAskClient.ViewModels
             }
             else
             {
-                await App.Current.MainPage.Navigation.PopAsync();
+                await Application.Current.MainPage.Navigation.PopAsync();
             }
         }
     }

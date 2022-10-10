@@ -6,6 +6,7 @@ using Xamarin.Essentials;
 using System.Text.Json;
 using System.Diagnostics;
 using RightToAskClient.Models.ServerCommsData;
+using RightToAskClient.Views;
 
 // [assembly: ExportFont("Roboto-Black.ttf", Alias = "AppFont")]
 // [assembly: ExportFont("OpenSans-Regular.ttf", Alias = "AppFont")]

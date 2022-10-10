@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Resx;
+using RightToAskClient.Views.Popups;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -40,7 +41,6 @@ namespace RightToAskClient.Models
         }
 
         // needed for getting a bool result back from the generic popups
-        public bool PopupResponse { get; set; } = false;
 
         // Lists the updates that have occurred since construction.
         public QuestionSendToServer Updates { get; private set; } = new QuestionSendToServer()
@@ -259,7 +259,7 @@ namespace RightToAskClient.Models
                 {
                     var message = AppResources.CreateAccountPopUpText;
                     var popup = new TwoButtonPopup(this, AppResources.MakeAccountQuestionText, message, AppResources.NotNowAnswerText, AppResources.OKText); // this instance uses a model instead of a VM
-                    _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                    _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
                     if (ApproveClicked)
                     {
                         await Shell.Current.GoToAsync($"{nameof(RegisterPage1)}");

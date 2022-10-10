@@ -339,7 +339,7 @@ namespace RightToAskClient.ViewModels
 			var selected = SelectableEntities.Where(w => w.Selected).Select(t => t.TagEntity);
 			if (selected.IsNullOrEmpty() || selected.Count() > 1)
 			{
-				await App.Current.MainPage.DisplayAlert("You must select exactly one option.", 
+				await Application.Current.MainPage.DisplayAlert("You must select exactly one option.", 
 					"You have selected "+selected?.Count(), "OK");
 				return (false, new T());
 			}
@@ -358,7 +358,7 @@ namespace RightToAskClient.ViewModels
 				var selected = SelectableEntities.Where(w => w.Selected).Select(t => t.TagEntity);
 				if (selected.IsNullOrEmpty() || selected.Count() > 1)
 				{
-					await App.Current.MainPage.DisplayAlert("You must select exactly one option.",
+					await Application.Current.MainPage.DisplayAlert("You must select exactly one option.",
 						"You have selected " + selected?.Count(), "OK");
 					return false;
 				}

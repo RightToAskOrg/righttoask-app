@@ -10,6 +10,7 @@ using RightToAskClient.Models;
 using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Resx;
 using RightToAskClient.Views;
+using RightToAskClient.Views.Popups;
 using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
@@ -415,7 +416,7 @@ namespace RightToAskClient.ViewModels
                 {
                     // if MPs have not been found for this user yet, prompt to find them
                     var popup = new TwoButtonPopup(this, AppResources.MPsPopupTitle, AppResources.MPsPopupText, AppResources.SkipButtonText, AppResources.YesButtonText);
-                    _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                    _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
                     if (ApproveButtonClicked)
                     {
                         NavigateToFindMPsPage();
@@ -460,7 +461,7 @@ namespace RightToAskClient.ViewModels
                 Title = AppResources.EditYourAccountTitle;
                 PopupLabelText = AppResources.EditAccountPopupText;
                 // pop back to the QuestionDetailsPage after the account is created
-                await App.Current.MainPage.Navigation.PopAsync();
+                await Application.Current.MainPage.Navigation.PopAsync();
             }
         }
 
@@ -533,7 +534,7 @@ namespace RightToAskClient.ViewModels
             else
             {
                 var popup = new OneButtonPopup(AppResources.NoAccountChangesDetectedAlertText, AppResources.OKText);
-                await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
             }
         }
 
@@ -573,7 +574,7 @@ namespace RightToAskClient.ViewModels
         {
             //await App.Current.MainPage.DisplayAlert("Registration incomplete", message, "OK");
             var popup = new OneButtonPopup(message, AppResources.OKText);
-            _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+            _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
         }
         #endregion
     }
