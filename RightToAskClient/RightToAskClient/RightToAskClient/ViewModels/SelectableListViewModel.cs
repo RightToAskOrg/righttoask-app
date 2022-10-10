@@ -99,7 +99,6 @@ namespace RightToAskClient.ViewModels
 		public Command SearchToolbarCommand { get; }
 
 		// TODO These are just copy-pasted from the old code-behind. Might need a bit more thought.
-		public bool CameFromReg2Page;
 		public bool GoToReadingPageFinally;
 		public bool GoToAskingPageNext;
 		public bool RegisterMPAccount;
@@ -108,7 +107,7 @@ namespace RightToAskClient.ViewModels
 		// the only functional one is enforcing a single selection.
 		private Func<Task<bool>> _selectionRulesCheckingCommand;
 
-		private bool goToReadingPageWithSingleQuestionWriter; 
+		private bool _goToReadingPageWithSingleQuestionWriter; 
 		public SelectableListViewModel(SelectableList<Authority> authorityLists, string message, bool singleSelection = false) : this(message, singleSelection)
 		{
 			SelectableEntities = WrapInTagsAndSortPreselections(new ObservableCollection<Entity>(authorityLists.AllEntities),  
@@ -117,12 +116,12 @@ namespace RightToAskClient.ViewModels
 			_titleText = "Authorities";
 			PopupLabelText = AppResources.SelectableListAuthoritiesPopupText;
 			DoneButtonCommand = new AsyncCommand(async () =>
-            {
-                DoneButton_OnClicked(
-	                () => UpdateSelectedList<Authority>(authorityLists), singleSelection       
-	                );
+			{
+				DoneButton_OnClicked(
+					() => UpdateSelectedList<Authority>(authorityLists), singleSelection
+				);
 				MessagingCenter.Send(this, "UpdateFilters");
-            });
+			});
 		}
 
         public SelectableListViewModel(SelectableList<Person> participantLists , string message, bool singleSelection=false) : this(message, singleSelection)
@@ -133,13 +132,13 @@ namespace RightToAskClient.ViewModels
 			_titleText = AppResources.ParticipantText;
 			PopupLabelText = AppResources.ParticipantPopupText;
 			DoneButtonCommand = new AsyncCommand(async () =>
-            {
-                DoneButton_OnClicked(
-	                () => UpdateSelectedList<Person>(participantLists), singleSelection
-	                );
+			{
+				DoneButton_OnClicked(
+					() => UpdateSelectedList<Person>(participantLists), singleSelection
+				);
 				MessagingCenter.Send(this, "UpdateFilters");
-            });
-		
+			});
+
 		}
 		public SelectableListViewModel(SelectableList<Committee> committeeLists, string message, bool singleSelection=false) : this(message, singleSelection)
 		{
@@ -214,7 +213,6 @@ namespace RightToAskClient.ViewModels
 			{
 				if (arg)
 				{
-					CameFromReg2Page = true;
 				}
 				MessagingCenter.Unsubscribe<FindMPsViewModel, bool>(this, "PreviousPage");
 			});
@@ -225,7 +223,7 @@ namespace RightToAskClient.ViewModels
 			});
 			MessagingCenter.Subscribe<FilterViewModel>(this, "GoToReadingPageWithSingleQuestionWriter", (sender) =>
 			{
-				goToReadingPageWithSingleQuestionWriter = true;
+				_goToReadingPageWithSingleQuestionWriter = true;
 				MessagingCenter.Unsubscribe<FilterViewModel>(this, "GoToReadingPageWithSingleQuestionWriter");
 			});
 			MessagingCenter.Subscribe<QuestionViewModel>(this, "GoToReadingPage", (sender) =>
@@ -293,7 +291,7 @@ namespace RightToAskClient.ViewModels
 			// Read questions by a single author. Order matters here - putting this first means that if there are both
 			// filters and an author selected, we ignore the filters and look only for questions written by the selected
 			// participant.
-			else if (goToReadingPageWithSingleQuestionWriter)
+			else if (_goToReadingPageWithSingleQuestionWriter)
 			{
 				await Shell.Current.GoToAsync(nameof(ReadingPage)).ContinueWith((_) =>
 		            {

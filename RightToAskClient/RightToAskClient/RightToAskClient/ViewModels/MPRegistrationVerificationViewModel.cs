@@ -116,7 +116,7 @@ namespace RightToAskClient.ViewModels
             {
                 why = new EmailValidationReason() { AsMP = !IsStaffer },
                 // name = MPRepresenting.first_name + " " + MPRepresenting.surname +" @"+domain
-                name = Badge.writeBadgeName(MPRepresenting, domain)
+                name = Badge.WriteBadgeName(MPRepresenting, domain)
             };
             var httpResponse = await RTAClient.RequestEmailValidation(message, EmailUsername + "@" + domain);
             (bool isValid, string errorMsg, string hash) validation = RTAClient.ValidateHttpResponse(httpResponse, "Email Validation Request");
@@ -153,7 +153,7 @@ namespace RightToAskClient.ViewModels
                     new Badge()
                     {
                         badge = IsStaffer ? BadgeType.MPStaff : BadgeType.MP,
-                        name = Badge.writeBadgeName(MPRepresenting, domain)
+                        name = Badge.WriteBadgeName(MPRepresenting, domain)
                     });
         }
 
@@ -164,7 +164,7 @@ namespace RightToAskClient.ViewModels
                 hash = _mpVerificationHash,
                 code = _mpRegistrationPIN
             };
-            var httpResponse = await RTAClient.SendEmailValidationPIN(msg);
+            var httpResponse = await RTAClient.SendEmailValidationPin(msg);
             (bool isValid, string errorMsg, string hash) validation = RTAClient.ValidateHttpResponse(httpResponse, "Email Validation PIN");
 
                 // TODO - deal properly with errors e.g. email not known.

@@ -30,8 +30,8 @@ namespace RightToAskClient.CryptoUtils
                 return false;
             }
             
-            var signaturebytes = Convert.FromBase64String(signedString.signature);
-            return VerifySignature(signedString.message, signaturebytes, keyResult.Ok);
+            var signatureBytes = Convert.FromBase64String(signedString.signature);
+            return VerifySignature(signedString.message, signatureBytes, keyResult.Ok);
         }
         private static Result<Ed25519PublicKeyParameters> ConvertSPKIRawToBase64String(string keyAsString)
         {

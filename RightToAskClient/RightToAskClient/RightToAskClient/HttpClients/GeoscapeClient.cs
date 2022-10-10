@@ -10,7 +10,7 @@ namespace RightToAskClient.HttpClients
      */
     public static class GeoscapeClient
     {
-        private static readonly JsonSerializerOptions _serializerOptions =
+        private static readonly JsonSerializerOptions SerializerOptions =
             new JsonSerializerOptions
             {
                 Converters = { new JsonStringEnumConverter() },
@@ -20,7 +20,7 @@ namespace RightToAskClient.HttpClients
                 // DefaultIgnoreCondition = JsonIgnoreCondition.Always
             };
         
-        private static readonly GenericHttpClient _client = new GenericHttpClient(_serializerOptions);
+        private static readonly GenericHttpClient Client = new GenericHttpClient(SerializerOptions);
 
         public static async Task<Result<GeoscapeAddressFeature>> GetFirstAddressData(string address)
         {
@@ -57,12 +57,11 @@ namespace RightToAskClient.HttpClients
             
             // The ApiKey.OK _should_ be properly initialised to "" but this isn't guaranteed (despite the
             // compiler thinking it is).
-            _client.SetAuthorizationHeaders(
-                new AuthenticationHeaderValue(GeoscapeAddressRequestBuilder.ApiKey.Ok ?? string.Empty));
+            Client.SetAuthorizationHeaders(new AuthenticationHeaderValue(GeoscapeAddressRequestBuilder.ApiKey.Ok));
             
             // At this point, we know we got a response, but it may say for example that
             // the address wasn't found.
-            var httpResponse = await _client.DoGetJSONRequest<GeoscapeAddressFeatureCollection>(Constants.GeoscapeAPIUrl + requestString);
+            var httpResponse = await Client.DoGetJsonRequest<GeoscapeAddressFeatureCollection>(Constants.GeoscapeAPIUrl + requestString);
             return InterpretGeoscapeResponse(httpResponse);
         }
 

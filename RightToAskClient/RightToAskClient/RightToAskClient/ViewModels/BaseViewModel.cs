@@ -1,6 +1,5 @@
 ﻿using Xamarin.Forms;
 using Xamarin.CommunityToolkit.ObjectModel;
-using RightToAskClient.Views;
 using Xamarin.CommunityToolkit.Extensions;
 using RightToAskClient.Resx;
 using RightToAskClient.Views.Popups;

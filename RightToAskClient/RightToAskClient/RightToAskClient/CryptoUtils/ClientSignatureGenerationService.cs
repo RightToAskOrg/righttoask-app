@@ -147,7 +147,7 @@ namespace RightToAskClient.CryptoUtils
             };
         }
 
-        public static ClientSignedUnparsed SignMessage<T>(T message, string userID)
+        public static ClientSignedUnparsed SignMessage<T>(T message, string userId)
         {
             var serializerOptions = new JsonSerializerOptions
             {
@@ -188,7 +188,7 @@ namespace RightToAskClient.CryptoUtils
             {
                 message = serializedMessage,
                 signature = sig,
-                user = userID
+                user = userId
             };
         }
     }

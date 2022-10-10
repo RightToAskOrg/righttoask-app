@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using RightToAskClient.Models;
@@ -37,7 +36,9 @@ namespace RightToAskClient.Helpers
         }
         public static string JoinFilter(string separator, params string[] str)
         {
-            return string.Join(separator, str?.Where(s => !string.IsNullOrEmpty(s)) ?? Array.Empty<string>());
+            return !str.Any() 
+                ? string.Empty 
+                : string.Join(separator, str.Where(s => !string.IsNullOrEmpty(s)));
         }
         
         

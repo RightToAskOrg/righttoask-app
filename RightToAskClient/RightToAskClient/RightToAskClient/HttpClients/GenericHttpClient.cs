@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -26,11 +25,6 @@ namespace RightToAskClient.HttpClients
         private readonly HttpClient _client;
         private readonly JsonSerializerOptions _serializerOptions;
 
-        public Result<List<string>> Items 
-        { 
-            get;
-        } = new Result<List<string>>();
-
         // TODO Not sure if this is the right way to do this.
         public void SetAuthorizationHeaders(AuthenticationHeaderValue authHeader)
         {
@@ -45,7 +39,7 @@ namespace RightToAskClient.HttpClients
         }
         
         
-        public async Task<Result<T>> DoGetJSONRequest<T>(string uriString)
+        public async Task<Result<T>> DoGetJsonRequest<T>(string uriString)
         {
             var uri = new Uri(uriString);
             try
@@ -94,7 +88,7 @@ namespace RightToAskClient.HttpClients
          */
         public async Task<Result<T>> DoGetResultRequest<T>(string uriString)
         {
-            var result = await DoGetJSONRequest<Result<T>>(uriString);
+            var result = await DoGetJsonRequest<Result<T>>(uriString);
             if (!string.IsNullOrEmpty(result.Err) || !string.IsNullOrEmpty(result.Ok.Err))
             {
                 return new Result<T>
