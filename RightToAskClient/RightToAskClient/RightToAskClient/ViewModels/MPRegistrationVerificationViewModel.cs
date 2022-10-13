@@ -15,11 +15,11 @@ namespace RightToAskClient.ViewModels
         
         // If the person has stated that they are an MP or staffer, return that one (there should be only one).
         // Otherwise, a new/blank one.
-        private MP _MPRepresenting = new MP();
+        private MP _mpRepresenting = new MP();
         public MP MPRepresenting
         {
-            get => _MPRepresenting;
-            private set => SetProperty(ref _MPRepresenting, value);
+            get => _mpRepresenting;
+            private set => SetProperty(ref _mpRepresenting, value);
         }
 
         // Bool to distinguish MPs from staffers. True if MP; false if staffer.
@@ -51,18 +51,18 @@ namespace RightToAskClient.ViewModels
         private string _mpVerificationHash = "";
         
         // The PIN entered by the user to verify that they read the email.
-        private int _mpRegistrationPIN;
+        private int _mpRegistrationPin;
 
-        public int MPRegistrationPIN
+        public int MpRegistrationPin
         {
-            get => _mpRegistrationPIN;
-            set => SetProperty(ref _mpRegistrationPIN, value);
+            get => _mpRegistrationPin;
+            set => SetProperty(ref _mpRegistrationPin, value);
         }
 
         public bool ReturnToAccountPage;
 
         // The domain of the email, one of 9 hardcoded valid parliamentary email domains.
-        private string domain = "";
+        private string _domain = "";
         
         #endregion
 
@@ -77,7 +77,7 @@ namespace RightToAskClient.ViewModels
             });
 
             SendMPVerificationEmailCommand = new Command(() => { SendMPRegistrationToServer(); });
-            SubmitMPRegistrationPINCommand = new AsyncCommand(async () =>
+            SubmitMPRegistrationPinCommand = new AsyncCommand(async () =>
             {
                 var success = await SendMPRegistrationPINToServer();
                 if (success)
@@ -96,7 +96,7 @@ namespace RightToAskClient.ViewModels
         
         // commands
         public Command SendMPVerificationEmailCommand { get; }
-        public IAsyncCommand SubmitMPRegistrationPINCommand { get; }
+        public IAsyncCommand SubmitMPRegistrationPinCommand { get; }
         
         // methods
         public string RegisterMPReportLabelText { get; } = "";
@@ -110,15 +110,15 @@ namespace RightToAskClient.ViewModels
         
         private async void SendMPRegistrationToServer()
         {
-            domain = _parliamentaryDomainIndex >= 0  && _parliamentaryDomainIndex < ParliamentData.Domains.Count
+            _domain = _parliamentaryDomainIndex >= 0  && _parliamentaryDomainIndex < ParliamentData.Domains.Count
                 ? ParliamentData.Domains[_parliamentaryDomainIndex] : "";
             var message = new RequestEmailValidationMessage()
             {
                 why = new EmailValidationReason() { AsMP = !IsStaffer },
                 // name = MPRepresenting.first_name + " " + MPRepresenting.surname +" @"+domain
-                name = Badge.WriteBadgeName(MPRepresenting, domain)
+                name = Badge.WriteBadgeName(MPRepresenting, _domain)
             };
-            var httpResponse = await RTAClient.RequestEmailValidation(message, EmailUsername + "@" + domain);
+            var httpResponse = await RTAClient.RequestEmailValidation(message, EmailUsername + "@" + _domain);
             (bool isValid, string errorMsg, string hash) validation = RTAClient.ValidateHttpResponse(httpResponse, "Email Validation Request");
             if (validation.isValid)
             {
@@ -153,7 +153,7 @@ namespace RightToAskClient.ViewModels
                     new Badge()
                     {
                         badge = IsStaffer ? BadgeType.MPStaff : BadgeType.MP,
-                        name = Badge.WriteBadgeName(MPRepresenting, domain)
+                        name = Badge.WriteBadgeName(MPRepresenting, _domain)
                     });
         }
 
@@ -162,7 +162,7 @@ namespace RightToAskClient.ViewModels
             var msg = new EmailValidationPIN()
             {
                 hash = _mpVerificationHash,
-                code = _mpRegistrationPIN
+                code = _mpRegistrationPin
             };
             var httpResponse = await RTAClient.SendEmailValidationPin(msg);
             (bool isValid, string errorMsg, string hash) validation = RTAClient.ValidateHttpResponse(httpResponse, "Email Validation PIN");

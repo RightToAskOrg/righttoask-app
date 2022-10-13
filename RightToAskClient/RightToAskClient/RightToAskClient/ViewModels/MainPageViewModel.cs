@@ -92,7 +92,7 @@ namespace RightToAskClient.ViewModels
                 App.ReadingContext.IsReadingOnly = true;
                 await Shell.Current.GoToAsync($"{nameof(AdvancedSearchFiltersPage)}").ContinueWith((_) =>
                 {
-                    MessagingCenter.Send<MainPageViewModel>(this, "MainPage");
+                    MessagingCenter.Send(this, "MainPage");
                 });
             });
             SearchButtonCommand = new AsyncCommand(async () =>

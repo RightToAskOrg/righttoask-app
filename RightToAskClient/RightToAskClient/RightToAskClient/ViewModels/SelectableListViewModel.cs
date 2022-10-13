@@ -118,7 +118,7 @@ namespace RightToAskClient.ViewModels
 			DoneButtonCommand = new AsyncCommand(async () =>
 			{
 				DoneButton_OnClicked(
-					() => UpdateSelectedList<Authority>(authorityLists), singleSelection
+					() => UpdateSelectedList(authorityLists), singleSelection
 				);
 				MessagingCenter.Send(this, "UpdateFilters");
 			});
@@ -134,7 +134,7 @@ namespace RightToAskClient.ViewModels
 			DoneButtonCommand = new AsyncCommand(async () =>
 			{
 				DoneButton_OnClicked(
-					() => UpdateSelectedList<Person>(participantLists), singleSelection
+					() => UpdateSelectedList(participantLists), singleSelection
 				);
 				MessagingCenter.Send(this, "UpdateFilters");
 			});
@@ -150,7 +150,7 @@ namespace RightToAskClient.ViewModels
 			DoneButtonCommand = new AsyncCommand(async () =>
             {
                 DoneButton_OnClicked(
-	                () => UpdateSelectedList<Committee>(committeeLists), singleSelection       
+	                () => UpdateSelectedList(committeeLists), singleSelection       
 	                );
 				MessagingCenter.Send(this, "UpdateFilters");
             });
@@ -191,7 +191,7 @@ namespace RightToAskClient.ViewModels
 			DoneButtonCommand = new AsyncCommand(async () =>
             {
                 DoneButton_OnClicked(
-	                () => UpdateSelectedList<MP>(mpLists), singleSelection
+	                () => UpdateSelectedList(mpLists), singleSelection
 	                );
 				MessagingCenter.Send(this, "UpdateFilters");
             });

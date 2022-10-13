@@ -240,9 +240,9 @@ namespace RightToAskClient.ViewModels
             {
                 // Question.AnswerInApp = false;
                 // AnswerInApp = false;
-                var PageToSearchAuthorities
+                var pageToSearchAuthorities
                     = new SelectableListPage(App.ReadingContext.Filters.AuthorityLists, "Choose authorities");
-                await Shell.Current.Navigation.PushAsync(PageToSearchAuthorities).ContinueWith((_) => 
+                await Shell.Current.Navigation.PushAsync(pageToSearchAuthorities).ContinueWith((_) => 
                 {
                     MessagingCenter.Send(this, "OptionBGoToAskingPageNext"); // Sends this view model
                 });
@@ -359,7 +359,7 @@ namespace RightToAskClient.ViewModels
         public Command AnswerInAppCommand => _answerInAppCommand ??= new Command(OnAnswerInAppButtonClicked);
 
         private Command? _myMpRaiseCommand;
-        public Command MyMPRaiseCommand => _myMpRaiseCommand ??= new Command(OnMyMPRaiseButtonClicked);
+        public Command myMPRaiseCommand => _myMpRaiseCommand ??= new Command(OnMyMPRaiseButtonClicked);
         private Command? _otherMPRaiseCommand;
         public Command OtherMPRaiseCommand => _otherMPRaiseCommand ??= new Command(OnOtherMPRaiseButtonClicked);
         private Command? _userShouldRaiseCommand;
@@ -459,7 +459,7 @@ namespace RightToAskClient.ViewModels
         }
 
         // TODO: Implement SearchableListPage constructor for people.
-        private async void UserShouldRaiseButtonClicked()
+        private void UserShouldRaiseButtonClicked()
         {
             RaisedByOptionSelected = true;
             AnotherUserButtonText = "Not Implemented Yet";
@@ -506,7 +506,7 @@ namespace RightToAskClient.ViewModels
                 var validQuestion = Question.ValidateUpdateQuestion();
                 if (validQuestion) 
                 {
-                    sendQuestionEditToServer();
+                    SendQuestionEditToServer();
                 }                
             }
 
@@ -565,7 +565,7 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        private async void sendQuestionEditToServer()
+        private async void SendQuestionEditToServer()
         {
             // This isn't supposed to be called for unregistered participants.
             if (!App.ReadingContext.ThisParticipant.IsRegistered) return;

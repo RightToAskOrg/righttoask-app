@@ -43,7 +43,7 @@ namespace RightToAskClient.ViewModels
         //
         // Note that there is no need to update _registrationUpdates because UID is only set when the registration
         // is initialized.
-        public string UserID
+        public string UserId
 
         {
             get => _registration.uid;
@@ -117,11 +117,11 @@ namespace RightToAskClient.ViewModels
         // This is for selecting MPs if you're registering as an MP or staffer account
         private readonly SelectableList<MP> _selectableMPList = new SelectableList<MP>(new List<MP>(), new List<MP>());
         
-        public bool IsVerifiedMPAccount => _registration?.Badges?.Any(b =>  b.badge == BadgeType.MP || b.badge == BadgeType.MPStaff) ?? false;
+        public bool IsVerifiedMPAccount => _registration.Badges?.Any(b =>  b.badge == BadgeType.MP || b.badge == BadgeType.MPStaff) ?? false;
 
-        public bool IsVerifiedStafferAccount => _registration?.Badges?.Any(b => b.badge == BadgeType.MPStaff) ?? false;
+        public bool IsVerifiedStafferAccount => _registration.Badges?.Any(b => b.badge == BadgeType.MPStaff) ?? false;
 
-        public string MPsRepresenting => string.Join(",",_registration?.Badges?.Select(b => b.name ?? "") ?? new List<string>());
+        public string MPsRepresenting => string.Join(",",_registration.Badges?.Select(b => b.name ?? "") ?? new List<string>());
 
         // public MP RegisteredMP { get; }
         public bool ShowStafferLabel { get; set; }
@@ -215,11 +215,11 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _followButtonText, value);
         }
 
-        private bool _canEditUID = true;
-        public bool CanEditUID
+        private bool _canEditUid = true;
+        public bool CanEditUid
         {
-            get => _canEditUID;
-            set => SetProperty(ref _canEditUID, value);
+            get => _canEditUid;
+            set => SetProperty(ref _canEditUid, value);
         }
 
         private bool _showUpdateAccountButton;
@@ -256,7 +256,7 @@ namespace RightToAskClient.ViewModels
         {
             _registration = reg;
             ReportLabelText = "";
-            CanEditUID = false;
+            CanEditUid = false;
             PopupLabelText = AppResources.OtherUserInfoText;
             
             // First do default command init, to make sure nothing is null.
@@ -275,7 +275,7 @@ namespace RightToAskClient.ViewModels
             _registration = me.RegistrationInfo; 
             
             ShowTheRightButtonsForOwnAccount();
-            CanEditUID = !me.IsRegistered;
+            CanEditUid = !me.IsRegistered;
 
             // uid should still be sent in the 'update' even though it doesn't change.
             _registrationUpdates.uid = _registration.uid;
@@ -457,7 +457,7 @@ namespace RightToAskClient.ViewModels
                 }
                 // Now we're registered, we can't change our UID - we can only update the other fields.
                 ShowUpdateAccountButton = true;
-                CanEditUID = false;
+                CanEditUid = false;
                 Title = AppResources.EditYourAccountTitle;
                 PopupLabelText = AppResources.EditAccountPopupText;
                 // pop back to the QuestionDetailsPage after the account is created

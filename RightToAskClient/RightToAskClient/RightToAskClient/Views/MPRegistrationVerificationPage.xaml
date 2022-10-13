@@ -36,8 +36,8 @@
             <Label Text="{Binding ReportLabelText}" IsVisible="{Binding ShowRegisterMPReportLabel}" />
             <Label Text="{xct:Translate SubmitPINButtonText}"/>
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                <Entry Text="{Binding MPRegistrationPIN}" Style="{StaticResource NormalEntry}" Placeholder="______" />
-                <Button Command="{Binding SubmitMPRegistrationPINCommand}" Text="{xct:Translate DoneButtonText}" Style="{StaticResource DoneButton}" />
+                <Entry Text="{Binding MpRegistrationPin}" Style="{StaticResource NormalEntry}" Placeholder="______" />
+                <Button Command="{Binding SubmitMPRegistrationPinCommand}" Text="{xct:Translate DoneButtonText}" Style="{StaticResource DoneButton}" />
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

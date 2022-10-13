@@ -21,7 +21,7 @@ namespace RightToAskClient.ViewModels
         public static FilterViewModel Instance => _instance ??= new FilterViewModel();
 
         // properties
-        private FilterChoices globalFilterChoices => App.ReadingContext.Filters;
+        private static FilterChoices GlobalFilterChoices => App.ReadingContext.Filters;
 
         public ClickableListViewModel AnsweringMPsOther { get; }
         public ClickableListViewModel AnsweringMPsMine { get; }
@@ -45,15 +45,8 @@ namespace RightToAskClient.ViewModels
             get
             {
                 var writers = _selectableParticipants.SelectedEntities;
-                if (writers != null && writers.Any())
-                {
-                    return writers.FirstOrDefault().ToString();
-                }
-
-                return "";
+                return writers.Any() ? writers.FirstOrDefault().ToString() : "";
             }
-            
-            
         }
 
         private string _questionWriterSearchText = "";
@@ -139,7 +132,7 @@ namespace RightToAskClient.ViewModels
             Title = AppResources.AdvancedSearchButtonText; 
             ReinitData(); // to set the display strings
 
-            AnsweringMPsMine = new ClickableListViewModel(globalFilterChoices.AnsweringMPsListsMine)
+            AnsweringMPsMine = new ClickableListViewModel(GlobalFilterChoices.AnsweringMPsListsMine)
             {
                 // FIXME This isn't quite right when the MPs are not known - seems to push a 
                 // list to choose from and then go to a reading page, rather than popping on completion
@@ -154,7 +147,7 @@ namespace RightToAskClient.ViewModels
                 }),
                 Heading = AppResources.MyMPButtonText
             };
-            AnsweringMPsOther = new ClickableListViewModel(globalFilterChoices.AnsweringMPsListsNotMine)
+            AnsweringMPsOther = new ClickableListViewModel(GlobalFilterChoices.AnsweringMPsListsNotMine)
             {
                 EditListCommand = new Command(() =>
                 {
@@ -165,7 +158,7 @@ namespace RightToAskClient.ViewModels
                 }),
                 Heading = AppResources.OtherMP,
             };
-            AnsweringAuthorities = new ClickableListViewModel(globalFilterChoices.AuthorityLists)
+            AnsweringAuthorities = new ClickableListViewModel(GlobalFilterChoices.AuthorityLists)
             {
                 EditListCommand = new Command(() =>
                 {
@@ -176,7 +169,7 @@ namespace RightToAskClient.ViewModels
                 }),
                 Heading = AppResources.AuthorityLabel,
             };
-            AskingMPsMine = new ClickableListViewModel(globalFilterChoices.AskingMPsListsMine)
+            AskingMPsMine = new ClickableListViewModel(GlobalFilterChoices.AskingMPsListsMine)
             {
                 EditListCommand = new Command(() =>
                 {
@@ -187,7 +180,7 @@ namespace RightToAskClient.ViewModels
                 }),
                 Heading = AppResources.MyMPButtonText
             };
-            AskingMPsOther = new ClickableListViewModel(globalFilterChoices.AskingMPsListsNotMine)
+            AskingMPsOther = new ClickableListViewModel(GlobalFilterChoices.AskingMPsListsNotMine)
             {
                 EditListCommand = new Command(() =>
                 {
@@ -198,7 +191,7 @@ namespace RightToAskClient.ViewModels
                 }),
                 Heading = AppResources.OtherMP
             };
-            Committees = new ClickableListViewModel(globalFilterChoices.CommitteeLists)
+            Committees = new ClickableListViewModel(GlobalFilterChoices.CommitteeLists)
             {
                 EditListCommand = new Command(() =>
                 {

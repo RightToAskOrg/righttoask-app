@@ -139,8 +139,8 @@ namespace RightToAskClient.ViewModels
 
         private string _stateChoosableElectorateHeader 
             =  App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsEnum == ParliamentData.StateEnum.TAS
-            ? string.Format("State Legislative Council Electorate: {0:F0}", App.ReadingContext.ThisParticipant.StateUpperHouseElectorate)
-            : string.Format("State Legislative Assembly Electorate: {0:F0}", App.ReadingContext.ThisParticipant.StateLowerHouseElectorate) ;
+            ? $"State Legislative Council Electorate: {App.ReadingContext.ThisParticipant.StateUpperHouseElectorate:F0}"
+            : $"State Legislative Assembly Electorate: {App.ReadingContext.ThisParticipant.StateLowerHouseElectorate:F0}";
 
         public string StateChoosableElectorateHeader
         {
@@ -182,7 +182,8 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _stateInferredElectorate, value);
         }
         
-        private string _federalElectoratePickerTitle = string.Format("Select: {0:F0}", App.ReadingContext.ThisParticipant.CommonwealthElectorate);
+        private string _federalElectoratePickerTitle =
+            $"Select: {App.ReadingContext.ThisParticipant.CommonwealthElectorate:F0}";
         public string FederalElectoratePickerTitle
         {
             get => _federalElectoratePickerTitle;
@@ -194,8 +195,7 @@ namespace RightToAskClient.ViewModels
             get => _doneButtonText;
             set => SetProperty(ref _doneButtonText, value);
         }
-        private bool _launchMPsSelectionPageNext;
-        
+
         // This indicates, when we're choosing from a list of MPs, whether they're asking the question (true) or
         // answering it (false).
         private bool _choosingAskingMP;
@@ -235,7 +235,7 @@ namespace RightToAskClient.ViewModels
             ShowAddressStack = false;
             ShowKnowElectoratesFrame = false;
             ShowMapFrame = false;
-            _launchMPsSelectionPageNext = true;
+            var launchMPsSelectionPageNext = true;
 
             _stateKnown = App.ReadingContext.ThisParticipant.RegistrationInfo.StateKnown;
             
@@ -264,7 +264,7 @@ namespace RightToAskClient.ViewModels
 
             MessagingCenter.Subscribe<RegistrationViewModel>(this, "FromReg1", (sender) =>
             {
-                _launchMPsSelectionPageNext = false;
+                launchMPsSelectionPageNext = false;
                 MessagingCenter.Unsubscribe<RegistrationViewModel>(this, "FromReg1");
             });
             /*
@@ -291,7 +291,7 @@ namespace RightToAskClient.ViewModels
                 // we might get here via Option B from the QuestionAskerPage, in which case
                 //    - initialize the MP SearchableListPage with AskingMPsListsMine and
                 //    - after that, navigate forward to a ReadingPage;
-                if (_launchMPsSelectionPageNext)
+                if (launchMPsSelectionPageNext)
                 {
                     // Our MP is asking the question
                     if (_choosingAskingMP)
@@ -312,7 +312,7 @@ namespace RightToAskClient.ViewModels
                     MessagingCenter.Send(this, "GoToReadingPage");
 
                     await Application.Current.MainPage.Navigation.PushAsync(mpsSearchableListPage);
-                    _launchMPsSelectionPageNext = false;
+                    launchMPsSelectionPageNext = false;
                     _choosingAskingMP = false;
                     DoneButtonText = AppResources.DoneButtonText;
                 }
@@ -420,7 +420,7 @@ namespace RightToAskClient.ViewModels
                     // Now we know everything is good.
                     var bestAddress = httpResponse.Ok;
                     // needs a federal electorate to be valid
-                    if (!string.IsNullOrEmpty(bestAddress?.Properties?.CommonwealthElectorate?.ToString()))
+                    if (!string.IsNullOrEmpty(bestAddress.Properties?.CommonwealthElectorate?.ToString()))
                     {
                         AddElectorates(bestAddress);
                         ShowFindMPsButton = true;
@@ -584,8 +584,7 @@ namespace RightToAskClient.ViewModels
             switch (SelectedStateEnum)
             {
                 case ParliamentData.StateEnum.ACT:
-                    var postcode = 0; 
-                    int.TryParse(Address.Postcode, out postcode);
+                    int.TryParse(Address.Postcode, out var postcode);
                     if((postcode >= 2600 && postcode <= 2618) 
                         || (postcode >= 2900 && postcode <= 2920))
                     {

@@ -67,7 +67,7 @@ namespace RightToAskClient.HttpClients
 
         // Geoscape-specific response interpretation.
         // TODO Find out if there's ever >1 message.
-        public static Result<GeoscapeAddressFeatureCollection> InterpretGeoscapeResponse(Result<GeoscapeAddressFeatureCollection> httpResponse)
+        private static Result<GeoscapeAddressFeatureCollection> InterpretGeoscapeResponse(Result<GeoscapeAddressFeatureCollection> httpResponse)
         {
             if (!string.IsNullOrEmpty(httpResponse.Err))
             {

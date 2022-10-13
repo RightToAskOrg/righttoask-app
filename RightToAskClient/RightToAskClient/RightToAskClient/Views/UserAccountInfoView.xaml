@@ -12,7 +12,7 @@
                   ColumnDefinitions="*, 2*">
             <Label Text="{xct:Translate UserNameHeaderText}" Style="{StaticResource Header2}" />
                 <!-- Styled in code-behind according to whether this is permitted edits. -->
-                <Entry x:Name="UIDEntry" Grid.Column="1" Text="{Binding UserID}" Placeholder="{xct:Translate UIDPlaceholderText}" />
+                <Entry x:Name="UIDEntry" Grid.Column="1" Text="{Binding UserId}" Placeholder="{xct:Translate UIDPlaceholderText}" />
             <Label Grid.Row="1" Text="{xct:Translate DisplayNameHeaderText}" Style="{StaticResource Header2}" />
             <Entry Grid.Row="1" Grid.Column="1" Text="{Binding DisplayName}"
                    Placeholder="{xct:Translate DisplayNamePlaceholderText}"

@@ -11,7 +11,7 @@ namespace RightToAskClient.Views
         {
             InitializeComponent();
 
-            var caneditUID = (BindingContext as RegistrationViewModel)?.CanEditUID ?? false;
+            var caneditUID = (BindingContext as RegistrationViewModel)?.CanEditUid ?? false;
             UIDEntry.Style = caneditUID
                 ? Application.Current.Resources["NormalEntry"] as Style
                 : Application.Current.Resources["DisabledEntry"] as Style;

@@ -92,7 +92,7 @@ namespace RightToAskClient.Helpers
 			return new Result<string>() { Err = "Error reading file: " + filename };
 		}
 
-		public static void ReadDataFromCSV<T>(string filename, List<T> MPCollection, Func<string, T> parseLine)
+		public static void ReadDataFromCsv<T>(string filename, List<T> MPCollection, Func<string, T> parseLine)
 		{
 			try
 			{

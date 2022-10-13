@@ -93,7 +93,7 @@ namespace RightToAskClient.HttpClients
             {
                 return new Result<T>
                 {
-                    Err = result?.Err + result?.Ok?.Err
+                    Err = result.Err + result.Ok.Err
                 };
             }
 
@@ -105,9 +105,9 @@ namespace RightToAskClient.HttpClients
 
         // Tin is the type of the thing we post, which is also the input type of this function.
         // TResponse is the type of the server's response, which we return.
-        public async Task<Result<TResponse>> PostGenericItemAsync<TResponse, TIn>(TIn item, string requesteduri)
+        public async Task<Result<TResponse>> PostGenericItemAsync<TResponse, TIn>(TIn item, string requestedUri)
         {
-            var uri = new Uri(requesteduri);
+            var uri = new Uri(requestedUri);
             
             try
             {

@@ -31,21 +31,21 @@ namespace RightToAskClient.ViewModels
         public ClickableListViewModel(SelectableList<MP> mpList)
         {
             SubscribeToTheRightMessages();
-            createText = (() => CreateTextGivenListSelectableEntities<MP>(mpList));
+            createText = (() => CreateTextGivenListSelectableEntities(mpList));
             _anySelections = () => mpList.SelectedEntities.Any();
         }
         
         public ClickableListViewModel(SelectableList<Authority> authorityList)
         {
             SubscribeToTheRightMessages();
-            createText = (() => CreateTextGivenListSelectableEntities<Authority>(authorityList));
+            createText = (() => CreateTextGivenListSelectableEntities(authorityList));
             _anySelections = () => authorityList.SelectedEntities.Any();
         }
 
         public ClickableListViewModel(SelectableList<Committee> committeeList)
         {
             SubscribeToTheRightMessages();
-            createText = (() => CreateTextGivenListSelectableEntities<Committee>(committeeList));
+            createText = (() => CreateTextGivenListSelectableEntities(committeeList));
             _anySelections = () => committeeList.SelectedEntities.Any();
         }
 

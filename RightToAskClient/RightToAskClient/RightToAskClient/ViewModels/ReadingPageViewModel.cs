@@ -50,11 +50,11 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        private string heading1 = string.Empty;
+        private string _heading1 = string.Empty;
         public string Heading1
         {
-            get => heading1;
-            set => SetProperty(ref heading1, value);
+            get => _heading1;
+            set => SetProperty(ref _heading1, value);
         }
         private string _draftQuestion = "";
         public string DraftQuestion
@@ -111,8 +111,8 @@ namespace RightToAskClient.ViewModels
             }
         }
         
-        private string WriterOnlyUid = string.Empty;
-        private bool ReadByQuestionWriter;
+        private string _writerOnlyUid = string.Empty;
+        private bool _readByQuestionWriter;
 
         // constructor
         public ReadingPageViewModel()
@@ -175,7 +175,7 @@ namespace RightToAskClient.ViewModels
             // ought to be able to be cleared and added to in any order.
             RefreshCommand = new AsyncCommand(async () =>
             {
-                var questionsToDisplayList = await LoadQuestions() ?? new List<Question>();
+                var questionsToDisplayList = await LoadQuestions();
                 QuestionsToDisplay.Clear();
                 foreach (var q in questionsToDisplayList)
                 {  
@@ -196,7 +196,7 @@ namespace RightToAskClient.ViewModels
             {
                 await Shell.Current.GoToAsync(nameof(AdvancedSearchFiltersPage));
             });
-            RemoveQuestionCommand = new Command<Question>((Question questionToRemove) =>
+            RemoveQuestionCommand = new Command<Question>(questionToRemove =>
             {
                 // store question ID for later data manipulation?
                 if (!App.ReadingContext.ThisParticipant.RemovedQuestionIDs.Contains(questionToRemove.QuestionId))
@@ -215,8 +215,8 @@ namespace RightToAskClient.ViewModels
                     Debug.WriteLine("Error: ReadingPage for single question writer but no selection.");
                 }
 
-                ReadByQuestionWriter = true;
-                WriterOnlyUid = questionWriter?.RegistrationInfo.uid ?? string.Empty;
+                _readByQuestionWriter = true;
+                _writerOnlyUid = questionWriter?.RegistrationInfo.uid ?? string.Empty;
                 MessagingCenter.Unsubscribe<SelectableListViewModel>(this, "ReadQuestionsWithASingleQuestionWriter");
                 Heading1 = AppResources.QuestionWriterReadingPageHeaderText+" "+questionWriter?.RegistrationInfo.display_name;
                 
@@ -224,7 +224,7 @@ namespace RightToAskClient.ViewModels
             });
             
             // Get the question list for display
-            if (!ReadByQuestionWriter)
+            if (!_readByQuestionWriter)
             {
                 RefreshCommand.ExecuteAsync();
             }
@@ -340,21 +340,23 @@ namespace RightToAskClient.ViewModels
             // set previously upvoted questions
             foreach (var q in questionsToDisplay)
             {
-                foreach (var qID in App.ReadingContext.ThisParticipant.UpvotedQuestionIDs)
+                foreach (var qId in App
+                             .ReadingContext
+                             .ThisParticipant
+                             .UpvotedQuestionIDs
+                             .Where(qId => q.QuestionId == qId))
                 {
-                    if (q.QuestionId == qID)
-                    {
-                        q.AlreadyUpvoted = true;
-                    }
+                    q.AlreadyUpvoted = true;
                 }
 
                 // set previously flagged/reported questions
-                foreach (var qID in App.ReadingContext.ThisParticipant.ReportedQuestionIDs)
+                foreach (var qID in App
+                             .ReadingContext
+                             .ThisParticipant
+                             .ReportedQuestionIDs
+                             .Where(qId => q.QuestionId == qId))
                 {
-                    if (q.QuestionId == qID)
-                    {
-                        q.AlreadyReported = true;
-                    }
+                    q.AlreadyReported = true;
                 }
             }
 
@@ -369,9 +371,9 @@ namespace RightToAskClient.ViewModels
         {
             var filters = App.ReadingContext.Filters;
             // If we're looking for all the questions written by a given user, just request them.
-            if (ReadByQuestionWriter && !string.IsNullOrWhiteSpace(WriterOnlyUid))
+            if (_readByQuestionWriter && !string.IsNullOrWhiteSpace(_writerOnlyUid))
             {
-                var questionIDs = await RTAClient.GetQuestionsByWriterId(WriterOnlyUid);
+                var questionIDs = await RTAClient.GetQuestionsByWriterId(_writerOnlyUid);
                 if (!string.IsNullOrEmpty(questionIDs.Err))
                 {
                     return new Result<List<string>>()
@@ -407,7 +409,7 @@ namespace RightToAskClient.ViewModels
                 var scoredList = await RTAClient.GetSimilarQuestionIDs(serverSearchQuestion);
 
                 // Error
-                if (!string.IsNullOrEmpty(scoredList?.Err))
+                if (!string.IsNullOrEmpty(scoredList.Err))
                 {
                     return new Result<List<string>>() { Err = scoredList.Err };
                 }

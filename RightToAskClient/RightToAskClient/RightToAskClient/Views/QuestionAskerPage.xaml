@@ -49,7 +49,7 @@
                         <Grid RowDefinitions="*">
                             <Label Grid.Row="0" Text="{xct:Translate MyMPButtonText}" Style="{StaticResource PaleButtonText}"/>
                             <Button Grid.Row="0" Style="{StaticResource TransparentSquareButton}" 
-                                Command="{Binding MyMPRaiseCommand}" CommandParameter="1"/>
+                                Command="{Binding myMPRaiseCommand}" CommandParameter="1"/>
                         </Grid>
                     </Frame>
                     <Label Grid.Row="4" Grid.Column="1" Style="{StaticResource NormalText}"

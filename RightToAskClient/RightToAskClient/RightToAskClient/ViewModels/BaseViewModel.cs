@@ -49,11 +49,11 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _isBusy, value);
         }
 
-        private string title = string.Empty;
+        private string _title = string.Empty;
         public string Title
         {
-            get => title;
-            set => SetProperty(ref title, value);
+            get => _title;
+            set => SetProperty(ref _title, value);
         }
 
         private string _popupHeaderText = "";
