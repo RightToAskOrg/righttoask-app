@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-			 xmlns:controls="clr-namespace:RightToAskClient.Controls;assembly=RightToAskClient"
-			 xmlns:rightToAskClient="clr-namespace:RightToAskClient;assembly=RightToAskClient"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
 			 xmlns:models="clr-namespace:RightToAskClient.Models;assembly=RightToAskClient"
              xmlns:local="clr-namespace:RightToAskClient"
              xmlns:views="clr-namespace:RightToAskClient.Views"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
-			 x:Class="RightToAskClient.Views.ReadingPage"
+             xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
+             x:Class="RightToAskClient.Views.ReadingPage"
 			 x:Name="ReadingPageName"
              Title="{Binding Title}"
              x:DataType="vm:ReadingPageViewModel">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="{xct:Translate SearchButtonText}" IconImageSource="{local:ImageResource RightToAskClient.Images.search_75.png}"
+        <ToolbarItem Text="{xct:Translate SearchButtonText}" IconImageSource="{helpers:ImageResource RightToAskClient.Images.search_75.png}"
                      Command="{Binding SearchToolbarCommand}"/>
         <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
-                     IconImageSource="{local:ImageResource RightToAskClient.Images.home4.png}"/>
+                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.home4.png}"/>
         <ToolbarItem Text="{xct:Translate InfoPopupButtonText}" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
-                     IconImageSource="{local:ImageResource RightToAskClient.Images.help_75.png}"/>
+                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.BindingContext>
         <vm:ReadingPageViewModel/>
@@ -49,7 +48,7 @@
                                 </Label.GestureRecognizers>
                             </Label>
                             <!--<Button Grid.Column="0" Style="{StaticResource TransparentSquareButton}" Command="{Binding ShowFiltersCommand}"/>-->
-                            <ImageButton Grid.Column="1" Source="{local:ImageResource RightToAskClient.Images.filter_sliders_48.png}" 
+                            <ImageButton Grid.Column="1" Source="{helpers:ImageResource RightToAskClient.Images.filter_sliders_48.png}" 
                                          Command="{Binding ShowFiltersCommand}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
                                          WidthRequest="40" Padding="0" Margin="0" BackgroundColor="{StaticResource ButtonColor}"/>
                         </Grid>
@@ -61,7 +60,7 @@
 
                 <Label Text="{xct:Translate MyElectorateOnlyText}" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand"
                        Style="{StaticResource RightSmallText}" />
-                <CheckBox></CheckBox>
+                <CheckBox />
             </StackLayout>
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Padding="0,0,0,10">
                 <RadioButton Content="{xct:Translate DateText}"
@@ -88,7 +87,7 @@
                                     <DataTemplate x:DataType="models:Question">
                                         <SwipeView VerticalOptions="FillAndExpand" BackgroundColor="Transparent">
                                             <SwipeView.RightItems>
-                                                <SwipeItem Text="Dismiss" IconImageSource="{local:ImageResource RightToAskClient.Images.trash_delete_48.png}" 
+                                                <SwipeItem Text="Dismiss" IconImageSource="{helpers:ImageResource RightToAskClient.Images.trash_delete_48.png}" 
                                                        BackgroundColor="{StaticResource AlertColor}"
                                                        Command="{Binding Path=BindingContext.RemoveQuestionCommand, Source={x:Reference ReadingPageName}}" 
                                                        CommandParameter="{Binding .}"/>
@@ -119,7 +118,7 @@
                     </ScrollView>
                 </RefreshView>
                 <ImageButton Grid.Row="1" Grid.Column="1" VerticalOptions="End" HorizontalOptions="End" Margin="10" 
-                        Source="{local:ImageResource RightToAskClient.Images.half_roo.png}" WidthRequest="50" HeightRequest="50" CornerRadius="25" BackgroundColor="{StaticResource FrameColor}" 
+                        Source="{helpers:ImageResource RightToAskClient.Images.half_roo.png}" WidthRequest="50" HeightRequest="50" CornerRadius="25" BackgroundColor="{StaticResource FrameColor}" 
                         Command="{Binding DraftCommand}" IsVisible="{Binding ShowQuestionFrame, Converter={StaticResource Key=cnvInvert}}"/>
                 <!--<ImageButton Grid.Row="1" Grid.Column="1" VerticalOptions="End" HorizontalOptions="End" Margin="10" 
                         Source="{local:ImageResource RightToAskClient.Images.half_roo.png}" WidthRequest="50" HeightRequest="50" CornerRadius="25" BackgroundColor="{StaticResource FrameColor}" 

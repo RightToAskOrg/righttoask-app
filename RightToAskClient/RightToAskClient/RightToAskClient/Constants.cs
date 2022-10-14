@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using System.Text.Json;
-using RightToAskClient.Models;
-using Xamarin.Essentials;
+﻿using Xamarin.Essentials;
 
 namespace RightToAskClient
 {

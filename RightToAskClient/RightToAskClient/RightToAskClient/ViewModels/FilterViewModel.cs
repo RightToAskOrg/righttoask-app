@@ -1,17 +1,13 @@
-﻿using RightToAskClient.Controls;
-using RightToAskClient.Models;
+﻿using RightToAskClient.Models;
 using RightToAskClient.Views;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Xml;
 using Xamarin.CommunityToolkit.ObjectModel;
 using RightToAskClient.Resx;
 using Xamarin.Forms;
 using System.Threading.Tasks;
+using RightToAskClient.Helpers;
 using RightToAskClient.HttpClients;
-using RightToAskClient.Models.ServerCommsData;
 
 namespace RightToAskClient.ViewModels
 {
@@ -25,7 +21,7 @@ namespace RightToAskClient.ViewModels
         public static FilterViewModel Instance => _instance ??= new FilterViewModel();
 
         // properties
-        private FilterChoices globalFilterChoices => App.ReadingContext.Filters;
+        private static FilterChoices GlobalFilterChoices => App.ReadingContext.Filters;
 
         public ClickableListViewModel AnsweringMPsOther { get; }
         public ClickableListViewModel AnsweringMPsMine { get; }
@@ -49,15 +45,8 @@ namespace RightToAskClient.ViewModels
             get
             {
                 var writers = _selectableParticipants.SelectedEntities;
-                if (writers != null && writers.Any())
-                {
-                    return writers.FirstOrDefault().ToString();
-                }
-
-                return "";
+                return writers.Any() ? writers.FirstOrDefault().ToString() : "";
             }
-            
-            
         }
 
         private string _questionWriterSearchText = "";
@@ -72,28 +61,24 @@ namespace RightToAskClient.ViewModels
         public bool OthersCanAddAnswerers
         {
             get => QuestionViewModel.Instance.OthersCanAddQuestionAnswerers; 
-            set
-            {
+            set =>
                 // SetProperty(ref _othersCanAddAnswerers, value);
                 // QuestionViewModel.Instance.WhoShouldAnswerItPermissions = _othersCanAddAnswerers ? RTAPermissions.Others : RTAPermissions.WriterOnly;
                 QuestionViewModel.Instance.OthersCanAddQuestionAnswerers = value;
-                // OnPropertyChanged();
-            }
+            // OnPropertyChanged();
         }
 
         public bool OthersCanAddAskers
         {
             get => QuestionViewModel.Instance.OthersCanAddQuestionAskers; 
-            set
-            {
+            set =>
                 // SetProperty(ref _othersCanAddAskers, value);
                 // QuestionViewModel.Instance.WhoShouldAskItPermissions = _othersCanAddAskers ? RTAPermissions.Others : RTAPermissions.WriterOnly;
                 QuestionViewModel.Instance.OthersCanAddQuestionAskers = value;
-                // OnPropertyChanged();
-            }
+            // OnPropertyChanged();
         }
 
-        private bool _answerInApp = false;
+        private bool _answerInApp;
         public bool AnswerInApp
         {
             get => QuestionViewModel.Instance.AnswerInApp;
@@ -106,7 +91,7 @@ namespace RightToAskClient.ViewModels
 
         // public string SelectedAnsweringMPsText => CreateTextGivenListEntities(FilterChoices.SelectedAnsweringMPsNotMine.ToList());
 
-        public bool CameFromMainPage = false;
+        public bool CameFromMainPage;
 
         private string _keyword = "";
         public string Keyword
@@ -114,7 +99,7 @@ namespace RightToAskClient.ViewModels
             get => _keyword;
             set
             {
-                bool changed = SetProperty(ref _keyword, value);
+                var changed = SetProperty(ref _keyword, value);
                 if (changed)
                 {
                     App.ReadingContext.Filters.SearchKeyword = _keyword;
@@ -147,7 +132,7 @@ namespace RightToAskClient.ViewModels
             Title = AppResources.AdvancedSearchButtonText; 
             ReinitData(); // to set the display strings
 
-            AnsweringMPsMine = new ClickableListViewModel(globalFilterChoices.AnsweringMPsListsMine)
+            AnsweringMPsMine = new ClickableListViewModel(GlobalFilterChoices.AnsweringMPsListsMine)
             {
                 // FIXME This isn't quite right when the MPs are not known - seems to push a 
                 // list to choose from and then go to a reading page, rather than popping on completion
@@ -162,7 +147,7 @@ namespace RightToAskClient.ViewModels
                 }),
                 Heading = AppResources.MyMPButtonText
             };
-            AnsweringMPsOther = new ClickableListViewModel(globalFilterChoices.AnsweringMPsListsNotMine)
+            AnsweringMPsOther = new ClickableListViewModel(GlobalFilterChoices.AnsweringMPsListsNotMine)
             {
                 EditListCommand = new Command(() =>
                 {
@@ -173,7 +158,7 @@ namespace RightToAskClient.ViewModels
                 }),
                 Heading = AppResources.OtherMP,
             };
-            AnsweringAuthorities = new ClickableListViewModel(globalFilterChoices.AuthorityLists)
+            AnsweringAuthorities = new ClickableListViewModel(GlobalFilterChoices.AuthorityLists)
             {
                 EditListCommand = new Command(() =>
                 {
@@ -184,7 +169,7 @@ namespace RightToAskClient.ViewModels
                 }),
                 Heading = AppResources.AuthorityLabel,
             };
-            AskingMPsMine = new ClickableListViewModel(globalFilterChoices.AskingMPsListsMine)
+            AskingMPsMine = new ClickableListViewModel(GlobalFilterChoices.AskingMPsListsMine)
             {
                 EditListCommand = new Command(() =>
                 {
@@ -195,7 +180,7 @@ namespace RightToAskClient.ViewModels
                 }),
                 Heading = AppResources.MyMPButtonText
             };
-            AskingMPsOther = new ClickableListViewModel(globalFilterChoices.AskingMPsListsNotMine)
+            AskingMPsOther = new ClickableListViewModel(GlobalFilterChoices.AskingMPsListsNotMine)
             {
                 EditListCommand = new Command(() =>
                 {
@@ -206,7 +191,7 @@ namespace RightToAskClient.ViewModels
                 }),
                 Heading = AppResources.OtherMP
             };
-            Committees = new ClickableListViewModel(globalFilterChoices.CommitteeLists)
+            Committees = new ClickableListViewModel(GlobalFilterChoices.CommitteeLists)
             {
                 EditListCommand = new Command(() =>
                 {
@@ -272,11 +257,11 @@ namespace RightToAskClient.ViewModels
             {
                 if (CameFromMainPage)
                 {
-                    await App.Current.MainPage.Navigation.PopToRootAsync();
+                    await Application.Current.MainPage.Navigation.PopToRootAsync();
                 }
                 else
                 {
-                    await App.Current.MainPage.Navigation.PopAsync();
+                    await Application.Current.MainPage.Navigation.PopAsync();
                 }
             });
             ForceUpdateSizeCommand = new Command(() =>
@@ -346,7 +331,7 @@ namespace RightToAskClient.ViewModels
 
         public string CreateTextGivenListEntities(IEnumerable<Entity> entityList)
         {
-            return String.Join(", ", entityList.Select(e => e.ShortestName));
+            return string.Join(", ", entityList.Select(e => e.ShortestName));
         }
 
         private async Task EditSelectedAnsweringMPsMineClicked()
@@ -359,11 +344,11 @@ namespace RightToAskClient.ViewModels
 
         private async Task EditAuthoritiesClicked()
         {
-            string message = "Choose others to add";
+            var message = "Choose others to add";
 
             var departmentExploringPage
                 = new SelectableListPage(App.ReadingContext.Filters.AuthorityLists, message);
-            await App.Current.MainPage.Navigation.PushAsync(departmentExploringPage);
+            await Application.Current.MainPage.Navigation.PushAsync(departmentExploringPage);
         }
 
 
@@ -393,10 +378,10 @@ namespace RightToAskClient.ViewModels
 
         private async Task SearchUserWrittenByClicked()
         {
-            string searchString = QuestionWriterSearchText;
+            var searchString = QuestionWriterSearchText;
 
             var searchResults = await RTAClient.SearchUser(searchString);
-            if (!String.IsNullOrEmpty(searchResults.Err))
+            if (!string.IsNullOrEmpty(searchResults.Err))
             {
                 ReportLabelText = searchResults.Err ?? string.Empty;
             }
@@ -406,12 +391,12 @@ namespace RightToAskClient.ViewModels
             }
             else
             {
-                List<Person> matchingParticipants = searchResults.Ok.Select(u => new Person(u)).ToList();
+                var matchingParticipants = searchResults.Ok.Select(u => new Person(u)).ToList();
                 _selectableParticipants = new SelectableList<Person>(matchingParticipants);
                 App.ReadingContext.Filters.QuestionWriterLists = _selectableParticipants;
                 var participantsSearchSelectionPage
                     = new SelectableListPage(_selectableParticipants, AppResources.ChooseParticipantsText, true);
-                await App.Current.MainPage.Navigation.PushAsync(participantsSearchSelectionPage).ContinueWith( (_) =>
+                await Application.Current.MainPage.Navigation.PushAsync(participantsSearchSelectionPage).ContinueWith( (_) =>
                     MessagingCenter.Send(this, "GoToReadingPageWithSingleQuestionWriter")
                 );
             }
@@ -424,7 +409,7 @@ namespace RightToAskClient.ViewModels
             }
             else
             {
-                await App.Current.MainPage.Navigation.PopAsync();
+                await Application.Current.MainPage.Navigation.PopAsync();
             }
         }
     }

@@ -7,12 +7,11 @@ namespace RightToAskClient.Models
     {
         // TODO probably Entity should be readonly.
         // TODO Also make generic.
-        private T _tagEntity;
         private bool _selected;
 
         public Tag(T entity, bool selected)
         {
-            _tagEntity = entity;
+            TagEntity = entity;
             _selected = selected;
         }
 
@@ -27,17 +26,11 @@ namespace RightToAskClient.Models
             }
         }
 
-        public T TagEntity
-        {
-            get
-            {
-                return _tagEntity;
-            }
-        }
+        public T TagEntity { get; }
 
         public bool Selected
         {
-            get { return _selected; }
+            get => _selected;
             set
             {
                 _selected = value;
@@ -53,7 +46,7 @@ namespace RightToAskClient.Models
         public bool NameContains(string query)
         {
             var normalizedQuery = query.ToLower();
-            return _tagEntity.GetName().ToLowerInvariant().Contains(normalizedQuery);
+            return TagEntity.GetName().ToLowerInvariant().Contains(normalizedQuery);
         }
         
         public override string ToString ()

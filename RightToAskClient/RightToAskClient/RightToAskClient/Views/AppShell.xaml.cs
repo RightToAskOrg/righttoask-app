@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Xamarin.Forms;
-using RightToAskClient.Views;
+﻿using Xamarin.Forms;
 
-namespace RightToAskClient
+namespace RightToAskClient.Views
 {
     public partial class AppShell : Xamarin.Forms.Shell
     {

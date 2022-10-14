@@ -1,9 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using Org.BouncyCastle.Asn1.Tsp;
 using RightToAskClient.Models;
 using RightToAskClient.ViewModels;
 using Xamarin.Forms;

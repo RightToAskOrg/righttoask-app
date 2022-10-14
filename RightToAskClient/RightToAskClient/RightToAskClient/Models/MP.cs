@@ -35,10 +35,7 @@ namespace RightToAskClient.Models
         [JsonPropertyName("party")]
         public string party { get; set; }= "";
 
-        public override string ShortestName
-        {
-            get { return first_name + " " + surname; }
-        }
+        public override string ShortestName => first_name + " " + surname;
 
         private string salutation = "";
 
@@ -89,10 +86,10 @@ namespace RightToAskClient.Models
 
         public override string ToString()
         {
-            ParliamentData.Chamber cham = electorate.chamber;
+            var cham = electorate.chamber;
             salutation = cham.Salutation(); 
             var StateIfNeeded = salutation == "Senator" ? "" : ", " + (electorate.region);
-            var RoleIfNeeded = String.IsNullOrWhiteSpace(role) ? "" : "\n" + role;
+            var RoleIfNeeded = string.IsNullOrWhiteSpace(role) ? "" : "\n" + role;
             // Could use String.Equals(str1, str2, StringComparison.OrdinalIgnoreCase) to ignore case.
             return first_name + " " + surname
                    + "\n" + salutation
@@ -105,7 +102,7 @@ namespace RightToAskClient.Models
         {
             // TODO: 
 
-            bool isValid = false;
+            var isValid = false;
             if (!string.IsNullOrEmpty(surname) && electorate != null && !string.IsNullOrEmpty(electorate.region))
             {
                 isValid = true;

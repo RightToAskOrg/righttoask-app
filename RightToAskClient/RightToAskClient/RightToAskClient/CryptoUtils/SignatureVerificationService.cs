@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Text;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Crypto.Signers;
-using RightToAskClient.HttpClients;
 using RightToAskClient.Models;
 using RightToAskClient.Models.ServerCommsData;
 
@@ -26,13 +25,13 @@ namespace RightToAskClient.CryptoUtils
         public static bool VerifySignature(SignedString signedString, string publicKey)
         {
             var keyResult = ConvertSPKIRawToBase64String(publicKey);
-            if (!String.IsNullOrEmpty(keyResult.Err))
+            if (!string.IsNullOrEmpty(keyResult.Err))
             {
                 return false;
             }
             
-            byte[] signaturebytes = Convert.FromBase64String(signedString.signature);
-            return VerifySignature(signedString.message, signaturebytes, keyResult.Ok);
+            var signatureBytes = Convert.FromBase64String(signedString.signature);
+            return VerifySignature(signedString.message, signatureBytes, keyResult.Ok);
         }
         private static Result<Ed25519PublicKeyParameters> ConvertSPKIRawToBase64String(string keyAsString)
         {

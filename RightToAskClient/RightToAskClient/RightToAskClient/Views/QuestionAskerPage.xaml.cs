@@ -1,5 +1,3 @@
-using System;
-using RightToAskClient.Models;
 using RightToAskClient.Resx;
 using RightToAskClient.ViewModels;
 using Xamarin.Forms;

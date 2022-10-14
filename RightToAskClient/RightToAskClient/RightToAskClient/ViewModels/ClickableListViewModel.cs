@@ -1,16 +1,8 @@
-using RightToAskClient.Controls;
 using RightToAskClient.Models;
-using RightToAskClient.Views;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Xml;
-using Xamarin.CommunityToolkit.ObjectModel;
 using RightToAskClient.Resx;
 using Xamarin.Forms;
-using System.Threading.Tasks;
-using RightToAskClient.Models.ServerCommsData;
 
 namespace RightToAskClient.ViewModels
 {
@@ -18,18 +10,12 @@ namespace RightToAskClient.ViewModels
     {
         // properties
 
-        private Func<string> createText;
+        private readonly Func<string> createText;
 
-        public string ListDisplayText
-        {
-            get => createText();
-        }
+        public string ListDisplayText => createText();
 
         private readonly Func<bool> _anySelections;
-        public bool AnySelections 
-        {
-            get => _anySelections();
-        }
+        public bool AnySelections => _anySelections();
 
         private string _heading = "";
 
@@ -45,21 +31,21 @@ namespace RightToAskClient.ViewModels
         public ClickableListViewModel(SelectableList<MP> mpList)
         {
             SubscribeToTheRightMessages();
-            createText = (() => CreateTextGivenListSelectableEntities<MP>(mpList));
+            createText = (() => CreateTextGivenListSelectableEntities(mpList));
             _anySelections = () => mpList.SelectedEntities.Any();
         }
         
         public ClickableListViewModel(SelectableList<Authority> authorityList)
         {
             SubscribeToTheRightMessages();
-            createText = (() => CreateTextGivenListSelectableEntities<Authority>(authorityList));
+            createText = (() => CreateTextGivenListSelectableEntities(authorityList));
             _anySelections = () => authorityList.SelectedEntities.Any();
         }
 
         public ClickableListViewModel(SelectableList<Committee> committeeList)
         {
             SubscribeToTheRightMessages();
-            createText = (() => CreateTextGivenListSelectableEntities<Committee>(committeeList));
+            createText = (() => CreateTextGivenListSelectableEntities(committeeList));
             _anySelections = () => committeeList.SelectedEntities.Any();
         }
 
@@ -68,8 +54,8 @@ namespace RightToAskClient.ViewModels
         
         private string CreateTextGivenListSelectableEntities<T>(SelectableList<T> entityList) where T:Entity
         {
-            string namesList = String.Join(", ", entityList.SelectedEntities.Select(e => e.ShortestName));
-            return String.IsNullOrEmpty(namesList) ? AppResources.NoneDefaultText : namesList ;
+            var namesList = string.Join(", ", entityList.SelectedEntities.Select(e => e.ShortestName));
+            return string.IsNullOrEmpty(namesList) ? AppResources.NoneDefaultText : namesList ;
         }
 
         // For updating the display when the data from the filters has changed.

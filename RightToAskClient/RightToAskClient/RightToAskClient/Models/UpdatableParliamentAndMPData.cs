@@ -28,12 +28,8 @@ namespace RightToAskClient.Models
 				mps = new MP[] { },
 				FederalElectoratesByState = new RegionsContained[] { }
 			};
-		
-		private bool _isInitialised;  // Defaults to false.
-		public bool IsInitialised
-		{
-			get => _isInitialised;
-		} 
+
+		public bool IsInitialised { get; private set; }
 
 		public List<MP> AllMPs  
 		{
@@ -55,16 +51,10 @@ namespace RightToAskClient.Models
 				return new List<RegionsContained>(_allMPsData.FederalElectoratesByState ?? new RegionsContained[]{});
 			}
 		}
-		public List<RegionsContained> VicRegions
-		{
-			get
-			{
-				return new List<RegionsContained>(_allMPsData.VicRegions ?? Array.Empty<RegionsContained>());
-			}
-		}
+		public List<RegionsContained> VicRegions => new List<RegionsContained>(_allMPsData.VicRegions ?? Array.Empty<RegionsContained>());
 
-		
-        private JsonSerializerOptions serializerOptions = new JsonSerializerOptions
+
+		private readonly JsonSerializerOptions serializerOptions = new JsonSerializerOptions
             {
                 Converters = { new JsonStringEnumConverter() },
                 WriteIndented = false,
@@ -88,14 +78,14 @@ namespace RightToAskClient.Models
 		// isn't repeated.
 		public async Task<bool> TryInit()
 		{
-			if (_isInitialised) return true;
+			if (IsInitialised) return true;
 			Result<bool> success;
 
 			// get data from local first
 			success = TryInitialisingFromStoredData();
-			if (String.IsNullOrEmpty(success.Err))
+			if (string.IsNullOrEmpty(success.Err))
 			{
-				_isInitialised = true;
+				IsInitialised = true;
 				QuestionViewModel.Instance.UpdateMPButtons(); 
 				// App.ReadingContext.Filters.InitSelectableLists();
 				//return;
@@ -103,9 +93,9 @@ namespace RightToAskClient.Models
 
 			// TODO I believe this makes it wait a long time. Consider *not* awaiting this call.
 			success = await TryInitialisingFromServer();
-			if (String.IsNullOrEmpty(success.Err))
+			if (string.IsNullOrEmpty(success.Err))
 			{
-				_isInitialised = true;
+				IsInitialised = true;
 				QuestionViewModel.Instance.UpdateMPButtons();
 				// App.ReadingContext.Filters.InitSelectableLists();
 				return true;
@@ -115,9 +105,9 @@ namespace RightToAskClient.Models
 			Debug.WriteLine(@"\tERROR {0}", success.Err);
 
 			success = TryInitialisingFromStoredData();
-			if (String.IsNullOrEmpty(success.Err))
+			if (string.IsNullOrEmpty(success.Err))
 			{
-				_isInitialised = true;
+				IsInitialised = true;
 				QuestionViewModel.Instance.UpdateMPButtons();
 				// App.ReadingContext.Filters.InitSelectableLists();
 				return true;
@@ -131,13 +121,13 @@ namespace RightToAskClient.Models
 		private Result<bool> TryInitialisingFromStoredData()
 		{
 			var success = FileIO.ReadDataFromStoredJson<UpdatableParliamentAndMPDataStructure>(Constants.StoredMPDataFile, serializerOptions);
-			if (!String.IsNullOrEmpty(success.Err))
+			if (!string.IsNullOrEmpty(success.Err))
 			{
 				return new Result<bool>() { Err = success.Err };
 			}
 			
 			_allMPsData = success.Ok;
-			_isInitialised = true;
+			IsInitialised = true;
 			// TODO this seem to be called twice. Prob don't need both.
 			QuestionViewModel.Instance.UpdateMPButtons();
 			return new Result<bool>() { Ok = true };
@@ -146,17 +136,17 @@ namespace RightToAskClient.Models
 
 		private async Task<Result<bool>> TryInitialisingFromServer()
 		{
-			Result<UpdatableParliamentAndMPDataStructure> serverMPList = await RTAClient.GetMPsData();
+			var serverMPList = await RTAClient.GetMPsData();
 
 			if (serverMPList is null)
 			{
 				return new Result<bool>() { Err = "Could not reach server."};
 			}
 
-			if (String.IsNullOrEmpty(serverMPList.Err))
+			if (string.IsNullOrEmpty(serverMPList.Err))
 			{
 				_allMPsData = serverMPList.Ok;
-				_isInitialised = true;
+				IsInitialised = true;
 				QuestionViewModel.Instance.UpdateMPButtons();
 				return new Result<bool>() { Ok = true };
 			}

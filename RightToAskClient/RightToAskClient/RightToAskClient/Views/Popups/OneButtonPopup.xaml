@@ -3,7 +3,8 @@
            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"    
            xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
            xmlns:local="clr-namespace:RightToAskClient"
-           x:Class="RightToAskClient.Views.OneButtonPopup"
+           xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
+           x:Class="RightToAskClient.Views.Popups.OneButtonPopup"
            Size="300,300"
            IsLightDismissEnabled="True"
            Color="Transparent">
@@ -16,7 +17,7 @@
                    HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource PopupText}"/>
             <Grid ColumnDefinitions="*,*" VerticalOptions="EndAndExpand">
             <!--Emu Bottom Left-->
-            <Image Grid.Column="0" Grid.Row="0" Source="{local:ImageResource RightToAskClient.Images.emu_tall.PNG}" 
+            <Image Grid.Column="0" Grid.Row="0" Source="{helpers:ImageResource RightToAskClient.Images.emu_tall.PNG}" 
                    WidthRequest="100" HeightRequest="100" Rotation="0" VerticalOptions="End" BackgroundColor="Transparent"/>
             <!--Acknowledge/Dismiss Button Bottom Right-->
                 <Button x:Name="okButton" Grid.Column="1" Grid.Row="0" HorizontalOptions="Center" VerticalOptions="End" Clicked="okButton_Clicked" 

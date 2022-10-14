@@ -1,19 +1,12 @@
-﻿using System;
-using Xamarin.Forms;
-using RightToAskClient.Views;
+﻿using Xamarin.Forms;
 using RightToAskClient.Models;
 using Xamarin.CommunityToolkit.Helpers;
 using RightToAskClient.Resx;
 using Xamarin.Essentials;
 using System.Text.Json;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
 using RightToAskClient.Models.ServerCommsData;
-using SQLite;
-using static Xamarin.Forms.Editor;
-using Switch = Xamarin.Forms.Switch;
+using RightToAskClient.Views;
 
 // [assembly: ExportFont("Roboto-Black.ttf", Alias = "AppFont")]
 // [assembly: ExportFont("OpenSans-Regular.ttf", Alias = "AppFont")]
@@ -74,7 +67,7 @@ namespace RightToAskClient
                 // the latter is true if only the state is known (Senate State being an electorate).
                 // At the moment, this will set ElectoratesKnown, in both the app and the preferences, when the person
                 // has selected their state, regardless of whether we know their electorate.
-                bool electoratesKnown = Preferences.Get(Constants.ElectoratesKnown, false);
+                var electoratesKnown = Preferences.Get(Constants.ElectoratesKnown, false);
                 me.ElectoratesKnown = electoratesKnown;
                 if(electoratesKnown) 
                 {
@@ -83,7 +76,7 @@ namespace RightToAskClient
                 
                 // Retrieve MP/staffer registration. Note that staffers have both the IsVerifiedMPAccount flag and the
                 // IsVerifiedMPStafferAccount flag set to true.
-                bool isVerifiedMPAccount = Preferences.Get(Constants.IsVerifiedMPAccount, false);
+                var isVerifiedMPAccount = Preferences.Get(Constants.IsVerifiedMPAccount, false);
                 me.IsVerifiedMPAccount = isVerifiedMPAccount;
                 if (isVerifiedMPAccount)
                 {
@@ -92,9 +85,9 @@ namespace RightToAskClient
                     
                     // Used when uploading an answer. 
                     var MPRepresentingjson = Preferences.Get(Constants.MPRegisteredAs, "");
-                    if (!String.IsNullOrEmpty(MPRepresentingjson))
+                    if (!string.IsNullOrEmpty(MPRepresentingjson))
                     {
-                        MP? MPRepresenting = JsonSerializer.Deserialize<MP>(MPRepresentingjson);
+                        var MPRepresenting = JsonSerializer.Deserialize<MP>(MPRepresentingjson);
                         if (MPRepresenting != null)
                         {
                             // See if we can find the registered MP in our existing list.
@@ -109,9 +102,9 @@ namespace RightToAskClient
             
             // If we already have stored a valid state, use it and set StateKnown to true.
             me.RegistrationInfo.StateKnown = false; // Should already be the default.
-            string stateString =  Preferences.Get(Constants.State, "");
-            Result <ParliamentData.StateEnum> state = ParliamentData.StateStringToEnum(stateString);
-            if (String.IsNullOrEmpty(state.Err) && !String.IsNullOrEmpty(stateString))
+            var stateString =  Preferences.Get(Constants.State, "");
+            var state = ParliamentData.StateStringToEnum(stateString);
+            if (string.IsNullOrEmpty(state.Err) && !string.IsNullOrEmpty(stateString))
             {
                 me.RegistrationInfo.StateKnown = true;
                 me.RegistrationInfo.SelectedStateAsEnum = state.Ok;
@@ -135,7 +128,7 @@ namespace RightToAskClient
         {
             var selectableDataTemplate = new DataTemplate(() =>
             {
-                Grid grid = new Grid
+                var grid = new Grid
                 {
                     ColumnDefinitions =
                     {

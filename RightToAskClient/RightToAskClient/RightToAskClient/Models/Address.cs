@@ -1,4 +1,3 @@
-using System;
 using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace RightToAskClient.Models
@@ -13,7 +12,7 @@ namespace RightToAskClient.Models
             {
                 if (!string.IsNullOrEmpty(_streetNumberAndName))
                 {
-                    bool changed = SetProperty(ref _streetNumberAndName, value);
+                    var changed = SetProperty(ref _streetNumberAndName, value);
                     if (changed)
                     {
                         App.ReadingContext.ThisParticipant.AddressUpdated = true;
@@ -33,7 +32,7 @@ namespace RightToAskClient.Models
             {
                 if (!string.IsNullOrEmpty(_cityOrSuburb))
                 {
-                    bool changed = SetProperty(ref _cityOrSuburb, value);
+                    var changed = SetProperty(ref _cityOrSuburb, value);
                     if (changed)
                     {
                         App.ReadingContext.ThisParticipant.AddressUpdated = true;
@@ -53,7 +52,7 @@ namespace RightToAskClient.Models
             {
                 if (!string.IsNullOrEmpty(_postCode))
                 {
-                    bool changed = SetProperty(ref _postCode, value);
+                    var changed = SetProperty(ref _postCode, value);
                     if (changed)
                     {
                         App.ReadingContext.ThisParticipant.AddressUpdated = true;
@@ -68,21 +67,21 @@ namespace RightToAskClient.Models
 
         public Result<bool> SeemsValid()
         {
-            string err = "";
-            if (String.IsNullOrWhiteSpace(StreetNumberAndName))
+            var err = "";
+            if (string.IsNullOrWhiteSpace(StreetNumberAndName))
             {
                 err += "Please enter a street number and name.";
             }
-            if (String.IsNullOrWhiteSpace(CityOrSuburb))
+            if (string.IsNullOrWhiteSpace(CityOrSuburb))
             {
                 err += "Please enter a city or suburb.";
             }
-            if (String.IsNullOrWhiteSpace(Postcode))
+            if (string.IsNullOrWhiteSpace(Postcode))
             {
                 err += "Please enter a city or suburb.";
             }
 
-            if (String.IsNullOrEmpty(err))
+            if (string.IsNullOrEmpty(err))
             {
                 return new Result<bool> { Ok = true };
             }

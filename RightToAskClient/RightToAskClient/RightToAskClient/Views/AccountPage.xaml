@@ -5,7 +5,7 @@
              xmlns:views="clr-namespace:RightToAskClient.Views"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              xmlns:local="clr-namespace:RightToAskClient"
-             xmlns:models="clr-namespace:RightToAskClient.Models;assembly=RightToAskClient"
+             xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
              x:Class="RightToAskClient.Views.AccountPage"
              x:DataType="vm:RegistrationViewModel"
              Shell.FlyoutBehavior="Flyout"
@@ -15,7 +15,7 @@
     </ContentPage.BindingContext>
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="{xct:Translate InfoPopupButtonText}" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
-                     IconImageSource="{local:ImageResource RightToAskClient.Images.help_75.png}"/>
+                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout Margin="20" VerticalOptions="Start">

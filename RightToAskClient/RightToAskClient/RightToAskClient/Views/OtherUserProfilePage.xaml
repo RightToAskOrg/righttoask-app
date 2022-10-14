@@ -6,15 +6,16 @@
              xmlns:views="clr-namespace:RightToAskClient.Views"
              x:Class="RightToAskClient.Views.OtherUserProfilePage"
              xmlns:local="clr-namespace:RightToAskClient"
+             xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
              Title="{Binding DisplayName}">
     <ContentPage.BindingContext>
         <vm:RegistrationViewModel/>
     </ContentPage.BindingContext>
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
-                     IconImageSource="{local:ImageResource RightToAskClient.Images.home4.png}"/>
+                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.home4.png}"/>
         <ToolbarItem Text="{xct:Translate InfoPopupButtonText}" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
-                     IconImageSource="{local:ImageResource RightToAskClient.Images.help_75.png}"/>
+                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout Margin="20">

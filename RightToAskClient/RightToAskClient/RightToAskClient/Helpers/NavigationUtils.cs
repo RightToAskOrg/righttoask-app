@@ -1,8 +1,5 @@
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using RightToAskClient.Models;
 using RightToAskClient.Resx;
-using RightToAskClient.ViewModels;
 using RightToAskClient.Views;
 using Xamarin.Forms;
 
@@ -12,13 +9,13 @@ using Xamarin.Forms;
  * TODO The Authority-selecting list should probably be here too, rather than being repeated in the Advanced Search and
  * Question-Answerer steps.
  */
-namespace RightToAskClient
+namespace RightToAskClient.Helpers
 {
     public static class NavigationUtils
     {
         public static async Task PushMyAnsweringMPsExploringPage()
         {
-            string message = "These are your MPs.  Select the one(s) who should answer the question";
+            var message = "These are your MPs.  Select the one(s) who should answer the question";
 
             //TODO** Seems unnecessary if our MPs are not initialized. 
             // Below, don't make the pages that are never used. The code is (somewhat redundant but)
@@ -30,7 +27,7 @@ namespace RightToAskClient
 
         public static async Task PushMyAskingMPsExploringPage()
         {
-            string message = "These are your MPs.  Select the one(s) who should raise the question in Parliament";
+            var message = "These are your MPs.  Select the one(s) who should raise the question in Parliament";
 
             var mpsSelectableListPage = new SelectableListPage(App.ReadingContext.Filters.AskingMPsListsMine, message);
             await LaunchMPFindingAndSelectingPages(mpsSelectableListPage);
@@ -64,25 +61,25 @@ namespace RightToAskClient
 
         public static async Task PushAnsweringMPsNotMineSelectableListPage()
         {
-            string message = AppResources.SelectMPToAnswerText;
-            SelectableListPage mpsPage =
-                new SelectableListPage(App.ReadingContext.Filters.AnsweringMPsListsNotMine, message, false);
+            var message = AppResources.SelectMPToAnswerText;
+            var mpsPage =
+                new SelectableListPage(App.ReadingContext.Filters.AnsweringMPsListsNotMine, message);
             await Application.Current.MainPage.Navigation.PushAsync(mpsPage);
         }
 
         public static async Task PushAskingMPsNotMineSelectableListPageAsync()
         {
-            string message = AppResources.SelectMPToRaiseText; 
-            SelectableListPage mpsPage =
-                new SelectableListPage(App.ReadingContext.Filters.AskingMPsListsNotMine, message, false);
+            var message = AppResources.SelectMPToRaiseText; 
+            var mpsPage =
+                new SelectableListPage(App.ReadingContext.Filters.AskingMPsListsNotMine, message);
             await Application.Current.MainPage.Navigation.PushAsync(mpsPage);
         }
         
         public static async Task EditCommitteesClicked()
         {
             var committeeSelectableListPage
-                = new SelectableListPage(App.ReadingContext.Filters.CommitteeLists, AppResources.CommitteeText, false);
-            await App.Current.MainPage.Navigation.PushAsync(committeeSelectableListPage);
+                = new SelectableListPage(App.ReadingContext.Filters.CommitteeLists, AppResources.CommitteeText);
+            await Application.Current.MainPage.Navigation.PushAsync(committeeSelectableListPage);
         }
     }
 }

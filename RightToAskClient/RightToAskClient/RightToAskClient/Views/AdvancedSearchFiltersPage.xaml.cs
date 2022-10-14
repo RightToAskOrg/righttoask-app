@@ -1,10 +1,4 @@
 ﻿using RightToAskClient.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -13,7 +7,7 @@ namespace RightToAskClient.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AdvancedSearchFiltersPage : ContentPage
     {
-        public bool CameFromMainPage = false;
+        public bool CameFromMainPage;
         public AdvancedSearchFiltersPage()
         {
             //vm = new ReadingPageViewModel();
@@ -33,7 +27,7 @@ namespace RightToAskClient.Views
         {
             if (CameFromMainPage)
             {
-                App.Current.MainPage.Navigation.PopToRootAsync();
+                Application.Current.MainPage.Navigation.PopToRootAsync();
                 return true;
             }
             else

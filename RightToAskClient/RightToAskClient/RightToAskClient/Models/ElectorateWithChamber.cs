@@ -1,5 +1,4 @@
 using System;
-using RightToAskClient.Models.ServerCommsData;
 
 namespace RightToAskClient.Models
 {
@@ -16,7 +15,7 @@ namespace RightToAskClient.Models
 
         public bool Validate()
         {
-            bool isValid = false;
+            var isValid = false;
             switch (chamber)
             {
                 case ParliamentData.Chamber.Australian_House_Of_Representatives:

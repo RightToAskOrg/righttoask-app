@@ -1,11 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using RightToAskClient.Annotations;
 using RightToAskClient.Helpers;
 using RightToAskClient.Models.ServerCommsData;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -19,16 +14,13 @@ namespace RightToAskClient.Models
         public string display_name { get; set; } = "";
         public string public_key { get; set; } = "";
 
-        public string State
-        {
-            get => _stateKnown ? SelectedStateAsEnum.ToString() : "";
-        }
+        public string State => _stateKnown ? SelectedStateAsEnum.ToString() : "";
 
         public string uid { get; set; } = "";
 
         private int _selectedStateAsIndex = -1;
         
-        private bool _stateKnown = false;
+        private bool _stateKnown;
         public bool StateKnown
         {
             get => _stateKnown;
@@ -76,7 +68,7 @@ namespace RightToAskClient.Models
             display_name = input.display_name ?? "";
             public_key = input.public_key ?? "";
             var stateResult = ParliamentData.StateStringToEnum(input.state ?? "");
-            if (String.IsNullOrEmpty(stateResult.Err))
+            if (string.IsNullOrEmpty(stateResult.Err))
             {
                 StateKnown = true;
                 SelectedStateAsEnum = stateResult.Ok;
@@ -115,12 +107,12 @@ namespace RightToAskClient.Models
 
         public Result<bool> IsValid()
         {
-            List<string> errorFields = new List<string>();
+            var errorFields = new List<string>();
 
-            foreach (PropertyInfo prop in typeof(Registration).GetProperties())
+            foreach (var prop in typeof(Registration).GetProperties())
             {
                 var value = prop.GetValue(this, null);
-                if (value is null || String.IsNullOrWhiteSpace(value.ToString()))
+                if (value is null || string.IsNullOrWhiteSpace(value.ToString()))
                 {
                     errorFields.Add(prop.Name);
                 }
@@ -132,22 +124,22 @@ namespace RightToAskClient.Models
             }
             return new Result<bool>()
             {
-                Err = "Please complete " + String.Join(" and ", errorFields)
+                Err = "Please complete " + string.Join(" and ", errorFields)
             };
         }
 
         public bool Validate()
         {
-            bool isValid = false;
+            var isValid = false;
             // needs to have a uid and public key
             if (!string.IsNullOrEmpty(uid) && !string.IsNullOrEmpty(public_key) && !string.IsNullOrEmpty(State))
             {
                 if (Electorates.Any())
                 {
-                    bool hasInvalidElectorate = false;
-                    foreach(ElectorateWithChamber e in Electorates)
+                    var hasInvalidElectorate = false;
+                    foreach(var e in Electorates)
                     {
-                        bool validElectorate = e.Validate();
+                        var validElectorate = e.Validate();
                         if (!validElectorate)
                         {
                             hasInvalidElectorate = true;
@@ -174,8 +166,8 @@ namespace RightToAskClient.Models
         public (bool success, ParliamentData.StateEnum state) UpdateStateStorePreferences(int selectedStateAsInt)
         {
             // Check that it isn't -1 (no selection) or (unexpected) a value that doesn't correspond to a valid state enum.
-            ParliamentData.StateEnum successState = default(ParliamentData.StateEnum);
-            bool successBool = false;
+            var successState = default(ParliamentData.StateEnum);
+            var successBool = false;
 
             if (Enum.IsDefined(typeof(ParliamentData.StateEnum), selectedStateAsInt))
             {
