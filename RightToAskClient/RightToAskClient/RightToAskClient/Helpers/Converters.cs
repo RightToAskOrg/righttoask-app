@@ -60,4 +60,30 @@ namespace RightToAskClient.Helpers
             return 0;
         }
     } 
+    
+    // For use in radio buttons. Turns a (boolean) selection into the correct enum; turns an enum into the correct 
+    // boolean selection (i.e. true for the matching one and false otherwise).
+    public class BoolEnumConverter : IValueConverter
+    {
+        public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+        {
+            if (value is null)
+                return false;
+
+            if (parameter is null)
+                return false;
+
+            // Return false if the converter doesn't make sense.
+            if (parameter.GetType() != value.GetType())
+                return false;
+
+            // return value.Equals(Enum.Parse(value.GetType(), (string)parameter, true));
+            return value.Equals(parameter);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value.Equals(true) ? parameter : Binding.DoNothing;
+        }
+    } 
 }

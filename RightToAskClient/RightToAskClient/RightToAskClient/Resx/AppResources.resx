@@ -775,6 +775,9 @@
   <data name="MainPagePopupText" xml:space="preserve">
     <value>MainPagePopupText</value>
   </data>
+  <data name="OptionsHeaderText" xml:space="preserve">
+    <value>How do you want your question answered?</value>
+  </data>
   <data name="OtherUserProfilePopupText" xml:space="preserve">
     <value>OtherUserProfilePopupText</value>
   </data>

@@ -103,6 +103,7 @@ namespace RightToAskClient.ViewModels
         // and someone to raise the question, has been selected. This is the opposite of
         // 'AnswerInApp.' Default to true unless the user explicitly chooses to get an answer
         // in the app.
+        /*
         private bool _raisedByOptionSelected = true;
         public bool RaisedByOptionSelected
         {
@@ -111,8 +112,16 @@ namespace RightToAskClient.ViewModels
             {
                 SetProperty(ref _raisedByOptionSelected, value);
                 AnswerInApp = !_raisedByOptionSelected;
-                Question.AnswerInApp = AnswerInApp;
             }
+        }
+        */
+
+        private HowAnsweredOptions _howAnswered = HowAnsweredOptions.DontKnow; 
+
+        public HowAnsweredOptions HowAnswered
+        {
+            get => _howAnswered;
+            set => SetProperty(ref _howAnswered, value);
         }
 
         // These buttons are disabled if for some reason we're unable to read MP data.
@@ -361,6 +370,14 @@ namespace RightToAskClient.ViewModels
             {
                 await Shell.Current.GoToAsync($"{nameof(QuestionAskerPage)}");
             });
+            ToHowAnsweredOptionPageCommand = new AsyncCommand(async () =>
+            {
+                await Shell.Current.GoToAsync($"{nameof(HowAnsweredOptionPage)}");
+            });
+            ToAnswererPageWithHowAnsweredSelectionCommand = new AsyncCommand(async () =>
+            {
+                await Shell.Current.GoToAsync($"{nameof(QuestionAnswererPage)}");
+            });
             ToMetadataPageCommand = new AsyncCommand(async () =>
             {
                 await Shell.Current.GoToAsync($"{nameof(MetadataPage)}");
@@ -369,8 +386,10 @@ namespace RightToAskClient.ViewModels
 
         private Command? _findCommitteeCommand;
         public Command FindCommitteeCommand => _findCommitteeCommand ??= new Command(OnFindCommitteeButtonClicked);
+        /*
         private Command? _answerInAppCommand;
         public Command AnswerInAppCommand => _answerInAppCommand ??= new Command(OnAnswerInAppButtonClicked);
+        */
 
         private Command? _myMpRaiseCommand;
         public Command MyMPRaiseCommand => _myMpRaiseCommand ??= new Command(OnMyMPRaiseButtonClicked);
@@ -395,6 +414,9 @@ namespace RightToAskClient.ViewModels
         public IAsyncCommand OptionACommand { get; }
         public IAsyncCommand OptionBCommand { get; }
         public IAsyncCommand ToMetadataPageCommand { get; }
+        
+        public IAsyncCommand ToAnswererPageWithHowAnsweredSelectionCommand { get; }
+        public IAsyncCommand ToHowAnsweredOptionPageCommand { get; }
 
         public void ResetInstance()
         {
@@ -402,7 +424,7 @@ namespace RightToAskClient.ViewModels
             Question = new Question();
             IsNewQuestion = false;
             IsReadingOnly = App.ReadingContext.IsReadingOnly; // crashes here if setting up existing test questions
-            RaisedByOptionSelected = true;
+            HowAnswered = HowAnsweredOptions.DontKnow;
             AnotherUserButtonText = AppResources.AnotherUserButtonText;
             NotSureWhoShouldRaiseButtonText = AppResources.NotSureButtonText;
             SelectButtonText = AppResources.SelectButtonText;
@@ -420,17 +442,19 @@ namespace RightToAskClient.ViewModels
         // methods for selecting who will raise your question
         
         // Nobody raises the question - just asking for an answer in the app.
+        /*
         private async void OnAnswerInAppButtonClicked()
         {
             RaisedByOptionSelected = false;
             await Shell.Current.GoToAsync(nameof(ReadingPage));
         }
+        */
 
         private async void OnFindCommitteeButtonClicked()
         {
             if (CommitteesAndHearingsData.CommitteesData.IsInitialised)
             {
-                RaisedByOptionSelected = true;
+                // RaisedByOptionSelected = true;
                 await NavigationUtils.EditCommitteesClicked().ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, "GoToReadingPage"); // Sends this view model
@@ -445,7 +469,7 @@ namespace RightToAskClient.ViewModels
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
-                RaisedByOptionSelected = true;
+                // RaisedByOptionSelected = true;
                 await NavigationUtils.PushMyAskingMPsExploringPage().ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, "GoToReadingPage"); // Sends this view model
@@ -466,16 +490,17 @@ namespace RightToAskClient.ViewModels
             ReportLabelText = ParliamentData.MPAndOtherData.ErrorMessage;
         }
 
+        // FIXME. We will still need this - just needs to go somewhere different.
         private async void NotSureWhoShouldRaiseButtonClicked()
         {
-            RaisedByOptionSelected = true;
+            // RaisedByOptionSelected = true;
             await Shell.Current.GoToAsync(nameof(ReadingPage));
         }
 
         // TODO: Implement SearchableListPage constructor for people.
         private async void UserShouldRaiseButtonClicked()
         {
-            RaisedByOptionSelected = true;
+            // RaisedByOptionSelected = true;
             AnotherUserButtonText = "Not Implemented Yet";
         }
 

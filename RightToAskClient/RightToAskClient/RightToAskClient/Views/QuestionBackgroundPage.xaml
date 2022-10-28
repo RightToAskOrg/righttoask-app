@@ -23,7 +23,7 @@
                 </Editor>
                 <Label Style="{StaticResource ReportLabel}" Text="{xct:Translate MyQuestionCharLimitText}" />
                 <StackLayout Orientation="Horizontal" HorizontalOptions="End" VerticalOptions="End" Margin="0,40,0,0" >
-                    <Button Text="{xct:Translate NextButtonText}" Style="{StaticResource DoneButton}"  Command="{Binding ToMetadataPageCommand}" HorizontalOptions="End"/>
+                    <Button Text="{xct:Translate NextButtonText}" Style="{StaticResource DoneButton}"  Command="{Binding ToHowAnsweredOptionPageCommand}" HorizontalOptions="End"/>
                 </StackLayout>
             </StackLayout>
         </StackLayout>

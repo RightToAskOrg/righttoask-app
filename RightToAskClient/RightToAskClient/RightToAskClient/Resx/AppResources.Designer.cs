@@ -1359,6 +1359,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string OptionsHeaderText {
+            get {
+                return ResourceManager.GetString("OptionsHeaderText", resourceCulture);
+            }
+        }
+        
         internal static string OtherUserProfilePopupText {
             get {
                 return ResourceManager.GetString("OtherUserProfilePopupText", resourceCulture);

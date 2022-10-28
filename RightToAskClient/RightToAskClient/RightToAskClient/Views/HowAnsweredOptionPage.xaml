@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:local="clr-namespace:RightToAskClient"
+             xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:RightToAskClient.Models;assembly=RightToAskClient"
+             xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
+             x:Class="RightToAskClient.Views.HowAnsweredOptionPage"
+             x:DataType="vm:QuestionViewModel"
+             Title="{xct:Translate BackgroundPageTitle}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.home4.png}"/>
+        <ToolbarItem Text="{xct:Translate InfoPopupButtonText}" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.help_75.png}"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" Padding="10">
+            <Label Text="{xct:Translate OptionsHeaderText}" Style="{StaticResource Header1}" />
+            <BoxView />
+            <Label Text="{Binding HowAnswered}"></Label>
+            <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Padding="20"
+                RadioButtonGroup.GroupName="OptionsTest"  >
+                <!-- RadioButtonGroup.SelectedValue="{Binding HowAnswered}"> -->
+                <StackLayout.Resources>
+                    <helpers:BoolEnumConverter x:Key="BoolEnumConverter" />
+                </StackLayout.Resources>
+                <RadioButton Content="Answered by MPs in the Right To Ask app" 
+                             IsChecked="{Binding Path=HowAnswered, Converter={StaticResource BoolEnumConverter}, 
+                            ConverterParameter={x:Static models:HowAnsweredOptions.InApp}}" /> 
+                    <RadioButton Content="Raised in Parliament"
+                             IsChecked="{Binding Path=HowAnswered, Converter={StaticResource BoolEnumConverter}, 
+                            ConverterParameter={x:Static models:HowAnsweredOptions.InParliament}}" /> 
+                    <RadioButton Content="Don't know"
+                             IsChecked="{Binding Path=HowAnswered, Converter={StaticResource BoolEnumConverter}, 
+                            ConverterParameter={x:Static models:HowAnsweredOptions.DontKnow}}" /> 
+                    <Label Text="Currently selected option:"/>
+                    <Label Text="{Binding HowAnswered}"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="End" VerticalOptions="End" Margin="0,40,0,0" >
+                <Button Text="{xct:Translate NextButtonText}" Style="{StaticResource DoneButton}"  Command="{Binding ToMetadataPageCommand}" HorizontalOptions="End"/>
+                <!-- <Button Text="{xct:Translate NextButtonText}" Style="{StaticResource DoneButton}"  Command="{Binding ToAnswererPageWithHowAnsweredSelectionCommand}" HorizontalOptions="End"/> -->
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
