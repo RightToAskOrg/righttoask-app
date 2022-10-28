@@ -457,8 +457,7 @@ namespace RightToAskClient.ViewModels
                 // RaisedByOptionSelected = true;
                 await NavigationUtils.EditCommitteesClicked().ContinueWith((_) =>
                 {
-                    MessagingCenter.Send(this, "GoToReadingPage"); // Sends this view model
-                    MessagingCenter.Send(this, "OptionBAskingNow");
+                    MessagingCenter.Send(this, "GoToMetadataPage"); // Sends this view model
                 });
             }
         }
@@ -472,8 +471,7 @@ namespace RightToAskClient.ViewModels
                 // RaisedByOptionSelected = true;
                 await NavigationUtils.PushMyAskingMPsExploringPage().ContinueWith((_) =>
                 {
-                    MessagingCenter.Send(this, "GoToReadingPage"); // Sends this view model
-                    MessagingCenter.Send(this, "OptionBAskingNow");
+                    MessagingCenter.Send(this, "GoToMetadataPage"); // Sends this view model
                 });
             }
             else
@@ -494,7 +492,7 @@ namespace RightToAskClient.ViewModels
         private async void NotSureWhoShouldRaiseButtonClicked()
         {
             // RaisedByOptionSelected = true;
-            await Shell.Current.GoToAsync(nameof(ReadingPage));
+            await Shell.Current.GoToAsync(nameof(MetadataPage));
         }
 
         // TODO: Implement SearchableListPage constructor for people.
@@ -510,7 +508,7 @@ namespace RightToAskClient.ViewModels
             {
                 await NavigationUtils.PushAskingMPsNotMineSelectableListPageAsync().ContinueWith((_) =>
                 {
-                    MessagingCenter.Send(this, "GoToReadingPage"); // Sends this view model
+                    MessagingCenter.Send(this, "GoToMetadataPage"); // Sends this view model
                 });
             }
             else
