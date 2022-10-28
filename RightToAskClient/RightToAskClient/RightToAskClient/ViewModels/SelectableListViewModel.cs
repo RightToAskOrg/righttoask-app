@@ -224,25 +224,25 @@ namespace RightToAskClient.ViewModels
 			});
 			
 			// This can occur from advanced search without an account.
-			MessagingCenter.Subscribe<FindMPsViewModel>(this, "GoToReadingPage", (sender) =>
+			MessagingCenter.Subscribe<FindMPsViewModel>(this, Constants.GoToReadingPageNext, (sender) =>
 			{
 				_nextPage = NextPageInstructions.ReadingPage;
-				MessagingCenter.Unsubscribe<FindMPsViewModel>(this, "GoToReadingPage");
+				MessagingCenter.Unsubscribe<FindMPsViewModel>(this, Constants.GoToReadingPageNext);
 			});
 			MessagingCenter.Subscribe<FilterViewModel>(this, "GoToReadingPageWithSingleQuestionWriter", (sender) =>
 			{
 				_nextPage = NextPageInstructions.ReadingPageWithSingleQuestionWriter;
 				MessagingCenter.Unsubscribe<FilterViewModel>(this, "GoToReadingPageWithSingleQuestionWriter");
 			});
-			MessagingCenter.Subscribe<QuestionViewModel>(this, "GoToMetadataPage", (sender) =>
+			MessagingCenter.Subscribe<QuestionViewModel>(this, Constants.GoToMetadataPageNext, (sender) =>
 			{
 				_nextPage = NextPageInstructions.MetadataPage;
-				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "GoToMetadataPage");
+				MessagingCenter.Unsubscribe<QuestionViewModel>(this, Constants.GoToMetadataPageNext);
 			});
-			MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionBGoToAskingPageNext", (sender) =>
+			MessagingCenter.Subscribe<QuestionViewModel>(this, Constants.GoToAskingPageNext, (sender) =>
 			{
 				_nextPage = NextPageInstructions.AskingPage;
-				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionBGoToAskingPageNext");
+				MessagingCenter.Unsubscribe<QuestionViewModel>(this, Constants.GoToAskingPageNext);
 			});
 			MessagingCenter.Subscribe<FilterViewModel>(this, "FromFiltersPage", (sender) =>
 			{

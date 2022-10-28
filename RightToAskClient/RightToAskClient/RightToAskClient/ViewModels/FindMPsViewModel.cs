@@ -326,7 +326,7 @@ namespace RightToAskClient.ViewModels
                             message);
                     }
 
-                    MessagingCenter.Send(this, "GoToReadingPage");
+                    MessagingCenter.Send(this, Constants.GoToReadingPageNext);
 
                     await App.Current.MainPage.Navigation.PushAsync(mpsSearchableListPage);
                     _launchMPsSelectionPageNext = false;

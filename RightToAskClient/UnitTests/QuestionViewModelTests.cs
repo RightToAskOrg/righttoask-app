@@ -103,7 +103,7 @@ namespace UnitTests
             // act
             button.Command.Execute(null);
             bool messageReceived = false;
-            MessagingCenter.Subscribe<QuestionViewModel>(this, "GoToReadingPage", (sender) =>
+            MessagingCenter.Subscribe<QuestionViewModel>(this, Constants.GoToReadingPageNext, (sender) =>
             {
                 messageReceived = true;
             });
@@ -129,7 +129,7 @@ namespace UnitTests
 
             // act
             bool messageReceived = false;
-            MessagingCenter.Subscribe<QuestionViewModel>(this, "GoToReadingPage", (sender) =>
+            MessagingCenter.Subscribe<QuestionViewModel>(this, Constants.GoToReadingPageNext, (sender) =>
             {
                 messageReceived = true;
             });
@@ -155,7 +155,7 @@ namespace UnitTests
 
             // act
             bool messageReceived = false;
-            MessagingCenter.Subscribe<QuestionViewModel>(this, "GoToReadingPage", (sender) =>
+            MessagingCenter.Subscribe<QuestionViewModel>(this, Constants.GoToReadingPageNext, (sender) =>
             {
                 messageReceived = true;
             });
@@ -292,7 +292,7 @@ namespace UnitTests
 
             // act
             bool messageReceived = false;
-            MessagingCenter.Subscribe<QuestionViewModel>(this, "GoToReadingPage", (sender) =>
+            MessagingCenter.Subscribe<QuestionViewModel>(this, Constants.GoToReadingPageNext, (sender) =>
             {
                 messageReceived = true;
             });

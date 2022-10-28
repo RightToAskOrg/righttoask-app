@@ -267,7 +267,7 @@ namespace RightToAskClient.ViewModels
                     = new SelectableListPage(App.ReadingContext.Filters.AuthorityLists, "Choose authorities");
                 await Shell.Current.Navigation.PushAsync(PageToSearchAuthorities).ContinueWith((_) => 
                 {
-                    MessagingCenter.Send(this, "OptionBGoToAskingPageNext"); // Sends this view model
+                    MessagingCenter.Send(this, Constants.GoToAskingPageNext); // Sends this view model
                 });
             });
             // If we already know the electorates (and hence responsible MPs), go
@@ -280,7 +280,8 @@ namespace RightToAskClient.ViewModels
                 // AnswerInApp = true;
                 await NavigationUtils.PushMyAnsweringMPsExploringPage().ContinueWith((_) =>
                 {
-                    MessagingCenter.Send(this, "OptionBGoToAskingPageNext"); // Sends this view model
+                    MessagingCenter.Send(this, _howAnswered == HowAnsweredOptions.InApp ?
+                        Constants.GoToMetadataPageNext : Constants.GoToAskingPageNext); // Sends this view model
                 });
             });
             /*
@@ -300,7 +301,8 @@ namespace RightToAskClient.ViewModels
                 // AnswerInApp = false;
                 await NavigationUtils.PushAnsweringMPsNotMineSelectableListPage().ContinueWith((_) =>
                 {
-                    MessagingCenter.Send(this, "OptionBGoToAskingPageNext"); // Sends this view model
+                    MessagingCenter.Send(this, _howAnswered == HowAnsweredOptions.InApp ?
+                        Constants.GoToMetadataPageNext : Constants.GoToAskingPageNext); // Sends this view model
                 });
             });
             UpvoteCommand = new AsyncCommand(async () =>
@@ -457,7 +459,7 @@ namespace RightToAskClient.ViewModels
                 // RaisedByOptionSelected = true;
                 await NavigationUtils.EditCommitteesClicked().ContinueWith((_) =>
                 {
-                    MessagingCenter.Send(this, "GoToMetadataPage"); // Sends this view model
+                    MessagingCenter.Send(this, Constants.GoToMetadataPageNext); // Sends this view model
                 });
             }
         }
@@ -471,7 +473,7 @@ namespace RightToAskClient.ViewModels
                 // RaisedByOptionSelected = true;
                 await NavigationUtils.PushMyAskingMPsExploringPage().ContinueWith((_) =>
                 {
-                    MessagingCenter.Send(this, "GoToMetadataPage"); // Sends this view model
+                    MessagingCenter.Send(this, Constants.GoToMetadataPageNext); // Sends this view model
                 });
             }
             else
@@ -508,7 +510,7 @@ namespace RightToAskClient.ViewModels
             {
                 await NavigationUtils.PushAskingMPsNotMineSelectableListPageAsync().ContinueWith((_) =>
                 {
-                    MessagingCenter.Send(this, "GoToMetadataPage"); // Sends this view model
+                    MessagingCenter.Send(this, Constants.GoToMetadataPageNext); // Sends this view model
                 });
             }
             else
