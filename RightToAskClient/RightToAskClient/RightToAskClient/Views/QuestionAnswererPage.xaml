@@ -4,6 +4,8 @@
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:local="clr-namespace:RightToAskClient"
+             xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
+             xmlns:models="clr-namespace:RightToAskClient.Models;assembly=RightToAskClient"
              x:Class="RightToAskClient.Views.QuestionAnswererPage"
              Title="{xct:Translate WhoShouldAnswerTitle}" 
              x:DataType="vm:QuestionViewModel">
@@ -17,19 +19,24 @@
         <StackLayout x:Name="questionAnswerer" VerticalOptions="FillAndExpand" Margin="10">
         <Label Text="{xct:Translate AnswerQuestionHeaderText}" Style="{StaticResource Header1}" HorizontalTextAlignment="Center" VerticalOptions="Start"/>
         <BoxView />
+        <StackLayout.Resources>
+                <helpers:BoolEnumInvertConverter x:Key="BoolEnumConverter" />
+        </StackLayout.Resources>
         <Grid RowDefinitions="auto,auto,auto,auto"  ColumnDefinitions="2*,3*" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="10">
                     <Button Grid.Row="0" Grid.Column="0" Text="{xct:Translate MyMPButtonText}" Style="{StaticResource TallGreenButton}" 
                             Command="{Binding AnsweredByMyMPCommand}" Margin="10"/>
-                    <!-- <Button Grid.Row="1" Grid.Column="0" Text="{xct:Translate AnotherMPButtonText}" Style="{StaticResource TallTallGreenButton}" 
-                            Command="{Binding AnsweredByOtherMPCommand}" Margin="10"/> -->
-                    <!--<Label Grid.Row="1" Grid.ColumnSpan="2" Text="{xct:Translate OptionBText3}" Style="{StaticResource CenterFrameTextSmall}" VerticalOptions="Center"/>-->
                     <Label Grid.Row="0" Grid.Column="1" Text="{xct:Translate MyMPAnswerExplText}" Style="{StaticResource NormalText}" VerticalTextAlignment="Center"/> 
                     <Button Grid.Row="1" Grid.Column="0" Text="{xct:Translate AnotherMPButtonText}" Style="{StaticResource TallGreenButton}" 
                             Command="{Binding AnsweredByOtherMPCommandOptionB}" Margin="10"/>
                     <Label Grid.Row="1" Grid.Column="1" Text="{xct:Translate OtherMPAnswerExplText}" Style="{StaticResource NormalText}" VerticalTextAlignment="Center"/> 
+                    <!-- Public authority button is hidden if 'answer in app' option chosen -->
                     <Button Grid.Row="2" Grid.Column="0" Text="{xct:Translate PublicAuthorityButtonText}" Style="{StaticResource TallGreenButton}"
-                            Command="{Binding OtherPublicAuthorityButtonCommand}" Margin="10"/>
-                    <Label Grid.Row="2" Grid.Column="1" Text="{xct:Translate AuthorityAnswerExplText}" Style="{StaticResource NormalText}" VerticalTextAlignment="Center"/> 
+                            Command="{Binding OtherPublicAuthorityButtonCommand}" Margin="10"
+                            IsVisible="{Binding Path=HowAnswered, Converter={StaticResource BoolEnumConverter}, 
+                            ConverterParameter={x:Static models:HowAnsweredOptions.InApp}}" /> 
+                    <Label Grid.Row="2" Grid.Column="1" Text="{xct:Translate AuthorityAnswerExplText}" Style="{StaticResource NormalText}" VerticalTextAlignment="Center"
+                            IsVisible="{Binding Path=HowAnswered, Converter={StaticResource BoolEnumConverter}, 
+                            ConverterParameter={x:Static models:HowAnsweredOptions.InApp}}" /> 
                     <Button Grid.Row="3" Grid.Column="0" Text="{xct:Translate DontKnowTitle}" Style="{StaticResource TallGreenButton}"
                             Command="{Binding LeaveAnswererBlankButtonCommand}" Margin="10"/>
                     <Label Grid.Row="3" Grid.Column="1" Text="{xct:Translate LeaveBlankExplText}" Style="{StaticResource NormalText}" VerticalTextAlignment="Center"/> 

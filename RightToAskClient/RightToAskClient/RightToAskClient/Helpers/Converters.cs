@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using Xamarin.Forms;
+using static RightToAskClient.Helpers.BoolEnumConverter;
 
 namespace RightToAskClient.Helpers
 {
@@ -86,4 +87,31 @@ namespace RightToAskClient.Helpers
             return value.Equals(true) ? parameter : Binding.DoNothing;
         }
     } 
+    
+    // The boolean opposite of BoolEnumConverter
+    public class BoolEnumInvertConverter : IValueConverter
+    {
+        public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+        {
+            if (value is null)
+                return false;
+
+            if (parameter is null)
+                return false;
+
+            // Return false if the converter doesn't make sense.
+            if (parameter.GetType() != value.GetType())
+                return false;
+
+            // return value.Equals(Enum.Parse(value.GetType(), (string)parameter, true));
+            return !value.Equals(parameter);
+        }
+
+        
+        // Not clear that this is ever useful. The logical negation of exact matching doesn't make a lot of sense.
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

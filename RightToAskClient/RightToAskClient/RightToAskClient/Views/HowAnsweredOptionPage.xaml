@@ -19,10 +19,8 @@
         <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" Padding="10">
             <Label Text="{xct:Translate OptionsHeaderText}" Style="{StaticResource Header1}" />
             <BoxView />
-            <Label Text="{Binding HowAnswered}"></Label>
             <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Padding="20"
                 RadioButtonGroup.GroupName="OptionsTest"  >
-                <!-- RadioButtonGroup.SelectedValue="{Binding HowAnswered}"> -->
                 <StackLayout.Resources>
                     <helpers:BoolEnumConverter x:Key="BoolEnumConverter" />
                 </StackLayout.Resources>
@@ -35,12 +33,9 @@
                     <RadioButton Content="Don't know"
                              IsChecked="{Binding Path=HowAnswered, Converter={StaticResource BoolEnumConverter}, 
                             ConverterParameter={x:Static models:HowAnsweredOptions.DontKnow}}" /> 
-                    <Label Text="Currently selected option:"/>
-                    <Label Text="{Binding HowAnswered}"/>
             </StackLayout>
             <StackLayout Orientation="Horizontal" HorizontalOptions="End" VerticalOptions="End" Margin="0,40,0,0" >
-                <Button Text="{xct:Translate NextButtonText}" Style="{StaticResource DoneButton}"  Command="{Binding ToMetadataPageCommand}" HorizontalOptions="End"/>
-                <!-- <Button Text="{xct:Translate NextButtonText}" Style="{StaticResource DoneButton}"  Command="{Binding ToAnswererPageWithHowAnsweredSelectionCommand}" HorizontalOptions="End"/> -->
+                <Button Text="{xct:Translate NextButtonText}" Style="{StaticResource DoneButton}"  Command="{Binding ToAnswererPageWithHowAnsweredSelectionCommand}" HorizontalOptions="End"/>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>
