@@ -8,7 +8,7 @@
              xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
              x:Class="RightToAskClient.Views.HowAnsweredOptionPage"
              x:DataType="vm:QuestionViewModel"
-             Title="{xct:Translate BackgroundPageTitle}">
+             Title="{xct:Translate OptionsTitleText}">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
                      IconImageSource="{local:ImageResource RightToAskClient.Images.home4.png}"/>

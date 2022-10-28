@@ -117,8 +117,12 @@
         await Shell.Current.GoToAsync("//LoginPage");
     -->
     <TabBar>
-        <ShellContent Route="MainPage" ContentTemplate="{DataTemplate local:MainPage}" />
+        <ShellContent Route="ReadingPage" ContentTemplate="{DataTemplate local:MainPage}" />
     </TabBar>
+    <!-- 
+    <TabBar>
+        <ShellContent Route="MainPage" ContentTemplate="{DataTemplate local:MainPage}" />
+    </TabBar>  -->
 
     <!-- Optional Templates 
     // These may be provided inline as below or as separate classes.

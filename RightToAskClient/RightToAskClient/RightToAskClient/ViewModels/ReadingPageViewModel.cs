@@ -23,7 +23,7 @@ namespace RightToAskClient.ViewModels
     public class ReadingPageViewModel : BaseViewModel
     {
         // properties
-        private bool _showQuestionFrame = true;
+        private bool _showQuestionFrame = false;
         public bool ShowQuestionFrame
         {
             get => _showQuestionFrame;
@@ -128,26 +128,20 @@ namespace RightToAskClient.ViewModels
             if (!string.IsNullOrEmpty(App.ReadingContext.DraftQuestion))
             {
                 DraftQuestion = App.ReadingContext.DraftQuestion;
+                ShowQuestionFrame = true;
             }
 
-            if (App.ReadingContext.IsReadingOnly)
-            {
-                ShowQuestionFrame = false;
-                Heading1 = AppResources.FocusSupportInstructionReadingOnly;
-                if (App.ReadingContext.TrendingNow)
-                {
-                    Title = AppResources.RecentQuestionsTitle;
-                }
-                else
-                {
-                    Title = AppResources.ReadQuestionsTitle;
-                }
-            }
-            else
+            // Reading with a draft question - prompt for upvoting similar questions
+            if (ShowQuestionFrame)
             {
                 Heading1 = AppResources.FocusSupportInstructionQuestionDrafting;
                 Title = AppResources.SimilarQuestionsTitle;
-                ShowQuestionFrame = true;
+            }
+            // Reading without a draft question
+            else
+            {
+                Heading1 = AppResources.FocusSupportInstructionReadingOnly;
+                Title = AppResources.ReadQuestionsTitle;
             }
             
             PopupLabelText = AppResources.ReadingPageHeader1;
@@ -187,8 +181,11 @@ namespace RightToAskClient.ViewModels
             });
             DraftCommand = new AsyncCommand(async () =>
             {
+                /*
                 App.ReadingContext.IsReadingOnly = false;
                 await Shell.Current.PopGoToAsync($"{nameof(SecondPage)}");
+                */
+                ShowQuestionFrame = true;
             });
             SearchToolbarCommand = new Command(() =>
             {
