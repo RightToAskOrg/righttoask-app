@@ -181,11 +181,12 @@ namespace RightToAskClient.ViewModels
             });
             DraftCommand = new AsyncCommand(async () =>
             {
-                /*
-                App.ReadingContext.IsReadingOnly = false;
-                await Shell.Current.PopGoToAsync($"{nameof(SecondPage)}");
-                */
-                ShowQuestionFrame = true;
+                await NavigationUtils.DoRegistrationCheck(this);
+
+                if (App.ReadingContext.ThisParticipant.IsRegistered)
+                {
+                    ShowQuestionFrame = true;
+                }
             });
             SearchToolbarCommand = new Command(() =>
             {

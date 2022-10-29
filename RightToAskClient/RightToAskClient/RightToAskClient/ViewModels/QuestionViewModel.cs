@@ -307,7 +307,7 @@ namespace RightToAskClient.ViewModels
             });
             UpvoteCommand = new AsyncCommand(async () =>
             {
-                await DoRegistrationCheck();
+                await NavigationUtils.DoRegistrationCheck(Instance);
                 if (App.ReadingContext.ThisParticipant.IsRegistered)
                 {
                     // upvoting a question will add it to their list
@@ -521,7 +521,7 @@ namespace RightToAskClient.ViewModels
 
         private async void SubmitNewQuestionButton_OnClicked()
         {
-            await DoRegistrationCheck();
+            await NavigationUtils.DoRegistrationCheck(Instance);
             
             if (App.ReadingContext.ThisParticipant.IsRegistered)
             {
@@ -538,7 +538,7 @@ namespace RightToAskClient.ViewModels
         // TODO Consider permissions for question editing.
         private async void EditQuestionButton_OnClicked()
         {
-            await DoRegistrationCheck();
+            await NavigationUtils.DoRegistrationCheck(Instance);
 
             if (App.ReadingContext.ThisParticipant.IsRegistered)
             {
@@ -551,18 +551,7 @@ namespace RightToAskClient.ViewModels
 
         }
 
-        private async Task DoRegistrationCheck()
-        {
-            if (!App.ReadingContext.ThisParticipant.IsRegistered)
-            {
-                var popup = new TwoButtonPopup(QuestionViewModel.Instance, AppResources.MakeAccountQuestionText, AppResources.CreateAccountPopUpText, AppResources.CancelButtonText, AppResources.OKText);
-                _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
-                if (ApproveButtonClicked)
-                {
-                    await Shell.Current.GoToAsync($"{nameof(RegisterPage1)}");
-                }
-            }
-        }
+
 
         // For uploading a new question
         // This should be called only if the person is already registered.
@@ -627,7 +616,7 @@ namespace RightToAskClient.ViewModels
             // TODO: Here, we'll need to ensure we've got the right version (from the server - get it returned from
             // BuildSignAndUpload... 
             var popup = new TwoButtonPopup(QuestionViewModel.Instance, AppResources.QuestionEditSuccessfulPopupTitle, AppResources.QuestionEditSuccessfulPopupText, AppResources.StayOnCurrentPageButtonText, AppResources.GoHomeButtonText);
-            _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+            var result = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
             if (ApproveButtonClicked)
             {
                 await App.Current.MainPage.Navigation.PopToRootAsync();
