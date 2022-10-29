@@ -157,7 +157,7 @@ namespace RightToAskClient.ViewModels
                 {
                     _ = EditSelectedAnsweringMPsMineClicked().ContinueWith((_) =>
                     {
-                        MessagingCenter.Send(this, "FromFiltersPage"); // Sends this view model
+                        MessagingCenter.Send(this, Constants.GoBackToAdvancedSearchPage); // Sends this view model
                     });
                 }),
                 Heading = AppResources.MyMPButtonText
@@ -168,7 +168,7 @@ namespace RightToAskClient.ViewModels
                 {
                     _ = EditOtherSelectedAnsweringMPsClicked().ContinueWith((_) =>
                     {
-                        MessagingCenter.Send(this, "FromFiltersPage");
+                        MessagingCenter.Send(this, Constants.GoBackToAdvancedSearchPage);
                     });
                 }),
                 Heading = AppResources.OtherMP,
@@ -179,7 +179,7 @@ namespace RightToAskClient.ViewModels
                 {
                     _ = EditAuthoritiesClicked().ContinueWith((_) =>
                     {
-                        MessagingCenter.Send(this, "FromFiltersPage");
+                        MessagingCenter.Send(this, Constants.GoBackToAdvancedSearchPage);
                     });
                 }),
                 Heading = AppResources.AuthorityLabel,
@@ -190,7 +190,7 @@ namespace RightToAskClient.ViewModels
                 {
                     _ = EditSelectedAskingMPsClicked().ContinueWith((_) =>
                     {
-                        MessagingCenter.Send(this, "FromFiltersPage");
+                        MessagingCenter.Send(this, Constants.GoBackToAdvancedSearchPage);
                     });
                 }),
                 Heading = AppResources.MyMPButtonText
@@ -201,7 +201,7 @@ namespace RightToAskClient.ViewModels
                 {
                     _ = EditOtherSelectedAskingMPsClicked().ContinueWith((_) =>
                     {
-                        MessagingCenter.Send(this, "FromFiltersPage");
+                        MessagingCenter.Send(this, Constants.GoBackToAdvancedSearchPage);
                     });
                 }),
                 Heading = AppResources.OtherMP
@@ -212,7 +212,7 @@ namespace RightToAskClient.ViewModels
                 {
                     _ = NavigationUtils.EditCommitteesClicked().ContinueWith((_) =>
                     {
-                        MessagingCenter.Send(this, "FromFiltersPage");
+                        MessagingCenter.Send(this, Constants.GoBackToAdvancedSearchPage);
                     });
                 }),
                 Heading = AppResources.ParliamentaryCommitteeText
@@ -222,42 +222,42 @@ namespace RightToAskClient.ViewModels
             {
                 _ = EditSelectedAnsweringMPsMineClicked().ContinueWith((_) =>
                   {
-                      MessagingCenter.Send(this, "FromFiltersPage"); // Sends this view model
+                      MessagingCenter.Send(this, Constants.GoBackToAdvancedSearchPage); // Sends this view model
                 });
             });
             AskingMPsMineFilterCommand = new Command(() =>
             {
                 _ = EditSelectedAskingMPsClicked().ContinueWith((_) =>
                   {
-                      MessagingCenter.Send(this, "FromFiltersPage");
+                      MessagingCenter.Send(this, Constants.GoBackToAdvancedSearchPage);
                   });
             });
             AnsweringAuthoritiesFilterCommand = new Command(() =>
             {
                 _ = EditAuthoritiesClicked().ContinueWith((_) =>
                   {
-                      MessagingCenter.Send(this, "FromFiltersPage");
+                      MessagingCenter.Send(this, Constants.GoBackToAdvancedSearchPage);
                   });
             });
             OtherAnsweringMPsFilterCommand = new Command(() =>
             {
                 _ = EditOtherSelectedAnsweringMPsClicked().ContinueWith((_) =>
                   {
-                      MessagingCenter.Send(this, "FromFiltersPage");
+                      MessagingCenter.Send(this, Constants.GoBackToAdvancedSearchPage);
                   });
             });
             OtherAskingMPsFilterCommand = new Command(() =>
             {
                 _ = EditOtherSelectedAskingMPsClicked().ContinueWith((_) =>
                   {
-                      MessagingCenter.Send(this, "FromFiltersPage");
+                      MessagingCenter.Send(this, Constants.GoBackToAdvancedSearchPage);
                   });
             });
             WrittenByRightToAskUserCommand = new AsyncCommand(async () =>
             {
                 _ = SearchUserWrittenByClicked().ContinueWith((_) =>
                   {
-                      MessagingCenter.Send(this, "FromFiltersPage");
+                      MessagingCenter.Send(this, Constants.GoBackToAdvancedSearchPage);
                   });
             });
             NotSureCommand = new Command(() =>

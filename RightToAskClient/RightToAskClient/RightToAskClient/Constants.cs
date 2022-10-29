@@ -38,6 +38,7 @@ namespace RightToAskClient
         public static string GoToReadingPageNext = "GoToReadingPageNext";
         public static string GoToMetadataPageNext = "GoToMetadataPageNext";
         public static string GoToAskingPageNext = "GoToAskingPageNext";
+        public static string GoBackToAdvancedSearchPage = "GoBackToAdvancedSearchPage";
 
     }
 }

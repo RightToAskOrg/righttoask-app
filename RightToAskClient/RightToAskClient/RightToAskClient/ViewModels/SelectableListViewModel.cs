@@ -115,7 +115,8 @@ namespace RightToAskClient.ViewModels
 			ReadingPage,
 			ReadingPageWithSingleQuestionWriter,
 			MetadataPage,
-			RegisterMPAccount
+			RegisterMPAccount,
+			AdvancedSearchPage	
 		}
 
 		// For verifying that the selections meet whatever constraints they need to. At the moment,
@@ -244,10 +245,11 @@ namespace RightToAskClient.ViewModels
 				_nextPage = NextPageInstructions.AskingPage;
 				MessagingCenter.Unsubscribe<QuestionViewModel>(this, Constants.GoToAskingPageNext);
 			});
-			MessagingCenter.Subscribe<FilterViewModel>(this, "FromFiltersPage", (sender) =>
+			MessagingCenter.Subscribe<FilterViewModel>(this, Constants.GoBackToAdvancedSearchPage, (sender) =>
 			{
 				DoneButtonText = AppResources.DoneButtonText;
-				MessagingCenter.Unsubscribe<FilterViewModel>(this, "FromFiltersPage");
+				_nextPage = NextPageInstructions.AdvancedSearchPage;
+				MessagingCenter.Unsubscribe<FilterViewModel>(this, Constants.GoBackToAdvancedSearchPage);
 			});
 		}
 
@@ -319,6 +321,10 @@ namespace RightToAskClient.ViewModels
 						// send a message to the MPRegistrationViewModel to pop back to the account page at the end
 						MessagingCenter.Send(this, "ReturnToAccountPage", selectedMP);
 					});
+					break;
+				
+				case NextPageInstructions.AdvancedSearchPage:
+					await Shell.Current.Navigation.PopAsync();
 					break;
 				
 				case NextPageInstructions.ReadingPage:
