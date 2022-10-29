@@ -106,8 +106,6 @@ namespace RightToAskClient.ViewModels
 
         // public string SelectedAnsweringMPsText => CreateTextGivenListEntities(FilterChoices.SelectedAnsweringMPsNotMine.ToList());
 
-        public bool CameFromMainPage = false;
-
         private string _keyword = "";
         public string Keyword
         {
@@ -138,11 +136,13 @@ namespace RightToAskClient.ViewModels
                 // active to update all of the lists/filters on this page with the newly selected data
                 //MessagingCenter.Unsubscribe<SelectableListViewModel>(this, "UpdateFilters");
             });
+            /*
             MessagingCenter.Subscribe<MainPageViewModel>(this, "MainPage", (sender) =>
             {
                 CameFromMainPage = true;
                 MessagingCenter.Unsubscribe<MainPageViewModel>(this, "MainPage");
             });
+            */
 
             Title = AppResources.AdvancedSearchButtonText; 
             ReinitData(); // to set the display strings
@@ -270,14 +270,7 @@ namespace RightToAskClient.ViewModels
             });
             BackCommand = new AsyncCommand(async () =>
             {
-                if (CameFromMainPage)
-                {
-                    await App.Current.MainPage.Navigation.PopToRootAsync();
-                }
-                else
-                {
-                    await App.Current.MainPage.Navigation.PopAsync();
-                }
+                await App.Current.MainPage.Navigation.PopAsync();
             });
             ForceUpdateSizeCommand = new Command(() =>
             {
@@ -418,14 +411,7 @@ namespace RightToAskClient.ViewModels
         }
         private async void ApplyFiltersAndSearch()
         {
-            if (CameFromMainPage)
-            {
-                await Shell.Current.GoToAsync(nameof(ReadingPage));
-            }
-            else
-            {
-                await App.Current.MainPage.Navigation.PopAsync();
-            }
+            await Shell.Current.Navigation.PopToRootAsync();
         }
     }
 }

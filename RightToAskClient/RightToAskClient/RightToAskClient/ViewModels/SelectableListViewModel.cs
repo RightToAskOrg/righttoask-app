@@ -324,7 +324,7 @@ namespace RightToAskClient.ViewModels
 					break;
 				
 				case NextPageInstructions.AdvancedSearchPage:
-					await Shell.Current.Navigation.PopAsync();
+					await Shell.Current.GoToAsync(nameof(AdvancedSearchFiltersPage));
 					break;
 				
 				case NextPageInstructions.ReadingPage:
