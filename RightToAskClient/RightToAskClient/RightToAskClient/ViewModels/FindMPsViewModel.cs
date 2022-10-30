@@ -288,6 +288,7 @@ namespace RightToAskClient.ViewModels
                 // we might get here via Option B from the QuestionAskerPage, in which case
                 //    - initialize the MP SearchableListPage with AskingMPsListsMine and
                 //    - after that, navigate forward to a ReadingPage;
+                /*
                 if (_launchMPsSelectionPageNext)
                 {
                     // Our MP is asking the question
@@ -314,6 +315,7 @@ namespace RightToAskClient.ViewModels
                 }
                 // We are here from the registration page - no need to select any MPs
                 else
+                */
                 {
                     await App.Current.MainPage.Navigation.PopAsync();
                 }
