@@ -687,6 +687,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string SaveButtonText {
+            get {
+                return ResourceManager.GetString("SaveButtonText", resourceCulture);
+            }
+        }
+        
         internal static string ParticipantSearchBarPlaceholderText {
             get {
                 return ResourceManager.GetString("ParticipantSearchBarPlaceholderText", resourceCulture);

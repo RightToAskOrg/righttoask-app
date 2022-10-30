@@ -438,6 +438,9 @@
   <data name="SaveAnswerButtonText" xml:space="preserve">
     <value>Save Answer</value>
   </data>
+  <data name="SaveButtonText" xml:space="preserve">
+    <value>Save</value>
+  </data>
   <data name="ParticipantSearchBarPlaceholderText" xml:space="preserve">
     <value>Name or ID</value>
   </data>

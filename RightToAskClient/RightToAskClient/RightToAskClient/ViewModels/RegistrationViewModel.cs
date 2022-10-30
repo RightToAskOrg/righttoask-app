@@ -317,7 +317,7 @@ namespace RightToAskClient.ViewModels
                 DoneButtonCommand = new Command(() => { OnSaveButtonClicked(); });
                 UpdateAccountButtonCommand = new Command(() =>
                 {
-                    SaveRegistrationToPreferences();
+                    SaveRegistrationToPreferences(_registration);
                     SendUpdatedUserToServer();
                 });
                 UpdateMPsButtonCommand = new Command(() =>
@@ -421,7 +421,7 @@ namespace RightToAskClient.ViewModels
         // public key and uid. Electorates are optional.
         private async void OnSaveButtonClicked()
         {
-            SaveRegistrationToPreferences();
+            SaveRegistrationToPreferences(_registration);
             Debug.Assert(!App.ReadingContext.ThisParticipant.IsRegistered);
 
             _registration.public_key = ClientSignatureGenerationService.MyPublicKey; 
@@ -482,12 +482,20 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        private void SaveRegistrationToPreferences()
+        // TODO: This may put the app into a problematic state in which the server thinks
+        // it is registered, but it doesn't remember its own registration info. Alternatively,
+        // it may simply be the update that has failed.
+        public static void SaveRegistrationToPreferences(Registration reg)
         {
-            // save registration to preferences
-            var registrationObjectToSave = JsonSerializer.Serialize(new ServerUser(_registration));
-            Preferences.Set(Constants.RegistrationInfo, registrationObjectToSave);
-            // Preferences.Set(Constants.State, _registration.SelectedStateAsEnum.ToString()); 
+            try
+            {
+                var registrationObjectToSave = JsonSerializer.Serialize(new ServerUser(reg));
+                Preferences.Set(Constants.RegistrationInfo, registrationObjectToSave);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Error storing Registration: "+e.Message); 
+            }
         }
 
         private async void SendUpdatedUserToServer()

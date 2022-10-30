@@ -87,7 +87,7 @@
                 <!--Done Button-->
                 <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
                     <Button Style="{StaticResource GreenButton}" Text="{xct:Translate SkipStepButton}" Command="{Binding SkipButtonCommand}" IsVisible="{Binding ShowSkipButton}"/>
-                    <Button HorizontalOptions="End" Style="{StaticResource DoneButton}" Text="{Binding DoneButtonText}" Command="{Binding MPsButtonCommand}" IsVisible="{Binding ShowFindMPsButton}" />
+                    <Button HorizontalOptions="End" Style="{StaticResource DoneButton}" Text="{xct:Translate SaveButtonText}" Command="{Binding SaveMPsButtonCommand}" IsVisible="{Binding ShowFindMPsButton}" />
                 </StackLayout>
             </StackLayout>
         </ScrollView>

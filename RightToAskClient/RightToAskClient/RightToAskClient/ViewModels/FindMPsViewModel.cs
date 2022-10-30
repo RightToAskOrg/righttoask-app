@@ -11,6 +11,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using RightToAskClient.Helpers;
+using RightToAskClient.Models.ServerCommsData;
 using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
@@ -205,12 +206,7 @@ namespace RightToAskClient.ViewModels
             get => _federalElectoratePickerTitle;
             set => SetProperty(ref _federalElectoratePickerTitle, value);
         }
-        private string _doneButtonText = AppResources.NextButtonText;
-        public string DoneButtonText
-        {
-            get => _doneButtonText;
-            set => SetProperty(ref _doneButtonText, value);
-        }
+        
         private bool _launchMPsSelectionPageNext = false;
         
         // This indicates, when we're choosing from a list of MPs, whether they're asking the question (true) or
@@ -224,16 +220,6 @@ namespace RightToAskClient.ViewModels
             private set => SetProperty(ref _mapURL, value);
         }
         
-        /*
-         * Now-deprecated option to not save your address. We can probably delete this now.
-         * Note: leaving in because we may decide to do this (again).
-        private bool _promptAddressSave = false;
-        public bool PromptAddressSave
-        {
-            get => _promptAddressSave;
-            set => SetProperty(ref _promptAddressSave, value);
-        }
-        */
         private bool _postcodeIsValid = false;
         public bool PostcodeIsValid
         {
@@ -284,14 +270,6 @@ namespace RightToAskClient.ViewModels
                 _launchMPsSelectionPageNext = false;
                 MessagingCenter.Unsubscribe<RegistrationViewModel>(this, "FromReg1");
             });
-            /*
-            // TODO Not sure we ever use this.
-            MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionBGoToAskingPageNext", sender =>
-            {
-                _choosingAskingMP = true;
-                MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionBGoToAskingPageNext");
-            });
-            */
             MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionBAskingNow", sender =>
             {
                 _choosingAskingMP = true;
@@ -299,8 +277,10 @@ namespace RightToAskClient.ViewModels
             });
 
             // commands
-            MPsButtonCommand = new AsyncCommand(async () =>
+            SaveMPsButtonCommand = new AsyncCommand(async () =>
             {
+                RegistrationViewModel.SaveRegistrationToPreferences(_registration);
+                
                 SelectableListPage mpsSearchableListPage;
                 // We might get here via Option A from the flow options page, in which case
                 //    - initialize the MP SearchableListPage with AnsweringMPsListsMine and
@@ -331,7 +311,6 @@ namespace RightToAskClient.ViewModels
                     await App.Current.MainPage.Navigation.PushAsync(mpsSearchableListPage);
                     _launchMPsSelectionPageNext = false;
                     _choosingAskingMP = false;
-                    DoneButtonText = AppResources.DoneButtonText;
                 }
                 // We are here from the registration page - no need to select any MPs
                 else
@@ -373,8 +352,15 @@ namespace RightToAskClient.ViewModels
 
         }
 
+        private void SaveElectoratesToPreferences()
+        {
+            // save registration to preferences
+            var registrationObjectToSave = JsonSerializer.Serialize(new ServerUser(_registration));
+            Preferences.Set(Constants.RegistrationInfo, registrationObjectToSave);
+        }
+
         // commands
-        public IAsyncCommand MPsButtonCommand { get; }
+        public IAsyncCommand SaveMPsButtonCommand { get; }
         public IAsyncCommand SubmitAddressButtonCommand { get; }
         public IAsyncCommand SkipButtonCommand { get; }
         public Command LookupElectoratesCommand { get; }
