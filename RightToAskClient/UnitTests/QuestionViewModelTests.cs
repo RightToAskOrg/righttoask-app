@@ -22,12 +22,12 @@ namespace UnitTests
             HasAnswer = true,
             AnswerAccepted = true
         };
-        static ElectorateWithChamber ElectorateWithChamber = new ElectorateWithChamber(ParliamentData.Chamber.Vic_Legislative_Council, ParliamentData.State.VIC);
+        static ElectorateWithChamber ElectorateWithChamber = new ElectorateWithChamber(ParliamentData.Chamber.Vic_Legislative_Council, ParliamentData.StateEnum.VIC.ToString());
         Registration ValidRegistrationWithValidElectorate = new Registration
         {
             uid = "TestUId02",
             public_key = "fakeButValidPublicKey2",
-            Electorates = new ObservableCollection<ElectorateWithChamber>() { ElectorateWithChamber }
+            Electorates = new List<ElectorateWithChamber>() { ElectorateWithChamber }
         };
 
         public QuestionViewModelTests()
@@ -114,7 +114,7 @@ namespace UnitTests
             Assert.False(vm.EnableMyMPShouldRaiseButton);
             Assert.False(vm.EnableAnotherMPShouldRaiseButton);
             Assert.Equal(ParliamentData.MPAndOtherData.ErrorMessage, vm.ReportLabelText);
-            Assert.False(vm.RaisedByOptionSelected);
+            Assert.True(vm.AnswerInApp);
         }
 
         [Fact]
@@ -141,7 +141,7 @@ namespace UnitTests
             Assert.False(vm.EnableMyMPShouldRaiseButton);
             Assert.False(vm.EnableAnotherMPShouldRaiseButton);
             Assert.Equal(ParliamentData.MPAndOtherData.ErrorMessage, vm.ReportLabelText);
-            Assert.False(vm.RaisedByOptionSelected);
+            Assert.True(vm.AnswerInApp);
         }
 
         [Fact]
@@ -242,7 +242,7 @@ namespace UnitTests
 
             // assert -- fails due to crash on shell navigation, but otherwise true
             Assert.Equal("Not Implemented Yet", vm.AnotherUserButtonText);
-            Assert.True(vm.RaisedByOptionSelected);
+            Assert.False(vm.AnswerInApp);
         }
 
         [Fact]
@@ -287,12 +287,12 @@ namespace UnitTests
             // arrange
             Button button = new Button
             {
-                Command = vm.AnsweredByOtherMPCommand
+                Command = vm.AnsweredByOtherMPCommandOptionB
             };
 
             // act
             bool messageReceived = false;
-            MessagingCenter.Subscribe<QuestionViewModel>(this, Constants.GoToReadingPageNext, (sender) =>
+            MessagingCenter.Subscribe<QuestionViewModel>(this, Constants.GoToMetadataPageNext, (sender) =>
             {
                 messageReceived = true;
             });
@@ -308,7 +308,7 @@ namespace UnitTests
             // arrange
             Button button = new Button
             {
-                Command = vm.AnsweredByOtherMPCommand
+                Command = vm.AnsweredByOtherMPCommandOptionB
             };
 
             // act

@@ -33,7 +33,6 @@ namespace UnitTests
             Assert.True(!string.IsNullOrEmpty(vm.Keyword));
             Assert.NotNull(filters.SelectedAnsweringMPsMine);
             Assert.False(filters.SelectedAnsweringMPsMine.Any());
-            Assert.True(!string.IsNullOrEmpty(vm.SelectedAnsweringMPsText));
         }
 
         // ListToString Converter Tests

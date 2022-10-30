@@ -104,8 +104,6 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        // public string SelectedAnsweringMPsText => CreateTextGivenListEntities(FilterChoices.SelectedAnsweringMPsNotMine.ToList());
-
         private string _keyword = "";
         public string Keyword
         {
@@ -303,29 +301,9 @@ namespace RightToAskClient.ViewModels
             // set the keyword
             Keyword = App.ReadingContext.Filters.SearchKeyword;
 
-            // get lists of data
-            //SelectedAskingMPsList = FilterChoices.SelectedAskingMPsNotMine.ToList();
-            //SelectedAnsweringMPsList = FilterChoices.SelectedAnsweringMPsNotMine.ToList();
-            //SelectedAskingMyMPsList = FilterChoices.SelectedAskingMPsMine.ToList();
-            //SelectedAnsweringMyMPsList = FilterChoices.SelectedAnsweringMPsMine.ToList();
-            // PublicAuthoritiesList = FilterChoices.SelectedAuthorities.ToList();
-            // OtherRightToAskUserList = FilterChoices.SelectedAskingUsers.ToList();
-            // CommitteeList = FilterChoices.SelectedCommittee.ToList();
-
-            // create strings from those lists
-            //SelectedAskingMPsText = CreateTextGivenListEntities(SelectedAskingMPsList);
-            //SelectedAnsweringMPsText = CreateTextGivenListEntities(SelectedAnsweringMPsList);
-            //SelectedAskingMyMPsText = CreateTextGivenListEntities(SelectedAskingMyMPsList);
-            // SelectedAnsweringMyMPsText = CreateTextGivenListEntities(SelectedAnsweringMyMPsList);
-            // PublicAuthoritiesText = CreateTextGivenListEntities(PublicAuthoritiesList);
-            // This line is necessary for updating the views.
             // TODO Ideally, we shouldn't have to do this manually,
             // but I don't see a more elegant way at the moment.
             // I tried raising it in SelectableList.cs but that didn't work.
-            OnPropertyChanged("SelectedAskingMPsText");
-            OnPropertyChanged("SelectedAnsweringMPsText");
-            OnPropertyChanged("SelectedAskingMyMPsText");
-            OnPropertyChanged("SelectedAnsweringMyMPsText");
             OnPropertyChanged("PublicAuthoritiesText");
             OnPropertyChanged("AnsweringMPsOther");
             OnPropertyChanged("AnsweringMPsMine");

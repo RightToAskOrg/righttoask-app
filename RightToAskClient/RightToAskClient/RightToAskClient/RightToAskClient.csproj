@@ -163,6 +163,8 @@
     <Compile Remove="ViewModels\OtherUserProfileViewModel.cs" />
     <Compile Remove="Models\NewQuestionCommand.cs" />
     <Compile Remove="Models\ServerCommsData\UserSearchResults.cs" />
+    <Compile Remove="Views\MainPage.xaml.cs" />
+    <Compile Remove="ViewModels\MainPageViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Views\SecondPage_old.xaml" />
@@ -259,6 +261,7 @@
     <None Remove="Resources\MPs.json" />
     <EmbeddedResource Include="Resources\MPs.json" />
     <EmbeddedResource Remove="Views\Popups\InfoPopup.xaml" />
+    <EmbeddedResource Remove="Views\MainPage.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Essentials">
