@@ -5,13 +5,9 @@ using RightToAskClient.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using RightToAskClient.Helpers;
-using RightToAskClient.Models.ServerCommsData;
 using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
@@ -30,19 +26,19 @@ namespace RightToAskClient.ViewModels
             get => _address;
             set => SetProperty(ref _address, value);
         }
-        private bool _showFindMPsButton = false;
+        private bool _showFindMPsButton;
         public bool ShowFindMPsButton
         {
             get => _showFindMPsButton;
             set => SetProperty(ref _showFindMPsButton, value);
         }
-        private bool _showMapFrame = false;
+        private bool _showMapFrame;
         public bool ShowMapFrame
         {
             get => _showMapFrame;
             set => SetProperty(ref _showMapFrame, value);
         }
-        private bool _showSkipButton = false;
+        private bool _showSkipButton;
         public bool ShowSkipButton
         {
             get => _showSkipButton;
@@ -54,13 +50,13 @@ namespace RightToAskClient.ViewModels
             get => _showStateOnly;
             set => SetProperty(ref _showStateOnly, value);
         }
-        private bool _showElectoratesFrame = false;
+        private bool _showElectoratesFrame;
         public bool ShowElectoratesFrame
         {
             get => _showElectoratesFrame;
             set => SetProperty(ref _showElectoratesFrame, value);
         }
-        private bool _showKnowElectoratesFrame = false;
+        private bool _showKnowElectoratesFrame;
         public bool ShowKnowElectoratesFrame
         {
             get => _showKnowElectoratesFrame;
@@ -72,10 +68,9 @@ namespace RightToAskClient.ViewModels
                 OnPropertyChanged("FederalElectorate");
                 OnPropertyChanged("StateChoosableElectorate");
                 OnPropertyChanged("StateInferredElectorate");
-                // OnPropertyChanged("FederalElectorates");
             }
         }
-        private bool _showAddressStack = false;
+        private bool _showAddressStack;
         public bool ShowAddressStack
         {
             get => _showAddressStack;
@@ -207,11 +202,8 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _federalElectoratePickerTitle, value);
         }
         
-        private bool _launchMPsSelectionPageNext = false;
-        
         // This indicates, when we're choosing from a list of MPs, whether they're asking the question (true) or
         // answering it (false).
-        private bool _choosingAskingMP = false;
 
         private string _mapURL = "";
         public string MapURL
@@ -220,7 +212,7 @@ namespace RightToAskClient.ViewModels
             private set => SetProperty(ref _mapURL, value);
         }
         
-        private bool _postcodeIsValid = false;
+        private bool _postcodeIsValid;
         public bool PostcodeIsValid
         {
             get => _postcodeIsValid;
@@ -238,7 +230,6 @@ namespace RightToAskClient.ViewModels
             ShowAddressStack = false;
             ShowKnowElectoratesFrame = false;
             ShowMapFrame = false;
-            _launchMPsSelectionPageNext = true;
 
             _stateKnown = App.ReadingContext.ThisParticipant.RegistrationInfo.StateKnown;
             
@@ -265,60 +256,11 @@ namespace RightToAskClient.ViewModels
                 ShowMapOfElectorate(electorateString);
             }
 
-            MessagingCenter.Subscribe<RegistrationViewModel>(this, "FromReg1", (sender) =>
-            {
-                _launchMPsSelectionPageNext = false;
-                MessagingCenter.Unsubscribe<RegistrationViewModel>(this, "FromReg1");
-            });
-            MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionBAskingNow", sender =>
-            {
-                _choosingAskingMP = true;
-                MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionBAskingNow");
-            });
-
             // commands
             SaveMPsButtonCommand = new AsyncCommand(async () =>
             {
                 RegistrationViewModel.SaveRegistrationToPreferences(_registration);
-                
-                SelectableListPage mpsSearchableListPage;
-                // We might get here via Option A from the flow options page, in which case
-                //    - initialize the MP SearchableListPage with AnsweringMPsListsMine and
-                //    - after that, navigate forward to a ReadingPage;
-                // we might get here via Option B from the QuestionAskerPage, in which case
-                //    - initialize the MP SearchableListPage with AskingMPsListsMine and
-                //    - after that, navigate forward to a ReadingPage;
-                /*
-                if (_launchMPsSelectionPageNext)
-                {
-                    // Our MP is asking the question
-                    if (_choosingAskingMP)
-                    {
-                        string message =
-                            "These are your MPs.  Select the one(s) who should raise the question in Parliament";
-                        mpsSearchableListPage = new SelectableListPage(App.ReadingContext.Filters.AskingMPsListsMine,
-                            message);
-                    }
-                    // Our MP should be answering the question.
-                    else
-                    {
-                        string message = "These are your MPs.  Select the one(s) who should answer the question";
-                        mpsSearchableListPage = new SelectableListPage(App.ReadingContext.Filters.AnsweringMPsListsMine,
-                            message);
-                    }
-
-                    // MessagingCenter.Send(this, Constants.GoToReadingPageNext);
-
-                    await App.Current.MainPage.Navigation.PushAsync(mpsSearchableListPage);
-                    _launchMPsSelectionPageNext = false;
-                    _choosingAskingMP = false;
-                }
-                // We are here from the registration page - no need to select any MPs
-                else
-                */
-                {
-                    await App.Current.MainPage.Navigation.PopAsync();
-                }
+                await App.Current.MainPage.Navigation.PopAsync();
             });
             SubmitAddressButtonCommand = new AsyncCommand(async () =>
             {
@@ -354,13 +296,6 @@ namespace RightToAskClient.ViewModels
 
         }
 
-        private void SaveElectoratesToPreferences()
-        {
-            // save registration to preferences
-            var registrationObjectToSave = JsonSerializer.Serialize(new ServerUser(_registration));
-            Preferences.Set(Constants.RegistrationInfo, registrationObjectToSave);
-        }
-
         // commands
         public IAsyncCommand SaveMPsButtonCommand { get; }
         public IAsyncCommand SubmitAddressButtonCommand { get; }
@@ -390,7 +325,7 @@ namespace RightToAskClient.ViewModels
             if (PostcodeIsValid)
             {
                 IsBusy = true; // no longer displaying the activity indicator since the webview shows that it is being updated
-                Result<GeoscapeAddressFeature> httpResponse;
+                Result<GeoscapeAddressFeature>? httpResponse;
 
                 string state = App.ReadingContext.ThisParticipant.RegistrationInfo.State;
 
@@ -404,13 +339,14 @@ namespace RightToAskClient.ViewModels
                 Result<bool> addressValidation = _address.SeemsValid();
                 if (!String.IsNullOrEmpty(addressValidation.Err))
                 {
-                    var popup = new OneButtonPopup(addressValidation.Err, AppResources.OKText);
+                    var popup = new OneButtonPopup(addressValidation.Err ?? "", AppResources.OKText);
                     _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
                     return;
                 }
 
                 httpResponse = await GeoscapeClient.GetFirstAddressData(_address + " " + state);
 
+                // The compiler doesn't think this null check is necessary, but it is.
                 if (httpResponse != null)
                 {
                     if (httpResponse.Err != null)

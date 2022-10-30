@@ -284,17 +284,6 @@ namespace RightToAskClient.ViewModels
                         Constants.GoToMetadataPageNext : Constants.GoToAskingPageNext); // Sends this view model
                 });
             });
-            /*
-            AnsweredByOtherMPCommand = new AsyncCommand(async () =>
-            {
-                Question.AnswerInApp = true;
-                AnswerInApp = true;
-                await NavigationUtils.PushAnsweringMPsNotMineSelectableListPage().ContinueWith((_) =>
-                {
-                    MessagingCenter.Send(this, "OptionBGoToAskingPageNext"); // Sends this view model
-                });
-            });
-            */
             AnsweredByOtherMPCommandOptionB = new AsyncCommand(async () =>
             {
                 // Question.AnswerInApp = false;
