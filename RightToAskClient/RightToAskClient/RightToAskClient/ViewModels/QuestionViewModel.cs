@@ -560,12 +560,6 @@ namespace RightToAskClient.ViewModels
         // filters, or clear them and go home.
         private async void PromptForNextStepAndClearQuestionIfNeeded() 
         { 
-            // Reinitialise question data.
-            // ClearQuestionDataAddWriter();
-            
-            // Reset the draft question only if it didn't upload correctly.
-            App.ReadingContext.DraftQuestion = String.Empty;
-
             // creating a question will add it to their list
             App.ReadingContext.ThisParticipant.HasQuestions = true;
             Preferences.Set(Constants.HasQuestions, true);
@@ -577,8 +571,10 @@ namespace RightToAskClient.ViewModels
             if (GoHome)
             {
                 App.ReadingContext.Filters.RemoveAllSelections();
-                // TODO*** Send a message to the ReadingPage telling it to re-init the question draft.
-                await Application.Current.MainPage.Navigation.PopToRootAsync();
+                await Application.Current.MainPage.Navigation.PopToRootAsync().ContinueWith((_) =>
+                {
+                    MessagingCenter.Send(this, Constants.QuestionSubmittedDeleteDraft);
+                });
             }
             // Otherwise remain on the question publish page with the opportunity to write a new question.
             else 

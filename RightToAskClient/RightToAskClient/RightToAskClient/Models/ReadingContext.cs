@@ -52,9 +52,5 @@ namespace RightToAskClient.Models
 				OnPropertyChanged();
 			}
 		} 
-		public string DraftQuestion { get; set; } = "";
-		
-		// Existing things about the world.
-		public ObservableCollection<Question> ExistingQuestions { get; set; } = new ObservableCollection<Question>();
 	}
 }
