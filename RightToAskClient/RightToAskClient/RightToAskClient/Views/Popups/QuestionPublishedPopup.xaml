@@ -3,7 +3,7 @@
            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
            xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
            x:Class="RightToAskClient.Views.Popups.QuestionPublishedPopup"
-           Size="300,200"
+           Size="300,300"
            IsLightDismissEnabled="False"
            Color="Transparent">
     <Frame CornerRadius="30" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
@@ -11,6 +11,8 @@
         <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent">
             <Label Text="{xct:Translate QuestionPublishedPopupText}" 
                    Style="{StaticResource PopupHeaderText}"/>
+            <Label x:Name="mainMessage" Text="{xct:Translate QuestionPublishedPopupDetailText}" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" 
+                       Style="{StaticResource PopupText}" />
             <Grid ColumnDefinitions="*,*" VerticalOptions="End" BackgroundColor="Transparent">
                 <Button Text="{xct:Translate WriteAnotherQuestionButtonText}" Grid.Column="0" 
                         Clicked="WriteAnotherButtonClicked" Style="{StaticResource PopupCancelButton}" />

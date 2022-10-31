@@ -383,7 +383,7 @@ namespace UnitTests
             vm.Question.Filters = filters;
 
             // act
-            vm.ResetInstance();
+            vm.ClearQuestionDataAddWriter();
             bool validElectorate = electorate.Validate();
             bool validMP = answeringMP.Validate();
             bool validQuestion = vm.Question.ValidateNewQuestion();

@@ -5,7 +5,7 @@
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:local="clr-namespace:RightToAskClient"
              xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
-             x:Class="RightToAskClient.Views.SecondPage"
+             x:Class="RightToAskClient.Views.QuestionDraftingPage"
              x:DataType="vm:QuestionViewModel">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"

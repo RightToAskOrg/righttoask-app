@@ -1443,6 +1443,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string QuestionPublishedPopupDetailText {
+            get {
+                return ResourceManager.GetString("QuestionPublishedPopupDetailText", resourceCulture);
+            }
+        }
+        
         internal static string QuestionPublishedPopupText {
             get {
                 return ResourceManager.GetString("QuestionPublishedPopupText", resourceCulture);

@@ -1,4 +1,5 @@
-﻿using RightToAskClient.HttpClients;
+﻿using System;
+using RightToAskClient.HttpClients;
 using RightToAskClient.Models;
 using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Resx;
@@ -228,9 +229,19 @@ namespace RightToAskClient.ViewModels
 
         public QuestionViewModel()
         {
-            // set defaults
-            ResetInstance();
+            // set up empty question
+            Question = new Question();
+            ReportLabelText = "";
+            Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.uid;
 
+            // set defaults
+            IsNewQuestion = false;
+            IsReadingOnly = App.ReadingContext.IsReadingOnly; // crashes here if setting up existing test questions
+            HowAnswered = HowAnsweredOptions.DontKnow;
+            AnotherUserButtonText = AppResources.AnotherUserButtonText;
+            NotSureWhoShouldRaiseButtonText = AppResources.NotSureButtonText;
+            SelectButtonText = AppResources.SelectButtonText;
+            
             // commands
             ProceedToReadingPageCommand = new AsyncCommand(async() => 
             {
@@ -289,7 +300,7 @@ namespace RightToAskClient.ViewModels
                     // TODO We probably want to separate having _written_ questions from having upvoted them.
                     App.ReadingContext.ThisParticipant.HasQuestions = true;
                     Preferences.Set(Constants.HasQuestions, true);
-                    MessagingCenter.Send(this, Constants.HasQuestions);
+                    
                     if (Question.AlreadyUpvoted)
                     {
                         Question.UpVotes--;
@@ -395,19 +406,11 @@ namespace RightToAskClient.ViewModels
         public IAsyncCommand ToAnswererPageWithHowAnsweredSelectionCommand { get; }
         public IAsyncCommand ToHowAnsweredOptionPageCommand { get; }
 
-        public void ResetInstance()
+        public void ClearQuestionDataAddWriter()
         {
             // set defaults
             Question = new Question();
-            IsNewQuestion = false;
-            IsReadingOnly = App.ReadingContext.IsReadingOnly; // crashes here if setting up existing test questions
-            HowAnswered = HowAnsweredOptions.DontKnow;
-            AnotherUserButtonText = AppResources.AnotherUserButtonText;
-            NotSureWhoShouldRaiseButtonText = AppResources.NotSureButtonText;
-            SelectButtonText = AppResources.SelectButtonText;
             ReportLabelText = "";
-            // TODO not sure whether either of these is the right default - suggest not setting either?
-            App.ReadingContext.DraftQuestion = Question.QuestionText;
             Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.uid;
         }
 
@@ -496,6 +499,7 @@ namespace RightToAskClient.ViewModels
 
         private async void SubmitNewQuestionButton_OnClicked()
         {
+            // TODO This should not be necessary any more. Perhaps turn into a debug assertion?
             await NavigationUtils.DoRegistrationCheck(Instance);
             
             if (App.ReadingContext.ThisParticipant.IsRegistered)
@@ -505,7 +509,11 @@ namespace RightToAskClient.ViewModels
                 var validQuestion = Question.ValidateNewQuestion();
                 if (validQuestion)
                 {
-                    SendNewQuestionToServer();
+                    var successfulUpload = await SendNewQuestionToServer();
+                    if (successfulUpload)
+                    {
+                        PromptForNextStepAndClearQuestionIfNeeded();
+                    }
                 }                
             }
         }
@@ -528,27 +536,39 @@ namespace RightToAskClient.ViewModels
 
         // For uploading a new question
         // This should be called only if the person is already registered.
-        private async void SendNewQuestionToServer()
+        // Returns true if the upload was successful; false otherwise.
+        private async Task<bool> SendNewQuestionToServer()
         {
             // This isn't supposed to be called for unregistered participants.
-            if (!App.ReadingContext.ThisParticipant.IsRegistered) return;
+            if (!App.ReadingContext.ThisParticipant.IsRegistered) return false;
 
             // TODO use returnedData to record questionID, version, hash
-            (bool isValid, string errorMessage, string returnedData) successfulSubmission = await BuildSignAndUploadNewQuestion();
+            (bool isValid, string errorMessage, string returnedData) successfulSubmission =
+                await BuildSignAndUploadNewQuestion();
 
             if (!successfulSubmission.isValid)
             {
-                ReportLabelText =  "Error uploading new question: " + successfulSubmission.errorMessage;
-                return;
+                ReportLabelText = "Error uploading new question: " + successfulSubmission.errorMessage;
+                return false;
             }
+
+            return true;
+        }
+        
+        // This is only called if a question has been successfully uploaded. We clear the
+        // question data and ask the user if they'd like to write another question with the same
+        // filters, or clear them and go home.
+        private async void PromptForNextStepAndClearQuestionIfNeeded() 
+        { 
+            // Reinitialise question data.
+            // ClearQuestionDataAddWriter();
             
             // Reset the draft question only if it didn't upload correctly.
-            App.ReadingContext.DraftQuestion = "";
+            App.ReadingContext.DraftQuestion = String.Empty;
 
             // creating a question will add it to their list
             App.ReadingContext.ThisParticipant.HasQuestions = true;
             Preferences.Set(Constants.HasQuestions, true);
-            MessagingCenter.Send(this, Constants.HasQuestions);
 
             //FIXME update version, just like for edits.
 
@@ -557,13 +577,16 @@ namespace RightToAskClient.ViewModels
             if (GoHome)
             {
                 App.ReadingContext.Filters.RemoveAllSelections();
+                // TODO*** Send a message to the ReadingPage telling it to re-init the question draft.
                 await Application.Current.MainPage.Navigation.PopToRootAsync();
             }
-            else // Pop back to readingpage. TODO: fix the context so that it doesn't think you're drafting
-                // a question.  Possibly the right thing to do is pop everything and then push a reading page.
+            // Otherwise remain on the question publish page with the opportunity to write a new question.
+            else 
             {
-                await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
+                Question.QuestionText = String.Empty;
+                Question.Background = String.Empty;
             }
+            
         }
 
         private async void SendQuestionEditToServer()

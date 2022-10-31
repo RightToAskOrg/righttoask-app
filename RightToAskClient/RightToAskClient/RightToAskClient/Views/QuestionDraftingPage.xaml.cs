@@ -7,14 +7,14 @@ using Xamarin.Forms;
 
 namespace RightToAskClient.Views
 {
-    public partial class SecondPage
+    public partial class QuestionDraftingPage
     {
-        public SecondPage()
+        public QuestionDraftingPage()
         {
             InitializeComponent();
 
             // reset the question if navigating back before this page in the stack
-            QuestionViewModel.Instance.ResetInstance();
+            QuestionViewModel.Instance.ClearQuestionDataAddWriter();
 
             BindingContext = QuestionViewModel.Instance;
             if (App.ReadingContext.IsReadingOnly)

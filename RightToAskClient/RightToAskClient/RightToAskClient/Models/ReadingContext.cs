@@ -54,13 +54,6 @@ namespace RightToAskClient.Models
 		} 
 		public string DraftQuestion { get; set; } = "";
 		
-		// Whether this is a 'trending now' search.
-		public bool TrendingNow { get; set; }
-
-		public string GoDirectCommittee { get; set; } = "";
-
-		public string GoDirectMP { get; set; } = "";
-
 		// Existing things about the world.
 		public ObservableCollection<Question> ExistingQuestions { get; set; } = new ObservableCollection<Question>();
 	}
