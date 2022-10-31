@@ -60,14 +60,7 @@ namespace RightToAskClient.ViewModels
         public string DraftQuestion
         {
             get => _draftQuestion;
-            set
-            {
-                if (!string.IsNullOrEmpty(value))
-                {
-                    SetProperty(ref _draftQuestion, value);
-                    App.ReadingContext.DraftQuestion = value;
-                }
-            }
+            set => SetProperty(ref _draftQuestion, value);
         }
 
         private Question? _selectedQuestion;
@@ -86,7 +79,6 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        public ObservableCollection<Question> ExistingQuestions => App.ReadingContext.ExistingQuestions;
         private ObservableCollection<Question> _questionsToDisplay = new ObservableCollection<Question>();
         public ObservableCollection<Question> QuestionsToDisplay
         {
@@ -123,11 +115,13 @@ namespace RightToAskClient.ViewModels
             ShowSearchFrame = !string.IsNullOrWhiteSpace(Keyword); 
 
 
+            /* I don't think we ever arrive here with a non-empty draft any more.
             if (!string.IsNullOrEmpty(App.ReadingContext.DraftQuestion))
             {
                 DraftQuestion = App.ReadingContext.DraftQuestion;
                 ShowQuestionFrame = true;
             }
+            */
 
             // Reading with a draft question - prompt for upvoting similar questions
             if (ShowQuestionFrame)
@@ -203,8 +197,14 @@ namespace RightToAskClient.ViewModels
                 }
                 QuestionsToDisplay.Remove(questionToRemove);
             });
-            
-            
+
+
+            MessagingCenter.Subscribe<QuestionViewModel>(this, Constants.QuestionSubmittedDeleteDraft,
+                (sender) =>
+            {
+                    DraftQuestion = "";
+                    ShowQuestionFrame = false;
+            });
             MessagingCenter.Subscribe<SelectableListViewModel>(this,"ReadQuestionsWithASingleQuestionWriter", (sender) =>
             {
                 var questionWriter = App.ReadingContext.Filters.QuestionWriterLists.SelectedEntities.FirstOrDefault();
@@ -215,7 +215,6 @@ namespace RightToAskClient.ViewModels
 
                 _readByQuestionWriter = true;
                 _writerOnlyUid = questionWriter?.RegistrationInfo.uid ?? string.Empty;
-                MessagingCenter.Unsubscribe<SelectableListViewModel>(this, "ReadQuestionsWithASingleQuestionWriter");
                 Heading1 = AppResources.QuestionWriterReadingPageHeaderText+" "+questionWriter?.RegistrationInfo.display_name;
                 
                 RefreshCommand.ExecuteAsync();
@@ -246,7 +245,7 @@ namespace RightToAskClient.ViewModels
             // The filters are what the user has chosen through the flow.
             var newQuestion = new Question
             {
-                QuestionText = App.ReadingContext.DraftQuestion,
+                QuestionText = DraftQuestion,
                 QuestionSuggester = (thisParticipant.IsRegistered)
                     ? thisParticipant.RegistrationInfo.uid
                     : "",
@@ -264,15 +263,13 @@ namespace RightToAskClient.ViewModels
 
         private async void OnDiscardButtonClicked()
         {
-            App.ReadingContext.DraftQuestion = "";
+            DraftQuestion = "";
             ShowQuestionFrame = false;
 
-            var popup = new TwoButtonPopup(QuestionViewModel.Instance, AppResources.DraftDiscardedPopupTitle, AppResources.FocusSupportReport, AppResources.RelatedQuestionsButtonText, AppResources.GoHomeButtonText);
+            var popup = new OneButtonPopup(AppResources.DraftDiscardedPopupTitle, AppResources.FocusSupportReport, AppResources.OKText);
             _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
-            if (ApproveButtonClicked)
-            {
-                await Application.Current.MainPage.Navigation.PopToRootAsync();
-            }
+
+            ShowQuestionFrame = false;
         }
 
         public async Task<List<Question>> LoadQuestions()

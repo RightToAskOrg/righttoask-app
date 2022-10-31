@@ -36,6 +36,7 @@ namespace RightToAskClient
         public static string GoToMetadataPageNext = "GoToMetadataPageNext";
         public static string GoToAskingPageNext = "GoToAskingPageNext";
         public static string GoBackToAdvancedSearchPage = "GoBackToAdvancedSearchPage";
+        public static string QuestionSubmittedDeleteDraft = "QuestionSubmittedDeleteDraft";
 
     }
 }

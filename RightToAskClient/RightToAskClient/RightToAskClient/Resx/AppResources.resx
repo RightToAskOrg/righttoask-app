@@ -817,6 +817,9 @@
   <data name="GoHomeButtonText" xml:space="preserve">
     <value>Home</value>
   </data>
+  <data name="QuestionPublishedPopupDetailText" xml:space="preserve">
+    <value>Do you want to write another with the same tags, or clear them and go home?</value>
+  </data>
   <data name="QuestionPublishedPopupText" xml:space="preserve">
     <value>Question successfully published!</value>
   </data>
