@@ -97,7 +97,8 @@ namespace UnitTests
             //ParliamentData.MPAndOtherData.IsInitialised = true;
             Button button = new Button()
             {
-                Command = vm.MyMPRaiseCommand
+                Command = vm.myMPRaiseCommand,
+                
             };
 
             // act

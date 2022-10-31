@@ -27,8 +27,8 @@ namespace UnitTests
             // assert
             Assert.True(validReg);
             Assert.True(vm.ShowUpdateAccountButton);
-            Assert.False(vm.CanEditUID);
-
+            Assert.False(vm.CanEditUid);
+            
             Assert.False(vm.ShowDMButton);
             Assert.False(vm.ShowSeeQuestionsButton);
             Assert.False(vm.ShowFollowButton);
@@ -51,7 +51,7 @@ namespace UnitTests
 
             // assert
             Assert.False(vm.ShowUpdateAccountButton);
-            Assert.True(vm.CanEditUID);
+            Assert.True(vm.CanEditUid);
 
             Assert.False(vm.ShowDMButton);
             Assert.False(vm.ShowSeeQuestionsButton);
@@ -75,7 +75,7 @@ namespace UnitTests
 
             // assert
             Assert.False(vm.ShowUpdateAccountButton);
-            Assert.True(vm.CanEditUID);
+            Assert.True(vm.CanEditUid);
 
             // usure what we want to do with these variables in the case of them not being registered, as it sets the button text but the buttons are hidden.
             Assert.False(vm.ShowDMButton);
@@ -103,7 +103,7 @@ namespace UnitTests
             // assert
             Assert.True(validReg);
             Assert.True(vm.ShowUpdateAccountButton);
-            Assert.False(vm.CanEditUID);
+            Assert.False(vm.CanEditUid);
 
             // These might need to be re-enabled in the viewModel for this case, since it looks like they are setting the button text, but aren't being shown.
             //Assert.True(vm.ShowDMButton);
