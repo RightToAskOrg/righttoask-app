@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using RightToAskClient.Resx;
@@ -16,7 +14,7 @@ namespace RightToAskClient.Models.ServerCommsData
         [JsonPropertyName("name")] public string? name { get; set; }
 
         // Express badge in exactly the format expected by the server.
-        public static string writeBadgeName(MP mpRepresenting, string domain)
+        public static string WriteBadgeName(MP mpRepresenting, string domain)
         {
             return mpRepresenting.first_name + " " + mpRepresenting.surname + " @" + domain;
         }

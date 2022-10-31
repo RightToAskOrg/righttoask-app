@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using RightToAskClient.HttpClients;
 using RightToAskClient.Models;
 using RightToAskClient.Models.ServerCommsData;
-using Xamarin.CommunityToolkit.Converters;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -19,11 +15,11 @@ namespace RightToAskClient.ViewModels
         
         // If the person has stated that they are an MP or staffer, return that one (there should be only one).
         // Otherwise, a new/blank one.
-        private MP _MPRepresenting = new MP();
+        private MP _mpRepresenting = new MP();
         public MP MPRepresenting
         {
-            get => _MPRepresenting;
-            private set => SetProperty(ref _MPRepresenting, value);
+            get => _mpRepresenting;
+            private set => SetProperty(ref _mpRepresenting, value);
         }
 
         // Bool to distinguish MPs from staffers. True if MP; false if staffer.
@@ -55,18 +51,18 @@ namespace RightToAskClient.ViewModels
         private string _mpVerificationHash = "";
         
         // The PIN entered by the user to verify that they read the email.
-        private int _mpRegistrationPIN;
+        private int _mpRegistrationPin;
 
-        public int MPRegistrationPIN
+        public int MpRegistrationPin
         {
-            get => _mpRegistrationPIN;
-            set => SetProperty(ref _mpRegistrationPIN, value);
+            get => _mpRegistrationPin;
+            set => SetProperty(ref _mpRegistrationPin, value);
         }
 
-        public bool ReturnToAccountPage = false;
+        public bool ReturnToAccountPage;
 
         // The domain of the email, one of 9 hardcoded valid parliamentary email domains.
-        private string domain = "";
+        private string _domain = "";
         
         #endregion
 
@@ -81,7 +77,7 @@ namespace RightToAskClient.ViewModels
             });
 
             SendMPVerificationEmailCommand = new Command(() => { SendMPRegistrationToServer(); });
-            SubmitMPRegistrationPINCommand = new AsyncCommand(async () =>
+            SubmitMPRegistrationPinCommand = new AsyncCommand(async () =>
             {
                 var success = await SendMPRegistrationPINToServer();
                 if (success)
@@ -92,7 +88,7 @@ namespace RightToAskClient.ViewModels
                     // navigate back to account page
                     if (ReturnToAccountPage)
                     {
-                        await App.Current.MainPage.Navigation.PopToRootAsync();
+                        await Application.Current.MainPage.Navigation.PopToRootAsync();
                     }
                 }
             });
@@ -100,16 +96,12 @@ namespace RightToAskClient.ViewModels
         
         // commands
         public Command SendMPVerificationEmailCommand { get; }
-        public IAsyncCommand SubmitMPRegistrationPINCommand { get; }
+        public IAsyncCommand SubmitMPRegistrationPinCommand { get; }
         
         // methods
-        private string _registerMPReportLabelText = "";
-        public string RegisterMPReportLabelText
-        {
-            get => _registerMPReportLabelText;
-        }
+        public string RegisterMPReportLabelText { get; } = "";
 
-        private bool _showRegisterMPReportLabel = false;
+        private bool _showRegisterMPReportLabel;
         public bool ShowRegisterMPReportLabel
         {
             get => _showRegisterMPReportLabel;
@@ -118,15 +110,15 @@ namespace RightToAskClient.ViewModels
         
         private async void SendMPRegistrationToServer()
         {
-            domain = _parliamentaryDomainIndex >= 0  && _parliamentaryDomainIndex < ParliamentData.Domains.Count
+            _domain = _parliamentaryDomainIndex >= 0  && _parliamentaryDomainIndex < ParliamentData.Domains.Count
                 ? ParliamentData.Domains[_parliamentaryDomainIndex] : "";
-            RequestEmailValidationMessage message = new RequestEmailValidationMessage()
+            var message = new RequestEmailValidationMessage()
             {
                 why = new EmailValidationReason() { AsMP = !IsStaffer },
                 // name = MPRepresenting.first_name + " " + MPRepresenting.surname +" @"+domain
-                name = Badge.writeBadgeName(MPRepresenting, domain)
+                name = Badge.WriteBadgeName(MPRepresenting, _domain)
             };
-            Result<string> httpResponse = await RTAClient.RequestEmailValidation(message, EmailUsername + "@" + domain);
+            var httpResponse = await RTAClient.RequestEmailValidation(message, EmailUsername + "@" + _domain);
             (bool isValid, string errorMsg, string hash) validation = RTAClient.ValidateHttpResponse(httpResponse, "Email Validation Request");
             if (validation.isValid)
             {
@@ -161,7 +153,7 @@ namespace RightToAskClient.ViewModels
                     new Badge()
                     {
                         badge = IsStaffer ? BadgeType.MPStaff : BadgeType.MP,
-                        name = Badge.writeBadgeName(MPRepresenting, domain)
+                        name = Badge.WriteBadgeName(MPRepresenting, _domain)
                     });
         }
 
@@ -170,9 +162,9 @@ namespace RightToAskClient.ViewModels
             var msg = new EmailValidationPIN()
             {
                 hash = _mpVerificationHash,
-                code = _mpRegistrationPIN
+                code = _mpRegistrationPin
             };
-            Result<string> httpResponse = await RTAClient.SendEmailValidationPIN(msg);
+            var httpResponse = await RTAClient.SendEmailValidationPin(msg);
             (bool isValid, string errorMsg, string hash) validation = RTAClient.ValidateHttpResponse(httpResponse, "Email Validation PIN");
 
                 // TODO - deal properly with errors e.g. email not known.

@@ -1,9 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using RightToAskClient.Helpers;
 using RightToAskClient.Models;
@@ -34,7 +32,7 @@ namespace RightToAskClient.ViewModels
 			private set => SetProperty(ref _filteredSelectableEntities, value);
 		}
 
-		private bool _showFilteredResults = false;
+		private bool _showFilteredResults;
 		public bool ShowFilteredResults
 		{
 			get => _showFilteredResults;
@@ -53,11 +51,8 @@ namespace RightToAskClient.ViewModels
 		}
 
 		// The already-selected ones, for display at the top.
-		public IEnumerable<Tag<Entity>> PreSelectedEntities
-		{
-			get => SelectableEntities.Where(te => te.Selected);
-		}
-		
+		public IEnumerable<Tag<Entity>> PreSelectedEntities => SelectableEntities.Where(te => te.Selected);
+
 		private string _introText = "";
 		public string IntroText
 		{
@@ -72,11 +67,7 @@ namespace RightToAskClient.ViewModels
 			set => SetProperty(ref _titleText, value);
 		}
 
-		private Binding _groupDisplay = new Binding("Chamber");
-		public Binding GroupDisplay
-		{
-			get => _groupDisplay;
-		}
+		public Binding GroupDisplay { get; } = new Binding("Chamber");
 
 		private string _doneButtonText = AppResources.NextButtonText;
 		public string DoneButtonText
@@ -85,7 +76,7 @@ namespace RightToAskClient.ViewModels
 			set => SetProperty(ref _doneButtonText, value);
 		}
 
-		private bool _showSearchFrame = false;
+		private bool _showSearchFrame;
 		public bool ShowSearchFrame
 		{
 			get => _showSearchFrame;
@@ -104,8 +95,8 @@ namespace RightToAskClient.ViewModels
 			}
 		}
 
-		public IAsyncCommand DoneButtonCommand { get; private set; }
-		public Command SearchToolbarCommand { get; private set; }
+		public IAsyncCommand DoneButtonCommand { get; }
+		public Command SearchToolbarCommand { get; }
 
 		private NextPageInstructions _nextPage = NextPageInstructions.ReadingPage;
 
@@ -131,12 +122,12 @@ namespace RightToAskClient.ViewModels
 			_titleText = "Authorities";
 			PopupLabelText = AppResources.SelectableListAuthoritiesPopupText;
 			DoneButtonCommand = new AsyncCommand(async () =>
-            {
-                DoneButton_OnClicked(
-	                () => UpdateSelectedList<Authority>(authorityLists), singleSelection       
-	                );
+			{
+				DoneButton_OnClicked(
+					() => UpdateSelectedList(authorityLists), singleSelection
+				);
 				MessagingCenter.Send(this, "UpdateFilters");
-            });
+			});
 		}
 
         public SelectableListViewModel(SelectableList<Person> participantLists , string message, bool singleSelection=false) : this(message, singleSelection)
@@ -147,13 +138,13 @@ namespace RightToAskClient.ViewModels
 			_titleText = AppResources.ParticipantText;
 			PopupLabelText = AppResources.ParticipantPopupText;
 			DoneButtonCommand = new AsyncCommand(async () =>
-            {
-                DoneButton_OnClicked(
-	                () => UpdateSelectedList<Person>(participantLists), singleSelection
-	                );
+			{
+				DoneButton_OnClicked(
+					() => UpdateSelectedList(participantLists), singleSelection
+				);
 				MessagingCenter.Send(this, "UpdateFilters");
-            });
-		
+			});
+
 		}
 		public SelectableListViewModel(SelectableList<Committee> committeeLists, string message, bool singleSelection=false) : this(message, singleSelection)
 		{
@@ -165,7 +156,7 @@ namespace RightToAskClient.ViewModels
 			DoneButtonCommand = new AsyncCommand(async () =>
             {
                 DoneButton_OnClicked(
-	                () => UpdateSelectedList<Committee>(committeeLists), singleSelection       
+	                () => UpdateSelectedList(committeeLists), singleSelection       
 	                );
 				MessagingCenter.Send(this, "UpdateFilters");
             });
@@ -181,8 +172,8 @@ namespace RightToAskClient.ViewModels
 			if (grouping)
 	        {
 		        var groupedMPs = mpLists.AllEntities.GroupBy(mp => mp.electorate.chamber);
-		        List<TaggedGroupedEntities> groupedMPsWithTags = new List<TaggedGroupedEntities>();
-		        foreach (IGrouping<ParliamentData.Chamber, MP> group in groupedMPs)
+		        var groupedMPsWithTags = new List<TaggedGroupedEntities>();
+		        foreach (var group in groupedMPs)
 		        {
 			        groupedMPsWithTags.Add(new TaggedGroupedEntities(
 				        group.Key,
@@ -206,7 +197,7 @@ namespace RightToAskClient.ViewModels
 			DoneButtonCommand = new AsyncCommand(async () =>
             {
                 DoneButton_OnClicked(
-	                () => UpdateSelectedList<MP>(mpLists), singleSelection
+	                () => UpdateSelectedList(mpLists), singleSelection
 	                );
 				MessagingCenter.Send(this, "UpdateFilters");
             });
@@ -341,10 +332,10 @@ namespace RightToAskClient.ViewModels
 		// The boolean indicates whether there's a single selection.
 		private async Task<(bool,T)> verifySingleSelection<T>() where T : class, new()
 		{
-			IEnumerable<Entity> selected = SelectableEntities.Where(w => w.Selected).Select(t => t.TagEntity);
+			var selected = SelectableEntities.Where(w => w.Selected).Select(t => t.TagEntity);
 			if (selected.IsNullOrEmpty() || selected.Count() > 1)
 			{
-				await App.Current.MainPage.DisplayAlert("You must select exactly one option.", 
+				await Application.Current.MainPage.DisplayAlert("You must select exactly one option.", 
 					"You have selected "+selected?.Count(), "OK");
 				return (false, new T());
 			}
@@ -360,10 +351,10 @@ namespace RightToAskClient.ViewModels
 		{
 			if (singleSelection)
 			{
-				IEnumerable<Entity> selected = SelectableEntities.Where(w => w.Selected).Select(t => t.TagEntity);
+				var selected = SelectableEntities.Where(w => w.Selected).Select(t => t.TagEntity);
 				if (selected.IsNullOrEmpty() || selected.Count() > 1)
 				{
-					await App.Current.MainPage.DisplayAlert("You must select exactly one option.",
+					await Application.Current.MainPage.DisplayAlert("You must select exactly one option.",
 						"You have selected " + selected?.Count(), "OK");
 					return false;
 				}
@@ -377,7 +368,7 @@ namespace RightToAskClient.ViewModels
 			var newSelectedEntities = new List<T>();
 			
 			var toBeIncluded = SelectableEntities.Where(w => w.Selected).Select(t => t.TagEntity);	
-			foreach (Entity selectedEntity in toBeIncluded)
+			foreach (var selectedEntity in toBeIncluded)
 			{
 				// There shouldn't be duplicates, but check just in case.
 				if (!newSelectedEntities.Contains(selectedEntity))

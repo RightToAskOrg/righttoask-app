@@ -110,9 +110,6 @@
     <None Remove="App.xaml.cs.old" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Data\" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Remove="Models\ServerPubKey.cs" />
     <Compile Remove="Views\SecondPage_old.xaml.cs" />
     <Compile Remove="Views\FindMyMP.xaml.cs" />

@@ -1,22 +1,17 @@
-﻿using RightToAskClient.Models;
+﻿using System;
+using RightToAskClient.Models;
 using RightToAskClient.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.CommunityToolkit.UI.Views;
-using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace RightToAskClient.Views
+namespace RightToAskClient.Views.Popups
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TwoButtonPopup : Popup
     {
-        BaseViewModel? baseViewModel;
-        Question? model;
+        private readonly BaseViewModel? baseViewModel;
+
+        private readonly Question? model;
         // constructor for ViewModels
         public TwoButtonPopup(BaseViewModel vm, string popupTitle, string popupText, string cancelMessage, string approveMessage)
         {

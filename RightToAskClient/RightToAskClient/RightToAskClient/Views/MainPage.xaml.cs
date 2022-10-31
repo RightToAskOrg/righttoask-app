@@ -1,12 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
-using RightToAskClient.HttpClients;
-using RightToAskClient.Models;
-using RightToAskClient.Resx;
-using RightToAskClient.ViewModels;
-using Xamarin.CommunityToolkit.Extensions;
+﻿using RightToAskClient.ViewModels;
 using Xamarin.Essentials;
-using Xamarin.Forms;
 
 namespace RightToAskClient.Views
 {

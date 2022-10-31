@@ -14,7 +14,7 @@ namespace RightToAskClient.Droid
             Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
             
-            App.Current.On<Xamarin.Forms.PlatformConfiguration.Android>().
+            Xamarin.Forms.Application.Current.On<Xamarin.Forms.PlatformConfiguration.Android>().
                 UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Pan);
         }
 

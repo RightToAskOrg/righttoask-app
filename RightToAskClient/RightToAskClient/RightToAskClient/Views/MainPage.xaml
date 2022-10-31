@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:resx="clr-namespace:RightToAskClient.Resx"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              xmlns:local="clr-namespace:RightToAskClient"
+             xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
              x:Class="RightToAskClient.Views.MainPage"
              Title="{xct:Translate ApplicationTitle}"
              Shell.FlyoutBehavior="Flyout"
@@ -15,7 +15,7 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="{xct:Translate InfoPopupButtonText}" Command="{Binding InfoPopupCommand}"
                      x:DataType="vm:BaseViewModel"
-                     IconImageSource="{local:ImageResource RightToAskClient.Images.help_75.png}" Priority="0" />
+                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}" Priority="0" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout VerticalOptions="FillAndExpand" Margin="10">
@@ -45,7 +45,7 @@
                                    AutomationProperties.Name="{xct:Translate MainPageTrendingNowAccessibilityLabelName}"
                                    AutomationProperties.HelpText="{xct:Translate MainPageTrendingNowAccessibilityLabelHelpText}" />
                             <Image x:Name="trendingImage1" Grid.Row="1"
-                                   Source="{local:ImageResource RightToAskClient.Images.trending_up_48.png}"
+                                   Source="{helpers:ImageResource RightToAskClient.Images.trending_up_48.png}"
                                    xct:IconTintColorEffect.TintColor="{StaticResource Primary}" WidthRequest="50"
                                    HorizontalOptions="Center"
                                    AutomationProperties.IsInAccessibleTree="True"
@@ -69,10 +69,9 @@
                                    VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="0,10,0,0"
                                    AutomationProperties.IsInAccessibleTree="True"
                                    AutomationProperties.Name="{xct:Translate MainPageTrendingNowInMyElectorateAccessibilityLabelName}"
-                                   AutomationProperties.HelpText="{xct:Translate MainPageInMyElectorateAccessibilityLabelHelpText}">
-                            </Label>
+                                   AutomationProperties.HelpText="{xct:Translate MainPageInMyElectorateAccessibilityLabelHelpText}" />
                             <Image x:Name="trendingImage2" Grid.Row="1"
-                                   Source="{local:ImageResource RightToAskClient.Images.trending_up_48.png}"
+                                   Source="{helpers:ImageResource RightToAskClient.Images.trending_up_48.png}"
                                    xct:IconTintColorEffect.TintColor="{StaticResource Primary}" WidthRequest="50"
                                    HorizontalOptions="Center"
                                    AutomationProperties.IsInAccessibleTree="True"
@@ -96,15 +95,14 @@
                                Margin="0,10,0,0" />
                         <Image x:Name="searchImage" Grid.Row="1" Margin="0" HorizontalOptions="Center"
                                VerticalOptions="Center"
-                               Source="{local:ImageResource RightToAskClient.Images.search.png}" WidthRequest="50"
+                               Source="{helpers:ImageResource RightToAskClient.Images.search.png}" WidthRequest="50"
                                xct:IconTintColorEffect.TintColor="{StaticResource Primary}"
                                AutomationProperties.IsInAccessibleTree="True"
                                AutomationProperties.Name="{xct:Translate DraftImageAccessibilityNameText}"
                                AutomationProperties.HelpText="{xct:Translate DraftImageAccessibilityHelpText}" />
                         <Button Grid.Row="0" Grid.RowSpan="2" Style="{StaticResource TransparentSquareButton}"
                                 Command="{Binding AdvancedSearchButtonCommand}" BorderColor="{StaticResource Primary}"
-                                AutomationProperties.LabeledBy="{x:Reference searchImage}">
-                        </Button>
+                                AutomationProperties.LabeledBy="{x:Reference searchImage}" />
                     </Grid>
                 </Frame>
                 <!-- Write a question button, which adds 'my questions' button if you've written any -->
@@ -118,7 +116,7 @@
                                        Margin="0,10,0,0" />
                                 <Image x:Name="draftImage1" Margin="0" HorizontalOptions="Center"
                                        VerticalOptions="CenterAndExpand"
-                                       Source="{local:ImageResource RightToAskClient.Images.half_roo.png}"
+                                       Source="{helpers:ImageResource RightToAskClient.Images.half_roo.png}"
                                        WidthRequest="75"
                                        AutomationProperties.IsInAccessibleTree="True"
                                        AutomationProperties.Name="{xct:Translate DraftImageAccessibilityNameText}"
@@ -126,8 +124,7 @@
                             </StackLayout>
                             <Button Grid.Row="0" Grid.RowSpan="2" Style="{StaticResource TransparentSquareButton}"
                                     Command="{Binding DraftingButtonCommand}" BorderColor="{StaticResource Primary}"
-                                    AutomationProperties.LabeledBy="{x:Reference draftImage1}">
-                            </Button>
+                                    AutomationProperties.LabeledBy="{x:Reference draftImage1}" />
                         </Grid>
                     </Frame>
                     <!--My Questions Button-->
@@ -140,7 +137,7 @@
                                        Margin="0,10,0,0" />
                                 <Image x:Name="draftImage2" Margin="0" HorizontalOptions="Center"
                                        VerticalOptions="CenterAndExpand"
-                                       Source="{local:ImageResource RightToAskClient.Images.half_roo.png}"
+                                       Source="{helpers:ImageResource RightToAskClient.Images.half_roo.png}"
                                        WidthRequest="75"
                                        AutomationProperties.IsInAccessibleTree="True"
                                        AutomationProperties.Name="{xct:Translate DraftImageAccessibilityNameText}"
@@ -148,8 +145,7 @@
                             </StackLayout>
                             <Button Grid.Row="0" Grid.RowSpan="2" Style="{StaticResource TransparentSquareButton}"
                                     Command="{Binding DraftingButtonCommand}" BorderColor="{StaticResource Primary}"
-                                    AutomationProperties.LabeledBy="{x:Reference draftImage2}">
-                            </Button>
+                                    AutomationProperties.LabeledBy="{x:Reference draftImage2}" />
                         </Grid>
                     </Frame>
                 </StackLayout>
@@ -163,7 +159,7 @@
                                    Margin="0,10,0,0" />
                             <Image x:Name="questionsForMe" Margin="0" HorizontalOptions="Center"
                                    VerticalOptions="CenterAndExpand"
-                                   Source="{local:ImageResource RightToAskClient.Images.half_roo.png}"
+                                   Source="{helpers:ImageResource RightToAskClient.Images.half_roo.png}"
                                    WidthRequest="75"
                                    AutomationProperties.IsInAccessibleTree="True"
                                    AutomationProperties.Name="{xct:Translate DraftImageAccessibilityNameText}"
@@ -171,8 +167,7 @@
                         </StackLayout>
                         <Button Grid.Row="0" Grid.RowSpan="2" Style="{StaticResource TransparentSquareButton}"
                                 Command="{Binding DraftingButtonCommand}" BorderColor="{StaticResource Primary}"
-                                AutomationProperties.LabeledBy="{x:Reference draftImage2}">
-                        </Button>
+                                AutomationProperties.LabeledBy="{x:Reference draftImage2}" />
                     </Grid>
                 </Frame>
             </Grid>

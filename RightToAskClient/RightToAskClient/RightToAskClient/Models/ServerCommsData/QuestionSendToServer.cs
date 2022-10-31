@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 
@@ -71,13 +70,13 @@ namespace RightToAskClient.Models.ServerCommsData
          */
         public QuestionSendToServer(Question question)
         {
-            if (!String.IsNullOrEmpty(question.QuestionText))
+            if (!string.IsNullOrEmpty(question.QuestionText))
             {
                 question_text = question.QuestionText;
             }
 
                     
-            if (!String.IsNullOrEmpty(question.Background))
+            if (!string.IsNullOrEmpty(question.Background))
             {
                 background = question.Background;
             }
@@ -87,7 +86,7 @@ namespace RightToAskClient.Models.ServerCommsData
             who_should_answer_the_question_permissions = question.WhoShouldAnswerTheQuestionPermissions;
             who_should_ask_the_question_permissions = question.WhoShouldAskTheQuestionPermissions;
 
-            if (!String.IsNullOrEmpty(question.IsFollowupTo))
+            if (!string.IsNullOrEmpty(question.IsFollowupTo))
             {
                 is_followup_to = question.IsFollowupTo;
             }
@@ -120,7 +119,7 @@ namespace RightToAskClient.Models.ServerCommsData
             var MPanswerersServerData = MPAnswerers.Select(mp => new PersonID(new MPId(mp)));
             
             // Add authorities, guaranteed not to be duplicates.
-            List<PersonID> answerers = MPanswerersServerData.
+            var answerers = MPanswerersServerData.
                 Concat(filters.SelectedAuthorities.Select(a => new PersonID(a))).ToList();
             entity_who_should_answer_the_question = answerers;
 
@@ -133,7 +132,7 @@ namespace RightToAskClient.Models.ServerCommsData
             var CommitteeAskers = filters.SelectedCommittees;
             // var CommitteeAskersServerData = CommitteeAskers.Select(c => new PersonID(new CommitteeInfo(c)));
             
-            List<PersonID> askers = MPAskersServerData.
+            var askers = MPAskersServerData.
                 Concat(CommitteeAskers.Select(c => new PersonID(new CommitteeInfo(c)))).ToList();
             mp_who_should_ask_the_question = askers;
 
@@ -141,7 +140,7 @@ namespace RightToAskClient.Models.ServerCommsData
         }
         public bool ValidateNewQuestion()
         {
-            bool isValid = false;
+            var isValid = false;
             // just needs question text for new questions
             if (!string.IsNullOrEmpty(question_text))
             {
@@ -152,7 +151,7 @@ namespace RightToAskClient.Models.ServerCommsData
 
         public bool ValidateUpdateQuestion()
         {
-            bool isValid = false;
+            var isValid = false;
             // needs more fields to update an existing question
             if (!string.IsNullOrEmpty(question_text)
                 && !string.IsNullOrEmpty(question_id)

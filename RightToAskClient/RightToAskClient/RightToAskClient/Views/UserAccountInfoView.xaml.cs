@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RightToAskClient.ViewModels;
+﻿using RightToAskClient.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -16,10 +11,10 @@ namespace RightToAskClient.Views
         {
             InitializeComponent();
 
-            var caneditUID = (BindingContext as RegistrationViewModel)?.CanEditUID ?? false;
+            var caneditUID = (BindingContext as RegistrationViewModel)?.CanEditUid ?? false;
             UIDEntry.Style = caneditUID
-                ? App.Current.Resources["NormalEntry"] as Style
-                : App.Current.Resources["DisabledEntry"] as Style;
+                ? Application.Current.Resources["NormalEntry"] as Style
+                : Application.Current.Resources["DisabledEntry"] as Style;
         }
     }
 }

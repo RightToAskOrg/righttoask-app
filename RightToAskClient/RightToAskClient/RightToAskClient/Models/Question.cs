@@ -3,13 +3,10 @@ using RightToAskClient.Views;
 using RightToAskClient.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Resx;
+using RightToAskClient.Views.Popups;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -29,14 +26,6 @@ namespace RightToAskClient.Models
         private int _upVotes;
         private int _downVotes;
 
-        private QuestionSendToServer _updates = new QuestionSendToServer()
-        {
-            // Most updates are simply omitted when not changed, but the Permissions enum needs to send a specific
-            // "no change" value. 
-            who_should_ask_the_question_permissions = RTAPermissions.NoChange,
-            who_should_answer_the_question_permissions = RTAPermissions.NoChange
-        };
-
         public QuestionDetailsStatus Status { get; set; }
 
         private string _questionText = "";
@@ -47,19 +36,24 @@ namespace RightToAskClient.Models
             {
                 SetProperty(ref _questionText, value);
                 //** QuestionViewModel.Instance.ServerQuestionUpdates.question_text = _questionText;
-                _updates.question_text = _questionText;
+                Updates.question_text = _questionText;
             }
         }
 
         // needed for getting a bool result back from the generic popups
-        public bool PopupResponse { get; set; } = false;
 
         // Lists the updates that have occurred since construction.
-        public QuestionSendToServer Updates => _updates; 
-        
+        public QuestionSendToServer Updates { get; private set; } = new QuestionSendToServer()
+        {
+            // Most updates are simply omitted when not changed, but the Permissions enum needs to send a specific
+            // "no change" value. 
+            who_should_ask_the_question_permissions = RTAPermissions.NoChange,
+            who_should_answer_the_question_permissions = RTAPermissions.NoChange
+        };
+
         public void ReinitQuestionUpdates()
         {
-            _updates = new QuestionSendToServer()
+            Updates = new QuestionSendToServer()
             {
                 // Init explicit 'no change' value for permissions.
                 who_should_answer_the_question_permissions = RTAPermissions.NoChange,
@@ -76,7 +70,7 @@ namespace RightToAskClient.Models
             {
                 SetProperty(ref _background, value);
                 //** QuestionViewModel.Instance.ServerQuestionUpdates.background = _background;
-                _updates.background = _background;
+                Updates.background = _background;
             }
         }
 
@@ -90,10 +84,7 @@ namespace RightToAskClient.Models
         public FilterChoices Filters
         {
             get => _filters;
-            set
-            {
-                SetProperty(ref _filters, value);
-            }
+            set => SetProperty(ref _filters, value);
         }
         
         // TODO do updates.
@@ -106,21 +97,15 @@ namespace RightToAskClient.Models
         public string QuestionId
         {
             get => _questionId;
-            set
-            {
-                SetProperty(ref _questionId, value);
-                //** QuestionViewModel.Instance.ServerQuestionUpdates.question_id = _questionId;
-            }
+            set => SetProperty(ref _questionId, value);
+            //** QuestionViewModel.Instance.ServerQuestionUpdates.question_id = _questionId;
         }
         private string _version = "";
         public string Version
         {
             get => _version;
-            set
-            {
-                SetProperty(ref _version, value);
-                //** QuestionViewModel.Instance.ServerQuestionUpdates.version = _version;
-            }
+            set => SetProperty(ref _version, value);
+            //** QuestionViewModel.Instance.ServerQuestionUpdates.version = _version;
         }
 
         // The person who suggested the question
@@ -143,22 +128,22 @@ namespace RightToAskClient.Models
             set 
             {
                 SetProperty(ref _whoShouldAnswerTheQuestionPermissions, value);
-                _updates.who_should_answer_the_question_permissions = value;
+                Updates.who_should_answer_the_question_permissions = value;
             }
         }
 
         public string QuestionAnswerers =>  
             Extensions.JoinFilter(", ",
-                String.Join(", ",Filters.SelectedAnsweringMPsNotMine.Select(mp => mp.ShortestName)),
-                String.Join(", ",Filters.SelectedAnsweringMPsMine.Select(mp => mp.ShortestName)),
-                String.Join(", ",Filters.SelectedAuthorities.Select(a => a.ShortestName)));
+                string.Join(", ",Filters.SelectedAnsweringMPsNotMine.Select(mp => mp.ShortestName)),
+                string.Join(", ",Filters.SelectedAnsweringMPsMine.Select(mp => mp.ShortestName)),
+                string.Join(", ",Filters.SelectedAuthorities.Select(a => a.ShortestName)));
 
         // The MPs or committee who are meant to ask the question
         public string QuestionAskers =>
             Extensions.JoinFilter(", ",
-                String.Join(", ", Filters.SelectedAskingMPsNotMine.Select(mp => mp.ShortestName)), 
-                String.Join(", ", Filters.SelectedAskingMPsMine.Select(mp => mp.ShortestName)), 
-                String.Join(",", Filters.SelectedCommittees.Select(com => com.ShortestName)));
+                string.Join(", ", Filters.SelectedAskingMPsNotMine.Select(mp => mp.ShortestName)), 
+                string.Join(", ", Filters.SelectedAskingMPsMine.Select(mp => mp.ShortestName)), 
+                string.Join(",", Filters.SelectedCommittees.Select(com => com.ShortestName)));
             // TODO add:
             // + String.Join(",",Filters.SelectedAskingUsers.Select(....));
             
@@ -172,29 +157,23 @@ namespace RightToAskClient.Models
             set 
             {
                 SetProperty(ref _whoShouldAskTheQuestionPermissions, value);
-                _updates.who_should_ask_the_question_permissions = value;
+                Updates.who_should_ask_the_question_permissions = value;
             }
         }
 
         // A list of existing answers, specifying who gave the answer in the role of representing which MP.
         public List<Answer>? _answers { get; set; } 
         
-        public List<Answer> Answers 
-        { 
-            get => _answers;
-        }
+        public List<Answer> Answers => _answers;
 
-        
+
         private List<Uri> _hansardLink = new List<Uri>();
 
         public List<Uri> HansardLink
         {
             get => _hansardLink;
-            private set
-            {
-                SetProperty(ref _hansardLink, value);
-                //** QuestionViewModel.Instance.ServerQuestionUpdates.hansard_link = _hansardLink;
-            }
+            private set => SetProperty(ref _hansardLink, value);
+            //** QuestionViewModel.Instance.ServerQuestionUpdates.hansard_link = _hansardLink;
         }
 
         public int UpVotes
@@ -204,10 +183,7 @@ namespace RightToAskClient.Models
         }
         public int DownVotes 
         {
-            get
-            {
-                return _downVotes;
-            }
+            get => _downVotes;
             set
             {
                 _downVotes = value;
@@ -234,15 +210,14 @@ namespace RightToAskClient.Models
             get => _hasAnswer;
             set => SetProperty(ref _hasAnswer, value);
         }
-
         // booleans stored for new style popups
-        private bool _approveClicked = false;
+        private bool _approveClicked;
         public bool ApproveClicked
         {
             get => _approveClicked;
             set => SetProperty(ref _approveClicked, value);
         }
-        private bool _cancelClicked = false;
+        private bool _cancelClicked;
         public bool CancelClicked
         {
             get => _cancelClicked;
@@ -273,9 +248,9 @@ namespace RightToAskClient.Models
                 }
                 else
                 {
-                    string message = AppResources.CreateAccountPopUpText;
+                    var message = AppResources.CreateAccountPopUpText;
                     var popup = new TwoButtonPopup(this, AppResources.MakeAccountQuestionText, message, AppResources.NotNowAnswerText, AppResources.OKText); // this instance uses a model instead of a VM
-                    _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                    _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
                     if (ApproveClicked)
                     {
                         await Shell.Current.GoToAsync($"{nameof(RegisterPage1)}");
@@ -354,10 +329,10 @@ namespace RightToAskClient.Models
             HansardLink = new List<Uri>();
             if (serverQuestion.hansard_link != null)
             {
-                foreach (HansardLink? link in serverQuestion.hansard_link)
+                foreach (var link in serverQuestion.hansard_link)
                 {
                     var possibleUrl = ParliamentData.StringToValidParliamentaryUrl(link?.url ?? "");
-                    if (String.IsNullOrEmpty(possibleUrl.Err))
+                    if (string.IsNullOrEmpty(possibleUrl.Err))
                     {
                         HansardLink.Add(possibleUrl.Ok);
                     }
@@ -457,7 +432,7 @@ namespace RightToAskClient.Models
         // Returns true if the item was found
         private bool CanFindInListBThenAddToListA<T>(T item, List<T> listA, IEnumerable<T> listB)  where T: Entity
         {
-            T possibleItem = listB.ToList().Find(t => t != null && t.DataEquals(item));
+            var possibleItem = listB.ToList().Find(t => t != null && t.DataEquals(item));
             if (possibleItem is null)
             {
                 return false;
@@ -470,7 +445,7 @@ namespace RightToAskClient.Models
         //validation
         public bool ValidateNewQuestion()
         {
-            bool isValid = false;
+            var isValid = false;
             // just needs question text for new questions
             if (!string.IsNullOrEmpty(QuestionText))
             {
@@ -481,7 +456,7 @@ namespace RightToAskClient.Models
 
         public bool ValidateUpdateQuestion()
         {
-            bool isValid = false;
+            var isValid = false;
             // needs more fields to update an existing question
             if (!string.IsNullOrEmpty(QuestionText)
                 && !string.IsNullOrEmpty(QuestionId)
@@ -494,14 +469,14 @@ namespace RightToAskClient.Models
 
         public void AddHansardLink(Uri newHansardLink)
         {
-            if (_updates.hansard_link is null)
+            if (Updates.hansard_link is null)
             {
-            _updates.hansard_link = new List<HansardLink>{new HansardLink(newHansardLink.OriginalString)};
+            Updates.hansard_link = new List<HansardLink>{new HansardLink(newHansardLink.OriginalString)};
             }
             // People may add multiple Hansard links at once.
             else
             {
-                _updates.hansard_link.Add(new HansardLink(newHansardLink.OriginalString));
+                Updates.hansard_link.Add(new HansardLink(newHansardLink.OriginalString));
             }
             QuestionViewModel.Instance.Question.HansardLink.Add(newHansardLink);
             OnPropertyChanged("HansardLink");
@@ -511,7 +486,7 @@ namespace RightToAskClient.Models
         {
             var me = App.ReadingContext.ThisParticipant;
 
-            _updates.answers = new List<QuestionAnswer>()
+            Updates.answers = new List<QuestionAnswer>()
             {
                 new QuestionAnswer()
                 {

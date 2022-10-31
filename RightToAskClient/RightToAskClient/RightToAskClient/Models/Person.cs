@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using RightToAskClient.Models.ServerCommsData;
@@ -15,13 +14,10 @@ namespace RightToAskClient.Models
 		private Address _address = new Address();
 		private string _userEmail = "";
 
-		public override string ShortestName
-		{
-			get { return RegistrationInfo.display_name; }
-		}
+		public override string ShortestName => RegistrationInfo.display_name;
 
 
-        // Initially, when we don't know the state, it's only the Australian
+		// Initially, when we don't know the state, it's only the Australian
 		// Parliament.
 		protected List<ParliamentData.Chamber> ChambersRepresentedIn 
 			= ParliamentData.FindFederalChambers();
@@ -32,7 +28,7 @@ namespace RightToAskClient.Models
 		private Registration _registrationInfo = new Registration();
         public Registration RegistrationInfo 
         {
-			get { return _registrationInfo; }
+			get => _registrationInfo;
 			set
 			{
 				_registrationInfo = value;
@@ -72,7 +68,7 @@ namespace RightToAskClient.Models
 
         public Address Address
         {
-	        get { return _address; }
+	        get => _address;
 	        set
 	        {
 		        _address = value;
@@ -81,7 +77,7 @@ namespace RightToAskClient.Models
         }
 		public string UserEmail
 		{
-			get { return _userEmail; }
+			get => _userEmail;
 			set
 			{
 				_userEmail = value;
@@ -145,8 +141,8 @@ namespace RightToAskClient.Models
 
 		public override string ToString()
 		{
-			string displayBadges = String.Join(",", RegistrationInfo.Badges);
-			string addBadges = displayBadges.Any() ? "\n" + displayBadges : string.Empty;
+			var displayBadges = string.Join(",", RegistrationInfo.Badges);
+			var addBadges = displayBadges.Any() ? "\n" + displayBadges : string.Empty;
 			return RegistrationInfo.display_name + " @" + RegistrationInfo.uid + addBadges;
 		}
     }

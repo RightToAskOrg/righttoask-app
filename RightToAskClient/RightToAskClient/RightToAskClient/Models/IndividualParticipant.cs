@@ -1,13 +1,8 @@
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using RightToAskClient.CryptoUtils;
 using RightToAskClient.Models.ServerCommsData;
 
-using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Essentials;
-using Xamarin.Forms;
 // This class represents a person who uses the
 // system and is not an MP or org representative.
 namespace RightToAskClient.Models
@@ -62,11 +57,11 @@ namespace RightToAskClient.Models
 
 		public new bool Validate()
         {
-			bool isValid = false;
+			var isValid = false;
 			// if they are registered, they need valid registration info
             if (IsRegistered)
             {
-				bool validSuper = base.Validate();
+				var validSuper = base.Validate();
                 if (validSuper)
                 {
 					isValid = true;

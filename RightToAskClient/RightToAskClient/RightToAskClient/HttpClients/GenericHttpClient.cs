@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -7,7 +6,6 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using RightToAskClient.Annotations;
 using RightToAskClient.Models;
 
 /* This makes a small wrapper around the HttpClient class.
@@ -24,14 +22,8 @@ namespace RightToAskClient.HttpClients
 {
     public class GenericHttpClient
     {
-        HttpClient _client;
-        JsonSerializerOptions _serializerOptions;
-
-        public Result<List<string>> Items 
-        { 
-            get; 
-            private set; 
-        } = new Result<List<string>>();
+        private readonly HttpClient _client;
+        private readonly JsonSerializerOptions _serializerOptions;
 
         // TODO Not sure if this is the right way to do this.
         public void SetAuthorizationHeaders(AuthenticationHeaderValue authHeader)
@@ -47,12 +39,12 @@ namespace RightToAskClient.HttpClients
         }
         
         
-        public async Task<Result<T>> DoGetJSONRequest<T>(string uriString)
+        public async Task<Result<T>> DoGetJsonRequest<T>(string uriString)
         {
-            Uri uri = new Uri(uriString);
+            var uri = new Uri(uriString);
             try
             {
-                T deserialisedResponse = await _client.GetFromJsonAsync<T>(uri, _serializerOptions);
+                var deserialisedResponse = await _client.GetFromJsonAsync<T>(uri, _serializerOptions);
 
                 if (deserialisedResponse is null)
                 {
@@ -96,12 +88,12 @@ namespace RightToAskClient.HttpClients
          */
         public async Task<Result<T>> DoGetResultRequest<T>(string uriString)
         {
-            var result = await DoGetJSONRequest<Result<T>>(uriString);
-            if (!String.IsNullOrEmpty(result.Err) || !String.IsNullOrEmpty(result.Ok.Err))
+            var result = await DoGetJsonRequest<Result<T>>(uriString);
+            if (!string.IsNullOrEmpty(result.Err) || !string.IsNullOrEmpty(result.Ok.Err))
             {
                 return new Result<T>
                 {
-                    Err = result?.Err + result?.Ok?.Err
+                    Err = result.Err + result.Ok.Err
                 };
             }
 
@@ -113,16 +105,16 @@ namespace RightToAskClient.HttpClients
 
         // Tin is the type of the thing we post, which is also the input type of this function.
         // TResponse is the type of the server's response, which we return.
-        public async Task<Result<TResponse>> PostGenericItemAsync<TResponse, TIn>(TIn item, string requesteduri)
+        public async Task<Result<TResponse>> PostGenericItemAsync<TResponse, TIn>(TIn item, string requestedUri)
         {
-            Uri uri = new Uri(requesteduri);
+            var uri = new Uri(requestedUri);
             
             try
             {
-                string json = JsonSerializer.Serialize(item, _serializerOptions);
-                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                var json = JsonSerializer.Serialize(item, _serializerOptions);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await _client.PostAsync(uri, content);
+                var response = await _client.PostAsync(uri, content);
 
                 if (response is null || !response.IsSuccessStatusCode)
                 {
@@ -132,8 +124,8 @@ namespace RightToAskClient.HttpClients
                     };
                 }
                 
-                string responseContent = await response.Content.ReadAsStringAsync();
-                TResponse httpResponse =
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var httpResponse =
                     JsonSerializer.Deserialize<TResponse>(responseContent, _serializerOptions);
 
                 if (httpResponse is null)

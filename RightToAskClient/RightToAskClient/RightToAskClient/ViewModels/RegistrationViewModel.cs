@@ -11,6 +11,7 @@ using RightToAskClient.Models;
 using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Resx;
 using RightToAskClient.Views;
+using RightToAskClient.Views.Popups;
 using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
@@ -24,7 +25,7 @@ namespace RightToAskClient.ViewModels
 
         // The complete information about this user's current registration, including any updates that have been made
         // on this page.
-        private Registration _registration = new Registration(); 
+        private readonly Registration _registration = new Registration(); 
 
         // The updates that have been made to this user's registration on this page
         // Note this is used only for updating an existing registration - new registrations are handled
@@ -43,7 +44,7 @@ namespace RightToAskClient.ViewModels
         //
         // Note that there is no need to update _registrationUpdates because UID is only set when the registration
         // is initialized.
-        public string UserID
+        public string UserId
 
         {
             get => _registration.uid;
@@ -54,7 +55,7 @@ namespace RightToAskClient.ViewModels
             set
             {
                 _registration.uid = value;
-                OnPropertyChanged("UserID");
+                OnPropertyChanged();
             }
         }
 
@@ -67,16 +68,14 @@ namespace RightToAskClient.ViewModels
             {
                 _registration.display_name = value;
                 _registrationUpdates.display_name = value;
-                OnPropertyChanged("DisplayName");
+                OnPropertyChanged();
             }
         }
 
-        public string State
-        {
-            get => _registration.StateKnown
+        public string State =>
+            _registration.StateKnown
                 ? _registration.SelectedStateAsEnum.ToString()
                 : "";
-        }
 
 
         private bool _stateKnown;
@@ -110,45 +109,33 @@ namespace RightToAskClient.ViewModels
             {
                 _registration.Electorates = value;
                 _registrationUpdates.electorates = _registration.Electorates;
-                OnPropertyChanged("Electorates");
+                OnPropertyChanged();
             }
         }
 
-        public string BadgesSummary
-        {
-            get => String.Join(",", _registration.Badges.Select(b => b.ToString()).ToList());
-        }
-        
+        public string BadgesSummary => string.Join(",", _registration.Badges.Select(b => b.ToString()).ToList());
+
         // This is for selecting MPs if you're registering as an MP or staffer account
-        private SelectableList<MP> _selectableMPList = new SelectableList<MP>(new List<MP>(), new List<MP>());
+        private readonly SelectableList<MP> _selectableMPList = new SelectableList<MP>(new List<MP>(), new List<MP>());
         
-        public bool IsVerifiedMPAccount
-        {
-            get => _registration?.Badges?.Any(b =>  b.badge == BadgeType.MP || b.badge == BadgeType.MPStaff) ?? false;
-        }
+        public bool IsVerifiedMPAccount => _registration.Badges?.Any(b =>  b.badge == BadgeType.MP || b.badge == BadgeType.MPStaff) ?? false;
 
-        public bool IsVerifiedStafferAccount
-        {
-            get => _registration?.Badges?.Any(b => b.badge == BadgeType.MPStaff) ?? false;
-        }
+        public bool IsVerifiedStafferAccount => _registration.Badges?.Any(b => b.badge == BadgeType.MPStaff) ?? false;
 
-        public string MPsRepresenting
-        {
-            get => String.Join(",",_registration?.Badges?.Select(b => b.name ?? "") ?? new List<string>());
-        }
-        
+        public string MPsRepresenting => string.Join(",",_registration.Badges?.Select(b => b.name ?? "") ?? new List<string>());
+
         // public MP RegisteredMP { get; }
         public bool ShowStafferLabel { get; set; }
-        public bool ShowExistingMPRegistrationLabel { get; set; } = false;
+        public bool ShowExistingMPRegistrationLabel { get; set; }
         
-        private bool _showRegisterMPReportLabel = false;
+        private bool _showRegisterMPReportLabel;
         public bool ShowRegisterMPReportLabel
         {
             get => _showRegisterMPReportLabel;
             set => SetProperty(ref _showRegisterMPReportLabel, value);
         } 
         
-        private bool _showRegisterCitizenButton = false;
+        private bool _showRegisterCitizenButton;
         public bool ShowRegisterCitizenButton
         {
             get => _showRegisterCitizenButton;
@@ -162,7 +149,7 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _registerCitizenButtonText, value);
         }
 
-        private bool _showRegisterOrgButton = false;
+        private bool _showRegisterOrgButton;
         public bool ShowRegisterOrgButton
         {
             get => _showRegisterOrgButton;
@@ -180,14 +167,14 @@ namespace RightToAskClient.ViewModels
 
         public string RegisterMPButtonText => AppResources.RegisterMPAccountButtonText;
         
-        private bool _showDoneButton = false;
+        private bool _showDoneButton;
         public bool ShowDoneButton
         {
             get => _showDoneButton;
             set => SetProperty(ref _showDoneButton, value);
         }
 
-        private bool _showDMButton = false;
+        private bool _showDMButton;
         public bool ShowDMButton
         {
             get => _showDMButton;
@@ -201,7 +188,7 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _dmButtonText, value);
         }
 
-        private bool _showSeeQuestionsButton = false;
+        private bool _showSeeQuestionsButton;
         public bool ShowSeeQuestionsButton
         {
             get => _showSeeQuestionsButton;
@@ -215,7 +202,7 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _seeQuestionsButtonText, value);
         }
 
-        private bool _showFollowButton = false;
+        private bool _showFollowButton;
         public bool ShowFollowButton
         {
             get => _showFollowButton;
@@ -229,14 +216,14 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _followButtonText, value);
         }
 
-        private bool _canEditUID = true;
-        public bool CanEditUID
+        private bool _canEditUid = true;
+        public bool CanEditUid
         {
-            get => _canEditUID;
-            set => SetProperty(ref _canEditUID, value);
+            get => _canEditUid;
+            set => SetProperty(ref _canEditUid, value);
         }
 
-        private bool _showUpdateAccountButton = false;
+        private bool _showUpdateAccountButton;
         public bool ShowUpdateAccountButton
         {
             get => _showUpdateAccountButton;
@@ -246,7 +233,7 @@ namespace RightToAskClient.ViewModels
         public List<string> StateList => ParliamentData.StatesAndTerritories;
 
 
-        private ElectorateWithChamber? _selectedElectorateWithChamber = null;
+        private ElectorateWithChamber? _selectedElectorateWithChamber;
         public ElectorateWithChamber? SelectedElectorateWithChamber
         {
             get => _selectedElectorateWithChamber;
@@ -270,7 +257,7 @@ namespace RightToAskClient.ViewModels
         {
             _registration = reg;
             ReportLabelText = "";
-            CanEditUID = false;
+            CanEditUid = false;
             PopupLabelText = AppResources.OtherUserInfoText;
             
             // First do default command init, to make sure nothing is null.
@@ -289,7 +276,7 @@ namespace RightToAskClient.ViewModels
             _registration = me.RegistrationInfo; 
             
             ShowTheRightButtonsForOwnAccount();
-            CanEditUID = !me.IsRegistered;
+            CanEditUid = !me.IsRegistered;
 
             // uid should still be sent in the 'update' even though it doesn't change.
             _registrationUpdates.uid = _registration.uid;
@@ -345,15 +332,15 @@ namespace RightToAskClient.ViewModels
             }
 
             // commands
-        public Command DoneButtonCommand { get; private set;}
-        public Command UpdateAccountButtonCommand { get; private set;}
-        public AsyncCommand ChooseMPToRegisterButtonCommand { get; private set; }
-        public Command UpdateMPsButtonCommand { get; private set; }
+        public Command DoneButtonCommand { get; }
+        public Command UpdateAccountButtonCommand { get; }
+        public AsyncCommand ChooseMPToRegisterButtonCommand { get; }
+        public Command UpdateMPsButtonCommand { get; }
         public Command RegisterOrgButtonCommand { get; }
-        public Command FollowButtonCommand { get; private set; }
-        public Command DMButtonCommand { get; private set; }
-        public IAsyncCommand CancelButtonCommand { get; private set; }
-        public IAsyncCommand SeeQuestionsButtonCommand { get; private set; }
+        public Command FollowButtonCommand { get; }
+        public Command DMButtonCommand { get; }
+        public IAsyncCommand CancelButtonCommand { get; }
+        public IAsyncCommand SeeQuestionsButtonCommand { get; }
 
 
         #region Methods
@@ -421,7 +408,7 @@ namespace RightToAskClient.ViewModels
                 {
                     // if MPs have not been found for this user yet, prompt to find them
                     var popup = new TwoButtonPopup(this, AppResources.MPsPopupTitle, AppResources.MPsPopupText, AppResources.SkipButtonText, AppResources.YesButtonText);
-                    _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                    _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
                     if (ApproveButtonClicked)
                     {
                         NavigateToFindMPsPage();
@@ -462,11 +449,11 @@ namespace RightToAskClient.ViewModels
                 }
                 // Now we're registered, we can't change our UID - we can only update the other fields.
                 ShowUpdateAccountButton = true;
-                CanEditUID = false;
+                CanEditUid = false;
                 Title = AppResources.EditYourAccountTitle;
                 PopupLabelText = AppResources.EditAccountPopupText;
                 // pop back to the QuestionDetailsPage after the account is created
-                await App.Current.MainPage.Navigation.PopAsync();
+                await Application.Current.MainPage.Navigation.PopAsync();
             }
         }
 
@@ -491,7 +478,7 @@ namespace RightToAskClient.ViewModels
             // Shouldn't be updating a non-existent user. 
             Debug.Assert(App.ReadingContext.ThisParticipant.IsRegistered);
 
-            bool hasChanges = false;
+            var hasChanges = false;
             if (_registrationUpdates.uid == null)
             {
                 return;
@@ -547,7 +534,7 @@ namespace RightToAskClient.ViewModels
             else
             {
                 var popup = new OneButtonPopup(AppResources.NoAccountChangesDetectedAlertText, AppResources.OKText);
-                await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
             }
         }
 
@@ -582,7 +569,7 @@ namespace RightToAskClient.ViewModels
         private async void PromptUser(string message)
         {
             var popup = new OneButtonPopup(message, AppResources.OKText);
-            _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+            _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
         }
         #endregion
     }

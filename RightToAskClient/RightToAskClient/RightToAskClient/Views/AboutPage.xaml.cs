@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using RightToAskClient.Resx;
 using RightToAskClient.ViewModels;
+using RightToAskClient.Views.Popups;
 using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -16,9 +14,9 @@ namespace RightToAskClient.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AboutPage : ContentPage
     {
-        private static string appDomainString = "https://righttoask.democracydevelopers.org.au/";
+        private static readonly string appDomainString = "https://righttoask.democracydevelopers.org.au/";
         private static Uri appDomain = new Uri(appDomainString);
-        private BaseViewModel baseViewModel;
+        private readonly BaseViewModel baseViewModel;
         public AboutPage()
         {
             InitializeComponent();
@@ -67,15 +65,15 @@ namespace RightToAskClient.Views
                 e.Cancel = true;
 
                 // display an alert
-                string alertText = AppResources.WebNavigationWarning + "\n" + destination;
-                string alertCancel = AppResources.CancelButtonText;
-                string alertConfirmation = AppResources.NavigateOKText;
+                var alertText = AppResources.WebNavigationWarning + "\n" + destination;
+                var alertCancel = AppResources.CancelButtonText;
+                var alertConfirmation = AppResources.NavigateOKText;
 
                 var popup = new TwoButtonPopup(baseViewModel, AppResources.NavigationPopupTitle, alertText, alertCancel, alertConfirmation);
-                _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
                 if (baseViewModel.ApproveButtonClicked)
                 {
-                    Uri browserDestination = new Uri(destination);
+                    var browserDestination = new Uri(destination);
                     await OpenBrowser(browserDestination);
                 }
             }

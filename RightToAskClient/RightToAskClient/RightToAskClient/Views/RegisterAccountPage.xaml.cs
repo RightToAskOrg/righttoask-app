@@ -1,12 +1,7 @@
 using System;
-using System.Linq;
-using RightToAskClient.CryptoUtils;
-using RightToAskClient.Models;
-using RightToAskClient.HttpClients;
 using RightToAskClient.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Xamarin.Essentials;
 
 namespace RightToAskClient.Views
 {

@@ -1,14 +1,9 @@
-﻿using RightToAskClient.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using RightToAskClient.ViewModels;
 using Xamarin.CommunityToolkit.UI.Views;
-using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace RightToAskClient.Views
+namespace RightToAskClient.Views.Popups
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class QuestionPublishedPopup : Popup

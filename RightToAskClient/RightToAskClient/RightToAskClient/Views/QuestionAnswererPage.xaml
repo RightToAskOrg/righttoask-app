@@ -11,9 +11,9 @@
              x:DataType="vm:QuestionViewModel">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel" 
-                     IconImageSource="{local:ImageResource RightToAskClient.Images.home4.png}" Priority="0"/>
+                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.home4.png}" Priority="0"/>
         <ToolbarItem Text="{xct:Translate InfoPopupButtonText}" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
-                     IconImageSource="{local:ImageResource RightToAskClient.Images.help_75.png}"/>
+                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>        
         <StackLayout x:Name="questionAnswerer" VerticalOptions="FillAndExpand" Margin="10">

@@ -1,21 +1,12 @@
-﻿using RightToAskClient.CryptoUtils;
-using RightToAskClient.HttpClients;
+﻿using RightToAskClient.HttpClients;
 using RightToAskClient.Models;
 using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Resx;
 using RightToAskClient.Views;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using RightToAskClient.Annotations;
 using RightToAskClient.Helpers;
+using RightToAskClient.Views.Popups;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -41,29 +32,24 @@ namespace RightToAskClient.ViewModels
             get => _newAnswer; 
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    SetProperty(ref _newAnswer, value);
-                    Question.AddAnswer(value);
-                    OnPropertyChanged("NewAnswer");
-                }
+                if (string.IsNullOrWhiteSpace(value)) return;
+                
+                SetProperty(ref _newAnswer, value);
+                Question.AddAnswer(value);
+                OnPropertyChanged();
             }
         }
 
-        public bool HasAnswer => Answers.Any();
-        public List<Answer> Answers
-        {
-            get => Question.Answers;
-        }
-        
+        public List<Answer> QuestionAnswers => Question.Answers;
+
         private string? _newHansardLink; 
         public string NewHansardLink 
         { 
             get => _newHansardLink;
             set
             {
-                Result<Uri> urlResult = ParliamentData.StringToValidParliamentaryUrl(value);
-                if (String.IsNullOrEmpty(urlResult.Err))
+                var urlResult = ParliamentData.StringToValidParliamentaryUrl(value);
+                if (string.IsNullOrEmpty(urlResult.Err))
                 {
                     SetProperty(ref _newHansardLink, value);
                     Question.AddHansardLink(urlResult.Ok);
@@ -147,8 +133,8 @@ namespace RightToAskClient.ViewModels
         {
             get
             {
-                string thisUser =  App.ReadingContext.ThisParticipant.RegistrationInfo.uid;
-                string questionWriter = _question.QuestionSuggester;
+                var thisUser =  App.ReadingContext.ThisParticipant.RegistrationInfo.uid;
+                var questionWriter = _question.QuestionSuggester;
                 return IsNewQuestion || 
                        (!string.IsNullOrEmpty(thisUser) && !string.IsNullOrEmpty(questionWriter) && thisUser == questionWriter);
             }
@@ -225,7 +211,7 @@ namespace RightToAskClient.ViewModels
         }
 
 
-        private bool _answerInApp = false;
+        private bool _answerInApp;
         public bool AnswerInApp
         {
             get => _answerInApp;
@@ -233,7 +219,7 @@ namespace RightToAskClient.ViewModels
         }
 
 
-        public string QuestionSuggesterButtonText => QuestionViewModel.Instance.IsNewQuestion ? AppResources.EditProfileButtonText : String.Format(AppResources.ViewOtherUserProfile, QuestionViewModel.Instance.Question.QuestionSuggester);
+        public string QuestionSuggesterButtonText => QuestionViewModel.Instance.IsNewQuestion ? AppResources.EditProfileButtonText : string.Format(AppResources.ViewOtherUserProfile, QuestionViewModel.Instance.Question.QuestionSuggester);
 
         public void UpdateMPButtons()
         {
@@ -263,9 +249,9 @@ namespace RightToAskClient.ViewModels
             {
                 // Question.AnswerInApp = false;
                 // AnswerInApp = false;
-                var PageToSearchAuthorities
+                var pageToSearchAuthorities
                     = new SelectableListPage(App.ReadingContext.Filters.AuthorityLists, "Choose authorities");
-                await Shell.Current.Navigation.PushAsync(PageToSearchAuthorities).ContinueWith((_) => 
+                await Shell.Current.Navigation.PushAsync(pageToSearchAuthorities).ContinueWith((_) => 
                 {
                     MessagingCenter.Send(this, Constants.GoToAskingPageNext); // Sends this view model
                 });
@@ -328,7 +314,7 @@ namespace RightToAskClient.ViewModels
             });
             QuestionSuggesterCommand = new AsyncCommand(async () =>
             {
-                string userId = Question.QuestionSuggester;
+                var userId = Question.QuestionSuggester;
                 var userToSend = await RTAClient.GetUserById(userId);
                 if (userToSend.Err != null)
                 {
@@ -346,7 +332,7 @@ namespace RightToAskClient.ViewModels
                     }); */
                     var newReg = new Registration(userToSend.Ok);
                     var userProfilePage = new OtherUserProfilePage(newReg);
-                    await App.Current.MainPage.Navigation.PushAsync(userProfilePage);
+                    await Application.Current.MainPage.Navigation.PushAsync(userProfilePage);
                 }
             });
             BackCommand = new AsyncCommand(async () =>
@@ -383,7 +369,7 @@ namespace RightToAskClient.ViewModels
         */
 
         private Command? _myMpRaiseCommand;
-        public Command MyMPRaiseCommand => _myMpRaiseCommand ??= new Command(OnMyMPRaiseButtonClicked);
+        public Command myMPRaiseCommand => _myMpRaiseCommand ??= new Command(OnMyMPRaiseButtonClicked);
         private Command? _otherMPRaiseCommand;
         public Command OtherMPRaiseCommand => _otherMPRaiseCommand ??= new Command(OnOtherMPRaiseButtonClicked);
         private Command? _userShouldRaiseCommand;
@@ -487,7 +473,7 @@ namespace RightToAskClient.ViewModels
         }
 
         // TODO: Implement SearchableListPage constructor for people.
-        private async void UserShouldRaiseButtonClicked()
+        private void UserShouldRaiseButtonClicked()
         {
             // RaisedByOptionSelected = true;
             AnotherUserButtonText = "Not Implemented Yet";
@@ -516,7 +502,7 @@ namespace RightToAskClient.ViewModels
             {
                 // This isn't necessary unless the person has just registered, but is necessary if they have.
                 Instance.Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.uid;
-                bool validQuestion = Question.ValidateNewQuestion();
+                var validQuestion = Question.ValidateNewQuestion();
                 if (validQuestion)
                 {
                     SendNewQuestionToServer();
@@ -531,16 +517,14 @@ namespace RightToAskClient.ViewModels
 
             if (App.ReadingContext.ThisParticipant.IsRegistered)
             {
-                bool validQuestion = Question.ValidateUpdateQuestion();
+                var validQuestion = Question.ValidateUpdateQuestion();
                 if (validQuestion) 
                 {
-                    sendQuestionEditToServer();
+                    SendQuestionEditToServer();
                 }                
             }
 
         }
-
-
 
         // For uploading a new question
         // This should be called only if the person is already registered.
@@ -569,11 +553,11 @@ namespace RightToAskClient.ViewModels
             //FIXME update version, just like for edits.
 
             var popup = new QuestionPublishedPopup();
-            _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+            _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
             if (GoHome)
             {
                 App.ReadingContext.Filters.RemoveAllSelections();
-                await App.Current.MainPage.Navigation.PopToRootAsync();
+                await Application.Current.MainPage.Navigation.PopToRootAsync();
             }
             else // Pop back to readingpage. TODO: fix the context so that it doesn't think you're drafting
                 // a question.  Possibly the right thing to do is pop everything and then push a reading page.
@@ -582,18 +566,18 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        private async void sendQuestionEditToServer()
+        private async void SendQuestionEditToServer()
         {
             // This isn't supposed to be called for unregistered participants.
             if (!App.ReadingContext.ThisParticipant.IsRegistered) return;
             
-            (bool isValid, string errorMessage, string returnedData) successfulSubmission = await BuildSignAndUploadQuestionUpdates();
+            var successfulSubmission = await BuildSignAndUploadQuestionUpdates();
             
             if (!successfulSubmission.isValid)
             {
-                string message = string.Format(AppResources.EditQuestionErrorText, successfulSubmission.errorMessage);
+                var message = string.Format(AppResources.EditQuestionErrorText, successfulSubmission.errorMessage);
                 var popup2 = new OneButtonPopup(message, AppResources.OKText);
-                _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup2);
+                _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup2);
                 ReportLabelText = "Error editing question: " + successfulSubmission.errorMessage;
                 return;
             }
@@ -604,11 +588,12 @@ namespace RightToAskClient.ViewModels
             // FIXME at the moment, the version isn't been correctly updated.
             // TODO: Here, we'll need to ensure we've got the right version (from the server - get it returned from
             // BuildSignAndUpload... 
-            var popup = new TwoButtonPopup(QuestionViewModel.Instance, AppResources.QuestionEditSuccessfulPopupTitle, AppResources.QuestionEditSuccessfulPopupText, AppResources.StayOnCurrentPageButtonText, AppResources.GoHomeButtonText);
+            var popup = new TwoButtonPopup(QuestionViewModel.Instance, AppResources.QuestionEditSuccessfulPopupTitle, AppResources.QuestionEditSuccessfulPopupText, AppResources.StayOnCurrentPageButtonText, AppResources.GoHomeButtonText);            
             var result = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+
             if (ApproveButtonClicked)
             {
-                await App.Current.MainPage.Navigation.PopToRootAsync();
+                await Application.Current.MainPage.Navigation.PopToRootAsync();
             }
         }
 
@@ -617,7 +602,7 @@ namespace RightToAskClient.ViewModels
         {
             var serverQuestion = new QuestionSendToServer(Question);
 
-            Result<string> httpResponse = await RTAClient.RegisterNewQuestion(serverQuestion);
+            var httpResponse = await RTAClient.RegisterNewQuestion(serverQuestion);
             return RTAClient.ValidateHttpResponse(httpResponse, "Question Upload");
         }
 
@@ -629,7 +614,7 @@ namespace RightToAskClient.ViewModels
             serverQuestionUpdates.question_id = Question.QuestionId;
             serverQuestionUpdates.version = Question.Version;
 
-            Result<string> httpResponse = await RTAClient.UpdateExistingQuestion(serverQuestionUpdates);
+            var httpResponse = await RTAClient.UpdateExistingQuestion(serverQuestionUpdates);
             return RTAClient.ValidateHttpResponse(httpResponse, "Question Edit");
         }
     }

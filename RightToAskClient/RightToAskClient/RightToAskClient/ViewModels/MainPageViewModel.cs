@@ -1,5 +1,6 @@
 ﻿using RightToAskClient.Resx;
 using RightToAskClient.Views;
+using RightToAskClient.Views.Popups;
 using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
@@ -9,7 +10,7 @@ namespace RightToAskClient.ViewModels
 {
     public class MainPageViewModel : BaseViewModel
     {
-        private bool _showMyQuestions = false;
+        private bool _showMyQuestions;
         public bool ShowMyQuestions
         {
             get => _showMyQuestions;
@@ -20,7 +21,7 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        private bool _showTrendingMyElectorate = false;
+        private bool _showTrendingMyElectorate;
         public bool ShowTrendingMyElectorate
         {
             get => _showTrendingMyElectorate;
@@ -31,7 +32,7 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        private bool _showQuestionsForMe = false;
+        private bool _showQuestionsForMe;
         public bool ShowQuestionsForMe
         {
             get => _showQuestionsForMe;
@@ -79,7 +80,7 @@ namespace RightToAskClient.ViewModels
                 if (App.ReadingContext.ShowHowToPublishPopup)
                 {
                     var popup = new HowToPublishPopup(); // this instance uses a model instead of a VM
-                    _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                    _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
                     App.ReadingContext.ShowHowToPublishPopup = false;
                     Preferences.Set(Constants.ShowHowToPublishPopup, false);
                 }
@@ -91,7 +92,7 @@ namespace RightToAskClient.ViewModels
                 App.ReadingContext.IsReadingOnly = true;
                 await Shell.Current.GoToAsync($"{nameof(AdvancedSearchFiltersPage)}").ContinueWith((_) =>
                 {
-                    MessagingCenter.Send<MainPageViewModel>(this, "MainPage");
+                    MessagingCenter.Send(this, "MainPage");
                 });
             });
             SearchButtonCommand = new AsyncCommand(async () =>

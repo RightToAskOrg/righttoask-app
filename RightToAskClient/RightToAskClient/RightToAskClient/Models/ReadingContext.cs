@@ -19,7 +19,7 @@ namespace RightToAskClient.Models
 			}
 		}
 
-		private bool _dontShowFirstTimeReadingPopup = false;
+		private bool _dontShowFirstTimeReadingPopup;
 		public bool DontShowFirstTimeReadingPopup
 		{
 			get => _dontShowFirstTimeReadingPopup;

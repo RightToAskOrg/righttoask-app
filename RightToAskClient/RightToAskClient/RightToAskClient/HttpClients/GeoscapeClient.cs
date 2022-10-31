@@ -1,4 +1,3 @@
-using System;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -11,7 +10,7 @@ namespace RightToAskClient.HttpClients
      */
     public static class GeoscapeClient
     {
-        private static JsonSerializerOptions _serializerOptions =
+        private static readonly JsonSerializerOptions SerializerOptions =
             new JsonSerializerOptions
             {
                 Converters = { new JsonStringEnumConverter() },
@@ -21,13 +20,13 @@ namespace RightToAskClient.HttpClients
                 // DefaultIgnoreCondition = JsonIgnoreCondition.Always
             };
         
-        private static GenericHttpClient _client = new GenericHttpClient(_serializerOptions);
+        private static readonly GenericHttpClient Client = new GenericHttpClient(SerializerOptions);
 
         public static async Task<Result<GeoscapeAddressFeature>> GetFirstAddressData(string address)
         {
             var collection = await GetAddressDataAsync(address);
 
-            if (!String.IsNullOrEmpty(collection.Err))
+            if (!string.IsNullOrEmpty(collection.Err))
             {
                 return new Result<GeoscapeAddressFeature> { Err = collection.Err };
             }
@@ -45,33 +44,32 @@ namespace RightToAskClient.HttpClients
         
         private static async Task<Result<GeoscapeAddressFeatureCollection>> GetAddressDataAsync(string address)
         {
-            string requestString = GeoscapeAddressRequestBuilder.BuildRequest(address);
+            var requestString = GeoscapeAddressRequestBuilder.BuildRequest(address);
 
             // TODO - Possibly we should be setting client.BaseAddress rather than appending
             // the request string.
             // client.BaseAddress = new Uri(Constants.GeoscapeAPIUrl + requestString);
 
-            if (!String.IsNullOrEmpty(GeoscapeAddressRequestBuilder.ApiKey.Err))
+            if (!string.IsNullOrEmpty(GeoscapeAddressRequestBuilder.ApiKey.Err))
             {
                 return new Result<GeoscapeAddressFeatureCollection>() { Err = GeoscapeAddressRequestBuilder.ApiKey.Err };
             }
             
             // The ApiKey.OK _should_ be properly initialised to "" but this isn't guaranteed (despite the
             // compiler thinking it is).
-            _client.SetAuthorizationHeaders(
-                new AuthenticationHeaderValue(GeoscapeAddressRequestBuilder.ApiKey.Ok ?? String.Empty));
+            Client.SetAuthorizationHeaders(new AuthenticationHeaderValue(GeoscapeAddressRequestBuilder.ApiKey.Ok));
             
             // At this point, we know we got a response, but it may say for example that
             // the address wasn't found.
-            Result<GeoscapeAddressFeatureCollection> httpResponse = await _client.DoGetJSONRequest<GeoscapeAddressFeatureCollection>(Constants.GeoscapeAPIUrl + requestString);
+            var httpResponse = await Client.DoGetJsonRequest<GeoscapeAddressFeatureCollection>(Constants.GeoscapeAPIUrl + requestString);
             return InterpretGeoscapeResponse(httpResponse);
         }
 
         // Geoscape-specific response interpretation.
         // TODO Find out if there's ever >1 message.
-        public static Result<GeoscapeAddressFeatureCollection> InterpretGeoscapeResponse(Result<GeoscapeAddressFeatureCollection> httpResponse)
+        private static Result<GeoscapeAddressFeatureCollection> InterpretGeoscapeResponse(Result<GeoscapeAddressFeatureCollection> httpResponse)
         {
-            if (!String.IsNullOrEmpty(httpResponse.Err))
+            if (!string.IsNullOrEmpty(httpResponse.Err))
             {
                 return httpResponse;
             }

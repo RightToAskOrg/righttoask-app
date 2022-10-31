@@ -2,7 +2,6 @@
 using RightToAskClient.Models;
 using RightToAskClient.Resx;
 using RightToAskClient.Views;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -20,7 +19,7 @@ namespace RightToAskClient.ViewModels
         #region Properties
 
         private Address _address = new Address();
-        private Registration _registration = App.ReadingContext.ThisParticipant.RegistrationInfo;
+        private readonly Registration _registration = App.ReadingContext.ThisParticipant.RegistrationInfo;
         public Address Address
         {
             get => _address;
@@ -83,19 +82,15 @@ namespace RightToAskClient.ViewModels
         }
         public List<string> StatePicker => ParliamentData.StateStrings;
         // private string _statePickerTitle = String.IsNullOrEmpty(App.ReadingContext.ThisParticipant.RegistrationInfo.State) ? "Choose State or Territory" : App.ReadingContext.ThisParticipant.RegistrationInfo.State;
-        public string StatePickerTitle
-        {
-            get => _registration.StateKnown
+        public string StatePickerTitle =>
+            _registration.StateKnown
                 ? _registration.SelectedStateAsEnum.ToString()
                 : AppResources.ChooseStateOrTerritory;
-        }
+
         private int _selectedStateAsInt = -1;
         public int SelectedStateAsInt
         {
-            get
-            {
-                return _selectedStateAsInt;
-            }
+            get => _selectedStateAsInt;
             set
             {
                 SetProperty(ref _selectedStateAsInt, value);
@@ -136,21 +131,14 @@ namespace RightToAskClient.ViewModels
             }
         }
         
-        public List<string> FederalElectorates
-        {
-            get => ParliamentData.HouseOfRepsElectorates(SelectedStateEnum.ToString());
-        }
-        
-        private ObservableCollection<string> _allStateChoosableElectorates = new ObservableCollection<string>();
-        public ObservableCollection<string> AllStateChoosableElectorates
-        {
-            get => _allStateChoosableElectorates;
-        }
-        
+        public List<string> FederalElectorates => ParliamentData.HouseOfRepsElectorates(SelectedStateEnum.ToString());
+
+        public ObservableCollection<string> AllStateChoosableElectorates { get; } = new ObservableCollection<string>();
+
         private string _stateChoosableElectorateHeader 
             =  App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsEnum == ParliamentData.StateEnum.TAS
-            ? string.Format("State Legislative Council Electorate: {0:F0}", App.ReadingContext.ThisParticipant.StateUpperHouseElectorate)
-            : string.Format("State Legislative Assembly Electorate: {0:F0}", App.ReadingContext.ThisParticipant.StateLowerHouseElectorate) ;
+            ? $"State Legislative Council Electorate: {App.ReadingContext.ThisParticipant.StateUpperHouseElectorate:F0}"
+            : $"State Legislative Assembly Electorate: {App.ReadingContext.ThisParticipant.StateLowerHouseElectorate:F0}";
 
         public string StateChoosableElectorateHeader
         {
@@ -167,11 +155,8 @@ namespace RightToAskClient.ViewModels
         public string StateChoosableElectorate
         {
             get => _stateChoosableElectorate;
-            set
-            {
-                SetProperty(ref _stateChoosableElectorate, value);
-                // OnStateChoosableElectoratePickerSelectedIndexChanged();
-            }
+            set => SetProperty(ref _stateChoosableElectorate, value);
+            // OnStateChoosableElectoratePickerSelectedIndexChanged();
         }
 
         private string _stateInferredElectorateHeader  
@@ -195,15 +180,13 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _stateInferredElectorate, value);
         }
         
-        private string _federalElectoratePickerTitle = string.Format("Select: {0:F0}", App.ReadingContext.ThisParticipant.CommonwealthElectorate);
+        private string _federalElectoratePickerTitle =
+            $"Select: {App.ReadingContext.ThisParticipant.CommonwealthElectorate:F0}";
         public string FederalElectoratePickerTitle
         {
             get => _federalElectoratePickerTitle;
             set => SetProperty(ref _federalElectoratePickerTitle, value);
         }
-        
-        // This indicates, when we're choosing from a list of MPs, whether they're asking the question (true) or
-        // answering it (false).
 
         private string _mapURL = "";
         public string MapURL
@@ -241,7 +224,7 @@ namespace RightToAskClient.ViewModels
                 // set the state index pickers
                 SelectedStateAsInt = (int)SelectedStateEnum;
                 
-                string choosableStateElectorate = (SelectedStateEnum == ParliamentData.StateEnum.TAS )
+                var choosableStateElectorate = (SelectedStateEnum == ParliamentData.StateEnum.TAS )
                    ? App.ReadingContext.ThisParticipant.StateUpperHouseElectorate
                    : App.ReadingContext.ThisParticipant.StateLowerHouseElectorate;
                 UpdateElectorateInferencesFromStateAndCommElectorate(SelectedStateEnum,
@@ -252,7 +235,7 @@ namespace RightToAskClient.ViewModels
             if (!string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.CommonwealthElectorate))
             {
                 ShowMapFrame = true;
-                string electorateString = ParliamentData.ConvertGeoscapeElectorateToStandard(App.ReadingContext.ThisParticipant.RegistrationInfo.State, App.ReadingContext.ThisParticipant.CommonwealthElectorate);
+                var electorateString = ParliamentData.ConvertGeoscapeElectorateToStandard(App.ReadingContext.ThisParticipant.RegistrationInfo.State, App.ReadingContext.ThisParticipant.CommonwealthElectorate);
                 ShowMapOfElectorate(electorateString);
             }
 
@@ -316,7 +299,7 @@ namespace RightToAskClient.ViewModels
             if (!PostcodeIsValid)
             {
                 var popup = new TwoButtonPopup(this, AppResources.InvalidPostcodePopupTitle, AppResources.InvalidPostcodePopupText, AppResources.CancelButtonText, AppResources.ImSureButtonText);
-                _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
                 if (ApproveButtonClicked)
                 {
                     PostcodeIsValid = true;
@@ -327,20 +310,21 @@ namespace RightToAskClient.ViewModels
                 IsBusy = true; // no longer displaying the activity indicator since the webview shows that it is being updated
                 Result<GeoscapeAddressFeature>? httpResponse;
 
-                string state = App.ReadingContext.ThisParticipant.RegistrationInfo.State;
+                var state = App.ReadingContext.ThisParticipant.RegistrationInfo.State;
 
-                if (String.IsNullOrEmpty(state))
+                if (string.IsNullOrEmpty(state))
                 {
                     var popup = new OneButtonPopup(AppResources.SelectStateWarningText, AppResources.OKText);
-                    _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                    _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
                     return;
                 }
 
-                Result<bool> addressValidation = _address.SeemsValid();
-                if (!String.IsNullOrEmpty(addressValidation.Err))
+                var addressValidation = _address.SeemsValid();
+                if (!string.IsNullOrEmpty(addressValidation.Err))
                 {
                     var popup = new OneButtonPopup(addressValidation.Err ?? "", AppResources.OKText);
                     _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+
                     return;
                 }
 
@@ -354,24 +338,24 @@ namespace RightToAskClient.ViewModels
                         ReportLabelText = httpResponse.Err;
                         // maybe display a popup if Electorates were not found
                         var popup = new OneButtonPopup(AppResources.ElectoratesNotFoundErrorText, AppResources.OKText);
-                        _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                        _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
                         return;
                     }
 
                     // Now we know everything is good.
-                    GeoscapeAddressFeature? bestAddress = httpResponse.Ok;
+                    var bestAddress = httpResponse.Ok;
                     // needs a federal electorate to be valid
-                    if (!string.IsNullOrEmpty(bestAddress?.Properties?.CommonwealthElectorate?.ToString()))
+                    if (!string.IsNullOrEmpty(bestAddress.Properties?.CommonwealthElectorate?.ToString()))
                     {
                         AddElectorates(bestAddress);
                         ShowFindMPsButton = true;
                         ReportLabelText = "";
 
-                        string electoratePopupTitle = "Electorates Found!";
-                        string electoratePopupText = "Federal electorate: " + App.ReadingContext.ThisParticipant.CommonwealthElectorate +
-                            "\n" + "State lower house electorate: " + App.ReadingContext.ThisParticipant.StateLowerHouseElectorate;
+                        var electoratePopupTitle = "Electorates Found!";
+                        var electoratePopupText = "Federal electorate: " + App.ReadingContext.ThisParticipant.CommonwealthElectorate +
+                                                  "\n" + "State lower house electorate: " + App.ReadingContext.ThisParticipant.StateLowerHouseElectorate;
                         var electoratesFoundPopup = new OneButtonPopup(electoratePopupTitle, electoratePopupText, AppResources.OKText);
-                        _ = await App.Current.MainPage.Navigation.ShowPopupAsync(electoratesFoundPopup);
+                        _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(electoratesFoundPopup);
 
                         // just save the address all the time now if it returned a valid electorate
                         SaveAddress();
@@ -379,7 +363,7 @@ namespace RightToAskClient.ViewModels
                     else
                     {
                         var electoratesNotFoundPopup = new OneButtonPopup("Electorates not Found", "Please reformat the address and try again.", AppResources.OKText);
-                        _ = await App.Current.MainPage.Navigation.ShowPopupAsync(electoratesNotFoundPopup);
+                        _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(electoratesNotFoundPopup);
                     }
                     ShowSkipButton = false;
                     // display the map if we stored the Federal Electorate properly
@@ -388,7 +372,7 @@ namespace RightToAskClient.ViewModels
                         ShowMapFrame = true;
                         ShowKnowElectoratesFrame = false;
                         ShowAddressStack = false;
-                        string electorateString = ParliamentData.ConvertGeoscapeElectorateToStandard(state, App.ReadingContext.ThisParticipant.CommonwealthElectorate);
+                        var electorateString = ParliamentData.ConvertGeoscapeElectorateToStandard(state, App.ReadingContext.ThisParticipant.CommonwealthElectorate);
                         ShowMapOfElectorate(electorateString);
                     }
                 }
@@ -402,7 +386,7 @@ namespace RightToAskClient.ViewModels
 
         private void AddElectorates(GeoscapeAddressFeature addressData)
         {
-            ParliamentData.StateEnum state = App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsEnum;
+            var state = App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsEnum;
             var electorates = ParliamentData.GetElectoratesFromGeoscapeAddress(state, addressData);
             App.ReadingContext.ThisParticipant.RegistrationInfo.Electorates = electorates;
             
@@ -429,7 +413,7 @@ namespace RightToAskClient.ViewModels
         private void OnStateChoosableElectoratePickerSelectedIndexChanged()
         {
             if (SelectedStateElectorateIndex >= 0 && SelectedStateElectorateIndex < AllStateChoosableElectorates.Count
-                && !String.IsNullOrEmpty(AllStateChoosableElectorates[SelectedStateElectorateIndex]))
+                && !string.IsNullOrEmpty(AllStateChoosableElectorates[SelectedStateElectorateIndex]))
             {
                 var chosenElectorate = AllStateChoosableElectorates[SelectedStateElectorateIndex];
                 var state = App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsEnum;
@@ -446,7 +430,7 @@ namespace RightToAskClient.ViewModels
         private void OnFederalElectoratePickerSelectedIndexChanged()
         {
             if (SelectedFederalElectorate >= 0 && SelectedFederalElectorate < FederalElectorates.Count && 
-                !String.IsNullOrEmpty(FederalElectorates[SelectedFederalElectorate]))
+                !string.IsNullOrEmpty(FederalElectorates[SelectedFederalElectorate]))
             {
                 
                 // actually show the map in real time
@@ -468,7 +452,7 @@ namespace RightToAskClient.ViewModels
 
         private void RevealNextStepAndCommunicateIfElectoratesKnown()
         {
-            if (!String.IsNullOrEmpty(StateChoosableElectorate) || SelectedFederalElectorate != -1)
+            if (!string.IsNullOrEmpty(StateChoosableElectorate) || SelectedFederalElectorate != -1)
             {
                 ShowFindMPsButton = true;
                 CommunicateElectoratesKnown();
@@ -497,7 +481,7 @@ namespace RightToAskClient.ViewModels
 
             AllStateChoosableElectorates.Clear();   
             
-            foreach (string electorate in newChoosableElectorateList)
+            foreach (var electorate in newChoosableElectorateList)
             {
                 AllStateChoosableElectorates.Add(electorate);   
             }
@@ -525,8 +509,7 @@ namespace RightToAskClient.ViewModels
             switch (SelectedStateEnum)
             {
                 case ParliamentData.StateEnum.ACT:
-                    int postcode = 0; 
-                    int.TryParse(Address.Postcode, out postcode);
+                    int.TryParse(Address.Postcode, out var postcode);
                     if((postcode >= 2600 && postcode <= 2618) 
                         || (postcode >= 2900 && postcode <= 2920))
                     {

@@ -4,7 +4,6 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Crypto.Signers;
@@ -30,25 +29,21 @@ using Xamarin.Essentials;
  * Use of private initialiser to deal with asynchrony is based on suggestion here:
  * https://endjin.com/blog/2020/08/fully-initialize-types-in-constructor-csharp-nullable-async-factory-pattern
  */
+
 namespace RightToAskClient.CryptoUtils
 {
     public static class ClientSignatureGenerationService
     {
         private static Ed25519PrivateKeyParameters? _myKeyPair ; 
 
-        private static Ed25519Signer MySigner = new Ed25519Signer();
+        private static readonly Ed25519Signer MySigner = new Ed25519Signer();
 
-        private static bool _initSuccessful = false;
-        public static bool InitSuccessful
-        {
-            get => _initSuccessful;
-            private set => _initSuccessful = value;
-        }
-        
+        public static bool InitSuccessful { get; private set; }
+
         public static async Task<bool> Init()
         {
             var generationResult = await MakeMyKey();
-            if (!String.IsNullOrEmpty(generationResult.Err))
+            if (!string.IsNullOrEmpty(generationResult.Err))
             {
                 // Key generation unsuccessful.
                 return false;
@@ -69,10 +64,7 @@ namespace RightToAskClient.CryptoUtils
         }
         */
 
-        public static string MyPublicKey
-        {
-            get => Convert.ToBase64String(_myKeyPair?.GeneratePublicKey().GetEncoded() ?? Array.Empty<byte>());
-        }
+        public static string MyPublicKey => Convert.ToBase64String(_myKeyPair?.GeneratePublicKey().GetEncoded() ?? Array.Empty<byte>());
         /*
         public static string MyPublicKey()
         {
@@ -96,7 +88,7 @@ namespace RightToAskClient.CryptoUtils
                 var signingKeyAsString = await SecureStorage.GetAsync("signing_key");
 
                 // If there's an existing key, return it.
-                if (!String.IsNullOrEmpty(signingKeyAsString))
+                if (!string.IsNullOrEmpty(signingKeyAsString))
                 {
                     var privateKey = new Ed25519PrivateKeyParameters(Convert.FromBase64String(signingKeyAsString));
                     return new Result<Ed25519PrivateKeyParameters>()
@@ -118,14 +110,14 @@ namespace RightToAskClient.CryptoUtils
             var keyPairGenerator = new Ed25519KeyPairGenerator();
 
             keyPairGenerator.Init(new Ed25519KeyGenerationParameters(new SecureRandom()));
-            Ed25519PrivateKeyParameters? signingKey = keyPairGenerator.GenerateKeyPair().Private as Ed25519PrivateKeyParameters;
+            var signingKey = keyPairGenerator.GenerateKeyPair().Private as Ed25519PrivateKeyParameters;
 
             // and store it. 
             try
             {
                 var encodedSigningKey = signingKey?.GetEncoded() ?? Array.Empty<byte>();
-                string keyAsString = Convert.ToBase64String(encodedSigningKey);
-                if (!String.IsNullOrEmpty(keyAsString))
+                var keyAsString = Convert.ToBase64String(encodedSigningKey);
+                if (!string.IsNullOrEmpty(keyAsString))
                 {
                     await SecureStorage.SetAsync("signing_key", keyAsString);
                 }
@@ -155,9 +147,9 @@ namespace RightToAskClient.CryptoUtils
             };
         }
 
-        public static ClientSignedUnparsed SignMessage<T>(T message, string userID)
+        public static ClientSignedUnparsed SignMessage<T>(T message, string userId)
         {
-            JsonSerializerOptions serializerOptions = new JsonSerializerOptions
+            var serializerOptions = new JsonSerializerOptions
             {
                 Converters = { new JsonStringEnumConverter() },
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
@@ -165,14 +157,13 @@ namespace RightToAskClient.CryptoUtils
                 IncludeFields = true
             };
             
-            string serializedMessage = "";
-            byte[] messageBytes;
-            string sig = "";
+            var serializedMessage = "";
+            var sig = "";
 
             try
             {
                 serializedMessage = JsonSerializer.Serialize(message, serializerOptions);
-                messageBytes = Encoding.UTF8.GetBytes(serializedMessage);
+                var messageBytes = Encoding.UTF8.GetBytes(serializedMessage);
 
                 MySigner.BlockUpdate(messageBytes, 0, messageBytes.Length);
                 sig = Convert.ToBase64String(MySigner.GenerateSignature());
@@ -197,7 +188,7 @@ namespace RightToAskClient.CryptoUtils
             {
                 message = serializedMessage,
                 signature = sig,
-                user = userID
+                user = userId
             };
         }
     }
