@@ -98,16 +98,22 @@ namespace RightToAskClient.ViewModels
 		public IAsyncCommand DoneButtonCommand { get; }
 		public Command SearchToolbarCommand { get; }
 
-		// TODO These are just copy-pasted from the old code-behind. Might need a bit more thought.
-		public bool GoToReadingPageFinally;
-		public bool GoToAskingPageNext;
-		public bool RegisterMPAccount;
+		private NextPageInstructions _nextPage = NextPageInstructions.ReadingPage;
+
+		private enum NextPageInstructions
+		{
+			AskingPage,
+			ReadingPage,
+			ReadingPageWithSingleQuestionWriter,
+			MetadataPage,
+			RegisterMPAccount,
+			AdvancedSearchPage	
+		}
 
 		// For verifying that the selections meet whatever constraints they need to. At the moment,
 		// the only functional one is enforcing a single selection.
 		private Func<Task<bool>> _selectionRulesCheckingCommand;
 
-		private bool _goToReadingPageWithSingleQuestionWriter; 
 		public SelectableListViewModel(SelectableList<Authority> authorityLists, string message, bool singleSelection = false) : this(message, singleSelection)
 		{
 			SelectableEntities = WrapInTagsAndSortPreselections(new ObservableCollection<Entity>(authorityLists.AllEntities),  
@@ -161,8 +167,8 @@ namespace RightToAskClient.ViewModels
 		// TODO: At the moment, grouping is not working, mostly as a result of not having carefully
 		// thought through how it should interact with searching and preselection.
 		public SelectableListViewModel(SelectableList<MP> mpLists, string message, bool grouping=false, bool singleSelection=false, bool registerMPAccount=false) : this(message, singleSelection)
-        {
-	        RegisterMPAccount = registerMPAccount;
+		{
+			_nextPage = registerMPAccount ? NextPageInstructions.RegisterMPAccount : _nextPage;
 			if (grouping)
 	        {
 		        var groupedMPs = mpLists.AllEntities.GroupBy(mp => mp.electorate.chamber);
@@ -209,37 +215,32 @@ namespace RightToAskClient.ViewModels
 				ShowSearchFrame = !ShowSearchFrame; // just toggle it
 			});
 			
-			MessagingCenter.Subscribe<FindMPsViewModel, bool>(this, "PreviousPage", (sender, arg) =>
+			// This can occur from advanced search without an account.
+			MessagingCenter.Subscribe<FindMPsViewModel>(this, Constants.GoToReadingPageNext, (sender) =>
 			{
-				if (arg)
-				{
-				}
-				MessagingCenter.Unsubscribe<FindMPsViewModel, bool>(this, "PreviousPage");
-			});
-			MessagingCenter.Subscribe<FindMPsViewModel>(this, "GoToReadingPage", (sender) =>
-			{
-				GoToReadingPageFinally = true;
-				MessagingCenter.Unsubscribe<FindMPsViewModel>(this, "GoToReadingPage");
+				_nextPage = NextPageInstructions.ReadingPage;
+				MessagingCenter.Unsubscribe<FindMPsViewModel>(this, Constants.GoToReadingPageNext);
 			});
 			MessagingCenter.Subscribe<FilterViewModel>(this, "GoToReadingPageWithSingleQuestionWriter", (sender) =>
 			{
-				_goToReadingPageWithSingleQuestionWriter = true;
+				_nextPage = NextPageInstructions.ReadingPageWithSingleQuestionWriter;
 				MessagingCenter.Unsubscribe<FilterViewModel>(this, "GoToReadingPageWithSingleQuestionWriter");
 			});
-			MessagingCenter.Subscribe<QuestionViewModel>(this, "GoToReadingPage", (sender) =>
+			MessagingCenter.Subscribe<QuestionViewModel>(this, Constants.GoToMetadataPageNext, (sender) =>
 			{
-				GoToReadingPageFinally = true;
-				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "GoToReadingPage");
+				_nextPage = NextPageInstructions.MetadataPage;
+				MessagingCenter.Unsubscribe<QuestionViewModel>(this, Constants.GoToMetadataPageNext);
 			});
-			MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionBGoToAskingPageNext", (sender) =>
+			MessagingCenter.Subscribe<QuestionViewModel>(this, Constants.GoToAskingPageNext, (sender) =>
 			{
-				GoToAskingPageNext = true;
-				MessagingCenter.Unsubscribe<QuestionViewModel>(this, "OptionBGoToAskingPageNext");
+				_nextPage = NextPageInstructions.AskingPage;
+				MessagingCenter.Unsubscribe<QuestionViewModel>(this, Constants.GoToAskingPageNext);
 			});
-			MessagingCenter.Subscribe<FilterViewModel>(this, "FromFiltersPage", (sender) =>
+			MessagingCenter.Subscribe<FilterViewModel>(this, Constants.GoBackToAdvancedSearchPage, (sender) =>
 			{
 				DoneButtonText = AppResources.DoneButtonText;
-				MessagingCenter.Unsubscribe<FilterViewModel>(this, "FromFiltersPage");
+				_nextPage = NextPageInstructions.AdvancedSearchPage;
+				MessagingCenter.Unsubscribe<FilterViewModel>(this, Constants.GoBackToAdvancedSearchPage);
 			});
 		}
 
@@ -269,62 +270,59 @@ namespace RightToAskClient.ViewModels
 		// Also consider whether this should raise a warning if neither of the types match.
 		private async void DoneButton_OnClicked(Action updateAction, bool singleSelection)
 		{
-
 			// Check whether the existing selections match requirements. This will pop up a warning if not.
-			var validSelection = await verifyValidSelection(singleSelection);
-			if (! validSelection)
+			bool validSelection = await verifyValidSelection(singleSelection);
+			if (!validSelection)
 			{
 				return;
 			}
-			
+
 			// reset keyword search filter
 			Keyword = "";
-			
+
 			// Updates the relevant selectable list, i.e. update the SelectedEntities
 			updateAction();
-			
-			// Option B. We've finished choosing who should answer it, so now find out who should ask it.
-			if (GoToAskingPageNext)
-            {
-				await Shell.Current.GoToAsync(nameof(QuestionAskerPage));
-            }
-			// Read questions by a single author. Order matters here - putting this first means that if there are both
-			// filters and an author selected, we ignore the filters and look only for questions written by the selected
-			// participant.
-			else if (_goToReadingPageWithSingleQuestionWriter)
+
+			switch (_nextPage)
 			{
-				await Shell.Current.GoToAsync(nameof(ReadingPage)).ContinueWith((_) =>
-		            {
-			            //	Tell the reading page to ignore (other) filters and just look for questions with a single writer. 
-						MessagingCenter.Send(this, "ReadQuestionsWithASingleQuestionWriter"); 
-		            });
+				case NextPageInstructions.AskingPage:
+					await Shell.Current.GoToAsync(nameof(QuestionAskerPage));
+					break;
+				
+				// Read questions by a single author. Order matters here - putting this first means that if there are both
+				// filters and an author selected, we ignore the filters and look only for questions written by the selected
+				// participant.
+				case NextPageInstructions.ReadingPageWithSingleQuestionWriter:
+					await Shell.Current.GoToAsync(nameof(ReadingPage)).ContinueWith((_) =>
+					{
+						//	Tell the reading page to ignore (other) filters and just look for questions with a single writer. 
+						MessagingCenter.Send(this, "ReadQuestionsWithASingleQuestionWriter");
+					});
+					break;
+				
+				case NextPageInstructions.MetadataPage:
+					await Shell.Current.GoToAsync(nameof(MetadataPage));
+					break;
+				
+				case NextPageInstructions.RegisterMPAccount:
+					// We have already checked that only one MP has been selected.
+					MP selectedMP = Extensions.findSelectedOne<MP>(SelectableEntities);
+					await Shell.Current.GoToAsync(nameof(MPRegistrationVerificationPage)).ContinueWith((_) =>
+					{
+						// send a message to the MPRegistrationViewModel to pop back to the account page at the end
+						MessagingCenter.Send(this, "ReturnToAccountPage", selectedMP);
+					});
+					break;
+				
+				case NextPageInstructions.AdvancedSearchPage:
+					await Shell.Current.GoToAsync(nameof(AdvancedSearchFiltersPage));
+					break;
+				
+				case NextPageInstructions.ReadingPage:
+					await Shell.Current.Navigation.PopToRootAsync();
+					break;
 			}
-			// Either Option A, or Option B and we've finished finding out who should ask it.
-			else if (GoToReadingPageFinally)
-			{
-				await Shell.Current.GoToAsync(nameof(ReadingPage));
-			}
-			else if (RegisterMPAccount)
-            {
-	            // We have already checked that only one MP has been selected.
-	            /*(bool correct, MP selectedMP) = await verifySingleSelection<MP>(); 
-	            if (correct)
-	            {
-	            */
-	            var selectedMP = Extensions.findSelectedOne<MP>(SelectableEntities);
-		            await Shell.Current.GoToAsync(nameof(MPRegistrationVerificationPage)).ContinueWith((_) =>
-		            {
-			            // send a message to the MPRegistrationViewModel to pop back to the account page at the end
-			            MessagingCenter.Send(this, "ReturnToAccountPage", selectedMP);
-		            });
-	            // }
-            }
-			// For Advanced Search outside the main flow. Pop back to wherever we came from (i.e. the advance search page).
-			// TODO - not currently working as intended. See Issue #105.
-			else
-            {
-				await Shell.Current.Navigation.PopAsync();
-			}
+
 			MessagingCenter.Send(this, "UpdateFilters");
 		}
 

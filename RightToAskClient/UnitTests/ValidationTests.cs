@@ -15,7 +15,7 @@ namespace UnitTests
         [Fact]
         public MP ValidMPTest()
         {
-            ElectorateWithChamber electorateWithChamber = new ElectorateWithChamber(ParliamentData.Chamber.Vic_Legislative_Council, ParliamentData.State.VIC);
+            ElectorateWithChamber electorateWithChamber = new ElectorateWithChamber(ParliamentData.Chamber.Vic_Legislative_Council, ParliamentData.StateEnum.VIC.ToString());
             MP validMP = new MP()
             { first_name = "firstname",
               surname = "lastname",
@@ -28,7 +28,7 @@ namespace UnitTests
             Assert.NotNull(validMP);
             Assert.NotNull(electorateWithChamber);
             Assert.Equal(ParliamentData.Chamber.Vic_Legislative_Council, electorateWithChamber.chamber);
-            Assert.Equal(ParliamentData.State.VIC, electorateWithChamber.region);
+            Assert.Equal(ParliamentData.StateEnum.VIC.ToString(), electorateWithChamber.region);
             Assert.True(validMP.first_name.Any());
             Assert.True(validMP.surname.Any());
             Assert.True(validMP.email.Any());
@@ -42,7 +42,7 @@ namespace UnitTests
         {
             // arrange
             Person person = new Person("testUserId");
-            Registration registration = new Registration(new ServerUser() { uid = "testUserId", public_key = "fakePublicKey", state = ParliamentData.State.QLD });
+            Registration registration = new Registration(new ServerUser() { uid = "testUserId", public_key = "fakePublicKey", state = ParliamentData.StateEnum.QLD.ToString() });
             person.RegistrationInfo = registration;
 
             // act
@@ -75,7 +75,7 @@ namespace UnitTests
         public void ValidServerUserTest()
         {
             // arrange
-            ServerUser serverUser = new ServerUser() { uid = "testUserId", public_key = "fakePublicKey", state = ParliamentData.State.QLD };
+            ServerUser serverUser = new ServerUser() { uid = "testUserId", public_key = "fakePublicKey", state = ParliamentData.StateEnum.QLD.ToString() };
             
             // act
             bool isValid = serverUser.Validate();
@@ -91,7 +91,7 @@ namespace UnitTests
         public void InvalidServerUserTest()
         {
             // arrange
-            ServerUser invalidServerUser = new ServerUser() { uid = "testUserId", state = ParliamentData.State.QLD };
+            ServerUser invalidServerUser = new ServerUser() { uid = "testUserId", state = ParliamentData.StateEnum.QLD.ToString() };
 
             // act
             bool isValid = invalidServerUser.Validate();
@@ -109,7 +109,7 @@ namespace UnitTests
             // arrange
             IndividualParticipant ip = new IndividualParticipant();
             ip.IsRegistered = true;
-            Registration registration = new Registration(new ServerUser() { uid = "testUserId", public_key = "fakePublicKey", state = ParliamentData.State.QLD });
+            Registration registration = new Registration(new ServerUser() { uid = "testUserId", public_key = "fakePublicKey", state = ParliamentData.StateEnum.QLD.ToString() });
             ip.RegistrationInfo = registration;
 
             // act
@@ -129,7 +129,7 @@ namespace UnitTests
             // arrange
             IndividualParticipant ip = new IndividualParticipant();
             ip.IsRegistered = true;
-            Registration invalidRegistration = new Registration(new ServerUser() { uid = "testUserId", state = ParliamentData.State.QLD });
+            Registration invalidRegistration = new Registration(new ServerUser() { uid = "testUserId", state = ParliamentData.StateEnum.QLD.ToString() });
             ip.RegistrationInfo = invalidRegistration;
 
             // act
@@ -171,7 +171,7 @@ namespace UnitTests
             IndividualParticipant ip = new IndividualParticipant();
             ip.IsRegistered = false;
             ip.ElectoratesKnown = false;
-            ip.RegistrationInfo.SelectedStateAsIndex = 0;
+            ip.RegistrationInfo.StateKnown = false;
 
             // act
             bool isValid = ip.Validate();
@@ -183,7 +183,6 @@ namespace UnitTests
             Assert.False(ip.IsRegistered);
             Assert.True(string.IsNullOrEmpty(ip.RegistrationInfo.uid));
             Assert.True(!string.IsNullOrEmpty(ip.RegistrationInfo.public_key));
-            Assert.NotEqual(-1, ip.RegistrationInfo.SelectedStateAsIndex);
         }
 
         [Fact]
@@ -244,7 +243,7 @@ namespace UnitTests
             Registration validRegistration = new Registration();
             validRegistration.uid = "testUid01";
             validRegistration.public_key = "fakeButValidPublicKey";
-            validRegistration.SelectedStateAsIndex = 0;
+            validRegistration.SelectedStateAsEnum = ParliamentData.StateEnum.VIC;
 
             // act
             bool isValidRegistration = validRegistration.Validate();
@@ -261,11 +260,11 @@ namespace UnitTests
         public void ValidRegistrationWithValidElectorateTest()
         {
             // arrange
-            ElectorateWithChamber electorateWithChamber = new ElectorateWithChamber(ParliamentData.Chamber.Vic_Legislative_Council, ParliamentData.State.VIC);
+            ElectorateWithChamber electorateWithChamber = new ElectorateWithChamber(ParliamentData.Chamber.Vic_Legislative_Council, ParliamentData.StateEnum.VIC.ToString());
             Registration validRegistrationWithValidElectorate = new Registration();
             validRegistrationWithValidElectorate.uid = "TestUId02";
             validRegistrationWithValidElectorate.public_key = "fakeButValidPublicKey2";
-            validRegistrationWithValidElectorate.Electorates = new ObservableCollection<ElectorateWithChamber>() { electorateWithChamber };
+            validRegistrationWithValidElectorate.Electorates = new List<ElectorateWithChamber>() { electorateWithChamber };
             // act
             bool isValidRegistrationWithValidElectorate = validRegistrationWithValidElectorate.Validate();
             bool validElectorate = electorateWithChamber.Validate();
@@ -287,7 +286,7 @@ namespace UnitTests
             Registration validRegistrationWithInvalidElectorate = new Registration();
             validRegistrationWithInvalidElectorate.uid = "TestUId02";
             validRegistrationWithInvalidElectorate.public_key = "fakeButValidPublicKey2";
-            validRegistrationWithInvalidElectorate.Electorates = new ObservableCollection<ElectorateWithChamber>() { invalidElectorateWithChamber };
+            validRegistrationWithInvalidElectorate.Electorates = new List<ElectorateWithChamber>() { invalidElectorateWithChamber };
 
             // act
             bool isValidRegistrationWithInvalidElectorate = validRegistrationWithInvalidElectorate.Validate();
@@ -321,12 +320,11 @@ namespace UnitTests
         public void FindParliamentDataTest()
         {
             // arrange
-            string state = "VIC";
-            string invalidState = "test";
+            var state = ParliamentData.StateEnum.SA;
 
             // act
-            var data = ParliamentData.FindChambers(state);
-            var data2 = ParliamentData.FindChambers(invalidState);
+            var data = ParliamentData.FindChambers(state, true);
+            var data2 = ParliamentData.FindChambers(state, false);
 
             // assert 
             Assert.NotNull(data);
@@ -403,7 +401,7 @@ namespace UnitTests
             // arrange
             FilterChoices filters = new FilterChoices();
             filters.SelectedAnsweringMPsMine = new List<MP>();
-            ElectorateWithChamber electorateWithChamber = new ElectorateWithChamber(ParliamentData.Chamber.Vic_Legislative_Council, ParliamentData.State.VIC);
+            ElectorateWithChamber electorateWithChamber = new ElectorateWithChamber(ParliamentData.Chamber.Vic_Legislative_Council, ParliamentData.StateEnum.VIC.ToString());
             MP validMP = new MP()
             {
                 first_name = "firstname",

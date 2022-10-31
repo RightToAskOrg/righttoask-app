@@ -89,6 +89,7 @@ namespace RightToAskClient.ViewModels
         // and someone to raise the question, has been selected. This is the opposite of
         // 'AnswerInApp.' Default to true unless the user explicitly chooses to get an answer
         // in the app.
+        /*
         private bool _raisedByOptionSelected = true;
         public bool RaisedByOptionSelected
         {
@@ -97,8 +98,16 @@ namespace RightToAskClient.ViewModels
             {
                 SetProperty(ref _raisedByOptionSelected, value);
                 AnswerInApp = !_raisedByOptionSelected;
-                Question.AnswerInApp = AnswerInApp;
             }
+        }
+        */
+
+        private HowAnsweredOptions _howAnswered = HowAnsweredOptions.DontKnow; 
+
+        public HowAnsweredOptions HowAnswered
+        {
+            get => _howAnswered;
+            set => SetProperty(ref _howAnswered, value);
         }
 
         // These buttons are disabled if for some reason we're unable to read MP data.
@@ -244,7 +253,7 @@ namespace RightToAskClient.ViewModels
                     = new SelectableListPage(App.ReadingContext.Filters.AuthorityLists, "Choose authorities");
                 await Shell.Current.Navigation.PushAsync(pageToSearchAuthorities).ContinueWith((_) => 
                 {
-                    MessagingCenter.Send(this, "OptionBGoToAskingPageNext"); // Sends this view model
+                    MessagingCenter.Send(this, Constants.GoToAskingPageNext); // Sends this view model
                 });
             });
             // If we already know the electorates (and hence responsible MPs), go
@@ -257,32 +266,23 @@ namespace RightToAskClient.ViewModels
                 // AnswerInApp = true;
                 await NavigationUtils.PushMyAnsweringMPsExploringPage().ContinueWith((_) =>
                 {
-                    MessagingCenter.Send(this, "OptionBGoToAskingPageNext"); // Sends this view model
+                    MessagingCenter.Send(this, _howAnswered == HowAnsweredOptions.InApp ?
+                        Constants.GoToMetadataPageNext : Constants.GoToAskingPageNext); // Sends this view model
                 });
             });
-            /*
-            AnsweredByOtherMPCommand = new AsyncCommand(async () =>
-            {
-                Question.AnswerInApp = true;
-                AnswerInApp = true;
-                await NavigationUtils.PushAnsweringMPsNotMineSelectableListPage().ContinueWith((_) =>
-                {
-                    MessagingCenter.Send(this, "OptionBGoToAskingPageNext"); // Sends this view model
-                });
-            });
-            */
             AnsweredByOtherMPCommandOptionB = new AsyncCommand(async () =>
             {
                 // Question.AnswerInApp = false;
                 // AnswerInApp = false;
                 await NavigationUtils.PushAnsweringMPsNotMineSelectableListPage().ContinueWith((_) =>
                 {
-                    MessagingCenter.Send(this, "OptionBGoToAskingPageNext"); // Sends this view model
+                    MessagingCenter.Send(this, _howAnswered == HowAnsweredOptions.InApp ?
+                        Constants.GoToMetadataPageNext : Constants.GoToAskingPageNext); // Sends this view model
                 });
             });
             UpvoteCommand = new AsyncCommand(async () =>
             {
-                await DoRegistrationCheck();
+                await NavigationUtils.DoRegistrationCheck(Instance);
                 if (App.ReadingContext.ThisParticipant.IsRegistered)
                 {
                     // upvoting a question will add it to their list
@@ -347,6 +347,14 @@ namespace RightToAskClient.ViewModels
             {
                 await Shell.Current.GoToAsync($"{nameof(QuestionAskerPage)}");
             });
+            ToHowAnsweredOptionPageCommand = new AsyncCommand(async () =>
+            {
+                await Shell.Current.GoToAsync($"{nameof(HowAnsweredOptionPage)}");
+            });
+            ToAnswererPageWithHowAnsweredSelectionCommand = new AsyncCommand(async () =>
+            {
+                await Shell.Current.GoToAsync($"{nameof(QuestionAnswererPage)}");
+            });
             ToMetadataPageCommand = new AsyncCommand(async () =>
             {
                 await Shell.Current.GoToAsync($"{nameof(MetadataPage)}");
@@ -355,8 +363,10 @@ namespace RightToAskClient.ViewModels
 
         private Command? _findCommitteeCommand;
         public Command FindCommitteeCommand => _findCommitteeCommand ??= new Command(OnFindCommitteeButtonClicked);
+        /*
         private Command? _answerInAppCommand;
         public Command AnswerInAppCommand => _answerInAppCommand ??= new Command(OnAnswerInAppButtonClicked);
+        */
 
         private Command? _myMpRaiseCommand;
         public Command myMPRaiseCommand => _myMpRaiseCommand ??= new Command(OnMyMPRaiseButtonClicked);
@@ -381,6 +391,9 @@ namespace RightToAskClient.ViewModels
         public IAsyncCommand OptionACommand { get; }
         public IAsyncCommand OptionBCommand { get; }
         public IAsyncCommand ToMetadataPageCommand { get; }
+        
+        public IAsyncCommand ToAnswererPageWithHowAnsweredSelectionCommand { get; }
+        public IAsyncCommand ToHowAnsweredOptionPageCommand { get; }
 
         public void ResetInstance()
         {
@@ -388,7 +401,7 @@ namespace RightToAskClient.ViewModels
             Question = new Question();
             IsNewQuestion = false;
             IsReadingOnly = App.ReadingContext.IsReadingOnly; // crashes here if setting up existing test questions
-            RaisedByOptionSelected = true;
+            HowAnswered = HowAnsweredOptions.DontKnow;
             AnotherUserButtonText = AppResources.AnotherUserButtonText;
             NotSureWhoShouldRaiseButtonText = AppResources.NotSureButtonText;
             SelectButtonText = AppResources.SelectButtonText;
@@ -406,21 +419,22 @@ namespace RightToAskClient.ViewModels
         // methods for selecting who will raise your question
         
         // Nobody raises the question - just asking for an answer in the app.
+        /*
         private async void OnAnswerInAppButtonClicked()
         {
             RaisedByOptionSelected = false;
             await Shell.Current.GoToAsync(nameof(ReadingPage));
         }
+        */
 
         private async void OnFindCommitteeButtonClicked()
         {
             if (CommitteesAndHearingsData.CommitteesData.IsInitialised)
             {
-                RaisedByOptionSelected = true;
+                // RaisedByOptionSelected = true;
                 await NavigationUtils.EditCommitteesClicked().ContinueWith((_) =>
                 {
-                    MessagingCenter.Send(this, "GoToReadingPage"); // Sends this view model
-                    MessagingCenter.Send(this, "OptionBAskingNow");
+                    MessagingCenter.Send(this, Constants.GoToMetadataPageNext); // Sends this view model
                 });
             }
         }
@@ -431,11 +445,10 @@ namespace RightToAskClient.ViewModels
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
-                RaisedByOptionSelected = true;
+                // RaisedByOptionSelected = true;
                 await NavigationUtils.PushMyAskingMPsExploringPage().ContinueWith((_) =>
                 {
-                    MessagingCenter.Send(this, "GoToReadingPage"); // Sends this view model
-                    MessagingCenter.Send(this, "OptionBAskingNow");
+                    MessagingCenter.Send(this, Constants.GoToMetadataPageNext); // Sends this view model
                 });
             }
             else
@@ -452,16 +465,17 @@ namespace RightToAskClient.ViewModels
             ReportLabelText = ParliamentData.MPAndOtherData.ErrorMessage;
         }
 
+        // FIXME. We will still need this - just needs to go somewhere different.
         private async void NotSureWhoShouldRaiseButtonClicked()
         {
-            RaisedByOptionSelected = true;
-            await Shell.Current.GoToAsync(nameof(ReadingPage));
+            // RaisedByOptionSelected = true;
+            await Shell.Current.GoToAsync(nameof(MetadataPage));
         }
 
         // TODO: Implement SearchableListPage constructor for people.
         private void UserShouldRaiseButtonClicked()
         {
-            RaisedByOptionSelected = true;
+            // RaisedByOptionSelected = true;
             AnotherUserButtonText = "Not Implemented Yet";
         }
 
@@ -471,7 +485,7 @@ namespace RightToAskClient.ViewModels
             {
                 await NavigationUtils.PushAskingMPsNotMineSelectableListPageAsync().ContinueWith((_) =>
                 {
-                    MessagingCenter.Send(this, "GoToReadingPage"); // Sends this view model
+                    MessagingCenter.Send(this, Constants.GoToMetadataPageNext); // Sends this view model
                 });
             }
             else
@@ -482,7 +496,7 @@ namespace RightToAskClient.ViewModels
 
         private async void SubmitNewQuestionButton_OnClicked()
         {
-            await DoRegistrationCheck();
+            await NavigationUtils.DoRegistrationCheck(Instance);
             
             if (App.ReadingContext.ThisParticipant.IsRegistered)
             {
@@ -499,7 +513,7 @@ namespace RightToAskClient.ViewModels
         // TODO Consider permissions for question editing.
         private async void EditQuestionButton_OnClicked()
         {
-            await DoRegistrationCheck();
+            await NavigationUtils.DoRegistrationCheck(Instance);
 
             if (App.ReadingContext.ThisParticipant.IsRegistered)
             {
@@ -510,19 +524,6 @@ namespace RightToAskClient.ViewModels
                 }                
             }
 
-        }
-
-        private async Task DoRegistrationCheck()
-        {
-            if (!App.ReadingContext.ThisParticipant.IsRegistered)
-            {
-                var popup = new TwoButtonPopup(QuestionViewModel.Instance, AppResources.MakeAccountQuestionText, AppResources.CreateAccountPopUpText, AppResources.CancelButtonText, AppResources.OKText);
-                _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
-                if (ApproveButtonClicked)
-                {
-                    await Shell.Current.GoToAsync($"{nameof(RegisterPage1)}");
-                }
-            }
         }
 
         // For uploading a new question
@@ -587,8 +588,9 @@ namespace RightToAskClient.ViewModels
             // FIXME at the moment, the version isn't been correctly updated.
             // TODO: Here, we'll need to ensure we've got the right version (from the server - get it returned from
             // BuildSignAndUpload... 
-            var popup = new TwoButtonPopup(QuestionViewModel.Instance, AppResources.QuestionEditSuccessfulPopupTitle, AppResources.QuestionEditSuccessfulPopupText, AppResources.StayOnCurrentPageButtonText, AppResources.GoHomeButtonText);
-            _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
+            var popup = new TwoButtonPopup(QuestionViewModel.Instance, AppResources.QuestionEditSuccessfulPopupTitle, AppResources.QuestionEditSuccessfulPopupText, AppResources.StayOnCurrentPageButtonText, AppResources.GoHomeButtonText);            
+            var result = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+
             if (ApproveButtonClicked)
             {
                 await Application.Current.MainPage.Navigation.PopToRootAsync();

@@ -11,15 +11,18 @@ namespace RightToAskClient.Views
             Routing.RegisterRoute(nameof(QuestionDetailPage), typeof(QuestionDetailPage));
             Routing.RegisterRoute(nameof(RegisterPage1), typeof(RegisterPage1));
             Routing.RegisterRoute(nameof(RegisterPage2), typeof(RegisterPage2));
-            Routing.RegisterRoute(nameof(SecondPage), typeof(SecondPage));
-            Routing.RegisterRoute("//MainPage/SecondPage", typeof(SecondPage));
-            Routing.RegisterRoute(nameof(ReadingPage), typeof(ReadingPage));
+            // Routing.RegisterRoute(nameof(SecondPage), typeof(SecondPage));
+            // Routing.RegisterRoute("//MainPage/SecondPage", typeof(SecondPage));
+            // Routing.RegisterRoute(nameof(ReadingPage), typeof(ReadingPage));
             Routing.RegisterRoute(nameof(OtherUserProfilePage), typeof(OtherUserProfilePage));
             Routing.RegisterRoute(nameof(QuestionAnswererPage), typeof(QuestionAnswererPage));
             Routing.RegisterRoute(nameof(AdvancedSearchFiltersPage), typeof(AdvancedSearchFiltersPage));
             Routing.RegisterRoute(nameof(MPRegistrationVerificationPage), typeof(MPRegistrationVerificationPage));
+            Routing.RegisterRoute(nameof(HowAnsweredOptionPage), typeof(HowAnsweredOptionPage));
             Routing.RegisterRoute(nameof(QuestionBackgroundPage), typeof(QuestionBackgroundPage));
             Routing.RegisterRoute(nameof(MetadataPage), typeof(MetadataPage));
+            Routing.RegisterRoute(nameof(SelectableListPage), typeof(SelectableListPage));
+            // Routing.RegisterRoute(nameof(FindMPsPage), typeof(FindMPsPage));
         }
     }
 }

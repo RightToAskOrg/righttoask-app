@@ -438,6 +438,9 @@
   <data name="SaveAnswerButtonText" xml:space="preserve">
     <value>Save Answer</value>
   </data>
+  <data name="SaveButtonText" xml:space="preserve">
+    <value>Save</value>
+  </data>
   <data name="ParticipantSearchBarPlaceholderText" xml:space="preserve">
     <value>Name or ID</value>
   </data>
@@ -774,6 +777,12 @@
   </data>
   <data name="MainPagePopupText" xml:space="preserve">
     <value>MainPagePopupText</value>
+  </data>
+  <data name="OptionsTitleText" xml:space="preserve">
+    <value>How answered?</value>
+  </data>
+  <data name="OptionsHeaderText" xml:space="preserve">
+    <value>How do you want your question answered?</value>
   </data>
   <data name="OtherUserProfilePopupText" xml:space="preserve">
     <value>OtherUserProfilePopupText</value>

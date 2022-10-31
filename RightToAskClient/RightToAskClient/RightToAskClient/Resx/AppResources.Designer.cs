@@ -687,6 +687,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string SaveButtonText {
+            get {
+                return ResourceManager.GetString("SaveButtonText", resourceCulture);
+            }
+        }
+        
         internal static string ParticipantSearchBarPlaceholderText {
             get {
                 return ResourceManager.GetString("ParticipantSearchBarPlaceholderText", resourceCulture);
@@ -1356,6 +1362,18 @@ namespace RightToAskClient.Resx {
         internal static string MainPagePopupText {
             get {
                 return ResourceManager.GetString("MainPagePopupText", resourceCulture);
+            }
+        }
+        
+        internal static string OptionsTitleText {
+            get {
+                return ResourceManager.GetString("OptionsTitleText", resourceCulture);
+            }
+        }
+        
+        internal static string OptionsHeaderText {
+            get {
+                return ResourceManager.GetString("OptionsHeaderText", resourceCulture);
             }
         }
         

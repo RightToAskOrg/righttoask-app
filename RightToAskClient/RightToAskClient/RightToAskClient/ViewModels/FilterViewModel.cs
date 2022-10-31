@@ -89,10 +89,6 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        // public string SelectedAnsweringMPsText => CreateTextGivenListEntities(FilterChoices.SelectedAnsweringMPsNotMine.ToList());
-
-        public bool CameFromMainPage;
-
         private string _keyword = "";
         public string Keyword
         {
@@ -123,11 +119,13 @@ namespace RightToAskClient.ViewModels
                 // active to update all of the lists/filters on this page with the newly selected data
                 //MessagingCenter.Unsubscribe<SelectableListViewModel>(this, "UpdateFilters");
             });
+            /*
             MessagingCenter.Subscribe<MainPageViewModel>(this, "MainPage", (sender) =>
             {
                 CameFromMainPage = true;
                 MessagingCenter.Unsubscribe<MainPageViewModel>(this, "MainPage");
             });
+            */
 
             Title = AppResources.AdvancedSearchButtonText; 
             ReinitData(); // to set the display strings
@@ -142,7 +140,7 @@ namespace RightToAskClient.ViewModels
                 {
                     _ = EditSelectedAnsweringMPsMineClicked().ContinueWith((_) =>
                     {
-                        MessagingCenter.Send(this, "FromFiltersPage"); // Sends this view model
+                        MessagingCenter.Send(this, Constants.GoBackToAdvancedSearchPage); // Sends this view model
                     });
                 }),
                 Heading = AppResources.MyMPButtonText
@@ -153,7 +151,7 @@ namespace RightToAskClient.ViewModels
                 {
                     _ = EditOtherSelectedAnsweringMPsClicked().ContinueWith((_) =>
                     {
-                        MessagingCenter.Send(this, "FromFiltersPage");
+                        MessagingCenter.Send(this, Constants.GoBackToAdvancedSearchPage);
                     });
                 }),
                 Heading = AppResources.OtherMP,
@@ -164,7 +162,7 @@ namespace RightToAskClient.ViewModels
                 {
                     _ = EditAuthoritiesClicked().ContinueWith((_) =>
                     {
-                        MessagingCenter.Send(this, "FromFiltersPage");
+                        MessagingCenter.Send(this, Constants.GoBackToAdvancedSearchPage);
                     });
                 }),
                 Heading = AppResources.AuthorityLabel,
@@ -175,7 +173,7 @@ namespace RightToAskClient.ViewModels
                 {
                     _ = EditSelectedAskingMPsClicked().ContinueWith((_) =>
                     {
-                        MessagingCenter.Send(this, "FromFiltersPage");
+                        MessagingCenter.Send(this, Constants.GoBackToAdvancedSearchPage);
                     });
                 }),
                 Heading = AppResources.MyMPButtonText
@@ -186,7 +184,7 @@ namespace RightToAskClient.ViewModels
                 {
                     _ = EditOtherSelectedAskingMPsClicked().ContinueWith((_) =>
                     {
-                        MessagingCenter.Send(this, "FromFiltersPage");
+                        MessagingCenter.Send(this, Constants.GoBackToAdvancedSearchPage);
                     });
                 }),
                 Heading = AppResources.OtherMP
@@ -197,7 +195,7 @@ namespace RightToAskClient.ViewModels
                 {
                     _ = NavigationUtils.EditCommitteesClicked().ContinueWith((_) =>
                     {
-                        MessagingCenter.Send(this, "FromFiltersPage");
+                        MessagingCenter.Send(this, Constants.GoBackToAdvancedSearchPage);
                     });
                 }),
                 Heading = AppResources.ParliamentaryCommitteeText
@@ -207,42 +205,42 @@ namespace RightToAskClient.ViewModels
             {
                 _ = EditSelectedAnsweringMPsMineClicked().ContinueWith((_) =>
                   {
-                      MessagingCenter.Send(this, "FromFiltersPage"); // Sends this view model
+                      MessagingCenter.Send(this, Constants.GoBackToAdvancedSearchPage); // Sends this view model
                 });
             });
             AskingMPsMineFilterCommand = new Command(() =>
             {
                 _ = EditSelectedAskingMPsClicked().ContinueWith((_) =>
                   {
-                      MessagingCenter.Send(this, "FromFiltersPage");
+                      MessagingCenter.Send(this, Constants.GoBackToAdvancedSearchPage);
                   });
             });
             AnsweringAuthoritiesFilterCommand = new Command(() =>
             {
                 _ = EditAuthoritiesClicked().ContinueWith((_) =>
                   {
-                      MessagingCenter.Send(this, "FromFiltersPage");
+                      MessagingCenter.Send(this, Constants.GoBackToAdvancedSearchPage);
                   });
             });
             OtherAnsweringMPsFilterCommand = new Command(() =>
             {
                 _ = EditOtherSelectedAnsweringMPsClicked().ContinueWith((_) =>
                   {
-                      MessagingCenter.Send(this, "FromFiltersPage");
+                      MessagingCenter.Send(this, Constants.GoBackToAdvancedSearchPage);
                   });
             });
             OtherAskingMPsFilterCommand = new Command(() =>
             {
                 _ = EditOtherSelectedAskingMPsClicked().ContinueWith((_) =>
                   {
-                      MessagingCenter.Send(this, "FromFiltersPage");
+                      MessagingCenter.Send(this, Constants.GoBackToAdvancedSearchPage);
                   });
             });
             WrittenByRightToAskUserCommand = new AsyncCommand(async () =>
             {
                 _ = SearchUserWrittenByClicked().ContinueWith((_) =>
                   {
-                      MessagingCenter.Send(this, "FromFiltersPage");
+                      MessagingCenter.Send(this, Constants.GoBackToAdvancedSearchPage);
                   });
             });
             NotSureCommand = new Command(() =>
@@ -255,14 +253,7 @@ namespace RightToAskClient.ViewModels
             });
             BackCommand = new AsyncCommand(async () =>
             {
-                if (CameFromMainPage)
-                {
-                    await Application.Current.MainPage.Navigation.PopToRootAsync();
-                }
-                else
-                {
-                    await Application.Current.MainPage.Navigation.PopAsync();
-                }
+                await App.Current.MainPage.Navigation.PopAsync();
             });
             ForceUpdateSizeCommand = new Command(() =>
             {
@@ -295,29 +286,9 @@ namespace RightToAskClient.ViewModels
             // set the keyword
             Keyword = App.ReadingContext.Filters.SearchKeyword;
 
-            // get lists of data
-            //SelectedAskingMPsList = FilterChoices.SelectedAskingMPsNotMine.ToList();
-            //SelectedAnsweringMPsList = FilterChoices.SelectedAnsweringMPsNotMine.ToList();
-            //SelectedAskingMyMPsList = FilterChoices.SelectedAskingMPsMine.ToList();
-            //SelectedAnsweringMyMPsList = FilterChoices.SelectedAnsweringMPsMine.ToList();
-            // PublicAuthoritiesList = FilterChoices.SelectedAuthorities.ToList();
-            // OtherRightToAskUserList = FilterChoices.SelectedAskingUsers.ToList();
-            // CommitteeList = FilterChoices.SelectedCommittee.ToList();
-
-            // create strings from those lists
-            //SelectedAskingMPsText = CreateTextGivenListEntities(SelectedAskingMPsList);
-            //SelectedAnsweringMPsText = CreateTextGivenListEntities(SelectedAnsweringMPsList);
-            //SelectedAskingMyMPsText = CreateTextGivenListEntities(SelectedAskingMyMPsList);
-            // SelectedAnsweringMyMPsText = CreateTextGivenListEntities(SelectedAnsweringMyMPsList);
-            // PublicAuthoritiesText = CreateTextGivenListEntities(PublicAuthoritiesList);
-            // This line is necessary for updating the views.
             // TODO Ideally, we shouldn't have to do this manually,
             // but I don't see a more elegant way at the moment.
             // I tried raising it in SelectableList.cs but that didn't work.
-            OnPropertyChanged("SelectedAskingMPsText");
-            OnPropertyChanged("SelectedAnsweringMPsText");
-            OnPropertyChanged("SelectedAskingMyMPsText");
-            OnPropertyChanged("SelectedAnsweringMyMPsText");
             OnPropertyChanged("PublicAuthoritiesText");
             OnPropertyChanged("AnsweringMPsOther");
             OnPropertyChanged("AnsweringMPsMine");
@@ -403,14 +374,7 @@ namespace RightToAskClient.ViewModels
         }
         private async void ApplyFiltersAndSearch()
         {
-            if (CameFromMainPage)
-            {
-                await Shell.Current.GoToAsync(nameof(ReadingPage));
-            }
-            else
-            {
-                await Application.Current.MainPage.Navigation.PopAsync();
-            }
+            await Shell.Current.Navigation.PopToRootAsync();
         }
     }
 }

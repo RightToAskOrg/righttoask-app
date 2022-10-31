@@ -210,15 +210,6 @@ namespace RightToAskClient.Models
             get => _hasAnswer;
             set => SetProperty(ref _hasAnswer, value);
         }
-
-        // chosen by route of option A or B to answer in app or raise in parliament
-        private bool _answerInApp;
-        public bool AnswerInApp
-        {
-            get => _answerInApp;
-            set => SetProperty(ref _answerInApp, value);
-        }
-
         // booleans stored for new style popups
         private bool _approveClicked;
         public bool ApproveClicked

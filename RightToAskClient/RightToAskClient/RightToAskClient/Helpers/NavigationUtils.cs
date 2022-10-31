@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using RightToAskClient.Resx;
 using RightToAskClient.Views;
+using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.Forms;
 
 /* This class contains some utilities for popping up and using pages, which may be accessed
@@ -80,6 +81,19 @@ namespace RightToAskClient.Helpers
             var committeeSelectableListPage
                 = new SelectableListPage(App.ReadingContext.Filters.CommitteeLists, AppResources.CommitteeText);
             await Application.Current.MainPage.Navigation.PushAsync(committeeSelectableListPage);
+        }
+        
+        public static async Task DoRegistrationCheck(BaseViewModel vm)
+        {
+            if (!App.ReadingContext.ThisParticipant.IsRegistered)
+            {
+                var popup = new TwoButtonPopup(vm, AppResources.MakeAccountQuestionText, AppResources.CreateAccountPopUpText, AppResources.CancelButtonText, AppResources.OKText);
+                _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                if (vm.ApproveButtonClicked)
+                {
+                    await Shell.Current.GoToAsync($"{nameof(RegisterPage1)}");
+                }
+            }
         }
     }
 }

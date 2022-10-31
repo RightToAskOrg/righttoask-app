@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using RightToAskClient;
 using Xamarin.Forms;
 using Xunit;
 
@@ -435,16 +436,16 @@ namespace UnitTests
             Assert.False(receiver.messageReceived);
         }
         #endregion
-        #region "GoToReadingPage" Message
+        #region "GoToReadingPageNext" Message
         [Theory]
-        [InlineData("GoToReadingPage")]
+        [InlineData(Constants.GoToReadingPageNext)]
         public void MessagingCenterGoToReadingPageTestValidMockReceiver(string message)
         {
             // arrange -> create receiver
             MockMessageReceiver receiver = new MockMessageReceiver(message);
 
             // act -> send message
-            _ = new MockMessageSendingService("GoToReadingPage");
+            _ = new MockMessageSendingService(Constants.GoToReadingPageNext);
 
             // assert
             Assert.True(receiver.messageReceived);
@@ -458,18 +459,18 @@ namespace UnitTests
             MockMessageReceiver receiver = new MockMessageReceiver(message);
 
             // act
-            _ = new MockMessageSendingService("GoToReadingPage");
+            _ = new MockMessageSendingService(Constants.GoToReadingPageNext);
 
             // assert
             Assert.False(receiver.messageReceived);
         }
 
         [Theory]
-        [InlineData("GoToReadingPage")]
+        [InlineData(Constants.GoToReadingPageNext)]
         public void MessagingCenterGoToReadingPageTestValidMockSender(string message)
         {
             // arrange
-            MockMessageReceiver receiver = new MockMessageReceiver("GoToReadingPage");
+            MockMessageReceiver receiver = new MockMessageReceiver(Constants.GoToReadingPageNext);
 
             // act
             _ = new MockMessageSendingService(message);
@@ -483,7 +484,7 @@ namespace UnitTests
         public void MessagingCenterGoToReadingPageTestInvalidMockSender(string message)
         {
             // arrange
-            MockMessageReceiver receiver = new MockMessageReceiver("GoToReadingPage");
+            MockMessageReceiver receiver = new MockMessageReceiver(Constants.GoToReadingPageNext);
 
             // act
             _ = new MockMessageSendingService(message);

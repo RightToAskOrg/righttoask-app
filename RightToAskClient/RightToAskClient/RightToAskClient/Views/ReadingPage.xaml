@@ -9,13 +9,16 @@
              xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
              x:Class="RightToAskClient.Views.ReadingPage"
 			 x:Name="ReadingPageName"
+             Shell.FlyoutBehavior="Flyout"
              Title="{Binding Title}"
              x:DataType="vm:ReadingPageViewModel">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="{xct:Translate SearchButtonText}" IconImageSource="{helpers:ImageResource RightToAskClient.Images.search_75.png}"
                      Command="{Binding SearchToolbarCommand}"/>
+        <!-- 
         <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
-                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.home4.png}"/>
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.home4.png}"/> -->
+
         <ToolbarItem Text="{xct:Translate InfoPopupButtonText}" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
                      IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}"/>
     </ContentPage.ToolbarItems>

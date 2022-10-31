@@ -30,5 +30,12 @@ namespace RightToAskClient
         
         // Special numbers
         public static float similarityThreshold = 2.5F;
+        
+        // Messaging center strings
+        public static string GoToReadingPageNext = "GoToReadingPageNext";
+        public static string GoToMetadataPageNext = "GoToMetadataPageNext";
+        public static string GoToAskingPageNext = "GoToAskingPageNext";
+        public static string GoBackToAdvancedSearchPage = "GoBackToAdvancedSearchPage";
+
     }
 }

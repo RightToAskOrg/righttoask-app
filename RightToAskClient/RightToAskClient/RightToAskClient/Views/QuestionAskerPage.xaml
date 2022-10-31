@@ -24,8 +24,9 @@
                     <Frame Grid.Row="0" Grid.Column="0" Style="{StaticResource SubtleFrame}">
                         <Grid RowDefinitions="*" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                             <Label Grid.Row="0" Text="{xct:Translate InAppHeaderText}" Style="{StaticResource PaleButtonText}"/>
+                            <!--
                             <Button Grid.Row="0" Style="{StaticResource TransparentSquareButton}" 
-                                Command="{Binding AnswerInAppCommand}"/>
+                                Command="{Binding AnswerInAppCommand}"/> -->
                         </Grid>
                     </Frame>
                     <Label Grid.Row="0" Grid.Column="1" Style="{StaticResource NormalText}"

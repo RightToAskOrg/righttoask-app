@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.Json;
@@ -300,7 +301,7 @@ namespace RightToAskClient.ViewModels
                 DoneButtonCommand = new Command(() => { OnSaveButtonClicked(); });
                 UpdateAccountButtonCommand = new Command(() =>
                 {
-                    SaveRegistrationToPreferences();
+                    SaveRegistrationToPreferences(_registration);
                     SendUpdatedUserToServer();
                 });
                 UpdateMPsButtonCommand = new Command(() =>
@@ -330,11 +331,6 @@ namespace RightToAskClient.ViewModels
                 });
             }
 
-            internal static RegistrationViewModel OnCreateInstance(bool notUsed)
-            {
-                return new RegistrationViewModel(notUsed);
-            }
-
             // commands
         public Command DoneButtonCommand { get; }
         public Command UpdateAccountButtonCommand { get; }
@@ -350,11 +346,7 @@ namespace RightToAskClient.ViewModels
         #region Methods
         public async void NavigateToFindMPsPage()
         {
-            await Shell.Current.GoToAsync($"{nameof(RegisterPage2)}").ContinueWith((_) =>
-            {
-                MessagingCenter.Send(this, "FromReg1"); // sending Registration1ViewModel
-            });
-
+            await Shell.Current.GoToAsync($"{nameof(RegisterPage2)}");
         }
 
         // Show and label different buttons according to whether we're registering
@@ -404,7 +396,7 @@ namespace RightToAskClient.ViewModels
         // public key and uid. Electorates are optional.
         private async void OnSaveButtonClicked()
         {
-            SaveRegistrationToPreferences();
+            SaveRegistrationToPreferences(_registration);
             Debug.Assert(!App.ReadingContext.ThisParticipant.IsRegistered);
 
             _registration.public_key = ClientSignatureGenerationService.MyPublicKey; 
@@ -465,12 +457,20 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        private void SaveRegistrationToPreferences()
+        // TODO: This may put the app into a problematic state in which the server thinks
+        // it is registered, but it doesn't remember its own registration info. Alternatively,
+        // it may simply be the update that has failed.
+        public static void SaveRegistrationToPreferences(Registration reg)
         {
-            // save registration to preferences
-            var registrationObjectToSave = JsonSerializer.Serialize(new ServerUser(_registration));
-            Preferences.Set(Constants.RegistrationInfo, registrationObjectToSave);
-            // Preferences.Set(Constants.State, _registration.SelectedStateAsEnum.ToString()); 
+            try
+            {
+                var registrationObjectToSave = JsonSerializer.Serialize(new ServerUser(reg));
+                Preferences.Set(Constants.RegistrationInfo, registrationObjectToSave);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Error storing Registration: "+e.Message); 
+            }
         }
 
         private async void SendUpdatedUserToServer()
@@ -557,12 +557,8 @@ namespace RightToAskClient.ViewModels
 
             // The user is first sent to pageToSearchMPs, and then on to pageToRegisterSelectedMP.
             // When done, they're popped all the way back here to the Account Page. 
-            await Shell.Current.Navigation.PushAsync(pageToSearchMPs).ContinueWith(async (_) => 
-            {
-                MessagingCenter.Send(this, "RegMPAccount", _selectableMPList);
-                // var pageToRegisterSelectedMP = new MPRegistrationVerificationPage(_selectableMPList);
-                // await App.Current.MainPage.Navigation.PushAsync(pageToRegisterSelectedMP);
-            }); 
+            await Shell.Current.Navigation.PushAsync(pageToSearchMPs);
+                
             ShowRegisterMPReportLabel = true;
 
             // TODO: This isn't quite right because if the registration is unsuccessful it will still show.
@@ -572,7 +568,6 @@ namespace RightToAskClient.ViewModels
 
         private async void PromptUser(string message)
         {
-            //await App.Current.MainPage.DisplayAlert("Registration incomplete", message, "OK");
             var popup = new OneButtonPopup(message, AppResources.OKText);
             _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
         }
