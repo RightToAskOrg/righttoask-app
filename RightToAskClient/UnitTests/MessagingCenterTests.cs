@@ -438,7 +438,7 @@ namespace UnitTests
         #endregion
         #region "GoToReadingPageNext" Message
         [Theory]
-        [InlineData(Constants.GoToReadingPageNext)]
+        [InlineData("GoToReadingPageNext")]
         public void MessagingCenterGoToReadingPageTestValidMockReceiver(string message)
         {
             // arrange -> create receiver
@@ -466,7 +466,7 @@ namespace UnitTests
         }
 
         [Theory]
-        [InlineData(Constants.GoToReadingPageNext)]
+        [InlineData("GoToReadingPageNext")]
         public void MessagingCenterGoToReadingPageTestValidMockSender(string message)
         {
             // arrange
