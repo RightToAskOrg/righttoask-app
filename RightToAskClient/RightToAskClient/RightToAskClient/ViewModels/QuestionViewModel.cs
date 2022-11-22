@@ -78,31 +78,6 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _isNewQuestion, value);
         }
 
-        // TODO What does this mean??
-        private bool _isReadingOnly;
-        public bool IsReadingOnly
-        {
-            get => _isReadingOnly;
-            set => SetProperty(ref _isReadingOnly, value);
-        }
-
-        // Whether the 'Option B' path, in which you choose both someone to answer 
-        // and someone to raise the question, has been selected. This is the opposite of
-        // 'AnswerInApp.' Default to true unless the user explicitly chooses to get an answer
-        // in the app.
-        /*
-        private bool _raisedByOptionSelected = true;
-        public bool RaisedByOptionSelected
-        {
-            get => _raisedByOptionSelected;
-            set
-            {
-                SetProperty(ref _raisedByOptionSelected, value);
-                AnswerInApp = !_raisedByOptionSelected;
-            }
-        }
-        */
-
         private HowAnsweredOptions _howAnswered = HowAnsweredOptions.DontKnow; 
 
         public HowAnsweredOptions HowAnswered
@@ -236,7 +211,6 @@ namespace RightToAskClient.ViewModels
 
             // set defaults
             IsNewQuestion = false;
-            IsReadingOnly = App.ReadingContext.IsReadingOnly; // crashes here if setting up existing test questions
             HowAnswered = HowAnsweredOptions.DontKnow;
             AnotherUserButtonText = AppResources.AnotherUserButtonText;
             NotSureWhoShouldRaiseButtonText = AppResources.NotSureButtonText;
