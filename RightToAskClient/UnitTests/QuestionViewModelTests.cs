@@ -77,7 +77,7 @@ namespace UnitTests
         public void EditQuestionCommandTest()
         {
             // arrange
-            App.ReadingContext.ThisParticipant.IsRegistered = false;
+            IndividualParticipant.IsRegistered = false;
             Button button = new Button()
             {
                 Command = vm.EditAnswerCommand
@@ -250,7 +250,7 @@ namespace UnitTests
         public void UpvoteCommandTest()
         {
             // arrange
-            App.ReadingContext.ThisParticipant.IsRegistered = true;
+            IndividualParticipant.IsRegistered = true;
             vm.Question.UpVotes = 0;
             vm.Question.AlreadyUpvoted = false;
             Button button = new Button
@@ -268,7 +268,7 @@ namespace UnitTests
         public void UndoUpvoteCommandTest()
         {
             // arrange
-            App.ReadingContext.ThisParticipant.IsRegistered = true;
+            IndividualParticipant.IsRegistered = true;
             vm.Question.UpVotes = 1;
             vm.Question.AlreadyUpvoted = true;
             Button button = new Button
@@ -328,10 +328,8 @@ namespace UnitTests
         public void SaveQuestionCommandTest()
         {
             // arrange
-            IndividualParticipant testUser = new IndividualParticipant();
-            testUser.RegistrationInfo = ValidRegistrationWithValidElectorate;
-            App.ReadingContext.ThisParticipant = testUser;
-            App.ReadingContext.ThisParticipant.IsRegistered = true;
+            IndividualParticipant.ProfileData.RegistrationInfo = ValidRegistrationWithValidElectorate;
+            IndividualParticipant.IsRegistered = true;
             vm.Question = TestQuestion;
             //var questionDetailPage = new QuestionDetailPage();
             Button button = new Button

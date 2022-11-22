@@ -50,35 +50,13 @@ namespace RightToAskClient.CryptoUtils
             }
             
             _myKeyPair = generationResult.Ok;
-            // _myPublicKey = _myKeyPair.GeneratePublicKey();
             MySigner.Init(true, _myKeyPair);
             InitSuccessful = true;
             return true;
         }
 
-        /*
-        public static async Task<ClientSignatureGenerationService> CreateClientSignatureGenerationService()
-        {
-            Ed25519PrivateKeyParameters myKeyPair = await MakeMyKey();
-            return new ClientSignatureGenerationService(myKeyPair);
-        }
-        */
 
         public static string MyPublicKey => Convert.ToBase64String(_myKeyPair?.GeneratePublicKey().GetEncoded() ?? Array.Empty<byte>());
-        /*
-        public static string MyPublicKey()
-        {
-            if (_myPublicKey.GetEncoded() != null)
-            {
-                return Convert.ToBase64String(_myPublicKey.GetEncoded());
-            }
-            else
-            {
-                Debug.WriteLine("Error generating signing key");
-                return "";
-            }
-        }
-        */
 
         private static async Task<Result<Ed25519PrivateKeyParameters>> MakeMyKey()
         {

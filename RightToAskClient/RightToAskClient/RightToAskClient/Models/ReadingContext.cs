@@ -34,12 +34,12 @@ namespace RightToAskClient.Models
         {
 	        // Also initialises signing keys etc.
 	        // Consider awaiting. I don't think so, though, because there's no reason everything else should wait for it.
-	        ThisParticipant.Init();
+	        // ThisParticipant.Init();
         }
         
 		// Things about this user.
 		// These selections are made at registration, or at 'complete registration.'
-		public IndividualParticipant ThisParticipant { get; set; } = new IndividualParticipant();
+		// public IndividualParticipant ThisParticipant { get; set; } = new IndividualParticipant();
 
 		private FilterChoices _filters = new FilterChoices();
 

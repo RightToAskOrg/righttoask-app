@@ -1,4 +1,5 @@
 using System;
+using RightToAskClient.Models;
 using RightToAskClient.ViewModels;
 using Xamarin.Forms;
 using RightToAskClient.Resx;
@@ -74,7 +75,7 @@ namespace RightToAskClient.Views
             BackgroundLabel.IsVisible = BackgroundEditor.IsVisible;
 
             // Only MPs can answer questions.
-            var isMP = App.ReadingContext.ThisParticipant.IsVerifiedMPAccount;
+            var isMP = IndividualParticipant.IsVerifiedMPAccount;
             AnswerEditor.Style = isMP ? normalEditorStyle : disabledEditorStyle;
             AnswerEditor.IsEnabled = isMP;
         }

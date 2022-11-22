@@ -87,7 +87,7 @@ namespace RightToAskClient.ViewModels
             {
                 _selectedStateAsIndex = value;
                 ParliamentData.StateEnum selectedState;
-                (_stateKnown, selectedState) =  App.ReadingContext.ThisParticipant.RegistrationInfo.UpdateStateStorePreferences(SelectedStateAsIndex);
+                (_stateKnown, selectedState) =  IndividualParticipant.ProfileData.RegistrationInfo.UpdateStateStorePreferences(SelectedStateAsIndex);
                 
                 // Include new state in updates. At the moment, this means that there is no way that
                 // someone who has previously selected a state can
@@ -269,20 +269,18 @@ namespace RightToAskClient.ViewModels
         public RegistrationViewModel() : this(false)
         {
             // initialize defaults
-            var me = App.ReadingContext.ThisParticipant;
-            Title = me.IsRegistered ? AppResources.EditYourAccountTitle : AppResources.CreateAccountTitle;
-            // Title = App.ReadingContext.ThisParticipant.IsRegistered ? AppResources.EditYourAccountTitle : AppResources.CreateAccountTitle;
+            Title = IndividualParticipant.IsRegistered ? AppResources.EditYourAccountTitle : AppResources.CreateAccountTitle;
             ReportLabelText = "";
-            _registration = me.RegistrationInfo; 
+            _registration = IndividualParticipant.ProfileData.RegistrationInfo; 
             
             ShowTheRightButtonsForOwnAccount();
-            CanEditUid = !me.IsRegistered;
+            CanEditUid = !IndividualParticipant.IsRegistered;
 
             // uid should still be sent in the 'update' even though it doesn't change.
             _registrationUpdates.uid = _registration.uid;
             _oldElectorates = _registration.Electorates;
 
-            PopupLabelText = App.ReadingContext.ThisParticipant.IsRegistered ? AppResources.EditAccountPopupText : AppResources.CreateNewAccountPopupText;
+            PopupLabelText = IndividualParticipant.IsRegistered ? AppResources.EditAccountPopupText : AppResources.CreateNewAccountPopupText;
                 
             _selectableMPList = new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
 
@@ -366,21 +364,20 @@ namespace RightToAskClient.ViewModels
 
         public void ShowTheRightButtonsForOwnAccount()
         {
-            var me = App.ReadingContext.ThisParticipant;
-            ShowUpdateAccountButton = me.IsRegistered;
-            ShowRegisterMPButton = me.IsRegistered;
-            ShowExistingMPRegistrationLabel = me.IsVerifiedMPAccount || me.IsVerifiedMPStafferAccount;
-            ShowStafferLabel = me.IsVerifiedMPStafferAccount;
+            ShowUpdateAccountButton = IndividualParticipant.IsRegistered;
+            ShowRegisterMPButton = IndividualParticipant.IsRegistered;
+            ShowExistingMPRegistrationLabel = IndividualParticipant.IsVerifiedMPAccount || IndividualParticipant.IsVerifiedMPStafferAccount;
+            ShowStafferLabel = IndividualParticipant.IsVerifiedMPStafferAccount;
             ShowDMButton = false;
             ShowSeeQuestionsButton = false;
             ShowFollowButton = false;
 
-            if (!App.ReadingContext.ThisParticipant.ElectoratesKnown)
+            if (!IndividualParticipant.ElectoratesKnown)
             {
                 RegisterCitizenButtonText = "Next: Find your electorates";
             }
 
-            if (!App.ReadingContext.ThisParticipant.IsRegistered)
+            if (!IndividualParticipant.IsRegistered)
             {
                 ShowRegisterCitizenButton = true;
                 ShowRegisterOrgButton = true;
@@ -397,14 +394,14 @@ namespace RightToAskClient.ViewModels
         private async void OnSaveButtonClicked()
         {
             SaveRegistrationToPreferences(_registration);
-            Debug.Assert(!App.ReadingContext.ThisParticipant.IsRegistered);
+            Debug.Assert(!IndividualParticipant.IsRegistered);
 
             _registration.public_key = ClientSignatureGenerationService.MyPublicKey; 
             var regTest = _registration.IsValid().Err;
             if (string.IsNullOrEmpty(regTest))
             {
                 // see if we need to push the electorates page or if we push the server account things
-                if (!App.ReadingContext.ThisParticipant.ElectoratesKnown)
+                if (!IndividualParticipant.ElectoratesKnown)
                 {
                     // if MPs have not been found for this user yet, prompt to find them
                     var popup = new TwoButtonPopup(this, AppResources.MPsPopupTitle, AppResources.MPsPopupText, AppResources.SkipButtonText, AppResources.YesButtonText);
@@ -476,7 +473,7 @@ namespace RightToAskClient.ViewModels
         private async void SendUpdatedUserToServer()
         {
             // Shouldn't be updating a non-existent user. 
-            Debug.Assert(App.ReadingContext.ThisParticipant.IsRegistered);
+            Debug.Assert(IndividualParticipant.IsRegistered);
 
             var hasChanges = false;
             if (_registrationUpdates.uid == null)
@@ -540,10 +537,10 @@ namespace RightToAskClient.ViewModels
 
         private void UpdateLocalRegistrationInfo()
         {
-            App.ReadingContext.ThisParticipant.RegistrationInfo = _registration;
-            App.ReadingContext.ThisParticipant.IsRegistered = true;
+            IndividualParticipant.ProfileData.RegistrationInfo = _registration;
+            IndividualParticipant.IsRegistered = true;
             // save the registration to preferences
-            Preferences.Set(Constants.IsRegistered, App.ReadingContext.ThisParticipant.IsRegistered); 
+            Preferences.Set(Constants.IsRegistered, IndividualParticipant.IsRegistered); 
         }
 
 

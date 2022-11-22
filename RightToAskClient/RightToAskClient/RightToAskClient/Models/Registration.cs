@@ -174,8 +174,8 @@ namespace RightToAskClient.Models
                 successState =
                     (ParliamentData.StateEnum)Enum.ToObject(typeof(ParliamentData.StateEnum), selectedStateAsInt);
                 successBool = true;
-                App.ReadingContext.ThisParticipant.RegistrationInfo.StateKnown = successBool;
-                App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsEnum = successState;
+                IndividualParticipant.ProfileData.RegistrationInfo.StateKnown = successBool;
+                IndividualParticipant.ProfileData.RegistrationInfo.SelectedStateAsEnum = successState;
                 Preferences.Set(Constants.State, successState.ToString());
             }
 

@@ -107,19 +107,18 @@ namespace UnitTests
         public void ValidIndividualParticipantWithValidRegistrationTest()
         {
             // arrange
-            IndividualParticipant ip = new IndividualParticipant();
-            ip.IsRegistered = true;
+            IndividualParticipant.IsRegistered = true;
             Registration registration = new Registration(new ServerUser() { uid = "testUserId", public_key = "fakePublicKey", state = ParliamentData.StateEnum.QLD.ToString() });
-            ip.RegistrationInfo = registration;
+            IndividualParticipant.ProfileData.RegistrationInfo = registration;
 
             // act
-            bool isValid = ip.Validate();
+            bool isValid = IndividualParticipant.Validate();
 
             // assert
             Assert.True(isValid);
-            Assert.NotNull(ip.RegistrationInfo);
-            Assert.True(!string.IsNullOrEmpty(ip.RegistrationInfo.uid));
-            Assert.True(!string.IsNullOrEmpty(ip.RegistrationInfo.public_key));
+            Assert.NotNull(IndividualParticipant.ProfileData.RegistrationInfo);
+            Assert.True(!string.IsNullOrEmpty(IndividualParticipant.ProfileData.RegistrationInfo.uid));
+            Assert.True(!string.IsNullOrEmpty(IndividualParticipant.ProfileData.RegistrationInfo.public_key));
             //Assert.True(!string.IsNullOrEmpty(ip.RegistrationInfo.State)); // state is in a weird setup where it never seems to actually get set
         }
 
@@ -127,40 +126,38 @@ namespace UnitTests
         public void ValidIndividualParticipantWithInvalidRegistrationTest()
         {
             // arrange
-            IndividualParticipant ip = new IndividualParticipant();
-            ip.IsRegistered = true;
+            IndividualParticipant.IsRegistered = true;
             Registration invalidRegistration = new Registration(new ServerUser() { uid = "testUserId", state = ParliamentData.StateEnum.QLD.ToString() });
-            ip.RegistrationInfo = invalidRegistration;
+            IndividualParticipant.ProfileData.RegistrationInfo = invalidRegistration;
 
             // act
-            bool isValid = ip.Validate();
+            bool isValid = IndividualParticipant.Validate();
 
             // assert
             Assert.False(isValid);
-            Assert.NotNull(ip.RegistrationInfo);
-            Assert.True(!string.IsNullOrEmpty(ip.RegistrationInfo.uid));
-            Assert.True(string.IsNullOrEmpty(ip.RegistrationInfo.public_key));
-            //Assert.True(!string.IsNullOrEmpty(ip.RegistrationInfo.State));
+            Assert.NotNull(IndividualParticipant.ProfileData.RegistrationInfo);
+            Assert.True(!string.IsNullOrEmpty(IndividualParticipant.ProfileData.RegistrationInfo.uid));
+            Assert.True(string.IsNullOrEmpty(IndividualParticipant.ProfileData.RegistrationInfo.public_key));
+            //Assert.True(!string.IsNullOrEmpty(IndividualParticipant.ProfileData.RegistrationInfo.State));
         }
 
         [Fact]
         public void ValidIndividualParticipantWithoutRegistrationButKnownMPsTest()
         {
             // arrange
-            IndividualParticipant ip = new IndividualParticipant();
-            ip.IsRegistered = false;
-            ip.ElectoratesKnown = true;
+            IndividualParticipant.IsRegistered = false;
+            IndividualParticipant.ElectoratesKnown = true;
 
             // act
-            bool isValid = ip.Validate();
+            bool isValid = IndividualParticipant.Validate();
 
             // assert
             Assert.True(isValid);
-            Assert.NotNull(ip.RegistrationInfo); // always has a default registration info object created. Generates public key
-            Assert.True(ip.ElectoratesKnown);
-            Assert.False(ip.IsRegistered);
-            Assert.True(string.IsNullOrEmpty(ip.RegistrationInfo.uid));
-            Assert.True(!string.IsNullOrEmpty(ip.RegistrationInfo.public_key));
+            Assert.NotNull(IndividualParticipant.ProfileData.RegistrationInfo); // always has a default registration info object created. Generates public key
+            Assert.True(IndividualParticipant.ElectoratesKnown);
+            Assert.False(IndividualParticipant.IsRegistered);
+            Assert.True(string.IsNullOrEmpty(IndividualParticipant.ProfileData.RegistrationInfo.uid));
+            Assert.True(!string.IsNullOrEmpty(IndividualParticipant.ProfileData.RegistrationInfo.public_key));
             //Assert.True(!string.IsNullOrEmpty(ip.RegistrationInfo.State));
         }
 
@@ -168,21 +165,20 @@ namespace UnitTests
         public void InvalidIndividualParticipantTest()
         {
             // arrange
-            IndividualParticipant ip = new IndividualParticipant();
-            ip.IsRegistered = false;
-            ip.ElectoratesKnown = false;
-            ip.RegistrationInfo.StateKnown = false;
+            IndividualParticipant.IsRegistered = false;
+            IndividualParticipant.ElectoratesKnown = false;
+            IndividualParticipant.ProfileData.RegistrationInfo.StateKnown = false;
 
             // act
-            bool isValid = ip.Validate();
+            bool isValid = IndividualParticipant.Validate();
 
             // assert
             Assert.False(isValid);
-            Assert.NotNull(ip.RegistrationInfo); // always has a default registration info object created. Generates public key
-            Assert.False(ip.ElectoratesKnown);
-            Assert.False(ip.IsRegistered);
-            Assert.True(string.IsNullOrEmpty(ip.RegistrationInfo.uid));
-            Assert.True(!string.IsNullOrEmpty(ip.RegistrationInfo.public_key));
+            Assert.NotNull(IndividualParticipant.ProfileData.RegistrationInfo); // always has a default registration info object created. Generates public key
+            Assert.False(IndividualParticipant.ElectoratesKnown);
+            Assert.False(IndividualParticipant.IsRegistered);
+            Assert.True(string.IsNullOrEmpty(IndividualParticipant.ProfileData.RegistrationInfo.uid));
+            Assert.True(!string.IsNullOrEmpty(IndividualParticipant.ProfileData.RegistrationInfo.public_key));
         }
 
         [Fact]
@@ -432,8 +428,8 @@ namespace UnitTests
         public void ValidateClientSignedUnparsedTest()
         {
             // Arrange
-            App.ReadingContext.ThisParticipant.RegistrationInfo.uid = "TestUID10";
-            var csu = App.ReadingContext.ThisParticipant.SignMessage("fakeMessageToSend");
+            IndividualParticipant.ProfileData.RegistrationInfo.uid = "TestUID10";
+            var csu = IndividualParticipant.SignMessage("fakeMessageToSend");
 
             // Act
             bool isValid = csu.Validate();
@@ -446,8 +442,8 @@ namespace UnitTests
         public void ValidateClientSignedUnparsedFailTest()
         {
             // Arrange
-            App.ReadingContext.ThisParticipant.RegistrationInfo.uid = "TestUID10";
-            var csu = App.ReadingContext.ThisParticipant.SignMessage("fakeMessageToSend");
+            IndividualParticipant.ProfileData.RegistrationInfo.uid = "TestUID10";
+            var csu = IndividualParticipant.SignMessage("fakeMessageToSend");
             csu.message = "changedMessage";
 
             // Act

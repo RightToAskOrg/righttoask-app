@@ -175,7 +175,7 @@ namespace RightToAskClient.ViewModels
             {
                 await NavigationUtils.DoRegistrationCheck(this);
 
-                if (App.ReadingContext.ThisParticipant.IsRegistered)
+                if (IndividualParticipant.IsRegistered)
                 {
                     ShowQuestionFrame = true;
                 }
@@ -191,9 +191,9 @@ namespace RightToAskClient.ViewModels
             RemoveQuestionCommand = new Command<Question>(questionToRemove =>
             {
                 // store question ID for later data manipulation?
-                if (!App.ReadingContext.ThisParticipant.RemovedQuestionIDs.Contains(questionToRemove.QuestionId))
+                if (!IndividualParticipant.RemovedQuestionIDs.Contains(questionToRemove.QuestionId))
                 {
-                    App.ReadingContext.ThisParticipant.RemovedQuestionIDs.Add(questionToRemove.QuestionId);
+                    IndividualParticipant.RemovedQuestionIDs.Add(questionToRemove.QuestionId);
                 }
                 QuestionsToDisplay.Remove(questionToRemove);
             });
@@ -239,15 +239,13 @@ namespace RightToAskClient.ViewModels
         // helper methods
         private async void OnSaveButtonClicked()
         {
-            var thisParticipant = App.ReadingContext.ThisParticipant;
-
             // Set up new question in preparation for upload. 
             // The filters are what the user has chosen through the flow.
             var newQuestion = new Question
             {
                 QuestionText = DraftQuestion,
-                QuestionSuggester = (thisParticipant.IsRegistered)
-                    ? thisParticipant.RegistrationInfo.uid
+                QuestionSuggester = (IndividualParticipant.IsRegistered)
+                    ? IndividualParticipant.ProfileData.RegistrationInfo.uid
                     : "",
                 Filters = App.ReadingContext.Filters,
                 DownVotes = 0,
@@ -322,10 +320,10 @@ namespace RightToAskClient.ViewModels
 
 
             // after getting the list of questions, remove the ids for dismissed questions, and set the upvoted status of liked ones
-            for (var i = 0; i < App.ReadingContext.ThisParticipant.RemovedQuestionIDs.Count; i++)
+            for (var i = 0; i < IndividualParticipant.RemovedQuestionIDs.Count; i++)
             {
                 var temp = questionsToDisplay
-                    .FirstOrDefault(q => q.QuestionId == App.ReadingContext.ThisParticipant.RemovedQuestionIDs[i]);
+                    .FirstOrDefault(q => q.QuestionId == IndividualParticipant.RemovedQuestionIDs[i]);
                 if (temp != null)
                 {
                     questionsToDisplay.Remove(temp);
@@ -335,9 +333,7 @@ namespace RightToAskClient.ViewModels
             // set previously upvoted questions
             foreach (var q in questionsToDisplay)
             {
-                foreach (var qId in App
-                             .ReadingContext
-                             .ThisParticipant
+                foreach (var qId in IndividualParticipant
                              .UpvotedQuestionIDs
                              .Where(qId => q.QuestionId == qId))
                 {
@@ -345,9 +341,7 @@ namespace RightToAskClient.ViewModels
                 }
 
                 // set previously flagged/reported questions
-                foreach (var qID in App
-                             .ReadingContext
-                             .ThisParticipant
+                foreach (var qID in IndividualParticipant 
                              .ReportedQuestionIDs
                              .Where(qId => q.QuestionId == qId))
                 {
