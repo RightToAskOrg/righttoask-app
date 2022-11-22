@@ -19,7 +19,6 @@ namespace UnitTests
             // arrange
             IndividualParticipant.ProfileData.RegistrationInfo = vTests.ValidRegistrationTest();
             IndividualParticipant.IsRegistered = true;
-            App.ReadingContext.IsReadingOnly = false;
 
             // act
             RegistrationViewModel vm = new RegistrationViewModel();
@@ -45,7 +44,6 @@ namespace UnitTests
         {
             // arrange
             IndividualParticipant.IsRegistered = false;
-            App.ReadingContext.IsReadingOnly = false;
 
             // act
             RegistrationViewModel vm = new RegistrationViewModel();
@@ -69,7 +67,6 @@ namespace UnitTests
         {
             // arrange
             IndividualParticipant.IsRegistered = false;
-            App.ReadingContext.IsReadingOnly = true;
 
             // act
             RegistrationViewModel vm = new RegistrationViewModel();
@@ -95,7 +92,6 @@ namespace UnitTests
             // arrange
             IndividualParticipant.ProfileData.RegistrationInfo = vTests.ValidRegistrationTest();
             IndividualParticipant.IsRegistered = true;
-            App.ReadingContext.IsReadingOnly = true;
 
             // act
             RegistrationViewModel vm = new RegistrationViewModel();
