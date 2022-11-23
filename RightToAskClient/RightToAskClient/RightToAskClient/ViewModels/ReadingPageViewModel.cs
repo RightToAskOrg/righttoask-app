@@ -35,21 +35,6 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _showSearchFrame, value);
         }
 
-        private bool _dontShowFirstTimeReadingPopup;
-        public bool DontShowFirstTimeReadingPopup
-        {
-            get => _dontShowFirstTimeReadingPopup;
-            set
-            {
-                var changed = SetProperty(ref _dontShowFirstTimeReadingPopup, value);
-                if (changed)
-                {
-                    Preferences.Set(Constants.DontShowFirstTimeReadingPopup, value);
-                    App.ReadingContext.DontShowFirstTimeReadingPopup = value;
-                }
-            }
-        }
-
         private string _heading1 = string.Empty;
         public string Heading1
         {
@@ -139,12 +124,13 @@ namespace RightToAskClient.ViewModels
             PopupLabelText = AppResources.ReadingPageHeader1;
             PopupHeaderText = Heading1;
             
-            if (!App.ReadingContext.DontShowFirstTimeReadingPopup)
+            var showFirstTimeReadingPopup = Preferences.Get(Constants.ShowFirstTimeReadingPopup, true);
+            if (showFirstTimeReadingPopup)
             {
                 InfoPopupCommand.ExecuteAsync();
                 
                 // Only show it once.
-                DontShowFirstTimeReadingPopup = true;
+                Preferences.Set(Constants.ShowFirstTimeReadingPopup, false);
             }
             
             KeepQuestionButtonCommand = new AsyncCommand(async () =>

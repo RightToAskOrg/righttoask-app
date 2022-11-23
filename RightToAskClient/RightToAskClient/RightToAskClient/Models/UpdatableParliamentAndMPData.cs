@@ -66,7 +66,7 @@ namespace RightToAskClient.Models
 		// Find all the MPs representing a certain electorate.
 		public List<MP> GetMPsRepresentingElectorate(ElectorateWithChamber queryElectorate)
 		{
-			var mps = _allMPsData.mps?.Where(mp => mp.electorate.chamber == queryElectorate.chamber
+			var mps = _allMPsData.mps?.Where(mp => mp?.electorate?.chamber == queryElectorate.chamber
 			                             && mp.electorate.region.Equals(queryElectorate.region,
 				                             StringComparison.OrdinalIgnoreCase));
 			return new List<MP>(mps ?? new MP[]{});
@@ -158,8 +158,8 @@ namespace RightToAskClient.Models
 
 		public List<string> ListElectoratesInChamber(ParliamentData.Chamber chamber)
 		{
-			return new List<string>(AllMPs.Where(mp => mp.electorate.chamber == chamber)
-				.Select(mp => mp.electorate.region).Distinct().OrderBy(r=>r));
+			return new List<string>(AllMPs.Where(mp => mp?.electorate?.chamber == chamber)
+				.Select(mp => mp?.electorate?.region).Where(s=> !String.IsNullOrEmpty(s)).Distinct().OrderBy(r=>r));
 		}
 	}
 }

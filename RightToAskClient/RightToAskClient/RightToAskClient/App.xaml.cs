@@ -57,10 +57,7 @@ namespace RightToAskClient
 			    ReadingContext.Filters.UpdateMyMPLists();
             }
             
-            // set popup bool
-            ReadingContext.DontShowFirstTimeReadingPopup = Preferences.Get(Constants.DontShowFirstTimeReadingPopup, false);
             ReadingContext.ShowHowToPublishPopup = Preferences.Get(Constants.ShowHowToPublishPopup, true);
-            //ReadingContext.ThisParticipant.HasQuestions = Preferences.Get(Constants.HasQuestions, false);
         }
 
         protected override void OnSleep()

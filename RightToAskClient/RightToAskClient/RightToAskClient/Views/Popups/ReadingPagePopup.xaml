@@ -24,11 +24,6 @@
                     <Button Text="{xct:Translate OKText}" Grid.Column="1" Clicked="Button_Clicked" 
                             Style="{StaticResource PopupOKButton}" />
                 </Grid>
-                <!--
-                <StackLayout Orientation="Horizontal" Margin="0,0,0,0">
-                    <Label Text="Don't show this again: " VerticalOptions="Center" />
-                    <CheckBox IsChecked="{Binding DontShowFirstTimeReadingPopup}" />
-                </StackLayout>  -->
             </StackLayout>
         </StackLayout>
     </ScrollView>
