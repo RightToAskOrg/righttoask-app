@@ -159,10 +159,23 @@ namespace RightToAskClient.ViewModels
             });
             DraftCommand = new AsyncCommand(async () =>
             {
+                // Check that they are registered - if not, prompt them to get an account.
                 await NavigationUtils.DoRegistrationCheck(this);
 
                 if (IndividualParticipant.IsRegistered)
                 {
+                    // If this is their first question, show them the 5-step instructions.
+                    var showHowToPublishPopup = Preferences.Get(Constants.ShowHowToPublishPopup, true);
+                    if (showHowToPublishPopup)
+                    {
+                        var popup = new HowToPublishPopup();
+                        if (popup != null) _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
+
+                        // Only show it once.
+                        Preferences.Set(Constants.ShowHowToPublishPopup, false);
+                    }
+                    
+                    // Now let them start drafting.
                     ShowQuestionFrame = true;
                 }
             });

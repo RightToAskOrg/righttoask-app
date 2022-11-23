@@ -5,8 +5,6 @@ namespace RightToAskClient.Models
 {
 	public class ReadingContext : ObservableObject
 	{
-		public bool ShowHowToPublishPopup { get; set; } = true;
-
 		private FilterChoices _filters = new FilterChoices();
 
 		public FilterChoices Filters

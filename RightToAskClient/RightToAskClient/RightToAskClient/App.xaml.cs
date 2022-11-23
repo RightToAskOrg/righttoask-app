@@ -56,8 +56,6 @@ namespace RightToAskClient
             {
 			    ReadingContext.Filters.UpdateMyMPLists();
             }
-            
-            ReadingContext.ShowHowToPublishPopup = Preferences.Get(Constants.ShowHowToPublishPopup, true);
         }
 
         protected override void OnSleep()
