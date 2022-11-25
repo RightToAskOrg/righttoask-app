@@ -58,7 +58,7 @@ namespace RightToAskClient.HttpClients
         // (Just like we do for MPs when we can't access them.)
         // public static bool ServerConfigValidInit { get; private set; } = false;
 
-        public static async Task<ServerResult<UpdatableParliamentAndMPDataStructure>> GetMPsData()
+        public static async Task<JOSResult<UpdatableParliamentAndMPDataStructure>> GetMPsData()
         {
             const string errorMessage = "Could not download MP data. You can still read and submit questions, but we can't find MPs.";
             var httpResponse =await Client.DoGetJsonRequest<UpdatableParliamentAndMPDataStructure>(MPListUrl);
@@ -67,29 +67,28 @@ namespace RightToAskClient.HttpClients
             // I am confused about why this is necessary, but empirically it definitely is.
             if (httpResponse is null)
             {
-                return new ServerResult<UpdatableParliamentAndMPDataStructure>() { Err = errorMessage };
+                return new ErrorResult<UpdatableParliamentAndMPDataStructure>(errorMessage);
             }
 
-            if(string.IsNullOrEmpty(httpResponse.Err))
+            // We got a response, but it was an error 
+            if (httpResponse is ErrorResult<UpdatableParliamentAndMPDataStructure> error)
             {
-                return httpResponse;
+                Debug.WriteLine("Error downloading MP data: " + error.Message);
             }
+
+            // May be an error or a success result.
+            return httpResponse;
             
-            Debug.WriteLine("Error downloading MP data: "+httpResponse.Err);
-            return new ServerResult<UpdatableParliamentAndMPDataStructure>()
-            {
-                Err = errorMessage 
-            };
         }
 
-        public static async Task<ServerResult<List<CommitteeInfo>>> GetCommitteeData()
+        public static async Task<JOSResult<List<CommitteeInfo>>> GetCommitteeData()
         {
             var committeeList =await Client.DoGetJsonRequest<List<CommitteeInfo>>(CommitteeListUrl);
             return committeeList;
         }
         
         // TODO Correct types.
-        public static async Task<ServerResult<List<CommitteeInfo>>> GetHearingsData()
+        public static async Task<JOSResult<List<CommitteeInfo>>> GetHearingsData()
         {
             return await Client.DoGetResultRequest<List<CommitteeInfo>>(HearingsListUrl);
         }
@@ -101,7 +100,7 @@ namespace RightToAskClient.HttpClients
         }
         */
 
-        public static async Task<ServerResult<List<ServerUser>>> SearchUser(string userString)
+        public static async Task<JOSResult<List<ServerUser>>> SearchUser(string userString)
         {
             return await Client.DoGetResultRequest<List<ServerUser>>(SearchUserUrl+Uri.EscapeDataString(userString));
         }
@@ -120,7 +119,7 @@ namespace RightToAskClient.HttpClients
         }
 
 
-        public static async Task<ServerResult<List<string>>> GetQuestionList()
+        public static async Task<JOSResult<List<string>>> GetQuestionList()
         {
             return await Client.DoGetResultRequest<List<string>>(QuestionListUrl);
         }
@@ -130,20 +129,20 @@ namespace RightToAskClient.HttpClients
             return await SendDataToServerReturnResponse<QuestionSendToServer, List<ScoredIDs>>(draftQuestion, AppResources.QuestionErrorTypeDescription, SimilarQuestionsUrl);
         }
 
-        public static async Task<ServerResult<QuestionReceiveFromServer>> GetQuestionById(string questionId)
+        public static async Task<JOSResult<QuestionReceiveFromServer>> GetQuestionById(string questionId)
         {
             var getQuestionUrl = QuestionUrl + Uri.EscapeDataString(questionId);
             return await Client.DoGetResultRequest<QuestionReceiveFromServer>(getQuestionUrl);
         }
 
-        public static async Task<ServerResult<ServerUser>> GetUserById(string userId)
+        public static async Task<JOSResult<ServerUser>> GetUserById(string userId)
         {
             var getUserUrl = UserUrl + Uri.EscapeDataString(userId);
             return await Client.DoGetResultRequest<ServerUser>(getUserUrl);
         }
         
 
-        public static async Task<ServerResult<List<string>>> GetQuestionsByWriterId(string userId)
+        public static async Task<JOSResult<List<string>>> GetQuestionsByWriterId(string userId)
         {
             var getQuestionByWriterUrl = GetQuestionByWriterUrl + Uri.EscapeDataString(userId);
             return await Client.DoGetResultRequest<List<string>>(getQuestionByWriterUrl);
@@ -236,7 +235,6 @@ namespace RightToAskClient.HttpClients
                 // Error responses from the server
                 if (string.IsNullOrEmpty(httpResponse.Ok.Err))
                 {
-
                     return new ServerResult<TReturn>() { Ok = httpResponse.Ok.Ok };
                 }
                     
@@ -282,22 +280,31 @@ namespace RightToAskClient.HttpClients
 
             var url="";
             var key="";
+            
             // Set url and public key to empty string if setup file can't be read.
-            if (!readResult.Err.IsNullOrEmpty())
+            if (readResult.Failure)
             {
-                Debug.WriteLine("Error reading server config file: "+readResult.Err);
-                return (key,url);
+                var errorMessage = "";
+                if (readResult is ErrorResult<ServerConfig> errorResult)
+                {
+                    errorMessage = errorResult.Message;
+                }
+
+                Debug.WriteLine("Error reading server config file: " + errorMessage);
+                return (key, url);
             }
 
+            // readResult.Success            
+            var configData = readResult.Data;
             
             // Remote server use.
-            if (readResult.Ok.remoteServerUse)
+            if (configData.remoteServerUse)
             {
-                key = readResult.Ok.remoteServerPublicKey;
-                url = readResult.Ok.url;
+                key = configData.remoteServerPublicKey;
+                url = configData.url;
             } else // Local server use; special url for Android simulator.
             {
-                key = readResult.Ok.localServerPublicKey; 
+                key = configData.localServerPublicKey; 
                 url = Constants.DefaultLocalhostUrl;
             }
             
