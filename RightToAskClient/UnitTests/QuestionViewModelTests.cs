@@ -47,7 +47,7 @@ namespace UnitTests
 
             // act
             button.Command.Execute(null);
-            string result = String.Join(" ", App.ReadingContext.Filters.SelectedAuthorities) + " is appearing at Senate Estimates tomorrow";
+            string result = String.Join(" ", App.GlobalFilterChoices.SelectedAuthorities) + " is appearing at Senate Estimates tomorrow";
 
             // assert
             Assert.Equal(result, vm.SenateEstimatesAppearanceText);

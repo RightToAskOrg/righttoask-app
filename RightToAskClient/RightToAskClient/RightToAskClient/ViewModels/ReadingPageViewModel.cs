@@ -80,10 +80,10 @@ namespace RightToAskClient.ViewModels
 
         public string Keyword
         {
-            get => App.ReadingContext.Filters.SearchKeyword;
+            get => App.GlobalFilterChoices.SearchKeyword;
             set
             {
-                App.ReadingContext.Filters.SearchKeyword = value;
+                App.GlobalFilterChoices.SearchKeyword = value;
                 OnPropertyChanged();
             }
         }
@@ -94,7 +94,7 @@ namespace RightToAskClient.ViewModels
         // constructor
         public ReadingPageViewModel()
         {
-            Keyword = App.ReadingContext.Filters.SearchKeyword;
+            Keyword = App.GlobalFilterChoices.SearchKeyword;
             
             // If we're already searching for something, show the user what.
             ShowSearchFrame = !string.IsNullOrWhiteSpace(Keyword); 
@@ -206,7 +206,7 @@ namespace RightToAskClient.ViewModels
             });
             MessagingCenter.Subscribe<SelectableListViewModel>(this,"ReadQuestionsWithASingleQuestionWriter", (sender) =>
             {
-                var questionWriter = App.ReadingContext.Filters.QuestionWriterLists.SelectedEntities.FirstOrDefault();
+                var questionWriter = App.GlobalFilterChoices.QuestionWriterLists.SelectedEntities.FirstOrDefault();
                 if (questionWriter is null)
                 {
                     Debug.WriteLine("Error: ReadingPage for single question writer but no selection.");
@@ -246,7 +246,7 @@ namespace RightToAskClient.ViewModels
                 QuestionSuggester = (IndividualParticipant.IsRegistered)
                     ? IndividualParticipant.ProfileData.RegistrationInfo.uid
                     : "",
-                Filters = App.ReadingContext.Filters,
+                Filters = App.GlobalFilterChoices,
                 DownVotes = 0,
                 UpVotes = 0
             };
@@ -357,7 +357,7 @@ namespace RightToAskClient.ViewModels
         // given user.
         private async Task<Result<List<string>>> GetAppropriateQuestionList()
         {
-            var filters = App.ReadingContext.Filters;
+            var filters = App.GlobalFilterChoices;
             // If we're looking for all the questions written by a given user, just request them.
             if (_readByQuestionWriter && !string.IsNullOrWhiteSpace(_writerOnlyUid))
             {

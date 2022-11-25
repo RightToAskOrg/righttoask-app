@@ -45,7 +45,7 @@ namespace RightToAskClient.Models
             set 
             {
                 SetProperty(ref _electorates, value.ToList());
-                App.ReadingContext.Filters.UpdateMyMPLists();
+                App.GlobalFilterChoices.UpdateMyMPLists();
             } 
         }
 
@@ -97,7 +97,7 @@ namespace RightToAskClient.Models
             _electorates.RemoveAll(e => e.chamber == newElectorate.chamber);
             _electorates.Insert(0, newElectorate);
             OnPropertyChanged("electorates");
-            App.ReadingContext.Filters.UpdateMyMPLists();
+            App.GlobalFilterChoices.UpdateMyMPLists();
         }
 
         private void Electorates_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)

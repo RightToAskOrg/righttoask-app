@@ -24,7 +24,7 @@ namespace RightToAskClient.Helpers
             //TODO** Seems unnecessary if our MPs are not initialized. 
             // Below, don't make the pages that are never used. The code is (somewhat redundant but)
             // correct but names are confusing.
-            var mpsSelectableListPage = new SelectableListPage(App.ReadingContext.Filters.AnsweringMPsListsMine, message);
+            var mpsSelectableListPage = new SelectableListPage(App.GlobalFilterChoices.AnsweringMPsListsMine, message);
             var nextPage = ListMPsFindFirstIfNotAlreadyKnown(mpsSelectableListPage);
             await Application.Current.MainPage.Navigation.PushAsync(nextPage);
         }
@@ -33,7 +33,7 @@ namespace RightToAskClient.Helpers
         {
             var message = "These are your MPs.  Select the one(s) who should raise the question in Parliament";
 
-            var mpsSelectableListPage = new SelectableListPage(App.ReadingContext.Filters.AskingMPsListsMine, message);
+            var mpsSelectableListPage = new SelectableListPage(App.GlobalFilterChoices.AskingMPsListsMine, message);
             await LaunchMPFindingAndSelectingPages(mpsSelectableListPage);
         }
 
@@ -65,7 +65,7 @@ namespace RightToAskClient.Helpers
         {
             var message = AppResources.SelectMPToAnswerText;
             var mpsPage =
-                new SelectableListPage(App.ReadingContext.Filters.AnsweringMPsListsNotMine, message);
+                new SelectableListPage(App.GlobalFilterChoices.AnsweringMPsListsNotMine, message);
             await Application.Current.MainPage.Navigation.PushAsync(mpsPage);
         }
 
@@ -73,14 +73,14 @@ namespace RightToAskClient.Helpers
         {
             var message = AppResources.SelectMPToRaiseText; 
             var mpsPage =
-                new SelectableListPage(App.ReadingContext.Filters.AskingMPsListsNotMine, message);
+                new SelectableListPage(App.GlobalFilterChoices.AskingMPsListsNotMine, message);
             await Application.Current.MainPage.Navigation.PushAsync(mpsPage);
         }
         
         public static async Task EditCommitteesClicked()
         {
             var committeeSelectableListPage
-                = new SelectableListPage(App.ReadingContext.Filters.CommitteeLists, AppResources.CommitteeText);
+                = new SelectableListPage(App.GlobalFilterChoices.CommitteeLists, AppResources.CommitteeText);
             await Application.Current.MainPage.Navigation.PushAsync(committeeSelectableListPage);
         }
         

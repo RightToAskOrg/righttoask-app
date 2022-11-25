@@ -19,7 +19,9 @@ namespace RightToAskClient
 {
     public partial class App : Application
     {
-        public static ReadingContext ReadingContext = new ReadingContext();
+        // The selections of MPs, authorities, and various other options that is gradually
+        // built as we step through the question-writing process.
+        public static FilterChoices GlobalFilterChoices = new FilterChoices();
         public App()
         {
             LocalizationResourceManager.Current.PropertyChanged += (temp, temp2) => AppResources.Culture = LocalizationResourceManager.Current.CurrentCulture;
@@ -47,14 +49,13 @@ namespace RightToAskClient
             var signingKeyRetrieved = await ClientSignatureGenerationService.Init();
             
             // Order is important here: the Filters need to be (re-)initialised after we've read MP and Committee data.
-		    ReadingContext.Filters.InitSelectableLists();
+		    GlobalFilterChoices.InitSelectableLists();
             
-	        // Consider awaiting. I don't think so, though, because there's no reason everything else should wait for it.
             IndividualParticipant.Init();
             
             if(IndividualParticipant.ElectoratesKnown) 
             {
-			    ReadingContext.Filters.UpdateMyMPLists();
+			    GlobalFilterChoices.UpdateMyMPLists();
             }
         }
 

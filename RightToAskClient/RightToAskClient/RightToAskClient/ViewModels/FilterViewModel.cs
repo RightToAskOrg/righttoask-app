@@ -16,12 +16,14 @@ namespace RightToAskClient.ViewModels
         /* FIXME It would make a lot more sense to set this up with either an empty constructor
          * (for the ReadingContext filters) or an explicit/new one (for a fresh question etc).
          * The instance is only used in the Metadata page. Not clear that this is logically correct.
+         * Why not just use the data from the GlobalFilters, since we only ever access the Metadata
+         * page with those filters?
          */
         private static FilterViewModel? _instance;
         public static FilterViewModel Instance => _instance ??= new FilterViewModel();
 
         // properties
-        private static FilterChoices GlobalFilterChoices => App.ReadingContext.Filters;
+        // private static FilterChoices GlobalFilterChoices => App.ReadingContext.Filters;
 
         public ClickableListViewModel AnsweringMPsOther { get; }
         public ClickableListViewModel AnsweringMPsMine { get; }
@@ -61,21 +63,13 @@ namespace RightToAskClient.ViewModels
         public bool OthersCanAddAnswerers
         {
             get => QuestionViewModel.Instance.OthersCanAddQuestionAnswerers; 
-            set =>
-                // SetProperty(ref _othersCanAddAnswerers, value);
-                // QuestionViewModel.Instance.WhoShouldAnswerItPermissions = _othersCanAddAnswerers ? RTAPermissions.Others : RTAPermissions.WriterOnly;
-                QuestionViewModel.Instance.OthersCanAddQuestionAnswerers = value;
-            // OnPropertyChanged();
+            set => QuestionViewModel.Instance.OthersCanAddQuestionAnswerers = value;
         }
 
         public bool OthersCanAddAskers
         {
             get => QuestionViewModel.Instance.OthersCanAddQuestionAskers; 
-            set =>
-                // SetProperty(ref _othersCanAddAskers, value);
-                // QuestionViewModel.Instance.WhoShouldAskItPermissions = _othersCanAddAskers ? RTAPermissions.Others : RTAPermissions.WriterOnly;
-                QuestionViewModel.Instance.OthersCanAddQuestionAskers = value;
-            // OnPropertyChanged();
+            set => QuestionViewModel.Instance.OthersCanAddQuestionAskers = value;
         }
 
         private bool _answerInApp;
@@ -98,7 +92,7 @@ namespace RightToAskClient.ViewModels
                 var changed = SetProperty(ref _keyword, value);
                 if (changed)
                 {
-                    App.ReadingContext.Filters.SearchKeyword = _keyword;
+                    App.GlobalFilterChoices.SearchKeyword = _keyword;
                 }
             }
         }
@@ -130,7 +124,7 @@ namespace RightToAskClient.ViewModels
             Title = AppResources.AdvancedSearchButtonText; 
             ReinitData(); // to set the display strings
 
-            AnsweringMPsMine = new ClickableListViewModel(GlobalFilterChoices.AnsweringMPsListsMine)
+            AnsweringMPsMine = new ClickableListViewModel(App.GlobalFilterChoices.AnsweringMPsListsMine)
             {
                 // FIXME This isn't quite right when the MPs are not known - seems to push a 
                 // list to choose from and then go to a reading page, rather than popping on completion
@@ -145,7 +139,7 @@ namespace RightToAskClient.ViewModels
                 }),
                 Heading = AppResources.MyMPButtonText
             };
-            AnsweringMPsOther = new ClickableListViewModel(GlobalFilterChoices.AnsweringMPsListsNotMine)
+            AnsweringMPsOther = new ClickableListViewModel(App.GlobalFilterChoices.AnsweringMPsListsNotMine)
             {
                 EditListCommand = new Command(() =>
                 {
@@ -156,7 +150,7 @@ namespace RightToAskClient.ViewModels
                 }),
                 Heading = AppResources.OtherMP,
             };
-            AnsweringAuthorities = new ClickableListViewModel(GlobalFilterChoices.AuthorityLists)
+            AnsweringAuthorities = new ClickableListViewModel(App.GlobalFilterChoices.AuthorityLists)
             {
                 EditListCommand = new Command(() =>
                 {
@@ -167,7 +161,7 @@ namespace RightToAskClient.ViewModels
                 }),
                 Heading = AppResources.AuthorityLabel,
             };
-            AskingMPsMine = new ClickableListViewModel(GlobalFilterChoices.AskingMPsListsMine)
+            AskingMPsMine = new ClickableListViewModel(App.GlobalFilterChoices.AskingMPsListsMine)
             {
                 EditListCommand = new Command(() =>
                 {
@@ -178,7 +172,7 @@ namespace RightToAskClient.ViewModels
                 }),
                 Heading = AppResources.MyMPButtonText
             };
-            AskingMPsOther = new ClickableListViewModel(GlobalFilterChoices.AskingMPsListsNotMine)
+            AskingMPsOther = new ClickableListViewModel(App.GlobalFilterChoices.AskingMPsListsNotMine)
             {
                 EditListCommand = new Command(() =>
                 {
@@ -189,7 +183,7 @@ namespace RightToAskClient.ViewModels
                 }),
                 Heading = AppResources.OtherMP
             };
-            Committees = new ClickableListViewModel(GlobalFilterChoices.CommitteeLists)
+            Committees = new ClickableListViewModel(App.GlobalFilterChoices.CommitteeLists)
             {
                 EditListCommand = new Command(() =>
                 {
@@ -284,7 +278,7 @@ namespace RightToAskClient.ViewModels
         public void ReinitData()
         {
             // set the keyword
-            Keyword = App.ReadingContext.Filters.SearchKeyword;
+            Keyword = App.GlobalFilterChoices.SearchKeyword;
 
             // TODO Ideally, we shouldn't have to do this manually,
             // but I don't see a more elegant way at the moment.
@@ -318,7 +312,7 @@ namespace RightToAskClient.ViewModels
             var message = "Choose others to add";
 
             var departmentExploringPage
-                = new SelectableListPage(App.ReadingContext.Filters.AuthorityLists, message);
+                = new SelectableListPage(App.GlobalFilterChoices.AuthorityLists, message);
             await Application.Current.MainPage.Navigation.PushAsync(departmentExploringPage);
         }
 
@@ -364,7 +358,7 @@ namespace RightToAskClient.ViewModels
             {
                 var matchingParticipants = searchResults.Ok.Select(u => new Person(u)).ToList();
                 _selectableParticipants = new SelectableList<Person>(matchingParticipants);
-                App.ReadingContext.Filters.QuestionWriterLists = _selectableParticipants;
+                App.GlobalFilterChoices.QuestionWriterLists = _selectableParticipants;
                 var participantsSearchSelectionPage
                     = new SelectableListPage(_selectableParticipants, AppResources.ChooseParticipantsText, true);
                 await Application.Current.MainPage.Navigation.PushAsync(participantsSearchSelectionPage).ContinueWith( (_) =>

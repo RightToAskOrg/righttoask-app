@@ -235,7 +235,7 @@ namespace RightToAskClient.ViewModels
                 // Question.AnswerInApp = false;
                 // AnswerInApp = false;
                 var pageToSearchAuthorities
-                    = new SelectableListPage(App.ReadingContext.Filters.AuthorityLists, "Choose authorities");
+                    = new SelectableListPage(App.GlobalFilterChoices.AuthorityLists, "Choose authorities");
                 await Shell.Current.Navigation.PushAsync(pageToSearchAuthorities).ContinueWith((_) => 
                 {
                     MessagingCenter.Send(this, Constants.GoToAskingPageNext); // Sends this view model
@@ -544,7 +544,7 @@ namespace RightToAskClient.ViewModels
             _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
             if (GoHome)
             {
-                App.ReadingContext.Filters.RemoveAllSelections();
+                App.GlobalFilterChoices.RemoveAllSelections();
                 MessagingCenter.Send(this, Constants.QuestionSubmittedDeleteDraft);
                 await Application.Current.MainPage.Navigation.PopToRootAsync();
                     
