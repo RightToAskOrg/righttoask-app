@@ -91,12 +91,12 @@ namespace RightToAskClient.Helpers
 			try
 			{
 				var streamResult = TryToGetFileStream(filename);
-				if (!string.IsNullOrEmpty(streamResult.Err))
+				if (streamResult.Failure)
 				{
 					return;
 				}
 
-				using var sr = new StreamReader(streamResult.Ok);
+				using var sr = new StreamReader(streamResult.Data);
 				// Read the first line, which just has headings we can ignore.
 				sr.ReadLine();
 				while (sr.ReadLine() is { } line)

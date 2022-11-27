@@ -8,6 +8,7 @@ using Xamarin.Forms;
 using System.Threading.Tasks;
 using RightToAskClient.Helpers;
 using RightToAskClient.HttpClients;
+using RightToAskClient.Models.ServerCommsData;
 
 namespace RightToAskClient.ViewModels
 {
@@ -346,17 +347,21 @@ namespace RightToAskClient.ViewModels
             var searchString = QuestionWriterSearchText;
 
             var searchResults = await RTAClient.SearchUser(searchString);
-            if (!string.IsNullOrEmpty(searchResults.Err))
+            if (searchResults.Failure)
             {
-                ReportLabelText = searchResults.Err ?? string.Empty;
+                ReportLabelText = "Error searching for user " + searchString + ". ";
+                if (searchResults is ErrorResult<List<ServerUser>> errorResult)
+                {
+                    ReportLabelText += errorResult;
+                }
             }
-            else if (!searchResults.Ok.Any())
+            else if (!searchResults.Data.Any())
             {
                 ReportLabelText = AppResources.NoParticipantsFoundText;
             }
             else
             {
-                var matchingParticipants = searchResults.Ok.Select(u => new Person(u)).ToList();
+                var matchingParticipants = searchResults.Data.Select(u => new Person(u)).ToList();
                 _selectableParticipants = new SelectableList<Person>(matchingParticipants);
                 App.GlobalFilterChoices.QuestionWriterLists = _selectableParticipants;
                 var participantsSearchSelectionPage

@@ -255,6 +255,8 @@ namespace RightToAskClient.HttpClients
         // At the moment, this simply passes the information back to the user. We might perhaps want
         // to triage errors more carefully, or explain them to users better, or distinguish user-upload
         // errors from question-upload errors.
+        // This may also be much more elegantly implementable using other errors in the JOSResult type, rather than
+        // the triple now being returned.
         public static (bool isValid, string errorMessage, T returnedData) ValidateHttpResponse<T>(JOSResult<T> response, string messageTopic) where T : new()
         {
             if (response.Success)
@@ -272,8 +274,8 @@ namespace RightToAskClient.HttpClients
         }
 
         // overload because string doesn't satisfy T: new() 
-        /*
-        public static (bool isValid, string errorMessage, List<string> returnedData) ValidateHttpResponse(JOSResult<List<string>> response, string messageTopic) 
+        
+        public static (bool isValid, string errorMessage, string returnedData) ValidateHttpResponse(JOSResult<string> response, string messageTopic) 
         {
             if (response.Success)
             {
@@ -282,13 +284,12 @@ namespace RightToAskClient.HttpClients
             
             // response.Failure
             var errorMessage = messageTopic + "Server error: ";
-            if (response is ErrorResult<List<string>> errorResult)
+            if (response is ErrorResult<string> errorResult)
             {
                 errorMessage += errorResult.Message;
             }
-            return (false, errorMessage, new List<string>());
+            return (false, errorMessage, "");
         }
-        */
 
         // Tries to read server config, returns the url if there's a valid configuration file
         // specifying that that url is to be used.
