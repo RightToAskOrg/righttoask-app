@@ -363,11 +363,11 @@ namespace UnitTests
             address.Postcode = "2000";
 
             // act
-            Result<bool> isValid = address.SeemsValid();
+            JOSResult<bool> isValid = address.SeemsValid();
 
             // assert
-            Assert.True(isValid.Ok);
-            Assert.True(string.IsNullOrEmpty(isValid.Err));
+            Assert.True(isValid.Success);
+            // Assert.True(string.IsNullOrEmpty(isValid.Err));
             Assert.True(!string.IsNullOrEmpty(address.StreetNumberAndName));
             Assert.True(!string.IsNullOrEmpty(address.CityOrSuburb));
             Assert.True(!string.IsNullOrEmpty(address.Postcode));
@@ -381,11 +381,11 @@ namespace UnitTests
             Address address = new Address();
 
             // act
-            Result<bool> isValid = address.SeemsValid();
+            JOSResult<bool> isValid = address.SeemsValid();
 
             // assert
-            Assert.False(isValid.Ok);
-            Assert.True(!string.IsNullOrEmpty(isValid.Err));
+            Assert.True(isValid.Failure);
+            // Assert.True(!string.IsNullOrEmpty(isValid.Err));
             Assert.True(string.IsNullOrEmpty(address.StreetNumberAndName));
             Assert.True(string.IsNullOrEmpty(address.CityOrSuburb));
             Assert.True(string.IsNullOrEmpty(address.Postcode));
