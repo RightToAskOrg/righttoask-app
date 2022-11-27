@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using RightToAskClient.HttpClients;
+using RightToAskClient.Models.ServerCommsData;
 
 namespace RightToAskClient.Models
 {
@@ -35,7 +36,7 @@ namespace RightToAskClient.Models
             }
 
             // serverCommitteeList.Failure
-            if (serverCommitteeList is ErrorResult errorResult)
+            if (serverCommitteeList is ErrorResult<List<CommitteeInfo>> errorResult)
             {
                 return new ErrorResult(errorResult.Message);
             }

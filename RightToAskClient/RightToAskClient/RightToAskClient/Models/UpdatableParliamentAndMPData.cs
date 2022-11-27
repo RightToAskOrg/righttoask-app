@@ -74,48 +74,45 @@ namespace RightToAskClient.Models
 		
 		// Returns true if initialisation is successful, i.e. no errors.
 		// or there are no changes since last time.
-		// TODO This isn't very elegantly structured - redo so the init of other data structures
-		// isn't repeated.
 		public async Task<bool> TryInit()
 		{
-			if (IsInitialised) return true;
-			Result<bool> success;
-
 			// get data from local first
-			success = TryInitialisingFromStoredData();
-			if (string.IsNullOrEmpty(success.Err))
-			{
-				IsInitialised = true;
-				QuestionViewModel.Instance.UpdateMPButtons(); 
-				// App.ReadingContext.Filters.InitSelectableLists();
-				//return;
-			}
+			var localInitResult = TryInitialisingFromStoredData();
 
+			// then try getting data from the server.
 			// TODO I believe this makes it wait a long time. Consider *not* awaiting this call.
-			success = await TryInitialisingFromServer();
-			if (string.IsNullOrEmpty(success.Err))
-			{
-				IsInitialised = true;
-				QuestionViewModel.Instance.UpdateMPButtons();
-				// App.ReadingContext.Filters.InitSelectableLists();
-				return true;
-			}
+			// Also consider whether there's a slicker way of checking (e.g. with hashes) whether our current 
+			// copy of the file matches the server's.
+			var serverInitResult = await TryInitialisingFromServer();
 			
-			ErrorMessage = success.Err ?? "";
-			Debug.WriteLine(@"\tERROR {0}", success.Err);
-
-			success = TryInitialisingFromStoredData();
-			if (string.IsNullOrEmpty(success.Err))
+			if (localInitResult.Success || serverInitResult.Success)
 			{
 				IsInitialised = true;
 				QuestionViewModel.Instance.UpdateMPButtons();
-				// App.ReadingContext.Filters.InitSelectableLists();
-				return true;
 			}
 
-			ErrorMessage += success.Err;
-			Debug.WriteLine(@"\tERROR {0}", success.Err);
-			return false;
+			ErrorMessage = "";
+
+			// Log / set error message. We might have local init failure, server init failure, both or neither.
+			if (localInitResult.Failure)
+			{
+				ErrorMessage += "Failure in local initialisation of MPs.json. ";
+				if (localInitResult is ErrorResult errorResult)
+				{
+					ErrorMessage += errorResult.Message;
+				}
+			}
+			if (serverInitResult.Failure)
+			{
+				ErrorMessage += "Failure in server initialisation of MPs.json. ";
+				if (serverInitResult is ErrorResult errorResult)
+				{
+					ErrorMessage += errorResult.Message;
+				}
+			}
+			Debug.WriteLine(ErrorMessage);
+			
+			return IsInitialised;
 		}
 
 		private JOSResult TryInitialisingFromStoredData()
@@ -123,7 +120,7 @@ namespace RightToAskClient.Models
 			var readResult = FileIO.ReadDataFromStoredJson<UpdatableParliamentAndMPDataStructure>(Constants.StoredMPDataFile, serializerOptions);
 			if (readResult.Failure)
 			{
-				if (readResult is ErrorResult errorResult)
+				if (readResult is ErrorResult<UpdatableParliamentAndMPDataStructure> errorResult)
 				{
 					return new ErrorResult(errorResult.Message);
 				}
@@ -133,9 +130,6 @@ namespace RightToAskClient.Models
 			
 			// readResult.Success
 			_allMPsData = readResult.Data;
-			IsInitialised = true;
-			// TODO this seem to be called twice. Prob don't need both.
-			QuestionViewModel.Instance.UpdateMPButtons();
 			return new SuccessResult();
 		}
 
@@ -152,13 +146,11 @@ namespace RightToAskClient.Models
 			if (serverMPList.Success)
 			{
 				_allMPsData = serverMPList.Data;
-				IsInitialised = true;
-				QuestionViewModel.Instance.UpdateMPButtons();
 				return new SuccessResult();
 			}
 
 			// serverMPList.Failure
-			if (serverMPList is ErrorResult errorResult)
+			if (serverMPList is ErrorResult<UpdatableParliamentAndMPDataStructure> errorResult)
 			{
 				return new ErrorResult(errorResult.Message);
 			}
