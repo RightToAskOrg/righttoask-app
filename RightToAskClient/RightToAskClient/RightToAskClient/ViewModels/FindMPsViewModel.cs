@@ -309,7 +309,6 @@ namespace RightToAskClient.ViewModels
             if (PostcodeIsValid)
             {
                 IsBusy = true; // no longer displaying the activity indicator since the webview shows that it is being updated
-                Result<GeoscapeAddressFeature>? httpResponse;
 
                 var state = IndividualParticipant.ProfileData.RegistrationInfo.State;
 
@@ -321,30 +320,45 @@ namespace RightToAskClient.ViewModels
                 }
 
                 var addressValidation = _address.SeemsValid();
-                if (!string.IsNullOrEmpty(addressValidation.Err))
+                if (addressValidation.Failure)
                 {
-                    var popup = new OneButtonPopup(addressValidation.Err ?? "", AppResources.OKText);
+                    var errorMessage = AppResources.InvalidAddress;
+                    if (addressValidation is ErrorResult<bool> errorResult)
+                    {
+                        errorMessage += errorResult.Message;
+                    }
+
+                    var popup = new OneButtonPopup(errorMessage, AppResources.OKText);
                     _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
 
                     return;
                 }
 
-                httpResponse = await GeoscapeClient.GetFirstAddressData(_address + " " + state);
+                var httpResponse = await GeoscapeClient.GetFirstAddressData(_address + " " + state);
 
                 // The compiler doesn't think this null check is necessary, but it is.
                 if (httpResponse != null)
                 {
-                    if (httpResponse.Err != null)
+                    if (httpResponse.Failure)
                     {
-                        ReportLabelText = httpResponse.Err;
-                        // maybe display a popup if Electorates were not found
+                        if (httpResponse is ErrorResult<GeoscapeAddressFeature> errorResult)
+                        {
+                            ReportLabelText = errorResult.Message;
+                        }
+                        else
+                        {
+                            // Generic error message if no specific one available.
+                            ReportLabelText = AppResources.ErrorFindingAddress;
+                        }
+                        
+                        // Display a popup if Electorates were not found
                         var popup = new OneButtonPopup(AppResources.ElectoratesNotFoundErrorText, AppResources.OKText);
                         _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
                         return;
                     }
 
-                    // Now we know everything is good.
-                    var bestAddress = httpResponse.Ok;
+                    // httpResponse.Success 
+                    var bestAddress = httpResponse.Data;
                     // needs a federal electorate to be valid
                     if (!string.IsNullOrEmpty(bestAddress.Properties?.CommonwealthElectorate?.ToString()))
                     {

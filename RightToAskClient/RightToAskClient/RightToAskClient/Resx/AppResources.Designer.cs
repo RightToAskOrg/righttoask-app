@@ -273,6 +273,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string ErrorFindingAddress {
+            get {
+                return ResourceManager.GetString("ErrorFindingAddress", resourceCulture);
+            }
+        }
+        
         internal static string ExpiringSoonButtonText {
             get {
                 return ResourceManager.GetString("ExpiringSoonButtonText", resourceCulture);
@@ -384,6 +390,12 @@ namespace RightToAskClient.Resx {
         internal static string IncludeUnansweredQuestions {
             get {
                 return ResourceManager.GetString("IncludeUnansweredQuestions", resourceCulture);
+            }
+        }
+        
+        internal static string InvalidAddress {
+            get {
+                return ResourceManager.GetString("InvalidAddress", resourceCulture);
             }
         }
         

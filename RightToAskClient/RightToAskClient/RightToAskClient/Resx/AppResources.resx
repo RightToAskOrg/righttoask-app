@@ -231,6 +231,9 @@
   <data name="EmailTitle" xml:space="preserve">
     <value>Email</value>
   </data>
+  <data name="ErrorFindingAddress" xml:space="preserve">
+    <value>Error finding address</value>
+  </data>
   <data name="ExpiringSoonButtonText" xml:space="preserve">
     <value>Expiring Soon</value>
   </data>
@@ -287,6 +290,9 @@
   </data>
   <data name="IncludeUnansweredQuestions" xml:space="preserve">
     <value>Include questions with no answer? </value>
+  </data>
+  <data name="InvalidAddress" xml:space="preserve">
+    <value>Invalid address</value>
   </data>
   <data name="KeepQuestionButtonText" xml:space="preserve">
     <value>Publish</value>
