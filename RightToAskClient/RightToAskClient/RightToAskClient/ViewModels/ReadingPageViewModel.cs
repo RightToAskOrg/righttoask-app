@@ -282,7 +282,7 @@ namespace RightToAskClient.ViewModels
             }
             
             // httpValidation isValid
-            var questionIds = httpResponse.Ok;
+            var questionIds = httpResponse.Data;
             
             // loop through the questions
             foreach (var questionId in questionIds)
@@ -291,18 +291,25 @@ namespace RightToAskClient.ViewModels
                 QuestionReceiveFromServer tempQuestion;
                 try
                 {
-                    var data = await RTAClient.GetQuestionById(questionId);
-                    if (string.IsNullOrEmpty(data.Err))
+                    // If retrieval is successful, add to the list of questions to be displayed.
+                    var dataResult = await RTAClient.GetQuestionById(questionId);
+                    if (dataResult.Success)
                     {
-                        tempQuestion = data.Ok;
+                        tempQuestion = dataResult.Data;
                         if (!string.IsNullOrEmpty(tempQuestion.question_text))
                         {
                             serverQuestions.Add(tempQuestion);
                         }
                     }
+                    // Log retrieval failure.
                     else
                     {
-                        Debug.WriteLine("Could not find question: " + data.Err);
+                        var errorMessage = "Could not retrieve question with ID " + questionId + ". ";
+                        if (dataResult is ErrorResult<QuestionReceiveFromServer> errorResult)
+                        {
+                            errorMessage += errorResult.Message;
+                        }
+                        Debug.WriteLine(errorMessage);
                     }
                 }
                 catch (Exception ex)
@@ -355,67 +362,63 @@ namespace RightToAskClient.ViewModels
         // depending on whether this page was reached
         // by searching, drafting a question, 'what's trending' or by looking for all the questions written by a
         // given user.
-        private async Task<Result<List<string>>> GetAppropriateQuestionList()
+        private async Task<JOSResult<List<string>>> GetAppropriateQuestionList()
         {
             var filters = App.GlobalFilterChoices;
-            // If we're looking for all the questions written by a given user, just request them.
+            
+            // If we're looking for all the questions written by a given user, request them.
             if (_readByQuestionWriter && !string.IsNullOrWhiteSpace(_writerOnlyUid))
             {
                 var questionIDs = await RTAClient.GetQuestionsByWriterId(_writerOnlyUid);
-                if (!string.IsNullOrEmpty(questionIDs.Err))
+                
+                // If there's an error result, pass it back.
+                if (questionIDs.Failure)
                 {
-                    return new Result<List<string>>()
-                    {
-                        Err = questionIDs.Err
-                    };
+                    return questionIDs;
                 }
 
-                return new Result<List<string>>()
-                {
-                    Ok = questionIDs.Ok
-                };
-            } else 
+                // Success. Return question list.
+                return new SuccessResult<List<string>>(questionIDs.Data);
+            } 
+            
             // else use the filters to search for similar questions.
-            {
             var serverSearchQuestion = new QuestionSendToServer()
             {
                 question_text = DraftQuestion + " " + Keyword
             };
             
-            // Ask for questions similar to the Draft question text and/or the keyword.
+            // If there are no filters, keyword or draft question set, just ask for all questions.
             if( string.IsNullOrWhiteSpace(serverSearchQuestion.question_text) 
                 && !serverSearchQuestion.TranscribeQuestionFiltersForUpload(filters))
             {
-                // If we're just looking at what's trending, show everything
-                // Expect App.ReadingContext.TrendingNow, but not necessarily because, for example,
-                // you might have drafted a blank question
                 return await RTAClient.GetQuestionList();
             }
-            else
+
+            // Search based on filters and/or search/draft words.
+            var scoredList = await RTAClient.GetSimilarQuestionIDs(serverSearchQuestion);
+
+            // Error
+            if (scoredList.Failure)
             {
-                // Search based on filters and/or search/draft words.
-                var scoredList = await RTAClient.GetSimilarQuestionIDs(serverSearchQuestion);
-
-                // Error
-                if (!string.IsNullOrEmpty(scoredList.Err))
+                if (scoredList is ErrorResult<List<ScoredIDs>> errorResult)
                 {
-                    return new Result<List<string>>() { Err = scoredList.Err };
+                    return new ErrorResult<List<string>>(errorResult.Message);
                 }
-
-                // If we've successfully retrieved a list of scored question IDs, filter them
-                // to select the ones we want
-                var questionIDsOverThreshold = scoredList.Ok
-                    .Where(q => q.score > Constants.similarityThreshold).Select(q => q.id).ToList();
-                if (questionIDsOverThreshold.Any())
-                {
-                    return new Result<List<string>>() { Ok = questionIDsOverThreshold };
-                }
-                else
-                {
-                    return new Result<List<string>>() { Err = AppResources.EmptyMatchingQuestionCollectionViewString };
-                }
+                // Fallback error case - currently not reachable.
+                return new ErrorResult<List<string>>("Error getting questions from server.");
             }
+
+            // scoredList.Success
+            // If we've successfully retrieved a list of scored question IDs, filter them
+            // to select the ones we want
+            var questionIDsOverThreshold = scoredList.Data
+                .Where(q => q.score > Constants.similarityThreshold).Select(q => q.id).ToList();
+            if (questionIDsOverThreshold.Any())
+            {
+                return new SuccessResult<List<string>>(questionIDsOverThreshold);
             }
+            
+            return new ErrorResult<List<string>>(AppResources.EmptyMatchingQuestionCollectionViewString);
         }
     }
 }

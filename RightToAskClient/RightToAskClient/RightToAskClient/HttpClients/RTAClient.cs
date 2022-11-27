@@ -105,13 +105,13 @@ namespace RightToAskClient.HttpClients
             return await Client.DoGetResultRequest<List<ServerUser>>(SearchUserUrl+Uri.EscapeDataString(userString));
         }
 
-        public static async Task<ServerResult<string>> RegisterNewUser(Registration newReg)
+        public static async Task<JOSResult<string>> RegisterNewUser(Registration newReg)
         {
             var newUserForServer = new ServerUser(newReg);
             return await SendDataToServerVerifySignedResponse(newUserForServer, "user", RegUrl);
         }
 
-        public static async Task<ServerResult<string>> UpdateExistingUser(ServerUser existingReg)
+        public static async Task<JOSResult<string>> UpdateExistingUser(ServerUser existingReg)
         {
             Debug.Assert(IndividualParticipant.IsRegistered);
             return await SignAndSendDataToServer(existingReg, "user", EditUserUrl,
@@ -124,7 +124,7 @@ namespace RightToAskClient.HttpClients
             return await Client.DoGetResultRequest<List<string>>(QuestionListUrl);
         }
 
-        public static async Task<ServerResult<List<ScoredIDs>>> GetSimilarQuestionIDs(QuestionSendToServer draftQuestion)
+        public static async Task<JOSResult<List<ScoredIDs>>> GetSimilarQuestionIDs(QuestionSendToServer draftQuestion)
         {
             return await SendDataToServerReturnResponse<QuestionSendToServer, List<ScoredIDs>>(draftQuestion, AppResources.QuestionErrorTypeDescription, SimilarQuestionsUrl);
         }
@@ -147,17 +147,17 @@ namespace RightToAskClient.HttpClients
             var getQuestionByWriterUrl = GetQuestionByWriterUrl + Uri.EscapeDataString(userId);
             return await Client.DoGetResultRequest<List<string>>(getQuestionByWriterUrl);
         }
-        public static async Task<ServerResult<string>> RegisterNewQuestion(QuestionSendToServer newQuestion)
+        public static async Task<JOSResult<string>> RegisterNewQuestion(QuestionSendToServer newQuestion)
         {
             return await SignAndSendDataToServer(newQuestion, AppResources.QuestionErrorTypeDescription, QnUrl,"Error publishing New Question");
         }
 
-        public static async Task<ServerResult<string>> UpdateExistingQuestion(QuestionSendToServer existingQuestion)
+        public static async Task<JOSResult<string>> UpdateExistingQuestion(QuestionSendToServer existingQuestion)
         {
             return await SignAndSendDataToServer(existingQuestion, AppResources.QuestionErrorTypeDescription, EditQnUrl, "Error editing question");
         }
 
-        public static async Task<ServerResult<string>> RequestEmailValidation(RequestEmailValidationMessage msg, string email)
+        public static async Task<JOSResult<string>> RequestEmailValidation(RequestEmailValidationMessage msg, string email)
         {
             var signedMsg =  IndividualParticipant.SignMessage(msg);
             var serverSend = new RequestEmailValidationAPICall()
@@ -171,14 +171,14 @@ namespace RightToAskClient.HttpClients
 
         }
 
-        public static async Task<ServerResult<string>> SendEmailValidationPin(EmailValidationPIN msg)
+        public static async Task<JOSResult<string>> SendEmailValidationPin(EmailValidationPIN msg)
         {
             return await SignAndSendDataToServer(msg, "Sending PIN", EmailValidationPinUrl, "Signing PIN");
         }
 
         // Sign a message (data) with this user's key, then upload to the specified url. 
         // "description" and "error string" are for reporting errors in upload and signing resp.
-        private static async Task<ServerResult<string>> SignAndSendDataToServer<T>(T data, string description, string url, string errorString)
+        private static async Task<JOSResult<string>> SignAndSendDataToServer<T>(T data, string description, string url, string errorString)
         {
             var signedUserMessage = IndividualParticipant.SignMessage(data);
             if (!string.IsNullOrEmpty(signedUserMessage.signature))
@@ -187,28 +187,34 @@ namespace RightToAskClient.HttpClients
             }
 
             Debug.WriteLine(errorString);
-            return new ServerResult<string>() { Err = errorString};
+            return new ErrorResult<string>(errorString);
         }
 
-        private static async Task<ServerResult<string>> SendDataToServerVerifySignedResponse<TUpload>(
+        private static async Task<JOSResult<string>> SendDataToServerVerifySignedResponse<TUpload>(
             TUpload newThing,
             string typeDescription, 
             string uri)
         {
             var serverResponse = await SendDataToServerReturnResponse<TUpload, SignedString>(newThing, typeDescription, uri);
 
-            if (!string.IsNullOrEmpty(serverResponse.Err))
+            if (serverResponse.Failure)
             {
-                return new ServerResult<string>() { Err = serverResponse.Err };
+                if (serverResponse is ErrorResult<SignedString> errorResult)
+                {
+                    return new ErrorResult<string>(errorResult.Message);
+                }
+                // Other general error result, just in case.
+                return new ErrorResult<string>("Error sending data to server at " + uri);
             }
 
-            if (!SignatureVerificationService.VerifySignature(serverResponse.Ok, ServerPublicKey)) //  
+            // serverResponse.Success. We got a valid server response - now verify the signature.
+            if (!SignatureVerificationService.VerifySignature(serverResponse.Data, ServerPublicKey)) //  
             {
                 Debug.WriteLine(@"\t Error registering new " + typeDescription + ": Signature verification failed");
-                return new ServerResult<string>() { Err = "Server signature verification failed" };
+                return new ErrorResult<string>("Server signature verification failed");
             }
 
-            return new ServerResult<string>() { Ok = serverResponse.Ok.message };
+            return new SuccessResult<string>(serverResponse.Data.message);
         }
 
         /*
@@ -221,7 +227,7 @@ namespace RightToAskClient.HttpClients
          * In some cases, the server returns some information
          * in the form of a message that is then returned in Result.Ok.
          */
-        private static async Task<ServerResult<TReturn>> SendDataToServerReturnResponse<TUpload,TReturn>(
+        private static async Task<JOSResult<TReturn>> SendDataToServerReturnResponse<TUpload,TReturn>(
             TUpload newThing,
             string typeDescription,
             string uri)
@@ -235,38 +241,54 @@ namespace RightToAskClient.HttpClients
                 // Error responses from the server
                 if (string.IsNullOrEmpty(httpResponse.Ok.Err))
                 {
-                    return new ServerResult<TReturn>() { Ok = httpResponse.Ok.Ok };
+                    return new SuccessResult<TReturn>(httpResponse.Ok.Ok);
                 }
                     
                 Debug.WriteLine(@"\tError sending "+typeDescription+": "+httpResponse.Ok.Err);
-                return new ServerResult<TReturn>() { Err = httpResponse.Ok.Err };
+                return new ErrorResult<TReturn>(httpResponse.Ok.Err ?? "");
             }
 
             Debug.WriteLine(@"\tError reaching server for sending " +typeDescription+": "+httpResponse.Err);
-            return new ServerResult<TReturn>() { Err = httpResponse.Err };
+            return new ErrorResult<TReturn>(httpResponse.Err ?? "");
         }
         
         // At the moment, this simply passes the information back to the user. We might perhaps want
         // to triage errors more carefully, or explain them to users better, or distinguish user-upload
         // errors from question-upload errors.
-        public static (bool isValid, string errorMessage, T returnedData) ValidateHttpResponse<T>(ServerResult<T> response, string messageTopic) where T : new()
+        public static (bool isValid, string errorMessage, T returnedData) ValidateHttpResponse<T>(JOSResult<T> response, string messageTopic) where T : new()
         {
-            if (string.IsNullOrEmpty(response.Err))
+            if (response.Success)
             {
-                return (true, "", response.Ok);
+                return (true, "", response.Data);
             }
-            return (false, messageTopic + "Server error: " + response.Err, new T());
+            
+            // response.Failure
+            var errorMessage = messageTopic + "Server error: ";
+            if (response is ErrorResult<T> errorResult)
+            {
+                errorMessage += errorResult.Message;
+            }
+            return (false, errorMessage, new T());
         }
 
         // overload because string doesn't satisfy T: new() 
-        public static (bool isValid, string errorMessage, string returnedData) ValidateHttpResponse(ServerResult<string> response, string messageTopic) 
+        /*
+        public static (bool isValid, string errorMessage, List<string> returnedData) ValidateHttpResponse(JOSResult<List<string>> response, string messageTopic) 
         {
-            if (string.IsNullOrEmpty(response.Err))
+            if (response.Success)
             {
-                return (true, "", response.Ok);
+                return (true, "", response.Data);
             }
-            return (false, messageTopic + "Server error: " + response.Err, "");
+            
+            // response.Failure
+            var errorMessage = messageTopic + "Server error: ";
+            if (response is ErrorResult<List<string>> errorResult)
+            {
+                errorMessage += errorResult.Message;
+            }
+            return (false, errorMessage, new List<string>());
         }
+        */
 
         // Tries to read server config, returns the url if there's a valid configuration file
         // specifying that that url is to be used.
