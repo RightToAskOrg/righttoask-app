@@ -68,10 +68,10 @@ namespace RightToAskClient.Models
             display_name = input.display_name ?? "";
             public_key = input.public_key ?? "";
             var stateResult = ParliamentData.StateStringToEnum(input.state ?? "");
-            if (string.IsNullOrEmpty(stateResult.Err))
+            if (stateResult.Success)
             {
                 StateKnown = true;
-                SelectedStateAsEnum = stateResult.Ok;
+                SelectedStateAsEnum = stateResult.Data;
             }
             else
             {
@@ -105,7 +105,7 @@ namespace RightToAskClient.Models
             throw new NotImplementedException();
         }
 
-        public Result<bool> IsValid()
+        public JOSResult<bool> IsValid()
         {
             var errorFields = new List<string>();
 
@@ -120,12 +120,10 @@ namespace RightToAskClient.Models
 
             if (errorFields.IsNullOrEmpty() || errorFields.SequenceEqual(new List<string> { "electorates" }))
             {
-                return new Result<bool>() { Ok = true };
+                return new SuccessResult<bool>(true);
             }
-            return new Result<bool>()
-            {
-                Err = "Please complete " + string.Join(" and ", errorFields)
-            };
+
+            return new ErrorResult<bool>("Please complete " + string.Join(" and ", errorFields));
         }
 
         public bool Validate()
