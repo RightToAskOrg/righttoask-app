@@ -397,8 +397,10 @@ namespace RightToAskClient.ViewModels
             Debug.Assert(!IndividualParticipant.IsRegistered);
 
             _registration.public_key = ClientSignatureGenerationService.MyPublicKey; 
-            var regTest = _registration.IsValid().Err;
-            if (string.IsNullOrEmpty(regTest))
+            
+            // Check that the registration info we're about to send to the server is valid.
+            var regTest = _registration.IsValid();
+            if (regTest.Success)
             {
                 // see if we need to push the electorates page or if we push the server account things
                 if (!IndividualParticipant.ElectoratesKnown)
@@ -420,12 +422,15 @@ namespace RightToAskClient.ViewModels
                     await SendNewUserToServer();
                 }
             }
+            // If registration info is invalid, prompt the user to fix it up.
             else
             {
-                if (regTest != null)
+                var errorMessage = "Invalid registration.";
+                if (regTest is ErrorResult errorResult)
                 {
-                    PromptUser(regTest);
+                    errorMessage = errorResult.Message;
                 }
+                PromptUser(errorMessage);
             }
         }
 

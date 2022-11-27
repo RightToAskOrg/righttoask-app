@@ -105,7 +105,7 @@ namespace RightToAskClient.Models
             throw new NotImplementedException();
         }
 
-        public JOSResult<bool> IsValid()
+        public JOSResult IsValid()
         {
             var errorFields = new List<string>();
 
@@ -120,10 +120,10 @@ namespace RightToAskClient.Models
 
             if (errorFields.IsNullOrEmpty() || errorFields.SequenceEqual(new List<string> { "electorates" }))
             {
-                return new SuccessResult<bool>(true);
+                return new SuccessResult();
             }
 
-            return new ErrorResult<bool>("Please complete " + string.Join(" and ", errorFields));
+            return new ErrorResult("Please complete " + string.Join(" and ", errorFields));
         }
 
         public bool Validate()
