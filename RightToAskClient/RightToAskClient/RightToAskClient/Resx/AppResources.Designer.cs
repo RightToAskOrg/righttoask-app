@@ -159,6 +159,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string CouldNotFindUser {
+            get {
+                return ResourceManager.GetString("CouldNotFindUser", resourceCulture);
+            }
+        }
+        
         internal static string CompleteAccountCreationButtonText {
             get {
                 return ResourceManager.GetString("CompleteAccountCreationButtonText", resourceCulture);
@@ -396,6 +402,18 @@ namespace RightToAskClient.Resx {
         internal static string InvalidAddress {
             get {
                 return ResourceManager.GetString("InvalidAddress", resourceCulture);
+            }
+        }
+        
+        internal static string InvalidHansardLink {
+            get {
+                return ResourceManager.GetString("InvalidHansardLink", resourceCulture);
+            }
+        }
+        
+        internal static string InvalidRegistration {
+            get {
+                return ResourceManager.GetString("InvalidRegistration", resourceCulture);
             }
         }
         

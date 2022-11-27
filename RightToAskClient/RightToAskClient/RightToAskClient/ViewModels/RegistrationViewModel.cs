@@ -425,7 +425,7 @@ namespace RightToAskClient.ViewModels
             // If registration info is invalid, prompt the user to fix it up.
             else
             {
-                var errorMessage = "Invalid registration.";
+                var errorMessage = AppResources.InvalidRegistration;
                 if (regTest is ErrorResult errorResult)
                 {
                     errorMessage = errorResult.Message;

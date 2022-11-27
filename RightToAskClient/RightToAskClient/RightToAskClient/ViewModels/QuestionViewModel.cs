@@ -50,15 +50,20 @@ namespace RightToAskClient.ViewModels
             set
             {
                 var urlResult = ParliamentData.StringToValidParliamentaryUrl(value);
-                if (string.IsNullOrEmpty(urlResult.Err))
+                if (urlResult.Success)
                 {
                     SetProperty(ref _newHansardLink, value);
-                    Question.AddHansardLink(urlResult.Ok);
+                    Question.AddHansardLink(urlResult.Data);
                     OnPropertyChanged("HansardLink");
                 }
                 else
                 {
-                    ReportLabelText = urlResult.Err ?? "";
+                    var errorMessage = AppResources.InvalidHansardLink;
+                    if (urlResult is ErrorResult<Uri> errorResult)
+                    {
+                        errorMessage += errorResult.Message;
+                    }
+                    ReportLabelText = errorMessage; 
                     OnPropertyChanged("ReportLabelText");
                 }
             }
@@ -301,21 +306,19 @@ namespace RightToAskClient.ViewModels
             {
                 var userId = Question.QuestionSuggester;
                 var userToSend = await RTAClient.GetUserById(userId);
-                if (userToSend.Err != null)
+                if (userToSend.Failure)
                 {
-                    ReportLabelText = "Could not find user on the server: " + userToSend.Err;
-                }
-                if (userToSend.Ok != null)
-                {
-                    /*
-                     * Rather that pass the data via messaging centre, we'll just make a new page and
-                     * pass it via the constructor.
-                     * 
-                    await Shell.Current.GoToAsync($"{nameof(OtherUserProfilePage)}").ContinueWith((_) =>
+                    var errorMessage = AppResources.CouldNotFindUser;
+                    if (userToSend is ErrorResult<ServerUser> errorResult)
                     {
-                        MessagingCenter.Send(this, "OtherUser", userToSend.Ok); // Send person or send question
-                    }); */
-                    var newReg = new Registration(userToSend.Ok);
+                        errorMessage += errorResult.Message;
+                    }
+                    ReportLabelText = errorMessage;
+                }
+                // Success
+                else 
+                {
+                    var newReg = new Registration(userToSend.Data);
                     var userProfilePage = new OtherUserProfilePage(newReg);
                     await Application.Current.MainPage.Navigation.PushAsync(userProfilePage);
                 }
