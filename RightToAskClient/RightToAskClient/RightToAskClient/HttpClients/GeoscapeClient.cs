@@ -57,17 +57,23 @@ namespace RightToAskClient.HttpClients
             // the request string.
             // client.BaseAddress = new Uri(Constants.GeoscapeAPIUrl + requestString);
 
-            if (!string.IsNullOrEmpty(GeoscapeAddressRequestBuilder.ApiKey.Err))
+            var apiKeyResult = GeoscapeAddressRequestBuilder.ApiKey;
+            if (apiKeyResult.Failure)
             {
-                return new ErrorResult<GeoscapeAddressFeatureCollection>(GeoscapeAddressRequestBuilder.ApiKey.Err);
+                if (apiKeyResult is ErrorResult<string> error)
+                {
+                    return new ErrorResult<GeoscapeAddressFeatureCollection>(error.Message);
+                }
+
+                // At the moment, there are no other errors, but this is put here in case someone adds one later.
+                return new ErrorResult<GeoscapeAddressFeatureCollection>("No API Key read.");
             }
             
-            // The ApiKey.OK _should_ be properly initialised to "" but this isn't guaranteed (despite the
-            // compiler thinking it is).
-            Client.SetAuthorizationHeaders(new AuthenticationHeaderValue(GeoscapeAddressRequestBuilder.ApiKey.Ok));
-            
+            // apiKeyResult.Success
             // At this point, we know we got a response, but it may say for example that
             // the address wasn't found.
+            Client.SetAuthorizationHeaders(new AuthenticationHeaderValue(GeoscapeAddressRequestBuilder.ApiKey.Data));
+            
             var httpResponse = await Client.DoGetJsonRequest<GeoscapeAddressFeatureCollection>(Constants.GeoscapeAPIUrl + requestString);
             return InterpretGeoscapeResponse(httpResponse);
         }

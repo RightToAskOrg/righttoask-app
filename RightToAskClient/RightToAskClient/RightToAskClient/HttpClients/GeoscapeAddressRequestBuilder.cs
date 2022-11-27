@@ -7,7 +7,7 @@ namespace RightToAskClient.HttpClients
     public static class GeoscapeAddressRequestBuilder
     {
 		
-        public static Result<string> ApiKey { get; } = ReadGeoscapeApiKey();
+        public static JOSResult<string> ApiKey { get; } = ReadGeoscapeApiKey();
 
         static GeoscapeAddressRequestBuilder()
         {
@@ -24,7 +24,7 @@ namespace RightToAskClient.HttpClients
 	                               "&additionalProperties=commonwealthElectorate,stateElectorate,localGovernmentArea"; 
         }
         
-        private static Result<string> ReadGeoscapeApiKey()
+        private static JOSResult<string> ReadGeoscapeApiKey()
         {
 	        return FileIO.ReadFirstLineOfFileAsString(Constants.APIKeyFileName);
 		}

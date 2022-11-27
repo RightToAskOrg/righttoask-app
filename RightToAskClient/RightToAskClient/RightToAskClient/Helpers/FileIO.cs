@@ -79,7 +79,7 @@ namespace RightToAskClient.Helpers
 			}
 			catch (IOException e)
 			{
-				Debug.WriteLine("File could not be read: " + filename);
+				Debug.WriteLine("Error reading file: " + filename);
 				Debug.WriteLine(e.Message);
 			}
 
