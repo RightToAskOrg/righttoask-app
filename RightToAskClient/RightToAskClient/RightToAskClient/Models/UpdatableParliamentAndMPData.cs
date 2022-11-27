@@ -118,40 +118,53 @@ namespace RightToAskClient.Models
 			return false;
 		}
 
-		private Result<bool> TryInitialisingFromStoredData()
+		private JOSResult TryInitialisingFromStoredData()
 		{
-			var success = FileIO.ReadDataFromStoredJson<UpdatableParliamentAndMPDataStructure>(Constants.StoredMPDataFile, serializerOptions);
-			if (!string.IsNullOrEmpty(success.Err))
+			var readResult = FileIO.ReadDataFromStoredJson<UpdatableParliamentAndMPDataStructure>(Constants.StoredMPDataFile, serializerOptions);
+			if (readResult.Failure)
 			{
-				return new Result<bool>() { Err = success.Err };
+				if (readResult is ErrorResult errorResult)
+				{
+					return new ErrorResult(errorResult.Message);
+				}
+				// Currently never used; here in case other error types are added later.
+				return new ErrorResult("Error reading MP data from file.");
 			}
 			
-			_allMPsData = success.Ok;
+			// readResult.Success
+			_allMPsData = readResult.Data;
 			IsInitialised = true;
 			// TODO this seem to be called twice. Prob don't need both.
 			QuestionViewModel.Instance.UpdateMPButtons();
-			return new Result<bool>() { Ok = true };
+			return new SuccessResult();
 		}
 
 
-		private async Task<Result<bool>> TryInitialisingFromServer()
+		private async Task<JOSResult> TryInitialisingFromServer()
 		{
 			var serverMPList = await RTAClient.GetMPsData();
 
 			if (serverMPList is null)
 			{
-				return new Result<bool>() { Err = "Could not reach server."};
+				return new ErrorResult("Could not reach server.");
 			}
 
-			if (string.IsNullOrEmpty(serverMPList.Err))
+			if (serverMPList.Success)
 			{
-				_allMPsData = serverMPList.Ok;
+				_allMPsData = serverMPList.Data;
 				IsInitialised = true;
 				QuestionViewModel.Instance.UpdateMPButtons();
-				return new Result<bool>() { Ok = true };
+				return new SuccessResult();
 			}
 
-			return new Result<bool>() { Err = serverMPList.Err };
+			// serverMPList.Failure
+			if (serverMPList is ErrorResult errorResult)
+			{
+				return new ErrorResult(errorResult.Message);
+			}
+			// Currently not necessary; added in case other error types come later.
+			return new ErrorResult("Error initialising MPs from server.");
+
 		}
 
 
