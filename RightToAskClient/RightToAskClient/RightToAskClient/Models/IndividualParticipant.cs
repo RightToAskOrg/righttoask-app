@@ -103,12 +103,13 @@ namespace RightToAskClient.Models
             ProfileData.RegistrationInfo.StateKnown = false; // Should already be the default.
             var stateString =  Preferences.Get(Constants.State, "");
             var state = ParliamentData.StateStringToEnum(stateString);
-            if (string.IsNullOrEmpty(state.Err) && !string.IsNullOrEmpty(stateString))
+            if (state.Success)
             {
                 ProfileData.RegistrationInfo.StateKnown = true;
-                ProfileData.RegistrationInfo.SelectedStateAsEnum = state.Ok;
+                ProfileData.RegistrationInfo.SelectedStateAsEnum = state.Data;
             }
 
+            // Use my public key from the client signature generation service.
 			ProfileData.RegistrationInfo.public_key = ClientSignatureGenerationService.InitSuccessful ? ClientSignatureGenerationService.MyPublicKey : "";
 		}
 
