@@ -43,44 +43,22 @@ namespace RightToAskClient.CryptoUtils
         public static async Task<bool> Init()
         {
             var generationResult = await MakeMyKey();
-            if (!string.IsNullOrEmpty(generationResult.Err))
+            if (generationResult.Failure)
             {
-                // Key generation unsuccessful.
                 return false;
             }
             
-            _myKeyPair = generationResult.Ok;
-            // _myPublicKey = _myKeyPair.GeneratePublicKey();
+            // generationResult.Success
+            _myKeyPair = generationResult.Data;
             MySigner.Init(true, _myKeyPair);
             InitSuccessful = true;
             return true;
         }
 
-        /*
-        public static async Task<ClientSignatureGenerationService> CreateClientSignatureGenerationService()
-        {
-            Ed25519PrivateKeyParameters myKeyPair = await MakeMyKey();
-            return new ClientSignatureGenerationService(myKeyPair);
-        }
-        */
 
         public static string MyPublicKey => Convert.ToBase64String(_myKeyPair?.GeneratePublicKey().GetEncoded() ?? Array.Empty<byte>());
-        /*
-        public static string MyPublicKey()
-        {
-            if (_myPublicKey.GetEncoded() != null)
-            {
-                return Convert.ToBase64String(_myPublicKey.GetEncoded());
-            }
-            else
-            {
-                Debug.WriteLine("Error generating signing key");
-                return "";
-            }
-        }
-        */
 
-        private static async Task<Result<Ed25519PrivateKeyParameters>> MakeMyKey()
+        private static async Task<JOSResult<Ed25519PrivateKeyParameters>> MakeMyKey()
         {
             // First see if there's already a stored key. If so, use that.
             try
@@ -91,10 +69,9 @@ namespace RightToAskClient.CryptoUtils
                 if (!string.IsNullOrEmpty(signingKeyAsString))
                 {
                     var privateKey = new Ed25519PrivateKeyParameters(Convert.FromBase64String(signingKeyAsString));
-                    return new Result<Ed25519PrivateKeyParameters>()
-                    {
-                        Ok = privateKey
-                    };
+                    
+                    // Successful retrieval of old key.
+                    return new SuccessResult<Ed25519PrivateKeyParameters>(privateKey);
                 }
             }
             // If there's an exception, write a debug message and continue through generating a new one.
@@ -126,25 +103,16 @@ namespace RightToAskClient.CryptoUtils
             catch (Exception ex)
             {
                 Debug.WriteLine("Error storing signing key" + ex.Message);
-                return new Result<Ed25519PrivateKeyParameters>()
-                {
-                    Err = "Error storing signing key" + ex.Message
-                };
+                return new ErrorResult<Ed25519PrivateKeyParameters>("Error storing signing key" + ex.Message);
             }
 
             if (signingKey is null)
             {
-                return new Result<Ed25519PrivateKeyParameters>()
-                {
-                    Err = "Error generating signing key"
-                };
+                return new ErrorResult<Ed25519PrivateKeyParameters>("Error generating signing key");
             }
             
-            // signingKey is guaranteed not to be null. All good.
-            return new Result<Ed25519PrivateKeyParameters>()
-            {
-                Ok = signingKey
-            };
+            // Successful generation of new key.
+            return new SuccessResult<Ed25519PrivateKeyParameters>(signingKey);
         }
 
         public static ClientSignedUnparsed SignMessage<T>(T message, string userId)

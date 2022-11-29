@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using RightToAskClient.HttpClients;
+using RightToAskClient.Models.ServerCommsData;
 
 namespace RightToAskClient.Models
 {
@@ -16,27 +17,31 @@ namespace RightToAskClient.Models
         public bool IsInitialised { get; private set; }
 
 
-        public async Task<Result<bool>> TryInitialisingFromServer()
+        public async Task<JOSResult> TryInitialisingFromServer()
         {
             var serverCommitteeList = await RTAClient.GetCommitteeData();
             if (serverCommitteeList is null)
             {
-                return new Result<bool>() { Err = "Could not reach server." };
+                // TODO Consider changing to a specific 'server unreachable' error.
+                return new ErrorResult<bool>("Could not reach server.");
             }
 
             // Success. Set list of selectable committees and update filters to reflect new list.
-            if (string.IsNullOrEmpty(serverCommitteeList.Err))
+            if (serverCommitteeList.Success)
             {
                 IsInitialised = true;
-                Committees = serverCommitteeList.Ok.Select(com => new Committee(com)).ToList();
+                Committees = serverCommitteeList.Data.Select(com => new Committee(com)).ToList();
 				// App.ReadingContext.Filters.InitSelectableLists();
-                return new Result<bool>() { Ok = true };
+                return new SuccessResult();
             }
 
-            return new Result<bool>()
+            // serverCommitteeList.Failure
+            if (serverCommitteeList is ErrorResult<List<CommitteeInfo>> errorResult)
             {
-                Err = serverCommitteeList.Err
-            };
+                return new ErrorResult(errorResult.Message);
+            }
+
+            return new ErrorResult("Couldn't get committee and hearing data from server.");
         }
     }
 }

@@ -3,6 +3,7 @@ using RightToAskClient.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using RightToAskClient.Models;
 using Xunit;
 
 namespace UnitTests
@@ -16,13 +17,12 @@ namespace UnitTests
         public void ConstructorIsRegisteredTest()
         {
             // arrange
-            App.ReadingContext.ThisParticipant.RegistrationInfo = vTests.ValidRegistrationTest();
-            App.ReadingContext.ThisParticipant.IsRegistered = true;
-            App.ReadingContext.IsReadingOnly = false;
+            IndividualParticipant.ProfileData.RegistrationInfo = vTests.ValidRegistrationTest();
+            IndividualParticipant.IsRegistered = true;
 
             // act
             RegistrationViewModel vm = new RegistrationViewModel();
-            bool validReg = App.ReadingContext.ThisParticipant.RegistrationInfo.Validate();
+            bool validReg = IndividualParticipant.ProfileData.RegistrationInfo.Validate();
 
             // assert
             Assert.True(validReg);
@@ -43,8 +43,7 @@ namespace UnitTests
         public void ConstructorNotRegisteredTest()
         {
             // arrange
-            App.ReadingContext.ThisParticipant.IsRegistered = false;
-            App.ReadingContext.IsReadingOnly = false;
+            IndividualParticipant.IsRegistered = false;
 
             // act
             RegistrationViewModel vm = new RegistrationViewModel();
@@ -67,8 +66,7 @@ namespace UnitTests
         public void ConstructorReadingOnlyNotRegisteredTest()
         {
             // arrange
-            App.ReadingContext.ThisParticipant.IsRegistered = false;
-            App.ReadingContext.IsReadingOnly = true;
+            IndividualParticipant.IsRegistered = false;
 
             // act
             RegistrationViewModel vm = new RegistrationViewModel();
@@ -92,13 +90,12 @@ namespace UnitTests
         public void ConstructorReadingOnlyIsRegisteredTest()
         {
             // arrange
-            App.ReadingContext.ThisParticipant.RegistrationInfo = vTests.ValidRegistrationTest();
-            App.ReadingContext.ThisParticipant.IsRegistered = true;
-            App.ReadingContext.IsReadingOnly = true;
+            IndividualParticipant.ProfileData.RegistrationInfo = vTests.ValidRegistrationTest();
+            IndividualParticipant.IsRegistered = true;
 
             // act
             RegistrationViewModel vm = new RegistrationViewModel();
-            bool validReg = App.ReadingContext.ThisParticipant.RegistrationInfo.Validate();
+            bool validReg = IndividualParticipant.ProfileData.RegistrationInfo.Validate();
 
             // assert
             Assert.True(validReg);

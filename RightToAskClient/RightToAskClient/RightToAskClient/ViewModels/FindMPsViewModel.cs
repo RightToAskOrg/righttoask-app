@@ -20,7 +20,7 @@ namespace RightToAskClient.ViewModels
         #region Properties
 
         private Address _address = new Address();
-        private readonly Registration _registration = App.ReadingContext.ThisParticipant.RegistrationInfo;
+        private readonly Registration _registration = IndividualParticipant.ProfileData.RegistrationInfo;
         public Address Address
         {
             get => _address;
@@ -82,7 +82,7 @@ namespace RightToAskClient.ViewModels
             }
         }
         public List<string> StatePicker => ParliamentData.StateStrings;
-        // private string _statePickerTitle = String.IsNullOrEmpty(App.ReadingContext.ThisParticipant.RegistrationInfo.State) ? "Choose State or Territory" : App.ReadingContext.ThisParticipant.RegistrationInfo.State;
+        // private string _statePickerTitle = String.IsNullOrEmpty(IndividualParticipant.ProfileData.RegistrationInfo.State) ? "Choose State or Territory" : IndividualParticipant.ProfileData.RegistrationInfo.State;
         public string StatePickerTitle =>
             _registration.StateKnown
                 ? _registration.SelectedStateAsEnum.ToString()
@@ -137,9 +137,9 @@ namespace RightToAskClient.ViewModels
         public ObservableCollection<string> AllStateChoosableElectorates { get; } = new ObservableCollection<string>();
 
         private string _stateChoosableElectorateHeader 
-            =  App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsEnum == ParliamentData.StateEnum.TAS
-            ? $"State Legislative Council Electorate: {App.ReadingContext.ThisParticipant.StateUpperHouseElectorate:F0}"
-            : $"State Legislative Assembly Electorate: {App.ReadingContext.ThisParticipant.StateLowerHouseElectorate:F0}";
+            =  IndividualParticipant.ProfileData.RegistrationInfo.SelectedStateAsEnum == ParliamentData.StateEnum.TAS
+            ? $"State Legislative Council Electorate: {IndividualParticipant.ProfileData.StateUpperHouseElectorate:F0}"
+            : $"State Legislative Assembly Electorate: {IndividualParticipant.ProfileData.StateLowerHouseElectorate:F0}";
 
         public string StateChoosableElectorateHeader
         {
@@ -149,9 +149,9 @@ namespace RightToAskClient.ViewModels
 
         private string _stateChoosableElectorate
             = "Select: " + 
-            (App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsEnum == ParliamentData.StateEnum.TAS
-                    ? App.ReadingContext.ThisParticipant.StateUpperHouseElectorate
-                    : App.ReadingContext.ThisParticipant.StateLowerHouseElectorate);
+            (IndividualParticipant.ProfileData.RegistrationInfo.SelectedStateAsEnum == ParliamentData.StateEnum.TAS
+                    ? IndividualParticipant.ProfileData.StateUpperHouseElectorate
+                    : IndividualParticipant.ProfileData.StateLowerHouseElectorate);
 
         public string StateChoosableElectorate
         {
@@ -161,7 +161,7 @@ namespace RightToAskClient.ViewModels
         }
 
         private string _stateInferredElectorateHeader  
-            =  App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsEnum == ParliamentData.StateEnum.TAS
+            =  IndividualParticipant.ProfileData.RegistrationInfo.SelectedStateAsEnum == ParliamentData.StateEnum.TAS
             ? "State Legislative Assembly Electorate: " : "State Legislative Council Electorate: ";
         
         public string StateInferredElectorateHeader
@@ -171,9 +171,9 @@ namespace RightToAskClient.ViewModels
         }
         
         private string _stateInferredElectorate  
-            =  App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsEnum == ParliamentData.StateEnum.TAS
-            ? App.ReadingContext.ThisParticipant.StateLowerHouseElectorate 
-            : App.ReadingContext.ThisParticipant.StateUpperHouseElectorate;
+            =  IndividualParticipant.ProfileData.RegistrationInfo.SelectedStateAsEnum == ParliamentData.StateEnum.TAS
+            ? IndividualParticipant.ProfileData.StateLowerHouseElectorate 
+            : IndividualParticipant.ProfileData.StateUpperHouseElectorate;
         
         public string StateInferredElectorate
         {
@@ -182,7 +182,7 @@ namespace RightToAskClient.ViewModels
         }
         
         private string _federalElectoratePickerTitle =
-            $"Select: {App.ReadingContext.ThisParticipant.CommonwealthElectorate:F0}";
+            $"Select: {IndividualParticipant.ProfileData.CommonwealthElectorate:F0}";
         public string FederalElectoratePickerTitle
         {
             get => _federalElectoratePickerTitle;
@@ -215,28 +215,28 @@ namespace RightToAskClient.ViewModels
             ShowKnowElectoratesFrame = false;
             ShowMapFrame = false;
 
-            _stateKnown = App.ReadingContext.ThisParticipant.RegistrationInfo.StateKnown;
+            _stateKnown = IndividualParticipant.ProfileData.RegistrationInfo.StateKnown;
             
             // set the pickers to update their content lists here if state was already indicated elsewhere in the application
             if(_stateKnown) 
             {
-                SelectedStateEnum = App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsEnum;
+                SelectedStateEnum = IndividualParticipant.ProfileData.RegistrationInfo.SelectedStateAsEnum;
                 
                 // set the state index pickers
                 SelectedStateAsInt = (int)SelectedStateEnum;
                 
                 var choosableStateElectorate = (SelectedStateEnum == ParliamentData.StateEnum.TAS )
-                   ? App.ReadingContext.ThisParticipant.StateUpperHouseElectorate
-                   : App.ReadingContext.ThisParticipant.StateLowerHouseElectorate;
+                   ? IndividualParticipant.ProfileData.StateUpperHouseElectorate
+                   : IndividualParticipant.ProfileData.StateLowerHouseElectorate;
                 UpdateElectorateInferencesFromStateAndCommElectorate(SelectedStateEnum,
                     choosableStateElectorate,
-                    App.ReadingContext.ThisParticipant.CommonwealthElectorate);
+                    IndividualParticipant.ProfileData.CommonwealthElectorate);
             }
 
-            if (!string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.CommonwealthElectorate))
+            if (!string.IsNullOrEmpty(IndividualParticipant.ProfileData.CommonwealthElectorate))
             {
                 ShowMapFrame = true;
-                var electorateString = ParliamentData.ConvertGeoscapeElectorateToStandard(App.ReadingContext.ThisParticipant.RegistrationInfo.State, App.ReadingContext.ThisParticipant.CommonwealthElectorate);
+                var electorateString = ParliamentData.ConvertGeoscapeElectorateToStandard(IndividualParticipant.ProfileData.RegistrationInfo.State, IndividualParticipant.ProfileData.CommonwealthElectorate);
                 ShowMapOfElectorate(electorateString);
             }
 
@@ -309,9 +309,8 @@ namespace RightToAskClient.ViewModels
             if (PostcodeIsValid)
             {
                 IsBusy = true; // no longer displaying the activity indicator since the webview shows that it is being updated
-                Result<GeoscapeAddressFeature>? httpResponse;
 
-                var state = App.ReadingContext.ThisParticipant.RegistrationInfo.State;
+                var state = IndividualParticipant.ProfileData.RegistrationInfo.State;
 
                 if (string.IsNullOrEmpty(state))
                 {
@@ -321,30 +320,45 @@ namespace RightToAskClient.ViewModels
                 }
 
                 var addressValidation = _address.SeemsValid();
-                if (!string.IsNullOrEmpty(addressValidation.Err))
+                if (addressValidation.Failure)
                 {
-                    var popup = new OneButtonPopup(addressValidation.Err ?? "", AppResources.OKText);
+                    var errorMessage = AppResources.InvalidAddress;
+                    if (addressValidation is ErrorResult<bool> errorResult)
+                    {
+                        errorMessage += errorResult.Message;
+                    }
+
+                    var popup = new OneButtonPopup(errorMessage, AppResources.OKText);
                     _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
 
                     return;
                 }
 
-                httpResponse = await GeoscapeClient.GetFirstAddressData(_address + " " + state);
+                var httpResponse = await GeoscapeClient.GetFirstAddressData(_address + " " + state);
 
                 // The compiler doesn't think this null check is necessary, but it is.
                 if (httpResponse != null)
                 {
-                    if (httpResponse.Err != null)
+                    if (httpResponse.Failure)
                     {
-                        ReportLabelText = httpResponse.Err;
-                        // maybe display a popup if Electorates were not found
+                        if (httpResponse is ErrorResult<GeoscapeAddressFeature> errorResult)
+                        {
+                            ReportLabelText = errorResult.Message;
+                        }
+                        else
+                        {
+                            // Generic error message if no specific one available.
+                            ReportLabelText = AppResources.ErrorFindingAddress;
+                        }
+                        
+                        // Display a popup if Electorates were not found
                         var popup = new OneButtonPopup(AppResources.ElectoratesNotFoundErrorText, AppResources.OKText);
                         _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
                         return;
                     }
 
-                    // Now we know everything is good.
-                    var bestAddress = httpResponse.Ok;
+                    // httpResponse.Success 
+                    var bestAddress = httpResponse.Data;
                     // needs a federal electorate to be valid
                     if (!string.IsNullOrEmpty(bestAddress.Properties?.CommonwealthElectorate?.ToString()))
                     {
@@ -353,8 +367,8 @@ namespace RightToAskClient.ViewModels
                         ReportLabelText = "";
 
                         var electoratePopupTitle = "Electorates Found!";
-                        var electoratePopupText = "Federal electorate: " + App.ReadingContext.ThisParticipant.CommonwealthElectorate +
-                                                  "\n" + "State lower house electorate: " + App.ReadingContext.ThisParticipant.StateLowerHouseElectorate;
+                        var electoratePopupText = "Federal electorate: " + IndividualParticipant.ProfileData.CommonwealthElectorate +
+                                                  "\n" + "State lower house electorate: " + IndividualParticipant.ProfileData.StateLowerHouseElectorate;
                         var electoratesFoundPopup = new OneButtonPopup(electoratePopupTitle, electoratePopupText, AppResources.OKText);
                         _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(electoratesFoundPopup);
 
@@ -368,12 +382,12 @@ namespace RightToAskClient.ViewModels
                     }
                     ShowSkipButton = false;
                     // display the map if we stored the Federal Electorate properly
-                    if (!string.IsNullOrEmpty(App.ReadingContext.ThisParticipant.CommonwealthElectorate))
+                    if (!string.IsNullOrEmpty(IndividualParticipant.ProfileData.CommonwealthElectorate))
                     {
                         ShowMapFrame = true;
                         ShowKnowElectoratesFrame = false;
                         ShowAddressStack = false;
-                        var electorateString = ParliamentData.ConvertGeoscapeElectorateToStandard(state, App.ReadingContext.ThisParticipant.CommonwealthElectorate);
+                        var electorateString = ParliamentData.ConvertGeoscapeElectorateToStandard(state, IndividualParticipant.ProfileData.CommonwealthElectorate);
                         ShowMapOfElectorate(electorateString);
                     }
                 }
@@ -387,9 +401,9 @@ namespace RightToAskClient.ViewModels
 
         private void AddElectorates(GeoscapeAddressFeature addressData)
         {
-            var state = App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsEnum;
+            var state = IndividualParticipant.ProfileData.RegistrationInfo.SelectedStateAsEnum;
             var electorates = ParliamentData.GetElectoratesFromGeoscapeAddress(state, addressData);
-            App.ReadingContext.ThisParticipant.RegistrationInfo.Electorates = electorates;
+            IndividualParticipant.ProfileData.RegistrationInfo.Electorates = electorates;
             
             // There really shouldn't be any scenario in which there aren't any electorates here, unless something goes
             // wrong extracting Electorate strings from the Geoscape address.
@@ -417,13 +431,13 @@ namespace RightToAskClient.ViewModels
                 && !string.IsNullOrEmpty(AllStateChoosableElectorates[SelectedStateElectorateIndex]))
             {
                 var chosenElectorate = AllStateChoosableElectorates[SelectedStateElectorateIndex];
-                var state = App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsEnum;
-                App.ReadingContext.ThisParticipant.RegistrationInfo.Electorates
+                var state = IndividualParticipant.ProfileData.RegistrationInfo.SelectedStateAsEnum;
+                IndividualParticipant.ProfileData.RegistrationInfo.Electorates
                     = ParliamentData.FindAllRelevantElectorates(state,
-                        chosenElectorate, App.ReadingContext.ThisParticipant.CommonwealthElectorate);
+                        chosenElectorate, IndividualParticipant.ProfileData.CommonwealthElectorate);
                 (_, _, StateInferredElectorate) 
                     = ParliamentData.InferOtherChamberInfoGivenOneRegion(SelectedStateEnum, chosenElectorate, 
-                        App.ReadingContext.ThisParticipant.CommonwealthElectorate);
+                        IndividualParticipant.ProfileData.CommonwealthElectorate);
             }
             RevealNextStepAndCommunicateIfElectoratesKnown();
         }
@@ -440,7 +454,7 @@ namespace RightToAskClient.ViewModels
                 
                 // TODO Consider whether electorates should be readonly and instead have a function that updates them
                 // given this info.
-                App.ReadingContext.ThisParticipant.RegistrationInfo.Electorates
+                IndividualParticipant.ProfileData.RegistrationInfo.Electorates
                         = ParliamentData.FindAllRelevantElectorates(SelectedStateEnum, "", FederalElectorates[SelectedFederalElectorate]);
                 // For Tasmania, we need your federal electorate to infer your state Legislative Assembly electorate.
                 if (SelectedStateEnum == ParliamentData.StateEnum.TAS)
@@ -462,7 +476,7 @@ namespace RightToAskClient.ViewModels
 
         private void CommunicateElectoratesKnown()
         {
-            App.ReadingContext.ThisParticipant.ElectoratesKnown = true;
+            IndividualParticipant.ElectoratesKnown = true;
             Preferences.Set(Constants.ElectoratesKnown, true);
             MessagingCenter.Send(this, Constants.ElectoratesKnown);
         }
@@ -493,7 +507,7 @@ namespace RightToAskClient.ViewModels
 
         private void OnStatePickerSelectedIndexChanged()
         {
-            (_stateKnown, SelectedStateEnum) = App.ReadingContext.ThisParticipant.RegistrationInfo.UpdateStateStorePreferences(SelectedStateAsInt);
+            (_stateKnown, SelectedStateEnum) = IndividualParticipant.ProfileData.RegistrationInfo.UpdateStateStorePreferences(SelectedStateAsInt);
                 
                 if (_stateKnown)
                 {

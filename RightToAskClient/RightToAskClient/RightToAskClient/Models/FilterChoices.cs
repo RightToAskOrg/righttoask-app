@@ -152,7 +152,7 @@ namespace RightToAskClient.Models
         // it's still possible for the question to go to 'my MP' when that person is their previous MP.
         public void UpdateMyMPLists()
         {
-	        AnsweringMPsListsMine.AllEntities = ParliamentData.FindAllMPsGivenElectorates(App.ReadingContext.ThisParticipant.RegistrationInfo.Electorates.ToList());
+	        AnsweringMPsListsMine.AllEntities = ParliamentData.FindAllMPsGivenElectorates(IndividualParticipant.ProfileData.RegistrationInfo.Electorates.ToList());
 	        AskingMPsListsMine.AllEntities = AnsweringMPsListsMine.AllEntities;
         }
 

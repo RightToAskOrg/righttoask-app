@@ -53,19 +53,17 @@ namespace RightToAskClient.Models
 
 	    public static List<string> StateStrings => Enum.GetNames(typeof(StateEnum)).ToList();
 
-	    public static Result<StateEnum> StateStringToEnum(string state)
+	    public static JOSResult<StateEnum> StateStringToEnum(string state)
 	    {
 			var success = Enum.TryParse(state, true, out StateEnum value);
 			if (success)
 			{
-				return new Result<StateEnum>() { Ok = value };
+				return new SuccessResult<StateEnum>(value);
 			}
-			else
-			{
-				var error = "Couldn't parse state: " + state;
-				Debug.WriteLine(error);
-				return new Result<StateEnum>() { Err = error};
-			}
+
+			var error = "Couldn't parse state: " + state;
+			Debug.WriteLine(error);
+			return new ErrorResult<StateEnum>(error);
 	    }
 	    
 	    public static readonly Dictionary<StateEnum, List<ParliamentData.Chamber>> Parliaments = new Dictionary<StateEnum, List<Chamber>>
@@ -458,9 +456,9 @@ namespace RightToAskClient.Models
 	    public static List<string> ListElectoratesInStateLowerHouse(StateEnum state)
 	    {
 		    var possibleChamber = GetLowerHouseChamber(state);
-		    if (MPAndOtherData.IsInitialised && possibleChamber.Err.IsNullOrEmpty())
+		    if (MPAndOtherData.IsInitialised && possibleChamber.Success)
 		    {
-			    return MPAndOtherData.ListElectoratesInChamber(possibleChamber.Ok);
+			    return MPAndOtherData.ListElectoratesInChamber(possibleChamber.Data);
 		    }
 
 		    return new List<string>();
@@ -468,16 +466,16 @@ namespace RightToAskClient.Models
 
 	    // Call only when state known.
 	    // TODO This can probably guarantee a result given a valid state.
-	    public static Result<Chamber> GetLowerHouseChamber(StateEnum state)
+	    public static JOSResult<Chamber> GetLowerHouseChamber(StateEnum state)
 	    {
 		    var chamberList = FindChambers(state, true).Where(p => IsLowerHouseChamber(p)).ToList();
 		    if (chamberList.IsNullOrEmpty() || chamberList.Count() > 1)
 		    {
 			    Debug.WriteLine("Error: " + chamberList.Count() + " lower house chambers in " + state);
-			    return new Result<Chamber>() { Err = "Can't get lower house chamber." };
+			    return new ErrorResult<Chamber>("Can't get lower house chamber.");
 		    }
 
-		    return new Result<Chamber>() { Ok = chamberList[0] };
+		    return new SuccessResult<Chamber>(chamberList[0]);
 	    }
 
 	    // Not every state has an upper house, so failing to find one is not necessarily an error.
@@ -491,16 +489,16 @@ namespace RightToAskClient.Models
 		    }
 
 		    var possibleChamber = GetUpperHouseChamber(state);
-		    if (MPAndOtherData.IsInitialised && possibleChamber.Err.IsNullOrEmpty())
+		    if (MPAndOtherData.IsInitialised && possibleChamber.Success)
 		    {
-			    return MPAndOtherData.ListElectoratesInChamber(possibleChamber.Ok);
+			    return MPAndOtherData.ListElectoratesInChamber(possibleChamber.Data);
 		    }
 
 		    return new List<string>();
 	    }
 
 	    // Some states have no upper house, in which case this returns an error.
-	    public static Result<Chamber> GetUpperHouseChamber(StateEnum state)
+	    public static JOSResult<Chamber> GetUpperHouseChamber(StateEnum state)
 	    {
 		    if (HasUpperHouse(state))
 		    {
@@ -508,13 +506,13 @@ namespace RightToAskClient.Models
 			    if (chamberList.IsNullOrEmpty() || chamberList.Count > 1)
 			    {
 				    Debug.WriteLine("Error: " + chamberList.Count() + " lower house chambers in " + state);
-				    return new Result<Chamber>() { Err = "Error: wrong number of lower houses for " + state };
+				    return new ErrorResult<Chamber>("Error: wrong number of lower houses for " + state);
 			    }
 
-			    return new Result<Chamber>() { Ok = chamberList[0] };
+			    return new SuccessResult<Chamber>(chamberList[0]);
 		    }
 
-		    return new Result<Chamber>() { Err = "This state has no upper house." };
+		    return new ErrorResult<Chamber>("This state has no upper house.");
 	    }
 
 	    public static bool HasUpperHouse(StateEnum state)
@@ -585,9 +583,9 @@ namespace RightToAskClient.Models
 		    {
 			    // guaranteed of a result here.
 			    var chamberResult = GetLowerHouseChamber(state);
-			    if (string.IsNullOrEmpty(chamberResult.Err))
+			    if (chamberResult.Success)
 			    {
-				    electorateList.Add(new ElectorateWithChamber(chamberResult.Ok, stateRegion));
+				    electorateList.Add(new ElectorateWithChamber(chamberResult.Data, stateRegion));
 			    }
 		    }
 
@@ -602,7 +600,8 @@ namespace RightToAskClient.Models
 					electorateList.Add(new ElectorateWithChamber(Chamber.Tas_Legislative_Council, stateRegion));
 			    }
 		    }
-			// TODO: Do likewise for WA.
+		    // Vic Legislative Council regions are sets of Legislative Assembly regions - look up in VicRegions.
+		    // TODO: Do likewise for WA.
 		    else if (state == StateEnum.VIC) 
 		    {
 			    if (!string.IsNullOrEmpty(stateRegion))
@@ -620,13 +619,18 @@ namespace RightToAskClient.Models
 		    else if (HasUpperHouse(state))
 		    {
 			    var upperHouseResult = GetUpperHouseChamber(state);
-			    if (string.IsNullOrEmpty(upperHouseResult.Err))
+			    if (upperHouseResult.Success)
 			    {
-					electorateList.Add(new ElectorateWithChamber(upperHouseResult.Ok, ""));
+					electorateList.Add(new ElectorateWithChamber(upperHouseResult.Data, ""));
 			    }
+			    else if (upperHouseResult is ErrorResult<Chamber> errorResult)
+			    {
+				    Debug.WriteLine(errorResult.Message);
+			    }
+			    // Some other kind of error. At the moment there are no such errors; including here just in case.
 			    else
 			    {
-				    Debug.WriteLine(upperHouseResult.Err);
+				    Debug.WriteLine("Error finding upper house for "+state);
 			    }
 		    }
 
@@ -645,7 +649,7 @@ namespace RightToAskClient.Models
         }
 
         
-        public static Result<Uri> StringToValidParliamentaryUrl(string value)
+        public static JOSResult<Uri> StringToValidParliamentaryUrl(string value)
         {
             try
             {
@@ -653,33 +657,19 @@ namespace RightToAskClient.Models
                 // Valid url, but not one of the allowed ones.
                 if (!link.IsWellFormedOriginalString())
                 {
-                    return new Result<Uri>()
-                    {
-                        Err = AppResources.LinkNotWellFormedErrorText
-                    };
+	                return new ErrorResult<Uri>(AppResources.LinkNotWellFormedErrorText);
                 }
-                if (!ParliamentData.Domains.Contains(link.Host))
+                if (!Domains.Contains(link.Host))
                 {
-                    return new Result<Uri>()
-                    {
-                        Err = AppResources.ParliamentaryURLErrorText
-                    };
+	                return new ErrorResult<Uri>(AppResources.ParliamentaryURLErrorText);
                 }
-                else
-                {
-                    return new Result<Uri>()
-                    {
-                        Ok = link
-                    };
-                }
+                
+                return new SuccessResult<Uri>(link);
             }
             // Not a valid url 
             catch (Exception e)
             {
-                return new Result<Uri>()
-                {
-                    Err = e.Message,
-                };
+	            return new ErrorResult<Uri>(e.Message);
             }
         }
 

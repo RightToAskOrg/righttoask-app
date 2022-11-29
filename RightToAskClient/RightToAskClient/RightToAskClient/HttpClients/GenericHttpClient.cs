@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using RightToAskClient.Models;
+using RightToAskClient.Models.ServerCommsData;
 
 /* This makes a small wrapper around the HttpClient class.
  * The intention is that a static instance of this class should
@@ -39,7 +40,7 @@ namespace RightToAskClient.HttpClients
         }
         
         
-        public async Task<Result<T>> DoGetJsonRequest<T>(string uriString)
+        public async Task<JOSResult<T>> DoGetJsonRequest<T>(string uriString)
         {
             var uri = new Uri(uriString);
             try
@@ -48,64 +49,57 @@ namespace RightToAskClient.HttpClients
 
                 if (deserialisedResponse is null)
                 {
-                    return new Result<T>
-                    {
-                        Err = "Error getting json from server."
-                    };
-                }
-
-                // TODO - there may need to be specific error handling for each server. For example, 
-                // Geoscape returns a special value "Enumeration yielded no results" in Results.Empty 
-                // when the address didn't match anything.
-                // Actually this may be better dealt with by whatever receives this info.
-
-                return new Result<T>
-                {
-                    Ok = deserialisedResponse
+                    return new ErrorResult<T>("Error getting json from server.");
                 };
+
+                return new SuccessResult<T>(deserialisedResponse);
             }
             catch (HttpRequestException ex)
             {
                 Debug.WriteLine(@"\tERROR {0}", ex.Message);
-                return new Result<T>
-                    { Err = "Error connecting to server." + ex.Message };
+                return new ErrorResult<T> ("Error connecting to server." + ex.Message);
             }
             catch (JsonException ex)
             {
                 Debug.WriteLine(@"\tERROR {0}", ex.Message);
-                return new Result<T>
-                    { Err = "JSON deserialisation error." + ex.Message };
+                return new ErrorResult<T> ("JSON deserialisation error." + ex.Message);
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(@"\tERROR {0}", ex.Message);
-                return new Result<T>
-                    { Err = "Error connecting to server." + ex.Message };
+                return new ErrorResult<T> ("Error connecting to server." + ex.Message);
             }
         }
         
-        /* Unwinds the double layer of Result<> when the server itself responds with a Result<T> data structure.
+        /* Unwinds the double layer of Result<> when the server itself responds with a ServerResult<T> data structure.
          */
-        public async Task<Result<T>> DoGetResultRequest<T>(string uriString)
+        public async Task<JOSResult<T>> DoGetResultRequest<T>(string uriString)
         {
-            var result = await DoGetJsonRequest<Result<T>>(uriString);
-            if (!string.IsNullOrEmpty(result.Err) || !string.IsNullOrEmpty(result.Ok.Err))
+            var result = await DoGetJsonRequest<ServerResult<T>>(uriString);
+            
+            // If we failed to contact the server at all
+            if (result.Failure)
             {
-                return new Result<T>
-                {
-                    Err = result.Err + result.Ok.Err
-                };
+                return new ErrorResult<T>("Couldn't contact the server");
             }
-
-            return new Result<T>()
+            
+            // We contacted the server successfully. Check whether it gave a success or failure response.
+            // result.Success is true.
+            var serverResult = result.Data;
+            
+            // If the server returned an error, pass it on.
+            if (!string.IsNullOrEmpty(serverResult.Err))
             {
-                Ok = result.Ok.Ok
-            };
+                return new ErrorResult<T>(serverResult.Err ?? "");
+            }
+            
+            // Success - return the data.
+            return new SuccessResult<T>(result.Data.Ok);
         }
 
         // Tin is the type of the thing we post, which is also the input type of this function.
         // TResponse is the type of the server's response, which we return.
-        public async Task<Result<TResponse>> PostGenericItemAsync<TResponse, TIn>(TIn item, string requestedUri)
+        public async Task<ServerResult<TResponse>> PostGenericItemAsync<TResponse, TIn>(TIn item, string requestedUri)
         {
             var uri = new Uri(requestedUri);
             
@@ -118,7 +112,7 @@ namespace RightToAskClient.HttpClients
 
                 if (response is null || !response.IsSuccessStatusCode)
                 {
-                    return new Result<TResponse>
+                    return new ServerResult<TResponse>
                     {
                         Err = "Error connecting to server."+response?.StatusCode+response?.ReasonPhrase
                     };
@@ -131,12 +125,12 @@ namespace RightToAskClient.HttpClients
                 if (httpResponse is null)
                 {
                     Debug.WriteLine(@"\tError saving Item:");
-                    return new Result<TResponse> {Err = "Null response from server:"}; 
+                    return new ServerResult<TResponse> {Err = "Null response from server:"}; 
                 }
 
                 Debug.WriteLine(@"\tItem successfully saved on server.");
                 
-                return new Result<TResponse>
+                return new ServerResult<TResponse>
                 {
                     Ok = httpResponse
                 };
@@ -145,7 +139,7 @@ namespace RightToAskClient.HttpClients
             catch (Exception ex)
             {
                 Debug.WriteLine(@"\tERROR {0}", ex.Message);
-                return new Result<TResponse> { Err = "Error connecting to server."+ex.Message};
+                return new ServerResult<TResponse> { Err = "Error connecting to server."+ex.Message};
             }
         }
     }

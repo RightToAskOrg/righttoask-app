@@ -2,11 +2,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace RightToAskClient.Models
 {
 
-    public class SelectableList<T> : INotifyPropertyChanged // where T: Entity
+    public class SelectableList<T> : ObservableObject //INotifyPropertyChanged // where T: Entity
     {
         private IEnumerable<T> _allEntities;
 
@@ -43,6 +44,7 @@ namespace RightToAskClient.Models
             _selectedEntities = selectedEntities ?? new ObservableCollection<T>();
         }
 
+        /*
         public event PropertyChangedEventHandler? PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
@@ -50,5 +52,6 @@ namespace RightToAskClient.Models
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        */
     }
 }

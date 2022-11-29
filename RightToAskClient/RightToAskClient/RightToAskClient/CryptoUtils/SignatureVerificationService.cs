@@ -25,15 +25,16 @@ namespace RightToAskClient.CryptoUtils
         public static bool VerifySignature(SignedString signedString, string publicKey)
         {
             var keyResult = ConvertSPKIRawToBase64String(publicKey);
-            if (!string.IsNullOrEmpty(keyResult.Err))
+            if (keyResult.Failure)
             {
                 return false;
             }
             
+            // keyResult.Success. We retrieved a key successfully - now use it to verify the signature.
             var signatureBytes = Convert.FromBase64String(signedString.signature);
-            return VerifySignature(signedString.message, signatureBytes, keyResult.Ok);
+            return VerifySignature(signedString.message, signatureBytes, keyResult.Data);
         }
-        private static Result<Ed25519PublicKeyParameters> ConvertSPKIRawToBase64String(string keyAsString)
+        private static JOSResult<Ed25519PublicKeyParameters> ConvertSPKIRawToBase64String(string keyAsString)
         {
             Ed25519PublicKeyParameters key;
             try
@@ -44,9 +45,9 @@ namespace RightToAskClient.CryptoUtils
             {
                 Debug.WriteLine("Error decoding base 64 string. Try removing \" characters from the beginning or end of your PublicServerKey or GeoscapeAPIKey file.");
                 Debug.WriteLine(ex.Message);
-                return new Result<Ed25519PublicKeyParameters>() { Err = "Error decoding base 64 string." + ex.Message };
+                return new ErrorResult<Ed25519PublicKeyParameters>("Error decoding base 64 string." + ex.Message);
             }
-            return new Result<Ed25519PublicKeyParameters>() { Ok = key }; 
+            return new SuccessResult<Ed25519PublicKeyParameters>(key); 
         } 
     }
 }

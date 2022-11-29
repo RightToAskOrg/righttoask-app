@@ -66,7 +66,7 @@ namespace RightToAskClient.Models
 		// Find all the MPs representing a certain electorate.
 		public List<MP> GetMPsRepresentingElectorate(ElectorateWithChamber queryElectorate)
 		{
-			var mps = _allMPsData.mps?.Where(mp => mp.electorate.chamber == queryElectorate.chamber
+			var mps = _allMPsData.mps?.Where(mp => mp?.electorate?.chamber == queryElectorate.chamber
 			                             && mp.electorate.region.Equals(queryElectorate.region,
 				                             StringComparison.OrdinalIgnoreCase));
 			return new List<MP>(mps ?? new MP[]{});
@@ -74,92 +74,97 @@ namespace RightToAskClient.Models
 		
 		// Returns true if initialisation is successful, i.e. no errors.
 		// or there are no changes since last time.
-		// TODO This isn't very elegantly structured - redo so the init of other data structures
-		// isn't repeated.
 		public async Task<bool> TryInit()
 		{
-			if (IsInitialised) return true;
-			Result<bool> success;
-
 			// get data from local first
-			success = TryInitialisingFromStoredData();
-			if (string.IsNullOrEmpty(success.Err))
-			{
-				IsInitialised = true;
-				QuestionViewModel.Instance.UpdateMPButtons(); 
-				// App.ReadingContext.Filters.InitSelectableLists();
-				//return;
-			}
+			var localInitResult = TryInitialisingFromStoredData();
 
+			// then try getting data from the server.
 			// TODO I believe this makes it wait a long time. Consider *not* awaiting this call.
-			success = await TryInitialisingFromServer();
-			if (string.IsNullOrEmpty(success.Err))
-			{
-				IsInitialised = true;
-				QuestionViewModel.Instance.UpdateMPButtons();
-				// App.ReadingContext.Filters.InitSelectableLists();
-				return true;
-			}
+			// Also consider whether there's a slicker way of checking (e.g. with hashes) whether our current 
+			// copy of the file matches the server's.
+			var serverInitResult = await TryInitialisingFromServer();
 			
-			ErrorMessage = success.Err ?? "";
-			Debug.WriteLine(@"\tERROR {0}", success.Err);
-
-			success = TryInitialisingFromStoredData();
-			if (string.IsNullOrEmpty(success.Err))
+			if (localInitResult.Success || serverInitResult.Success)
 			{
 				IsInitialised = true;
 				QuestionViewModel.Instance.UpdateMPButtons();
-				// App.ReadingContext.Filters.InitSelectableLists();
-				return true;
 			}
 
-			ErrorMessage += success.Err;
-			Debug.WriteLine(@"\tERROR {0}", success.Err);
-			return false;
+			ErrorMessage = "";
+
+			// Log / set error message. We might have local init failure, server init failure, both or neither.
+			if (localInitResult.Failure)
+			{
+				ErrorMessage += "Failure in local initialisation of MPs.json. ";
+				if (localInitResult is ErrorResult errorResult)
+				{
+					ErrorMessage += errorResult.Message;
+				}
+			}
+			if (serverInitResult.Failure)
+			{
+				ErrorMessage += "Failure in server initialisation of MPs.json. ";
+				if (serverInitResult is ErrorResult errorResult)
+				{
+					ErrorMessage += errorResult.Message;
+				}
+			}
+			Debug.WriteLine(ErrorMessage);
+			
+			return IsInitialised;
 		}
 
-		private Result<bool> TryInitialisingFromStoredData()
+		private JOSResult TryInitialisingFromStoredData()
 		{
-			var success = FileIO.ReadDataFromStoredJson<UpdatableParliamentAndMPDataStructure>(Constants.StoredMPDataFile, serializerOptions);
-			if (!string.IsNullOrEmpty(success.Err))
+			var readResult = FileIO.ReadDataFromStoredJson<UpdatableParliamentAndMPDataStructure>(Constants.StoredMPDataFile, serializerOptions);
+			if (readResult.Failure)
 			{
-				return new Result<bool>() { Err = success.Err };
+				if (readResult is ErrorResult<UpdatableParliamentAndMPDataStructure> errorResult)
+				{
+					return new ErrorResult(errorResult.Message);
+				}
+				// Currently never used; here in case other error types are added later.
+				return new ErrorResult("Error reading MP data from file.");
 			}
 			
-			_allMPsData = success.Ok;
-			IsInitialised = true;
-			// TODO this seem to be called twice. Prob don't need both.
-			QuestionViewModel.Instance.UpdateMPButtons();
-			return new Result<bool>() { Ok = true };
+			// readResult.Success
+			_allMPsData = readResult.Data;
+			return new SuccessResult();
 		}
 
 
-		private async Task<Result<bool>> TryInitialisingFromServer()
+		private async Task<JOSResult> TryInitialisingFromServer()
 		{
 			var serverMPList = await RTAClient.GetMPsData();
 
 			if (serverMPList is null)
 			{
-				return new Result<bool>() { Err = "Could not reach server."};
+				return new ErrorResult("Could not reach server.");
 			}
 
-			if (string.IsNullOrEmpty(serverMPList.Err))
+			if (serverMPList.Success)
 			{
-				_allMPsData = serverMPList.Ok;
-				IsInitialised = true;
-				QuestionViewModel.Instance.UpdateMPButtons();
-				return new Result<bool>() { Ok = true };
+				_allMPsData = serverMPList.Data;
+				return new SuccessResult();
 			}
 
-			return new Result<bool>() { Err = serverMPList.Err };
+			// serverMPList.Failure
+			if (serverMPList is ErrorResult<UpdatableParliamentAndMPDataStructure> errorResult)
+			{
+				return new ErrorResult(errorResult.Message);
+			}
+			// Currently not necessary; added in case other error types come later.
+			return new ErrorResult("Error initialising MPs from server.");
+
 		}
 
 
 
 		public List<string> ListElectoratesInChamber(ParliamentData.Chamber chamber)
 		{
-			return new List<string>(AllMPs.Where(mp => mp.electorate.chamber == chamber)
-				.Select(mp => mp.electorate.region).Distinct().OrderBy(r=>r));
+			return new List<string>(AllMPs.Where(mp => mp?.electorate?.chamber == chamber)
+				.Select(mp => mp?.electorate?.region).Where(s=> !String.IsNullOrEmpty(s)).Distinct().OrderBy(r=>r));
 		}
 	}
 }

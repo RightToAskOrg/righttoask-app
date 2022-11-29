@@ -140,16 +140,16 @@ namespace RightToAskClient.ViewModels
             Preferences.Set(Constants.IsVerifiedMPAccount, true);
             Preferences.Set(Constants.IsVerifiedMPStafferAccount, _isStaffer); 
             Preferences.Set(Constants.MPRegisteredAs,JsonSerializer.Serialize(MPRepresenting));
-            var registrationObjectToSave = new ServerUser(App.ReadingContext.ThisParticipant.RegistrationInfo);
+            var registrationObjectToSave = new ServerUser(IndividualParticipant.ProfileData.RegistrationInfo);
             Preferences.Set(Constants.RegistrationInfo, JsonSerializer.Serialize(registrationObjectToSave));
         }
 
         private void StoreMPRegistration()
         {
-            App.ReadingContext.ThisParticipant.IsVerifiedMPAccount = true;
-            App.ReadingContext.ThisParticipant.MPRegisteredAs = MPRepresenting;
-            App.ReadingContext.ThisParticipant.IsVerifiedMPStafferAccount = _isStaffer;
-            App.ReadingContext.ThisParticipant.RegistrationInfo.Badges.Add(
+            IndividualParticipant.IsVerifiedMPAccount = true;
+            IndividualParticipant.MPRegisteredAs = MPRepresenting;
+            IndividualParticipant.IsVerifiedMPStafferAccount = _isStaffer;
+            IndividualParticipant.ProfileData.RegistrationInfo.Badges.Add(
                     new Badge()
                     {
                         badge = IsStaffer ? BadgeType.MPStaff : BadgeType.MP,

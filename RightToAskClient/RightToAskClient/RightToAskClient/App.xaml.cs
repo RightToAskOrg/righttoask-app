@@ -5,6 +5,7 @@ using RightToAskClient.Resx;
 using Xamarin.Essentials;
 using System.Text.Json;
 using System.Diagnostics;
+using RightToAskClient.CryptoUtils;
 using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Views;
 
@@ -18,7 +19,9 @@ namespace RightToAskClient
 {
     public partial class App : Application
     {
-        public static ReadingContext ReadingContext = new ReadingContext();
+        // The selections of MPs, authorities, and various other options that is gradually
+        // built as we step through the question-writing process.
+        public static FilterChoices GlobalFilterChoices = new FilterChoices();
         public App()
         {
             LocalizationResourceManager.Current.PropertyChanged += (temp, temp2) => AppResources.Culture = LocalizationResourceManager.Current.CurrentCulture;
@@ -38,82 +41,22 @@ namespace RightToAskClient
         protected override async void OnStart()
         {
             // ResetAppData(); // Toggle this line in and out as needed instead of resetting the emulator every time
+            
+            // We do not use these values, but for reasons I don't fully understand, the return value seemed to make the
+            // async code actually execute.
             var MPInitSuccess = await ParliamentData.MPAndOtherData.TryInit();
             var CommitteeInitSuccess = await CommitteesAndHearingsData.CommitteesData.TryInitialisingFromServer();
-            var me = ReadingContext.ThisParticipant;
+            var signingKeyRetrieved = await ClientSignatureGenerationService.Init();
             
             // Order is important here: the Filters need to be (re-)initialised after we've read MP and Committee data.
-		    ReadingContext.Filters.InitSelectableLists();
+		    GlobalFilterChoices.InitSelectableLists();
             
-            // get account info from preferences
-            var registrationPref = Preferences.Get(Constants.RegistrationInfo, "");
-            if (!string.IsNullOrEmpty(registrationPref))
+            IndividualParticipant.Init();
+            
+            if(IndividualParticipant.ElectoratesKnown) 
             {
-                var registrationObj = JsonSerializer.Deserialize<ServerUser>(registrationPref);
-                me.RegistrationInfo 
-                    = registrationObj is null ? new Registration() : new Registration(registrationObj);
-                
-                // We actually need to check for the stored "IsRegistered" boolean, in case they tried to
-                // register but failed, for example because the server was offline.
-                // So we may have stored Registration data, but not have actually succeeded in uploading it.
-                var registrationSuccess = Preferences.Get(Constants.IsRegistered, false);
-                me.IsRegistered = registrationSuccess;
-                
-                // We have a problem if our stored registration is null but we think we registered successfully.
-                Debug.Assert(registrationObj != null || registrationSuccess is false);
-                
-                // If we got electorates, let the app know to skip the Find My MPs step
-                // TODO We may want to distinguish between ElectoratesKnown and Electorates.Any, because
-                // the latter is true if only the state is known (Senate State being an electorate).
-                // At the moment, this will set ElectoratesKnown, in both the app and the preferences, when the person
-                // has selected their state, regardless of whether we know their electorate.
-                var electoratesKnown = Preferences.Get(Constants.ElectoratesKnown, false);
-                me.ElectoratesKnown = electoratesKnown;
-                if(electoratesKnown) 
-                {
-			        ReadingContext.Filters.UpdateMyMPLists();
-                }
-                
-                // Retrieve MP/staffer registration. Note that staffers have both the IsVerifiedMPAccount flag and the
-                // IsVerifiedMPStafferAccount flag set to true.
-                var isVerifiedMPAccount = Preferences.Get(Constants.IsVerifiedMPAccount, false);
-                me.IsVerifiedMPAccount = isVerifiedMPAccount;
-                if (isVerifiedMPAccount)
-                {
-                    me.IsVerifiedMPStafferAccount =
-                        Preferences.Get(Constants.IsVerifiedMPStafferAccount, false);
-                    
-                    // Used when uploading an answer. 
-                    var MPRepresentingjson = Preferences.Get(Constants.MPRegisteredAs, "");
-                    if (!string.IsNullOrEmpty(MPRepresentingjson))
-                    {
-                        var MPRepresenting = JsonSerializer.Deserialize<MP>(MPRepresentingjson);
-                        if (MPRepresenting != null)
-                        {
-                            // See if we can find the registered MP in our existing list.
-                            // Using field-equality operator.
-                            // If so, just keep a pointer to it; if not, use a new MP object.
-                            me.MPRegisteredAs =
-                                ParliamentData.FindMPOrMakeNewOne(MPRepresenting);
-                        }
-                    }
-                }
+			    GlobalFilterChoices.UpdateMyMPLists();
             }
-            
-            // If we already have stored a valid state, use it and set StateKnown to true.
-            me.RegistrationInfo.StateKnown = false; // Should already be the default.
-            var stateString =  Preferences.Get(Constants.State, "");
-            var state = ParliamentData.StateStringToEnum(stateString);
-            if (string.IsNullOrEmpty(state.Err) && !string.IsNullOrEmpty(stateString))
-            {
-                me.RegistrationInfo.StateKnown = true;
-                me.RegistrationInfo.SelectedStateAsEnum = state.Ok;
-            }
-            
-            // set popup bool
-            ReadingContext.DontShowFirstTimeReadingPopup = Preferences.Get(Constants.DontShowFirstTimeReadingPopup, false);
-            ReadingContext.ShowHowToPublishPopup = Preferences.Get(Constants.ShowHowToPublishPopup, true);
-            //ReadingContext.ThisParticipant.HasQuestions = Preferences.Get(Constants.HasQuestions, false);
         }
 
         protected override void OnSleep()

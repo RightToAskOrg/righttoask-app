@@ -15,7 +15,7 @@ namespace RightToAskClient.Models
                     var changed = SetProperty(ref _streetNumberAndName, value);
                     if (changed)
                     {
-                        App.ReadingContext.ThisParticipant.AddressUpdated = true;
+                        IndividualParticipant.AddressUpdated = true;
                     }
                 }
                 else
@@ -35,7 +35,7 @@ namespace RightToAskClient.Models
                     var changed = SetProperty(ref _cityOrSuburb, value);
                     if (changed)
                     {
-                        App.ReadingContext.ThisParticipant.AddressUpdated = true;
+                        IndividualParticipant.AddressUpdated = true;
                     }
                 }
                 else
@@ -55,7 +55,7 @@ namespace RightToAskClient.Models
                     var changed = SetProperty(ref _postCode, value);
                     if (changed)
                     {
-                        App.ReadingContext.ThisParticipant.AddressUpdated = true;
+                        IndividualParticipant.AddressUpdated = true;
                     }
                 }
                 else
@@ -65,7 +65,7 @@ namespace RightToAskClient.Models
             }
         }
 
-        public Result<bool> SeemsValid()
+        public JOSResult<bool> SeemsValid()
         {
             var err = "";
             if (string.IsNullOrWhiteSpace(StreetNumberAndName))
@@ -83,10 +83,10 @@ namespace RightToAskClient.Models
 
             if (string.IsNullOrEmpty(err))
             {
-                return new Result<bool> { Ok = true };
+                return new SuccessResult<bool>(true);
             }
 
-            return new Result<bool> { Err = err };
+            return new ErrorResult<bool>(err);
         }
 
         public override string ToString()

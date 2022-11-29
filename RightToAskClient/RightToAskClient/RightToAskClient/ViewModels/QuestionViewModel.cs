@@ -50,15 +50,20 @@ namespace RightToAskClient.ViewModels
             set
             {
                 var urlResult = ParliamentData.StringToValidParliamentaryUrl(value);
-                if (string.IsNullOrEmpty(urlResult.Err))
+                if (urlResult.Success)
                 {
                     SetProperty(ref _newHansardLink, value);
-                    Question.AddHansardLink(urlResult.Ok);
+                    Question.AddHansardLink(urlResult.Data);
                     OnPropertyChanged("HansardLink");
                 }
                 else
                 {
-                    ReportLabelText = urlResult.Err ?? "";
+                    var errorMessage = AppResources.InvalidHansardLink;
+                    if (urlResult is ErrorResult<Uri> errorResult)
+                    {
+                        errorMessage += errorResult.Message;
+                    }
+                    ReportLabelText = errorMessage; 
                     OnPropertyChanged("ReportLabelText");
                 }
             }
@@ -77,31 +82,6 @@ namespace RightToAskClient.ViewModels
             get => _isNewQuestion;
             set => SetProperty(ref _isNewQuestion, value);
         }
-
-        // TODO What does this mean??
-        private bool _isReadingOnly;
-        public bool IsReadingOnly
-        {
-            get => _isReadingOnly;
-            set => SetProperty(ref _isReadingOnly, value);
-        }
-
-        // Whether the 'Option B' path, in which you choose both someone to answer 
-        // and someone to raise the question, has been selected. This is the opposite of
-        // 'AnswerInApp.' Default to true unless the user explicitly chooses to get an answer
-        // in the app.
-        /*
-        private bool _raisedByOptionSelected = true;
-        public bool RaisedByOptionSelected
-        {
-            get => _raisedByOptionSelected;
-            set
-            {
-                SetProperty(ref _raisedByOptionSelected, value);
-                AnswerInApp = !_raisedByOptionSelected;
-            }
-        }
-        */
 
         private HowAnsweredOptions _howAnswered = HowAnsweredOptions.DontKnow; 
 
@@ -134,7 +114,7 @@ namespace RightToAskClient.ViewModels
         {
             get
             {
-                var thisUser =  App.ReadingContext.ThisParticipant.RegistrationInfo.uid;
+                var thisUser =  IndividualParticipant.ProfileData.RegistrationInfo.uid;
                 var questionWriter = _question.QuestionSuggester;
                 return IsNewQuestion || 
                        (!string.IsNullOrEmpty(thisUser) && !string.IsNullOrEmpty(questionWriter) && thisUser == questionWriter);
@@ -232,11 +212,10 @@ namespace RightToAskClient.ViewModels
             // set up empty question
             Question = new Question();
             ReportLabelText = "";
-            Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.uid;
+            Question.QuestionSuggester = IndividualParticipant.ProfileData.RegistrationInfo.uid;
 
             // set defaults
             IsNewQuestion = false;
-            IsReadingOnly = App.ReadingContext.IsReadingOnly; // crashes here if setting up existing test questions
             HowAnswered = HowAnsweredOptions.DontKnow;
             AnotherUserButtonText = AppResources.AnotherUserButtonText;
             NotSureWhoShouldRaiseButtonText = AppResources.NotSureButtonText;
@@ -261,7 +240,7 @@ namespace RightToAskClient.ViewModels
                 // Question.AnswerInApp = false;
                 // AnswerInApp = false;
                 var pageToSearchAuthorities
-                    = new SelectableListPage(App.ReadingContext.Filters.AuthorityLists, "Choose authorities");
+                    = new SelectableListPage(App.GlobalFilterChoices.AuthorityLists, "Choose authorities");
                 await Shell.Current.Navigation.PushAsync(pageToSearchAuthorities).ContinueWith((_) => 
                 {
                     MessagingCenter.Send(this, Constants.GoToAskingPageNext); // Sends this view model
@@ -294,11 +273,11 @@ namespace RightToAskClient.ViewModels
             UpvoteCommand = new AsyncCommand(async () =>
             {
                 await NavigationUtils.DoRegistrationCheck(Instance);
-                if (App.ReadingContext.ThisParticipant.IsRegistered)
+                if (IndividualParticipant.IsRegistered)
                 {
                     // upvoting a question will add it to their list
                     // TODO We probably want to separate having _written_ questions from having upvoted them.
-                    App.ReadingContext.ThisParticipant.HasQuestions = true;
+                    IndividualParticipant.HasQuestions = true;
                     Preferences.Set(Constants.HasQuestions, true);
                     
                     if (Question.AlreadyUpvoted)
@@ -327,21 +306,19 @@ namespace RightToAskClient.ViewModels
             {
                 var userId = Question.QuestionSuggester;
                 var userToSend = await RTAClient.GetUserById(userId);
-                if (userToSend.Err != null)
+                if (userToSend.Failure)
                 {
-                    ReportLabelText = "Could not find user on the server: " + userToSend.Err;
-                }
-                if (userToSend.Ok != null)
-                {
-                    /*
-                     * Rather that pass the data via messaging centre, we'll just make a new page and
-                     * pass it via the constructor.
-                     * 
-                    await Shell.Current.GoToAsync($"{nameof(OtherUserProfilePage)}").ContinueWith((_) =>
+                    var errorMessage = AppResources.CouldNotFindUser;
+                    if (userToSend is ErrorResult<ServerUser> errorResult)
                     {
-                        MessagingCenter.Send(this, "OtherUser", userToSend.Ok); // Send person or send question
-                    }); */
-                    var newReg = new Registration(userToSend.Ok);
+                        errorMessage += errorResult.Message;
+                    }
+                    ReportLabelText = errorMessage;
+                }
+                // Success
+                else 
+                {
+                    var newReg = new Registration(userToSend.Data);
                     var userProfilePage = new OtherUserProfilePage(newReg);
                     await Application.Current.MainPage.Navigation.PushAsync(userProfilePage);
                 }
@@ -411,7 +388,7 @@ namespace RightToAskClient.ViewModels
             // set defaults
             Question = new Question();
             ReportLabelText = "";
-            Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.uid;
+            Question.QuestionSuggester = IndividualParticipant.ProfileData.RegistrationInfo.uid;
         }
 
         public void ReinitQuestionUpdates()
@@ -502,10 +479,10 @@ namespace RightToAskClient.ViewModels
             // TODO This should not be necessary any more. Perhaps turn into a debug assertion?
             await NavigationUtils.DoRegistrationCheck(Instance);
             
-            if (App.ReadingContext.ThisParticipant.IsRegistered)
+            if (IndividualParticipant.IsRegistered)
             {
                 // This isn't necessary unless the person has just registered, but is necessary if they have.
-                Instance.Question.QuestionSuggester = App.ReadingContext.ThisParticipant.RegistrationInfo.uid;
+                Instance.Question.QuestionSuggester = IndividualParticipant.ProfileData.RegistrationInfo.uid;
                 var validQuestion = Question.ValidateNewQuestion();
                 if (validQuestion)
                 {
@@ -523,7 +500,7 @@ namespace RightToAskClient.ViewModels
         {
             await NavigationUtils.DoRegistrationCheck(Instance);
 
-            if (App.ReadingContext.ThisParticipant.IsRegistered)
+            if (IndividualParticipant.IsRegistered)
             {
                 var validQuestion = Question.ValidateUpdateQuestion();
                 if (validQuestion) 
@@ -540,7 +517,7 @@ namespace RightToAskClient.ViewModels
         private async Task<bool> SendNewQuestionToServer()
         {
             // This isn't supposed to be called for unregistered participants.
-            if (!App.ReadingContext.ThisParticipant.IsRegistered) return false;
+            if (!IndividualParticipant.IsRegistered) return false;
 
             // TODO use returnedData to record questionID, version, hash
             (bool isValid, string errorMessage, string returnedData) successfulSubmission =
@@ -561,7 +538,7 @@ namespace RightToAskClient.ViewModels
         private async void PromptForNextStepAndClearQuestionIfNeeded() 
         { 
             // creating a question will add it to their list
-            App.ReadingContext.ThisParticipant.HasQuestions = true;
+            IndividualParticipant.HasQuestions = true;
             Preferences.Set(Constants.HasQuestions, true);
 
             //FIXME update version, just like for edits.
@@ -570,7 +547,7 @@ namespace RightToAskClient.ViewModels
             _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
             if (GoHome)
             {
-                App.ReadingContext.Filters.RemoveAllSelections();
+                App.GlobalFilterChoices.RemoveAllSelections();
                 MessagingCenter.Send(this, Constants.QuestionSubmittedDeleteDraft);
                 await Application.Current.MainPage.Navigation.PopToRootAsync();
                     
@@ -593,7 +570,7 @@ namespace RightToAskClient.ViewModels
         private async void SendQuestionEditToServer()
         {
             // This isn't supposed to be called for unregistered participants.
-            if (!App.ReadingContext.ThisParticipant.IsRegistered) return;
+            if (!IndividualParticipant.IsRegistered) return;
             
             var successfulSubmission = await BuildSignAndUploadQuestionUpdates();
             

@@ -21,7 +21,7 @@ namespace UnitTests
         public void ReadingPageConstructorTest()
         {
             // arrange
-            App.ReadingContext.Filters.SearchKeyword = "Test";
+            App.GlobalFilterChoices.SearchKeyword = "Test";
             App.ReadingContext.DraftQuestion = "FakeDraftQuestion";
 
             // act
@@ -41,7 +41,7 @@ namespace UnitTests
         public void ReadingPageConstructorReadingOnlyTest()
         {
             // arrange
-            App.ReadingContext.Filters.SearchKeyword = "Test";
+            App.GlobalFilterChoices.SearchKeyword = "Test";
             App.ReadingContext.DraftQuestion = "FakeDraftQuestion";
             App.ReadingContext.IsReadingOnly = true;
 

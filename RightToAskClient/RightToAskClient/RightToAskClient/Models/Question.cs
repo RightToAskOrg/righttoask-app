@@ -231,19 +231,19 @@ namespace RightToAskClient.Models
 
             {
                 // can only upvote questions if you are registered
-                if (App.ReadingContext.ThisParticipant.IsRegistered)
+                if (IndividualParticipant.IsRegistered)
                 {
                     if (!AlreadyUpvoted)
                     {
                         UpVotes += 1;
                         AlreadyUpvoted = true;
-                        App.ReadingContext.ThisParticipant.UpvotedQuestionIDs.Add(QuestionId);
+                        IndividualParticipant.UpvotedQuestionIDs.Add(QuestionId);
                     }
                     else
                     {
                         UpVotes -= 1;
                         AlreadyUpvoted = false;
-                        App.ReadingContext.ThisParticipant.UpvotedQuestionIDs.Remove(QuestionId);
+                        IndividualParticipant.UpvotedQuestionIDs.Remove(QuestionId);
                     }
                 }
                 else
@@ -276,11 +276,11 @@ namespace RightToAskClient.Models
                 AlreadyReported = !AlreadyReported;
                 if (AlreadyReported)
                 {
-                    App.ReadingContext.ThisParticipant.ReportedQuestionIDs.Add(QuestionId);
+                    IndividualParticipant.ReportedQuestionIDs.Add(QuestionId);
                 }
                 else
                 {
-                    App.ReadingContext.ThisParticipant.ReportedQuestionIDs.Remove(QuestionId);
+                    IndividualParticipant.ReportedQuestionIDs.Remove(QuestionId);
                 }
             });
             PopupApproveCommand = new Command(() =>
@@ -332,9 +332,9 @@ namespace RightToAskClient.Models
                 foreach (var link in serverQuestion.hansard_link)
                 {
                     var possibleUrl = ParliamentData.StringToValidParliamentaryUrl(link?.url ?? "");
-                    if (string.IsNullOrEmpty(possibleUrl.Err))
+                    if (possibleUrl.Success)
                     {
-                        HansardLink.Add(possibleUrl.Ok);
+                        HansardLink.Add(possibleUrl.Data);
                     }
                 }
             }
@@ -367,7 +367,7 @@ namespace RightToAskClient.Models
                     else if (entity.AsMP != null)
                     {
                         // If the MP is one of mine, add it to AnsweringMPsMine
-                        var myMPs = ParliamentData.FindAllMPsGivenElectorates(App.ReadingContext.ThisParticipant.RegistrationInfo.Electorates.ToList());
+                        var myMPs = ParliamentData.FindAllMPsGivenElectorates(IndividualParticipant.ProfileData.RegistrationInfo.Electorates.ToList());
                         if (!CanFindInListBThenAddToListA<MP>(entity.AsMP, Filters.SelectedAnsweringMPsMine, myMPs))
                         {
                             // otherwise, try to find it in AllMPs
@@ -399,7 +399,7 @@ namespace RightToAskClient.Models
                     if (entity.AsMP != null)
                     {
                         // If the MP is one of mine, add it to AskingMPsMine
-                        var myMPs = ParliamentData.FindAllMPsGivenElectorates(App.ReadingContext.ThisParticipant.RegistrationInfo.Electorates.ToList());
+                        var myMPs = ParliamentData.FindAllMPsGivenElectorates(IndividualParticipant.ProfileData.RegistrationInfo.Electorates.ToList());
                         if (!CanFindInListBThenAddToListA<MP>(entity.AsMP, Filters.SelectedAskingMPsMine, myMPs))
                         {
                             // otherwise, try to find it in AllMPs
@@ -484,13 +484,11 @@ namespace RightToAskClient.Models
 
         public void AddAnswer(string answer)
         {
-            var me = App.ReadingContext.ThisParticipant;
-
             Updates.answers = new List<QuestionAnswer>()
             {
                 new QuestionAnswer()
                 {
-                    mp = new MPId(me.MPRegisteredAs),
+                    mp = new MPId(IndividualParticipant.MPRegisteredAs),
                     answer = answer
                 }
             };

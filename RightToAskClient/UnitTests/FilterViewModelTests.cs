@@ -22,7 +22,7 @@ namespace UnitTests
             FilterViewModel vm = new FilterViewModel();
             FilterChoices filters = vTests.ValidateFiltersTest();
             filters.SearchKeyword = "changed Keyword";
-            App.ReadingContext.Filters.SearchKeyword = filters.SearchKeyword;
+            App.GlobalFilterChoices.SearchKeyword = filters.SearchKeyword;
 
             // act
             vm.ReinitData(); // this should set vm.Keyword

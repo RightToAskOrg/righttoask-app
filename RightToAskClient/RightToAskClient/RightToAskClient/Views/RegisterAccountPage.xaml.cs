@@ -1,4 +1,5 @@
 using System;
+using RightToAskClient.Models;
 using RightToAskClient.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -24,15 +25,15 @@ namespace RightToAskClient.Views
             if (picker.SelectedIndex != -1)
             {
                 string state = (string)picker.SelectedItem;
-                App.ReadingContext.ThisParticipant.RegistrationInfo.SelectedStateAsIndex = picker.SelectedIndex;
-                App.ReadingContext.ThisParticipant.UpdateChambers(state);
+                IndividualParticipant.ProfileData.RegistrationInfo.SelectedStateAsIndex = picker.SelectedIndex;
+                IndividualParticipant.UpdateChambers(state);
             }
         }
         */
 
         private void OnRegisterEmailFieldCompleted(object sender, EventArgs e)
         {
-            App.ReadingContext.ThisParticipant.UserEmail = ((Editor)sender).Text;
+            IndividualParticipant.ProfileData.UserEmail = ((Editor)sender).Text;
         }
     }
 }

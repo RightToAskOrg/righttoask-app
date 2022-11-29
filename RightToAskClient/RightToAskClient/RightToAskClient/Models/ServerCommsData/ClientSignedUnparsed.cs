@@ -21,10 +21,10 @@ namespace RightToAskClient.Models.ServerCommsData
             var isValid = false;
             var hasInvalidData = false;
             // if user is me, check for valid signature
-            if (user == App.ReadingContext.ThisParticipant.RegistrationInfo.uid)
+            if (user == IndividualParticipant.ProfileData.RegistrationInfo.uid)
             {
                 var signaturebytes = Convert.FromBase64String(signature);
-                var ClientPublicKey = new Ed25519PublicKeyParameters(Convert.FromBase64String(App.ReadingContext.ThisParticipant.RegistrationInfo.public_key));
+                var ClientPublicKey = new Ed25519PublicKeyParameters(Convert.FromBase64String(IndividualParticipant.ProfileData.RegistrationInfo.public_key));
                 var validSig = SignatureVerificationService.VerifySignature(message, signaturebytes, ClientPublicKey);
                 if (validSig)
                 {

@@ -35,21 +35,6 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _showSearchFrame, value);
         }
 
-        private bool _dontShowFirstTimeReadingPopup;
-        public bool DontShowFirstTimeReadingPopup
-        {
-            get => _dontShowFirstTimeReadingPopup;
-            set
-            {
-                var changed = SetProperty(ref _dontShowFirstTimeReadingPopup, value);
-                if (changed)
-                {
-                    Preferences.Set(Constants.DontShowFirstTimeReadingPopup, value);
-                    App.ReadingContext.DontShowFirstTimeReadingPopup = value;
-                }
-            }
-        }
-
         private string _heading1 = string.Empty;
         public string Heading1
         {
@@ -95,10 +80,10 @@ namespace RightToAskClient.ViewModels
 
         public string Keyword
         {
-            get => App.ReadingContext.Filters.SearchKeyword;
+            get => App.GlobalFilterChoices.SearchKeyword;
             set
             {
-                App.ReadingContext.Filters.SearchKeyword = value;
+                App.GlobalFilterChoices.SearchKeyword = value;
                 OnPropertyChanged();
             }
         }
@@ -109,7 +94,7 @@ namespace RightToAskClient.ViewModels
         // constructor
         public ReadingPageViewModel()
         {
-            Keyword = App.ReadingContext.Filters.SearchKeyword;
+            Keyword = App.GlobalFilterChoices.SearchKeyword;
             
             // If we're already searching for something, show the user what.
             ShowSearchFrame = !string.IsNullOrWhiteSpace(Keyword); 
@@ -139,12 +124,13 @@ namespace RightToAskClient.ViewModels
             PopupLabelText = AppResources.ReadingPageHeader1;
             PopupHeaderText = Heading1;
             
-            if (!App.ReadingContext.DontShowFirstTimeReadingPopup)
+            var showFirstTimeReadingPopup = Preferences.Get(Constants.ShowFirstTimeReadingPopup, true);
+            if (showFirstTimeReadingPopup)
             {
                 InfoPopupCommand.ExecuteAsync();
                 
                 // Only show it once.
-                DontShowFirstTimeReadingPopup = true;
+                Preferences.Set(Constants.ShowFirstTimeReadingPopup, false);
             }
             
             KeepQuestionButtonCommand = new AsyncCommand(async () =>
@@ -173,10 +159,23 @@ namespace RightToAskClient.ViewModels
             });
             DraftCommand = new AsyncCommand(async () =>
             {
+                // Check that they are registered - if not, prompt them to get an account.
                 await NavigationUtils.DoRegistrationCheck(this);
 
-                if (App.ReadingContext.ThisParticipant.IsRegistered)
+                if (IndividualParticipant.IsRegistered)
                 {
+                    // If this is their first question, show them the 5-step instructions.
+                    var showHowToPublishPopup = Preferences.Get(Constants.ShowHowToPublishPopup, true);
+                    if (showHowToPublishPopup)
+                    {
+                        var popup = new HowToPublishPopup();
+                        if (popup != null) _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
+
+                        // Only show it once.
+                        Preferences.Set(Constants.ShowHowToPublishPopup, false);
+                    }
+                    
+                    // Now let them start drafting.
                     ShowQuestionFrame = true;
                 }
             });
@@ -191,9 +190,9 @@ namespace RightToAskClient.ViewModels
             RemoveQuestionCommand = new Command<Question>(questionToRemove =>
             {
                 // store question ID for later data manipulation?
-                if (!App.ReadingContext.ThisParticipant.RemovedQuestionIDs.Contains(questionToRemove.QuestionId))
+                if (!IndividualParticipant.RemovedQuestionIDs.Contains(questionToRemove.QuestionId))
                 {
-                    App.ReadingContext.ThisParticipant.RemovedQuestionIDs.Add(questionToRemove.QuestionId);
+                    IndividualParticipant.RemovedQuestionIDs.Add(questionToRemove.QuestionId);
                 }
                 QuestionsToDisplay.Remove(questionToRemove);
             });
@@ -207,7 +206,7 @@ namespace RightToAskClient.ViewModels
             });
             MessagingCenter.Subscribe<SelectableListViewModel>(this,"ReadQuestionsWithASingleQuestionWriter", (sender) =>
             {
-                var questionWriter = App.ReadingContext.Filters.QuestionWriterLists.SelectedEntities.FirstOrDefault();
+                var questionWriter = App.GlobalFilterChoices.QuestionWriterLists.SelectedEntities.FirstOrDefault();
                 if (questionWriter is null)
                 {
                     Debug.WriteLine("Error: ReadingPage for single question writer but no selection.");
@@ -239,17 +238,15 @@ namespace RightToAskClient.ViewModels
         // helper methods
         private async void OnSaveButtonClicked()
         {
-            var thisParticipant = App.ReadingContext.ThisParticipant;
-
             // Set up new question in preparation for upload. 
             // The filters are what the user has chosen through the flow.
             var newQuestion = new Question
             {
                 QuestionText = DraftQuestion,
-                QuestionSuggester = (thisParticipant.IsRegistered)
-                    ? thisParticipant.RegistrationInfo.uid
+                QuestionSuggester = (IndividualParticipant.IsRegistered)
+                    ? IndividualParticipant.ProfileData.RegistrationInfo.uid
                     : "",
-                Filters = App.ReadingContext.Filters,
+                Filters = App.GlobalFilterChoices,
                 DownVotes = 0,
                 UpVotes = 0
             };
@@ -285,7 +282,7 @@ namespace RightToAskClient.ViewModels
             }
             
             // httpValidation isValid
-            var questionIds = httpResponse.Ok;
+            var questionIds = httpResponse.Data;
             
             // loop through the questions
             foreach (var questionId in questionIds)
@@ -294,18 +291,25 @@ namespace RightToAskClient.ViewModels
                 QuestionReceiveFromServer tempQuestion;
                 try
                 {
-                    var data = await RTAClient.GetQuestionById(questionId);
-                    if (string.IsNullOrEmpty(data.Err))
+                    // If retrieval is successful, add to the list of questions to be displayed.
+                    var dataResult = await RTAClient.GetQuestionById(questionId);
+                    if (dataResult.Success)
                     {
-                        tempQuestion = data.Ok;
+                        tempQuestion = dataResult.Data;
                         if (!string.IsNullOrEmpty(tempQuestion.question_text))
                         {
                             serverQuestions.Add(tempQuestion);
                         }
                     }
+                    // Log retrieval failure.
                     else
                     {
-                        Debug.WriteLine("Could not find question: " + data.Err);
+                        var errorMessage = "Could not retrieve question with ID " + questionId + ". ";
+                        if (dataResult is ErrorResult<QuestionReceiveFromServer> errorResult)
+                        {
+                            errorMessage += errorResult.Message;
+                        }
+                        Debug.WriteLine(errorMessage);
                     }
                 }
                 catch (Exception ex)
@@ -322,10 +326,10 @@ namespace RightToAskClient.ViewModels
 
 
             // after getting the list of questions, remove the ids for dismissed questions, and set the upvoted status of liked ones
-            for (var i = 0; i < App.ReadingContext.ThisParticipant.RemovedQuestionIDs.Count; i++)
+            for (var i = 0; i < IndividualParticipant.RemovedQuestionIDs.Count; i++)
             {
                 var temp = questionsToDisplay
-                    .FirstOrDefault(q => q.QuestionId == App.ReadingContext.ThisParticipant.RemovedQuestionIDs[i]);
+                    .FirstOrDefault(q => q.QuestionId == IndividualParticipant.RemovedQuestionIDs[i]);
                 if (temp != null)
                 {
                     questionsToDisplay.Remove(temp);
@@ -335,9 +339,7 @@ namespace RightToAskClient.ViewModels
             // set previously upvoted questions
             foreach (var q in questionsToDisplay)
             {
-                foreach (var qId in App
-                             .ReadingContext
-                             .ThisParticipant
+                foreach (var qId in IndividualParticipant
                              .UpvotedQuestionIDs
                              .Where(qId => q.QuestionId == qId))
                 {
@@ -345,9 +347,7 @@ namespace RightToAskClient.ViewModels
                 }
 
                 // set previously flagged/reported questions
-                foreach (var qID in App
-                             .ReadingContext
-                             .ThisParticipant
+                foreach (var qID in IndividualParticipant 
                              .ReportedQuestionIDs
                              .Where(qId => q.QuestionId == qId))
                 {
@@ -362,67 +362,63 @@ namespace RightToAskClient.ViewModels
         // depending on whether this page was reached
         // by searching, drafting a question, 'what's trending' or by looking for all the questions written by a
         // given user.
-        private async Task<Result<List<string>>> GetAppropriateQuestionList()
+        private async Task<JOSResult<List<string>>> GetAppropriateQuestionList()
         {
-            var filters = App.ReadingContext.Filters;
-            // If we're looking for all the questions written by a given user, just request them.
+            var filters = App.GlobalFilterChoices;
+            
+            // If we're looking for all the questions written by a given user, request them.
             if (_readByQuestionWriter && !string.IsNullOrWhiteSpace(_writerOnlyUid))
             {
                 var questionIDs = await RTAClient.GetQuestionsByWriterId(_writerOnlyUid);
-                if (!string.IsNullOrEmpty(questionIDs.Err))
+                
+                // If there's an error result, pass it back.
+                if (questionIDs.Failure)
                 {
-                    return new Result<List<string>>()
-                    {
-                        Err = questionIDs.Err
-                    };
+                    return questionIDs;
                 }
 
-                return new Result<List<string>>()
-                {
-                    Ok = questionIDs.Ok
-                };
-            } else 
+                // Success. Return question list.
+                return new SuccessResult<List<string>>(questionIDs.Data);
+            } 
+            
             // else use the filters to search for similar questions.
-            {
             var serverSearchQuestion = new QuestionSendToServer()
             {
                 question_text = DraftQuestion + " " + Keyword
             };
             
-            // Ask for questions similar to the Draft question text and/or the keyword.
+            // If there are no filters, keyword or draft question set, just ask for all questions.
             if( string.IsNullOrWhiteSpace(serverSearchQuestion.question_text) 
                 && !serverSearchQuestion.TranscribeQuestionFiltersForUpload(filters))
             {
-                // If we're just looking at what's trending, show everything
-                // Expect App.ReadingContext.TrendingNow, but not necessarily because, for example,
-                // you might have drafted a blank question
                 return await RTAClient.GetQuestionList();
             }
-            else
+
+            // Search based on filters and/or search/draft words.
+            var scoredList = await RTAClient.GetSimilarQuestionIDs(serverSearchQuestion);
+
+            // Error
+            if (scoredList.Failure)
             {
-                // Search based on filters and/or search/draft words.
-                var scoredList = await RTAClient.GetSimilarQuestionIDs(serverSearchQuestion);
-
-                // Error
-                if (!string.IsNullOrEmpty(scoredList.Err))
+                if (scoredList is ErrorResult<List<ScoredIDs>> errorResult)
                 {
-                    return new Result<List<string>>() { Err = scoredList.Err };
+                    return new ErrorResult<List<string>>(errorResult.Message);
                 }
-
-                // If we've successfully retrieved a list of scored question IDs, filter them
-                // to select the ones we want
-                var questionIDsOverThreshold = scoredList.Ok
-                    .Where(q => q.score > Constants.similarityThreshold).Select(q => q.id).ToList();
-                if (questionIDsOverThreshold.Any())
-                {
-                    return new Result<List<string>>() { Ok = questionIDsOverThreshold };
-                }
-                else
-                {
-                    return new Result<List<string>>() { Err = AppResources.EmptyMatchingQuestionCollectionViewString };
-                }
+                // Fallback error case - currently not reachable.
+                return new ErrorResult<List<string>>("Error getting questions from server.");
             }
+
+            // scoredList.Success
+            // If we've successfully retrieved a list of scored question IDs, filter them
+            // to select the ones we want
+            var questionIDsOverThreshold = scoredList.Data
+                .Where(q => q.score > Constants.similarityThreshold).Select(q => q.id).ToList();
+            if (questionIDsOverThreshold.Any())
+            {
+                return new SuccessResult<List<string>>(questionIDsOverThreshold);
             }
+            
+            return new ErrorResult<List<string>>(AppResources.EmptyMatchingQuestionCollectionViewString);
         }
     }
 }
