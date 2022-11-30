@@ -26,6 +26,8 @@ namespace UnitTests
 
             // act
             vm.ReinitData(); // this should set vm.Keyword
+            
+            // TODO: (unit-tests) How does `vm.ReinitData()` impact on `filters` and why filters.SelectedAnsweringMPsMine must be empty
 
             // assert
             Assert.True(!string.IsNullOrEmpty(filters.SearchKeyword));

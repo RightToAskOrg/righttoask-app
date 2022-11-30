@@ -4,6 +4,9 @@ using RightToAskClient.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 using Xunit;
 
@@ -33,6 +36,11 @@ namespace UnitTests
         public QuestionViewModelTests()
         {
 
+        }
+
+        private void executeAsyncButton(Button button)
+        {
+            Task.Run(async () => await ((IAsyncCommand)button.Command).ExecuteAsync()).GetAwaiter().GetResult();
         }
 
         /* TODO: Update now that the Find Committee Command works.
@@ -67,10 +75,11 @@ namespace UnitTests
             vm.ReportLabelText = "";
 
             // act
-            button.Command.Execute(null);
+            executeAsyncButton(button);
 
+            // TODO: (unit-tests) What should be in `vm.ReportLabelText`?
             // assert
-            Assert.True(!string.IsNullOrEmpty(vm.ReportLabelText));
+            Assert.False(string.IsNullOrEmpty(vm.ReportLabelText));
         }
 
         [Fact]
@@ -86,8 +95,9 @@ namespace UnitTests
             // act
             button.Command.Execute(null);
 
+            // TODO: (unit-tests) What should be in `vm.ReportLabelText`?
             // assert
-            Assert.True(!string.IsNullOrEmpty(vm.ReportLabelText));
+            Assert.False(string.IsNullOrEmpty(vm.ReportLabelText));
         }
 
         [Fact]
@@ -102,12 +112,12 @@ namespace UnitTests
             };
 
             // act
-            button.Command.Execute(null);
             bool messageReceived = false;
             MessagingCenter.Subscribe<QuestionViewModel>(this, Constants.GoToReadingPageNext, (sender) =>
             {
                 messageReceived = true;
             });
+            button.Command.Execute(null);
 
             // assert
             Assert.False(messageReceived);
@@ -115,6 +125,7 @@ namespace UnitTests
             Assert.False(vm.EnableMyMPShouldRaiseButton);
             Assert.False(vm.EnableAnotherMPShouldRaiseButton);
             Assert.Equal(ParliamentData.MPAndOtherData.ErrorMessage, vm.ReportLabelText);
+            // TODO: (unit-tests) who sets this to `true`?
             Assert.True(vm.AnswerInApp);
         }
 
@@ -142,6 +153,7 @@ namespace UnitTests
             Assert.False(vm.EnableMyMPShouldRaiseButton);
             Assert.False(vm.EnableAnotherMPShouldRaiseButton);
             Assert.Equal(ParliamentData.MPAndOtherData.ErrorMessage, vm.ReportLabelText);
+            // TODO: (unit-tests) who sets this to `true`?
             Assert.True(vm.AnswerInApp);
         }
 
@@ -154,13 +166,14 @@ namespace UnitTests
                 Command = vm.AnsweredByMyMPCommand
             };
 
+            // TODO: (unit-tests) does `vm.AnsweredByMyMPCommand` should send user to `GoToReadingPageNext`?
             // act
             bool messageReceived = false;
             MessagingCenter.Subscribe<QuestionViewModel>(this, Constants.GoToReadingPageNext, (sender) =>
             {
                 messageReceived = true;
             });
-            button.Command.Execute(null);
+            executeAsyncButton(button);
 
             // assert
             Assert.True(messageReceived);
@@ -197,13 +210,14 @@ namespace UnitTests
             };
 
             // act
+            // TODO: (unit-tests) does `vm.AnsweredByOtherMPCommandOptionB` should send user to `OptionB`?
             bool messageReceived = false;
             MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionB", (sender) =>
             {
                 messageReceived = true;
             });
-            button.Command.Execute(null);
-
+            executeAsyncButton(button);
+            
             // assert
             Assert.True(messageReceived);
         }
@@ -223,7 +237,7 @@ namespace UnitTests
             {
                 messageReceived = true;
             });
-            button.Command.Execute(null);
+            executeAsyncButton(button);
 
             // assert
             Assert.False(messageReceived);
@@ -259,8 +273,9 @@ namespace UnitTests
             };
 
             // act
-            button.Command.Execute(null);
+            executeAsyncButton(button);
 
+            // assert
             Assert.Equal(1, vm.Question.UpVotes);
         }
 
@@ -277,8 +292,9 @@ namespace UnitTests
             };
 
             // act
-            button.Command.Execute(null);
+            executeAsyncButton(button);
 
+            // assert
             Assert.Equal(0, vm.Question.UpVotes);
         }
 
@@ -297,7 +313,7 @@ namespace UnitTests
             {
                 messageReceived = true;
             });
-            button.Command.Execute(null);
+            executeAsyncButton(button);
 
             // assert
             Assert.True(messageReceived);

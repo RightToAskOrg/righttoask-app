@@ -278,6 +278,7 @@ namespace RightToAskClient.ViewModels
                     // upvoting a question will add it to their list
                     // TODO We probably want to separate having _written_ questions from having upvoted them.
                     IndividualParticipant.HasQuestions = true;
+                    // TODO: (unit-tests) `This functionality is not implemented in the portable version of this assembly`
                     Preferences.Set(Constants.HasQuestions, true);
                     
                     if (Question.AlreadyUpvoted)
@@ -306,6 +307,7 @@ namespace RightToAskClient.ViewModels
             {
                 var userId = Question.QuestionSuggester;
                 var userToSend = await RTAClient.GetUserById(userId);
+                // TODO: (unit-tests) should we check if data is null too?
                 if (userToSend.Failure)
                 {
                     var errorMessage = AppResources.CouldNotFindUser;
