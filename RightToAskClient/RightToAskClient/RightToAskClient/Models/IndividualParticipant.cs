@@ -113,7 +113,7 @@ namespace RightToAskClient.Models
 			ProfileData.RegistrationInfo.public_key = ClientSignatureGenerationService.InitSuccessful ? ClientSignatureGenerationService.MyPublicKey : "";
 		}
 
-		public static new bool Validate()
+		public static bool Validate()
         {
 			var isValid = false;
 			// if they are registered, they need valid registration info
