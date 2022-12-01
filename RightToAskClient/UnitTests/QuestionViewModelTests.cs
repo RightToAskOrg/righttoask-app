@@ -92,7 +92,6 @@ namespace UnitTests
             };
 
             // act
-            // TODO: (unit tests) async under hood
             button.Command.Execute(null);
 
             // assert
