@@ -122,7 +122,7 @@ namespace UnitTests
             Assert.False(vm.EnableMyMPShouldRaiseButton);
             Assert.False(vm.EnableAnotherMPShouldRaiseButton);
             Assert.Equal(ParliamentData.MPAndOtherData.ErrorMessage, vm.ReportLabelText);
-            Assert.False(vm.AnswerInApp);
+            Assert.Equal(vm.HowAnswered, HowAnsweredOptions.InParliament); 
         }
 
         [Fact]
@@ -149,7 +149,7 @@ namespace UnitTests
             Assert.False(vm.EnableMyMPShouldRaiseButton);
             Assert.False(vm.EnableAnotherMPShouldRaiseButton);
             Assert.Equal(ParliamentData.MPAndOtherData.ErrorMessage, vm.ReportLabelText);
-            Assert.False(vm.AnswerInApp);
+            Assert.Equal(vm.HowAnswered, HowAnsweredOptions.InParliament); 
         }
 
         [Fact]
@@ -208,7 +208,7 @@ namespace UnitTests
 
             // assert -- fails due to crash on shell navigation, but otherwise true
             Assert.Equal("Not Implemented Yet", vm.AnotherUserButtonText);
-            Assert.False(vm.AnswerInApp);
+            Assert.Equal(vm.HowAnswered, HowAnsweredOptions.InParliament); 
         }
 
         [Fact]
