@@ -80,9 +80,9 @@ namespace UnitTests
             Assert.False(vm.ShowSeeQuestionsButton);
             Assert.False(vm.ShowFollowButton);
 
-            Assert.False(vm.ShowRegisterCitizenButton);
-            Assert.False(vm.ShowRegisterOrgButton);
-            Assert.False(vm.ShowRegisterMPButton);
+            Assert.True(vm.ShowRegisterCitizenButton);
+            //Assert.False(vm.ShowRegisterOrgButton);
+            Assert.True(vm.ShowRegisterMPButton);
             Assert.False(vm.ShowDoneButton);
         }
 

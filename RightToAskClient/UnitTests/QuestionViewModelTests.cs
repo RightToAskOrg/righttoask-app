@@ -77,7 +77,6 @@ namespace UnitTests
             // act
             executeAsyncButton(button);
 
-            // TODO: (unit-tests) What should be in `vm.ReportLabelText`?
             // assert
             Assert.False(string.IsNullOrEmpty(vm.ReportLabelText));
         }
@@ -95,7 +94,6 @@ namespace UnitTests
             // act
             button.Command.Execute(null);
 
-            // TODO: (unit-tests) What should be in `vm.ReportLabelText`?
             // assert
             Assert.False(string.IsNullOrEmpty(vm.ReportLabelText));
         }
@@ -108,7 +106,6 @@ namespace UnitTests
             Button button = new Button()
             {
                 Command = vm.myMPRaiseCommand,
-                
             };
 
             // act
@@ -125,8 +122,7 @@ namespace UnitTests
             Assert.False(vm.EnableMyMPShouldRaiseButton);
             Assert.False(vm.EnableAnotherMPShouldRaiseButton);
             Assert.Equal(ParliamentData.MPAndOtherData.ErrorMessage, vm.ReportLabelText);
-            // TODO: (unit-tests) who sets this to `true`?
-            Assert.True(vm.AnswerInApp);
+            Assert.False(vm.AnswerInApp);
         }
 
         [Fact]
@@ -153,30 +149,7 @@ namespace UnitTests
             Assert.False(vm.EnableMyMPShouldRaiseButton);
             Assert.False(vm.EnableAnotherMPShouldRaiseButton);
             Assert.Equal(ParliamentData.MPAndOtherData.ErrorMessage, vm.ReportLabelText);
-            // TODO: (unit-tests) who sets this to `true`?
-            Assert.True(vm.AnswerInApp);
-        }
-
-        [Fact]
-        public void AnsweredByMyMPCommandTest()
-        {
-            // arrange
-            Button button = new Button()
-            {
-                Command = vm.AnsweredByMyMPCommand
-            };
-
-            // TODO: (unit-tests) does `vm.AnsweredByMyMPCommand` should send user to `GoToReadingPageNext`?
-            // act
-            bool messageReceived = false;
-            MessagingCenter.Subscribe<QuestionViewModel>(this, Constants.GoToReadingPageNext, (sender) =>
-            {
-                messageReceived = true;
-            });
-            executeAsyncButton(button);
-
-            // assert
-            Assert.True(messageReceived);
+            Assert.False(vm.AnswerInApp);
         }
 
         [Fact]
@@ -198,28 +171,6 @@ namespace UnitTests
 
             // assert
             Assert.False(messageReceived);
-        }
-
-        [Fact]
-        public void AnsweredByOtherMPCommandOptionBTest()
-        {
-            // arrange
-            Button button = new Button()
-            {
-                Command = vm.AnsweredByOtherMPCommandOptionB
-            };
-
-            // act
-            // TODO: (unit-tests) does `vm.AnsweredByOtherMPCommandOptionB` should send user to `OptionB`?
-            bool messageReceived = false;
-            MessagingCenter.Subscribe<QuestionViewModel>(this, "OptionB", (sender) =>
-            {
-                messageReceived = true;
-            });
-            executeAsyncButton(button);
-            
-            // assert
-            Assert.True(messageReceived);
         }
 
         [Fact]
@@ -296,27 +247,6 @@ namespace UnitTests
 
             // assert
             Assert.Equal(0, vm.Question.UpVotes);
-        }
-
-        [Fact]
-        public void AnsweredByOtherMPCommandTest()
-        {
-            // arrange
-            Button button = new Button
-            {
-                Command = vm.AnsweredByOtherMPCommandOptionB
-            };
-
-            // act
-            bool messageReceived = false;
-            MessagingCenter.Subscribe<QuestionViewModel>(this, Constants.GoToMetadataPageNext, (sender) =>
-            {
-                messageReceived = true;
-            });
-            executeAsyncButton(button);
-
-            // assert
-            Assert.True(messageReceived);
         }
 
         [Fact]

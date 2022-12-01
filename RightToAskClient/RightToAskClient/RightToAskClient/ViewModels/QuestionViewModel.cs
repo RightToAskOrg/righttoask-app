@@ -510,6 +510,10 @@ namespace RightToAskClient.ViewModels
                     SendQuestionEditToServer();
                 }                
             }
+            else
+            {
+                // TODO: (unit-tests) error popup
+            }
 
         }
 

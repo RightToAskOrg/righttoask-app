@@ -25,10 +25,11 @@ namespace UnitTests
             App.GlobalFilterChoices.SearchKeyword = filters.SearchKeyword;
 
             // act
+            // TODO: (unit-tests) shouldn't run when there's something is selected
             vm.ReinitData(); // this should set vm.Keyword
+            // TODO: (unit-tests) we need another test that checks that `ReinitData` throws exception
+            // This test works well
             
-            // TODO: (unit-tests) How does `vm.ReinitData()` impact on `filters` and why filters.SelectedAnsweringMPsMine must be empty
-
             // assert
             Assert.True(!string.IsNullOrEmpty(filters.SearchKeyword));
             Assert.Equal("changed Keyword", filters.SearchKeyword);
