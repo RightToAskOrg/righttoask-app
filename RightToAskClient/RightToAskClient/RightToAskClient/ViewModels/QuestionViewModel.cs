@@ -307,7 +307,6 @@ namespace RightToAskClient.ViewModels
             {
                 var userId = Question.QuestionSuggester;
                 var userToSend = await RTAClient.GetUserById(userId);
-                // TODO: (unit-tests) should we check if data is null too?
                 if (userToSend.Failure)
                 {
                     var errorMessage = AppResources.CouldNotFindUser;
@@ -500,7 +499,16 @@ namespace RightToAskClient.ViewModels
         // TODO Consider permissions for question editing.
         private async void EditQuestionButton_OnClicked()
         {
-            await NavigationUtils.DoRegistrationCheck(Instance);
+            try
+            {
+                NavigationUtils.DoRegistrationCheck(Instance).Wait();
+            }
+            catch (Exception e)
+            {
+                // TODO: (unit-tests) is it ok to say "not registered" if we aren't able to check it
+                IndividualParticipant.IsRegistered = false;
+            }
+            //await NavigationUtils.DoRegistrationCheck(Instance);
 
             if (IndividualParticipant.IsRegistered)
             {
@@ -512,7 +520,8 @@ namespace RightToAskClient.ViewModels
             }
             else
             {
-                // TODO: (unit-tests) error popup
+                // TODO: invent a string for this
+                ReportLabelText = AppResources.InvalidRegistration;
             }
 
         }

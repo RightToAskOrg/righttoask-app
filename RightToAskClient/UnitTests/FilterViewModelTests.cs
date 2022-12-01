@@ -20,14 +20,14 @@ namespace UnitTests
         {
             // arrange
             FilterViewModel vm = new FilterViewModel();
-            FilterChoices filters = vTests.ValidateFiltersTest();
+            // Filter must be empty 
+            FilterChoices filters = new FilterChoices();
             filters.SearchKeyword = "changed Keyword";
             App.GlobalFilterChoices.SearchKeyword = filters.SearchKeyword;
 
             // act
-            // TODO: (unit-tests) shouldn't run when there's something is selected
             vm.ReinitData(); // this should set vm.Keyword
-            // TODO: (unit-tests) we need another test that checks that `ReinitData` throws exception
+            // TODO: (unit-tests) we need another test that checks that `ReinitData` throws exception when we have some filters
             // This test works well
             
             // assert

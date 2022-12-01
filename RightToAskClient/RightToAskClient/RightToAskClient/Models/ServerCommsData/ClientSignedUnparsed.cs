@@ -24,7 +24,17 @@ namespace RightToAskClient.Models.ServerCommsData
             if (user == IndividualParticipant.ProfileData.RegistrationInfo.uid)
             {
                 var signaturebytes = Convert.FromBase64String(signature);
-                var ClientPublicKey = new Ed25519PublicKeyParameters(Convert.FromBase64String(IndividualParticipant.ProfileData.RegistrationInfo.public_key));
+                Ed25519PublicKeyParameters ClientPublicKey;
+                try
+                {
+                    ClientPublicKey = new Ed25519PublicKeyParameters(Convert.FromBase64String(IndividualParticipant.ProfileData.RegistrationInfo.public_key));
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw new ArgumentException();
+                }
+                
                 var validSig = SignatureVerificationService.VerifySignature(message, signaturebytes, ClientPublicKey);
                 if (validSig)
                 {

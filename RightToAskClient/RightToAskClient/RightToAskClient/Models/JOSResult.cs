@@ -40,7 +40,7 @@ namespace RightToAskClient.Models
     {
         public SuccessResult(T data) : base(data)
         {
-            Success = true;
+            Success = data != null;
         }
 
         public static implicit operator SuccessResult(SuccessResult<T> successResult)
