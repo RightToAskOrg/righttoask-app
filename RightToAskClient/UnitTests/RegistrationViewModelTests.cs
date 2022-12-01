@@ -35,7 +35,7 @@ namespace UnitTests
 
             Assert.False(vm.ShowRegisterCitizenButton);
             Assert.False(vm.ShowRegisterOrgButton);
-            Assert.False(vm.ShowRegisterMPButton);
+            Assert.False(vm.ShowRegisterMPButton); // TODO: (unit-tests) true?
             //Assert.True(vm.ShowDoneButton); unsure of where/when this variable needs to be true
         }
 
@@ -109,7 +109,7 @@ namespace UnitTests
 
             Assert.False(vm.ShowRegisterCitizenButton);
             Assert.False(vm.ShowRegisterOrgButton);
-            Assert.False(vm.ShowRegisterMPButton);
+            Assert.False(vm.ShowRegisterMPButton);  // TODO: (unit-tests) true?
             Assert.False(vm.ShowDoneButton);
         }
     }

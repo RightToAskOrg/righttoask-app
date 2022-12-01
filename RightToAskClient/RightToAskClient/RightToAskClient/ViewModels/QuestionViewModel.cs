@@ -307,7 +307,6 @@ namespace RightToAskClient.ViewModels
             {
                 var userId = Question.QuestionSuggester;
                 var userToSend = await RTAClient.GetUserById(userId);
-                // TODO: (unit-tests) should we check if data is null too?
                 if (userToSend.Failure)
                 {
                     var errorMessage = AppResources.CouldNotFindUser;
@@ -512,7 +511,8 @@ namespace RightToAskClient.ViewModels
             }
             else
             {
-                // TODO: (unit-tests) error popup
+                // TODO: invent a string for this
+                ReportLabelText = AppResources.InvalidRegistration;
             }
 
         }
