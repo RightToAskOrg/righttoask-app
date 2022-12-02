@@ -390,7 +390,7 @@ namespace RightToAskClient.ViewModels
             // set defaults
             Question = new Question();
             ReportLabelText = "";
-            // Question.QuestionSuggester = IndividualParticipant.ProfileData.RegistrationInfo.uid;
+            Question.QuestionSuggester = IndividualParticipant.ProfileData.RegistrationInfo.uid;
         }
 
         public void ReinitQuestionUpdates()
