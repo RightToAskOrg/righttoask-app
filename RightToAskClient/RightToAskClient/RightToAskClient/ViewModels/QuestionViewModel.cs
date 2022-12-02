@@ -192,14 +192,6 @@ namespace RightToAskClient.ViewModels
         }
 
 
-        private bool _answerInApp;
-        public bool AnswerInApp
-        {
-            get => _answerInApp;
-            set => SetProperty(ref _answerInApp, value);
-        }
-
-
         public string QuestionSuggesterButtonText => QuestionViewModel.Instance.IsNewQuestion ? AppResources.EditProfileButtonText : string.Format(AppResources.ViewOtherUserProfile, QuestionViewModel.Instance.Question.QuestionSuggester);
 
         public void UpdateMPButtons()

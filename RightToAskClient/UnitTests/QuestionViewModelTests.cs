@@ -107,7 +107,7 @@ namespace UnitTests
             {
                 Command = vm.myMPRaiseCommand,
             };
-
+            
             // act
             bool messageReceived = false;
             MessagingCenter.Subscribe<QuestionViewModel>(this, Constants.GoToReadingPageNext, (sender) =>

@@ -36,7 +36,7 @@
                     </StackLayout>
                     <BoxView/>
                     <!--Who Should Ask/Raise the Question-->
-                    <StackLayout IsVisible="{Binding AnswerInApp, Converter={StaticResource Key=cnvInvert}}">
+                    <StackLayout>
                         <Label Text="{xct:Translate OptionBText4}" Style="{StaticResource Header2}" />
                         <!--Filters-->
                         <StackLayout>

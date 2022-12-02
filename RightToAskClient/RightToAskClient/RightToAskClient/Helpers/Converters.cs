@@ -1,10 +1,29 @@
 ﻿using System;
 using System.Globalization;
+using RightToAskClient.Models;
 using Xamarin.Forms;
 using static RightToAskClient.Helpers.BoolEnumConverter;
 
 namespace RightToAskClient.Helpers
 {
+    public class IsInParliament : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (!(value is HowAnsweredOptions how))
+            {
+                return false;
+            } 
+            
+            return how == HowAnsweredOptions.InParliament;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class InvertConvert : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

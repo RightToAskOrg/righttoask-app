@@ -56,7 +56,8 @@
 					<CheckBox IsChecked="{Binding OthersCanAddQuestionAnswerers}" />
 				</StackLayout>
 				<!--Question Askers/Option B things-->
-				<StackLayout IsVisible="{Binding AnswerInApp, Converter={StaticResource Key=cnvInvert}}">
+				<!-- IsVisible = Binding (HowAnswered == InParliament)  -->
+				<StackLayout IsVisible="{Binding HowAnswered, Converter = {StaticResource Key=isInParliament}}">
 					<Label Text="{xct:Translate OptionBText4}" Style="{StaticResource Header2}" />
 					<Label Text="{Binding Question.QuestionAskers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
 					<!-- Ask the user whether they allow other users to add QuestionAskers. (Y/N) -->

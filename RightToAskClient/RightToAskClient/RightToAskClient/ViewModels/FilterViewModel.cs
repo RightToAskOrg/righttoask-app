@@ -74,16 +74,7 @@ namespace RightToAskClient.ViewModels
         }
 
         private bool _answerInApp;
-        public bool AnswerInApp
-        {
-            get => QuestionViewModel.Instance.AnswerInApp;
-            set
-            {
-                SetProperty(ref _answerInApp, value);
-                QuestionViewModel.Instance.AnswerInApp = _answerInApp;
-            }
-        }
-
+        
         private string _keyword = "";
         public string Keyword
         {
