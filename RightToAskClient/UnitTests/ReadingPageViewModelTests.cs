@@ -14,8 +14,8 @@ namespace UnitTests
     public class ReadingPageViewModelTests
     {
         // properties
-        private ReadingPageViewModel _readingPageViewModel = new ReadingPageViewModel();
-        private Button _button = new Button();
+        // private ReadingPageViewModel _readingPageViewModel = new ReadingPageViewModel();
+        // private Button _button = new Button();
 
         /* I made QuestionIds private.
          
@@ -71,6 +71,8 @@ namespace UnitTests
         public void RefreshCommandTest()
         {
             // arrange
+            ReadingPageViewModel _readingPageViewModel = new ReadingPageViewModel();
+            Button _button = new Button();
             _button.Command = _readingPageViewModel.RefreshCommand;
 
             // act
@@ -81,6 +83,7 @@ namespace UnitTests
             //Assert.False(_readingPageViewModel.QuestionIds.Any());
             Assert.True(string.IsNullOrEmpty(_readingPageViewModel.Keyword));
             Assert.True(string.IsNullOrEmpty(_readingPageViewModel.DraftQuestion));
+            // TODO: (unit-tests) Should RefreshCommand in ReadingPageViewModel impact in any way on ShowQuestionFrame? Because looks like ShowQuestionFrame sets to true only in DraftCommand
             Assert.True(_readingPageViewModel.ShowQuestionFrame);
         }
 
@@ -103,6 +106,8 @@ namespace UnitTests
         public void SearchToolbarCommandTest()
         {
             // arrange
+            ReadingPageViewModel _readingPageViewModel = new ReadingPageViewModel();
+            Button _button = new Button();
             _button.Command = _readingPageViewModel.SearchToolbarCommand;
             _readingPageViewModel.ShowSearchFrame = false;
 
@@ -117,6 +122,8 @@ namespace UnitTests
         public void SearchToolbarCommandInvertTest()
         {
             // arrange
+            ReadingPageViewModel _readingPageViewModel = new ReadingPageViewModel();
+            Button _button = new Button();
             _button.Command = _readingPageViewModel.SearchToolbarCommand;
             _readingPageViewModel.ShowSearchFrame = true;
 
