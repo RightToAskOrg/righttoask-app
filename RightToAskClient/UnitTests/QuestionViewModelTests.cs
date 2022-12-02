@@ -102,54 +102,40 @@ namespace UnitTests
         public void MyMPRaiseCommandTest()
         {
             // arrange
-            //ParliamentData.MPAndOtherData.IsInitialised = true;
             Button button = new Button()
             {
                 Command = vm.myMPRaiseCommand,
             };
             
             // act
-            bool messageReceived = false;
-            MessagingCenter.Subscribe<QuestionViewModel>(this, Constants.GoToReadingPageNext, (sender) =>
-            {
-                messageReceived = true;
-            });
             button.Command.Execute(null);
 
             // assert
-            Assert.False(messageReceived);
             Assert.True(vm.ShowReportLabel);
             Assert.False(vm.EnableMyMPShouldRaiseButton);
             Assert.False(vm.EnableAnotherMPShouldRaiseButton);
             Assert.Equal(ParliamentData.MPAndOtherData.ErrorMessage, vm.ReportLabelText);
-            Assert.Equal(vm.HowAnswered, HowAnsweredOptions.InParliament); 
+            Assert.NotEqual(vm.HowAnswered, HowAnsweredOptions.InApp); 
         }
 
         [Fact]
         public void OtherMPRaiseCommandTest()
         {
             // arrange
-            //ParliamentData.MPAndOtherData.IsInitialised = true; // can't set, so check the other method's properties
             Button button = new Button()
             {
                 Command = vm.OtherMPRaiseCommand
             };
 
             // act
-            bool messageReceived = false;
-            MessagingCenter.Subscribe<QuestionViewModel>(this, Constants.GoToReadingPageNext, (sender) =>
-            {
-                messageReceived = true;
-            });
             button.Command.Execute(null);
 
             // assert
-            Assert.False(messageReceived);
             Assert.True(vm.ShowReportLabel);
             Assert.False(vm.EnableMyMPShouldRaiseButton);
             Assert.False(vm.EnableAnotherMPShouldRaiseButton);
             Assert.Equal(ParliamentData.MPAndOtherData.ErrorMessage, vm.ReportLabelText);
-            Assert.Equal(vm.HowAnswered, HowAnsweredOptions.InParliament); 
+            Assert.NotEqual(vm.HowAnswered, HowAnsweredOptions.InApp); 
         }
 
         [Fact]
@@ -192,23 +178,6 @@ namespace UnitTests
 
             // assert
             Assert.False(messageReceived);
-        }
-
-        [Fact]
-        public void UserShouldRaiseCommandTest()
-        {
-            // arrange
-            Button button = new Button()
-            {
-                Command = vm.UserShouldRaiseCommand
-            };
-
-            // act
-            button.Command.Execute(null);
-
-            // assert -- fails due to crash on shell navigation, but otherwise true
-            Assert.Equal("Not Implemented Yet", vm.AnotherUserButtonText);
-            Assert.Equal(vm.HowAnswered, HowAnsweredOptions.InParliament); 
         }
 
         [Fact]
