@@ -174,7 +174,8 @@ namespace RightToAskClient.Models
                 successBool = true;
                 IndividualParticipant.ProfileData.RegistrationInfo.StateKnown = successBool;
                 IndividualParticipant.ProfileData.RegistrationInfo.SelectedStateAsEnum = successState;
-                Preferences.Set(Constants.State, successState.ToString());
+                if(DeviceInfo.Platform != DevicePlatform.Unknown)
+                    Preferences.Set(Constants.State, successState.ToString());
             }
 
             return (successBool, successState);

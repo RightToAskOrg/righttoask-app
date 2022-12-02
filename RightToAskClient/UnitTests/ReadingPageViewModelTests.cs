@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 using Xunit;
 
@@ -60,6 +62,11 @@ namespace UnitTests
         }
         */
 
+        private void executeAsyncButton(Button button)
+        {
+            Task.Run(async () => await ((IAsyncCommand)button.Command).ExecuteAsync()).GetAwaiter().GetResult();
+        }
+        
         [Fact]
         public void RefreshCommandTest()
         {
@@ -67,7 +74,8 @@ namespace UnitTests
             _button.Command = _readingPageViewModel.RefreshCommand;
 
             // act
-            _button.Command.Execute(null);
+            // _button.Command.Execute(null);
+            executeAsyncButton(_button);
 
             // assert
             //Assert.False(_readingPageViewModel.QuestionIds.Any());

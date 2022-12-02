@@ -279,7 +279,8 @@ namespace RightToAskClient.ViewModels
                     // TODO We probably want to separate having _written_ questions from having upvoted them.
                     IndividualParticipant.HasQuestions = true;
                     // TODO: (unit-tests) `This functionality is not implemented in the portable version of this assembly`
-                    Preferences.Set(Constants.HasQuestions, true);
+                    if(DeviceInfo.Platform != DevicePlatform.Unknown)
+                        Preferences.Set(Constants.HasQuestions, true);
                     
                     if (Question.AlreadyUpvoted)
                     {
@@ -389,7 +390,7 @@ namespace RightToAskClient.ViewModels
             // set defaults
             Question = new Question();
             ReportLabelText = "";
-            Question.QuestionSuggester = IndividualParticipant.ProfileData.RegistrationInfo.uid;
+            // Question.QuestionSuggester = IndividualParticipant.ProfileData.RegistrationInfo.uid;
         }
 
         public void ReinitQuestionUpdates()
