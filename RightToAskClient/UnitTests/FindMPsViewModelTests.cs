@@ -82,7 +82,6 @@ namespace UnitTests
             Assert.False(vm.ShowAddressStack);
         }
 
-        // TODO: (unit-tests) it looks very similar to previous one but with different assertions and fails.
         // Fails due to the preferences storage call in the method
         [Fact]
         public void LookupElectoratesCommandTest()

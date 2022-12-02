@@ -115,6 +115,7 @@ namespace UnitTests
             bool isValid = IndividualParticipant.Validate();
 
             // assert
+            //TODO (unit-test) IndividualParticipant is a global object so other tests can impact on it - so this test can work or no depends on random.
             Assert.True(isValid);
             Assert.NotNull(IndividualParticipant.ProfileData.RegistrationInfo);
             Assert.True(!string.IsNullOrEmpty(IndividualParticipant.ProfileData.RegistrationInfo.uid));
@@ -178,7 +179,7 @@ namespace UnitTests
             Assert.NotNull(IndividualParticipant.ProfileData.RegistrationInfo); // always has a default registration info object created. Generates public key
             Assert.False(IndividualParticipant.ElectoratesKnown);
             Assert.False(IndividualParticipant.IsRegistered);
-            //TODO (unit test) make IndividualParticipant as single instance
+            // TODO (unit test) make IndividualParticipant as single instance
             // Assert.True(string.IsNullOrEmpty(IndividualParticipant.ProfileData.RegistrationInfo.uid));
             // Assert.False(string.IsNullOrEmpty(IndividualParticipant.ProfileData.RegistrationInfo.public_key));
         }
@@ -437,7 +438,7 @@ namespace UnitTests
 
             // Act
             // bool isValid = csu.Validate();
-            //TODO (unit-test) should judge IndividualParticipant.ProfileData.RegistrationInfo.public_key first then Validate()
+            //TODO (unit-test) should estimate IndividualParticipant.ProfileData.RegistrationInfo.public_key first then Validate()
             Assert.Throws<ArgumentException>(() => csu.Validate());
             // Assert
             // Assert.True(isValid);
@@ -453,7 +454,7 @@ namespace UnitTests
 
             // Act (It will throw an exception )
             //bool isValid = csu.Validate();
-            //TODO (unit-test) should judge IndividualParticipant.ProfileData.RegistrationInfo.public_key first then Validate()
+            //TODO (unit-test) should estimate IndividualParticipant.ProfileData.RegistrationInfo.public_key first then Validate()
             Assert.Throws<ArgumentException>(() => csu.Validate());
             // Assert
             // Assert.False(isValid);
