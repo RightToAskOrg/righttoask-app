@@ -66,26 +66,6 @@ namespace UnitTests
         {
             Task.Run(async () => await ((IAsyncCommand)button.Command).ExecuteAsync()).GetAwaiter().GetResult();
         }
-        
-        [Fact]
-        public void RefreshCommandTest()
-        {
-            // arrange
-            ReadingPageViewModel _readingPageViewModel = new ReadingPageViewModel();
-            Button _button = new Button();
-            _button.Command = _readingPageViewModel.RefreshCommand;
-
-            // act
-            // _button.Command.Execute(null);
-            executeAsyncButton(_button);
-
-            // assert
-            //Assert.False(_readingPageViewModel.QuestionIds.Any());
-            Assert.True(string.IsNullOrEmpty(_readingPageViewModel.Keyword));
-            Assert.True(string.IsNullOrEmpty(_readingPageViewModel.DraftQuestion));
-            // TODO: (unit-tests) Should RefreshCommand in ReadingPageViewModel impact in any way on ShowQuestionFrame? Because looks like ShowQuestionFrame sets to true only in DraftCommand
-            Assert.True(_readingPageViewModel.ShowQuestionFrame);
-        }
 
         // test breaks due to the prompt that gets displayed in the method, but otherwise passes
         //[Fact]
