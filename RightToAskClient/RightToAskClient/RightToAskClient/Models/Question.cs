@@ -23,6 +23,7 @@ namespace RightToAskClient.Models
 
     public class Question : ObservableObject
     {
+        // Note these relate to whether this user up- or down-voted the question, not the global tally.
         private int _upVotes;
         private int _downVotes;
 
@@ -60,8 +61,11 @@ namespace RightToAskClient.Models
                 who_should_ask_the_question_permissions = RTAPermissions.NoChange
             };
         }
-        public int Timestamp { get; set; }
-        
+
+        public int Timestamp { get; set; } = 0;
+        public int TotalVotes { get; private set; } = 0;
+        public int NetVotes { get; private set; } = 0;
+
         private string _background = "";
         public string Background
         {
@@ -315,6 +319,12 @@ namespace RightToAskClient.Models
             // bookkeeping fields
             QuestionId = serverQuestion.question_id ?? "";
             Version = serverQuestion.version ?? "";
+            // TODO: Include these 3 to make the tests pass?
+            // LastModified = serverQuestion.last_modified ?? 0;
+            
+            // vote-tally fields
+            // TotalVotes = serverQuestion.total_votes ?? 0;
+            // NetVotes = serverQuestion.net_votes ?? 0;
             
             // question non-defining fields
             Background = serverQuestion.background ?? "";
@@ -442,31 +452,6 @@ namespace RightToAskClient.Models
             return true;
         }
 
-        //validation
-        public bool ValidateNewQuestion()
-        {
-            var isValid = false;
-            // just needs question text for new questions
-            if (!string.IsNullOrEmpty(QuestionText))
-            {
-                isValid = true;
-            }
-            return isValid;
-        }
-
-        public bool ValidateUpdateQuestion()
-        {
-            var isValid = false;
-            // needs more fields to update an existing question
-            if (!string.IsNullOrEmpty(QuestionText)
-                && !string.IsNullOrEmpty(QuestionId)
-                && !string.IsNullOrEmpty(Version))
-            {
-                isValid = true;
-            }
-            return isValid;
-        }
-
         public void AddHansardLink(Uri newHansardLink)
         {
             if (Updates.hansard_link is null)
@@ -492,6 +477,29 @@ namespace RightToAskClient.Models
                     answer = answer
                 }
             };
+        }
+
+        //validation
+        public bool ValidateNewQuestion()
+        {
+            // just needs question text for new questions
+            return !string.IsNullOrEmpty(QuestionText);
+        }
+
+        public bool ValidateUpdateQuestion()
+        {
+            return !string.IsNullOrEmpty(QuestionText) && !string.IsNullOrEmpty(QuestionId) &&
+                           !string.IsNullOrEmpty(Version);
+            // needs more fields to update an existing question
+        }
+
+        public bool ValidateDownloadedQuestion()
+        {
+            return !string.IsNullOrEmpty(QuestionText) &&
+                   !string.IsNullOrEmpty(QuestionId) &&
+                   !string.IsNullOrEmpty(Version) &&
+                   Timestamp != 0 &&
+                   TotalVotes >= 0;
         }
     }
 }

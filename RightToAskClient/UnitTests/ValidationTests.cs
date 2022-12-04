@@ -223,6 +223,7 @@ namespace UnitTests
         public void ValidateQuestionReceiveFromServerTest()
         {
             // arrange
+            // TODO Add timestamp, total_votes, net_votes
             QuestionReceiveFromServer question = new QuestionReceiveFromServer() { question_id = "fakeQuestionId", question_text = "fakeQuestionTest", author = "fakeAuthor", version = "fakeVersion"};
             QuestionReceiveFromServer invalidQuestion = new QuestionReceiveFromServer();
 
@@ -233,6 +234,26 @@ namespace UnitTests
             // assert
             Assert.True(isValid);
             Assert.False(isInvalid);
+        }
+
+        [Fact]
+        // TODO is there a nice way we can have 
+        // - a common set of input data (e.g. the same questionreceivefromserver in this test and the previous one?
+        // - interactions with the server (or a test version), i.e. downloads of useful data?
+        public void ValidateQuestionConstructedFromQuestionReceiveFromServerTest()
+        {
+            // arrange
+            // TODO Add timestamp, total_votes, net_votes
+            QuestionReceiveFromServer serverQuestion = new QuestionReceiveFromServer() { question_id = "fakeQuestionId", question_text = "fakeQuestionTest", author = "fakeAuthor", version = "fakeVersion"};
+            QuestionReceiveFromServer invalidServerQuestion = new QuestionReceiveFromServer();
+
+            // act
+            Question validQuestion = new Question(serverQuestion);
+            Question invalidQuestion =  new Question(invalidServerQuestion);
+
+            // assert
+            Assert.True(validQuestion.ValidateDownloadedQuestion());
+            Assert.False(invalidQuestion.ValidateDownloadedQuestion());
         }
 
         [Fact]

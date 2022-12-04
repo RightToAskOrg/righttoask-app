@@ -19,6 +19,14 @@ namespace RightToAskClient.Models.ServerCommsData
         [JsonPropertyName("timestamp")]
         public int? timestamp { get; set; }
         
+        [JsonPropertyName("last_modified")]
+        public int? last_modified { get; set; }
+        
+        [JsonPropertyName("total_votes")]
+        public int? total_votes { get; set; }
+        
+        [JsonPropertyName("net_votes")]
+        public int? net_votes { get; set; }
         // bookkeeping fields
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
         [JsonPropertyName("question_id")]
@@ -69,16 +77,14 @@ namespace RightToAskClient.Models.ServerCommsData
         
         public bool Validate()
         {
-            var isValid = false;
-            // might need to include timestamp as well
-            if (!string.IsNullOrEmpty(author)
-                && !string.IsNullOrEmpty(question_id)
-                && !string.IsNullOrEmpty(question_text)
-                && !string.IsNullOrEmpty(version))
-            {
-                isValid = true;
-            }
-            return isValid;
+            return !string.IsNullOrEmpty(author)
+                           && !string.IsNullOrEmpty(question_id)
+                           && !string.IsNullOrEmpty(question_text)
+                           && !string.IsNullOrEmpty(version)
+                           && timestamp != null
+                           && last_modified != null
+                           && total_votes >= 0 
+                           && net_votes != null;
         }
     }
 }
