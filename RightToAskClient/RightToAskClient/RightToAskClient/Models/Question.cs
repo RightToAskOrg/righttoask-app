@@ -63,6 +63,7 @@ namespace RightToAskClient.Models
         }
 
         public int Timestamp { get; set; } = 0;
+        public int LastModified { get; set; } = 0;
         public int TotalVotes { get; private set; } = 0;
         public int NetVotes { get; private set; } = 0;
 
@@ -319,12 +320,12 @@ namespace RightToAskClient.Models
             // bookkeeping fields
             QuestionId = serverQuestion.question_id ?? "";
             Version = serverQuestion.version ?? "";
-            // TODO: Include these 3 to make the tests pass?
-            // LastModified = serverQuestion.last_modified ?? 0;
+            
+            LastModified = serverQuestion.last_modified ?? 0;
             
             // vote-tally fields
-            // TotalVotes = serverQuestion.total_votes ?? 0;
-            // NetVotes = serverQuestion.net_votes ?? 0;
+            TotalVotes = serverQuestion.total_votes ?? 0;
+            NetVotes = serverQuestion.net_votes ?? 0;
             
             // question non-defining fields
             Background = serverQuestion.background ?? "";

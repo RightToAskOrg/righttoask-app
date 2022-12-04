@@ -275,6 +275,13 @@ namespace UnitTests
 
             // assert
             Assert.True(validQuestion.ValidateDownloadedQuestion());
+            Assert.True(validQuestion.QuestionId == serverQuestion.question_id);
+            Assert.True(validQuestion.QuestionText == serverQuestion.question_text);
+            Assert.True(validQuestion.QuestionSuggester == serverQuestion.author);
+            Assert.True(validQuestion.Timestamp == serverQuestion.timestamp);
+            Assert.True(validQuestion.LastModified == serverQuestion.last_modified);
+            Assert.True(validQuestion.TotalVotes == serverQuestion.total_votes);
+            Assert.True(validQuestion.NetVotes == serverQuestion.net_votes);
             Assert.False(invalidQuestion.ValidateDownloadedQuestion());
         }
 
