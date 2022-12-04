@@ -250,11 +250,23 @@ namespace UnitTests
         // TODO is there a nice way we can have 
         // - a common set of input data (e.g. the same questionreceivefromserver in this test and the previous one?
         // - interactions with the server (or a test version), i.e. downloads of useful data?
+        // 
+        // Ideally, we'd have a valid question and then a series of single-item tweaks to make it invalid, checking that
+        // each one was indeed invalid. 
         public void ValidateQuestionConstructedFromQuestionReceiveFromServerTest()
         {
             // arrange
-            // TODO Add timestamp, total_votes, net_votes
-            QuestionReceiveFromServer serverQuestion = new QuestionReceiveFromServer() { question_id = "fakeQuestionId", question_text = "fakeQuestionTest", author = "fakeAuthor", version = "fakeVersion"};
+            QuestionReceiveFromServer serverQuestion = new QuestionReceiveFromServer()
+            {
+                question_id = "fakeQuestionId",
+                question_text = "fakeQuestionTest",
+                author = "fakeAuthor",
+                version = "fakeVersion",
+                timestamp = 0980532405,
+                last_modified = 0980532407,
+                total_votes = 7,
+                net_votes = 3
+            };
             QuestionReceiveFromServer invalidServerQuestion = new QuestionReceiveFromServer();
 
             // act

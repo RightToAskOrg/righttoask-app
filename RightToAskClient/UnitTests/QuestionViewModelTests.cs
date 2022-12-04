@@ -185,7 +185,7 @@ namespace UnitTests
         {
             // arrange
             IndividualParticipant.IsRegistered = true;
-            vm.Question.UpVotes = 0;
+            vm.Question.UpVotesByThisUser = 0;
             vm.Question.AlreadyUpvoted = false;
             Button button = new Button
             {
@@ -196,7 +196,7 @@ namespace UnitTests
             executeAsyncButton(button);
 
             // assert
-            Assert.Equal(1, vm.Question.UpVotes);
+            Assert.Equal(1, vm.Question.UpVotesByThisUser);
         }
 
         [Fact]
@@ -204,7 +204,7 @@ namespace UnitTests
         {
             // arrange
             IndividualParticipant.IsRegistered = true;
-            vm.Question.UpVotes = 1;
+            vm.Question.UpVotesByThisUser = 1;
             vm.Question.AlreadyUpvoted = true;
             Button button = new Button
             {
@@ -215,7 +215,7 @@ namespace UnitTests
             executeAsyncButton(button);
 
             // assert
-            Assert.Equal(0, vm.Question.UpVotes);
+            Assert.Equal(0, vm.Question.UpVotesByThisUser);
         }
 
         [Fact]
