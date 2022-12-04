@@ -224,7 +224,17 @@ namespace UnitTests
         {
             // arrange
             // TODO Add timestamp, total_votes, net_votes
-            QuestionReceiveFromServer question = new QuestionReceiveFromServer() { question_id = "fakeQuestionId", question_text = "fakeQuestionTest", author = "fakeAuthor", version = "fakeVersion"};
+            QuestionReceiveFromServer question = new QuestionReceiveFromServer()
+            {
+                question_id = "fakeQuestionId",
+                question_text = "fakeQuestionTest",
+                author = "fakeAuthor",
+                version = "fakeVersion",
+                timestamp = 0980532405,
+                last_modified = 0980532407,
+                total_votes = 7,
+                net_votes = 3
+            };
             QuestionReceiveFromServer invalidQuestion = new QuestionReceiveFromServer();
 
             // act

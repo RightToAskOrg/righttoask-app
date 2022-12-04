@@ -83,6 +83,7 @@ namespace RightToAskClient.Models.ServerCommsData
                            && !string.IsNullOrEmpty(version)
                            && timestamp != null
                            && last_modified != null
+                           && last_modified >= timestamp
                            && total_votes >= 0 
                            && net_votes != null;
         }
