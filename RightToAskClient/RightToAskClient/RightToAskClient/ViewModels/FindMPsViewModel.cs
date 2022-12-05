@@ -289,6 +289,32 @@ namespace RightToAskClient.ViewModels
 
         // methods
         #region Methods
+
+        private async Task ShowOneButtonPopup(string? title, string message, string buttonText)
+        {
+            OneButtonPopup popup;
+            if (title != null)
+            {
+                popup = new OneButtonPopup(title,message, buttonText);
+            }
+            else
+            {
+                popup = new OneButtonPopup(message, buttonText);
+            } 
+            _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
+        }
+
+        private async Task<bool> ShowTwoButtonPopup(string popupTitle, string popupText, string cancelMessage, string approveMessage)
+        {
+            var popup = new TwoButtonPopup(
+                AppResources.InvalidPostcodePopupTitle, 
+                AppResources.InvalidPostcodePopupText, 
+                AppResources.CancelButtonText, 
+                AppResources.ImSureButtonText, 
+                false);
+            var popupResult = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
+            return popup.HasApproved(popupResult);
+        }
         
         // If we don't even know the person's state, we have no idea so they have to go back and pick;
         // If we know their state but not their Legislative Assembly or Council makeup, we can go on. 
@@ -298,10 +324,12 @@ namespace RightToAskClient.ViewModels
             CheckPostcode();
             if (!PostcodeIsValid)
             {
-                // TODO: (FindMPsViewModel) TwoButtonPopup entry
-                var popup = new TwoButtonPopup(AppResources.InvalidPostcodePopupTitle, AppResources.InvalidPostcodePopupText, AppResources.CancelButtonText, AppResources.ImSureButtonText, false);
-                var popupResult = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
-                if (popup.HasApproved(popupResult))
+                var popupResult = await ShowTwoButtonPopup(
+                    AppResources.InvalidPostcodePopupTitle,
+                    AppResources.InvalidPostcodePopupText,
+                    AppResources.CancelButtonText, 
+                    AppResources.ImSureButtonText);
+                if (popupResult)
                 {
                     PostcodeIsValid = true;
                 }
@@ -311,14 +339,10 @@ namespace RightToAskClient.ViewModels
                 }
             }
 
-            IsBusy = true; // no longer displaying the activity indicator since the webview shows that it is being updated
-
             var state = IndividualParticipant.ProfileData.RegistrationInfo.State;
             if (string.IsNullOrEmpty(state))
             {
-                // TODO: (FindMPsViewModel) OneButtonPopup entry
-                var popup = new OneButtonPopup(AppResources.SelectStateWarningText, AppResources.OKText);
-                _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                await ShowOneButtonPopup(null, AppResources.SelectStateWarningText, AppResources.OKText);
                 return;
             }
 
@@ -330,11 +354,7 @@ namespace RightToAskClient.ViewModels
                 {
                     errorMessage += errorResult.Message;
                 }
-
-                // TODO: (FindMPsViewModel) OneButtonPopup entry
-                var popup = new OneButtonPopup(errorMessage, AppResources.OKText);
-                _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
-
+                await ShowOneButtonPopup(null, errorMessage, AppResources.OKText);
                 return;
             }
 
@@ -350,12 +370,7 @@ namespace RightToAskClient.ViewModels
                 ReportLabelText = ((httpResponse is ErrorResult<GeoscapeAddressFeature> errorResult)
                     ? ReportLabelText = errorResult.Message
                     : ReportLabelText = AppResources.ErrorFindingAddress);
-
-                // TODO: (FindMPsViewModel) OneButtonPopup entry
-                var popup = new OneButtonPopup(
-                    AppResources.ElectoratesNotFoundErrorText, 
-                    AppResources.OKText);
-                _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                await ShowOneButtonPopup(null, AppResources.ElectoratesNotFoundErrorText, AppResources.OKText);
                 return;
             }
 
@@ -378,11 +393,7 @@ namespace RightToAskClient.ViewModels
                 // just save the address all the time now if it returned a valid electorate
                 SaveAddress();
             }
-            var electoratesSearchResultPopup = new OneButtonPopup(
-                electoratePopupTitle,
-                electoratePopupText, 
-                AppResources.OKText);
-            _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(electoratesSearchResultPopup);
+            await ShowOneButtonPopup(electoratePopupTitle, electoratePopupText, AppResources.OKText);
 
             ShowSkipButton = false;
             // display the map if we stored the Federal Electorate properly
@@ -524,6 +535,7 @@ namespace RightToAskClient.ViewModels
 
         private void CheckPostcode()
         {
+            // TODO: reduce complexity (need to be testablr - currently, SelectedStateEnum isn't accessible)
             switch (SelectedStateEnum)
             {
                 case ParliamentData.StateEnum.ACT:
