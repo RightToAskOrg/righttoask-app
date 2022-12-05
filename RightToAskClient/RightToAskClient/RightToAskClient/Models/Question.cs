@@ -243,7 +243,7 @@ namespace RightToAskClient.Models
                     var message = AppResources.CreateAccountPopUpText;
                     var popup = new TwoButtonPopup(this, AppResources.MakeAccountQuestionText, message, AppResources.NotNowAnswerText, AppResources.OKText); // this instance uses a model instead of a VM
                     var popupResult = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
-                    if (popup.hasApproved(popupResult))
+                    if (popup.HasApproved(popupResult))
                     {
                         await Shell.Current.GoToAsync($"{nameof(RegisterPage1)}");
                     }

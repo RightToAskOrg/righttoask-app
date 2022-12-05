@@ -18,7 +18,7 @@ namespace RightToAskClient.ViewModels
             {
                 var popup = new TwoButtonPopup(this, AppResources.GoHomePopupTitle, AppResources.GoHomePopupText, AppResources.CancelButtonText, AppResources.GoHomeButtonText);
                 var popupResult = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
-                if (popup.hasApproved(popupResult))
+                if (popup.HasApproved(popupResult))
                 {
                     await Application.Current.MainPage.Navigation.PopToRootAsync();
                 }

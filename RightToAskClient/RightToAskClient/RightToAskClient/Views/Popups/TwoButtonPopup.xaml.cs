@@ -37,7 +37,7 @@ namespace RightToAskClient.Views.Popups
             modelApproveButton.Text = approveMessage;
         }
 
-        public bool hasApproved(object? value)
+        public bool HasApproved(object? value)
         {
             return value?.ToString() == "OK";
         }

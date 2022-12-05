@@ -600,7 +600,7 @@ namespace RightToAskClient.ViewModels
             var popup = new TwoButtonPopup(QuestionViewModel.Instance, AppResources.QuestionEditSuccessfulPopupTitle, AppResources.QuestionEditSuccessfulPopupText, AppResources.StayOnCurrentPageButtonText, AppResources.GoHomeButtonText);            
             var popupResult = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
 
-            if (popup.hasApproved(popupResult))
+            if (popup.HasApproved(popupResult))
             {
                 await Application.Current.MainPage.Navigation.PopToRootAsync();
             }

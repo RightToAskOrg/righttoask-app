@@ -408,7 +408,7 @@ namespace RightToAskClient.ViewModels
                     // if MPs have not been found for this user yet, prompt to find them
                     var popup = new TwoButtonPopup(this, AppResources.MPsPopupTitle, AppResources.MPsPopupText, AppResources.SkipButtonText, AppResources.YesButtonText);
                     var popupResult = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
-                    if (popup.hasApproved(popupResult))
+                    if (popup.HasApproved(popupResult))
                     {
                         NavigateToFindMPsPage();
                     }
