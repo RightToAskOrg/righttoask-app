@@ -299,7 +299,7 @@ namespace RightToAskClient.ViewModels
 
             if (!PostcodeIsValid)
             {
-                var popup = new TwoButtonPopup(this, AppResources.InvalidPostcodePopupTitle, AppResources.InvalidPostcodePopupText, AppResources.CancelButtonText, AppResources.ImSureButtonText);
+                var popup = new TwoButtonPopup(AppResources.InvalidPostcodePopupTitle, AppResources.InvalidPostcodePopupText, AppResources.CancelButtonText, AppResources.ImSureButtonText, false);
                 var popupResult = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
                 if (popup.HasApproved(popupResult))
                 {

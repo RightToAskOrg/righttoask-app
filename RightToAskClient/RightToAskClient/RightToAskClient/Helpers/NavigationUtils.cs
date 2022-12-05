@@ -88,7 +88,7 @@ namespace RightToAskClient.Helpers
         {
             if (!IndividualParticipant.IsRegistered)
             {
-                var popup = new TwoButtonPopup(vm, AppResources.MakeAccountQuestionText, AppResources.CreateAccountPopUpText, AppResources.CancelButtonText, AppResources.OKText);
+                var popup = new TwoButtonPopup(AppResources.MakeAccountQuestionText, AppResources.CreateAccountPopUpText, AppResources.CancelButtonText, AppResources.OKText, false);
                 var popupResult = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
                 if (popup.HasApproved(popupResult))
                 {

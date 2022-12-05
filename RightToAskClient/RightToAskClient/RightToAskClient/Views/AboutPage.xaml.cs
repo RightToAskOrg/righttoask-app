@@ -69,7 +69,7 @@ namespace RightToAskClient.Views
                 var alertCancel = AppResources.CancelButtonText;
                 var alertConfirmation = AppResources.NavigateOKText;
 
-                var popup = new TwoButtonPopup(baseViewModel, AppResources.NavigationPopupTitle, alertText, alertCancel, alertConfirmation);
+                var popup = new TwoButtonPopup(AppResources.NavigationPopupTitle, alertText, alertCancel, alertConfirmation, false);
                 var popupResult = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
                 if (popup.HasApproved(popupResult))
                 {

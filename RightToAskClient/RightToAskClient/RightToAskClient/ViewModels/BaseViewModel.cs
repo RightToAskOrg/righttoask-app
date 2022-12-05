@@ -16,7 +16,7 @@ namespace RightToAskClient.ViewModels
             PopupLabelText = "TestText";
             HomeButtonCommand = new AsyncCommand(async () =>
             {
-                var popup = new TwoButtonPopup(this, AppResources.GoHomePopupTitle, AppResources.GoHomePopupText, AppResources.CancelButtonText, AppResources.GoHomeButtonText);
+                var popup = new TwoButtonPopup(AppResources.GoHomePopupTitle, AppResources.GoHomePopupText, AppResources.CancelButtonText, AppResources.GoHomeButtonText, false);
                 var popupResult = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
                 if (popup.HasApproved(popupResult))
                 {
