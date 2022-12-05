@@ -24,9 +24,9 @@
                         Style="{StaticResource PopupOKButton}"/>
             </Grid>
             <Grid x:Name="modelButtons" ColumnDefinitions="*,*" VerticalOptions="End" BackgroundColor="Transparent">
-                <Button x:Name="modelCancelButton" Grid.Column="0" Clicked="ModelCancelButtonClicked" FontSize="Small" 
+                <Button x:Name="modelCancelButton" Grid.Column="0" Clicked="CancelButtonClicked" FontSize="Small" 
                         TextColor="{StaticResource AlertColor}" HeightRequest="50" BackgroundColor="Transparent" Margin="0" Padding="0" HorizontalOptions="FillAndExpand"/>
-                <Button x:Name="modelApproveButton" Grid.Column="1" Clicked="ModelApproveButtonClicked" FontSize="Small" 
+                <Button x:Name="modelApproveButton" Grid.Column="1" Clicked="ApproveButtonClicked" FontSize="Small" 
                         TextColor="{StaticResource TextColorGreen}" HeightRequest="50" BackgroundColor="Transparent" Margin="0" Padding="0" HorizontalOptions="FillAndExpand"/>
             </Grid>
         </StackLayout>

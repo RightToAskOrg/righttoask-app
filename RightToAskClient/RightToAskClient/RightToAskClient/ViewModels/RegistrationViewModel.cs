@@ -406,9 +406,9 @@ namespace RightToAskClient.ViewModels
                 if (!IndividualParticipant.ElectoratesKnown)
                 {
                     // if MPs have not been found for this user yet, prompt to find them
-                    var popup = new TwoButtonPopup(this, AppResources.MPsPopupTitle, AppResources.MPsPopupText, AppResources.SkipButtonText, AppResources.YesButtonText);
-                    _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
-                    if (ApproveButtonClicked)
+                    var popup = new TwoButtonPopup(AppResources.MPsPopupTitle, AppResources.MPsPopupText, AppResources.SkipButtonText, AppResources.YesButtonText, false);
+                    var popupResult = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                    if (popup.HasApproved(popupResult))
                     {
                         NavigateToFindMPsPage();
                     }

@@ -215,19 +215,6 @@ namespace RightToAskClient.Models
             get => _hasAnswer;
             set => SetProperty(ref _hasAnswer, value);
         }
-        // booleans stored for new style popups
-        private bool _approveClicked;
-        public bool ApproveClicked
-        {
-            get => _approveClicked;
-            set => SetProperty(ref _approveClicked, value);
-        }
-        private bool _cancelClicked;
-        public bool CancelClicked
-        {
-            get => _cancelClicked;
-            set => SetProperty(ref _cancelClicked, value);
-        }
 
         // constructor needed for command creation
         public Question()
@@ -254,9 +241,9 @@ namespace RightToAskClient.Models
                 else
                 {
                     var message = AppResources.CreateAccountPopUpText;
-                    var popup = new TwoButtonPopup(this, AppResources.MakeAccountQuestionText, message, AppResources.NotNowAnswerText, AppResources.OKText); // this instance uses a model instead of a VM
-                    _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
-                    if (ApproveClicked)
+                    var popup = new TwoButtonPopup(AppResources.MakeAccountQuestionText, message, AppResources.NotNowAnswerText, AppResources.OKText, true); // this instance uses a model instead of a VM
+                    var popupResult = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                    if (popup.HasApproved(popupResult))
                     {
                         await Shell.Current.GoToAsync($"{nameof(RegisterPage1)}");
                     }
@@ -288,23 +275,11 @@ namespace RightToAskClient.Models
                     IndividualParticipant.ReportedQuestionIDs.Remove(QuestionId);
                 }
             });
-            PopupApproveCommand = new Command(() =>
-            {
-                ApproveClicked = true;
-                CancelClicked = false;
-            });
-            PopupCancelCommand = new Command(() =>
-            {
-                CancelClicked = true;
-                ApproveClicked = false;
-            });
         }
 
         // commands
         public Command UpvoteCommand { get; }
         public Command ReportCommand { get; }
-        public Command PopupApproveCommand { get; }
-        public Command PopupCancelCommand { get; }
         public Command QuestionDetailsCommand { get; }
         public IAsyncCommand ShareCommand { get; }
 
