@@ -45,7 +45,7 @@ namespace UnitTests
 
             // assert
             Assert.True(validReg);
-            Assert.True(!string.IsNullOrEmpty(IndividualParticipant.ProfileData.RegistrationInfo.State));
+            Assert.False(string.IsNullOrEmpty(IndividualParticipant.ProfileData.RegistrationInfo.State));
             Assert.True(string.IsNullOrEmpty(vm.ReportLabelText));
             //Assert.True(vm.ShowFindMPsButton);
             Assert.False(vm.ShowSkipButton);

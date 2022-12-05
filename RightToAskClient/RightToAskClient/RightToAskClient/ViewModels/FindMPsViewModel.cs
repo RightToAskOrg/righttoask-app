@@ -296,101 +296,104 @@ namespace RightToAskClient.ViewModels
         {
             // see if we should prompt first
             CheckPostcode();
-
             if (!PostcodeIsValid)
             {
+                // TODO: (FindMPsViewModel) TwoButtonPopup entry
                 var popup = new TwoButtonPopup(AppResources.InvalidPostcodePopupTitle, AppResources.InvalidPostcodePopupText, AppResources.CancelButtonText, AppResources.ImSureButtonText, false);
                 var popupResult = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
                 if (popup.HasApproved(popupResult))
                 {
                     PostcodeIsValid = true;
                 }
+                else
+                {
+                    return;
+                }
             }
-            if (PostcodeIsValid)
+
+            IsBusy = true; // no longer displaying the activity indicator since the webview shows that it is being updated
+
+            var state = IndividualParticipant.ProfileData.RegistrationInfo.State;
+            if (string.IsNullOrEmpty(state))
             {
-                IsBusy = true; // no longer displaying the activity indicator since the webview shows that it is being updated
+                // TODO: (FindMPsViewModel) OneButtonPopup entry
+                var popup = new OneButtonPopup(AppResources.SelectStateWarningText, AppResources.OKText);
+                _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                return;
+            }
 
-                var state = IndividualParticipant.ProfileData.RegistrationInfo.State;
-
-                if (string.IsNullOrEmpty(state))
+            var addressValidation = _address.SeemsValid();
+            if (addressValidation.Failure)
+            {
+                var errorMessage = AppResources.InvalidAddress;
+                if (addressValidation is ErrorResult<bool> errorResult)
                 {
-                    var popup = new OneButtonPopup(AppResources.SelectStateWarningText, AppResources.OKText);
-                    _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
-                    return;
+                    errorMessage += errorResult.Message;
                 }
 
-                var addressValidation = _address.SeemsValid();
-                if (addressValidation.Failure)
-                {
-                    var errorMessage = AppResources.InvalidAddress;
-                    if (addressValidation is ErrorResult<bool> errorResult)
-                    {
-                        errorMessage += errorResult.Message;
-                    }
+                // TODO: (FindMPsViewModel) OneButtonPopup entry
+                var popup = new OneButtonPopup(errorMessage, AppResources.OKText);
+                _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
 
-                    var popup = new OneButtonPopup(errorMessage, AppResources.OKText);
-                    _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                return;
+            }
 
-                    return;
-                }
+            var httpResponse = await GeoscapeClient.GetFirstAddressData(_address + " " + state);
+            if (httpResponse == null)
+            {
+                return;
+            }
 
-                var httpResponse = await GeoscapeClient.GetFirstAddressData(_address + " " + state);
+            // Display a popup if Electorates were not found
+            if (httpResponse.Failure)
+            {
+                ReportLabelText = ((httpResponse is ErrorResult<GeoscapeAddressFeature> errorResult)
+                    ? ReportLabelText = errorResult.Message
+                    : ReportLabelText = AppResources.ErrorFindingAddress);
 
-                // The compiler doesn't think this null check is necessary, but it is.
-                if (httpResponse != null)
-                {
-                    if (httpResponse.Failure)
-                    {
-                        if (httpResponse is ErrorResult<GeoscapeAddressFeature> errorResult)
-                        {
-                            ReportLabelText = errorResult.Message;
-                        }
-                        else
-                        {
-                            // Generic error message if no specific one available.
-                            ReportLabelText = AppResources.ErrorFindingAddress;
-                        }
-                        
-                        // Display a popup if Electorates were not found
-                        var popup = new OneButtonPopup(AppResources.ElectoratesNotFoundErrorText, AppResources.OKText);
-                        _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
-                        return;
-                    }
+                // TODO: (FindMPsViewModel) OneButtonPopup entry
+                var popup = new OneButtonPopup(
+                    AppResources.ElectoratesNotFoundErrorText, 
+                    AppResources.OKText);
+                _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                return;
+            }
 
-                    // httpResponse.Success 
-                    var bestAddress = httpResponse.Data;
-                    // needs a federal electorate to be valid
-                    if (!string.IsNullOrEmpty(bestAddress.Properties?.CommonwealthElectorate?.ToString()))
-                    {
-                        AddElectorates(bestAddress);
-                        ShowFindMPsButton = true;
-                        ReportLabelText = "";
+            var bestAddress = httpResponse.Data;
+            var electoratePopupTitle = "Electorates not Found";
+            var electoratePopupText = "Please reformat the address and try again.";
+            // needs a federal electorate to be valid
+            if (!string.IsNullOrEmpty(bestAddress.Properties?.CommonwealthElectorate?.ToString()))
+            {
+                AddElectorates(bestAddress);
+                ShowFindMPsButton = true;
+                ReportLabelText = "";
 
-                        var electoratePopupTitle = "Electorates Found!";
-                        var electoratePopupText = "Federal electorate: " + IndividualParticipant.ProfileData.CommonwealthElectorate +
-                                                  "\n" + "State lower house electorate: " + IndividualParticipant.ProfileData.StateLowerHouseElectorate;
-                        var electoratesFoundPopup = new OneButtonPopup(electoratePopupTitle, electoratePopupText, AppResources.OKText);
-                        _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(electoratesFoundPopup);
+                electoratePopupTitle = "Electorates Found!";
+                electoratePopupText = ("Federal electorate: " +
+                                       IndividualParticipant.ProfileData.CommonwealthElectorate +
+                                       "\nState lower house electorate: " + 
+                                       IndividualParticipant.ProfileData.StateLowerHouseElectorate);
 
-                        // just save the address all the time now if it returned a valid electorate
-                        SaveAddress();
-                    }
-                    else
-                    {
-                        var electoratesNotFoundPopup = new OneButtonPopup("Electorates not Found", "Please reformat the address and try again.", AppResources.OKText);
-                        _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(electoratesNotFoundPopup);
-                    }
-                    ShowSkipButton = false;
-                    // display the map if we stored the Federal Electorate properly
-                    if (!string.IsNullOrEmpty(IndividualParticipant.ProfileData.CommonwealthElectorate))
-                    {
-                        ShowMapFrame = true;
-                        ShowKnowElectoratesFrame = false;
-                        ShowAddressStack = false;
-                        var electorateString = ParliamentData.ConvertGeoscapeElectorateToStandard(state, IndividualParticipant.ProfileData.CommonwealthElectorate);
-                        ShowMapOfElectorate(electorateString);
-                    }
-                }
+                // just save the address all the time now if it returned a valid electorate
+                SaveAddress();
+            }
+            var electoratesSearchResultPopup = new OneButtonPopup(
+                electoratePopupTitle,
+                electoratePopupText, 
+                AppResources.OKText);
+            _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(electoratesSearchResultPopup);
+
+            ShowSkipButton = false;
+            // display the map if we stored the Federal Electorate properly
+            if (!string.IsNullOrEmpty(IndividualParticipant.ProfileData.CommonwealthElectorate))
+            {
+                ShowMapFrame = true;
+                ShowKnowElectoratesFrame = false;
+                ShowAddressStack = false;
+                var electorateString = ParliamentData.ConvertGeoscapeElectorateToStandard(state,
+                    IndividualParticipant.ProfileData.CommonwealthElectorate);
+                ShowMapOfElectorate(electorateString);
             }
         }
 
