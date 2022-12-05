@@ -276,13 +276,13 @@ namespace RightToAskClient.ViewModels
                     
                     if (Question.AlreadyUpvoted)
                     {
-                        Question.UpVotes--;
+                        Question.UpVotesByThisUser--;
                         Question.AlreadyUpvoted = false;
                         UpvoteButtonText = AppResources.UpvoteButtonText;
                     }
                     else
                     {
-                        Question.UpVotes++;
+                        Question.UpVotesByThisUser++;
                         Question.AlreadyUpvoted = true;
                         UpvoteButtonText = AppResources.UpvotedButtonText;
                     }

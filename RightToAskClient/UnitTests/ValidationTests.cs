@@ -223,17 +223,76 @@ namespace UnitTests
         public void ValidateQuestionReceiveFromServerTest()
         {
             // arrange
-            QuestionReceiveFromServer question = new QuestionReceiveFromServer() { question_id = "fakeQuestionId", question_text = "fakeQuestionTest", author = "fakeAuthor", version = "fakeVersion"};
-            QuestionReceiveFromServer invalidQuestion = new QuestionReceiveFromServer();
-
-            // act
-            bool isValid = question.Validate();
-            bool isInvalid = invalidQuestion.Validate();
+            QuestionReceiveFromServer question = new QuestionReceiveFromServer()
+            {
+                question_id = "fakeQuestionId",
+                question_text = "fakeQuestionTest",
+                author = "fakeAuthor",
+                version = "fakeVersion",
+                timestamp = 0980532405,
+                last_modified = 0980532407,
+                total_votes = 7,
+                net_votes = 3
+            };
 
             // assert
-            Assert.True(isValid);
-            Assert.False(isInvalid);
+            Assert.True(question.Validate());
         }
+
+        [Fact]
+        public void ValidateInvalidQuestionReceiveFromServerTest()
+        {
+            QuestionReceiveFromServer invalidQuestion = new QuestionReceiveFromServer();
+            Assert.False(invalidQuestion.Validate());
+        }
+        
+
+        [Fact]
+        
+        // Ideally, we'd have a valid question and then a series of single-item tweaks to make it invalid, checking that
+        // each one was indeed invalid. 
+        public void ValidateQuestionConstructedFromQuestionReceiveFromServerTest()
+        {
+            // arrange
+            QuestionReceiveFromServer serverQuestion = new QuestionReceiveFromServer()
+            {
+                question_id = "fakeQuestionId",
+                question_text = "fakeQuestionTest",
+                author = "fakeAuthor",
+                version = "fakeVersion",
+                timestamp = 0980532405,
+                last_modified = 0980532407,
+                total_votes = 7,
+                net_votes = 3
+            };
+
+            // act
+            Question validQuestion = new Question(serverQuestion);
+
+            // assert
+            Assert.True(validQuestion.ValidateDownloadedQuestion());
+            Assert.Equal(validQuestion.QuestionId , serverQuestion.question_id);
+            Assert.Equal(validQuestion.QuestionText , serverQuestion.question_text);
+            Assert.Equal(validQuestion.QuestionSuggester , serverQuestion.author);
+            Assert.Equal(validQuestion.Timestamp , serverQuestion.timestamp);
+            Assert.Equal(validQuestion.LastModified , serverQuestion.last_modified);
+            Assert.Equal(validQuestion.TotalVotes , serverQuestion.total_votes);
+            Assert.Equal(validQuestion.NetVotes , serverQuestion.net_votes);
+        }
+
+        [Fact]
+        public void ValidateInvalidQuestionConstructedFromQuestionReceiveFromServerTest()
+        {
+            // arrange 
+            QuestionReceiveFromServer invalidServerQuestion = new QuestionReceiveFromServer();
+            
+            // act
+            Question invalidQuestion =  new Question(invalidServerQuestion);
+            
+            // assert
+            Assert.False(invalidQuestion.ValidateDownloadedQuestion());
+        }
+        
 
         [Fact]
         public Registration ValidRegistrationTest()

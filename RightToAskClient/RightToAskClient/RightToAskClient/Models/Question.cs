@@ -23,8 +23,9 @@ namespace RightToAskClient.Models
 
     public class Question : ObservableObject
     {
-        private int _upVotes;
-        private int _downVotes;
+        // Note these relate to whether this user up- or down-voted the question, not the global tally.
+        private int _upVotesByThisUser;
+        private int _downVotesByThisUser;
 
         public QuestionDetailsStatus Status { get; set; }
 
@@ -60,8 +61,12 @@ namespace RightToAskClient.Models
                 who_should_ask_the_question_permissions = RTAPermissions.NoChange
             };
         }
-        public int Timestamp { get; set; }
-        
+
+        public int Timestamp { get; set; } = 0;
+        public int LastModified { get; set; } = 0;
+        public int TotalVotes { get; private set; } = 0;
+        public int NetVotes { get; private set; } = 0;
+
         private string _background = "";
         public string Background
         {
@@ -176,17 +181,17 @@ namespace RightToAskClient.Models
             //** QuestionViewModel.Instance.ServerQuestionUpdates.hansard_link = _hansardLink;
         }
 
-        public int UpVotes
+        public int UpVotesByThisUser
         {
-            get => _upVotes;
-            set => SetProperty(ref _upVotes, value);
+            get => _upVotesByThisUser;
+            set => SetProperty(ref _upVotesByThisUser, value);
         }
-        public int DownVotes 
+        public int DownVotesByThisUser 
         {
-            get => _downVotes;
+            get => _downVotesByThisUser;
             set
             {
-                _downVotes = value;
+                _downVotesByThisUser = value;
                 OnPropertyChanged();
             }
         }
@@ -235,13 +240,13 @@ namespace RightToAskClient.Models
                 {
                     if (!AlreadyUpvoted)
                     {
-                        UpVotes += 1;
+                        UpVotesByThisUser += 1;
                         AlreadyUpvoted = true;
                         IndividualParticipant.UpvotedQuestionIDs.Add(QuestionId);
                     }
                     else
                     {
-                        UpVotes -= 1;
+                        UpVotesByThisUser -= 1;
                         AlreadyUpvoted = false;
                         IndividualParticipant.UpvotedQuestionIDs.Remove(QuestionId);
                     }
@@ -315,6 +320,12 @@ namespace RightToAskClient.Models
             // bookkeeping fields
             QuestionId = serverQuestion.question_id ?? "";
             Version = serverQuestion.version ?? "";
+            
+            LastModified = serverQuestion.last_modified ?? 0;
+            
+            // vote-tally fields
+            TotalVotes = serverQuestion.total_votes ?? 0;
+            NetVotes = serverQuestion.net_votes ?? 0;
             
             // question non-defining fields
             Background = serverQuestion.background ?? "";
@@ -442,31 +453,6 @@ namespace RightToAskClient.Models
             return true;
         }
 
-        //validation
-        public bool ValidateNewQuestion()
-        {
-            var isValid = false;
-            // just needs question text for new questions
-            if (!string.IsNullOrEmpty(QuestionText))
-            {
-                isValid = true;
-            }
-            return isValid;
-        }
-
-        public bool ValidateUpdateQuestion()
-        {
-            var isValid = false;
-            // needs more fields to update an existing question
-            if (!string.IsNullOrEmpty(QuestionText)
-                && !string.IsNullOrEmpty(QuestionId)
-                && !string.IsNullOrEmpty(Version))
-            {
-                isValid = true;
-            }
-            return isValid;
-        }
-
         public void AddHansardLink(Uri newHansardLink)
         {
             if (Updates.hansard_link is null)
@@ -492,6 +478,29 @@ namespace RightToAskClient.Models
                     answer = answer
                 }
             };
+        }
+
+        //validation
+        public bool ValidateNewQuestion()
+        {
+            // just needs question text for new questions
+            return !string.IsNullOrEmpty(QuestionText);
+        }
+
+        public bool ValidateUpdateQuestion()
+        {
+            return !string.IsNullOrEmpty(QuestionText) && !string.IsNullOrEmpty(QuestionId) &&
+                           !string.IsNullOrEmpty(Version);
+            // needs more fields to update an existing question
+        }
+
+        public bool ValidateDownloadedQuestion()
+        {
+            return !string.IsNullOrEmpty(QuestionText) &&
+                   !string.IsNullOrEmpty(QuestionId) &&
+                   !string.IsNullOrEmpty(Version) &&
+                   Timestamp != 0 &&
+                   TotalVotes >= 0;
         }
     }
 }
