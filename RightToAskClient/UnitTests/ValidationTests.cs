@@ -234,12 +234,18 @@ namespace UnitTests
                 total_votes = 7,
                 net_votes = 3
             };
-            QuestionReceiveFromServer invalidQuestion = new QuestionReceiveFromServer();
 
             // assert
             Assert.True(question.Validate());
+        }
+
+        [Fact]
+        public void ValidateInvalidQuestionReceiveFromServerTest()
+        {
+            QuestionReceiveFromServer invalidQuestion = new QuestionReceiveFromServer();
             Assert.False(invalidQuestion.Validate());
         }
+        
 
         [Fact]
         
