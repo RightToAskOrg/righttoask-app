@@ -236,13 +236,9 @@ namespace UnitTests
             };
             QuestionReceiveFromServer invalidQuestion = new QuestionReceiveFromServer();
 
-            // act
-            bool isValid = question.Validate();
-            bool isInvalid = invalidQuestion.Validate();
-
             // assert
-            Assert.True(isValid);
-            Assert.False(isInvalid);
+            Assert.True(question.Validate());
+            Assert.False(invalidQuestion.Validate());
         }
 
         [Fact]
