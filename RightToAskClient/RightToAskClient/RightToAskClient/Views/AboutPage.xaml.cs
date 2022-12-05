@@ -70,8 +70,8 @@ namespace RightToAskClient.Views
                 var alertConfirmation = AppResources.NavigateOKText;
 
                 var popup = new TwoButtonPopup(baseViewModel, AppResources.NavigationPopupTitle, alertText, alertCancel, alertConfirmation);
-                _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
-                if (baseViewModel.ApproveButtonClicked)
+                var popupResult = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                if (popup.hasApproved(popupResult))
                 {
                     var browserDestination = new Uri(destination);
                     await OpenBrowser(browserDestination);

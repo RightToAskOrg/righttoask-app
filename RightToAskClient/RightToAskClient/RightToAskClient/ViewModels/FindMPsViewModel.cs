@@ -300,8 +300,8 @@ namespace RightToAskClient.ViewModels
             if (!PostcodeIsValid)
             {
                 var popup = new TwoButtonPopup(this, AppResources.InvalidPostcodePopupTitle, AppResources.InvalidPostcodePopupText, AppResources.CancelButtonText, AppResources.ImSureButtonText);
-                _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
-                if (ApproveButtonClicked)
+                var popupResult = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                if (popup.hasApproved(popupResult))
                 {
                     PostcodeIsValid = true;
                 }

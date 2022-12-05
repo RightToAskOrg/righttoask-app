@@ -17,8 +17,8 @@ namespace RightToAskClient.ViewModels
             HomeButtonCommand = new AsyncCommand(async () =>
             {
                 var popup = new TwoButtonPopup(this, AppResources.GoHomePopupTitle, AppResources.GoHomePopupText, AppResources.CancelButtonText, AppResources.GoHomeButtonText);
-                _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
-                if (ApproveButtonClicked)
+                var popupResult = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                if (popup.hasApproved(popupResult))
                 {
                     await Application.Current.MainPage.Navigation.PopToRootAsync();
                 }
@@ -28,17 +28,6 @@ namespace RightToAskClient.ViewModels
                 //Page.Navigation.ShowPopup(new InfoPopup());
                 var popup = new InfoPopup(PopupHeaderText,PopupLabelText, AppResources.OKText);
                 _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
-            });
-            ApproveCommand = new Command(() =>
-            {
-                ApproveButtonClicked = true;
-                CancelButtonClicked = false;
-                //Dismiss();
-            });
-            CancelCommand = new Command(() =>
-            {
-                ApproveButtonClicked = false;
-                CancelButtonClicked = true;
             });
         }
 
@@ -77,14 +66,8 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _reportLabelText, value);
         }
 
-        // booleans for feedback from generic popup button presses
-        public bool CancelButtonClicked { get; set; }
-        public bool ApproveButtonClicked { get; set; }
-
         // commands
         public IAsyncCommand HomeButtonCommand { get; }
         public IAsyncCommand InfoPopupCommand { get; }
-        public Command ApproveCommand { get; set; }
-        public Command CancelCommand { get; set; }
     }
 }

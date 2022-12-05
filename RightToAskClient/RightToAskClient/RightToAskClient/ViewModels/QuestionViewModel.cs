@@ -598,9 +598,9 @@ namespace RightToAskClient.ViewModels
             // TODO: Here, we'll need to ensure we've got the right version (from the server - get it returned from
             // BuildSignAndUpload... 
             var popup = new TwoButtonPopup(QuestionViewModel.Instance, AppResources.QuestionEditSuccessfulPopupTitle, AppResources.QuestionEditSuccessfulPopupText, AppResources.StayOnCurrentPageButtonText, AppResources.GoHomeButtonText);            
-            var result = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+            var popupResult = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
 
-            if (ApproveButtonClicked)
+            if (popup.hasApproved(popupResult))
             {
                 await Application.Current.MainPage.Navigation.PopToRootAsync();
             }

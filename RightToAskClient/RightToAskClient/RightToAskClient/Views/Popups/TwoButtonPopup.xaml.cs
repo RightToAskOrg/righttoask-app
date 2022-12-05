@@ -9,14 +9,10 @@ namespace RightToAskClient.Views.Popups
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TwoButtonPopup : Popup
     {
-        private readonly BaseViewModel? baseViewModel;
-
-        private readonly Question? model;
         // constructor for ViewModels
         public TwoButtonPopup(BaseViewModel vm, string popupTitle, string popupText, string cancelMessage, string approveMessage)
         {
             InitializeComponent();
-            baseViewModel = vm;
             BindingContext = vm;
             vmButtons.IsVisible = true;
             modelButtons.IsVisible = false;
@@ -32,7 +28,6 @@ namespace RightToAskClient.Views.Popups
         public TwoButtonPopup(Question q, string popupTitle, string popupText, string cancelMessage, string approveMessage)
         {
             InitializeComponent();
-            model = q;
             BindingContext = q;
             vmButtons.IsVisible = false;
             modelButtons.IsVisible = true;
@@ -42,47 +37,32 @@ namespace RightToAskClient.Views.Popups
             modelApproveButton.Text = approveMessage;
         }
 
+        public bool hasApproved(object? value)
+        {
+            return value?.ToString() == "OK";
+        }
+
         private void DismissPopup(object sender, EventArgs e)
         {
-            Dismiss("Dismissed");
+            Dismiss("cancel");
         }
 
         private void CancelButtonClicked(object sender, EventArgs e)
         {
-            if (baseViewModel != null)
-            {
-                baseViewModel.CancelButtonClicked = true;
-                baseViewModel.ApproveButtonClicked = false;
-            }
-            Dismiss("Dismissed");
+            Dismiss("cancel");
         }
         private void ApproveButtonClicked(object sender, EventArgs e)
         {
-            if (baseViewModel != null)
-            {
-                baseViewModel.ApproveButtonClicked = true;
-                baseViewModel.CancelButtonClicked = false;
-            }
-            Dismiss("Dismissed");
+            Dismiss("OK");
         }
 
         private void ModelCancelButtonClicked(object sender, EventArgs e)
         {
-            if (model != null)
-            {
-                model.ApproveClicked = false;
-                model.CancelClicked = true;
-            }
-            Dismiss("Dismissed");
+            Dismiss("cancel");
         }
         private void ModelApproveButtonClicked(object sender, EventArgs e)
-        {
-            if (model != null)
-            {
-                model.ApproveClicked = true;
-                model.CancelClicked = false;
-            }
-            Dismiss("Dismissed");
+        { 
+            Dismiss("OK");
         }
     }
 }
