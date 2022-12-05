@@ -223,7 +223,6 @@ namespace UnitTests
         public void ValidateQuestionReceiveFromServerTest()
         {
             // arrange
-            // TODO Add timestamp, total_votes, net_votes
             QuestionReceiveFromServer question = new QuestionReceiveFromServer()
             {
                 question_id = "fakeQuestionId",
@@ -247,10 +246,7 @@ namespace UnitTests
         }
 
         [Fact]
-        // TODO is there a nice way we can have 
-        // - a common set of input data (e.g. the same questionreceivefromserver in this test and the previous one?
-        // - interactions with the server (or a test version), i.e. downloads of useful data?
-        // 
+        
         // Ideally, we'd have a valid question and then a series of single-item tweaks to make it invalid, checking that
         // each one was indeed invalid. 
         public void ValidateQuestionConstructedFromQuestionReceiveFromServerTest()
@@ -267,23 +263,34 @@ namespace UnitTests
                 total_votes = 7,
                 net_votes = 3
             };
-            QuestionReceiveFromServer invalidServerQuestion = new QuestionReceiveFromServer();
 
             // act
             Question validQuestion = new Question(serverQuestion);
-            Question invalidQuestion =  new Question(invalidServerQuestion);
 
             // assert
             Assert.True(validQuestion.ValidateDownloadedQuestion());
-            Assert.True(validQuestion.QuestionId == serverQuestion.question_id);
-            Assert.True(validQuestion.QuestionText == serverQuestion.question_text);
-            Assert.True(validQuestion.QuestionSuggester == serverQuestion.author);
-            Assert.True(validQuestion.Timestamp == serverQuestion.timestamp);
-            Assert.True(validQuestion.LastModified == serverQuestion.last_modified);
-            Assert.True(validQuestion.TotalVotes == serverQuestion.total_votes);
-            Assert.True(validQuestion.NetVotes == serverQuestion.net_votes);
+            Assert.Equal(validQuestion.QuestionId , serverQuestion.question_id);
+            Assert.Equal(validQuestion.QuestionText , serverQuestion.question_text);
+            Assert.Equal(validQuestion.QuestionSuggester , serverQuestion.author);
+            Assert.Equal(validQuestion.Timestamp , serverQuestion.timestamp);
+            Assert.Equal(validQuestion.LastModified , serverQuestion.last_modified);
+            Assert.Equal(validQuestion.TotalVotes , serverQuestion.total_votes);
+            Assert.Equal(validQuestion.NetVotes , serverQuestion.net_votes);
+        }
+
+        [Fact]
+        public void ValidateInvalidQuestionConstructedFromQuestionReceiveFromServerTest()
+        {
+            // arrange 
+            QuestionReceiveFromServer invalidServerQuestion = new QuestionReceiveFromServer();
+            
+            // act
+            Question invalidQuestion =  new Question(invalidServerQuestion);
+            
+            // assert
             Assert.False(invalidQuestion.ValidateDownloadedQuestion());
         }
+        
 
         [Fact]
         public Registration ValidRegistrationTest()
