@@ -1,4 +1,5 @@
-﻿using RightToAskClient.HttpClients;
+﻿using System;
+using RightToAskClient.HttpClients;
 using RightToAskClient.Models;
 using RightToAskClient.Resx;
 using RightToAskClient.Views;
@@ -292,28 +293,43 @@ namespace RightToAskClient.ViewModels
 
         private async Task ShowOneButtonPopup(string? title, string message, string buttonText)
         {
-            OneButtonPopup popup;
-            if (title != null)
+            try
             {
-                popup = new OneButtonPopup(title,message, buttonText);
+                OneButtonPopup popup;
+                if (title != null)
+                {
+                    popup = new OneButtonPopup(title,message, buttonText);
+                }
+                else
+                {
+                    popup = new OneButtonPopup(message, buttonText);
+                } 
+                _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
             }
-            else
+            catch (Exception e)
             {
-                popup = new OneButtonPopup(message, buttonText);
-            } 
-            _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                Console.WriteLine(e);
+            }
         }
 
         private async Task<bool> ShowTwoButtonPopup(string popupTitle, string popupText, string cancelMessage, string approveMessage)
         {
-            var popup = new TwoButtonPopup(
-                AppResources.InvalidPostcodePopupTitle, 
-                AppResources.InvalidPostcodePopupText, 
-                AppResources.CancelButtonText, 
-                AppResources.ImSureButtonText, 
-                false);
-            var popupResult = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
-            return popup.HasApproved(popupResult);
+            try
+            {
+                var popup = new TwoButtonPopup(
+                    AppResources.InvalidPostcodePopupTitle, 
+                    AppResources.InvalidPostcodePopupText, 
+                    AppResources.CancelButtonText, 
+                    AppResources.ImSureButtonText, 
+                    false);
+                var popupResult = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                return popup.HasApproved(popupResult);
+            } 
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
         }
         
         // If we don't even know the person's state, we have no idea so they have to go back and pick;
