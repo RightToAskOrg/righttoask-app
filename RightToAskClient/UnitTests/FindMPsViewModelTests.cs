@@ -20,7 +20,6 @@ namespace UnitTests
         private Registration registrationInfo = new Registration();
         private Address address = new Address();
 
-
         // This test started crashing at the prompt displayed to choose to save electorates
         // but then after commenting that part out it also started failing/crashing at the GeoscapeClient call to find the electorates.
         [Fact]

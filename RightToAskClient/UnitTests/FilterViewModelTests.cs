@@ -20,13 +20,16 @@ namespace UnitTests
         {
             // arrange
             FilterViewModel vm = new FilterViewModel();
-            FilterChoices filters = vTests.ValidateFiltersTest();
+            // Filter must be empty 
+            FilterChoices filters = new FilterChoices();
             filters.SearchKeyword = "changed Keyword";
             App.GlobalFilterChoices.SearchKeyword = filters.SearchKeyword;
 
             // act
             vm.ReinitData(); // this should set vm.Keyword
-
+            // TODO: (unit-tests) we need another test that checks that `ReinitData` throws exception when we have some filters
+            // This test works well
+            
             // assert
             Assert.True(!string.IsNullOrEmpty(filters.SearchKeyword));
             Assert.Equal("changed Keyword", filters.SearchKeyword);

@@ -192,14 +192,6 @@ namespace RightToAskClient.ViewModels
         }
 
 
-        private bool _answerInApp;
-        public bool AnswerInApp
-        {
-            get => _answerInApp;
-            set => SetProperty(ref _answerInApp, value);
-        }
-
-
         public string QuestionSuggesterButtonText => QuestionViewModel.Instance.IsNewQuestion ? AppResources.EditProfileButtonText : string.Format(AppResources.ViewOtherUserProfile, QuestionViewModel.Instance.Question.QuestionSuggester);
 
         public void UpdateMPButtons()
@@ -278,17 +270,19 @@ namespace RightToAskClient.ViewModels
                     // upvoting a question will add it to their list
                     // TODO We probably want to separate having _written_ questions from having upvoted them.
                     IndividualParticipant.HasQuestions = true;
-                    Preferences.Set(Constants.HasQuestions, true);
+                    // TODO: (unit-tests) `This functionality is not implemented in the portable version of this assembly`
+                    if(DeviceInfo.Platform != DevicePlatform.Unknown)
+                        Preferences.Set(Constants.HasQuestions, true);
                     
                     if (Question.AlreadyUpvoted)
                     {
-                        Question.UpVotes--;
+                        Question.UpVotesByThisUser--;
                         Question.AlreadyUpvoted = false;
                         UpvoteButtonText = AppResources.UpvoteButtonText;
                     }
                     else
                     {
-                        Question.UpVotes++;
+                        Question.UpVotesByThisUser++;
                         Question.AlreadyUpvoted = true;
                         UpvoteButtonText = AppResources.UpvotedButtonText;
                     }
@@ -498,7 +492,16 @@ namespace RightToAskClient.ViewModels
         // TODO Consider permissions for question editing.
         private async void EditQuestionButton_OnClicked()
         {
-            await NavigationUtils.DoRegistrationCheck(Instance);
+            try
+            {
+                NavigationUtils.DoRegistrationCheck(Instance).Wait();
+            }
+            catch (Exception e)
+            {
+                // TODO: (unit-tests) is it ok to say "not registered" if we aren't able to check it
+                IndividualParticipant.IsRegistered = false;
+            }
+            //await NavigationUtils.DoRegistrationCheck(Instance);
 
             if (IndividualParticipant.IsRegistered)
             {
@@ -507,6 +510,11 @@ namespace RightToAskClient.ViewModels
                 {
                     SendQuestionEditToServer();
                 }                
+            }
+            else
+            {
+                // TODO: invent a string for this
+                ReportLabelText = AppResources.InvalidRegistration;
             }
 
         }

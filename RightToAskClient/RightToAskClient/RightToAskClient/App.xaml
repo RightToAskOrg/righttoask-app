@@ -11,6 +11,7 @@
         </ResourceDictionary>-->
         <ResourceDictionary>
             <!--Converter-->
+            <helpers:IsInParliament x:Key="isInParliament" />
             <helpers:InvertConvert x:Key="cnvInvert" />
             <helpers:NullOrEmptyConverter x:Key="emptyToFalse" />
             <helpers:IntEnumConverter x:Key="intEnum" />

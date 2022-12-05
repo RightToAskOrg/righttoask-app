@@ -264,7 +264,7 @@ namespace RightToAskClient.ViewModels
                 ShowElectoratesFrame = false;
 
                 // set the address data if we have it
-                var addressPref = Preferences.Get(Constants.Address, "");
+                var addressPref = DeviceInfo.Platform != DevicePlatform.Unknown ? Preferences.Get(Constants.Address, "") : "";
                 if (!string.IsNullOrEmpty(addressPref))
                 {
                     var addressObj = JsonSerializer.Deserialize<Address>(addressPref);

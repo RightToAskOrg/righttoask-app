@@ -124,13 +124,14 @@ namespace RightToAskClient.ViewModels
             PopupLabelText = AppResources.ReadingPageHeader1;
             PopupHeaderText = Heading1;
             
-            var showFirstTimeReadingPopup = Preferences.Get(Constants.ShowFirstTimeReadingPopup, true);
+            var showFirstTimeReadingPopup = DeviceInfo.Platform == DevicePlatform.Unknown || Preferences.Get(Constants.ShowFirstTimeReadingPopup, true);
             if (showFirstTimeReadingPopup)
             {
                 InfoPopupCommand.ExecuteAsync();
                 
                 // Only show it once.
-                Preferences.Set(Constants.ShowFirstTimeReadingPopup, false);
+                if(DeviceInfo.Platform != DevicePlatform.Unknown)
+                    Preferences.Set(Constants.ShowFirstTimeReadingPopup, false);
             }
             
             KeepQuestionButtonCommand = new AsyncCommand(async () =>
@@ -247,8 +248,8 @@ namespace RightToAskClient.ViewModels
                     ? IndividualParticipant.ProfileData.RegistrationInfo.uid
                     : "",
                 Filters = App.GlobalFilterChoices,
-                DownVotes = 0,
-                UpVotes = 0
+                DownVotesByThisUser = 0,
+                UpVotesByThisUser = 0
             };
 
             QuestionViewModel.Instance.Question = newQuestion;

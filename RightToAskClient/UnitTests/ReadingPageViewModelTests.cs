@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 using Xunit;
 
@@ -12,8 +14,8 @@ namespace UnitTests
     public class ReadingPageViewModelTests
     {
         // properties
-        private ReadingPageViewModel _readingPageViewModel = new ReadingPageViewModel();
-        private Button _button = new Button();
+        // private ReadingPageViewModel _readingPageViewModel = new ReadingPageViewModel();
+        // private Button _button = new Button();
 
         /* I made QuestionIds private.
          
@@ -60,20 +62,9 @@ namespace UnitTests
         }
         */
 
-        [Fact]
-        public void RefreshCommandTest()
+        private void executeAsyncButton(Button button)
         {
-            // arrange
-            _button.Command = _readingPageViewModel.RefreshCommand;
-
-            // act
-            _button.Command.Execute(null);
-
-            // assert
-            //Assert.False(_readingPageViewModel.QuestionIds.Any());
-            Assert.True(string.IsNullOrEmpty(_readingPageViewModel.Keyword));
-            Assert.True(string.IsNullOrEmpty(_readingPageViewModel.DraftQuestion));
-            Assert.True(_readingPageViewModel.ShowQuestionFrame);
+            Task.Run(async () => await ((IAsyncCommand)button.Command).ExecuteAsync()).GetAwaiter().GetResult();
         }
 
         // test breaks due to the prompt that gets displayed in the method, but otherwise passes
@@ -95,6 +86,8 @@ namespace UnitTests
         public void SearchToolbarCommandTest()
         {
             // arrange
+            ReadingPageViewModel _readingPageViewModel = new ReadingPageViewModel();
+            Button _button = new Button();
             _button.Command = _readingPageViewModel.SearchToolbarCommand;
             _readingPageViewModel.ShowSearchFrame = false;
 
@@ -109,6 +102,8 @@ namespace UnitTests
         public void SearchToolbarCommandInvertTest()
         {
             // arrange
+            ReadingPageViewModel _readingPageViewModel = new ReadingPageViewModel();
+            Button _button = new Button();
             _button.Command = _readingPageViewModel.SearchToolbarCommand;
             _readingPageViewModel.ShowSearchFrame = true;
 

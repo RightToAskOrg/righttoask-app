@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.Json;
@@ -20,7 +21,18 @@ namespace RightToAskClient.Models
 		public static Person ProfileData = new Person("");
 
 		public static bool IsRegistered { get; set; }
-		public static bool ElectoratesKnown { get; set; }
+		private static bool _ElectoratesKnown = false;
+		public static bool ElectoratesKnown { 
+			get => _ElectoratesKnown;
+			set
+			{
+				_ElectoratesKnown = value;
+				if (value)
+				{
+					ProfileData.RegistrationInfo.StateKnown = true;
+				}
+			}
+		}
 		public static bool AddressUpdated { get; set; }
 		public static bool HasQuestions { get; set; }
 		public static bool IsVerifiedMPAccount { get; set; }
@@ -113,34 +125,19 @@ namespace RightToAskClient.Models
 			ProfileData.RegistrationInfo.public_key = ClientSignatureGenerationService.InitSuccessful ? ClientSignatureGenerationService.MyPublicKey : "";
 		}
 
-		public static new bool Validate()
+		public static bool Validate()
         {
 			var isValid = false;
 			// if they are registered, they need valid registration info
             if (IsRegistered)
             {
-				var validSuper = ProfileData.Validate();
-                if (validSuper)
-                {
-					isValid = true;
-				}
-                else
-                {
-					isValid = false;
-                }
-            }
+				isValid = ProfileData.Validate();
+			}
 			// if they are not registered, they could still have MPs known if they are in the process of creating their first question
 			// before  they have the chance to create an account
-            else if (!IsRegistered && ElectoratesKnown)
+            else if (ElectoratesKnown)
             {
-				if (ProfileData.RegistrationInfo.StateKnown)
-                {
-					isValid = true;
-				}
-                else
-                {
-					isValid = false;
-                }
+				isValid = ProfileData.RegistrationInfo.StateKnown;
             }
 			return isValid;
         }

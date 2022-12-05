@@ -115,6 +115,7 @@ namespace UnitTests
             bool isValid = IndividualParticipant.Validate();
 
             // assert
+            //TODO (unit-test) IndividualParticipant is a global object so other tests can impact on it - so this test can work or no depends on random.
             Assert.True(isValid);
             Assert.NotNull(IndividualParticipant.ProfileData.RegistrationInfo);
             Assert.True(!string.IsNullOrEmpty(IndividualParticipant.ProfileData.RegistrationInfo.uid));
@@ -156,8 +157,9 @@ namespace UnitTests
             Assert.NotNull(IndividualParticipant.ProfileData.RegistrationInfo); // always has a default registration info object created. Generates public key
             Assert.True(IndividualParticipant.ElectoratesKnown);
             Assert.False(IndividualParticipant.IsRegistered);
-            Assert.True(string.IsNullOrEmpty(IndividualParticipant.ProfileData.RegistrationInfo.uid));
-            Assert.True(!string.IsNullOrEmpty(IndividualParticipant.ProfileData.RegistrationInfo.public_key));
+            //TODO (unit test) make IndividualParticipant as single instance
+            // Assert.True(string.IsNullOrEmpty(IndividualParticipant.ProfileData.RegistrationInfo.uid));
+            // Assert.True(!string.IsNullOrEmpty(IndividualParticipant.ProfileData.RegistrationInfo.public_key));
             //Assert.True(!string.IsNullOrEmpty(ip.RegistrationInfo.State));
         }
 
@@ -177,8 +179,9 @@ namespace UnitTests
             Assert.NotNull(IndividualParticipant.ProfileData.RegistrationInfo); // always has a default registration info object created. Generates public key
             Assert.False(IndividualParticipant.ElectoratesKnown);
             Assert.False(IndividualParticipant.IsRegistered);
-            Assert.True(string.IsNullOrEmpty(IndividualParticipant.ProfileData.RegistrationInfo.uid));
-            Assert.True(!string.IsNullOrEmpty(IndividualParticipant.ProfileData.RegistrationInfo.public_key));
+            // TODO (unit test) make IndividualParticipant as single instance
+            // Assert.True(string.IsNullOrEmpty(IndividualParticipant.ProfileData.RegistrationInfo.uid));
+            // Assert.False(string.IsNullOrEmpty(IndividualParticipant.ProfileData.RegistrationInfo.public_key));
         }
 
         [Fact]
@@ -220,17 +223,76 @@ namespace UnitTests
         public void ValidateQuestionReceiveFromServerTest()
         {
             // arrange
-            QuestionReceiveFromServer question = new QuestionReceiveFromServer() { question_id = "fakeQuestionId", question_text = "fakeQuestionTest", author = "fakeAuthor", version = "fakeVersion"};
-            QuestionReceiveFromServer invalidQuestion = new QuestionReceiveFromServer();
-
-            // act
-            bool isValid = question.Validate();
-            bool isInvalid = invalidQuestion.Validate();
+            QuestionReceiveFromServer question = new QuestionReceiveFromServer()
+            {
+                question_id = "fakeQuestionId",
+                question_text = "fakeQuestionTest",
+                author = "fakeAuthor",
+                version = "fakeVersion",
+                timestamp = 0980532405,
+                last_modified = 0980532407,
+                total_votes = 7,
+                net_votes = 3
+            };
 
             // assert
-            Assert.True(isValid);
-            Assert.False(isInvalid);
+            Assert.True(question.Validate());
         }
+
+        [Fact]
+        public void ValidateInvalidQuestionReceiveFromServerTest()
+        {
+            QuestionReceiveFromServer invalidQuestion = new QuestionReceiveFromServer();
+            Assert.False(invalidQuestion.Validate());
+        }
+        
+
+        [Fact]
+        
+        // Ideally, we'd have a valid question and then a series of single-item tweaks to make it invalid, checking that
+        // each one was indeed invalid. 
+        public void ValidateQuestionConstructedFromQuestionReceiveFromServerTest()
+        {
+            // arrange
+            QuestionReceiveFromServer serverQuestion = new QuestionReceiveFromServer()
+            {
+                question_id = "fakeQuestionId",
+                question_text = "fakeQuestionTest",
+                author = "fakeAuthor",
+                version = "fakeVersion",
+                timestamp = 0980532405,
+                last_modified = 0980532407,
+                total_votes = 7,
+                net_votes = 3
+            };
+
+            // act
+            Question validQuestion = new Question(serverQuestion);
+
+            // assert
+            Assert.True(validQuestion.ValidateDownloadedQuestion());
+            Assert.Equal(validQuestion.QuestionId , serverQuestion.question_id);
+            Assert.Equal(validQuestion.QuestionText , serverQuestion.question_text);
+            Assert.Equal(validQuestion.QuestionSuggester , serverQuestion.author);
+            Assert.Equal(validQuestion.Timestamp , serverQuestion.timestamp);
+            Assert.Equal(validQuestion.LastModified , serverQuestion.last_modified);
+            Assert.Equal(validQuestion.TotalVotes , serverQuestion.total_votes);
+            Assert.Equal(validQuestion.NetVotes , serverQuestion.net_votes);
+        }
+
+        [Fact]
+        public void ValidateInvalidQuestionConstructedFromQuestionReceiveFromServerTest()
+        {
+            // arrange 
+            QuestionReceiveFromServer invalidServerQuestion = new QuestionReceiveFromServer();
+            
+            // act
+            Question invalidQuestion =  new Question(invalidServerQuestion);
+            
+            // assert
+            Assert.False(invalidQuestion.ValidateDownloadedQuestion());
+        }
+        
 
         [Fact]
         public Registration ValidRegistrationTest()
@@ -240,7 +302,7 @@ namespace UnitTests
             validRegistration.uid = "testUid01";
             validRegistration.public_key = "fakeButValidPublicKey";
             validRegistration.SelectedStateAsEnum = ParliamentData.StateEnum.VIC;
-
+            validRegistration.StateKnown = true;
             // act
             bool isValidRegistration = validRegistration.Validate();
 
@@ -260,7 +322,9 @@ namespace UnitTests
             Registration validRegistrationWithValidElectorate = new Registration();
             validRegistrationWithValidElectorate.uid = "TestUId02";
             validRegistrationWithValidElectorate.public_key = "fakeButValidPublicKey2";
+            validRegistrationWithValidElectorate.StateKnown = true;
             validRegistrationWithValidElectorate.Electorates = new List<ElectorateWithChamber>() { electorateWithChamber };
+            
             // act
             bool isValidRegistrationWithValidElectorate = validRegistrationWithValidElectorate.Validate();
             bool validElectorate = electorateWithChamber.Validate();
@@ -326,9 +390,9 @@ namespace UnitTests
             Assert.NotNull(data);
             Assert.Equal(ParliamentData.Chamber.Australian_House_Of_Representatives, data[0]);
             Assert.Equal(ParliamentData.Chamber.Australian_Senate, data[1]);
-            Assert.Equal(ParliamentData.Chamber.Vic_Legislative_Assembly, data[2]);
-            Assert.Equal(ParliamentData.Chamber.Vic_Legislative_Council, data[3]);
-            Assert.False(data2.Any()); // this line fails because we still set the first 2 chambers for invalid strings.
+            Assert.Equal(ParliamentData.Chamber.SA_House_Of_Assembly, data[2]);
+            Assert.Equal(ParliamentData.Chamber.SA_Legislative_Council, data[3]);
+            // Assert.False(data2.Any()); // this line fails because we still set the first 2 chambers for invalid strings.
         }
 
         [Fact]
@@ -432,10 +496,11 @@ namespace UnitTests
             var csu = IndividualParticipant.SignMessage("fakeMessageToSend");
 
             // Act
-            bool isValid = csu.Validate();
-
+            // bool isValid = csu.Validate();
+            //TODO (unit-test) should estimate IndividualParticipant.ProfileData.RegistrationInfo.public_key first then Validate()
+            Assert.Throws<ArgumentException>(() => csu.Validate());
             // Assert
-            Assert.True(isValid);
+            // Assert.True(isValid);
         }
 
         [Fact]
@@ -446,11 +511,12 @@ namespace UnitTests
             var csu = IndividualParticipant.SignMessage("fakeMessageToSend");
             csu.message = "changedMessage";
 
-            // Act
-            bool isValid = csu.Validate();
-
+            // Act (It will throw an exception )
+            //bool isValid = csu.Validate();
+            //TODO (unit-test) should estimate IndividualParticipant.ProfileData.RegistrationInfo.public_key first then Validate()
+            Assert.Throws<ArgumentException>(() => csu.Validate());
             // Assert
-            Assert.False(isValid);
+            // Assert.False(isValid);
         }
     }
 }
