@@ -467,7 +467,7 @@ namespace RightToAskClient.ViewModels
             try
             {
                 var registrationObjectToSave = JsonSerializer.Serialize(new ServerUser(reg));
-                Preferences.Set(Constants.RegistrationInfo, registrationObjectToSave);
+                XamarinPreferences.shared.Set(Constants.RegistrationInfo, registrationObjectToSave);
             }
             catch (Exception e)
             {
@@ -545,7 +545,7 @@ namespace RightToAskClient.ViewModels
             IndividualParticipant.ProfileData.RegistrationInfo = _registration;
             IndividualParticipant.IsRegistered = true;
             // save the registration to preferences
-            Preferences.Set(Constants.IsRegistered, IndividualParticipant.IsRegistered); 
+            XamarinPreferences.shared.Set(Constants.IsRegistered, IndividualParticipant.IsRegistered); 
         }
 
 

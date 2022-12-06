@@ -1,5 +1,6 @@
 using System.Text.Json;
 using System.Threading.Tasks;
+using RightToAskClient.Helpers;
 using RightToAskClient.HttpClients;
 using RightToAskClient.Models;
 using RightToAskClient.Models.ServerCommsData;
@@ -137,11 +138,11 @@ namespace RightToAskClient.ViewModels
         private void SaveMPRegistrationToPreferences()
         {
             // Note that a staffer has booth of these flags set to true.
-            Preferences.Set(Constants.IsVerifiedMPAccount, true);
-            Preferences.Set(Constants.IsVerifiedMPStafferAccount, _isStaffer); 
-            Preferences.Set(Constants.MPRegisteredAs,JsonSerializer.Serialize(MPRepresenting));
+            XamarinPreferences.shared.Set(Constants.IsVerifiedMPAccount, true);
+            XamarinPreferences.shared.Set(Constants.IsVerifiedMPStafferAccount, _isStaffer); 
+            XamarinPreferences.shared.Set(Constants.MPRegisteredAs,JsonSerializer.Serialize(MPRepresenting));
             var registrationObjectToSave = new ServerUser(IndividualParticipant.ProfileData.RegistrationInfo);
-            Preferences.Set(Constants.RegistrationInfo, JsonSerializer.Serialize(registrationObjectToSave));
+            XamarinPreferences.shared.Set(Constants.RegistrationInfo, JsonSerializer.Serialize(registrationObjectToSave));
         }
 
         private void StoreMPRegistration()

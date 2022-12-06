@@ -270,9 +270,7 @@ namespace RightToAskClient.ViewModels
                     // upvoting a question will add it to their list
                     // TODO We probably want to separate having _written_ questions from having upvoted them.
                     IndividualParticipant.HasQuestions = true;
-                    // TODO: (unit-tests) `This functionality is not implemented in the portable version of this assembly`
-                    if(DeviceInfo.Platform != DevicePlatform.Unknown)
-                        Preferences.Set(Constants.HasQuestions, true);
+                    XamarinPreferences.shared.Set(Constants.HasQuestions, true);
                     
                     if (Question.AlreadyUpvoted)
                     {
@@ -547,7 +545,7 @@ namespace RightToAskClient.ViewModels
         { 
             // creating a question will add it to their list
             IndividualParticipant.HasQuestions = true;
-            Preferences.Set(Constants.HasQuestions, true);
+            XamarinPreferences.shared.Set(Constants.HasQuestions, true);
 
             //FIXME update version, just like for edits.
 

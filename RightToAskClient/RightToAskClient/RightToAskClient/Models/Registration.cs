@@ -174,8 +174,7 @@ namespace RightToAskClient.Models
                 successBool = true;
                 IndividualParticipant.ProfileData.RegistrationInfo.StateKnown = successBool;
                 IndividualParticipant.ProfileData.RegistrationInfo.SelectedStateAsEnum = successState;
-                if(DeviceInfo.Platform != DevicePlatform.Unknown)
-                    Preferences.Set(Constants.State, successState.ToString());
+                XamarinPreferences.shared.Set(Constants.State, successState.ToString());
             }
 
             return (successBool, successState);

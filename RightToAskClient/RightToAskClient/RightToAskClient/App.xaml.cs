@@ -6,6 +6,7 @@ using Xamarin.Essentials;
 using System.Text.Json;
 using System.Diagnostics;
 using RightToAskClient.CryptoUtils;
+using RightToAskClient.Helpers;
 using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Views;
 
@@ -105,7 +106,7 @@ namespace RightToAskClient
         private void ResetAppData()
         {
             // clear the preferences, which holds the user's account registration info
-            Preferences.Clear();
+            XamarinPreferences.shared.Clear();
             // TODO: wipe the crypto/signing key
         }
     }

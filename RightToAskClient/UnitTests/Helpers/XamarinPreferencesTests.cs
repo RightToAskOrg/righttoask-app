@@ -19,6 +19,18 @@ namespace UnitTests.Helpers
         }
         
         [Fact]
+        public void OverwriteOneStringTest()
+        {
+            var preferences = new XamarinPreferences();
+            
+            preferences.Set("key0", "stringValue0");
+            preferences.Set("key0", "stringValue1");
+            var key0value = preferences.Get("key0", "");
+
+            Assert.Equal("stringValue1",key0value);
+        }
+        
+        [Fact]
         public void GetSetOneBooleanTest()
         {
             var preferences = new XamarinPreferences();
@@ -27,6 +39,18 @@ namespace UnitTests.Helpers
             var key0value = preferences.Get("key0", false);
 
             Assert.Equal(true, key0value);
+        }
+        
+        [Fact]
+        public void OverwriteOneBoolTest()
+        {
+            var preferences = new XamarinPreferences();
+            
+            preferences.Set("key0", false);
+            preferences.Set("key0", true);
+            var key0value = preferences.Get("key0", false);
+
+            Assert.Equal(true,key0value);
         }
         
         [Fact]

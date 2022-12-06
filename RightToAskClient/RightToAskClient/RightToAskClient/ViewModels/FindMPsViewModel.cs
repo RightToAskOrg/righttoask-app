@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using RightToAskClient.Helpers;
 using RightToAskClient.Views.Popups;
 using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -265,7 +266,7 @@ namespace RightToAskClient.ViewModels
                 ShowElectoratesFrame = false;
 
                 // set the address data if we have it
-                var addressPref = DeviceInfo.Platform != DevicePlatform.Unknown ? Preferences.Get(Constants.Address, "") : "";
+                var addressPref = XamarinPreferences.shared.Get(Constants.Address, "");
                 if (!string.IsNullOrEmpty(addressPref))
                 {
                     var addressObj = JsonSerializer.Deserialize<Address>(addressPref);
@@ -448,8 +449,8 @@ namespace RightToAskClient.ViewModels
         private void SaveAddress()
         {
             var fullAddress = JsonSerializer.Serialize(Address);
-            Preferences.Set(Constants.Address, fullAddress); // save the full address
-            Preferences.Set(Constants.State, SelectedStateEnum.ToString());
+            XamarinPreferences.shared.Set(Constants.Address, fullAddress); // save the full address
+            XamarinPreferences.shared.Set(Constants.State, SelectedStateEnum.ToString());
         }
 
         // This is the Legislative Assembly Electorate, except in Tas where it's the Legislative Council.
@@ -507,7 +508,7 @@ namespace RightToAskClient.ViewModels
         private void CommunicateElectoratesKnown()
         {
             IndividualParticipant.ElectoratesKnown = true;
-            Preferences.Set(Constants.ElectoratesKnown, true);
+            XamarinPreferences.shared.Set(Constants.ElectoratesKnown, true);
             MessagingCenter.Send(this, Constants.ElectoratesKnown);
         }
 

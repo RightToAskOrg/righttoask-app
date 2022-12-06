@@ -87,7 +87,14 @@ namespace RightToAskClient.Helpers
         {
             if (DeviceInfo.Platform == DevicePlatform.Unknown)
             {
-                storage.Add(key, value);
+                if (storage.ContainsKey(key))
+                {
+                    storage[key] = value;
+                }
+                else
+                {
+                    storage.Add(key, value);
+                }
             }
             else
             {
@@ -106,7 +113,14 @@ namespace RightToAskClient.Helpers
         {
             if (DeviceInfo.Platform == DevicePlatform.Unknown)
             {
-                storage.Add(key, value);
+                if (storage.ContainsKey(key))
+                {
+                    storage[key] = value;
+                }
+                else
+                {
+                    storage.Add(key, value);
+                }
             }
             else
             {

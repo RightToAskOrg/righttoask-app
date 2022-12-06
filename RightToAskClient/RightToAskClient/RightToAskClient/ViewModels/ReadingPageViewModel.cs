@@ -124,14 +124,12 @@ namespace RightToAskClient.ViewModels
             PopupLabelText = AppResources.ReadingPageHeader1;
             PopupHeaderText = Heading1;
             
-            var showFirstTimeReadingPopup = DeviceInfo.Platform == DevicePlatform.Unknown || Preferences.Get(Constants.ShowFirstTimeReadingPopup, true);
-            if (showFirstTimeReadingPopup)
+            if (XamarinPreferences.shared.Get(Constants.ShowFirstTimeReadingPopup, true))
             {
                 InfoPopupCommand.ExecuteAsync();
                 
                 // Only show it once.
-                if(DeviceInfo.Platform != DevicePlatform.Unknown)
-                    Preferences.Set(Constants.ShowFirstTimeReadingPopup, false);
+                XamarinPreferences.shared.Set(Constants.ShowFirstTimeReadingPopup, false);
             }
             
             KeepQuestionButtonCommand = new AsyncCommand(async () =>
@@ -166,14 +164,14 @@ namespace RightToAskClient.ViewModels
                 if (IndividualParticipant.IsRegistered)
                 {
                     // If this is their first question, show them the 5-step instructions.
-                    var showHowToPublishPopup = Preferences.Get(Constants.ShowHowToPublishPopup, true);
+                    var showHowToPublishPopup = XamarinPreferences.shared.Get(Constants.ShowHowToPublishPopup, true);
                     if (showHowToPublishPopup)
                     {
                         var popup = new HowToPublishPopup();
                         if (popup != null) _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
 
                         // Only show it once.
-                        Preferences.Set(Constants.ShowHowToPublishPopup, false);
+                        XamarinPreferences.shared.Set(Constants.ShowHowToPublishPopup, false);
                     }
                     
                     // Now let them start drafting.
