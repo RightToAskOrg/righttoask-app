@@ -172,8 +172,8 @@ namespace RightToAskClient.Models
                 successState =
                     (ParliamentData.StateEnum)Enum.ToObject(typeof(ParliamentData.StateEnum), selectedStateAsInt);
                 successBool = true;
-                IndividualParticipant.ProfileData.RegistrationInfo.StateKnown = successBool;
-                IndividualParticipant.ProfileData.RegistrationInfo.SelectedStateAsEnum = successState;
+                IndividualParticipant.getInstance().ProfileData.RegistrationInfo.StateKnown = successBool;
+                IndividualParticipant.getInstance().ProfileData.RegistrationInfo.SelectedStateAsEnum = successState;
                 XamarinPreferences.shared.Set(Constants.State, successState.ToString());
             }
 

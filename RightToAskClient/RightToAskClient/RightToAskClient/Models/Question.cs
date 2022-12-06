@@ -223,19 +223,19 @@ namespace RightToAskClient.Models
 
             {
                 // can only upvote questions if you are registered
-                if (IndividualParticipant.IsRegistered)
+                if (IndividualParticipant.getInstance().IsRegistered)
                 {
                     if (!AlreadyUpvoted)
                     {
                         UpVotesByThisUser += 1;
                         AlreadyUpvoted = true;
-                        IndividualParticipant.UpvotedQuestionIDs.Add(QuestionId);
+                        IndividualParticipant.getInstance().UpvotedQuestionIDs.Add(QuestionId);
                     }
                     else
                     {
                         UpVotesByThisUser -= 1;
                         AlreadyUpvoted = false;
-                        IndividualParticipant.UpvotedQuestionIDs.Remove(QuestionId);
+                        IndividualParticipant.getInstance().UpvotedQuestionIDs.Remove(QuestionId);
                     }
                 }
                 else
@@ -268,11 +268,11 @@ namespace RightToAskClient.Models
                 AlreadyReported = !AlreadyReported;
                 if (AlreadyReported)
                 {
-                    IndividualParticipant.ReportedQuestionIDs.Add(QuestionId);
+                    IndividualParticipant.getInstance().ReportedQuestionIDs.Add(QuestionId);
                 }
                 else
                 {
-                    IndividualParticipant.ReportedQuestionIDs.Remove(QuestionId);
+                    IndividualParticipant.getInstance().ReportedQuestionIDs.Remove(QuestionId);
                 }
             });
         }
@@ -353,7 +353,7 @@ namespace RightToAskClient.Models
                     else if (entity.AsMP != null)
                     {
                         // If the MP is one of mine, add it to AnsweringMPsMine
-                        var myMPs = ParliamentData.FindAllMPsGivenElectorates(IndividualParticipant.ProfileData.RegistrationInfo.Electorates.ToList());
+                        var myMPs = ParliamentData.FindAllMPsGivenElectorates(IndividualParticipant.getInstance().ProfileData.RegistrationInfo.Electorates.ToList());
                         if (!CanFindInListBThenAddToListA<MP>(entity.AsMP, Filters.SelectedAnsweringMPsMine, myMPs))
                         {
                             // otherwise, try to find it in AllMPs
@@ -385,7 +385,7 @@ namespace RightToAskClient.Models
                     if (entity.AsMP != null)
                     {
                         // If the MP is one of mine, add it to AskingMPsMine
-                        var myMPs = ParliamentData.FindAllMPsGivenElectorates(IndividualParticipant.ProfileData.RegistrationInfo.Electorates.ToList());
+                        var myMPs = ParliamentData.FindAllMPsGivenElectorates(IndividualParticipant.getInstance().ProfileData.RegistrationInfo.Electorates.ToList());
                         if (!CanFindInListBThenAddToListA<MP>(entity.AsMP, Filters.SelectedAskingMPsMine, myMPs))
                         {
                             // otherwise, try to find it in AllMPs
@@ -449,7 +449,7 @@ namespace RightToAskClient.Models
             {
                 new QuestionAnswer()
                 {
-                    mp = new MPId(IndividualParticipant.MPRegisteredAs),
+                    mp = new MPId(IndividualParticipant.getInstance().MPRegisteredAs),
                     answer = answer
                 }
             };

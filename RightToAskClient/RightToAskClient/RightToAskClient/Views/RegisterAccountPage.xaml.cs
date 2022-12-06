@@ -25,15 +25,15 @@ namespace RightToAskClient.Views
             if (picker.SelectedIndex != -1)
             {
                 string state = (string)picker.SelectedItem;
-                IndividualParticipant.ProfileData.RegistrationInfo.SelectedStateAsIndex = picker.SelectedIndex;
-                IndividualParticipant.UpdateChambers(state);
+                IndividualParticipant.getInstance().ProfileData.RegistrationInfo.SelectedStateAsIndex = picker.SelectedIndex;
+                IndividualParticipant.getInstance().UpdateChambers(state);
             }
         }
         */
 
         private void OnRegisterEmailFieldCompleted(object sender, EventArgs e)
         {
-            IndividualParticipant.ProfileData.UserEmail = ((Editor)sender).Text;
+            IndividualParticipant.getInstance().ProfileData.UserEmail = ((Editor)sender).Text;
         }
     }
 }

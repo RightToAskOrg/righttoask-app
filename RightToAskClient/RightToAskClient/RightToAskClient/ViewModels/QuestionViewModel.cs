@@ -114,7 +114,7 @@ namespace RightToAskClient.ViewModels
         {
             get
             {
-                var thisUser =  IndividualParticipant.ProfileData.RegistrationInfo.uid;
+                var thisUser =  IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid;
                 var questionWriter = _question.QuestionSuggester;
                 return IsNewQuestion || 
                        (!string.IsNullOrEmpty(thisUser) && !string.IsNullOrEmpty(questionWriter) && thisUser == questionWriter);
@@ -204,7 +204,7 @@ namespace RightToAskClient.ViewModels
             // set up empty question
             Question = new Question();
             ReportLabelText = "";
-            Question.QuestionSuggester = IndividualParticipant.ProfileData.RegistrationInfo.uid;
+            Question.QuestionSuggester = IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid;
 
             // set defaults
             IsNewQuestion = false;
@@ -265,11 +265,11 @@ namespace RightToAskClient.ViewModels
             UpvoteCommand = new AsyncCommand(async () =>
             {
                 await NavigationUtils.DoRegistrationCheck(Instance);
-                if (IndividualParticipant.IsRegistered)
+                if (IndividualParticipant.getInstance().IsRegistered)
                 {
                     // upvoting a question will add it to their list
                     // TODO We probably want to separate having _written_ questions from having upvoted them.
-                    IndividualParticipant.HasQuestions = true;
+                    IndividualParticipant.getInstance().HasQuestions = true;
                     XamarinPreferences.shared.Set(Constants.HasQuestions, true);
                     
                     if (Question.AlreadyUpvoted)
@@ -380,7 +380,7 @@ namespace RightToAskClient.ViewModels
             // set defaults
             Question = new Question();
             ReportLabelText = "";
-            Question.QuestionSuggester = IndividualParticipant.ProfileData.RegistrationInfo.uid;
+            Question.QuestionSuggester = IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid;
         }
 
         public void ReinitQuestionUpdates()
@@ -471,10 +471,10 @@ namespace RightToAskClient.ViewModels
             // TODO This should not be necessary any more. Perhaps turn into a debug assertion?
             await NavigationUtils.DoRegistrationCheck(Instance);
             
-            if (IndividualParticipant.IsRegistered)
+            if (IndividualParticipant.getInstance().IsRegistered)
             {
                 // This isn't necessary unless the person has just registered, but is necessary if they have.
-                Instance.Question.QuestionSuggester = IndividualParticipant.ProfileData.RegistrationInfo.uid;
+                Instance.Question.QuestionSuggester = IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid;
                 var validQuestion = Question.ValidateNewQuestion();
                 if (validQuestion)
                 {
@@ -497,11 +497,11 @@ namespace RightToAskClient.ViewModels
             catch (Exception e)
             {
                 // TODO: (unit-tests) is it ok to say "not registered" if we aren't able to check it
-                IndividualParticipant.IsRegistered = false;
+                IndividualParticipant.getInstance().IsRegistered = false;
             }
             //await NavigationUtils.DoRegistrationCheck(Instance);
 
-            if (IndividualParticipant.IsRegistered)
+            if (IndividualParticipant.getInstance().IsRegistered)
             {
                 var validQuestion = Question.ValidateUpdateQuestion();
                 if (validQuestion) 
@@ -523,7 +523,7 @@ namespace RightToAskClient.ViewModels
         private async Task<bool> SendNewQuestionToServer()
         {
             // This isn't supposed to be called for unregistered participants.
-            if (!IndividualParticipant.IsRegistered) return false;
+            if (!IndividualParticipant.getInstance().IsRegistered) return false;
 
             // TODO use returnedData to record questionID, version, hash
             (bool isValid, string errorMessage, string returnedData) successfulSubmission =
@@ -544,7 +544,7 @@ namespace RightToAskClient.ViewModels
         private async void PromptForNextStepAndClearQuestionIfNeeded() 
         { 
             // creating a question will add it to their list
-            IndividualParticipant.HasQuestions = true;
+            IndividualParticipant.getInstance().HasQuestions = true;
             XamarinPreferences.shared.Set(Constants.HasQuestions, true);
 
             //FIXME update version, just like for edits.
@@ -576,7 +576,7 @@ namespace RightToAskClient.ViewModels
         private async void SendQuestionEditToServer()
         {
             // This isn't supposed to be called for unregistered participants.
-            if (!IndividualParticipant.IsRegistered) return;
+            if (!IndividualParticipant.getInstance().IsRegistered) return;
             
             var successfulSubmission = await BuildSignAndUploadQuestionUpdates();
             

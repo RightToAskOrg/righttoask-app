@@ -16,14 +16,24 @@ namespace RightToAskClient.Models
 	// This represents the data we need to know *only* 
 	// about the user of this app, i.e. non-public data
 	// in addition to the public data in 'Person'
-	public static class IndividualParticipant 
+	public class IndividualParticipant 
     {
 		// Init with empty data.
-		public static Person ProfileData = new Person("");
+		public Person ProfileData = new Person("");
 
-		public static bool IsRegistered { get; set; }
-		private static bool _ElectoratesKnown = false;
-		public static bool ElectoratesKnown { 
+		private static IndividualParticipant _instance;
+
+		public static IndividualParticipant getInstance()
+		{
+			if (_instance == null)
+				_instance = new IndividualParticipant();
+			// _instance.Init();
+			return _instance;
+		}
+
+		public bool IsRegistered { get; set; }
+		private bool _ElectoratesKnown = false;
+		public bool ElectoratesKnown { 
 			get => _ElectoratesKnown;
 			set
 			{
@@ -34,13 +44,13 @@ namespace RightToAskClient.Models
 				}
 			}
 		}
-		public static bool AddressUpdated { get; set; }
-		public static bool HasQuestions { get; set; }
-		public static bool IsVerifiedMPAccount { get; set; }
-		public static bool IsVerifiedMPStafferAccount { get; set; }
+		public bool AddressUpdated { get; set; }
+		public bool HasQuestions { get; set; }
+		public bool IsVerifiedMPAccount { get; set; }
+		public bool IsVerifiedMPStafferAccount { get; set; }
 
-		private static MP _MPRegisteredAs = new MP();
-		public static MP MPRegisteredAs { 
+		private MP _MPRegisteredAs = new MP();
+		public MP MPRegisteredAs { 
 			get => _MPRegisteredAs;
 			set
 			{
@@ -53,16 +63,16 @@ namespace RightToAskClient.Models
 		}
 
 		// needs to be accessible on a few pages and VMs so I put it here
-		public static List<string> UpvotedQuestionIDs { get; set; } = new List<string>();
-		public static List<string> ReportedQuestionIDs { get; set; } = new List<string>();
-		public static List<string> RemovedQuestionIDs { get; set; } = new List<string>();
+		public List<string> UpvotedQuestionIDs { get; set; } = new List<string>();
+		public List<string> ReportedQuestionIDs { get; set; } = new List<string>();
+		public List<string> RemovedQuestionIDs { get; set; } = new List<string>();
 
-		public static ClientSignedUnparsed SignMessage<T>(T message)
+		public ClientSignedUnparsed SignMessage<T>(T message)
 		{
 			return ClientSignatureGenerationService.SignMessage(message, ProfileData.RegistrationInfo.uid );
 		}
 
-		public static void Init()
+		public void Init()
 		{
 			// get account info from preferences
             var registrationPref = XamarinPreferences.shared.Get(Constants.RegistrationInfo, "");
@@ -126,7 +136,7 @@ namespace RightToAskClient.Models
 			ProfileData.RegistrationInfo.public_key = ClientSignatureGenerationService.InitSuccessful ? ClientSignatureGenerationService.MyPublicKey : "";
 		}
 
-		public static bool Validate()
+		public bool Validate()
         {
 			var isValid = false;
 			// if they are registered, they need valid registration info

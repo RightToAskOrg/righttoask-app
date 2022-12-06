@@ -21,13 +21,13 @@ namespace RightToAskClient.Models.ServerCommsData
             var isValid = false;
             var hasInvalidData = false;
             // if user is me, check for valid signature
-            if (user == IndividualParticipant.ProfileData.RegistrationInfo.uid)
+            if (user == IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid)
             {
                 var signaturebytes = Convert.FromBase64String(signature);
                 Ed25519PublicKeyParameters ClientPublicKey;
                 try
                 {
-                    ClientPublicKey = new Ed25519PublicKeyParameters(Convert.FromBase64String(IndividualParticipant.ProfileData.RegistrationInfo.public_key));
+                    ClientPublicKey = new Ed25519PublicKeyParameters(Convert.FromBase64String(IndividualParticipant.getInstance().ProfileData.RegistrationInfo.public_key));
                 }
                 catch (Exception e)
                 {

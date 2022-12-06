@@ -50,7 +50,7 @@ namespace RightToAskClient.Helpers
 		 */
         public static Page ListMPsFindFirstIfNotAlreadyKnown(SelectableListPage mpsListPage)
         {
-            if (!IndividualParticipant.ElectoratesKnown)
+            if (!IndividualParticipant.getInstance().ElectoratesKnown)
             {
                 var registrationPage = new RegisterPage2();
                 return registrationPage;
@@ -86,7 +86,7 @@ namespace RightToAskClient.Helpers
         
         public static async Task DoRegistrationCheck(BaseViewModel vm)
         {
-            if (!IndividualParticipant.IsRegistered)
+            if (!IndividualParticipant.getInstance().IsRegistered)
             {
                 var popup = new TwoButtonPopup(AppResources.MakeAccountQuestionText, AppResources.CreateAccountPopUpText, AppResources.CancelButtonText, AppResources.OKText, false);
                 var popupResult = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);

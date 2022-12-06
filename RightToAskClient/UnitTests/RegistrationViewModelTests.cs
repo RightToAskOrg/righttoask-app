@@ -17,12 +17,12 @@ namespace UnitTests
         public void ConstructorIsRegisteredTest()
         {
             // arrange
-            IndividualParticipant.ProfileData.RegistrationInfo = vTests.ValidRegistrationTest();
-            IndividualParticipant.IsRegistered = true;
+            IndividualParticipant.getInstance().ProfileData.RegistrationInfo = vTests.ValidRegistrationTest();
+            IndividualParticipant.getInstance().IsRegistered = true;
 
             // act
             RegistrationViewModel vm = new RegistrationViewModel();
-            bool validReg = IndividualParticipant.ProfileData.RegistrationInfo.Validate();
+            bool validReg = IndividualParticipant.getInstance().ProfileData.RegistrationInfo.Validate();
 
             // assert
             Assert.True(validReg);
@@ -43,7 +43,7 @@ namespace UnitTests
         public void ConstructorNotRegisteredTest()
         {
             // arrange
-            IndividualParticipant.IsRegistered = false;
+            IndividualParticipant.getInstance().IsRegistered = false;
 
             // act
             RegistrationViewModel vm = new RegistrationViewModel();
@@ -66,7 +66,7 @@ namespace UnitTests
         public void ConstructorReadingOnlyNotRegisteredTest()
         {
             // arrange
-            IndividualParticipant.IsRegistered = false;
+            IndividualParticipant.getInstance().IsRegistered = false;
 
             // act
             RegistrationViewModel vm = new RegistrationViewModel();
@@ -90,12 +90,12 @@ namespace UnitTests
         public void ConstructorReadingOnlyIsRegisteredTest()
         {
             // arrange
-            IndividualParticipant.ProfileData.RegistrationInfo = vTests.ValidRegistrationTest();
-            IndividualParticipant.IsRegistered = true;
+            IndividualParticipant.getInstance().ProfileData.RegistrationInfo = vTests.ValidRegistrationTest();
+            IndividualParticipant.getInstance().IsRegistered = true;
 
             // act
             RegistrationViewModel vm = new RegistrationViewModel();
-            bool validReg = IndividualParticipant.ProfileData.RegistrationInfo.Validate();
+            bool validReg = IndividualParticipant.getInstance().ProfileData.RegistrationInfo.Validate();
 
             // assert
             Assert.True(validReg);

@@ -52,9 +52,9 @@ namespace RightToAskClient
             // Order is important here: the Filters need to be (re-)initialised after we've read MP and Committee data.
 		    GlobalFilterChoices.InitSelectableLists();
             
-            IndividualParticipant.Init();
+            IndividualParticipant.getInstance().Init();
             
-            if(IndividualParticipant.ElectoratesKnown) 
+            if(IndividualParticipant.getInstance().ElectoratesKnown) 
             {
 			    GlobalFilterChoices.UpdateMyMPLists();
             }

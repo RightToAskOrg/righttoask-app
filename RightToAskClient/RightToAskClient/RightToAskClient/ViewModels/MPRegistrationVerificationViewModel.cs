@@ -141,16 +141,16 @@ namespace RightToAskClient.ViewModels
             XamarinPreferences.shared.Set(Constants.IsVerifiedMPAccount, true);
             XamarinPreferences.shared.Set(Constants.IsVerifiedMPStafferAccount, _isStaffer); 
             XamarinPreferences.shared.Set(Constants.MPRegisteredAs,JsonSerializer.Serialize(MPRepresenting));
-            var registrationObjectToSave = new ServerUser(IndividualParticipant.ProfileData.RegistrationInfo);
+            var registrationObjectToSave = new ServerUser(IndividualParticipant.getInstance().ProfileData.RegistrationInfo);
             XamarinPreferences.shared.Set(Constants.RegistrationInfo, JsonSerializer.Serialize(registrationObjectToSave));
         }
 
         private void StoreMPRegistration()
         {
-            IndividualParticipant.IsVerifiedMPAccount = true;
-            IndividualParticipant.MPRegisteredAs = MPRepresenting;
-            IndividualParticipant.IsVerifiedMPStafferAccount = _isStaffer;
-            IndividualParticipant.ProfileData.RegistrationInfo.Badges.Add(
+            IndividualParticipant.getInstance().IsVerifiedMPAccount = true;
+            IndividualParticipant.getInstance().MPRegisteredAs = MPRepresenting;
+            IndividualParticipant.getInstance().IsVerifiedMPStafferAccount = _isStaffer;
+            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.Badges.Add(
                     new Badge()
                     {
                         badge = IsStaffer ? BadgeType.MPStaff : BadgeType.MP,

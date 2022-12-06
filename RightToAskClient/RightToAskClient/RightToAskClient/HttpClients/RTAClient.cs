@@ -113,7 +113,7 @@ namespace RightToAskClient.HttpClients
 
         public static async Task<JOSResult<string>> UpdateExistingUser(ServerUser existingReg)
         {
-            Debug.Assert(IndividualParticipant.IsRegistered);
+            Debug.Assert(IndividualParticipant.getInstance().IsRegistered);
             return await SignAndSendDataToServer(existingReg, "user", EditUserUrl,
                 AppResources.AccountUpdateSigningError);
         }
@@ -159,7 +159,7 @@ namespace RightToAskClient.HttpClients
 
         public static async Task<JOSResult<string>> RequestEmailValidation(RequestEmailValidationMessage msg, string email)
         {
-            var signedMsg =  IndividualParticipant.SignMessage(msg);
+            var signedMsg =  IndividualParticipant.getInstance().SignMessage(msg);
             var serverSend = new RequestEmailValidationAPICall()
             {
                 email = email,
@@ -180,7 +180,7 @@ namespace RightToAskClient.HttpClients
         // "description" and "error string" are for reporting errors in upload and signing resp.
         private static async Task<JOSResult<string>> SignAndSendDataToServer<T>(T data, string description, string url, string errorString)
         {
-            var signedUserMessage = IndividualParticipant.SignMessage(data);
+            var signedUserMessage = IndividualParticipant.getInstance().SignMessage(data);
             if (!string.IsNullOrEmpty(signedUserMessage.signature))
             {
                 return await SendDataToServerVerifySignedResponse(signedUserMessage, description, url);

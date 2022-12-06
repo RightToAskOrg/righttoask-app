@@ -75,7 +75,7 @@ namespace RightToAskClient.Views
             BackgroundLabel.IsVisible = BackgroundEditor.IsVisible;
 
             // Only MPs can answer questions.
-            var isMP = IndividualParticipant.IsVerifiedMPAccount;
+            var isMP = IndividualParticipant.getInstance().IsVerifiedMPAccount;
             AnswerEditor.Style = isMP ? normalEditorStyle : disabledEditorStyle;
             AnswerEditor.IsEnabled = isMP;
         }
