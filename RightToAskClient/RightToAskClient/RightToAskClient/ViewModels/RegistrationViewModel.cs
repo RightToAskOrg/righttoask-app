@@ -268,6 +268,7 @@ namespace RightToAskClient.ViewModels
         // Parameterless constructor sets defaults assuming it's the registration for this app user, i.e ThisParticipant.
         public RegistrationViewModel() : this(false)
         {
+            /*
             // initialize defaults
             Title = IndividualParticipant.getInstance().IsRegistered ? AppResources.EditYourAccountTitle : AppResources.CreateAccountTitle;
             ReportLabelText = "";
@@ -285,6 +286,7 @@ namespace RightToAskClient.ViewModels
             _selectableMPList = new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
 
             // SetDefaultCommands();
+            */
         }
         
         // Constructor called by other constructors - sets up commands, even those that aren't used.
@@ -344,7 +346,7 @@ namespace RightToAskClient.ViewModels
         #region Methods
         public async void NavigateToFindMPsPage()
         {
-            await Shell.Current.GoToAsync($"{nameof(RegisterPage2)}");
+            await Shell.Current.GoToAsync($"{nameof(FindMPsPage)}");
         }
 
         // Show and label different buttons according to whether we're registering

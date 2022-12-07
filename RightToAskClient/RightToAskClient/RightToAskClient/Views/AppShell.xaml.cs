@@ -10,7 +10,7 @@ namespace RightToAskClient.Views
             Routing.RegisterRoute(nameof(QuestionAskerPage), typeof(QuestionAskerPage));
             Routing.RegisterRoute(nameof(QuestionDetailPage), typeof(QuestionDetailPage));
             Routing.RegisterRoute(nameof(RegisterAccountPage), typeof(RegisterAccountPage));
-            Routing.RegisterRoute(nameof(RegisterPage2), typeof(RegisterPage2));
+            Routing.RegisterRoute(nameof(FindMPsPage), typeof(FindMPsPage));
             // Routing.RegisterRoute(nameof(SecondPage), typeof(SecondPage));
             // Routing.RegisterRoute("//MainPage/SecondPage", typeof(SecondPage));
             // Routing.RegisterRoute(nameof(ReadingPage), typeof(ReadingPage));

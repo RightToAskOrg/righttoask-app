@@ -56,7 +56,7 @@ namespace RightToAskClient.Helpers
             }
             else
             {
-                var registrationPage = new RegisterPage2();
+                var registrationPage = new FindMPsPage();
                 return registrationPage;
             }
         }
