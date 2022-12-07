@@ -611,7 +611,9 @@ namespace RightToAskClient.ViewModels
         {
             var serverQuestion = new QuestionSendToServer(Question);
 
-            var httpResponse = await RTAClient.RegisterNewQuestion(serverQuestion);
+            var httpResponse = await RTAClient.RegisterNewQuestion(
+                serverQuestion,
+                IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid);
             return RTAClient.ValidateHttpResponse(httpResponse, "Question Upload");
         }
 
@@ -623,7 +625,9 @@ namespace RightToAskClient.ViewModels
             serverQuestionUpdates.question_id = Question.QuestionId;
             serverQuestionUpdates.version = Question.Version;
 
-            var httpResponse = await RTAClient.UpdateExistingQuestion(serverQuestionUpdates);
+            var httpResponse = await RTAClient.UpdateExistingQuestion(
+                serverQuestionUpdates,
+                IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid);
             return RTAClient.ValidateHttpResponse(httpResponse, "Question Edit");
         }
     }

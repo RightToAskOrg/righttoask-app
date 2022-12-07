@@ -516,7 +516,9 @@ namespace RightToAskClient.ViewModels
             if (hasChanges)
             {
                 Debug.Assert(IndividualParticipant.getInstance().IsRegistered);
-                var httpResponse = await RTAClient.UpdateExistingUser(_registrationUpdates);
+                var httpResponse = await RTAClient.UpdateExistingUser(
+                    _registrationUpdates,
+                    IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid);
                 var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
                 ReportLabelText = httpValidation.errorMessage;
                 if (httpValidation.isValid)

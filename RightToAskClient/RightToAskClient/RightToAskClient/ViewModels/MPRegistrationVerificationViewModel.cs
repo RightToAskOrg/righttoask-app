@@ -119,7 +119,9 @@ namespace RightToAskClient.ViewModels
                 // name = MPRepresenting.first_name + " " + MPRepresenting.surname +" @"+domain
                 name = Badge.WriteBadgeName(MPRepresenting, _domain)
             };
-            var httpResponse = await RTAClient.RequestEmailValidation(message, EmailUsername + "@" + _domain);
+            var httpResponse = await RTAClient.RequestEmailValidation(
+                IndividualParticipant.getInstance().SignMessage(message),
+                EmailUsername + "@" + _domain);
             (bool isValid, string errorMsg, string hash) validation = RTAClient.ValidateHttpResponse(httpResponse, "Email Validation Request");
             if (validation.isValid)
             {
@@ -165,7 +167,9 @@ namespace RightToAskClient.ViewModels
                 hash = _mpVerificationHash,
                 code = _mpRegistrationPin
             };
-            var httpResponse = await RTAClient.SendEmailValidationPin(msg);
+            var httpResponse = await RTAClient.SendEmailValidationPin(
+                msg,
+                IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid);
             (bool isValid, string errorMsg, string hash) validation = RTAClient.ValidateHttpResponse(httpResponse, "Email Validation PIN");
 
                 // TODO - deal properly with errors e.g. email not known.
