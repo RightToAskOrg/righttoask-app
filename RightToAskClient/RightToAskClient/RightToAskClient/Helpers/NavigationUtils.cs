@@ -84,13 +84,21 @@ namespace RightToAskClient.Helpers
             await Application.Current.MainPage.Navigation.PushAsync(committeeSelectableListPage);
         }
         
-        public static async Task DoRegistrationCheck(BaseViewModel vm)
+        public static async Task DoRegistrationCheck(Registration registration, string cancelMessage, bool isRegistered)
         {
-            var popup = new TwoButtonPopup(AppResources.MakeAccountQuestionText, AppResources.CreateAccountPopUpText, AppResources.CancelButtonText, AppResources.OKText, false);
+            var popup = new TwoButtonPopup(
+                AppResources.MakeAccountQuestionText, 
+                AppResources.CreateAccountPopUpText, 
+                cancelMessage, 
+                AppResources.OKText, 
+                false);
             var popupResult = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
             if (popup.HasApproved(popupResult))
             {
-                await Shell.Current.GoToAsync($"{nameof(RegisterAccountPage)}");
+                var registerAccountPage = new RegisterAccountPage(
+                    registration,
+                    isRegistered ? RegistrationState.Registered : RegistrationState.NotRegistered);
+                await Application.Current.MainPage.Navigation.PushAsync(registerAccountPage);
             }
         }
     }

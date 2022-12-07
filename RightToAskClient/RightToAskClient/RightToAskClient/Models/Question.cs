@@ -240,13 +240,10 @@ namespace RightToAskClient.Models
                 }
                 else
                 {
-                    var message = AppResources.CreateAccountPopUpText;
-                    var popup = new TwoButtonPopup(AppResources.MakeAccountQuestionText, message, AppResources.NotNowAnswerText, AppResources.OKText, true); // this instance uses a model instead of a VM
-                    var popupResult = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
-                    if (popup.HasApproved(popupResult))
-                    {
-                        await Shell.Current.GoToAsync($"{nameof(RegisterAccountPage)}");
-                    }
+                    await NavigationUtils.DoRegistrationCheck(
+                        IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
+                        AppResources.NotNowAnswerText,
+                        IndividualParticipant.getInstance().IsRegistered);
                 }
             });
             QuestionDetailsCommand = new Command(() =>

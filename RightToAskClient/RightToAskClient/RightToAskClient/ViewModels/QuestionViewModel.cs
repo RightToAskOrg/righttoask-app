@@ -266,7 +266,10 @@ namespace RightToAskClient.ViewModels
             {
                 if (!IndividualParticipant.getInstance().IsRegistered) 
                 {
-                    await NavigationUtils.DoRegistrationCheck(Instance);
+                    await NavigationUtils.DoRegistrationCheck(
+                        IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
+                        AppResources.CancelButtonText,
+                        IndividualParticipant.getInstance().IsRegistered);
                 }
                 if (!IndividualParticipant.getInstance().IsRegistered)
                 {
@@ -316,7 +319,7 @@ namespace RightToAskClient.ViewModels
                 else 
                 {
                     var newReg = new Registration(userToSend.Data);
-                    var userProfilePage = new OtherUserProfilePage(newReg);
+                    var userProfilePage = new OtherUserProfilePage(newReg, RegistrationState.AnotherPerson);
                     await Application.Current.MainPage.Navigation.PushAsync(userProfilePage);
                 }
             });
@@ -478,7 +481,10 @@ namespace RightToAskClient.ViewModels
             // TODO This should not be necessary any more. Perhaps turn into a debug assertion?
             if (!IndividualParticipant.getInstance().IsRegistered)
             {
-                await NavigationUtils.DoRegistrationCheck(Instance);
+                await NavigationUtils.DoRegistrationCheck(
+                    IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
+                    AppResources.CancelButtonText,
+                    IndividualParticipant.getInstance().IsRegistered);
             }
 
             if (IndividualParticipant.getInstance().IsRegistered)
@@ -504,7 +510,10 @@ namespace RightToAskClient.ViewModels
             {
                 if (!IndividualParticipant.getInstance().IsRegistered)
                 {
-                    NavigationUtils.DoRegistrationCheck(Instance).Wait();
+                    NavigationUtils.DoRegistrationCheck(
+                        IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
+                        AppResources.CancelButtonText,
+                        IndividualParticipant.getInstance().IsRegistered).Wait();
                 }
             }
             catch (Exception e)
@@ -512,7 +521,7 @@ namespace RightToAskClient.ViewModels
                 // TODO: (unit-tests) is it ok to say "not registered" if we aren't able to check it
                 IndividualParticipant.getInstance().IsRegistered = false;
             }
-            //await NavigationUtils.DoRegistrationCheck(Instance);
+            //await NavigationUtils.DoRegistrationCheck(AppResources.CancelButtonText);
 
             if (IndividualParticipant.getInstance().IsRegistered)
             {

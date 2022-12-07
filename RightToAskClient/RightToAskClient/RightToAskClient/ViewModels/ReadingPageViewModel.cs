@@ -161,7 +161,10 @@ namespace RightToAskClient.ViewModels
                 // Check that they are registered - if not, prompt them to get an account.
                 if (!IndividualParticipant.getInstance().IsRegistered)
                 {
-                    await NavigationUtils.DoRegistrationCheck(this);
+                    await NavigationUtils.DoRegistrationCheck(
+                        IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
+                        AppResources.CancelButtonText,
+                        IndividualParticipant.getInstance().IsRegistered);
                 }
 
                 if (IndividualParticipant.getInstance().IsRegistered)

@@ -19,6 +19,12 @@ using Xamarin.Forms;
 
 namespace RightToAskClient.ViewModels
 {
+    public enum RegistrationState
+    {
+        Registered,
+        NotRegistered,
+        AnotherPerson
+    }
     public class RegistrationViewModel : BaseViewModel
     {
         #region Properties
@@ -253,40 +259,40 @@ namespace RightToAskClient.ViewModels
 
         // Constructors
         // Constructor with explicit registration info assumes it's someone else's registration info and initialises accordingly.
-        public RegistrationViewModel(Registration reg) : this(false)
+        public RegistrationViewModel(Registration registration, RegistrationState registrationState) : this(false)
         {
-            _registration = reg;
+            _registration = registration;
             ReportLabelText = "";
-            CanEditUid = false;
-            PopupLabelText = AppResources.OtherUserInfoText;
-            
-            // First do default command init, to make sure nothing is null.
-            // SetDefaultCommands();
-            ShowTheRightButtonsForOtherUser(reg.display_name);
+            switch (registrationState)
+            {
+                case RegistrationState.Registered:
+                    CanEditUid = false;
+                    PopupLabelText = AppResources.EditAccountPopupText;
+                    Title = AppResources.EditYourAccountTitle;
+                    ShowTheRightButtonsForOwnAccount();
+                    break;
+                case RegistrationState.NotRegistered:
+                    CanEditUid = true;
+                    PopupLabelText = AppResources.CreateNewAccountPopupText;
+                    Title = AppResources.CreateAccountTitle;
+                    ShowTheRightButtonsForOwnAccount();
+                    break;
+                case RegistrationState.AnotherPerson:
+                    CanEditUid = false;
+                    PopupLabelText = AppResources.OtherUserInfoText;
+                    ShowTheRightButtonsForOtherUser(registration.display_name);
+                    break;
+            }
+
+            // uid should still be sent in the 'update' even though it doesn't change.
+            _registrationUpdates.uid = _registration.uid;
+            _oldElectorates = _registration.Electorates;
+            _selectableMPList = new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
         }
         
         // Parameterless constructor sets defaults assuming it's the registration for this app user, i.e ThisParticipant.
         public RegistrationViewModel() : this(false)
         {
-            /*
-            // initialize defaults
-            Title = IndividualParticipant.getInstance().IsRegistered ? AppResources.EditYourAccountTitle : AppResources.CreateAccountTitle;
-            ReportLabelText = "";
-            _registration = IndividualParticipant.getInstance().ProfileData.RegistrationInfo; 
-            
-            ShowTheRightButtonsForOwnAccount();
-            CanEditUid = !IndividualParticipant.getInstance().IsRegistered;
-
-            // uid should still be sent in the 'update' even though it doesn't change.
-            _registrationUpdates.uid = _registration.uid;
-            _oldElectorates = _registration.Electorates;
-
-            PopupLabelText = IndividualParticipant.getInstance().IsRegistered ? AppResources.EditAccountPopupText : AppResources.CreateNewAccountPopupText;
-                
-            _selectableMPList = new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
-
-            // SetDefaultCommands();
-            */
         }
         
         // Constructor called by other constructors - sets up commands, even those that aren't used.

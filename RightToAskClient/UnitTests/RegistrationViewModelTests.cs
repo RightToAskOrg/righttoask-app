@@ -21,7 +21,9 @@ namespace UnitTests
             IndividualParticipant.getInstance().IsRegistered = true;
 
             // act
-            RegistrationViewModel vm = new RegistrationViewModel();
+            RegistrationViewModel vm = new RegistrationViewModel(
+                IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
+                RegistrationState.Registered);
             bool validReg = IndividualParticipant.getInstance().ProfileData.RegistrationInfo.Validate();
 
             // assert
@@ -46,7 +48,9 @@ namespace UnitTests
             IndividualParticipant.getInstance().IsRegistered = false;
 
             // act
-            RegistrationViewModel vm = new RegistrationViewModel();
+            RegistrationViewModel vm = new RegistrationViewModel(
+                IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
+                RegistrationState.NotRegistered);
 
             // assert
             Assert.False(vm.ShowUpdateAccountButton);
@@ -69,7 +73,9 @@ namespace UnitTests
             IndividualParticipant.getInstance().IsRegistered = false;
 
             // act
-            RegistrationViewModel vm = new RegistrationViewModel();
+            RegistrationViewModel vm = new RegistrationViewModel(
+                IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
+                RegistrationState.NotRegistered);
 
             // assert
             Assert.False(vm.ShowUpdateAccountButton);
@@ -94,7 +100,9 @@ namespace UnitTests
             IndividualParticipant.getInstance().IsRegistered = true;
 
             // act
-            RegistrationViewModel vm = new RegistrationViewModel();
+            RegistrationViewModel vm = new RegistrationViewModel(
+                IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
+                RegistrationState.Registered);
             bool validReg = IndividualParticipant.getInstance().ProfileData.RegistrationInfo.Validate();
 
             // assert
