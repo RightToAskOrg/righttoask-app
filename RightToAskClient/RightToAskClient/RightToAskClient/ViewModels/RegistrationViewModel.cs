@@ -515,6 +515,7 @@ namespace RightToAskClient.ViewModels
             // displays an alert if no changes were found on the user's account via the _registrationUpdates object
             if (hasChanges)
             {
+                Debug.Assert(IndividualParticipant.getInstance().IsRegistered);
                 var httpResponse = await RTAClient.UpdateExistingUser(_registrationUpdates);
                 var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
                 ReportLabelText = httpValidation.errorMessage;

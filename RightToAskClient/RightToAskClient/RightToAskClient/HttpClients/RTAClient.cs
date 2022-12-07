@@ -113,7 +113,6 @@ namespace RightToAskClient.HttpClients
 
         public static async Task<JOSResult<string>> UpdateExistingUser(ServerUser existingReg)
         {
-            Debug.Assert(IndividualParticipant.getInstance().IsRegistered);
             return await SignAndSendDataToServer(existingReg, "user", EditUserUrl,
                 AppResources.AccountUpdateSigningError);
         }
