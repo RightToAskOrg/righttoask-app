@@ -19,12 +19,6 @@ using Xamarin.Forms;
 
 namespace RightToAskClient.ViewModels
 {
-    public enum RegistrationState
-    {
-        Registered,
-        NotRegistered,
-        AnotherPerson
-    }
     public class RegistrationViewModel : BaseViewModel
     {
         #region Properties
@@ -32,7 +26,7 @@ namespace RightToAskClient.ViewModels
         // The complete information about this user's current registration, including any updates that have been made
         // on this page.
         private readonly Registration _registration = new Registration(); 
-
+        
         // The updates that have been made to this user's registration on this page
         // Note this is used only for updating an existing registration - new registrations are handled
         // with _registration.
@@ -259,25 +253,25 @@ namespace RightToAskClient.ViewModels
 
         // Constructors
         // Constructor with explicit registration info assumes it's someone else's registration info and initialises accordingly.
-        public RegistrationViewModel(Registration registration, RegistrationState registrationState) : this(false)
+        public RegistrationViewModel(Registration registration, RegistrationStatus registrationStatus) : this(false)
         {
             _registration = registration;
             ReportLabelText = "";
-            switch (registrationState)
+            switch (registrationStatus)
             {
-                case RegistrationState.Registered:
+                case RegistrationStatus.Registered:
                     CanEditUid = false;
                     PopupLabelText = AppResources.EditAccountPopupText;
                     Title = AppResources.EditYourAccountTitle;
                     ShowTheRightButtonsForOwnAccount();
                     break;
-                case RegistrationState.NotRegistered:
+                case RegistrationStatus.NotRegistered:
                     CanEditUid = true;
                     PopupLabelText = AppResources.CreateNewAccountPopupText;
                     Title = AppResources.CreateAccountTitle;
                     ShowTheRightButtonsForOwnAccount();
                     break;
-                case RegistrationState.AnotherPerson:
+                case RegistrationStatus.AnotherPerson:
                     CanEditUid = false;
                     PopupLabelText = AppResources.OtherUserInfoText;
                     ShowTheRightButtonsForOtherUser(registration.display_name);

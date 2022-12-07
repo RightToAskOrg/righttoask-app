@@ -34,10 +34,10 @@ namespace RightToAskClient.Views
             if (args.Target.Location.OriginalString.ToLower().Contains("account"))
             {
                 AccountPageExchanger.Registration = IndividualParticipant.getInstance().ProfileData.RegistrationInfo;
-                AccountPageExchanger.RegistrationState = (
+                AccountPageExchanger.RegistrationStatus = (
                     IndividualParticipant.getInstance().IsRegistered ?
-                    RegistrationState.Registered :
-                    RegistrationState.NotRegistered);
+                    RegistrationStatus.Registered :
+                    RegistrationStatus.NotRegistered);
             }
         }
     }

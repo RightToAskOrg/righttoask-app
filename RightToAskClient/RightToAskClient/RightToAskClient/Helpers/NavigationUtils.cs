@@ -97,7 +97,7 @@ namespace RightToAskClient.Helpers
             {
                 var registerAccountPage = new RegisterAccountPage(
                     registration,
-                    isRegistered ? RegistrationState.Registered : RegistrationState.NotRegistered);
+                    isRegistered ? RegistrationStatus.Registered : RegistrationStatus.NotRegistered);
                 await Application.Current.MainPage.Navigation.PushAsync(registerAccountPage);
             }
         }

@@ -319,7 +319,7 @@ namespace RightToAskClient.ViewModels
                 else 
                 {
                     var newReg = new Registration(userToSend.Data);
-                    var userProfilePage = new OtherUserProfilePage(newReg, RegistrationState.AnotherPerson);
+                    var userProfilePage = new OtherUserProfilePage(newReg, RegistrationStatus.AnotherPerson);
                     await Application.Current.MainPage.Navigation.PushAsync(userProfilePage);
                 }
             });

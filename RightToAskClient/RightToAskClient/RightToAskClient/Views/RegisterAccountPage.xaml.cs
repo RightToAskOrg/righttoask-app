@@ -9,10 +9,10 @@ namespace RightToAskClient.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RegisterAccountPage : ContentPage
     {
-        public RegisterAccountPage(Registration user, RegistrationState registrationState)
+        public RegisterAccountPage(Registration user, RegistrationStatus registrationStatus)
         {
             InitializeComponent();
-            BindingContext = new RegistrationViewModel(user, registrationState);
+            BindingContext = new RegistrationViewModel(user, registrationStatus);
             var reg = BindingContext as RegistrationViewModel;
             reg.ReinitRegistrationUpdates();
         }

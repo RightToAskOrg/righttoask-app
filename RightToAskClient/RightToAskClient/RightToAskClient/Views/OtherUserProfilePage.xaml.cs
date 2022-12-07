@@ -8,10 +8,10 @@ namespace RightToAskClient.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class OtherUserProfilePage : ContentPage
     {
-        public OtherUserProfilePage(Registration user, RegistrationState registrationState)
+        public OtherUserProfilePage(Registration user, RegistrationStatus registrationStatus)
         {
             InitializeComponent();
-            BindingContext = new RegistrationViewModel(user, registrationState); 
+            BindingContext = new RegistrationViewModel(user, registrationStatus); 
         }
     }
 }

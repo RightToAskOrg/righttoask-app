@@ -10,7 +10,7 @@ namespace RightToAskClient.Views
     public static class AccountPageExchanger
     {
         public static Registration? Registration;
-        public static RegistrationState? RegistrationState;
+        public static RegistrationStatus? RegistrationStatus;
     }
     
     [XamlCompilation(XamlCompilationOptions.Compile)]
@@ -24,11 +24,11 @@ namespace RightToAskClient.Views
         protected override void OnAppearing()
         {
             if (AccountPageExchanger.Registration != null &&
-                AccountPageExchanger.RegistrationState != null)
+                AccountPageExchanger.RegistrationStatus != null)
             {
                 BindingContext = new RegistrationViewModel(
                     AccountPageExchanger.Registration,
-                    AccountPageExchanger.RegistrationState ?? RegistrationState.NotRegistered);
+                    AccountPageExchanger.RegistrationStatus ?? RegistrationStatus.NotRegistered);
                 var reg = BindingContext as RegistrationViewModel;
                 reg?.ReinitRegistrationUpdates();
             }

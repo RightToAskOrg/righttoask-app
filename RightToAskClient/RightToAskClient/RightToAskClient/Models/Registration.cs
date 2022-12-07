@@ -8,6 +8,12 @@ using Xamarin.Essentials;
 
 namespace RightToAskClient.Models
 {
+    public enum RegistrationStatus
+    {
+        Registered,
+        NotRegistered,
+        AnotherPerson
+    }
     public class Registration : ObservableObject
     {
         // TODO: Move MP / staffer reg in here.
