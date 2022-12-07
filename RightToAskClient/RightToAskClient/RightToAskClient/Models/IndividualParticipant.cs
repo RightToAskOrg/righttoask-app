@@ -95,7 +95,7 @@ namespace RightToAskClient.Models
                 
                 
                 // We have a problem if our stored registration is null but we think we registered successfully.
-                Debug.Assert(registrationObj != null || ProfileData.RegistrationInfo.IsRegistered is false);
+                Debug.Assert(registrationObj != null || ProfileData.RegistrationInfo.registrationStatus == RegistrationStatus.NotRegistered);
                 
                 // If we got electorates, let the app know to skip the Find My MPs step
                 // TODO We may want to distinguish between ElectoratesKnown and Electorates.Any, because

@@ -21,9 +21,7 @@ namespace UnitTests
             IndividualParticipant.getInstance().ProfileData.RegistrationInfo.registrationStatus = RegistrationStatus.Registered;
 
             // act
-            RegistrationViewModel vm = new RegistrationViewModel(
-                IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
-                RegistrationStatus.Registered);
+            RegistrationViewModel vm = new RegistrationViewModel(IndividualParticipant.getInstance().ProfileData.RegistrationInfo);
             bool validReg = IndividualParticipant.getInstance().ProfileData.RegistrationInfo.Validate();
 
             // assert
@@ -48,9 +46,7 @@ namespace UnitTests
             IndividualParticipant.getInstance().ProfileData.RegistrationInfo.registrationStatus = RegistrationStatus.NotRegistered;
 
             // act
-            RegistrationViewModel vm = new RegistrationViewModel(
-                IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
-                RegistrationStatus.NotRegistered);
+            RegistrationViewModel vm = new RegistrationViewModel(IndividualParticipant.getInstance().ProfileData.RegistrationInfo);
 
             // assert
             Assert.False(vm.ShowUpdateAccountButton);
@@ -73,9 +69,7 @@ namespace UnitTests
             IndividualParticipant.getInstance().ProfileData.RegistrationInfo.registrationStatus = RegistrationStatus.NotRegistered;
 
             // act
-            RegistrationViewModel vm = new RegistrationViewModel(
-                IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
-                RegistrationStatus.NotRegistered);
+            RegistrationViewModel vm = new RegistrationViewModel(IndividualParticipant.getInstance().ProfileData.RegistrationInfo);
 
             // assert
             Assert.False(vm.ShowUpdateAccountButton);
@@ -100,9 +94,7 @@ namespace UnitTests
             IndividualParticipant.getInstance().ProfileData.RegistrationInfo.registrationStatus = RegistrationStatus.Registered;
 
             // act
-            RegistrationViewModel vm = new RegistrationViewModel(
-                IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
-                RegistrationStatus.Registered);
+            RegistrationViewModel vm = new RegistrationViewModel(IndividualParticipant.getInstance().ProfileData.RegistrationInfo);
             bool validReg = IndividualParticipant.getInstance().ProfileData.RegistrationInfo.Validate();
 
             // assert

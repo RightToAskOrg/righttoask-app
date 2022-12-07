@@ -253,11 +253,11 @@ namespace RightToAskClient.ViewModels
 
         // Constructors
         // Constructor with explicit registration info assumes it's someone else's registration info and initialises accordingly.
-        public RegistrationViewModel(Registration registration, RegistrationStatus registrationStatus) : this(false)
+        public RegistrationViewModel(Registration registration) : this(false)
         {
             _registration = registration;
             ReportLabelText = "";
-            switch (registrationStatus)
+            switch (registration.registrationStatus)
             {
                 case RegistrationStatus.Registered:
                     CanEditUid = false;
@@ -396,7 +396,7 @@ namespace RightToAskClient.ViewModels
         private async void OnSaveButtonClicked()
         {
             SaveRegistrationToPreferences(_registration);
-            Debug.Assert(!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered);
+            Debug.Assert(IndividualParticipant.getInstance().ProfileData.RegistrationInfo.registrationStatus == RegistrationStatus.NotRegistered);
 
             _registration.public_key = ClientSignatureGenerationService.MyPublicKey; 
             

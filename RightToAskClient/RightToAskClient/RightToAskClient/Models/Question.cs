@@ -242,8 +242,7 @@ namespace RightToAskClient.Models
                 {
                     await NavigationUtils.DoRegistrationCheck(
                         IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
-                        AppResources.NotNowAnswerText,
-                        IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered);
+                        AppResources.NotNowAnswerText);
                 }
             });
             QuestionDetailsCommand = new Command(() =>

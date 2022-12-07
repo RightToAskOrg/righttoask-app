@@ -163,8 +163,7 @@ namespace RightToAskClient.ViewModels
                 {
                     await NavigationUtils.DoRegistrationCheck(
                         IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
-                        AppResources.CancelButtonText,
-                        IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered);
+                        AppResources.CancelButtonText);
                 }
 
                 if (IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)

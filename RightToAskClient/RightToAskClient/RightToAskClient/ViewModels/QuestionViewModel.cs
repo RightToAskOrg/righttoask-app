@@ -5,6 +5,7 @@ using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Resx;
 using RightToAskClient.Views;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using RightToAskClient.Helpers;
 using RightToAskClient.Views.Popups;
@@ -268,8 +269,7 @@ namespace RightToAskClient.ViewModels
                 {
                     await NavigationUtils.DoRegistrationCheck(
                         IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
-                        AppResources.CancelButtonText,
-                        IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered);
+                        AppResources.CancelButtonText);
                 }
                 if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
                 {
@@ -319,7 +319,8 @@ namespace RightToAskClient.ViewModels
                 else 
                 {
                     var newReg = new Registration(userToSend.Data);
-                    var userProfilePage = new OtherUserProfilePage(newReg, RegistrationStatus.AnotherPerson);
+                    Debug.Assert(newReg.registrationStatus == RegistrationStatus.AnotherPerson);
+                    var userProfilePage = new OtherUserProfilePage(newReg);
                     await Application.Current.MainPage.Navigation.PushAsync(userProfilePage);
                 }
             });
@@ -483,8 +484,7 @@ namespace RightToAskClient.ViewModels
             {
                 await NavigationUtils.DoRegistrationCheck(
                     IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
-                    AppResources.CancelButtonText,
-                    IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered);
+                    AppResources.CancelButtonText);
             }
 
             if (IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
@@ -512,8 +512,7 @@ namespace RightToAskClient.ViewModels
                 {
                     NavigationUtils.DoRegistrationCheck(
                         IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
-                        AppResources.CancelButtonText,
-                        IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered).Wait();
+                        AppResources.CancelButtonText).Wait();
                 }
             }
             catch (Exception e)

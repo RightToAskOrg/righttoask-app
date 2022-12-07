@@ -84,7 +84,7 @@ namespace RightToAskClient.Helpers
             await Application.Current.MainPage.Navigation.PushAsync(committeeSelectableListPage);
         }
         
-        public static async Task DoRegistrationCheck(Registration registration, string cancelMessage, bool isRegistered)
+        public static async Task DoRegistrationCheck(Registration registration, string cancelMessage)
         {
             var popup = new TwoButtonPopup(
                 AppResources.MakeAccountQuestionText, 
@@ -95,9 +95,7 @@ namespace RightToAskClient.Helpers
             var popupResult = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
             if (popup.HasApproved(popupResult))
             {
-                var registerAccountPage = new RegisterAccountPage(
-                    registration,
-                    isRegistered ? RegistrationStatus.Registered : RegistrationStatus.NotRegistered);
+                var registerAccountPage = new RegisterAccountPage(registration);
                 await Application.Current.MainPage.Navigation.PushAsync(registerAccountPage);
             }
         }
