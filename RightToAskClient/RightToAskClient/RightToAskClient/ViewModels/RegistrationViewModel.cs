@@ -574,5 +574,10 @@ namespace RightToAskClient.ViewModels
             _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
         }
         #endregion
+
+        public void SetUserEmail(string email)
+        {
+            IndividualParticipant.getInstance().ProfileData.UserEmail = email;
+        }
     }
 }

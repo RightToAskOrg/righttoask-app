@@ -33,7 +33,11 @@ namespace RightToAskClient.Views
 
         private void OnRegisterEmailFieldCompleted(object sender, EventArgs e)
         {
-            IndividualParticipant.getInstance().ProfileData.UserEmail = ((Editor)sender).Text;
+            var viewModel = BindingContext as RegistrationViewModel;
+            if (viewModel != null)
+            {
+                viewModel.SetUserEmail(((Editor)sender).Text);
+            }
         }
     }
 }
