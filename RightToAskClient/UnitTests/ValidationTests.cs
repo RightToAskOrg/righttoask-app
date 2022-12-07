@@ -109,7 +109,7 @@ namespace UnitTests
             // arrange
             Registration registration = new Registration(new ServerUser() { uid = "testUserId", public_key = "fakePublicKey", state = ParliamentData.StateEnum.QLD.ToString() });
             IndividualParticipant.getInstance().ProfileData.RegistrationInfo = registration;
-            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered = true;
+            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.registrationStatus = RegistrationStatus.Registered;
 
             // act
             bool isValid = IndividualParticipant.getInstance().Validate();
@@ -127,7 +127,7 @@ namespace UnitTests
         public void ValidIndividualParticipantWithInvalidRegistrationTest()
         {
             // arrange
-            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered = true;
+            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.registrationStatus = RegistrationStatus.Registered;
             Registration invalidRegistration = new Registration(new ServerUser() { uid = "testUserId", state = ParliamentData.StateEnum.QLD.ToString() });
             IndividualParticipant.getInstance().ProfileData.RegistrationInfo = invalidRegistration;
 
@@ -146,7 +146,7 @@ namespace UnitTests
         public void ValidIndividualParticipantWithoutRegistrationButKnownMPsTest()
         {
             // arrange
-            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered = false;
+            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.registrationStatus = RegistrationStatus.NotRegistered;
             IndividualParticipant.getInstance().ElectoratesKnown = true;
 
             // act
@@ -167,7 +167,7 @@ namespace UnitTests
         public void InvalidIndividualParticipantTest()
         {
             // arrange
-            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered = false;
+            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.registrationStatus = RegistrationStatus.NotRegistered;
             IndividualParticipant.getInstance().ElectoratesKnown = false;
             IndividualParticipant.getInstance().ProfileData.RegistrationInfo.StateKnown = false;
 

@@ -10,13 +10,19 @@ namespace RightToAskClient.Models
 {
     public enum RegistrationStatus
     {
+        AnotherPerson,
         Registered,
-        NotRegistered,
-        AnotherPerson
+        NotRegistered
     }
     public class Registration : ObservableObject
     {
-        public bool IsRegistered { get; set; }
+        // By default it's another person. So we need only worry about the current user registration.
+        public RegistrationStatus registrationStatus { get; set; } = RegistrationStatus.AnotherPerson;
+        public bool IsRegistered
+        {
+            get => registrationStatus == RegistrationStatus.Registered;
+        }
+
         // TODO: Move MP / staffer reg in here.
         public string display_name { get; set; } = "";
         public string public_key { get; set; } = "";

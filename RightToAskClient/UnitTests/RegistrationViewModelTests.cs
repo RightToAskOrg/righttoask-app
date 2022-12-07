@@ -18,7 +18,7 @@ namespace UnitTests
         {
             // arrange
             IndividualParticipant.getInstance().ProfileData.RegistrationInfo = vTests.ValidRegistrationTest();
-            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered = true;
+            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.registrationStatus = RegistrationStatus.Registered;
 
             // act
             RegistrationViewModel vm = new RegistrationViewModel(
@@ -45,7 +45,7 @@ namespace UnitTests
         public void ConstructorNotRegisteredTest()
         {
             // arrange
-            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered = false;
+            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.registrationStatus = RegistrationStatus.NotRegistered;
 
             // act
             RegistrationViewModel vm = new RegistrationViewModel(
@@ -70,7 +70,7 @@ namespace UnitTests
         public void ConstructorReadingOnlyNotRegisteredTest()
         {
             // arrange
-            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered = false;
+            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.registrationStatus = RegistrationStatus.NotRegistered;
 
             // act
             RegistrationViewModel vm = new RegistrationViewModel(
@@ -97,7 +97,7 @@ namespace UnitTests
         {
             // arrange
             IndividualParticipant.getInstance().ProfileData.RegistrationInfo = vTests.ValidRegistrationTest();
-            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered = true;
+            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.registrationStatus = RegistrationStatus.Registered;
 
             // act
             RegistrationViewModel vm = new RegistrationViewModel(

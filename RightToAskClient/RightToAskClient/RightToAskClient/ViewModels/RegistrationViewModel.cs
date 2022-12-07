@@ -548,7 +548,7 @@ namespace RightToAskClient.ViewModels
         private void UpdateLocalRegistrationInfo()
         {
             IndividualParticipant.getInstance().ProfileData.RegistrationInfo = _registration;
-            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered = true;
+            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.registrationStatus = RegistrationStatus.Registered;
             // save the registration to preferences
             XamarinPreferences.shared.Set(
                 Constants.IsRegistered, 

@@ -84,7 +84,15 @@ namespace RightToAskClient.Models
                 // We actually need to check for the stored "IsRegistered" boolean, in case they tried to
                 // register but failed, for example because the server was offline.
                 // So we may have stored Registration data, but not have actually succeeded in uploading it.
-                ProfileData.RegistrationInfo.IsRegistered = XamarinPreferences.shared.Get(Constants.IsRegistered, false);
+                if (XamarinPreferences.shared.Get(Constants.IsRegistered, false))
+                {
+	                ProfileData.RegistrationInfo.registrationStatus = RegistrationStatus.Registered;
+                }
+                else
+                {
+	                ProfileData.RegistrationInfo.registrationStatus = RegistrationStatus.NotRegistered;
+                }
+                
                 
                 // We have a problem if our stored registration is null but we think we registered successfully.
                 Debug.Assert(registrationObj != null || ProfileData.RegistrationInfo.IsRegistered is false);

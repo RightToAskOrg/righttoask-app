@@ -519,7 +519,7 @@ namespace RightToAskClient.ViewModels
             catch (Exception e)
             {
                 // TODO: (unit-tests) is it ok to say "not registered" if we aren't able to check it
-                IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered = false;
+                IndividualParticipant.getInstance().ProfileData.RegistrationInfo.registrationStatus = RegistrationStatus.NotRegistered;
             }
             //await NavigationUtils.DoRegistrationCheck(AppResources.CancelButtonText);
 
