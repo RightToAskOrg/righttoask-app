@@ -1,4 +1,7 @@
-﻿using Xamarin.Forms;
+﻿using System;
+using RightToAskClient.Models;
+using RightToAskClient.ViewModels;
+using Xamarin.Forms;
 
 namespace RightToAskClient.Views
 {
@@ -23,6 +26,19 @@ namespace RightToAskClient.Views
             Routing.RegisterRoute(nameof(MetadataPage), typeof(MetadataPage));
             Routing.RegisterRoute(nameof(SelectableListPage), typeof(SelectableListPage));
             // Routing.RegisterRoute(nameof(FindMPsPage), typeof(FindMPsPage));
+        }
+
+        protected override void OnNavigating(ShellNavigatingEventArgs args)
+        {
+            base.OnNavigating(args);
+            if (args.Target.Location.OriginalString.ToLower().Contains("account"))
+            {
+                AccountPageExchanger.Registration = IndividualParticipant.getInstance().ProfileData.RegistrationInfo;
+                AccountPageExchanger.RegistrationState = (
+                    IndividualParticipant.getInstance().IsRegistered ?
+                    RegistrationState.Registered :
+                    RegistrationState.NotRegistered);
+            }
         }
     }
 }
