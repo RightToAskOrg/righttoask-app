@@ -7,9 +7,9 @@ using Xamarin.Forms.Xaml;
 namespace RightToAskClient.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class RegisterPage1 : ContentPage
+    public partial class RegisterAccountPage : ContentPage
     {
-        public RegisterPage1()
+        public RegisterAccountPage()
         {
             InitializeComponent();
 
