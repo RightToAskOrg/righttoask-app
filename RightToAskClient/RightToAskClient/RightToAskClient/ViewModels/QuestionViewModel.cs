@@ -355,6 +355,8 @@ namespace RightToAskClient.ViewModels
         private Command? _userShouldRaiseCommand;
         public Command UserShouldRaiseCommand => _userShouldRaiseCommand ??= new Command(UserShouldRaiseButtonClicked);
         private Command? _notSureWhoShouldRaiseCommand;
+
+        public bool IsVerifiedMpAccount => IndividualParticipant.getInstance().IsVerifiedMPAccount;
         public Command NotSureWhoShouldRaiseCommand => _notSureWhoShouldRaiseCommand ??= new Command(NotSureWhoShouldRaiseButtonClicked);
         public IAsyncCommand ProceedToReadingPageCommand { get; }
         public IAsyncCommand LeaveAnswererBlankButtonCommand { get; }
