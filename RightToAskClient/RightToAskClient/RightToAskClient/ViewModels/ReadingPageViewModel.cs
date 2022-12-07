@@ -159,7 +159,10 @@ namespace RightToAskClient.ViewModels
             DraftCommand = new AsyncCommand(async () =>
             {
                 // Check that they are registered - if not, prompt them to get an account.
-                await NavigationUtils.DoRegistrationCheck(this);
+                if (!IndividualParticipant.getInstance().IsRegistered)
+                {
+                    await NavigationUtils.DoRegistrationCheck(this);
+                }
 
                 if (IndividualParticipant.getInstance().IsRegistered)
                 {

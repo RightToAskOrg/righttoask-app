@@ -246,7 +246,7 @@ namespace RightToAskClient.ViewModels
             {
                 // Question.AnswerInApp = true;
                 // AnswerInApp = true;
-                await NavigationUtils.PushMyAnsweringMPsExploringPage().ContinueWith((_) =>
+                await NavigationUtils.PushMyAnsweringMPsExploringPage(IndividualParticipant.getInstance().ElectoratesKnown).ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, _howAnswered == HowAnsweredOptions.InApp ?
                         Constants.GoToMetadataPageNext : Constants.GoToAskingPageNext); // Sends this view model
@@ -264,26 +264,31 @@ namespace RightToAskClient.ViewModels
             });
             UpvoteCommand = new AsyncCommand(async () =>
             {
-                await NavigationUtils.DoRegistrationCheck(Instance);
-                if (IndividualParticipant.getInstance().IsRegistered)
+                if (!IndividualParticipant.getInstance().IsRegistered) 
                 {
-                    // upvoting a question will add it to their list
-                    // TODO We probably want to separate having _written_ questions from having upvoted them.
-                    IndividualParticipant.getInstance().HasQuestions = true;
-                    XamarinPreferences.shared.Set(Constants.HasQuestions, true);
-                    
-                    if (Question.AlreadyUpvoted)
-                    {
-                        Question.UpVotesByThisUser--;
-                        Question.AlreadyUpvoted = false;
-                        UpvoteButtonText = AppResources.UpvoteButtonText;
-                    }
-                    else
-                    {
-                        Question.UpVotesByThisUser++;
-                        Question.AlreadyUpvoted = true;
-                        UpvoteButtonText = AppResources.UpvotedButtonText;
-                    }
+                    await NavigationUtils.DoRegistrationCheck(Instance);
+                }
+                if (!IndividualParticipant.getInstance().IsRegistered)
+                {
+                    return;
+                }
+
+                // upvoting a question will add it to their list
+                // TODO We probably want to separate having _written_ questions from having upvoted them.
+                IndividualParticipant.getInstance().HasQuestions = true;
+                XamarinPreferences.shared.Set(Constants.HasQuestions, true);
+                
+                if (Question.AlreadyUpvoted)
+                {
+                    Question.UpVotesByThisUser--;
+                    Question.AlreadyUpvoted = false;
+                    UpvoteButtonText = AppResources.UpvoteButtonText;
+                }
+                else
+                {
+                    Question.UpVotesByThisUser++;
+                    Question.AlreadyUpvoted = true;
+                    UpvoteButtonText = AppResources.UpvotedButtonText;
                 }
             });
             SaveQuestionCommand = new Command(() =>
@@ -420,7 +425,7 @@ namespace RightToAskClient.ViewModels
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
                 // RaisedByOptionSelected = true;
-                await NavigationUtils.PushMyAskingMPsExploringPage().ContinueWith((_) =>
+                await NavigationUtils.PushMyAskingMPsExploringPage(IndividualParticipant.getInstance().ElectoratesKnown).ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, Constants.GoToMetadataPageNext); // Sends this view model
                 });
@@ -471,8 +476,11 @@ namespace RightToAskClient.ViewModels
         private async void SubmitNewQuestionButton_OnClicked()
         {
             // TODO This should not be necessary any more. Perhaps turn into a debug assertion?
-            await NavigationUtils.DoRegistrationCheck(Instance);
-            
+            if (!IndividualParticipant.getInstance().IsRegistered)
+            {
+                await NavigationUtils.DoRegistrationCheck(Instance);
+            }
+
             if (IndividualParticipant.getInstance().IsRegistered)
             {
                 // This isn't necessary unless the person has just registered, but is necessary if they have.
@@ -494,7 +502,10 @@ namespace RightToAskClient.ViewModels
         {
             try
             {
-                NavigationUtils.DoRegistrationCheck(Instance).Wait();
+                if (!IndividualParticipant.getInstance().IsRegistered)
+                {
+                    NavigationUtils.DoRegistrationCheck(Instance).Wait();
+                }
             }
             catch (Exception e)
             {

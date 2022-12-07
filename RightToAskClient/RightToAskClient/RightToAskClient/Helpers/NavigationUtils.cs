@@ -17,7 +17,7 @@ namespace RightToAskClient.Helpers
 {
     public static class NavigationUtils
     {
-        public static async Task PushMyAnsweringMPsExploringPage()
+        public static async Task PushMyAnsweringMPsExploringPage(bool electoratesKnown)
         {
             var message = "These are your MPs.  Select the one(s) who should answer the question";
 
@@ -25,22 +25,22 @@ namespace RightToAskClient.Helpers
             // Below, don't make the pages that are never used. The code is (somewhat redundant but)
             // correct but names are confusing.
             var mpsSelectableListPage = new SelectableListPage(App.GlobalFilterChoices.AnsweringMPsListsMine, message);
-            var nextPage = ListMPsFindFirstIfNotAlreadyKnown(mpsSelectableListPage);
+            var nextPage = ListMPsFindFirstIfNotAlreadyKnown(mpsSelectableListPage, electoratesKnown);
             await Application.Current.MainPage.Navigation.PushAsync(nextPage);
         }
 
-        public static async Task PushMyAskingMPsExploringPage()
+        public static async Task PushMyAskingMPsExploringPage(bool electoratesKnown)
         {
             var message = "These are your MPs.  Select the one(s) who should raise the question in Parliament";
 
             var mpsSelectableListPage = new SelectableListPage(App.GlobalFilterChoices.AskingMPsListsMine, message);
-            await LaunchMPFindingAndSelectingPages(mpsSelectableListPage);
+            await LaunchMPFindingAndSelectingPages(mpsSelectableListPage, electoratesKnown);
         }
 
         //
-        private static async Task LaunchMPFindingAndSelectingPages(SelectableListPage mpsListPage)
+        private static async Task LaunchMPFindingAndSelectingPages(SelectableListPage mpsListPage, bool electoratesKnown)
         {
-            var nextPage = ListMPsFindFirstIfNotAlreadyKnown(mpsListPage);
+            var nextPage = ListMPsFindFirstIfNotAlreadyKnown(mpsListPage, electoratesKnown);
             await Application.Current.MainPage.Navigation.PushAsync(nextPage);
         }
         
@@ -48,16 +48,16 @@ namespace RightToAskClient.Helpers
 		 * Either push the list of selectable MPs directly, or push a registration page,
 		 * instructed to push the MPs selection page after.
 		 */
-        public static Page ListMPsFindFirstIfNotAlreadyKnown(SelectableListPage mpsListPage)
+        public static Page ListMPsFindFirstIfNotAlreadyKnown(SelectableListPage mpsListPage, bool electoratesKnown)
         {
-            if (!IndividualParticipant.getInstance().ElectoratesKnown)
+            if (electoratesKnown)
             {
-                var registrationPage = new RegisterPage2();
-                return registrationPage;
+                return mpsListPage;
             }
             else
             {
-                return mpsListPage;
+                var registrationPage = new RegisterPage2();
+                return registrationPage;
             }
         }
 
@@ -86,14 +86,11 @@ namespace RightToAskClient.Helpers
         
         public static async Task DoRegistrationCheck(BaseViewModel vm)
         {
-            if (!IndividualParticipant.getInstance().IsRegistered)
+            var popup = new TwoButtonPopup(AppResources.MakeAccountQuestionText, AppResources.CreateAccountPopUpText, AppResources.CancelButtonText, AppResources.OKText, false);
+            var popupResult = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+            if (popup.HasApproved(popupResult))
             {
-                var popup = new TwoButtonPopup(AppResources.MakeAccountQuestionText, AppResources.CreateAccountPopUpText, AppResources.CancelButtonText, AppResources.OKText, false);
-                var popupResult = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
-                if (popup.HasApproved(popupResult))
-                {
-                    await Shell.Current.GoToAsync($"{nameof(RegisterAccountPage)}");
-                }
+                await Shell.Current.GoToAsync($"{nameof(RegisterAccountPage)}");
             }
         }
     }

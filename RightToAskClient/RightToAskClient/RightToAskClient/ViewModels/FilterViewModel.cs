@@ -295,7 +295,7 @@ namespace RightToAskClient.ViewModels
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
-                await NavigationUtils.PushMyAnsweringMPsExploringPage();
+                await NavigationUtils.PushMyAnsweringMPsExploringPage(IndividualParticipant.getInstance().ElectoratesKnown);
             }
         }
 
@@ -329,7 +329,7 @@ namespace RightToAskClient.ViewModels
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
-                await NavigationUtils.PushMyAskingMPsExploringPage();
+                await NavigationUtils.PushMyAskingMPsExploringPage(IndividualParticipant.getInstance().ElectoratesKnown);
             }
         }
 
