@@ -31,7 +31,6 @@ namespace RightToAskClient.Models
 			return _instance;
 		}
 
-		public bool IsRegistered { get; set; }
 		private bool _ElectoratesKnown = false;
 		public bool ElectoratesKnown { 
 			get => _ElectoratesKnown;
@@ -85,10 +84,10 @@ namespace RightToAskClient.Models
                 // We actually need to check for the stored "IsRegistered" boolean, in case they tried to
                 // register but failed, for example because the server was offline.
                 // So we may have stored Registration data, but not have actually succeeded in uploading it.
-                IsRegistered = XamarinPreferences.shared.Get(Constants.IsRegistered, false);
+                ProfileData.RegistrationInfo.IsRegistered = XamarinPreferences.shared.Get(Constants.IsRegistered, false);
                 
                 // We have a problem if our stored registration is null but we think we registered successfully.
-                Debug.Assert(registrationObj != null || IsRegistered is false);
+                Debug.Assert(registrationObj != null || ProfileData.RegistrationInfo.IsRegistered is false);
                 
                 // If we got electorates, let the app know to skip the Find My MPs step
                 // TODO We may want to distinguish between ElectoratesKnown and Electorates.Any, because
@@ -140,7 +139,7 @@ namespace RightToAskClient.Models
         {
 			var isValid = false;
 			// if they are registered, they need valid registration info
-            if (IsRegistered)
+            if (ProfileData.RegistrationInfo.IsRegistered)
             {
 				isValid = ProfileData.Validate();
 			}

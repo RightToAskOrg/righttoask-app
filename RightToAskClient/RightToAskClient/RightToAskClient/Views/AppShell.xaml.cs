@@ -35,7 +35,7 @@ namespace RightToAskClient.Views
             {
                 AccountPageExchanger.Registration = IndividualParticipant.getInstance().ProfileData.RegistrationInfo;
                 AccountPageExchanger.RegistrationStatus = (
-                    IndividualParticipant.getInstance().IsRegistered ?
+                    IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered ?
                     RegistrationStatus.Registered :
                     RegistrationStatus.NotRegistered);
             }

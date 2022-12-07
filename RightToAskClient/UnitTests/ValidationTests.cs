@@ -107,9 +107,9 @@ namespace UnitTests
         public void ValidIndividualParticipantWithValidRegistrationTest()
         {
             // arrange
-            IndividualParticipant.getInstance().IsRegistered = true;
             Registration registration = new Registration(new ServerUser() { uid = "testUserId", public_key = "fakePublicKey", state = ParliamentData.StateEnum.QLD.ToString() });
             IndividualParticipant.getInstance().ProfileData.RegistrationInfo = registration;
+            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered = true;
 
             // act
             bool isValid = IndividualParticipant.getInstance().Validate();
@@ -127,7 +127,7 @@ namespace UnitTests
         public void ValidIndividualParticipantWithInvalidRegistrationTest()
         {
             // arrange
-            IndividualParticipant.getInstance().IsRegistered = true;
+            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered = true;
             Registration invalidRegistration = new Registration(new ServerUser() { uid = "testUserId", state = ParliamentData.StateEnum.QLD.ToString() });
             IndividualParticipant.getInstance().ProfileData.RegistrationInfo = invalidRegistration;
 
@@ -146,7 +146,7 @@ namespace UnitTests
         public void ValidIndividualParticipantWithoutRegistrationButKnownMPsTest()
         {
             // arrange
-            IndividualParticipant.getInstance().IsRegistered = false;
+            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered = false;
             IndividualParticipant.getInstance().ElectoratesKnown = true;
 
             // act
@@ -156,7 +156,7 @@ namespace UnitTests
             Assert.True(isValid);
             Assert.NotNull(IndividualParticipant.getInstance().ProfileData.RegistrationInfo); // always has a default registration info object created. Generates public key
             Assert.True(IndividualParticipant.getInstance().ElectoratesKnown);
-            Assert.False(IndividualParticipant.getInstance().IsRegistered);
+            Assert.False(IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered);
             //TODO (unit test) make IndividualParticipant as single instance
             // Assert.True(string.IsNullOrEmpty(IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid));
             // Assert.True(!string.IsNullOrEmpty(IndividualParticipant.getInstance().ProfileData.RegistrationInfo.public_key));
@@ -167,7 +167,7 @@ namespace UnitTests
         public void InvalidIndividualParticipantTest()
         {
             // arrange
-            IndividualParticipant.getInstance().IsRegistered = false;
+            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered = false;
             IndividualParticipant.getInstance().ElectoratesKnown = false;
             IndividualParticipant.getInstance().ProfileData.RegistrationInfo.StateKnown = false;
 
@@ -178,7 +178,7 @@ namespace UnitTests
             Assert.False(isValid);
             Assert.NotNull(IndividualParticipant.getInstance().ProfileData.RegistrationInfo); // always has a default registration info object created. Generates public key
             Assert.False(IndividualParticipant.getInstance().ElectoratesKnown);
-            Assert.False(IndividualParticipant.getInstance().IsRegistered);
+            Assert.False(IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered);
             // TODO (unit test) make IndividualParticipant as single instance
             // Assert.True(string.IsNullOrEmpty(IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid));
             // Assert.False(string.IsNullOrEmpty(IndividualParticipant.getInstance().ProfileData.RegistrationInfo.public_key));

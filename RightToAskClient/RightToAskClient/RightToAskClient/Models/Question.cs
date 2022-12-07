@@ -223,7 +223,7 @@ namespace RightToAskClient.Models
 
             {
                 // can only upvote questions if you are registered
-                if (IndividualParticipant.getInstance().IsRegistered)
+                if (IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
                 {
                     if (!AlreadyUpvoted)
                     {
@@ -243,7 +243,7 @@ namespace RightToAskClient.Models
                     await NavigationUtils.DoRegistrationCheck(
                         IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
                         AppResources.NotNowAnswerText,
-                        IndividualParticipant.getInstance().IsRegistered);
+                        IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered);
                 }
             });
             QuestionDetailsCommand = new Command(() =>

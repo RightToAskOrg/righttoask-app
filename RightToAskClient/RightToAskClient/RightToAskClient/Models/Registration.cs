@@ -16,6 +16,7 @@ namespace RightToAskClient.Models
     }
     public class Registration : ObservableObject
     {
+        public bool IsRegistered { get; set; }
         // TODO: Move MP / staffer reg in here.
         public string display_name { get; set; } = "";
         public string public_key { get; set; } = "";

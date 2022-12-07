@@ -159,15 +159,15 @@ namespace RightToAskClient.ViewModels
             DraftCommand = new AsyncCommand(async () =>
             {
                 // Check that they are registered - if not, prompt them to get an account.
-                if (!IndividualParticipant.getInstance().IsRegistered)
+                if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
                 {
                     await NavigationUtils.DoRegistrationCheck(
                         IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
                         AppResources.CancelButtonText,
-                        IndividualParticipant.getInstance().IsRegistered);
+                        IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered);
                 }
 
-                if (IndividualParticipant.getInstance().IsRegistered)
+                if (IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
                 {
                     // If this is their first question, show them the 5-step instructions.
                     var showHowToPublishPopup = XamarinPreferences.shared.Get(Constants.ShowHowToPublishPopup, true);
@@ -248,7 +248,7 @@ namespace RightToAskClient.ViewModels
             var newQuestion = new Question
             {
                 QuestionText = DraftQuestion,
-                QuestionSuggester = (IndividualParticipant.getInstance().IsRegistered)
+                QuestionSuggester = (IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
                     ? IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid
                     : "",
                 Filters = App.GlobalFilterChoices,

@@ -264,14 +264,14 @@ namespace RightToAskClient.ViewModels
             });
             UpvoteCommand = new AsyncCommand(async () =>
             {
-                if (!IndividualParticipant.getInstance().IsRegistered) 
+                if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered) 
                 {
                     await NavigationUtils.DoRegistrationCheck(
                         IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
                         AppResources.CancelButtonText,
-                        IndividualParticipant.getInstance().IsRegistered);
+                        IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered);
                 }
-                if (!IndividualParticipant.getInstance().IsRegistered)
+                if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
                 {
                     return;
                 }
@@ -479,15 +479,15 @@ namespace RightToAskClient.ViewModels
         private async void SubmitNewQuestionButton_OnClicked()
         {
             // TODO This should not be necessary any more. Perhaps turn into a debug assertion?
-            if (!IndividualParticipant.getInstance().IsRegistered)
+            if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
             {
                 await NavigationUtils.DoRegistrationCheck(
                     IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
                     AppResources.CancelButtonText,
-                    IndividualParticipant.getInstance().IsRegistered);
+                    IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered);
             }
 
-            if (IndividualParticipant.getInstance().IsRegistered)
+            if (IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
             {
                 // This isn't necessary unless the person has just registered, but is necessary if they have.
                 Instance.Question.QuestionSuggester = IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid;
@@ -508,22 +508,22 @@ namespace RightToAskClient.ViewModels
         {
             try
             {
-                if (!IndividualParticipant.getInstance().IsRegistered)
+                if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
                 {
                     NavigationUtils.DoRegistrationCheck(
                         IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
                         AppResources.CancelButtonText,
-                        IndividualParticipant.getInstance().IsRegistered).Wait();
+                        IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered).Wait();
                 }
             }
             catch (Exception e)
             {
                 // TODO: (unit-tests) is it ok to say "not registered" if we aren't able to check it
-                IndividualParticipant.getInstance().IsRegistered = false;
+                IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered = false;
             }
             //await NavigationUtils.DoRegistrationCheck(AppResources.CancelButtonText);
 
-            if (IndividualParticipant.getInstance().IsRegistered)
+            if (IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
             {
                 var validQuestion = Question.ValidateUpdateQuestion();
                 if (validQuestion) 
@@ -545,7 +545,7 @@ namespace RightToAskClient.ViewModels
         private async Task<bool> SendNewQuestionToServer()
         {
             // This isn't supposed to be called for unregistered participants.
-            if (!IndividualParticipant.getInstance().IsRegistered) return false;
+            if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered) return false;
 
             // TODO use returnedData to record questionID, version, hash
             (bool isValid, string errorMessage, string returnedData) successfulSubmission =
@@ -598,7 +598,7 @@ namespace RightToAskClient.ViewModels
         private async void SendQuestionEditToServer()
         {
             // This isn't supposed to be called for unregistered participants.
-            if (!IndividualParticipant.getInstance().IsRegistered) return;
+            if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered) return;
             
             var successfulSubmission = await BuildSignAndUploadQuestionUpdates();
             
