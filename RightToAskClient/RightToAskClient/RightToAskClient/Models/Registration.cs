@@ -176,6 +176,23 @@ namespace RightToAskClient.Models
             return new ErrorResult("Please complete " + string.Join(" and ", errorFields));
         }
 
+        public bool ValidateReadyToUse()
+        {
+            // if they are registered, they need valid registration info
+            if (IsRegistered)
+            {
+                return Validate();
+            }
+            // if they are not registered, they could still have MPs known if they are in the process of creating their first question
+            // before  they have the chance to create an account
+            if (ElectoratesKnown)
+            {
+                return StateKnown;
+            }
+
+            return false;
+        }
+
         public bool Validate()
         {
             var isValid = false;

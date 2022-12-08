@@ -46,7 +46,7 @@ namespace UnitTests
             person.RegistrationInfo = registration;
 
             // act
-            bool isValid = person.Validate();
+            bool isValid = person.RegistrationInfo.Validate();
 
             // assert
             Assert.True(isValid);
@@ -62,7 +62,7 @@ namespace UnitTests
             Person person = new Person("invalidUser");
 
             // act
-            bool isValid = person.Validate();
+            bool isValid = person.RegistrationInfo.Validate();
 
             // assert
             Assert.False(isValid);
@@ -112,7 +112,7 @@ namespace UnitTests
             IndividualParticipant.getInstance().ProfileData.RegistrationInfo.registrationStatus = RegistrationStatus.Registered;
 
             // act
-            bool isValid = IndividualParticipant.getInstance().Validate();
+            bool isValid = IndividualParticipant.getInstance().ProfileData.RegistrationInfo.Validate();
 
             // assert
             //TODO (unit-test) IndividualParticipant is a global object so other tests can impact on it - so this test can work or no depends on random.
@@ -127,12 +127,12 @@ namespace UnitTests
         public void ValidIndividualParticipantWithInvalidRegistrationTest()
         {
             // arrange
-            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.registrationStatus = RegistrationStatus.Registered;
             Registration invalidRegistration = new Registration(new ServerUser() { uid = "testUserId", state = ParliamentData.StateEnum.QLD.ToString() });
             IndividualParticipant.getInstance().ProfileData.RegistrationInfo = invalidRegistration;
+            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.registrationStatus = RegistrationStatus.Registered;
 
             // act
-            bool isValid = IndividualParticipant.getInstance().Validate();
+            bool isValid = IndividualParticipant.getInstance().ProfileData.RegistrationInfo.Validate();
 
             // assert
             Assert.False(isValid);
@@ -150,7 +150,7 @@ namespace UnitTests
             IndividualParticipant.getInstance().ProfileData.RegistrationInfo.ElectoratesKnown = true;
 
             // act
-            bool isValid = IndividualParticipant.getInstance().Validate();
+            bool isValid = IndividualParticipant.getInstance().ProfileData.RegistrationInfo.ValidateReadyToUse();
 
             // assert
             Assert.True(isValid);
@@ -172,7 +172,7 @@ namespace UnitTests
             IndividualParticipant.getInstance().ProfileData.RegistrationInfo.StateKnown = false;
 
             // act
-            bool isValid = IndividualParticipant.getInstance().Validate();
+            bool isValid = IndividualParticipant.getInstance().ProfileData.RegistrationInfo.Validate();
 
             // assert
             Assert.False(isValid);

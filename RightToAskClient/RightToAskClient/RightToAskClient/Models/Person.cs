@@ -124,11 +124,6 @@ namespace RightToAskClient.Models
             return (person != null) && RegistrationInfo.uid == person.RegistrationInfo.uid;
         }
 
-		public bool Validate()
-        {
-			return RegistrationInfo.Validate();
-        }
-
 		public override string ToString()
 		{
 			var displayBadges = string.Join(",", RegistrationInfo.Badges);

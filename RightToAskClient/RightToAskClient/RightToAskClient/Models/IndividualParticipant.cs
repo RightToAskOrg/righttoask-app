@@ -114,22 +114,5 @@ namespace RightToAskClient.Models
             // Use my public key from the client signature generation service.
 			ProfileData.RegistrationInfo.public_key = ClientSignatureGenerationService.InitSuccessful ? ClientSignatureGenerationService.MyPublicKey : "";
 		}
-
-		public bool Validate()
-        {
-			var isValid = false;
-			// if they are registered, they need valid registration info
-            if (ProfileData.RegistrationInfo.IsRegistered)
-            {
-				isValid = ProfileData.Validate();
-			}
-			// if they are not registered, they could still have MPs known if they are in the process of creating their first question
-			// before  they have the chance to create an account
-            else if (ProfileData.RegistrationInfo.ElectoratesKnown)
-            {
-				isValid = ProfileData.RegistrationInfo.StateKnown;
-            }
-			return isValid;
-        }
     }
 } 
