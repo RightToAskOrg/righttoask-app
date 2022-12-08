@@ -24,6 +24,7 @@ namespace RightToAskClient.HttpClients
         private static readonly string EditUserUrl = BaseUrl + "/edit_user";
         private static readonly string QnUrl = BaseUrl + "/new_question";
         private static readonly string EditQnUrl = BaseUrl + "/edit_question";
+        private static readonly string PlaintextVoteQnUrl = BaseUrl + "/plaintext_vote_question";
         private static readonly string MPListUrl = BaseUrl + "/MPs.json";
         private static readonly string CommitteeListUrl = BaseUrl + "/committees.json";
         private static readonly string HearingsListUrl = BaseUrl + "/hearings.json";
@@ -152,6 +153,10 @@ namespace RightToAskClient.HttpClients
             return await SignAndSendDataToServer(newQuestion, AppResources.QuestionErrorTypeDescription, QnUrl,"Error publishing New Question");
         }
 
+        public static async Task<JOSResult<string>> SendPlaintextUpvote(PlainTextVoteOnQuestionCommand voteOnQuestion)
+        {
+            return await SignAndSendDataToServer(voteOnQuestion, AppResources.QuestionErrorTypeDescription, PlaintextVoteQnUrl, "Error voting on question");
+        }
         public static async Task<JOSResult<string>> UpdateExistingQuestion(QuestionSendToServer existingQuestion)
         {
             return await SignAndSendDataToServer(existingQuestion, AppResources.QuestionErrorTypeDescription, EditQnUrl, "Error editing question");
