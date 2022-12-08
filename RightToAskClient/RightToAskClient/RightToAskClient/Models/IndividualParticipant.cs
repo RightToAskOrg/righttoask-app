@@ -33,19 +33,6 @@ namespace RightToAskClient.Models
 		public bool AddressUpdated { get; set; }
 		public bool HasQuestions { get; set; }
 
-		private MP _MPRegisteredAs = new MP();
-		public MP MPRegisteredAs { 
-			get => _MPRegisteredAs;
-			set
-			{
-				_MPRegisteredAs = value;
-				// FIXME - not sure why OnPropertyChanged not compiling, but anyway perhaps we want the
-				// data from Registration anyway?
-				// OnPropertyChanged();
-				// OnPropertyChanged("RegisteredMP");
-			}
-		}
-
 		// needs to be accessible on a few pages and VMs so I put it here
 		public List<string> UpvotedQuestionIDs { get; set; } = new List<string>();
 		public List<string> ReportedQuestionIDs { get; set; } = new List<string>();
@@ -107,7 +94,7 @@ namespace RightToAskClient.Models
                             // See if we can find the registered MP in our existing list.
                             // Using field-equality operator.
                             // If so, just keep a pointer to it; if not, use a new MP object.
-                            MPRegisteredAs =
+                            ProfileData.RegistrationInfo.MPRegisteredAs =
                                 ParliamentData.FindMPOrMakeNewOne(MPRepresenting);
                         }
                     }

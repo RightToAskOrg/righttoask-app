@@ -445,7 +445,7 @@ namespace RightToAskClient.Models
             {
                 new QuestionAnswer()
                 {
-                    mp = new MPId(IndividualParticipant.getInstance().MPRegisteredAs),
+                    mp = new MPId(IndividualParticipant.getInstance().ProfileData.RegistrationInfo.MPRegisteredAs),
                     answer = answer
                 }
             };

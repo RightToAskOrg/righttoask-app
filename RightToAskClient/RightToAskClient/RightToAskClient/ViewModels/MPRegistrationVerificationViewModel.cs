@@ -150,7 +150,7 @@ namespace RightToAskClient.ViewModels
         private void StoreMPRegistration()
         {
             IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsVerifiedMPAccount = true;
-            IndividualParticipant.getInstance().MPRegisteredAs = MPRepresenting;
+            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.MPRegisteredAs = MPRepresenting;
             IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsVerifiedMPStafferAccount = _isStaffer;
             IndividualParticipant.getInstance().ProfileData.RegistrationInfo.Badges.Add(
                     new Badge()

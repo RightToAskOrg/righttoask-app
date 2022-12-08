@@ -75,6 +75,19 @@ namespace RightToAskClient.Models
                 App.GlobalFilterChoices.UpdateMyMPLists();
             } 
         }
+
+        private MP _MPRegisteredAs = new MP();
+        public MP MPRegisteredAs { 
+            get => _MPRegisteredAs;
+            set
+            {
+                _MPRegisteredAs = value;
+                // FIXME - not sure why OnPropertyChanged not compiling, but anyway perhaps we want the
+                // data from Registration anyway?
+                // OnPropertyChanged();
+                // OnPropertyChanged("RegisteredMP");
+            }
+        }
         
         public bool IsVerifiedMPAccount { get; set; }
         public bool IsVerifiedMPStafferAccount { get; set; }
