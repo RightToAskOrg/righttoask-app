@@ -11,18 +11,25 @@ namespace UnitTests
     public class RegistrationViewModelTests
     {
         // properties
-        public ValidationTests vTests = new ValidationTests();
-
+        private Registration createRegistration()
+        {
+            Registration registration = new Registration();
+            registration.uid = "testUid01";
+            registration.public_key = "fakeButValidPublicKey";
+            registration.SelectedStateAsEnum = ParliamentData.StateEnum.VIC;
+            registration.StateKnown = true;
+            return registration;
+        }
         [Fact]
         public void ConstructorIsRegisteredTest()
         {
             // arrange
-            IndividualParticipant.getInstance().ProfileData.RegistrationInfo = vTests.ValidRegistrationTest();
-            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.registrationStatus = RegistrationStatus.Registered;
+            var registration = createRegistration();
+            registration.registrationStatus = RegistrationStatus.Registered;
 
             // act
-            RegistrationViewModel vm = new RegistrationViewModel(IndividualParticipant.getInstance().ProfileData.RegistrationInfo);
-            bool validReg = IndividualParticipant.getInstance().ProfileData.RegistrationInfo.Validate();
+            RegistrationViewModel vm = new RegistrationViewModel(registration);
+            bool validReg = registration.Validate();
 
             // assert
             Assert.True(validReg);
@@ -43,10 +50,11 @@ namespace UnitTests
         public void ConstructorNotRegisteredTest()
         {
             // arrange
-            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.registrationStatus = RegistrationStatus.NotRegistered;
+            var registration = createRegistration();
+            registration.registrationStatus = RegistrationStatus.NotRegistered;
 
             // act
-            RegistrationViewModel vm = new RegistrationViewModel(IndividualParticipant.getInstance().ProfileData.RegistrationInfo);
+            RegistrationViewModel vm = new RegistrationViewModel(registration);
 
             // assert
             Assert.False(vm.ShowUpdateAccountButton);
@@ -66,10 +74,11 @@ namespace UnitTests
         public void ConstructorReadingOnlyNotRegisteredTest()
         {
             // arrange
-            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.registrationStatus = RegistrationStatus.NotRegistered;
+            var registration = createRegistration();
+            registration.registrationStatus = RegistrationStatus.NotRegistered;
 
             // act
-            RegistrationViewModel vm = new RegistrationViewModel(IndividualParticipant.getInstance().ProfileData.RegistrationInfo);
+            RegistrationViewModel vm = new RegistrationViewModel(registration);
 
             // assert
             Assert.False(vm.ShowUpdateAccountButton);
@@ -90,12 +99,12 @@ namespace UnitTests
         public void ConstructorReadingOnlyIsRegisteredTest()
         {
             // arrange
-            IndividualParticipant.getInstance().ProfileData.RegistrationInfo = vTests.ValidRegistrationTest();
-            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.registrationStatus = RegistrationStatus.Registered;
+            var registration = createRegistration();
+            registration.registrationStatus = RegistrationStatus.Registered;
 
             // act
-            RegistrationViewModel vm = new RegistrationViewModel(IndividualParticipant.getInstance().ProfileData.RegistrationInfo);
-            bool validReg = IndividualParticipant.getInstance().ProfileData.RegistrationInfo.Validate();
+            RegistrationViewModel vm = new RegistrationViewModel(registration);
+            bool validReg = registration.Validate();
 
             // assert
             Assert.True(validReg);
