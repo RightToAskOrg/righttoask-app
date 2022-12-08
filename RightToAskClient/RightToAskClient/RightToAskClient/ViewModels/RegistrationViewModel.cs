@@ -87,7 +87,7 @@ namespace RightToAskClient.ViewModels
             {
                 _selectedStateAsIndex = value;
                 ParliamentData.StateEnum selectedState;
-                (_stateKnown, selectedState) =  IndividualParticipant.getInstance().ProfileData.RegistrationInfo.UpdateStateStorePreferences(SelectedStateAsIndex);
+                (_stateKnown, selectedState) = _registration.UpdateStateStorePreferences(SelectedStateAsIndex);
                 
                 // Include new state in updates. At the moment, this means that there is no way that
                 // someone who has previously selected a state can
@@ -257,7 +257,7 @@ namespace RightToAskClient.ViewModels
         {
             _registration = registration;
             ReportLabelText = "";
-            switch (registration.registrationStatus)
+            switch (_registration.registrationStatus)
             {
                 case RegistrationStatus.Registered:
                     CanEditUid = false;
@@ -366,20 +366,21 @@ namespace RightToAskClient.ViewModels
 
         public void ShowTheRightButtonsForOwnAccount()
         {
-            ShowUpdateAccountButton = IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered;
-            ShowRegisterMPButton = IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered;
+            ShowUpdateAccountButton = _registration.IsRegistered;
+            ShowRegisterMPButton = _registration.IsRegistered;
             ShowExistingMPRegistrationLabel = IndividualParticipant.getInstance().IsVerifiedMPAccount || IndividualParticipant.getInstance().IsVerifiedMPStafferAccount;
             ShowStafferLabel = IndividualParticipant.getInstance().IsVerifiedMPStafferAccount;
             ShowDMButton = false;
             ShowSeeQuestionsButton = false;
             ShowFollowButton = false;
 
-            if (!IndividualParticipant.getInstance().ElectoratesKnown)
+            // TODO: move this into Registration
+            if (!_registration.ElectoratesKnown)
             {
                 RegisterCitizenButtonText = "Next: Find your electorates";
             }
 
-            if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
+            if (!_registration.IsRegistered)
             {
                 ShowRegisterCitizenButton = true;
                 ShowRegisterOrgButton = true;
@@ -396,7 +397,7 @@ namespace RightToAskClient.ViewModels
         private async void OnSaveButtonClicked()
         {
             SaveRegistrationToPreferences(_registration);
-            Debug.Assert(IndividualParticipant.getInstance().ProfileData.RegistrationInfo.registrationStatus == RegistrationStatus.NotRegistered);
+            Debug.Assert(_registration.registrationStatus == RegistrationStatus.NotRegistered);
 
             _registration.public_key = ClientSignatureGenerationService.MyPublicKey; 
             
@@ -405,7 +406,7 @@ namespace RightToAskClient.ViewModels
             if (regTest.Success)
             {
                 // see if we need to push the electorates page or if we push the server account things
-                if (!IndividualParticipant.getInstance().ElectoratesKnown)
+                if (!_registration.ElectoratesKnown)
                 {
                     // if MPs have not been found for this user yet, prompt to find them
                     var popup = new TwoButtonPopup(AppResources.MPsPopupTitle, AppResources.MPsPopupText, AppResources.SkipButtonText, AppResources.YesButtonText, false);
@@ -480,7 +481,7 @@ namespace RightToAskClient.ViewModels
         private async void SendUpdatedUserToServer()
         {
             // Shouldn't be updating a non-existent user. 
-            Debug.Assert(IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered);
+            Debug.Assert(_registration.IsRegistered);
 
             var hasChanges = false;
             if (_registrationUpdates.uid == null)
@@ -517,10 +518,10 @@ namespace RightToAskClient.ViewModels
             // displays an alert if no changes were found on the user's account via the _registrationUpdates object
             if (hasChanges)
             {
-                Debug.Assert(IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered);
+                Debug.Assert(_registration.IsRegistered);
                 var httpResponse = await RTAClient.UpdateExistingUser(
                     _registrationUpdates,
-                    IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid);
+                    _registration.uid);
                 var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
                 ReportLabelText = httpValidation.errorMessage;
                 if (httpValidation.isValid)
@@ -547,12 +548,9 @@ namespace RightToAskClient.ViewModels
 
         private void UpdateLocalRegistrationInfo()
         {
-            IndividualParticipant.getInstance().ProfileData.RegistrationInfo = _registration;
-            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.registrationStatus = RegistrationStatus.Registered;
-            // save the registration to preferences
             XamarinPreferences.shared.Set(
                 Constants.IsRegistered, 
-                IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered); 
+                _registration.IsRegistered); 
         }
 
 
@@ -584,7 +582,7 @@ namespace RightToAskClient.ViewModels
 
         public void SetUserEmail(string email)
         {
-            IndividualParticipant.getInstance().ProfileData.UserEmail = email;
+            // TODO: SetUserEmail
         }
     }
 }

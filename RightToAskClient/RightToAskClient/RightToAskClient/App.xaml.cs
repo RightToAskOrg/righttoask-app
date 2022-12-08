@@ -54,7 +54,7 @@ namespace RightToAskClient
             
             IndividualParticipant.getInstance().Init();
             
-            if(IndividualParticipant.getInstance().ElectoratesKnown) 
+            if(IndividualParticipant.getInstance().ProfileData.RegistrationInfo.ElectoratesKnown) 
             {
 			    GlobalFilterChoices.UpdateMyMPLists();
             }

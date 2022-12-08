@@ -30,19 +30,6 @@ namespace RightToAskClient.Models
 			// _instance.Init();
 			return _instance;
 		}
-
-		private bool _ElectoratesKnown = false;
-		public bool ElectoratesKnown { 
-			get => _ElectoratesKnown;
-			set
-			{
-				_ElectoratesKnown = value;
-				if (value)
-				{
-					ProfileData.RegistrationInfo.StateKnown = true;
-				}
-			}
-		}
 		public bool AddressUpdated { get; set; }
 		public bool HasQuestions { get; set; }
 		public bool IsVerifiedMPAccount { get; set; }
@@ -102,7 +89,7 @@ namespace RightToAskClient.Models
                 // the latter is true if only the state is known (Senate State being an electorate).
                 // At the moment, this will set ElectoratesKnown, in both the app and the preferences, when the person
                 // has selected their state, regardless of whether we know their electorate.
-                ElectoratesKnown = XamarinPreferences.shared.Get(Constants.ElectoratesKnown, false);
+                ProfileData.RegistrationInfo.ElectoratesKnown = XamarinPreferences.shared.Get(Constants.ElectoratesKnown, false);
                 
                 // Retrieve MP/staffer registration. Note that staffers have both the IsVerifiedMPAccount flag and the
                 // IsVerifiedMPStafferAccount flag set to true.
@@ -153,7 +140,7 @@ namespace RightToAskClient.Models
 			}
 			// if they are not registered, they could still have MPs known if they are in the process of creating their first question
 			// before  they have the chance to create an account
-            else if (ElectoratesKnown)
+            else if (ProfileData.RegistrationInfo.ElectoratesKnown)
             {
 				isValid = ProfileData.RegistrationInfo.StateKnown;
             }

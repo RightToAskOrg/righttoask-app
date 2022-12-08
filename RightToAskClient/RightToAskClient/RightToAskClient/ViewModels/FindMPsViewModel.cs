@@ -507,7 +507,7 @@ namespace RightToAskClient.ViewModels
 
         private void CommunicateElectoratesKnown()
         {
-            IndividualParticipant.getInstance().ElectoratesKnown = true;
+            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.ElectoratesKnown = true;
             XamarinPreferences.shared.Set(Constants.ElectoratesKnown, true);
             MessagingCenter.Send(this, Constants.ElectoratesKnown);
         }

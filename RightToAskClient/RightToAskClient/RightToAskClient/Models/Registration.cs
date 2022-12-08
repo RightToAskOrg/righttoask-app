@@ -40,6 +40,20 @@ namespace RightToAskClient.Models
             set => SetProperty(ref _stateKnown, value);
 
         }
+        private bool _electoratesKnown = false;
+        public bool ElectoratesKnown
+        {
+            get => _electoratesKnown;
+            set
+            {
+                _electoratesKnown = value;
+                if (value)
+                {
+                    _stateKnown = true;
+                }
+            }
+        }
+
         private ParliamentData.StateEnum _selectedStateAsEnum;
 
         public ParliamentData.StateEnum SelectedStateAsEnum
@@ -68,7 +82,14 @@ namespace RightToAskClient.Models
         public List<Badge> Badges
         {
             get => _badges;
-            set => SetProperty(ref _badges, value.ToList());
+            set
+            {
+                SetProperty(ref _badges, value.ToList());
+                foreach (var badge in _badges)
+                {
+                    
+                }
+            }
         }
 
         // Necesary for java serialisation & deserlialisation.

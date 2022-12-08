@@ -247,7 +247,7 @@ namespace RightToAskClient.ViewModels
             {
                 // Question.AnswerInApp = true;
                 // AnswerInApp = true;
-                await NavigationUtils.PushMyAnsweringMPsExploringPage(IndividualParticipant.getInstance().ElectoratesKnown).ContinueWith((_) =>
+                await NavigationUtils.PushMyAnsweringMPsExploringPage(IndividualParticipant.getInstance().ProfileData.RegistrationInfo.ElectoratesKnown).ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, _howAnswered == HowAnsweredOptions.InApp ?
                         Constants.GoToMetadataPageNext : Constants.GoToAskingPageNext); // Sends this view model
@@ -429,7 +429,7 @@ namespace RightToAskClient.ViewModels
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
                 // RaisedByOptionSelected = true;
-                await NavigationUtils.PushMyAskingMPsExploringPage(IndividualParticipant.getInstance().ElectoratesKnown).ContinueWith((_) =>
+                await NavigationUtils.PushMyAskingMPsExploringPage(IndividualParticipant.getInstance().ProfileData.RegistrationInfo.ElectoratesKnown).ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, Constants.GoToMetadataPageNext); // Sends this view model
                 });
