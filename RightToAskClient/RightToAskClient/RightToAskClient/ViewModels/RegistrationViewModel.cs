@@ -368,8 +368,8 @@ namespace RightToAskClient.ViewModels
         {
             ShowUpdateAccountButton = _registration.IsRegistered;
             ShowRegisterMPButton = _registration.IsRegistered;
-            ShowExistingMPRegistrationLabel = IndividualParticipant.getInstance().IsVerifiedMPAccount || IndividualParticipant.getInstance().IsVerifiedMPStafferAccount;
-            ShowStafferLabel = IndividualParticipant.getInstance().IsVerifiedMPStafferAccount;
+            ShowExistingMPRegistrationLabel = _registration.IsVerifiedMPAccount || _registration.IsVerifiedMPStafferAccount;
+            ShowStafferLabel = _registration.IsVerifiedMPStafferAccount;
             ShowDMButton = false;
             ShowSeeQuestionsButton = false;
             ShowFollowButton = false;

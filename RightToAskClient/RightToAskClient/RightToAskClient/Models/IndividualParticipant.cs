@@ -32,8 +32,6 @@ namespace RightToAskClient.Models
 		}
 		public bool AddressUpdated { get; set; }
 		public bool HasQuestions { get; set; }
-		public bool IsVerifiedMPAccount { get; set; }
-		public bool IsVerifiedMPStafferAccount { get; set; }
 
 		private MP _MPRegisteredAs = new MP();
 		public MP MPRegisteredAs { 
@@ -93,10 +91,10 @@ namespace RightToAskClient.Models
                 
                 // Retrieve MP/staffer registration. Note that staffers have both the IsVerifiedMPAccount flag and the
                 // IsVerifiedMPStafferAccount flag set to true.
-                IsVerifiedMPAccount = XamarinPreferences.shared.Get(Constants.IsVerifiedMPAccount, false);
-                if (IsVerifiedMPAccount)
+                ProfileData.RegistrationInfo.IsVerifiedMPAccount = XamarinPreferences.shared.Get(Constants.IsVerifiedMPAccount, false);
+                if (ProfileData.RegistrationInfo.IsVerifiedMPAccount)
                 {
-                    IsVerifiedMPStafferAccount =
+	                ProfileData.RegistrationInfo.IsVerifiedMPStafferAccount =
 	                    XamarinPreferences.shared.Get(Constants.IsVerifiedMPStafferAccount, false);
                     
                     // Used when uploading an answer. 

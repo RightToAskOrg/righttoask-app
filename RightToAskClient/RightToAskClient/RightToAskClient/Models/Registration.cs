@@ -75,6 +75,9 @@ namespace RightToAskClient.Models
                 App.GlobalFilterChoices.UpdateMyMPLists();
             } 
         }
+        
+        public bool IsVerifiedMPAccount { get; set; }
+        public bool IsVerifiedMPStafferAccount { get; set; }
 
         private List<Badge> _badges = new List<Badge>();
         
