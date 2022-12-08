@@ -8,11 +8,11 @@ jobs:
     runs-on: macos-latest
 
     steps:
+      # If this starts breaking check Xamarin bundles here https://github.com/actions/runner-images/blob/main/images/macos/macos-11-Readme.md#xamarin-bundles
       - uses: actions/checkout@v3
       - name: Set default Xamarin SDK versions
         run: |
-#          If this starts breaking check Xamarin bundles here https://github.com/actions/runner-images/blob/main/images/macos/macos-11-Readme.md#xamarin-bundles
-          $VM_ASSETS/select-xamarin-sdk-v2.sh --mono=6.12 --ios=15.40
+          $VM_ASSETS/select-xamarin-sdk-v2.sh --mono=6.12 --ios=15.4
 
       - name: Setup .NET Core SDK 5.0.x
         uses: actions/setup-dotnet@v3
