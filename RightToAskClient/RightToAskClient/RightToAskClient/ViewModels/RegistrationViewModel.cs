@@ -285,8 +285,10 @@ namespace RightToAskClient.ViewModels
         }
         
         // Parameterless constructor sets defaults assuming it's the registration for this app user, i.e ThisParticipant.
+        // **VT: Test in the case where you're already registered.
         public RegistrationViewModel() : this(false)
         {
+            _registration.registrationStatus = RegistrationStatus.NotRegistered;
         }
         
         // Constructor called by other constructors - sets up commands, even those that aren't used.
@@ -445,6 +447,7 @@ namespace RightToAskClient.ViewModels
             ReportLabelText = httpValidation.errorMessage;
             if (httpValidation.isValid)
             {
+                _registration.registrationStatus = RegistrationStatus.Registered;
                 UpdateLocalRegistrationInfo();
                      
                 // if the response seemed successful, put it in more common terms for the user.
