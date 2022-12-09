@@ -280,8 +280,7 @@ namespace RightToAskClient.ViewModels
 
             // uid should still be sent in the 'update' even though it doesn't change.
             _registrationUpdates.uid = _registration.uid;
-            _oldElectorates = new List<ElectorateWithChamber>();
-            // _oldElectorates = _registration.Electorates;
+            _oldElectorates = _registration.Electorates;
             _selectableMPList = new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
         }
         

@@ -25,10 +25,10 @@ namespace RightToAskClient.Views
             if (AccountPageExchanger.Registration != null)
             {
                 BindingContext = new RegistrationViewModel(AccountPageExchanger.Registration);
-                var reg = BindingContext as RegistrationViewModel;
-                // reg?.ReinitRegistrationUpdates();
+                AccountPageExchanger.Registration = null;
             }
-            
+            var reg = BindingContext as RegistrationViewModel;
+            // reg?.ReinitRegistrationUpdates();
             base.OnAppearing();
         }
 
