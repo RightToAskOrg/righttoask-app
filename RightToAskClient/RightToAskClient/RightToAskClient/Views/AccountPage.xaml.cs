@@ -26,7 +26,7 @@ namespace RightToAskClient.Views
             {
                 BindingContext = new RegistrationViewModel(AccountPageExchanger.Registration);
                 var reg = BindingContext as RegistrationViewModel;
-                reg?.ReinitRegistrationUpdates();
+                // reg?.ReinitRegistrationUpdates();
             }
             
             base.OnAppearing();

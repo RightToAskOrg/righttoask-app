@@ -252,7 +252,7 @@ namespace RightToAskClient.ViewModels
         #endregion
 
         // Constructors
-        // Constructor with explicit registration info assumes it's someone else's registration info and initialises accordingly.
+        // Constructor with explicit registration info.
         public RegistrationViewModel(Registration registration) : this(false)
         {
             _registration = registration;
@@ -280,12 +280,12 @@ namespace RightToAskClient.ViewModels
 
             // uid should still be sent in the 'update' even though it doesn't change.
             _registrationUpdates.uid = _registration.uid;
-            _oldElectorates = _registration.Electorates;
+            _oldElectorates = new List<ElectorateWithChamber>();
+            // _oldElectorates = _registration.Electorates;
             _selectableMPList = new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
         }
         
-        // Parameterless constructor sets defaults assuming it's the registration for this app user, i.e ThisParticipant.
-        // **VT: Test in the case where you're already registered.
+        // Parameterless constructor sets defaults assuming it's a new registration for this app user, i.e ThisParticipant.
         public RegistrationViewModel() : this(false)
         {
             _registration.registrationStatus = RegistrationStatus.NotRegistered;
