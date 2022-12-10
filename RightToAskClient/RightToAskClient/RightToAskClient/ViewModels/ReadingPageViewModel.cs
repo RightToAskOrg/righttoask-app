@@ -48,22 +48,6 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _draftQuestion, value);
         }
 
-        private Question? _selectedQuestion;
-        public Question? SelectedQuestion
-        {
-            get => _selectedQuestion;
-            set
-            {
-                _ = SetProperty(ref _selectedQuestion, value);
-                if (_selectedQuestion != null)
-                {
-                    QuestionViewModel.Instance.Question = _selectedQuestion;
-                    QuestionViewModel.Instance.IsNewQuestion = false;
-                    _ = Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
-                }
-            }
-        }
-
         private ObservableCollection<QuestionDisplayCardViewModel> _questionsToDisplay = new ObservableCollection<QuestionDisplayCardViewModel>();
         public ObservableCollection<QuestionDisplayCardViewModel> QuestionsToDisplay
         {
