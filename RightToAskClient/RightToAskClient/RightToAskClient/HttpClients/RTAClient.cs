@@ -112,11 +112,9 @@ namespace RightToAskClient.HttpClients
             return await SendDataToServerVerifySignedResponse(newUserForServer, "user", RegUrl);
         }
 
-        public static async Task<JOSResult<string>> UpdateExistingUser(ServerUser existingReg)
+        public static async Task<JOSResult<string>> UpdateExistingUser(ServerUser existingReg, string uid)
         {
-            Debug.Assert(IndividualParticipant.IsRegistered);
-            return await SignAndSendDataToServer(existingReg, "user", EditUserUrl,
-                AppResources.AccountUpdateSigningError);
+            return await SignAndSendDataToServer(existingReg, "user", EditUserUrl, AppResources.AccountUpdateSigningError, uid);
         }
 
 
@@ -148,23 +146,27 @@ namespace RightToAskClient.HttpClients
             var getQuestionByWriterUrl = GetQuestionByWriterUrl + Uri.EscapeDataString(userId);
             return await Client.DoGetResultRequest<List<string>>(getQuestionByWriterUrl);
         }
-        public static async Task<JOSResult<string>> RegisterNewQuestion(QuestionSendToServer newQuestion)
+        public static async Task<JOSResult<string>> RegisterNewQuestion(QuestionSendToServer newQuestion, string uid)
         {
-            return await SignAndSendDataToServer(newQuestion, AppResources.QuestionErrorTypeDescription, QnUrl,"Error publishing New Question");
+            return await SignAndSendDataToServer(newQuestion, AppResources.QuestionErrorTypeDescription, QnUrl,"Error publishing New Question", uid);
         }
 
+        public static async Task<JOSResult<string>> UpdateExistingQuestion(QuestionSendToServer existingQuestion, string uid)
+        {
+            return await SignAndSendDataToServer(existingQuestion, AppResources.QuestionErrorTypeDescription, EditQnUrl, "Error editing question", uid);
+        }
+        
         public static async Task<JOSResult<string>> SendPlaintextUpvote(PlainTextVoteOnQuestionCommand voteOnQuestion)
         {
             return await SignAndSendDataToServer(voteOnQuestion, AppResources.QuestionErrorTypeDescription, PlaintextVoteQnUrl, "Error voting on question");
         }
         public static async Task<JOSResult<string>> UpdateExistingQuestion(QuestionSendToServer existingQuestion)
         {
-            return await SignAndSendDataToServer(existingQuestion, AppResources.QuestionErrorTypeDescription, EditQnUrl, "Error editing question");
+            return await SignAndSendDataToServer(existingQuestion, AppResources.QuestionErrorTypeDescription, EditQnUrl, "Error editing question", uid);
         }
 
-        public static async Task<JOSResult<string>> RequestEmailValidation(RequestEmailValidationMessage msg, string email)
+        public static async Task<JOSResult<string>> RequestEmailValidation(ClientSignedUnparsed signedMsg, string email)
         {
-            var signedMsg =  IndividualParticipant.SignMessage(msg);
             var serverSend = new RequestEmailValidationAPICall()
             {
                 email = email,
@@ -176,16 +178,16 @@ namespace RightToAskClient.HttpClients
 
         }
 
-        public static async Task<JOSResult<string>> SendEmailValidationPin(EmailValidationPIN msg)
+        public static async Task<JOSResult<string>> SendEmailValidationPin(EmailValidationPIN msg, string uid)
         {
-            return await SignAndSendDataToServer(msg, "Sending PIN", EmailValidationPinUrl, "Signing PIN");
+            return await SignAndSendDataToServer(msg, "Sending PIN", EmailValidationPinUrl, "Signing PIN", uid);
         }
 
         // Sign a message (data) with this user's key, then upload to the specified url. 
         // "description" and "error string" are for reporting errors in upload and signing resp.
-        private static async Task<JOSResult<string>> SignAndSendDataToServer<T>(T data, string description, string url, string errorString)
+        private static async Task<JOSResult<string>> SignAndSendDataToServer<T>(T data, string description, string url, string errorString, string uid)
         {
-            var signedUserMessage = IndividualParticipant.SignMessage(data);
+            var signedUserMessage = ClientSignatureGenerationService.SignMessage(data, uid);
             if (!string.IsNullOrEmpty(signedUserMessage.signature))
             {
                 return await SendDataToServerVerifySignedResponse(signedUserMessage, description, url);

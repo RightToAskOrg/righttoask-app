@@ -5,6 +5,7 @@ using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Resx;
 using RightToAskClient.Views;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using RightToAskClient.Helpers;
 using RightToAskClient.Views.Popups;
@@ -114,7 +115,7 @@ namespace RightToAskClient.ViewModels
         {
             get
             {
-                var thisUser =  IndividualParticipant.ProfileData.RegistrationInfo.uid;
+                var thisUser =  IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid;
                 var questionWriter = _question.QuestionSuggester;
                 return IsNewQuestion || 
                        (!string.IsNullOrEmpty(thisUser) && !string.IsNullOrEmpty(questionWriter) && thisUser == questionWriter);
@@ -204,7 +205,7 @@ namespace RightToAskClient.ViewModels
             // set up empty question
             Question = new Question();
             ReportLabelText = "";
-            Question.QuestionSuggester = IndividualParticipant.ProfileData.RegistrationInfo.uid;
+            Question.QuestionSuggester = IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid;
 
             // set defaults
             IsNewQuestion = false;
@@ -246,7 +247,7 @@ namespace RightToAskClient.ViewModels
             {
                 // Question.AnswerInApp = true;
                 // AnswerInApp = true;
-                await NavigationUtils.PushMyAnsweringMPsExploringPage().ContinueWith((_) =>
+                await NavigationUtils.PushMyAnsweringMPsExploringPage(IndividualParticipant.getInstance().ProfileData.RegistrationInfo.ElectoratesKnown).ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, _howAnswered == HowAnsweredOptions.InApp ?
                         Constants.GoToMetadataPageNext : Constants.GoToAskingPageNext); // Sends this view model
@@ -264,28 +265,33 @@ namespace RightToAskClient.ViewModels
             });
             UpvoteCommand = new AsyncCommand(async () =>
             {
-                await NavigationUtils.DoRegistrationCheck(Instance);
-                if (IndividualParticipant.IsRegistered)
+                if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered) 
                 {
-                    // upvoting a question will add it to their list
-                    // TODO We probably want to separate having _written_ questions from having upvoted them.
-                    IndividualParticipant.HasQuestions = true;
-                    // TODO: (unit-tests) `This functionality is not implemented in the portable version of this assembly`
-                    if(DeviceInfo.Platform != DevicePlatform.Unknown)
-                        Preferences.Set(Constants.HasQuestions, true);
-                    
-                    if (Question.AlreadyUpvoted)
-                    {
-                        Question.UpVotesByThisUser--;
-                        Question.AlreadyUpvoted = false;
-                        UpvoteButtonText = AppResources.UpvoteButtonText;
-                    }
-                    else
-                    {
-                        Question.UpVotesByThisUser++;
-                        Question.AlreadyUpvoted = true;
-                        UpvoteButtonText = AppResources.UpvotedButtonText;
-                    }
+                    await NavigationUtils.DoRegistrationCheck(
+                        IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
+                        AppResources.CancelButtonText);
+                }
+                if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
+                {
+                    return;
+                }
+
+                // upvoting a question will add it to their list
+                // TODO We probably want to separate having _written_ questions from having upvoted them.
+                IndividualParticipant.getInstance().HasQuestions = true;
+                XamarinPreferences.shared.Set(Constants.HasQuestions, true);
+                
+                if (Question.AlreadyUpvoted)
+                {
+                    Question.UpVotesByThisUser--;
+                    Question.AlreadyUpvoted = false;
+                    UpvoteButtonText = AppResources.UpvoteButtonText;
+                }
+                else
+                {
+                    Question.UpVotesByThisUser++;
+                    Question.AlreadyUpvoted = true;
+                    UpvoteButtonText = AppResources.UpvotedButtonText;
                 }
             });
             SaveQuestionCommand = new Command(() =>
@@ -313,6 +319,7 @@ namespace RightToAskClient.ViewModels
                 else 
                 {
                     var newReg = new Registration(userToSend.Data);
+                    Debug.Assert(newReg.registrationStatus == RegistrationStatus.AnotherPerson);
                     var userProfilePage = new OtherUserProfilePage(newReg);
                     await Application.Current.MainPage.Navigation.PushAsync(userProfilePage);
                 }
@@ -370,6 +377,8 @@ namespace RightToAskClient.ViewModels
         private Command? _userShouldRaiseCommand;
         public Command UserShouldRaiseCommand => _userShouldRaiseCommand ??= new Command(UserShouldRaiseButtonClicked);
         private Command? _notSureWhoShouldRaiseCommand;
+
+        public bool IsVerifiedMpAccount => IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsVerifiedMPAccount;
         public Command NotSureWhoShouldRaiseCommand => _notSureWhoShouldRaiseCommand ??= new Command(NotSureWhoShouldRaiseButtonClicked);
         public IAsyncCommand ProceedToReadingPageCommand { get; }
         public IAsyncCommand LeaveAnswererBlankButtonCommand { get; }
@@ -396,7 +405,7 @@ namespace RightToAskClient.ViewModels
             // set defaults
             Question = new Question();
             ReportLabelText = "";
-            Question.QuestionSuggester = IndividualParticipant.ProfileData.RegistrationInfo.uid;
+            Question.QuestionSuggester = IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid;
         }
 
         public void ReinitQuestionUpdates()
@@ -434,7 +443,7 @@ namespace RightToAskClient.ViewModels
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
                 // RaisedByOptionSelected = true;
-                await NavigationUtils.PushMyAskingMPsExploringPage().ContinueWith((_) =>
+                await NavigationUtils.PushMyAskingMPsExploringPage(IndividualParticipant.getInstance().ProfileData.RegistrationInfo.ElectoratesKnown).ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, Constants.GoToMetadataPageNext); // Sends this view model
                 });
@@ -485,12 +494,17 @@ namespace RightToAskClient.ViewModels
         private async void SubmitNewQuestionButton_OnClicked()
         {
             // TODO This should not be necessary any more. Perhaps turn into a debug assertion?
-            await NavigationUtils.DoRegistrationCheck(Instance);
-            
-            if (IndividualParticipant.IsRegistered)
+            if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
+            {
+                await NavigationUtils.DoRegistrationCheck(
+                    IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
+                    AppResources.CancelButtonText);
+            }
+
+            if (IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
             {
                 // This isn't necessary unless the person has just registered, but is necessary if they have.
-                Instance.Question.QuestionSuggester = IndividualParticipant.ProfileData.RegistrationInfo.uid;
+                Instance.Question.QuestionSuggester = IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid;
                 var validQuestion = Question.ValidateNewQuestion();
                 if (validQuestion)
                 {
@@ -508,16 +522,21 @@ namespace RightToAskClient.ViewModels
         {
             try
             {
-                NavigationUtils.DoRegistrationCheck(Instance).Wait();
+                if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
+                {
+                    NavigationUtils.DoRegistrationCheck(
+                        IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
+                        AppResources.CancelButtonText).Wait();
+                }
             }
             catch (Exception e)
             {
                 // TODO: (unit-tests) is it ok to say "not registered" if we aren't able to check it
-                IndividualParticipant.IsRegistered = false;
+                IndividualParticipant.getInstance().ProfileData.RegistrationInfo.registrationStatus = RegistrationStatus.NotRegistered;
             }
-            //await NavigationUtils.DoRegistrationCheck(Instance);
+            //await NavigationUtils.DoRegistrationCheck(AppResources.CancelButtonText);
 
-            if (IndividualParticipant.IsRegistered)
+            if (IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
             {
                 var validQuestion = Question.ValidateUpdateQuestion();
                 if (validQuestion) 
@@ -539,7 +558,7 @@ namespace RightToAskClient.ViewModels
         private async Task<bool> SendNewQuestionToServer()
         {
             // This isn't supposed to be called for unregistered participants.
-            if (!IndividualParticipant.IsRegistered) return false;
+            if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered) return false;
 
             // TODO use returnedData to record questionID, version, hash
             (bool isValid, string errorMessage, string returnedData) successfulSubmission =
@@ -560,8 +579,8 @@ namespace RightToAskClient.ViewModels
         private async void PromptForNextStepAndClearQuestionIfNeeded() 
         { 
             // creating a question will add it to their list
-            IndividualParticipant.HasQuestions = true;
-            Preferences.Set(Constants.HasQuestions, true);
+            IndividualParticipant.getInstance().HasQuestions = true;
+            XamarinPreferences.shared.Set(Constants.HasQuestions, true);
 
             //FIXME update version, just like for edits.
 
@@ -592,7 +611,7 @@ namespace RightToAskClient.ViewModels
         private async void SendQuestionEditToServer()
         {
             // This isn't supposed to be called for unregistered participants.
-            if (!IndividualParticipant.IsRegistered) return;
+            if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered) return;
             
             var successfulSubmission = await BuildSignAndUploadQuestionUpdates();
             
@@ -625,7 +644,9 @@ namespace RightToAskClient.ViewModels
         {
             var serverQuestion = new QuestionSendToServer(Question);
 
-            var httpResponse = await RTAClient.RegisterNewQuestion(serverQuestion);
+            var httpResponse = await RTAClient.RegisterNewQuestion(
+                serverQuestion,
+                IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid);
             return RTAClient.ValidateHttpResponse(httpResponse, "Question Upload");
         }
 
@@ -637,7 +658,9 @@ namespace RightToAskClient.ViewModels
             serverQuestionUpdates.question_id = Question.QuestionId;
             serverQuestionUpdates.version = Question.Version;
 
-            var httpResponse = await RTAClient.UpdateExistingQuestion(serverQuestionUpdates);
+            var httpResponse = await RTAClient.UpdateExistingQuestion(
+                serverQuestionUpdates,
+                IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid);
             return RTAClient.ValidateHttpResponse(httpResponse, "Question Edit");
         }
     }

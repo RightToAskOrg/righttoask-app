@@ -8,8 +8,21 @@ using Xamarin.Essentials;
 
 namespace RightToAskClient.Models
 {
+    public enum RegistrationStatus
+    {
+        AnotherPerson,
+        Registered,
+        NotRegistered
+    }
     public class Registration : ObservableObject
     {
+        // By default it's another person. So we need only worry about the current user registration.
+        public RegistrationStatus registrationStatus { get; set; } = RegistrationStatus.AnotherPerson;
+        public bool IsRegistered
+        {
+            get => registrationStatus == RegistrationStatus.Registered;
+        }
+
         // TODO: Move MP / staffer reg in here.
         public string display_name { get; set; } = "";
         public string public_key { get; set; } = "";
@@ -27,6 +40,20 @@ namespace RightToAskClient.Models
             set => SetProperty(ref _stateKnown, value);
 
         }
+        private bool _electoratesKnown = false;
+        public bool ElectoratesKnown
+        {
+            get => _electoratesKnown;
+            set
+            {
+                _electoratesKnown = value;
+                if (value)
+                {
+                    _stateKnown = true;
+                }
+            }
+        }
+
         private ParliamentData.StateEnum _selectedStateAsEnum;
 
         public ParliamentData.StateEnum SelectedStateAsEnum
@@ -49,13 +76,36 @@ namespace RightToAskClient.Models
             } 
         }
 
+        private MP _MPRegisteredAs = new MP();
+        public MP MPRegisteredAs { 
+            get => _MPRegisteredAs;
+            set
+            {
+                _MPRegisteredAs = value;
+                // FIXME - not sure why OnPropertyChanged not compiling, but anyway perhaps we want the
+                // data from Registration anyway?
+                // OnPropertyChanged();
+                // OnPropertyChanged("RegisteredMP");
+            }
+        }
+        
+        public bool IsVerifiedMPAccount { get; set; }
+        public bool IsVerifiedMPStafferAccount { get; set; }
+
         private List<Badge> _badges = new List<Badge>();
         
         // For the moment, this indicates (only) whether the person is registered as an MP or staffer.
         public List<Badge> Badges
         {
             get => _badges;
-            set => SetProperty(ref _badges, value.ToList());
+            set
+            {
+                SetProperty(ref _badges, value.ToList());
+                foreach (var badge in _badges)
+                {
+                    
+                }
+            }
         }
 
         // Necesary for java serialisation & deserlialisation.
@@ -126,6 +176,23 @@ namespace RightToAskClient.Models
             return new ErrorResult("Please complete " + string.Join(" and ", errorFields));
         }
 
+        public bool ValidateReadyToUse()
+        {
+            // if they are registered, they need valid registration info
+            if (IsRegistered)
+            {
+                return Validate();
+            }
+            // if they are not registered, they could still have MPs known if they are in the process of creating their first question
+            // before  they have the chance to create an account
+            if (ElectoratesKnown)
+            {
+                return StateKnown;
+            }
+
+            return false;
+        }
+
         public bool Validate()
         {
             var isValid = false;
@@ -172,10 +239,9 @@ namespace RightToAskClient.Models
                 successState =
                     (ParliamentData.StateEnum)Enum.ToObject(typeof(ParliamentData.StateEnum), selectedStateAsInt);
                 successBool = true;
-                IndividualParticipant.ProfileData.RegistrationInfo.StateKnown = successBool;
-                IndividualParticipant.ProfileData.RegistrationInfo.SelectedStateAsEnum = successState;
-                if(DeviceInfo.Platform != DevicePlatform.Unknown)
-                    Preferences.Set(Constants.State, successState.ToString());
+                _stateKnown = successBool;
+                _selectedStateAsEnum = successState;
+                XamarinPreferences.shared.Set(Constants.State, successState.ToString());
             }
 
             return (successBool, successState);

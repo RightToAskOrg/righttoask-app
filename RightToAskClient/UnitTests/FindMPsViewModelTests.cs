@@ -36,16 +36,16 @@ namespace UnitTests
 
             // act on the data
             registrationInfo = vTests.ValidRegistrationTest();
-            IndividualParticipant.ProfileData.RegistrationInfo = registrationInfo;
+            IndividualParticipant.getInstance().ProfileData.RegistrationInfo = registrationInfo;
             address = vTests.TestValidAddress();
-            IndividualParticipant.ProfileData.Address = address;
+            IndividualParticipant.getInstance().ProfileData.Address = address;
             vm.Address = address;
             bool validReg = registrationInfo.Validate();
             executeAsyncButton(button);
 
             // assert
             Assert.True(validReg);
-            Assert.False(string.IsNullOrEmpty(IndividualParticipant.ProfileData.RegistrationInfo.State));
+            Assert.False(string.IsNullOrEmpty(IndividualParticipant.getInstance().ProfileData.RegistrationInfo.State));
             Assert.True(string.IsNullOrEmpty(vm.ReportLabelText));
             //Assert.True(vm.ShowFindMPsButton);
             Assert.False(vm.ShowSkipButton);

@@ -1,4 +1,7 @@
-﻿using Xamarin.Forms;
+﻿using System;
+using RightToAskClient.Models;
+using RightToAskClient.ViewModels;
+using Xamarin.Forms;
 
 namespace RightToAskClient.Views
 {
@@ -9,8 +12,8 @@ namespace RightToAskClient.Views
             InitializeComponent();
             Routing.RegisterRoute(nameof(QuestionAskerPage), typeof(QuestionAskerPage));
             Routing.RegisterRoute(nameof(QuestionDetailPage), typeof(QuestionDetailPage));
-            Routing.RegisterRoute(nameof(RegisterPage1), typeof(RegisterPage1));
-            Routing.RegisterRoute(nameof(RegisterPage2), typeof(RegisterPage2));
+            Routing.RegisterRoute(nameof(RegisterAccountPage), typeof(RegisterAccountPage));
+            Routing.RegisterRoute(nameof(FindMPsPage), typeof(FindMPsPage));
             // Routing.RegisterRoute(nameof(SecondPage), typeof(SecondPage));
             // Routing.RegisterRoute("//MainPage/SecondPage", typeof(SecondPage));
             // Routing.RegisterRoute(nameof(ReadingPage), typeof(ReadingPage));
@@ -23,6 +26,15 @@ namespace RightToAskClient.Views
             Routing.RegisterRoute(nameof(MetadataPage), typeof(MetadataPage));
             Routing.RegisterRoute(nameof(SelectableListPage), typeof(SelectableListPage));
             // Routing.RegisterRoute(nameof(FindMPsPage), typeof(FindMPsPage));
+        }
+
+        protected override void OnNavigating(ShellNavigatingEventArgs args)
+        {
+            base.OnNavigating(args);
+            if (args.Target.Location.OriginalString.ToLower().Contains("account"))
+            {
+                AccountPageExchanger.Registration = IndividualParticipant.getInstance().ProfileData.RegistrationInfo;
+            }
         }
     }
 }
