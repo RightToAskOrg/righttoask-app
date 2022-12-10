@@ -11,7 +11,7 @@ namespace RightToAskClient.ViewModels
 
         public QuestionDisplayCardViewModel(Question question) : base()
         {
-            //?? Question = question;
+            Question = question;
             QuestionDetailsCommand = new Command(() =>
             {
                 Instance.Question = question;

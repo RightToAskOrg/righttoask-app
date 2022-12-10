@@ -64,8 +64,8 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        private ObservableCollection<Question> _questionsToDisplay = new ObservableCollection<Question>();
-        public ObservableCollection<Question> QuestionsToDisplay
+        private ObservableCollection<QuestionDisplayCardViewModel> _questionsToDisplay = new ObservableCollection<QuestionDisplayCardViewModel>();
+        public ObservableCollection<QuestionDisplayCardViewModel> QuestionsToDisplay
         {
             get => _questionsToDisplay;
             set => SetProperty(ref _questionsToDisplay, value);
@@ -188,12 +188,12 @@ namespace RightToAskClient.ViewModels
             {
                 await Shell.Current.GoToAsync(nameof(AdvancedSearchFiltersPage));
             });
-            RemoveQuestionCommand = new Command<Question>(questionToRemove =>
+            RemoveQuestionCommand = new Command<QuestionDisplayCardViewModel>(questionToRemove =>
             {
                 // store question ID for later data manipulation?
-                if (!IndividualParticipant.RemovedQuestionIDs.Contains(questionToRemove.QuestionId))
+                if (!IndividualParticipant.RemovedQuestionIDs.Contains(questionToRemove.Question.QuestionId))
                 {
-                    IndividualParticipant.RemovedQuestionIDs.Add(questionToRemove.QuestionId);
+                    IndividualParticipant.RemovedQuestionIDs.Add(questionToRemove.Question.QuestionId);
                 }
                 QuestionsToDisplay.Remove(questionToRemove);
             });
@@ -233,7 +233,7 @@ namespace RightToAskClient.ViewModels
         public AsyncCommand RefreshCommand { get; }
         public IAsyncCommand DraftCommand { get; }
         public Command SearchToolbarCommand { get; }
-        public Command<Question> RemoveQuestionCommand { get; }
+        public Command<QuestionDisplayCardViewModel> RemoveQuestionCommand { get; }
         public IAsyncCommand ShowFiltersCommand { get; }
 
         // helper methods
@@ -270,10 +270,10 @@ namespace RightToAskClient.ViewModels
             ShowQuestionFrame = false;
         }
 
-        public async Task<List<Question>> LoadQuestions()
+        public async Task<List<QuestionDisplayCardViewModel>> LoadQuestions()
         {
             var serverQuestions = new List<QuestionReceiveFromServer>();
-            var questionsToDisplay = new List<Question>();
+            var questionsToDisplay = new List<QuestionDisplayCardViewModel>();
             var httpResponse = await GetAppropriateQuestionList();
             var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
             if (!httpValidation.isValid)
@@ -322,7 +322,7 @@ namespace RightToAskClient.ViewModels
             // convert the ServerQuestions to a Displayable format
             foreach (var serverQuestion in serverQuestions)
             {
-                questionsToDisplay.Add(new Question(serverQuestion));
+                questionsToDisplay.Add(new QuestionDisplayCardViewModel(new Question(serverQuestion)));
             }
 
 
@@ -330,7 +330,7 @@ namespace RightToAskClient.ViewModels
             for (var i = 0; i < IndividualParticipant.RemovedQuestionIDs.Count; i++)
             {
                 var temp = questionsToDisplay
-                    .FirstOrDefault(q => q.QuestionId == IndividualParticipant.RemovedQuestionIDs[i]);
+                    .FirstOrDefault(q => q.Question.QuestionId == IndividualParticipant.RemovedQuestionIDs[i]);
                 if (temp != null)
                 {
                     questionsToDisplay.Remove(temp);
@@ -342,17 +342,17 @@ namespace RightToAskClient.ViewModels
             {
                 foreach (var qId in IndividualParticipant
                              .UpvotedQuestionIDs
-                             .Where(qId => q.QuestionId == qId))
+                             .Where(qId => q.Question.QuestionId == qId))
                 {
-                    q.AlreadyUpvoted = true;
+                    q.Question.AlreadyUpvoted = true;
                 }
 
                 // set previously flagged/reported questions
                 foreach (var qID in IndividualParticipant 
                              .ReportedQuestionIDs
-                             .Where(qId => q.QuestionId == qId))
+                             .Where(qId => q.Question.QuestionId == qId))
                 {
-                    q.AlreadyReported = true;
+                    q.Question.AlreadyReported = true;
                 }
             }
 
