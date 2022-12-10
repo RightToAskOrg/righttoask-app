@@ -26,7 +26,7 @@ namespace RightToAskClient.ViewModels
         // The complete information about this user's current registration, including any updates that have been made
         // on this page.
         private readonly Registration _registration = new Registration(); 
-
+        
         // The updates that have been made to this user's registration on this page
         // Note this is used only for updating an existing registration - new registrations are handled
         // with _registration.
@@ -87,7 +87,7 @@ namespace RightToAskClient.ViewModels
             {
                 _selectedStateAsIndex = value;
                 ParliamentData.StateEnum selectedState;
-                (_stateKnown, selectedState) =  IndividualParticipant.ProfileData.RegistrationInfo.UpdateStateStorePreferences(SelectedStateAsIndex);
+                (_stateKnown, selectedState) = _registration.UpdateStateStorePreferences(SelectedStateAsIndex);
                 
                 // Include new state in updates. At the moment, this means that there is no way that
                 // someone who has previously selected a state can
@@ -252,39 +252,42 @@ namespace RightToAskClient.ViewModels
         #endregion
 
         // Constructors
-        // Constructor with explicit registration info assumes it's someone else's registration info and initialises accordingly.
-        public RegistrationViewModel(Registration reg) : this(false)
+        // Constructor with explicit registration info.
+        public RegistrationViewModel(Registration registration) : this(false)
         {
-            _registration = reg;
+            _registration = registration;
             ReportLabelText = "";
-            CanEditUid = false;
-            PopupLabelText = AppResources.OtherUserInfoText;
-            
-            // First do default command init, to make sure nothing is null.
-            // SetDefaultCommands();
-            ShowTheRightButtonsForOtherUser(reg.display_name);
-        }
-        
-        // Parameterless constructor sets defaults assuming it's the registration for this app user, i.e ThisParticipant.
-        public RegistrationViewModel() : this(false)
-        {
-            // initialize defaults
-            Title = IndividualParticipant.IsRegistered ? AppResources.EditYourAccountTitle : AppResources.CreateAccountTitle;
-            ReportLabelText = "";
-            _registration = IndividualParticipant.ProfileData.RegistrationInfo; 
-            
-            ShowTheRightButtonsForOwnAccount();
-            CanEditUid = !IndividualParticipant.IsRegistered;
+            switch (_registration.registrationStatus)
+            {
+                case RegistrationStatus.Registered:
+                    CanEditUid = false;
+                    PopupLabelText = AppResources.EditAccountPopupText;
+                    Title = AppResources.EditYourAccountTitle;
+                    ShowTheRightButtonsForOwnAccount();
+                    break;
+                case RegistrationStatus.NotRegistered:
+                    CanEditUid = true;
+                    PopupLabelText = AppResources.CreateNewAccountPopupText;
+                    Title = AppResources.CreateAccountTitle;
+                    ShowTheRightButtonsForOwnAccount();
+                    break;
+                case RegistrationStatus.AnotherPerson:
+                    CanEditUid = false;
+                    PopupLabelText = AppResources.OtherUserInfoText;
+                    ShowTheRightButtonsForOtherUser(registration.display_name);
+                    break;
+            }
 
             // uid should still be sent in the 'update' even though it doesn't change.
             _registrationUpdates.uid = _registration.uid;
             _oldElectorates = _registration.Electorates;
-
-            PopupLabelText = IndividualParticipant.IsRegistered ? AppResources.EditAccountPopupText : AppResources.CreateNewAccountPopupText;
-                
             _selectableMPList = new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
-
-            // SetDefaultCommands();
+        }
+        
+        // Parameterless constructor sets defaults assuming it's a new registration for this app user, i.e ThisParticipant.
+        public RegistrationViewModel() : this(false)
+        {
+            _registration.registrationStatus = RegistrationStatus.NotRegistered;
         }
         
         // Constructor called by other constructors - sets up commands, even those that aren't used.
@@ -344,7 +347,7 @@ namespace RightToAskClient.ViewModels
         #region Methods
         public async void NavigateToFindMPsPage()
         {
-            await Shell.Current.GoToAsync($"{nameof(RegisterPage2)}");
+            await Shell.Current.GoToAsync($"{nameof(FindMPsPage)}");
         }
 
         // Show and label different buttons according to whether we're registering
@@ -364,20 +367,21 @@ namespace RightToAskClient.ViewModels
 
         public void ShowTheRightButtonsForOwnAccount()
         {
-            ShowUpdateAccountButton = IndividualParticipant.IsRegistered;
-            ShowRegisterMPButton = IndividualParticipant.IsRegistered;
-            ShowExistingMPRegistrationLabel = IndividualParticipant.IsVerifiedMPAccount || IndividualParticipant.IsVerifiedMPStafferAccount;
-            ShowStafferLabel = IndividualParticipant.IsVerifiedMPStafferAccount;
+            ShowUpdateAccountButton = _registration.IsRegistered;
+            ShowRegisterMPButton = _registration.IsRegistered;
+            ShowExistingMPRegistrationLabel = _registration.IsVerifiedMPAccount || _registration.IsVerifiedMPStafferAccount;
+            ShowStafferLabel = _registration.IsVerifiedMPStafferAccount;
             ShowDMButton = false;
             ShowSeeQuestionsButton = false;
             ShowFollowButton = false;
 
-            if (!IndividualParticipant.ElectoratesKnown)
+            // TODO: move this into Registration
+            if (!_registration.ElectoratesKnown)
             {
                 RegisterCitizenButtonText = "Next: Find your electorates";
             }
 
-            if (!IndividualParticipant.IsRegistered)
+            if (!_registration.IsRegistered)
             {
                 ShowRegisterCitizenButton = true;
                 ShowRegisterOrgButton = true;
@@ -394,7 +398,7 @@ namespace RightToAskClient.ViewModels
         private async void OnSaveButtonClicked()
         {
             SaveRegistrationToPreferences(_registration);
-            Debug.Assert(!IndividualParticipant.IsRegistered);
+            Debug.Assert(_registration.registrationStatus == RegistrationStatus.NotRegistered);
 
             _registration.public_key = ClientSignatureGenerationService.MyPublicKey; 
             
@@ -403,7 +407,7 @@ namespace RightToAskClient.ViewModels
             if (regTest.Success)
             {
                 // see if we need to push the electorates page or if we push the server account things
-                if (!IndividualParticipant.ElectoratesKnown)
+                if (!_registration.ElectoratesKnown)
                 {
                     // if MPs have not been found for this user yet, prompt to find them
                     var popup = new TwoButtonPopup(AppResources.MPsPopupTitle, AppResources.MPsPopupText, AppResources.SkipButtonText, AppResources.YesButtonText, false);
@@ -442,6 +446,7 @@ namespace RightToAskClient.ViewModels
             ReportLabelText = httpValidation.errorMessage;
             if (httpValidation.isValid)
             {
+                _registration.registrationStatus = RegistrationStatus.Registered;
                 UpdateLocalRegistrationInfo();
                      
                 // if the response seemed successful, put it in more common terms for the user.
@@ -467,7 +472,7 @@ namespace RightToAskClient.ViewModels
             try
             {
                 var registrationObjectToSave = JsonSerializer.Serialize(new ServerUser(reg));
-                Preferences.Set(Constants.RegistrationInfo, registrationObjectToSave);
+                XamarinPreferences.shared.Set(Constants.RegistrationInfo, registrationObjectToSave);
             }
             catch (Exception e)
             {
@@ -478,7 +483,7 @@ namespace RightToAskClient.ViewModels
         private async void SendUpdatedUserToServer()
         {
             // Shouldn't be updating a non-existent user. 
-            Debug.Assert(IndividualParticipant.IsRegistered);
+            Debug.Assert(_registration.IsRegistered);
 
             var hasChanges = false;
             if (_registrationUpdates.uid == null)
@@ -515,7 +520,10 @@ namespace RightToAskClient.ViewModels
             // displays an alert if no changes were found on the user's account via the _registrationUpdates object
             if (hasChanges)
             {
-                var httpResponse = await RTAClient.UpdateExistingUser(_registrationUpdates);
+                Debug.Assert(_registration.IsRegistered);
+                var httpResponse = await RTAClient.UpdateExistingUser(
+                    _registrationUpdates,
+                    _registration.uid);
                 var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
                 ReportLabelText = httpValidation.errorMessage;
                 if (httpValidation.isValid)
@@ -542,10 +550,9 @@ namespace RightToAskClient.ViewModels
 
         private void UpdateLocalRegistrationInfo()
         {
-            IndividualParticipant.ProfileData.RegistrationInfo = _registration;
-            IndividualParticipant.IsRegistered = true;
-            // save the registration to preferences
-            Preferences.Set(Constants.IsRegistered, IndividualParticipant.IsRegistered); 
+            XamarinPreferences.shared.Set(
+                Constants.IsRegistered, 
+                _registration.IsRegistered); 
         }
 
 
@@ -574,5 +581,10 @@ namespace RightToAskClient.ViewModels
             _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
         }
         #endregion
+
+        public void SetUserEmail(string email)
+        {
+            // TODO: SetUserEmail
+        }
     }
 }

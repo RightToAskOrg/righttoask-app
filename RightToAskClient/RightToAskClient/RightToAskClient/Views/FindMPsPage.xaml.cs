@@ -19,9 +19,9 @@ using Xamarin.Forms.Xaml;
 namespace RightToAskClient.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class RegisterPage2 : ContentPage
+    public partial class FindMPsPage : ContentPage
     {
-        public RegisterPage2()
+        public FindMPsPage()
         {
             InitializeComponent();
         }

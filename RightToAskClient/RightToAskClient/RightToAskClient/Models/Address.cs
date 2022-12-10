@@ -15,7 +15,7 @@ namespace RightToAskClient.Models
                     var changed = SetProperty(ref _streetNumberAndName, value);
                     if (changed)
                     {
-                        IndividualParticipant.AddressUpdated = true;
+                        IndividualParticipant.getInstance().AddressUpdated = true;
                     }
                 }
                 else
@@ -35,7 +35,7 @@ namespace RightToAskClient.Models
                     var changed = SetProperty(ref _cityOrSuburb, value);
                     if (changed)
                     {
-                        IndividualParticipant.AddressUpdated = true;
+                        IndividualParticipant.getInstance().AddressUpdated = true;
                     }
                 }
                 else
@@ -55,7 +55,7 @@ namespace RightToAskClient.Models
                     var changed = SetProperty(ref _postCode, value);
                     if (changed)
                     {
-                        IndividualParticipant.AddressUpdated = true;
+                        IndividualParticipant.getInstance().AddressUpdated = true;
                     }
                 }
                 else

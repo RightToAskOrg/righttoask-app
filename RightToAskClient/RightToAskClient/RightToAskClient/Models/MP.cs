@@ -86,14 +86,12 @@ namespace RightToAskClient.Models
 
         public override string ToString()
         {
-            var cham = electorate.chamber;
-            salutation = cham.Salutation(); 
-            var StateIfNeeded = salutation == "Senator" ? "" : ", " + (electorate.region);
+            salutation = electorate?.chamber.Salutation() ?? "";
+            var StateIfNeeded = salutation == "Senator" ? "" : ", " + electorate?.region;
             var RoleIfNeeded = string.IsNullOrWhiteSpace(role) ? "" : "\n" + role;
-            // Could use String.Equals(str1, str2, StringComparison.OrdinalIgnoreCase) to ignore case.
             return first_name + " " + surname
                    + "\n" + salutation
-                   + " for " + electorate.region
+                   + " for " + electorate?.region
                    + StateIfNeeded
                    + RoleIfNeeded; 
         }

@@ -1,5 +1,6 @@
 using System.Text.Json;
 using System.Threading.Tasks;
+using RightToAskClient.Helpers;
 using RightToAskClient.HttpClients;
 using RightToAskClient.Models;
 using RightToAskClient.Models.ServerCommsData;
@@ -118,7 +119,9 @@ namespace RightToAskClient.ViewModels
                 // name = MPRepresenting.first_name + " " + MPRepresenting.surname +" @"+domain
                 name = Badge.WriteBadgeName(MPRepresenting, _domain)
             };
-            var httpResponse = await RTAClient.RequestEmailValidation(message, EmailUsername + "@" + _domain);
+            var httpResponse = await RTAClient.RequestEmailValidation(
+                IndividualParticipant.getInstance().SignMessage(message),
+                EmailUsername + "@" + _domain);
             (bool isValid, string errorMsg, string hash) validation = RTAClient.ValidateHttpResponse(httpResponse, "Email Validation Request");
             if (validation.isValid)
             {
@@ -137,19 +140,19 @@ namespace RightToAskClient.ViewModels
         private void SaveMPRegistrationToPreferences()
         {
             // Note that a staffer has booth of these flags set to true.
-            Preferences.Set(Constants.IsVerifiedMPAccount, true);
-            Preferences.Set(Constants.IsVerifiedMPStafferAccount, _isStaffer); 
-            Preferences.Set(Constants.MPRegisteredAs,JsonSerializer.Serialize(MPRepresenting));
-            var registrationObjectToSave = new ServerUser(IndividualParticipant.ProfileData.RegistrationInfo);
-            Preferences.Set(Constants.RegistrationInfo, JsonSerializer.Serialize(registrationObjectToSave));
+            XamarinPreferences.shared.Set(Constants.IsVerifiedMPAccount, true);
+            XamarinPreferences.shared.Set(Constants.IsVerifiedMPStafferAccount, _isStaffer); 
+            XamarinPreferences.shared.Set(Constants.MPRegisteredAs,JsonSerializer.Serialize(MPRepresenting));
+            var registrationObjectToSave = new ServerUser(IndividualParticipant.getInstance().ProfileData.RegistrationInfo);
+            XamarinPreferences.shared.Set(Constants.RegistrationInfo, JsonSerializer.Serialize(registrationObjectToSave));
         }
 
         private void StoreMPRegistration()
         {
-            IndividualParticipant.IsVerifiedMPAccount = true;
-            IndividualParticipant.MPRegisteredAs = MPRepresenting;
-            IndividualParticipant.IsVerifiedMPStafferAccount = _isStaffer;
-            IndividualParticipant.ProfileData.RegistrationInfo.Badges.Add(
+            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsVerifiedMPAccount = true;
+            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.MPRegisteredAs = MPRepresenting;
+            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsVerifiedMPStafferAccount = _isStaffer;
+            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.Badges.Add(
                     new Badge()
                     {
                         badge = IsStaffer ? BadgeType.MPStaff : BadgeType.MP,
@@ -164,7 +167,9 @@ namespace RightToAskClient.ViewModels
                 hash = _mpVerificationHash,
                 code = _mpRegistrationPin
             };
-            var httpResponse = await RTAClient.SendEmailValidationPin(msg);
+            var httpResponse = await RTAClient.SendEmailValidationPin(
+                msg,
+                IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid);
             (bool isValid, string errorMsg, string hash) validation = RTAClient.ValidateHttpResponse(httpResponse, "Email Validation PIN");
 
                 // TODO - deal properly with errors e.g. email not known.

@@ -124,14 +124,12 @@ namespace RightToAskClient.ViewModels
             PopupLabelText = AppResources.ReadingPageHeader1;
             PopupHeaderText = Heading1;
             
-            var showFirstTimeReadingPopup = DeviceInfo.Platform == DevicePlatform.Unknown || Preferences.Get(Constants.ShowFirstTimeReadingPopup, true);
-            if (showFirstTimeReadingPopup)
+            if (XamarinPreferences.shared.Get(Constants.ShowFirstTimeReadingPopup, true))
             {
                 InfoPopupCommand.ExecuteAsync();
                 
                 // Only show it once.
-                if(DeviceInfo.Platform != DevicePlatform.Unknown)
-                    Preferences.Set(Constants.ShowFirstTimeReadingPopup, false);
+                XamarinPreferences.shared.Set(Constants.ShowFirstTimeReadingPopup, false);
             }
             
             KeepQuestionButtonCommand = new AsyncCommand(async () =>
@@ -161,19 +159,24 @@ namespace RightToAskClient.ViewModels
             DraftCommand = new AsyncCommand(async () =>
             {
                 // Check that they are registered - if not, prompt them to get an account.
-                await NavigationUtils.DoRegistrationCheck(this);
+                if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
+                {
+                    await NavigationUtils.DoRegistrationCheck(
+                        IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
+                        AppResources.CancelButtonText);
+                }
 
-                if (IndividualParticipant.IsRegistered)
+                if (IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
                 {
                     // If this is their first question, show them the 5-step instructions.
-                    var showHowToPublishPopup = Preferences.Get(Constants.ShowHowToPublishPopup, true);
+                    var showHowToPublishPopup = XamarinPreferences.shared.Get(Constants.ShowHowToPublishPopup, true);
                     if (showHowToPublishPopup)
                     {
                         var popup = new HowToPublishPopup();
                         if (popup != null) _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
 
                         // Only show it once.
-                        Preferences.Set(Constants.ShowHowToPublishPopup, false);
+                        XamarinPreferences.shared.Set(Constants.ShowHowToPublishPopup, false);
                     }
                     
                     // Now let them start drafting.
@@ -191,9 +194,9 @@ namespace RightToAskClient.ViewModels
             RemoveQuestionCommand = new Command<Question>(questionToRemove =>
             {
                 // store question ID for later data manipulation?
-                if (!IndividualParticipant.RemovedQuestionIDs.Contains(questionToRemove.QuestionId))
+                if (!IndividualParticipant.getInstance().RemovedQuestionIDs.Contains(questionToRemove.QuestionId))
                 {
-                    IndividualParticipant.RemovedQuestionIDs.Add(questionToRemove.QuestionId);
+                    IndividualParticipant.getInstance().RemovedQuestionIDs.Add(questionToRemove.QuestionId);
                 }
                 QuestionsToDisplay.Remove(questionToRemove);
             });
@@ -244,8 +247,8 @@ namespace RightToAskClient.ViewModels
             var newQuestion = new Question
             {
                 QuestionText = DraftQuestion,
-                QuestionSuggester = (IndividualParticipant.IsRegistered)
-                    ? IndividualParticipant.ProfileData.RegistrationInfo.uid
+                QuestionSuggester = (IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
+                    ? IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid
                     : "",
                 Filters = App.GlobalFilterChoices,
                 DownVotesByThisUser = 0,
@@ -327,10 +330,10 @@ namespace RightToAskClient.ViewModels
 
 
             // after getting the list of questions, remove the ids for dismissed questions, and set the upvoted status of liked ones
-            for (var i = 0; i < IndividualParticipant.RemovedQuestionIDs.Count; i++)
+            for (var i = 0; i < IndividualParticipant.getInstance().RemovedQuestionIDs.Count; i++)
             {
                 var temp = questionsToDisplay
-                    .FirstOrDefault(q => q.QuestionId == IndividualParticipant.RemovedQuestionIDs[i]);
+                    .FirstOrDefault(q => q.QuestionId == IndividualParticipant.getInstance().RemovedQuestionIDs[i]);
                 if (temp != null)
                 {
                     questionsToDisplay.Remove(temp);
@@ -340,7 +343,7 @@ namespace RightToAskClient.ViewModels
             // set previously upvoted questions
             foreach (var q in questionsToDisplay)
             {
-                foreach (var qId in IndividualParticipant
+                foreach (var qId in IndividualParticipant.getInstance()
                              .UpvotedQuestionIDs
                              .Where(qId => q.QuestionId == qId))
                 {
@@ -348,7 +351,7 @@ namespace RightToAskClient.ViewModels
                 }
 
                 // set previously flagged/reported questions
-                foreach (var qID in IndividualParticipant 
+                foreach (var qID in IndividualParticipant.getInstance()
                              .ReportedQuestionIDs
                              .Where(qId => q.QuestionId == qId))
                 {

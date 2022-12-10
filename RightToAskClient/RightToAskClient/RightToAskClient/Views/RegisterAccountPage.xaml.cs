@@ -7,12 +7,12 @@ using Xamarin.Forms.Xaml;
 namespace RightToAskClient.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class RegisterPage1 : ContentPage
+    public partial class RegisterAccountPage : ContentPage
     {
-        public RegisterPage1()
+        public RegisterAccountPage(Registration registration)
         {
             InitializeComponent();
-
+            BindingContext = new RegistrationViewModel(registration);
             var reg = BindingContext as RegistrationViewModel;
             reg.ReinitRegistrationUpdates();
         }
@@ -25,15 +25,19 @@ namespace RightToAskClient.Views
             if (picker.SelectedIndex != -1)
             {
                 string state = (string)picker.SelectedItem;
-                IndividualParticipant.ProfileData.RegistrationInfo.SelectedStateAsIndex = picker.SelectedIndex;
-                IndividualParticipant.UpdateChambers(state);
+                IndividualParticipant.getInstance().ProfileData.RegistrationInfo.SelectedStateAsIndex = picker.SelectedIndex;
+                IndividualParticipant.getInstance().UpdateChambers(state);
             }
         }
         */
 
         private void OnRegisterEmailFieldCompleted(object sender, EventArgs e)
         {
-            IndividualParticipant.ProfileData.UserEmail = ((Editor)sender).Text;
+            var viewModel = BindingContext as RegistrationViewModel;
+            if (viewModel != null)
+            {
+                viewModel.SetUserEmail(((Editor)sender).Text);
+            }
         }
     }
 }

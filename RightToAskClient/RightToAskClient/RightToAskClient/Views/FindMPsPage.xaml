@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:RightToAskClient"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels;assembly=RightToAskClient"
              xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
-             x:Class="RightToAskClient.Views.RegisterPage2"
+             x:Class="RightToAskClient.Views.FindMPsPage"
              Title="Find your MPs"
              x:DataType="vm:FindMPsViewModel">
     <ContentPage.ToolbarItems>

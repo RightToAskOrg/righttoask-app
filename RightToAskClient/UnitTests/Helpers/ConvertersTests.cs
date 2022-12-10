@@ -4,7 +4,7 @@ using RightToAskClient.Helpers;
 using RightToAskClient.Models;
 using Xunit;
 
-namespace UnitTests
+namespace UnitTests.Helpers
 {
     // For testing Converters.cs
     

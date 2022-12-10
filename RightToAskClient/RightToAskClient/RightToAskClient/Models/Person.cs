@@ -12,7 +12,6 @@ namespace RightToAskClient.Models
     public class Person : Entity
     {
 		private Address _address = new Address();
-		private string _userEmail = "";
 
 		public override string ShortestName => RegistrationInfo.display_name;
 
@@ -75,15 +74,6 @@ namespace RightToAskClient.Models
 		        OnPropertyChanged();
 	        }
         }
-		public string UserEmail
-		{
-			get => _userEmail;
-			set
-			{
-				_userEmail = value;
-				OnPropertyChanged();
-			}
-		}
 
 		// TODO Consider fixing this so that it looks up the user and knows its other
 		// attributes.
@@ -132,11 +122,6 @@ namespace RightToAskClient.Models
         {
             var person = other as Person;
             return (person != null) && RegistrationInfo.uid == person.RegistrationInfo.uid;
-        }
-
-		public bool Validate()
-        {
-			return RegistrationInfo.Validate();
         }
 
 		public override string ToString()

@@ -85,7 +85,7 @@ namespace UnitTests
         public void EditQuestionCommandTest()
         {
             // arrange
-            IndividualParticipant.IsRegistered = false;
+            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.registrationStatus = RegistrationStatus.NotRegistered;
             Button button = new Button()
             {
                 Command = vm.EditAnswerCommand
@@ -184,7 +184,7 @@ namespace UnitTests
         public void UpvoteCommandTest()
         {
             // arrange
-            IndividualParticipant.IsRegistered = true;
+            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.registrationStatus = RegistrationStatus.Registered;
             vm.Question.UpVotesByThisUser = 0;
             vm.Question.AlreadyUpvoted = false;
             Button button = new Button
@@ -203,7 +203,7 @@ namespace UnitTests
         public void UndoUpvoteCommandTest()
         {
             // arrange
-            IndividualParticipant.IsRegistered = true;
+            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.registrationStatus = RegistrationStatus.Registered;
             vm.Question.UpVotesByThisUser = 1;
             vm.Question.AlreadyUpvoted = true;
             Button button = new Button
@@ -243,8 +243,8 @@ namespace UnitTests
         public void SaveQuestionCommandTest()
         {
             // arrange
-            IndividualParticipant.ProfileData.RegistrationInfo = ValidRegistrationWithValidElectorate;
-            IndividualParticipant.IsRegistered = true;
+            IndividualParticipant.getInstance().ProfileData.RegistrationInfo = ValidRegistrationWithValidElectorate;
+            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.registrationStatus = RegistrationStatus.Registered;
             vm.Question = TestQuestion;
             //var questionDetailPage = new QuestionDetailPage();
             Button button = new Button
