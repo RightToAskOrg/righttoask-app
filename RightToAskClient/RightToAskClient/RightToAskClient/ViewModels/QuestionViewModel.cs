@@ -341,6 +341,19 @@ namespace RightToAskClient.ViewModels
             {
                 await Shell.Current.GoToAsync($"{nameof(MetadataPage)}");
             });
+            ShareCommand = new AsyncCommand(async() =>
+            {
+                await Share.RequestAsync(new ShareTextRequest 
+                {
+                    // FIXME should this be Instance.?
+                    Text = Question.QuestionText,
+                    Title = "Share Text"
+                });
+            });
+            ReportCommand = new Command(() =>
+            {
+                Question.ToggleReportStatus();
+            });
         }
 
         private Command? _findCommitteeCommand;
@@ -373,10 +386,11 @@ namespace RightToAskClient.ViewModels
         public IAsyncCommand OptionACommand { get; }
         public IAsyncCommand OptionBCommand { get; }
         public IAsyncCommand ToMetadataPageCommand { get; }
-        
         public IAsyncCommand ToAnswererPageWithHowAnsweredSelectionCommand { get; }
         public IAsyncCommand ToHowAnsweredOptionPageCommand { get; }
-
+        public IAsyncCommand ShareCommand { get; }
+        public Command ReportCommand { get; }
+        
         public void ClearQuestionDataAddWriter()
         {
             // set defaults

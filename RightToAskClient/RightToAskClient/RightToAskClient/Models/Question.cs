@@ -249,12 +249,16 @@ namespace RightToAskClient.Models
                     }
                 }
             });
+            /*
             QuestionDetailsCommand = new Command(() =>
             {
                 QuestionViewModel.Instance.Question = this;
                 QuestionViewModel.Instance.IsNewQuestion = false;
                 _ = Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
             });
+            */
+            
+            /*
             ShareCommand = new AsyncCommand(async() =>
             {
                 await Share.RequestAsync(new ShareTextRequest 
@@ -275,13 +279,14 @@ namespace RightToAskClient.Models
                     IndividualParticipant.ReportedQuestionIDs.Remove(QuestionId);
                 }
             });
+            */
         }
 
         // commands
         public Command UpvoteCommand { get; }
-        public Command ReportCommand { get; }
-        public Command QuestionDetailsCommand { get; }
-        public IAsyncCommand ShareCommand { get; }
+        // public Command ReportCommand { get; }
+        // public Command QuestionDetailsCommand { get; }
+        // public IAsyncCommand ShareCommand { get; }
 
         // Call empty constructor to initialize commands etc.
         // Then convert data downloaded from server into a displayable form.
@@ -455,6 +460,20 @@ namespace RightToAskClient.Models
             };
         }
 
+        public void ToggleReportStatus()
+        {
+                AlreadyReported = !AlreadyReported;
+                if (AlreadyReported)
+                {
+                    IndividualParticipant.ReportedQuestionIDs.Add(QuestionId);
+                }
+                else
+                {
+                    IndividualParticipant.ReportedQuestionIDs.Remove(QuestionId);
+                }
+
+        }
+        
         //validation
         public bool ValidateNewQuestion()
         {

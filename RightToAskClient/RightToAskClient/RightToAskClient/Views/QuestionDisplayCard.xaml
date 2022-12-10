@@ -5,32 +5,33 @@
              xmlns:local="clr-namespace:RightToAskClient"
              xmlns:models="clr-namespace:RightToAskClient.Models"
              xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
+             xmlns:viewModels="clr-namespace:RightToAskClient.ViewModels;assembly=RightToAskClient"
              x:Class="RightToAskClient.Views.QuestionDisplayCard"
-             x:DataType="models:Question">
+             x:DataType="viewModels:QuestionDisplayCardViewModel">
   <ContentView.Content>
         <Frame Style="{StaticResource AppThemeFrame}" Padding="5" VerticalOptions="FillAndExpand">
             <Grid RowDefinitions="auto,auto,auto" ColumnDefinitions="*,*,*,*" Padding="0" Margin="0" BackgroundColor="Transparent" RowSpacing="0" ColumnSpacing="0">
                 <Grid ColumnDefinitions="*,auto" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4">
-                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding QuestionAnswerers, StringFormat='To: {0}'}" Style="{StaticResource QuestionFrameCardText}" 
+                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding Question.QuestionAnswerers, StringFormat='To: {0}'}" Style="{StaticResource QuestionFrameCardText}" 
                            FontAttributes="Bold"/>
                 </Grid>                
-                <Label Text="{Binding QuestionText}" Style="{StaticResource QuestionFrameCardText}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4"/>
+                <Label Text="{Binding Question.QuestionText}" Style="{StaticResource QuestionFrameCardText}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4"/>
                 <Button Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="4" Style="{StaticResource TransparentSquareButton}"
                         Command="{Binding QuestionDetailsCommand}" BackgroundColor="Transparent"/>
                 <!--UpVote Button-->
                 <StackLayout Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
                     <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.thumb_up_48.png}" 
-                             IsVisible="{Binding AlreadyUpvoted, Converter={StaticResource Key=cnvInvert}}" Padding="5"
+                             IsVisible="{Binding Question.AlreadyUpvoted, Converter={StaticResource Key=cnvInvert}}" Padding="5"
                              BackgroundColor="Transparent" Command="{Binding UpvoteCommand}" HorizontalOptions="Start"
                              xct:IconTintColorEffect.TintColor="Gray"
                              AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{xct:Translate QuestionFrameThumbsUpAccessibilityName}"
                              AutomationProperties.HelpText="{xct:Translate QuestionFrameThumbsUpAccessibilityText}"/>
                     <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.thumb_up_48.png}" 
-                             BackgroundColor="Transparent" Command="{Binding UpvoteCommand}" IsVisible="{Binding AlreadyUpvoted}" Padding="5"
+                             BackgroundColor="Transparent" Command="{Binding UpvoteCommand}" IsVisible="{Binding Question.AlreadyUpvoted}" Padding="5"
                              xct:IconTintColorEffect.TintColor="{StaticResource ButtonColor}" HorizontalOptions="Start"
                              AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{xct:Translate QuestionFrameThumbsUpAccessibilityName}"
                              AutomationProperties.HelpText="{xct:Translate QuestionFrameThumbsUpAccessibilityText}"/>
-                    <Label Text="{Binding UpVotesByThisUser}" Style="{StaticResource QuestionButtonText}" Margin="0" Padding="0"/>
+                    <Label Text="{Binding Question.UpVotesByThisUser}" Style="{StaticResource QuestionButtonText}" Margin="0" Padding="0"/>
                     <Label Text="{xct:Translate UpvoteDisplayCardButtonText}" Style="{StaticResource QuestionButtonText}"/>
                 </StackLayout>
                 <!--Share Button-->
@@ -45,12 +46,12 @@
                 <!--Answer/Has an Answer Buttons-->
                 <StackLayout Orientation="Horizontal" Grid.Row="2" Grid.Column="2">
                     <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.account_balance_48.png}" 
-                             Padding="5" BackgroundColor="Transparent" IsVisible="{Binding HasAnswer, Converter={StaticResource Key=cnvInvert}}"
+                             Padding="5" BackgroundColor="Transparent" IsVisible="{Binding Question.HasAnswer, Converter={StaticResource Key=cnvInvert}}"
                              xct:IconTintColorEffect.TintColor="Gray"
                              AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{xct:Translate QuestionFrameAnswerButtonAccessibilityName}"
                              AutomationProperties.HelpText="{xct:Translate QuestionFrameAnswerButtonAccessibilityText}"/>
                     <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.assured_workload_48.png}" 
-                             Padding="5" BackgroundColor="Transparent" IsVisible="{Binding HasAnswer}"
+                             Padding="5" BackgroundColor="Transparent" IsVisible="{Binding Question.HasAnswer}"
                              xct:IconTintColorEffect.TintColor="{StaticResource ButtonColor}"
                              AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{xct:Translate QuestionFrameShareButtonAccessibilityName}"
                              AutomationProperties.HelpText="{xct:Translate QuestionFrameAnswerButtonAccessibilityText}"/>
@@ -59,14 +60,14 @@
                 <!--Report/Flag Button-->
                 <StackLayout Orientation="Horizontal" Grid.Row="2" Grid.Column="3">
                     <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.flag_48.png}"
-                             IsVisible="{Binding AlreadyReported, Converter={StaticResource Key=cnvInvert}}" Command="{Binding ReportCommand}" 
+                             IsVisible="{Binding Question.AlreadyReported, Converter={StaticResource Key=cnvInvert}}" Command="{Binding ReportCommand}" 
                              xct:IconTintColorEffect.TintColor="Gray"
                              Padding="5" BackgroundColor="Transparent"
                              AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{xct:Translate QuestionFrameFlagButtonAccessibilityName}"
                              AutomationProperties.HelpText="{xct:Translate QuestionFrameFlagButtonAccessibilityText}"/>
                     <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.flag_48.png}" 
                              Padding="5" xct:IconTintColorEffect.TintColor="{StaticResource AlertColor}" Command="{Binding ReportCommand}" 
-                             IsVisible="{Binding AlreadyReported}" BackgroundColor="Transparent"
+                             IsVisible="{Binding Question.AlreadyReported}" BackgroundColor="Transparent"
                              AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{xct:Translate QuestionFrameFlagButtonAccessibilityName}"
                              AutomationProperties.HelpText="{xct:Translate QuestionFrameFlagButtonAccessibilityTextRed}"/>
                     <Label Text="Flag" Style="{StaticResource QuestionButtonText}"/>
