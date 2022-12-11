@@ -156,13 +156,9 @@ namespace RightToAskClient.HttpClients
             return await SignAndSendDataToServer(existingQuestion, AppResources.QuestionErrorTypeDescription, EditQnUrl, "Error editing question", uid);
         }
         
-        public static async Task<JOSResult<string>> SendPlaintextUpvote(PlainTextVoteOnQuestionCommand voteOnQuestion)
+        public static async Task<JOSResult<string>> SendPlaintextUpvote(PlainTextVoteOnQuestionCommand voteOnQuestion, string uid)
         {
-            return await SignAndSendDataToServer(voteOnQuestion, AppResources.QuestionErrorTypeDescription, PlaintextVoteQnUrl, "Error voting on question");
-        }
-        public static async Task<JOSResult<string>> UpdateExistingQuestion(QuestionSendToServer existingQuestion)
-        {
-            return await SignAndSendDataToServer(existingQuestion, AppResources.QuestionErrorTypeDescription, EditQnUrl, "Error editing question", uid);
+            return await SignAndSendDataToServer(voteOnQuestion, AppResources.QuestionErrorTypeDescription, PlaintextVoteQnUrl, "Error voting on question", uid);
         }
 
         public static async Task<JOSResult<string>> RequestEmailValidation(ClientSignedUnparsed signedMsg, string email)

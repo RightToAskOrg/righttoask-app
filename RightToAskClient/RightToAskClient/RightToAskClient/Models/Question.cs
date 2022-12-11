@@ -456,16 +456,17 @@ namespace RightToAskClient.Models
             };
         }
 
+        // FIXME Think about where to store ReportedQuestionIDs.
         public void ToggleReportStatus()
         {
                 AlreadyReported = !AlreadyReported;
                 if (AlreadyReported)
                 {
-                    IndividualParticipant.ReportedQuestionIDs.Add(QuestionId);
+                    // IndividualParticipant.ReportedQuestionIDs.Add(QuestionId);
                 }
                 else
                 {
-                    IndividualParticipant.ReportedQuestionIDs.Remove(QuestionId);
+                    // IndividualParticipant.ReportedQuestionIDs.Remove(QuestionId);
                 }
 
         }
