@@ -53,6 +53,13 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _draftQuestion, value);
         }
 
+        private Question? _selectedQuestion;
+        public Question? SelectedQuestion
+        {
+            get => _selectedQuestion;
+            set => SetProperty(ref _selectedQuestion, value);
+        }
+
         private ObservableCollection<QuestionDisplayCardViewModel> _questionsToDisplay = new ObservableCollection<QuestionDisplayCardViewModel>();
         public ObservableCollection<QuestionDisplayCardViewModel> QuestionsToDisplay
         {
@@ -182,10 +189,8 @@ namespace RightToAskClient.ViewModels
             });
             RemoveQuestionCommand = new Command<QuestionDisplayCardViewModel>(questionToRemove =>
             {
-                // store question ID for later data manipulation?
-                _thisUsersResponsesToQuestions.AddDismissedQuestion(questionToRemove.Question.QuestionId);
-                QuestionsToDisplay.Remove(questionToRemove);
-            });
+                 removeQuestionAddRecord(questionToRemove);
+            }); 
 
 
             MessagingCenter.Subscribe<QuestionViewModel>(this, Constants.QuestionSubmittedDeleteDraft,
@@ -380,6 +385,15 @@ namespace RightToAskClient.ViewModels
             }
             
             return new ErrorResult<List<string>>(AppResources.EmptyMatchingQuestionCollectionViewString);
+        }
+
+        private void removeQuestionAddRecord(QuestionDisplayCardViewModel? questionToRemove)
+        {
+            if (questionToRemove?.Question.QuestionId != null)
+            {
+                _thisUsersResponsesToQuestions.AddDismissedQuestion(questionToRemove.Question.QuestionId);
+                QuestionsToDisplay.Remove(questionToRemove);
+            }
         }
     }
 }

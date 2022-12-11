@@ -73,11 +73,10 @@
                 <RefreshView Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="2" IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
                     <ScrollView VerticalOptions="FillAndExpand">
                         <StackLayout><!--Heading text moved inside of the scrollview to have it scroll off the page-->
-                            <!--Moved to the info popup potentially-->
-                            <CollectionView x:Name="QuestionList" ItemsSource="{Binding QuestionsToDisplay}" 
-                                            SelectionMode="None" VerticalOptions="FillAndExpand">
+                            <CollectionView x:Name="QuestionList" ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None" 
+                                        SelectedItem="{Binding SelectedQuestion}" VerticalOptions="FillAndExpand"> 
                                 <CollectionView.ItemTemplate>
-                                    <DataTemplate x:DataType="models:Question">
+                                    <DataTemplate x:DataType="vm:QuestionDisplayCardViewModel">
                                         <SwipeView VerticalOptions="FillAndExpand" BackgroundColor="Transparent">
                                             <SwipeView.RightItems>
                                                 <SwipeItem Text="Dismiss" IconImageSource="{helpers:ImageResource RightToAskClient.Images.trash_delete_48.png}" 
