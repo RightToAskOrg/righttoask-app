@@ -189,7 +189,12 @@ namespace RightToAskClient.ViewModels
             });
             RemoveQuestionCommand = new Command<QuestionDisplayCardViewModel>(questionToRemove =>
             {
-                 removeQuestionAddRecord(questionToRemove);
+                if (questionToRemove?.Question.QuestionId != null)
+                {
+                    _thisUsersResponsesToQuestions.AddDismissedQuestion(questionToRemove.Question.QuestionId);
+                    QuestionsToDisplay.Remove(questionToRemove);
+                }
+                // removeQuestionAddRecord(questionToRemove);
             }); 
 
 

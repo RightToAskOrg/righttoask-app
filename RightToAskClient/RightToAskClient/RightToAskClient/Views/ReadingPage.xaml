@@ -74,7 +74,9 @@
                     <ScrollView VerticalOptions="FillAndExpand">
                         <StackLayout><!--Heading text moved inside of the scrollview to have it scroll off the page-->
                             <CollectionView x:Name="QuestionList" ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None" 
-                                        SelectedItem="{Binding SelectedQuestion}" VerticalOptions="FillAndExpand"> 
+                                        SelectedItem="{Binding SelectedQuestion}" VerticalOptions="FillAndExpand">  
+                            <!-- <CollectionView x:Name="QuestionList" ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None" 
+                                        VerticalOptions="FillAndExpand"> -->
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate x:DataType="vm:QuestionDisplayCardViewModel">
                                         <SwipeView VerticalOptions="FillAndExpand" BackgroundColor="Transparent">
