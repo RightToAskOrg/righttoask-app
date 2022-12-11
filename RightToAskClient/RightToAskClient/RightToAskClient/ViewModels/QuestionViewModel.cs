@@ -178,13 +178,6 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _selectButtonText, value);
         }
 
-        private string _upvoteButtonText = AppResources.UpvoteButtonText;
-        public string UpvoteButtonText
-        {
-            get => _upvoteButtonText;
-            set => SetProperty(ref _upvoteButtonText, value);
-        }
-
         private string _saveButtonText = AppResources.SaveAnswerButtonText;
         public string SaveButtonText
         {
@@ -284,7 +277,6 @@ namespace RightToAskClient.ViewModels
                 if (!Question.AlreadyUpvoted)
                 {
                     Question.ToggleUpvotedStatus();
-                    UpvoteButtonText = AppResources.UpvotedButtonText;
                 }
             });
             SaveQuestionCommand = new Command(() =>

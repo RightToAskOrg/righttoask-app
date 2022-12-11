@@ -235,8 +235,6 @@ namespace RightToAskClient.ViewModels
                     ? IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid
                     : "",
                 Filters = App.GlobalFilterChoices,
-                DownVotesByThisUser = 0,
-                UpVotesByThisUser = 0
             };
 
             QuestionViewModel.Instance.Question = newQuestion;

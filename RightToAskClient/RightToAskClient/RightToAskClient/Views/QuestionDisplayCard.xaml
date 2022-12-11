@@ -10,13 +10,13 @@
              x:DataType="viewModels:QuestionDisplayCardViewModel">
   <ContentView.Content>
         <Frame Style="{StaticResource AppThemeFrame}" Padding="5" VerticalOptions="FillAndExpand">
-            <Grid RowDefinitions="auto,auto,auto" ColumnDefinitions="*,*,*,*" Padding="0" Margin="0" BackgroundColor="Transparent" RowSpacing="0" ColumnSpacing="0">
-                <Grid ColumnDefinitions="*,auto" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4">
+            <Grid RowDefinitions="auto,auto,auto" ColumnDefinitions="2*,*,*" Padding="0" Margin="0" BackgroundColor="Transparent" RowSpacing="0" ColumnSpacing="0">
+                <Grid ColumnDefinitions="*,auto" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
                     <Label Grid.Row="0" Grid.Column="0" Text="{Binding Question.QuestionAnswerers, StringFormat='To: {0}'}" Style="{StaticResource QuestionFrameCardText}" 
                            FontAttributes="Bold"/>
                 </Grid>                
                 <Label Text="{Binding Question.QuestionText}" Style="{StaticResource QuestionFrameCardText}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4"/>
-                <Button Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="4" Style="{StaticResource TransparentSquareButton}"
+                <Button Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="3" Style="{StaticResource TransparentSquareButton}"
                         Command="{Binding QuestionDetailsCommand}" BackgroundColor="Transparent"/>
                 <!--UpVote Button-->
                 <StackLayout Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
@@ -31,7 +31,8 @@
                              xct:IconTintColorEffect.TintColor="{StaticResource ButtonColor}" HorizontalOptions="Start"
                              AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{xct:Translate QuestionFrameThumbsUpAccessibilityName}"
                              AutomationProperties.HelpText="{xct:Translate QuestionFrameThumbsUpAccessibilityText}"/>
-                    <Label Text="{Binding Question.UpVotesByThisUser}" Style="{StaticResource QuestionButtonText}" Margin="0" Padding="0"/>
+                    <Label Text="{Binding Question.NetVotes, StringFormat='{0:F0} /'}" Style="{StaticResource QuestionButtonText}" Margin="0" Padding="0"/>
+					<Label Text="{Binding Question.TotalVotes, StringFormat='{0:F0}'}" Style="{StaticResource QuestionButtonText}" Margin="0" Padding="0"/>	
                     <Label Text="{xct:Translate UpvoteDisplayCardButtonText}" Style="{StaticResource QuestionButtonText}"/>
                 </StackLayout>
                 <!--Share Button-->
@@ -44,6 +45,7 @@
                     <Label Text="Share" Style="{StaticResource QuestionButtonText}"/>
                 </StackLayout>
                 <!--Answer/Has an Answer Buttons-->
+                <!-- TODO: We will still need a 'has answer' indicator and a 'write an answer' button (for MPs), but do UI design first.
                 <StackLayout Orientation="Horizontal" Grid.Row="2" Grid.Column="2">
                     <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.account_balance_48.png}" 
                              Padding="5" BackgroundColor="Transparent" IsVisible="{Binding Question.HasAnswer, Converter={StaticResource Key=cnvInvert}}"
@@ -57,8 +59,9 @@
                              AutomationProperties.HelpText="{xct:Translate QuestionFrameAnswerButtonAccessibilityText}"/>
                     <Label Text="Answer" Style="{StaticResource QuestionButtonText}"/>
                 </StackLayout>
+                -->
                 <!--Report/Flag Button-->
-                <StackLayout Orientation="Horizontal" Grid.Row="2" Grid.Column="3">
+                <StackLayout Orientation="Horizontal" Grid.Row="2" Grid.Column="2">
                     <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.flag_48.png}"
                              IsVisible="{Binding Question.AlreadyReported, Converter={StaticResource Key=cnvInvert}}" Command="{Binding ReportCommand}" 
                              xct:IconTintColorEffect.TintColor="Gray"

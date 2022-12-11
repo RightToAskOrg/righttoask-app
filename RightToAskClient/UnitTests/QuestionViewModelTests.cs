@@ -185,7 +185,6 @@ namespace UnitTests
         {
             // arrange
             IndividualParticipant.getInstance().ProfileData.RegistrationInfo.registrationStatus = RegistrationStatus.Registered;
-            vm.Question.UpVotesByThisUser = 0;
             Button button = new Button
             {
                 Command = vm.UpvoteCommand

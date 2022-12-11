@@ -23,10 +23,6 @@ namespace RightToAskClient.Models
 
     public class Question : ObservableObject
     {
-        // Note these relate to whether this user up- or down-voted the question, not the global tally.
-        private int _upVotesByThisUser;
-        private int _downVotesByThisUser;
-
         public QuestionDetailsStatus Status { get; set; }
 
         private string _questionText = "";
@@ -181,20 +177,6 @@ namespace RightToAskClient.Models
             //** QuestionViewModel.Instance.ServerQuestionUpdates.hansard_link = _hansardLink;
         }
 
-        public int UpVotesByThisUser
-        {
-            get => _upVotesByThisUser;
-            set => SetProperty(ref _upVotesByThisUser, value);
-        }
-        public int DownVotesByThisUser 
-        {
-            get => _downVotesByThisUser;
-            set
-            {
-                _downVotesByThisUser = value;
-                OnPropertyChanged();
-            }
-        }
         private bool _alreadyUpvoted;
         public bool AlreadyUpvoted 
         {
@@ -227,13 +209,11 @@ namespace RightToAskClient.Models
                 {
                     if (!AlreadyUpvoted)
                     {
-                        UpVotesByThisUser += 1;
                         AlreadyUpvoted = true;
                         IndividualParticipant.getInstance().UpvotedQuestionIDs.Add(QuestionId);
                     }
                     else
                     {
-                        UpVotesByThisUser -= 1;
                         AlreadyUpvoted = false;
                         IndividualParticipant.getInstance().UpvotedQuestionIDs.Remove(QuestionId);
                     }

@@ -43,8 +43,8 @@
 					             AutomationProperties.IsInAccessibleTree="True"
 					             AutomationProperties.Name="{xct:Translate QuestionFrameThumbsUpAccessibilityName}"
 					             AutomationProperties.HelpText="{xct:Translate QuestionFrameThumbsUpAccessibilityText}" />
-					<Label Text="{Binding Question.UpVotesByThisUser, StringFormat='{0:F0} / '}" Style="{StaticResource NormalText}" Margin="0" Padding="0"/>	
-					<Label Text="{Binding Question.UpVotesByThisUser, StringFormat='{0:F0}'}" Style="{StaticResource NormalText}" Margin="0" Padding="0"/>	
+					<Label Text="{Binding Question.NetVotes, StringFormat='{0:F0} / '}" Style="{StaticResource NormalText}" Margin="0" Padding="0"/>	
+					<Label Text="{Binding Question.TotalVotes, StringFormat='{0:F0}'}" Style="{StaticResource NormalText}" Margin="0" Padding="0"/>	
 					<Label Text="{xct:Translate UpvoteDisplayCardButtonText, StringFormat='{0:F0}s'}" Style="{StaticResource NormalText}" />
 				</StackLayout>
 				<Editor x:Name="QuestionTextEditor" Text="{Binding Question.QuestionText}"
