@@ -252,6 +252,7 @@ namespace UnitTests
         public void ValidateQuestionConstructedFromQuestionReceiveFromServerTest()
         {
             // arrange
+            QuestionResponseRecords responseRecords = new QuestionResponseRecords();
             QuestionReceiveFromServer serverQuestion = new QuestionReceiveFromServer()
             {
                 question_id = "fakeQuestionId",
@@ -265,7 +266,7 @@ namespace UnitTests
             };
 
             // act
-            Question validQuestion = new Question(serverQuestion);
+            Question validQuestion = new Question(serverQuestion, responseRecords);
 
             // assert
             Assert.True(validQuestion.ValidateDownloadedQuestion());
@@ -282,10 +283,11 @@ namespace UnitTests
         public void ValidateInvalidQuestionConstructedFromQuestionReceiveFromServerTest()
         {
             // arrange 
+            QuestionResponseRecords responseRecords = new QuestionResponseRecords();
             QuestionReceiveFromServer invalidServerQuestion = new QuestionReceiveFromServer();
             
             // act
-            Question invalidQuestion =  new Question(invalidServerQuestion);
+            Question invalidQuestion =  new Question(invalidServerQuestion, responseRecords);
             
             // assert
             Assert.False(invalidQuestion.ValidateDownloadedQuestion());
