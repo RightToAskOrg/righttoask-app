@@ -6,6 +6,7 @@ using RightToAskClient.Resx;
 using RightToAskClient.Views;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using RightToAskClient.Helpers;
 using RightToAskClient.Views.Popups;
@@ -43,7 +44,21 @@ namespace RightToAskClient.ViewModels
             }
         }
 
+        // Convenient views of things stored in the Question.
         public List<Answer> QuestionAnswers => Question.Answers;
+
+        public string QuestionAnswerers =>  
+            Extensions.JoinFilter(", ",
+                string.Join(", ",Question.Filters.SelectedAnsweringMPsNotMine.Select(mp => mp.ShortestName)),
+                string.Join(", ",Question.Filters.SelectedAnsweringMPsMine.Select(mp => mp.ShortestName)),
+                string.Join(", ",Question.Filters.SelectedAuthorities.Select(a => a.ShortestName)));
+
+        // The MPs or committee who are meant to ask the question
+        public string QuestionAskers =>
+            Extensions.JoinFilter(", ",
+                string.Join(", ", Question.Filters.SelectedAskingMPsNotMine.Select(mp => mp.ShortestName)), 
+                string.Join(", ", Question.Filters.SelectedAskingMPsMine.Select(mp => mp.ShortestName)), 
+                string.Join(",", Question.Filters.SelectedCommittees.Select(com => com.ShortestName)));
 
         private string? _newHansardLink; 
         public string NewHansardLink 

@@ -32,7 +32,6 @@ namespace RightToAskClient.Models
             set
             {
                 SetProperty(ref _questionText, value);
-                //** QuestionViewModel.Instance.ServerQuestionUpdates.question_text = _questionText;
                 Updates.question_text = _questionText;
             }
         }
@@ -133,22 +132,6 @@ namespace RightToAskClient.Models
             }
         }
 
-        public string QuestionAnswerers =>  
-            Extensions.JoinFilter(", ",
-                string.Join(", ",Filters.SelectedAnsweringMPsNotMine.Select(mp => mp.ShortestName)),
-                string.Join(", ",Filters.SelectedAnsweringMPsMine.Select(mp => mp.ShortestName)),
-                string.Join(", ",Filters.SelectedAuthorities.Select(a => a.ShortestName)));
-
-        // The MPs or committee who are meant to ask the question
-        public string QuestionAskers =>
-            Extensions.JoinFilter(", ",
-                string.Join(", ", Filters.SelectedAskingMPsNotMine.Select(mp => mp.ShortestName)), 
-                string.Join(", ", Filters.SelectedAskingMPsMine.Select(mp => mp.ShortestName)), 
-                string.Join(",", Filters.SelectedCommittees.Select(com => com.ShortestName)));
-            // TODO add:
-            // + String.Join(",",Filters.SelectedAskingUsers.Select(....));
-            
-        
 
         // Whether the person writing the question allows other users to add QuestionAnswerers
         private RTAPermissions _whoShouldAskTheQuestionPermissions;

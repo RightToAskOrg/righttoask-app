@@ -50,16 +50,15 @@
 				<Editor x:Name="QuestionTextEditor" Text="{Binding Question.QuestionText}"
 				        IsReadOnly="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}" />
 				<Label Text="{xct:Translate WhoShouldAnswerTitle}" Style="{StaticResource Header2}" />
-				<Label Text="{Binding Question.QuestionAnswerers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
+				<Label Text="{Binding QuestionAnswerers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
 				<StackLayout Orientation="Horizontal" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
 					<Label Text="{xct:Translate AnswererPermissions}" Style="{StaticResource Header2}" />
 					<CheckBox IsChecked="{Binding OthersCanAddQuestionAnswerers}" />
 				</StackLayout>
 				<!--Question Askers/Option B things-->
-				<!-- IsVisible = Binding (HowAnswered == InParliament)  -->
 				<StackLayout IsVisible="{Binding HowAnswered, Converter = {StaticResource Key=isInParliament}}">
 					<Label Text="{xct:Translate OptionBText4}" Style="{StaticResource Header2}" />
-					<Label Text="{Binding Question.QuestionAskers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
+					<Label Text="{Binding QuestionAskers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
 					<!-- Ask the user whether they allow other users to add QuestionAskers. (Y/N) -->
 					<StackLayout Orientation="Horizontal"
 					             IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
