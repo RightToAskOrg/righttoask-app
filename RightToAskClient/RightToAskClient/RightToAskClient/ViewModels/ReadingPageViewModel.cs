@@ -78,6 +78,7 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _isRefreshing, value);
         }
 
+        //TODO**: get rid of global filter choices.
         public string Keyword
         {
             get => App.GlobalFilterChoices.SearchKeyword;
@@ -94,6 +95,7 @@ namespace RightToAskClient.ViewModels
         // constructor
         public ReadingPageViewModel()
         {
+            // TODO**: can probably just be blank.
             Keyword = App.GlobalFilterChoices.SearchKeyword;
             
             // If we're already searching for something, show the user what.
@@ -189,6 +191,7 @@ namespace RightToAskClient.ViewModels
             });
             ShowFiltersCommand = new AsyncCommand(async () =>
             {
+                // TODO**: Call constructor with local Filters; push.
                 await Shell.Current.GoToAsync(nameof(AdvancedSearchFiltersPage));
             });
             RemoveQuestionCommand = new Command<Question>(questionToRemove =>
@@ -210,6 +213,7 @@ namespace RightToAskClient.ViewModels
             });
             MessagingCenter.Subscribe<SelectableListViewModel>(this,"ReadQuestionsWithASingleQuestionWriter", (sender) =>
             {
+                // TODO: this can probably be done better by sending the FilterChoices to the Adv search page.
                 var questionWriter = App.GlobalFilterChoices.QuestionWriterLists.SelectedEntities.FirstOrDefault();
                 if (questionWriter is null)
                 {
@@ -250,6 +254,8 @@ namespace RightToAskClient.ViewModels
                 QuestionSuggester = (IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
                     ? IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid
                     : "",
+                // TODO**: Should be new FilterChoices, then all subsequent pages should ref the Question's filters rather
+                // than the global ones.
                 Filters = App.GlobalFilterChoices,
                 DownVotesByThisUser = 0,
                 UpVotesByThisUser = 0
@@ -368,9 +374,11 @@ namespace RightToAskClient.ViewModels
         // given user.
         private async Task<JOSResult<List<string>>> GetAppropriateQuestionList()
         {
+            // TODO**: use the one stored in this class.
             var filters = App.GlobalFilterChoices;
             
             // If we're looking for all the questions written by a given user, request them.
+            // TODO** maybe put readByQuestionWriter into FilterChoices?
             if (_readByQuestionWriter && !string.IsNullOrWhiteSpace(_writerOnlyUid))
             {
                 var questionIDs = await RTAClient.GetQuestionsByWriterId(_writerOnlyUid);
