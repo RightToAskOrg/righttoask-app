@@ -325,13 +325,18 @@ namespace RightToAskClient.ViewModels
             }
 
             // set previously upvoted questions
+            // FIXME This should be done by passing the hashtable of upvoted questions
+            // to the question view model constructor.
             foreach (var q in questionsToDisplay)
             {
                 foreach (var qId in IndividualParticipant.getInstance()
                              .UpvotedQuestionIDs
                              .Where(qId => q.Question.QuestionId == qId))
                 {
-                    q.Question.AlreadyUpvoted = true;
+                    if (!q.Question.AlreadyUpvoted)
+                    {
+                        q.Question.ToggleUpvotedStatus();
+                    }
                 }
 
                 // set previously flagged/reported questions

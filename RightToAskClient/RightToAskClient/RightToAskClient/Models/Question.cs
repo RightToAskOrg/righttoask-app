@@ -199,7 +199,7 @@ namespace RightToAskClient.Models
         public bool AlreadyUpvoted 
         {
             get => _alreadyUpvoted;
-            set => SetProperty(ref _alreadyUpvoted, value);
+            private set => SetProperty(ref _alreadyUpvoted, value);
         }
 
         private bool _alreadyReported;
@@ -454,6 +454,11 @@ namespace RightToAskClient.Models
                     answer = answer
                 }
             };
+        }
+
+        public void ToggleUpvotedStatus()
+        {
+                AlreadyUpvoted = !AlreadyUpvoted;
         }
 
         // FIXME Think about where to store ReportedQuestionIDs.

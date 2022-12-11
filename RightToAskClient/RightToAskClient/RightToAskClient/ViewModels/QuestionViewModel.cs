@@ -281,16 +281,9 @@ namespace RightToAskClient.ViewModels
                 IndividualParticipant.getInstance().HasQuestions = true;
                 XamarinPreferences.shared.Set(Constants.HasQuestions, true);
                 
-                if (Question.AlreadyUpvoted)
+                if (!Question.AlreadyUpvoted)
                 {
-                    Question.UpVotesByThisUser--;
-                    Question.AlreadyUpvoted = false;
-                    UpvoteButtonText = AppResources.UpvoteButtonText;
-                }
-                else
-                {
-                    Question.UpVotesByThisUser++;
-                    Question.AlreadyUpvoted = true;
+                    Question.ToggleUpvotedStatus();
                     UpvoteButtonText = AppResources.UpvotedButtonText;
                 }
             });

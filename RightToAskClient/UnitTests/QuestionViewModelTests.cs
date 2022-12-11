@@ -186,7 +186,6 @@ namespace UnitTests
             // arrange
             IndividualParticipant.getInstance().ProfileData.RegistrationInfo.registrationStatus = RegistrationStatus.Registered;
             vm.Question.UpVotesByThisUser = 0;
-            vm.Question.AlreadyUpvoted = false;
             Button button = new Button
             {
                 Command = vm.UpvoteCommand
@@ -196,9 +195,13 @@ namespace UnitTests
             executeAsyncButton(button);
 
             // assert
-            Assert.Equal(1, vm.Question.UpVotesByThisUser);
+            Assert.True(vm.Question.AlreadyUpvoted);
         }
 
+        /*
+         * Temporarily deprecated while we get bare-minimum plaintext upvoting working.
+         * However, in the longer term, we will want this test when we go back to allowing
+         * people to toggle before upload to server.
         [Fact]
         public void UndoUpvoteCommandTest()
         {
@@ -217,6 +220,7 @@ namespace UnitTests
             // assert
             Assert.Equal(0, vm.Question.UpVotesByThisUser);
         }
+        */
 
         [Fact]
         public void AnsweredByOtherMPCommandFailTest()

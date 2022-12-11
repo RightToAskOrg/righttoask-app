@@ -16,7 +16,6 @@ namespace UnitTests.Models
         public void UpvoteQuestionWhenUserIsRegisteredAndHasntUpvotedItAlready()
         {
             var testQuestion = new Question();
-            testQuestion.AlreadyUpvoted = false;
 
             testQuestion.UpvoteCommand.Execute(null);
 
