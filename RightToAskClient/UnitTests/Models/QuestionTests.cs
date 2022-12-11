@@ -15,7 +15,8 @@ namespace UnitTests.Models
         // Check that the Upvote command increases upvotes if you haven't already voted 
         public void UpvoteQuestionWhenUserIsRegisteredAndHasntUpvotedItAlready()
         {
-            var testQuestion = new Question();
+            var testQuestionResponseRecords = new QuestionResponseRecords(); 
+            var testQuestion = new Question(testQuestionResponseRecords);
 
             testQuestion.UpvoteCommand.Execute(null);
 

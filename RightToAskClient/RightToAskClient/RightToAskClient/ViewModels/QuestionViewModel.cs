@@ -19,6 +19,7 @@ namespace RightToAskClient.ViewModels
     public class QuestionViewModel : BaseViewModel
     {
         private static QuestionViewModel? _instance;
+        private QuestionResponseRecords? _responseRecords;
         public static QuestionViewModel Instance => _instance ??= new QuestionViewModel();
 
         private Question _question = new Question();
@@ -193,9 +194,19 @@ namespace RightToAskClient.ViewModels
             OnPropertyChanged("MPButtonsEnabled"); // called by the UpdatableParliamentAndMPData class to update this variable in real time
         }
 
+
+        // Constructor for question we read off the server - we need to display them according to
+        // how we've responded to them previously.
+        public QuestionViewModel(QuestionResponseRecords responseRecords) : this()
+        {
+            _responseRecords = responseRecords;
+            Question = new Question(responseRecords);
+        }
+
+        // set up empty question
+        // Constructor for the case we're generating our own question for upload.
         public QuestionViewModel()
         {
-            // set up empty question
             Question = new Question();
             ReportLabelText = "";
             Question.QuestionSuggester = IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid;
@@ -389,7 +400,7 @@ namespace RightToAskClient.ViewModels
         public void ClearQuestionDataAddWriter()
         {
             // set defaults
-            Question = new Question();
+            Question = new Question(_responseRecords);
             ReportLabelText = "";
             Question.QuestionSuggester = IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid;
         }

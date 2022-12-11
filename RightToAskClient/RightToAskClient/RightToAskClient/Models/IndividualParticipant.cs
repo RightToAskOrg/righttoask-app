@@ -33,10 +33,6 @@ namespace RightToAskClient.Models
 		public bool AddressUpdated { get; set; }
 		public bool HasQuestions { get; set; }
 
-		// needs to be accessible on a few pages and VMs so I put it here
-		public List<string> UpvotedQuestionIDs { get; set; } = new List<string>();
-		public List<string> ReportedQuestionIDs { get; set; } = new List<string>();
-		public List<string> RemovedQuestionIDs { get; set; } = new List<string>();
 
 		public ClientSignedUnparsed SignMessage<T>(T message)
 		{

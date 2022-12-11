@@ -20,6 +20,11 @@ namespace RightToAskClient.ViewModels
 {
     public class ReadingPageViewModel : BaseViewModel
     {
+        // This is static because we want every instance of ReadingPageViewModel to have the same one:
+        // if you up-vote a question in one version of the ReadingView, we need the other ReadingPages to
+        // see the same change.
+        private static QuestionResponseRecords _thisUsersResponsesToQuestions = new QuestionResponseRecords();
+        
         // properties
         private bool _showQuestionFrame = false;
         public bool ShowQuestionFrame
@@ -178,10 +183,7 @@ namespace RightToAskClient.ViewModels
             RemoveQuestionCommand = new Command<QuestionDisplayCardViewModel>(questionToRemove =>
             {
                 // store question ID for later data manipulation?
-                if (!IndividualParticipant.getInstance().RemovedQuestionIDs.Contains(questionToRemove.Question.QuestionId))
-                {
-                    IndividualParticipant.getInstance().RemovedQuestionIDs.Add(questionToRemove.Question.QuestionId);
-                }
+                _thisUsersResponsesToQuestions.AddDismissedQuestion(questionToRemove.Question.QuestionId);
                 QuestionsToDisplay.Remove(questionToRemove);
             });
 
@@ -228,7 +230,7 @@ namespace RightToAskClient.ViewModels
         {
             // Set up new question in preparation for upload. 
             // The filters are what the user has chosen through the flow.
-            var newQuestion = new Question
+            var newQuestion = new Question(_thisUsersResponsesToQuestions)
             {
                 QuestionText = DraftQuestion,
                 QuestionSuggester = (IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
@@ -304,45 +306,13 @@ namespace RightToAskClient.ViewModels
                 }
             }
 
-            // convert the ServerQuestions to a Displayable format
+            // convert the ServerQuestions to a Displayable format. Drop already-dismissed ones.
             foreach (var serverQuestion in serverQuestions)
             {
-                questionsToDisplay.Add(new QuestionDisplayCardViewModel(new Question(serverQuestion)));
-            }
-
-
-            // after getting the list of questions, remove the ids for dismissed questions, and set the upvoted status of liked ones
-            for (var i = 0; i < IndividualParticipant.getInstance().RemovedQuestionIDs.Count; i++)
-            {
-                var temp = questionsToDisplay
-                    .FirstOrDefault(q => q.Question.QuestionId == IndividualParticipant.getInstance().RemovedQuestionIDs[i]);
-                if (temp != null)
+                if (!_thisUsersResponsesToQuestions.IsAlreadyDismissed(serverQuestion.question_id ?? ""))
                 {
-                    questionsToDisplay.Remove(temp);
-                }
-            }
-
-            // set previously upvoted questions
-            // FIXME This should be done by passing the hashtable of upvoted questions
-            // to the question view model constructor.
-            foreach (var q in questionsToDisplay)
-            {
-                foreach (var qId in IndividualParticipant.getInstance()
-                             .UpvotedQuestionIDs
-                             .Where(qId => q.Question.QuestionId == qId))
-                {
-                    if (!q.Question.AlreadyUpvoted)
-                    {
-                        q.Question.ToggleUpvotedStatus();
-                    }
-                }
-
-                // set previously flagged/reported questions
-                foreach (var qID in IndividualParticipant.getInstance()
-                             .ReportedQuestionIDs
-                             .Where(qId => q.Question.QuestionId == qId))
-                {
-                    q.Question.AlreadyReported = true;
+                    var newQuestion = new Question(serverQuestion, _thisUsersResponsesToQuestions);
+                    questionsToDisplay.Add(new QuestionDisplayCardViewModel(newQuestion));
                 }
             }
 

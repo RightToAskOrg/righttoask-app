@@ -198,8 +198,13 @@ namespace RightToAskClient.Models
             set => SetProperty(ref _hasAnswer, value);
         }
 
-        // constructor needed for command creation
+        // Explicit empty constructor, for use in the case we're generating our own question.
         public Question()
+        {
+        } 
+        
+        // constructor needed for command creation, for questions we read off the server.
+        public Question(QuestionResponseRecords questionResponses) : base()
         {
             UpvoteCommand = new Command(async () => 
 
@@ -210,15 +215,11 @@ namespace RightToAskClient.Models
                     if (!AlreadyUpvoted)
                     {
                         AlreadyUpvoted = true;
-                        IndividualParticipant.getInstance().UpvotedQuestionIDs.Add(QuestionId);
-                    }
-                    else
-                    {
-                        AlreadyUpvoted = false;
-                        IndividualParticipant.getInstance().UpvotedQuestionIDs.Remove(QuestionId);
+                        questionResponses.AddUpvotedQuestion(_questionId);
                     }
                 }
                 else
+                // TODO I don't think the Question.cs needs to be doing this registration check.
                 {
                     await NavigationUtils.DoRegistrationCheck(
                         IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
@@ -259,14 +260,14 @@ namespace RightToAskClient.Models
         }
 
         // commands
-        public Command UpvoteCommand { get; }
+        public Command UpvoteCommand { get; } = new Command(() => { });
         // public Command ReportCommand { get; }
         // public Command QuestionDetailsCommand { get; }
         // public IAsyncCommand ShareCommand { get; }
 
         // Call empty constructor to initialize commands etc.
         // Then convert data downloaded from server into a displayable form.
-        public Question(QuestionReceiveFromServer serverQuestion) : this()
+        public Question(QuestionReceiveFromServer serverQuestion, QuestionResponseRecords records) : this(records)
         {
             // question-defining fields
             QuestionSuggester = serverQuestion.author ?? "";
