@@ -277,6 +277,7 @@ namespace RightToAskClient.ViewModels
                 if (!Question.AlreadyUpvoted)
                 {
                     Question.ToggleUpvotedStatus();
+                    SendUpVoteToServer(true);
                 }
             });
             SaveQuestionCommand = new Command(() =>
@@ -537,6 +538,31 @@ namespace RightToAskClient.ViewModels
 
         }
 
+        // For uploading an upvote 
+        // This should be called only if the person is already registered.
+        // Returns true if the upload was successful; false otherwise.
+        private async void SendUpVoteToServer(bool isUp)
+        {
+            // This is only supposed to be called for registered participants.
+            Debug.Assert(IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered);
+
+            var voteOnQuestion = new PlainTextVoteOnQuestionCommand()
+            {
+                question_id = Question.QuestionId,
+                up = isUp
+            };
+
+            var httpResponse = await RTAClient.SendPlaintextUpvote(voteOnQuestion,
+                IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid);
+            (bool isValid, string errorMessage, string _) = RTAClient.ValidateHttpResponse(httpResponse, "Vote upload");  
+            if(!isValid) 
+            {
+                var error =  "Error uploading vote: " + errorMessage;
+                ReportLabelText = error;
+                Debug.WriteLine(error);
+            }
+        }
+        
         // For uploading a new question
         // This should be called only if the person is already registered.
         // Returns true if the upload was successful; false otherwise.
