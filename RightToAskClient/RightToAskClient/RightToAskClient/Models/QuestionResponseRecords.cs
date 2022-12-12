@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text.Json;
 using RightToAskClient.Helpers;
+using Xamarin.Forms;
 
 namespace RightToAskClient.Models
 {
@@ -18,13 +19,14 @@ namespace RightToAskClient.Models
 	    private HashSet<string> _reportedQuestionIDs;
 	    private HashSet<string> _dismissedQuestionIDs;
 
-		public QuestionResponseRecords()
+		public void Init()
 		{
 			// Retrieve from preferences.
 			_upvotedQuestionIDs = retrieveHashSetFromPreferences(Constants.UpvotedQuestions);
 			_downvotedQuestionIDs = retrieveHashSetFromPreferences(Constants.DownvotedQuestions);
 			_dismissedQuestionIDs = retrieveHashSetFromPreferences(Constants.DismissedQuestions);
 			_reportedQuestionIDs = retrieveHashSetFromPreferences(Constants.ReportedQuestions);
+			
 		}
 
 

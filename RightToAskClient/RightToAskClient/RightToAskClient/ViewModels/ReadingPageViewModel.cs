@@ -90,19 +90,14 @@ namespace RightToAskClient.ViewModels
         // constructor
         public ReadingPageViewModel()
         {
+            // Retrieve previous responses from Preferences, e.g. to display proper colouration on prior up-votes.
+            _thisUsersResponsesToQuestions.Init();
+            
             Keyword = App.GlobalFilterChoices.SearchKeyword;
             
             // If we're already searching for something, show the user what.
             ShowSearchFrame = !string.IsNullOrWhiteSpace(Keyword); 
 
-
-            /* I don't think we ever arrive here with a non-empty draft any more.
-            if (!string.IsNullOrEmpty(App.ReadingContext.DraftQuestion))
-            {
-                DraftQuestion = App.ReadingContext.DraftQuestion;
-                ShowQuestionFrame = true;
-            }
-            */
 
             // Reading with a draft question - prompt for upvoting similar questions
             if (ShowQuestionFrame)
@@ -240,7 +235,7 @@ namespace RightToAskClient.ViewModels
         {
             // Set up new question in preparation for upload. 
             // The filters are what the user has chosen through the flow.
-            var newQuestion = new Question(_thisUsersResponsesToQuestions)
+            var newQuestion = new Question()
             {
                 QuestionText = DraftQuestion,
                 QuestionSuggester = (IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
@@ -321,8 +316,7 @@ namespace RightToAskClient.ViewModels
             {
                 if (!_thisUsersResponsesToQuestions.IsAlreadyDismissed(serverQuestion.question_id ?? ""))
                 {
-                    var newQuestion = new Question(serverQuestion, _thisUsersResponsesToQuestions);
-                    questionsToDisplay.Add(new QuestionDisplayCardViewModel(newQuestion));
+                    questionsToDisplay.Add(new QuestionDisplayCardViewModel(serverQuestion, _thisUsersResponsesToQuestions));
                 }
             }
 

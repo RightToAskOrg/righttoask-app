@@ -1,4 +1,5 @@
 using RightToAskClient.Models;
+using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Views;
 using Xamarin.Forms;
 
@@ -9,12 +10,13 @@ namespace RightToAskClient.ViewModels
         
         public Command QuestionDetailsCommand { get; }
 
-        public QuestionDisplayCardViewModel(Question question) : base()
+        public QuestionDisplayCardViewModel(QuestionReceiveFromServer question, QuestionResponseRecords questionResponses) : base()
         {
-            Question = question;
+            ResponseRecords = questionResponses;
+            Question = new Question(question, questionResponses);
             QuestionDetailsCommand = new Command(() =>
             {
-                Instance.Question = question;
+                Instance.Question = Question;
                 Instance.IsNewQuestion = false;
                 _ = Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
             });

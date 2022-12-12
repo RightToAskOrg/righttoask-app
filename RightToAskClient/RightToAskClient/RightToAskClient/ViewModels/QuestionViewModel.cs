@@ -20,7 +20,7 @@ namespace RightToAskClient.ViewModels
     public class QuestionViewModel : BaseViewModel
     {
         private static QuestionViewModel? _instance;
-        private QuestionResponseRecords? _responseRecords;
+        protected QuestionResponseRecords ResponseRecords = new QuestionResponseRecords();
         public static QuestionViewModel Instance => _instance ??= new QuestionViewModel();
 
         private Question _question = new Question();
@@ -209,17 +209,8 @@ namespace RightToAskClient.ViewModels
             OnPropertyChanged("MPButtonsEnabled"); // called by the UpdatableParliamentAndMPData class to update this variable in real time
         }
 
-
-        // Constructor for question we read off the server - we need to display them according to
-        // how we've responded to them previously.
-        public QuestionViewModel(QuestionResponseRecords responseRecords) : this()
-        {
-            _responseRecords = responseRecords;
-            Question = new Question(responseRecords);
-        }
-
-        // set up empty question
-        // Constructor for the case we're generating our own question for upload.
+        // Set up empty question
+        // Used when we're generating our own question for upload.
         public QuestionViewModel()
         {
             Question = new Question();
@@ -300,10 +291,16 @@ namespace RightToAskClient.ViewModels
                 IndividualParticipant.getInstance().HasQuestions = true;
                 XamarinPreferences.shared.Set(Constants.HasQuestions, true);
                 
+                // This toggles the appearance immediately but doesn't record it as an upvoted question
+                // unless we get a successful upload ack from the server.
                 if (!Question.AlreadyUpvoted)
                 {
                     Question.ToggleUpvotedStatus();
-                    SendUpVoteToServer(true);
+                    var upVoteSuccess = await SendUpVoteToServer(true);
+                    if (upVoteSuccess)
+                    {
+                        ResponseRecords.AddUpvotedQuestion(Question.QuestionId);
+                    }
                 }
             });
             SaveQuestionCommand = new Command(() =>
@@ -415,7 +412,7 @@ namespace RightToAskClient.ViewModels
         public void ClearQuestionDataAddWriter()
         {
             // set defaults
-            Question = new Question(_responseRecords);
+            Question = new Question();
             ReportLabelText = "";
             Question.QuestionSuggester = IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid;
         }
@@ -567,10 +564,14 @@ namespace RightToAskClient.ViewModels
         // For uploading an upvote 
         // This should be called only if the person is already registered.
         // Returns true if the upload was successful; false otherwise.
-        private async void SendUpVoteToServer(bool isUp)
+        private async Task<bool> SendUpVoteToServer(bool isUp)
         {
             // This is only supposed to be called for registered participants.
-            Debug.Assert(IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered);
+            if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
+            {
+                // TODO**: make a specific type of exception ; throw it.
+                throw new Exception("");
+            }
 
             var voteOnQuestion = new PlainTextVoteOnQuestionCommand()
             {
@@ -586,7 +587,10 @@ namespace RightToAskClient.ViewModels
                 var error =  "Error uploading vote: " + errorMessage;
                 ReportLabelText = error;
                 Debug.WriteLine(error);
+                return false;
             }
+
+            return true;
         }
         
         // For uploading a new question

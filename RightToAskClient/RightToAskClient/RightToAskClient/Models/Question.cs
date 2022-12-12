@@ -186,72 +186,17 @@ namespace RightToAskClient.Models
         {
         } 
         
-        // constructor needed for command creation, for questions we read off the server.
-        public Question(QuestionResponseRecords questionResponses) : base()
+        // For questions we read off the server - check whether we've previously up-voted them or
+        // reported them.
+        public Question(in QuestionResponseRecords questionResponses) : base()
         {
-            UpvoteCommand = new Command(async () => 
-
-            {
-                // can only upvote questions if you are registered
-                if (IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
-                {
-                    if (!AlreadyUpvoted)
-                    {
-                        AlreadyUpvoted = true;
-                        questionResponses.AddUpvotedQuestion(_questionId);
-                    }
-                }
-                else
-                // TODO I don't think the Question.cs needs to be doing this registration check.
-                {
-                    await NavigationUtils.DoRegistrationCheck(
-                        IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
-                        AppResources.NotNowAnswerText);
-                }
-            });
-            /*
-            QuestionDetailsCommand = new Command(() =>
-            {
-                QuestionViewModel.Instance.Question = this;
-                QuestionViewModel.Instance.IsNewQuestion = false;
-                _ = Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
-            });
-            */
-            
-            /*
-            ShareCommand = new AsyncCommand(async() =>
-            {
-                await Share.RequestAsync(new ShareTextRequest 
-                {
-                    Text = QuestionText,
-                    Title = "Share Text"
-                });
-            });
-            ReportCommand = new Command(() =>
-            {
-                AlreadyReported = !AlreadyReported;
-                if (AlreadyReported)
-                {
-                    IndividualParticipant.getInstance().ReportedQuestionIDs.Add(QuestionId);
-                }
-                else
-                {
-                    IndividualParticipant.getInstance().ReportedQuestionIDs.Remove(QuestionId);
-                }
-            });
-            */
         }
-
-        // commands
-        public Command UpvoteCommand { get; } = new Command(() => { });
-        // public Command ReportCommand { get; }
-        // public Command QuestionDetailsCommand { get; }
-        // public IAsyncCommand ShareCommand { get; }
 
         // Call empty constructor to initialize commands etc.
         // Then convert data downloaded from server into a displayable form.
-        public Question(QuestionReceiveFromServer serverQuestion, QuestionResponseRecords records) : this(records)
+        public Question(QuestionReceiveFromServer serverQuestion, QuestionResponseRecords questionResponses) 
         {
+            
             // question-defining fields
             QuestionSuggester = serverQuestion.author ?? "";
             QuestionText = serverQuestion.question_text ?? "";
@@ -270,6 +215,10 @@ namespace RightToAskClient.Models
             // question non-defining fields
             Background = serverQuestion.background ?? "";
 
+            // Check whether the user has already responded to this question.
+            AlreadyUpvoted = questionResponses.IsAlreadyUpvoted(QuestionId);
+            AlreadyReported = questionResponses.IsAlreadyReported(QuestionId);
+            
             interpretFilters(serverQuestion);
 
             WhoShouldAnswerTheQuestionPermissions = serverQuestion.who_should_answer_the_question_permissions;
@@ -425,19 +374,9 @@ namespace RightToAskClient.Models
                 AlreadyUpvoted = !AlreadyUpvoted;
         }
 
-        // FIXME Think about where to store ReportedQuestionIDs.
         public void ToggleReportStatus()
         {
                 AlreadyReported = !AlreadyReported;
-                if (AlreadyReported)
-                {
-                    // IndividualParticipant.ReportedQuestionIDs.Add(QuestionId);
-                }
-                else
-                {
-                    // IndividualParticipant.ReportedQuestionIDs.Remove(QuestionId);
-                }
-
         }
         
         //validation
