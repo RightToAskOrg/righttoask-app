@@ -569,8 +569,7 @@ namespace RightToAskClient.ViewModels
             // This is only supposed to be called for registered participants.
             if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
             {
-                // TODO**: make a specific type of exception ; throw it.
-                throw new Exception("");
+                throw new TriedToUploadWhileNotRegisteredException("Sending up-vote to server.");
             }
 
             var voteOnQuestion = new PlainTextVoteOnQuestionCommand()
@@ -599,8 +598,11 @@ namespace RightToAskClient.ViewModels
         private async Task<bool> SendNewQuestionToServer()
         {
             // This isn't supposed to be called for unregistered participants.
-            if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered) return false;
-
+            if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
+            {
+                throw new TriedToUploadWhileNotRegisteredException("Sending up-vote to server.");
+            }
+            
             // TODO use returnedData to record questionID, version, hash
             (bool isValid, string errorMessage, string returnedData) successfulSubmission =
                 await BuildSignAndUploadNewQuestion();
@@ -646,7 +648,10 @@ namespace RightToAskClient.ViewModels
         private async void SendQuestionEditToServer()
         {
             // This isn't supposed to be called for unregistered participants.
-            if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered) return;
+            if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
+            {
+                throw new TriedToUploadWhileNotRegisteredException("Sending up-vote to server.");
+            }
             
             var successfulSubmission = await BuildSignAndUploadQuestionUpdates();
             
