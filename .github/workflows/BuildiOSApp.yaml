@@ -8,7 +8,8 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      # If this starts breaking check Xamarin bundles here https://github.com/actions/runner-images/blob/main/images/macos/macos-11-Readme.md#xamarin-bundles
+      # If this starts breaking check the mono and ios version, they should match the default Xamarin bundles 
+      # found here https://github.com/actions/runner-images/blob/main/images/macos/macos-11-Readme.md#xamarin-bundles
       - uses: actions/checkout@v3
       - name: Set default Xamarin SDK versions
         run: |
