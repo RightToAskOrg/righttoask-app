@@ -23,5 +23,9 @@ jobs:
       - name: Install dependencies
         run: nuget restore ./RightToAskClient/RightToAskClient.sln
 
+      - name: Decrypt large secret
+        run: ./scripts/decrypt_secret.sh
+        env: LARGE_SECRET_PASSPHRASE: ${{ secrets.AES_KEY_PASSPHRASE_FOR_MPS_FILE }}
+
       - name: Build
         run: msbuild ./RightToAskClient/RightToAskClient/RightToAskClient.iOS/RightToAskClient.iOS.csproj /p:Configuration=Debug /p:Platform=iPhoneSimulator /t:Rebuild
