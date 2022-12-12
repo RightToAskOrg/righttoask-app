@@ -633,12 +633,6 @@ namespace RightToAskClient.ViewModels
                 MessagingCenter.Send(this, Constants.QuestionSubmittedDeleteDraft);
                 await Application.Current.MainPage.Navigation.PopToRootAsync();
                     
-                /*
-                await Application.Current.MainPage.Navigation.PopToRootAsync().ContinueWith((_) =>
-                {
-                    MessagingCenter.Send(this, Constants.QuestionSubmittedDeleteDraft);
-                });
-                */
             }
             // Otherwise remain on the question publish page with the opportunity to write a new question.
             else 

@@ -18,15 +18,19 @@ namespace RightToAskClient.Models
 	    private HashSet<string> _downvotedQuestionIDs;
 	    private HashSet<string> _reportedQuestionIDs;
 	    private HashSet<string> _dismissedQuestionIDs;
+	    private bool _isInitialised;
 
 		public void Init()
 		{
-			// Retrieve from preferences.
-			_upvotedQuestionIDs = retrieveHashSetFromPreferences(Constants.UpvotedQuestions);
-			_downvotedQuestionIDs = retrieveHashSetFromPreferences(Constants.DownvotedQuestions);
-			_dismissedQuestionIDs = retrieveHashSetFromPreferences(Constants.DismissedQuestions);
-			_reportedQuestionIDs = retrieveHashSetFromPreferences(Constants.ReportedQuestions);
-			
+			if (!_isInitialised)
+			{
+				// Retrieve from preferences.
+				_upvotedQuestionIDs = retrieveHashSetFromPreferences(Constants.UpvotedQuestions);
+				_downvotedQuestionIDs = retrieveHashSetFromPreferences(Constants.DownvotedQuestions);
+				_dismissedQuestionIDs = retrieveHashSetFromPreferences(Constants.DismissedQuestions);
+				_reportedQuestionIDs = retrieveHashSetFromPreferences(Constants.ReportedQuestions);
+				_isInitialised = true;
+			}
 		}
 
 
