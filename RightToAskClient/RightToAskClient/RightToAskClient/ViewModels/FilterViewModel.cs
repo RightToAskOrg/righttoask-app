@@ -179,7 +179,7 @@ namespace RightToAskClient.ViewModels
             {
                 EditListCommand = new Command(() =>
                 {
-                    _ = NavigationUtils.EditCommitteesClicked().ContinueWith((_) =>
+                    _ = NavigationUtils.EditCommitteesClicked(App.GlobalFilterChoices.CommitteeLists).ContinueWith((_) =>
                     {
                         MessagingCenter.Send(this, Constants.GoBackToAdvancedSearchPage);
                     });
@@ -295,7 +295,9 @@ namespace RightToAskClient.ViewModels
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
-                await NavigationUtils.PushMyAnsweringMPsExploringPage(IndividualParticipant.getInstance().ProfileData.RegistrationInfo.ElectoratesKnown);
+                await NavigationUtils.PushMyAnsweringMPsExploringPage(
+                    IndividualParticipant.getInstance().ProfileData.RegistrationInfo.ElectoratesKnown,
+                    App.GlobalFilterChoices.AnsweringMPsListsMine);
             }
         }
 
@@ -313,7 +315,7 @@ namespace RightToAskClient.ViewModels
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
-                await NavigationUtils.PushAnsweringMPsNotMineSelectableListPage();
+                await NavigationUtils.PushAnsweringMPsNotMineSelectableListPage(App.GlobalFilterChoices.AnsweringMPsListsNotMine);
             }
         }
 
@@ -321,7 +323,7 @@ namespace RightToAskClient.ViewModels
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
-                await NavigationUtils.PushAskingMPsNotMineSelectableListPageAsync();
+                await NavigationUtils.PushAskingMPsNotMineSelectableListPageAsync(App.GlobalFilterChoices.AskingMPsListsNotMine);
             }
         }
 
@@ -329,7 +331,9 @@ namespace RightToAskClient.ViewModels
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
-                await NavigationUtils.PushMyAskingMPsExploringPage(IndividualParticipant.getInstance().ProfileData.RegistrationInfo.ElectoratesKnown);
+                await NavigationUtils.PushMyAskingMPsExploringPage(
+                    IndividualParticipant.getInstance().ProfileData.RegistrationInfo.ElectoratesKnown,
+                    App.GlobalFilterChoices.AskingMPsListsMine);
             }
         }
 
