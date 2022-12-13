@@ -20,6 +20,11 @@ namespace RightToAskClient.ViewModels
 {
     public class ReadingPageViewModel : BaseViewModel
     {
+        // This is static because we want every instance of ReadingPageViewModel to have the same one:
+        // if you up-vote a question in one version of the ReadingView, we need the other ReadingPages to
+        // see the same change.
+        private static QuestionResponseRecords _thisUsersResponsesToQuestions = new QuestionResponseRecords();
+        
         // properties
         private bool _showQuestionFrame = false;
         public bool ShowQuestionFrame
@@ -52,20 +57,11 @@ namespace RightToAskClient.ViewModels
         public Question? SelectedQuestion
         {
             get => _selectedQuestion;
-            set
-            {
-                _ = SetProperty(ref _selectedQuestion, value);
-                if (_selectedQuestion != null)
-                {
-                    QuestionViewModel.Instance.Question = _selectedQuestion;
-                    QuestionViewModel.Instance.IsNewQuestion = false;
-                    _ = Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
-                }
-            }
+            set => SetProperty(ref _selectedQuestion, value);
         }
 
-        private ObservableCollection<Question> _questionsToDisplay = new ObservableCollection<Question>();
-        public ObservableCollection<Question> QuestionsToDisplay
+        private ObservableCollection<QuestionDisplayCardViewModel> _questionsToDisplay = new ObservableCollection<QuestionDisplayCardViewModel>();
+        public ObservableCollection<QuestionDisplayCardViewModel> QuestionsToDisplay
         {
             get => _questionsToDisplay;
             set => SetProperty(ref _questionsToDisplay, value);
@@ -94,19 +90,14 @@ namespace RightToAskClient.ViewModels
         // constructor
         public ReadingPageViewModel()
         {
+            // Retrieve previous responses from Preferences, e.g. to display proper colouration on prior up-votes.
+            _thisUsersResponsesToQuestions.Init();
+            
             Keyword = App.GlobalFilterChoices.SearchKeyword;
             
             // If we're already searching for something, show the user what.
             ShowSearchFrame = !string.IsNullOrWhiteSpace(Keyword); 
 
-
-            /* I don't think we ever arrive here with a non-empty draft any more.
-            if (!string.IsNullOrEmpty(App.ReadingContext.DraftQuestion))
-            {
-                DraftQuestion = App.ReadingContext.DraftQuestion;
-                ShowQuestionFrame = true;
-            }
-            */
 
             // Reading with a draft question - prompt for upvoting similar questions
             if (ShowQuestionFrame)
@@ -191,15 +182,15 @@ namespace RightToAskClient.ViewModels
             {
                 await Shell.Current.GoToAsync(nameof(AdvancedSearchFiltersPage));
             });
-            RemoveQuestionCommand = new Command<Question>(questionToRemove =>
+            RemoveQuestionCommand = new Command<QuestionDisplayCardViewModel>(questionToRemove =>
             {
-                // store question ID for later data manipulation?
-                if (!IndividualParticipant.getInstance().RemovedQuestionIDs.Contains(questionToRemove.QuestionId))
+                if (questionToRemove?.Question.QuestionId != null)
                 {
-                    IndividualParticipant.getInstance().RemovedQuestionIDs.Add(questionToRemove.QuestionId);
+                    _thisUsersResponsesToQuestions.AddDismissedQuestion(questionToRemove.Question.QuestionId);
+                    QuestionsToDisplay.Remove(questionToRemove);
                 }
-                QuestionsToDisplay.Remove(questionToRemove);
-            });
+                // removeQuestionAddRecord(questionToRemove);
+            }); 
 
 
             MessagingCenter.Subscribe<QuestionViewModel>(this, Constants.QuestionSubmittedDeleteDraft,
@@ -236,7 +227,7 @@ namespace RightToAskClient.ViewModels
         public AsyncCommand RefreshCommand { get; }
         public IAsyncCommand DraftCommand { get; }
         public Command SearchToolbarCommand { get; }
-        public Command<Question> RemoveQuestionCommand { get; }
+        public Command<QuestionDisplayCardViewModel> RemoveQuestionCommand { get; }
         public IAsyncCommand ShowFiltersCommand { get; }
 
         // helper methods
@@ -244,15 +235,13 @@ namespace RightToAskClient.ViewModels
         {
             // Set up new question in preparation for upload. 
             // The filters are what the user has chosen through the flow.
-            var newQuestion = new Question
+            var newQuestion = new Question()
             {
                 QuestionText = DraftQuestion,
                 QuestionSuggester = (IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
                     ? IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid
                     : "",
                 Filters = App.GlobalFilterChoices,
-                DownVotesByThisUser = 0,
-                UpVotesByThisUser = 0
             };
 
             QuestionViewModel.Instance.Question = newQuestion;
@@ -273,10 +262,10 @@ namespace RightToAskClient.ViewModels
             ShowQuestionFrame = false;
         }
 
-        public async Task<List<Question>> LoadQuestions()
+        public async Task<List<QuestionDisplayCardViewModel>> LoadQuestions()
         {
             var serverQuestions = new List<QuestionReceiveFromServer>();
-            var questionsToDisplay = new List<Question>();
+            var questionsToDisplay = new List<QuestionDisplayCardViewModel>();
             var httpResponse = await GetAppropriateQuestionList();
             var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
             if (!httpValidation.isValid)
@@ -322,40 +311,12 @@ namespace RightToAskClient.ViewModels
                 }
             }
 
-            // convert the ServerQuestions to a Displayable format
+            // convert the ServerQuestions to a Displayable format. Drop already-dismissed ones.
             foreach (var serverQuestion in serverQuestions)
             {
-                questionsToDisplay.Add(new Question(serverQuestion));
-            }
-
-
-            // after getting the list of questions, remove the ids for dismissed questions, and set the upvoted status of liked ones
-            for (var i = 0; i < IndividualParticipant.getInstance().RemovedQuestionIDs.Count; i++)
-            {
-                var temp = questionsToDisplay
-                    .FirstOrDefault(q => q.QuestionId == IndividualParticipant.getInstance().RemovedQuestionIDs[i]);
-                if (temp != null)
+                if (!_thisUsersResponsesToQuestions.IsAlreadyDismissed(serverQuestion.question_id ?? ""))
                 {
-                    questionsToDisplay.Remove(temp);
-                }
-            }
-
-            // set previously upvoted questions
-            foreach (var q in questionsToDisplay)
-            {
-                foreach (var qId in IndividualParticipant.getInstance()
-                             .UpvotedQuestionIDs
-                             .Where(qId => q.QuestionId == qId))
-                {
-                    q.AlreadyUpvoted = true;
-                }
-
-                // set previously flagged/reported questions
-                foreach (var qID in IndividualParticipant.getInstance()
-                             .ReportedQuestionIDs
-                             .Where(qId => q.QuestionId == qId))
-                {
-                    q.AlreadyReported = true;
+                    questionsToDisplay.Add(new QuestionDisplayCardViewModel(serverQuestion, _thisUsersResponsesToQuestions));
                 }
             }
 
@@ -423,6 +384,15 @@ namespace RightToAskClient.ViewModels
             }
             
             return new ErrorResult<List<string>>(AppResources.EmptyMatchingQuestionCollectionViewString);
+        }
+
+        private void removeQuestionAddRecord(QuestionDisplayCardViewModel? questionToRemove)
+        {
+            if (questionToRemove?.Question.QuestionId != null)
+            {
+                _thisUsersResponsesToQuestions.AddDismissedQuestion(questionToRemove.Question.QuestionId);
+                QuestionsToDisplay.Remove(questionToRemove);
+            }
         }
     }
 }

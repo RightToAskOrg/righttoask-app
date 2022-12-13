@@ -27,6 +27,10 @@ namespace RightToAskClient
         public static string IsVerifiedMPAccount = "IsVerifiedMPAccount";
         public static string MPRegisteredAs= "MPRegisteredAs";
         public static string Address = "Address";
+        public static string DownvotedQuestions = "DownvotedQuestions";
+        public static string UpvotedQuestions = "UpvotedQuestions";
+        public static string DismissedQuestions = "DismissedQuestions";
+        public static string ReportedQuestions = "ReportedQuestions";
         
         // Special numbers
         public static float similarityThreshold = 2.5F;
