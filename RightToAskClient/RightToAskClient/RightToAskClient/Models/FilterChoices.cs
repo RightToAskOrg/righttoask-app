@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Xamarin.Forms;
 
 namespace RightToAskClient.Models
 {
@@ -110,6 +111,13 @@ namespace RightToAskClient.Models
 		public FilterChoices()
 		{
 			InitSelectableLists();
+			MessagingCenter.Subscribe<object> (
+				this, 
+				"NeedToUpdateMyMpLists", 
+				(sender) =>
+				{
+					UpdateMyMPLists();
+				});
 		}
 		public event PropertyChangedEventHandler? PropertyChanged;
         
@@ -146,11 +154,16 @@ namespace RightToAskClient.Models
 	        SearchKeyword = "";
         }
 
+        static public void NeedToUpdateMyMpLists(object sender)
+        {
+	        MessagingCenter.Send<object>(sender, "NeedToUpdateMyMpLists");
+        }
+
         // Update the list of my MPs. Note that it's a tiny bit unclear whether we should remove
         // any selected MPs who are (now) not yours. At the moment, I have simply left it as it is,
         // which means that if a person starts drafting a question, then changes their electorate details,
         // it's still possible for the question to go to 'my MP' when that person is their previous MP.
-        public void UpdateMyMPLists()
+        private void UpdateMyMPLists()
         {
 	        AnsweringMPsListsMine.AllEntities = ParliamentData.FindAllMPsGivenElectorates(IndividualParticipant.getInstance().ProfileData.RegistrationInfo.Electorates.ToList());
 	        AskingMPsListsMine.AllEntities = AnsweringMPsListsMine.AllEntities;
