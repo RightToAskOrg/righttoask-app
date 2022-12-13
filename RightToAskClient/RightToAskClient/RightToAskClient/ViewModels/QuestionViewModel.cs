@@ -28,6 +28,8 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _question, value);
         }
 
+        private FilterChoices _filterChoices = new FilterChoices();
+
         private string _newAnswer = "";
         public string NewAnswer
         {
@@ -233,7 +235,7 @@ namespace RightToAskClient.ViewModels
                 // Question.AnswerInApp = false;
                 // AnswerInApp = false;
                 var pageToSearchAuthorities
-                    = new SelectableListPage(App.GlobalFilterChoices.AuthorityLists, "Choose authorities");
+                    = new SelectableListPage(_filterChoices.AuthorityLists, "Choose authorities");
                 await Shell.Current.Navigation.PushAsync(pageToSearchAuthorities).ContinueWith((_) => 
                 {
                     MessagingCenter.Send(this, Constants.GoToAskingPageNext); // Sends this view model
@@ -249,7 +251,7 @@ namespace RightToAskClient.ViewModels
                 // AnswerInApp = true;
                 await NavigationUtils.PushMyAnsweringMPsExploringPage(
                     IndividualParticipant.getInstance().ProfileData.RegistrationInfo.ElectoratesKnown,
-                    App.GlobalFilterChoices.AnsweringMPsListsMine).ContinueWith((_) =>
+                    _filterChoices.AnsweringMPsListsMine).ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, _howAnswered == HowAnsweredOptions.InApp ?
                         Constants.GoToMetadataPageNext : Constants.GoToAskingPageNext); // Sends this view model
@@ -259,7 +261,8 @@ namespace RightToAskClient.ViewModels
             {
                 // Question.AnswerInApp = false;
                 // AnswerInApp = false;
-                await NavigationUtils.PushAnsweringMPsNotMineSelectableListPage(App.GlobalFilterChoices.AnsweringMPsListsNotMine).ContinueWith((_) =>
+                await NavigationUtils.PushAnsweringMPsNotMineSelectableListPage(
+                    _filterChoices.AnsweringMPsListsNotMine).ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, _howAnswered == HowAnsweredOptions.InApp ?
                         Constants.GoToMetadataPageNext : Constants.GoToAskingPageNext); // Sends this view model
@@ -417,7 +420,7 @@ namespace RightToAskClient.ViewModels
             if (CommitteesAndHearingsData.CommitteesData.IsInitialised)
             {
                 // RaisedByOptionSelected = true;
-                await NavigationUtils.EditCommitteesClicked(App.GlobalFilterChoices.CommitteeLists).ContinueWith((_) =>
+                await NavigationUtils.EditCommitteesClicked(_filterChoices.CommitteeLists).ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, Constants.GoToMetadataPageNext); // Sends this view model
                 });
@@ -433,7 +436,7 @@ namespace RightToAskClient.ViewModels
                 // RaisedByOptionSelected = true;
                 await NavigationUtils.PushMyAskingMPsExploringPage(
                     IndividualParticipant.getInstance().ProfileData.RegistrationInfo.ElectoratesKnown,
-                    App.GlobalFilterChoices.AskingMPsListsMine).ContinueWith((_) =>
+                    _filterChoices.AskingMPsListsMine).ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, Constants.GoToMetadataPageNext); // Sends this view model
                 });
@@ -470,7 +473,7 @@ namespace RightToAskClient.ViewModels
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
-                await NavigationUtils.PushAskingMPsNotMineSelectableListPageAsync(App.GlobalFilterChoices.AskingMPsListsNotMine).ContinueWith((_) =>
+                await NavigationUtils.PushAskingMPsNotMineSelectableListPageAsync(_filterChoices.AskingMPsListsNotMine).ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, Constants.GoToMetadataPageNext); // Sends this view model
                 });
@@ -578,7 +581,7 @@ namespace RightToAskClient.ViewModels
             _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
             if (GoHome)
             {
-                App.GlobalFilterChoices.RemoveAllSelections();
+                _filterChoices.RemoveAllSelections();
                 MessagingCenter.Send(this, Constants.QuestionSubmittedDeleteDraft);
                 await Application.Current.MainPage.Navigation.PopToRootAsync();
                     
