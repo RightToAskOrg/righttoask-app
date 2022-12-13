@@ -14,10 +14,10 @@ namespace RightToAskClient.Models
      */
     public class QuestionResponseRecords
     {
-	    private HashSet<string> _upvotedQuestionIDs;
-	    private HashSet<string> _downvotedQuestionIDs;
-	    private HashSet<string> _reportedQuestionIDs;
-	    private HashSet<string> _dismissedQuestionIDs;
+	    private HashSet<string> _upvotedQuestionIDs = new HashSet<string>();
+	    private HashSet<string> _downvotedQuestionIDs= new HashSet<string>();
+	    private HashSet<string> _reportedQuestionIDs = new HashSet<string>();
+	    private HashSet<string> _dismissedQuestionIDs = new HashSet<string>();
 	    private bool _isInitialised;
 
 		public void Init()
