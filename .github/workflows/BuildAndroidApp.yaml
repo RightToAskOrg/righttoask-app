@@ -27,5 +27,8 @@ jobs:
         run: ./scripts/decrypt_secret.sh
         env: LARGE_SECRET_PASSPHRASE: ${{ secrets.AES_KEY_PASSPHRASE_FOR_MPS_FILE }}
 
+      - name: Write Geoscape API key
+        run: printf "${{secrets.GEOSCAPEAPIKEY}}" >> ./RightToAskClient/RightToAskCLient/RightTOAskClient/Resources/GeoscapeAPIKey
+
       - name: Build
         run: msbuild ./RightToAskClient/RightToAskClient/RightToAskClient.Android/RightToAskClient.Android.csproj /p:Configuration=Debug /t:PackageForAndroid
