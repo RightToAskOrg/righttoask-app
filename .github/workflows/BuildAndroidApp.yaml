@@ -29,7 +29,9 @@ jobs:
           AES_KEY_PASSPHRASE_FOR_MPS_FILE: ${{ secrets.AES_KEY_PASSPHRASE_FOR_MPS_FILE }}
 
       - name: Write Geoscape API key
-        run: printf "${{secrets.GEOSCAPEAPIKEY}}" >> ./RightToAskClient/RightToAskCLient/RightTOAskClient/Resources/GeoscapeAPIKey
+        run: if [[ ! -e $FILE ]]; then printf "${{secrets.GEOSCAPEAPIKEY}}" >> $FILE; else echo "$FILE already exists"; fi
+        env:
+          FILE: "./RightToAskClient/RightToAskClient/RightTOAskClient/Resources/GeoscapeAPIKey"
 
       - name: Build
         run: msbuild ./RightToAskClient/RightToAskClient/RightToAskClient.Android/RightToAskClient.Android.csproj /p:Configuration=Debug /t:PackageForAndroid
