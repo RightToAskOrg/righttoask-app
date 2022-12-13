@@ -10,7 +10,10 @@ namespace RightToAskClient.Views
         public MetadataPage()
         {
             InitializeComponent();
+            // TODO: because it should be shared?
             BindingContext = FilterViewModel.Instance;
+            // TODO: pass it through constructor
+            FilterViewModel.Instance.FilterChoices = App.GlobalFilterChoices;
 
             // Hide the clickable lists that are invisible.
             hideEmpties(myMPsToAnswer);

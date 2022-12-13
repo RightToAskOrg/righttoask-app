@@ -23,6 +23,9 @@ namespace RightToAskClient.ViewModels
         private static FilterViewModel? _instance;
         public static FilterViewModel Instance => _instance ??= new FilterViewModel();
 
+        // TODO: initialise in constructor
+        public FilterChoices FilterChoices = new FilterChoices(); 
+
         // properties
         // private static FilterChoices GlobalFilterChoices => App.ReadingContext.Filters;
 
@@ -84,7 +87,7 @@ namespace RightToAskClient.ViewModels
                 var changed = SetProperty(ref _keyword, value);
                 if (changed)
                 {
-                    App.GlobalFilterChoices.SearchKeyword = _keyword;
+                    FilterChoices.SearchKeyword = _keyword;
                 }
             }
         }
@@ -116,7 +119,7 @@ namespace RightToAskClient.ViewModels
             Title = AppResources.AdvancedSearchButtonText; 
             ReinitData(); // to set the display strings
 
-            AnsweringMPsMine = new ClickableListViewModel(App.GlobalFilterChoices.AnsweringMPsListsMine)
+            AnsweringMPsMine = new ClickableListViewModel(FilterChoices.AnsweringMPsListsMine)
             {
                 // FIXME This isn't quite right when the MPs are not known - seems to push a 
                 // list to choose from and then go to a reading page, rather than popping on completion
@@ -131,7 +134,7 @@ namespace RightToAskClient.ViewModels
                 }),
                 Heading = AppResources.MyMPButtonText
             };
-            AnsweringMPsOther = new ClickableListViewModel(App.GlobalFilterChoices.AnsweringMPsListsNotMine)
+            AnsweringMPsOther = new ClickableListViewModel(FilterChoices.AnsweringMPsListsNotMine)
             {
                 EditListCommand = new Command(() =>
                 {
@@ -142,7 +145,7 @@ namespace RightToAskClient.ViewModels
                 }),
                 Heading = AppResources.OtherMP,
             };
-            AnsweringAuthorities = new ClickableListViewModel(App.GlobalFilterChoices.AuthorityLists)
+            AnsweringAuthorities = new ClickableListViewModel(FilterChoices.AuthorityLists)
             {
                 EditListCommand = new Command(() =>
                 {
@@ -153,7 +156,7 @@ namespace RightToAskClient.ViewModels
                 }),
                 Heading = AppResources.AuthorityLabel,
             };
-            AskingMPsMine = new ClickableListViewModel(App.GlobalFilterChoices.AskingMPsListsMine)
+            AskingMPsMine = new ClickableListViewModel(FilterChoices.AskingMPsListsMine)
             {
                 EditListCommand = new Command(() =>
                 {
@@ -164,7 +167,7 @@ namespace RightToAskClient.ViewModels
                 }),
                 Heading = AppResources.MyMPButtonText
             };
-            AskingMPsOther = new ClickableListViewModel(App.GlobalFilterChoices.AskingMPsListsNotMine)
+            AskingMPsOther = new ClickableListViewModel(FilterChoices.AskingMPsListsNotMine)
             {
                 EditListCommand = new Command(() =>
                 {
@@ -175,11 +178,11 @@ namespace RightToAskClient.ViewModels
                 }),
                 Heading = AppResources.OtherMP
             };
-            Committees = new ClickableListViewModel(App.GlobalFilterChoices.CommitteeLists)
+            Committees = new ClickableListViewModel(FilterChoices.CommitteeLists)
             {
                 EditListCommand = new Command(() =>
                 {
-                    _ = NavigationUtils.EditCommitteesClicked(App.GlobalFilterChoices.CommitteeLists).ContinueWith((_) =>
+                    _ = NavigationUtils.EditCommitteesClicked(FilterChoices.CommitteeLists).ContinueWith((_) =>
                     {
                         MessagingCenter.Send(this, Constants.GoBackToAdvancedSearchPage);
                     });
@@ -270,7 +273,7 @@ namespace RightToAskClient.ViewModels
         public void ReinitData()
         {
             // set the keyword
-            Keyword = App.GlobalFilterChoices.SearchKeyword;
+            Keyword = FilterChoices.SearchKeyword;
 
             // TODO Ideally, we shouldn't have to do this manually,
             // but I don't see a more elegant way at the moment.
@@ -297,7 +300,7 @@ namespace RightToAskClient.ViewModels
             {
                 await NavigationUtils.PushMyAnsweringMPsExploringPage(
                     IndividualParticipant.getInstance().ProfileData.RegistrationInfo.ElectoratesKnown,
-                    App.GlobalFilterChoices.AnsweringMPsListsMine);
+                    FilterChoices.AnsweringMPsListsMine);
             }
         }
 
@@ -306,7 +309,7 @@ namespace RightToAskClient.ViewModels
             var message = "Choose others to add";
 
             var departmentExploringPage
-                = new SelectableListPage(App.GlobalFilterChoices.AuthorityLists, message);
+                = new SelectableListPage(FilterChoices.AuthorityLists, message);
             await Application.Current.MainPage.Navigation.PushAsync(departmentExploringPage);
         }
 
@@ -315,7 +318,7 @@ namespace RightToAskClient.ViewModels
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
-                await NavigationUtils.PushAnsweringMPsNotMineSelectableListPage(App.GlobalFilterChoices.AnsweringMPsListsNotMine);
+                await NavigationUtils.PushAnsweringMPsNotMineSelectableListPage(FilterChoices.AnsweringMPsListsNotMine);
             }
         }
 
@@ -323,7 +326,7 @@ namespace RightToAskClient.ViewModels
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
-                await NavigationUtils.PushAskingMPsNotMineSelectableListPageAsync(App.GlobalFilterChoices.AskingMPsListsNotMine);
+                await NavigationUtils.PushAskingMPsNotMineSelectableListPageAsync(FilterChoices.AskingMPsListsNotMine);
             }
         }
 
@@ -333,7 +336,7 @@ namespace RightToAskClient.ViewModels
             {
                 await NavigationUtils.PushMyAskingMPsExploringPage(
                     IndividualParticipant.getInstance().ProfileData.RegistrationInfo.ElectoratesKnown,
-                    App.GlobalFilterChoices.AskingMPsListsMine);
+                    FilterChoices.AskingMPsListsMine);
             }
         }
 
@@ -358,7 +361,7 @@ namespace RightToAskClient.ViewModels
             {
                 var matchingParticipants = searchResults.Data.Select(u => new Person(u)).ToList();
                 _selectableParticipants = new SelectableList<Person>(matchingParticipants);
-                App.GlobalFilterChoices.QuestionWriterLists = _selectableParticipants;
+                FilterChoices.QuestionWriterLists = _selectableParticipants;
                 var participantsSearchSelectionPage
                     = new SelectableListPage(_selectableParticipants, AppResources.ChooseParticipantsText, true);
                 await Application.Current.MainPage.Navigation.PushAsync(participantsSearchSelectionPage).ContinueWith( (_) =>
