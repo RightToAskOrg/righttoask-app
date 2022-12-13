@@ -37,4 +37,4 @@ jobs:
         run: msbuild ./RightToAskClient/RightToAskClient/RightToAskClient.iOS/RightToAskClient.iOS.csproj /p:Configuration=Debug /p:Platform=iPhoneSimulator /t:Rebuild
         
       - name: Run xunit tests
-        run: dotnet test ./RightToAskClient/RightToAskClient.sln
+        run: dotnet test -f netcoreapp3.1 ./RightToAskClient/RightToAskClient.sln
