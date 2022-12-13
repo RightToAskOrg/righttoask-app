@@ -35,3 +35,6 @@ jobs:
 
       - name: Build
         run: msbuild ./RightToAskClient/RightToAskClient/RightToAskClient.Android/RightToAskClient.Android.csproj /p:Configuration=Debug /t:PackageForAndroid
+
+      - name: Run xunit tests
+        run: dotnet test ./RightToAskClient/RightToAskClient.sln
