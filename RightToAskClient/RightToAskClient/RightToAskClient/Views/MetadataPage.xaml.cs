@@ -13,7 +13,7 @@ namespace RightToAskClient.Views
         {
             InitializeComponent();
             // if(filterChoices)
-            BindingContext = FilterViewModel.Instance;
+            BindingContext = new FilterViewModel(new FilterChoices());
 
             // Hide the clickable lists that are invisible.
             hideEmpties(myMPsToAnswer);

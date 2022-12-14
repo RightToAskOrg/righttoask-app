@@ -14,21 +14,8 @@ namespace RightToAskClient.ViewModels
 {
     public class FilterViewModel : BaseViewModel
     {
-        /* FIXME It would make a lot more sense to set this up with either an empty constructor
-         * (for the ReadingContext filters) or an explicit/new one (for a fresh question etc).
-         * The instance is only used in the Metadata page. Not clear that this is logically correct.
-         * Why not just use the data from the GlobalFilters, since we only ever access the Metadata
-         * page with those filters?
-         */
-        private static FilterViewModel? _instance;
-        public static FilterViewModel Instance => _instance ??= new FilterViewModel();
-
-        // TODO: initialise in constructor
         public FilterChoices FilterChoices = new FilterChoices(); 
-
-        // properties
-        // private static FilterChoices GlobalFilterChoices => App.ReadingContext.Filters;
-
+        
         public ClickableListViewModel AnsweringMPsOther { get; }
         public ClickableListViewModel AnsweringMPsMine { get; }
         public ClickableListViewModel AnsweringAuthorities { get; }
