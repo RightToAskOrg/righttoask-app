@@ -5,7 +5,7 @@ on: [push]
 jobs:
   build:
 
-    runs-on: macos-latest
+    runs-on: windows-latest
 
     steps:
       # If this starts breaking check the mono and android version, they should match the default Xamarin bundles 
