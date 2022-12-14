@@ -9,14 +9,7 @@ namespace RightToAskClient.Models
 	public class FilterChoices : INotifyPropertyChanged
 	{
 		private string _searchKeyword = "";
-		// private ObservableCollection<MP> _selectedAnsweringMPs = new ObservableCollection<MP>();
-		// private ObservableCollection<MP> _selectedAnsweringMPsMine = new ObservableCollection<MP>();
-		// private ObservableCollection<MP> _selectedAskingMPs = new ObservableCollection<MP>();
-		// private ObservableCollection<MP> _selectedAskingMPsMine = new ObservableCollection<MP>();
-		// private ObservableCollection<Authority> _selectedAuthorities = new ObservableCollection<Authority>();
-		// private ObservableCollection<string> _selectedAskingCommittee = new ObservableCollection<string>();
-		//
-		//private ObservableCollection<Person?> _selectedAskingUsers = new ObservableCollection<Person?>();
+		
 		private SelectableList<Person> _questionWriterLists
 			= new SelectableList<Person>(new List<Person>(), new List<Person>());
 

@@ -185,8 +185,6 @@ namespace UnitTests
         {
             // arrange
             IndividualParticipant.getInstance().ProfileData.RegistrationInfo.registrationStatus = RegistrationStatus.Registered;
-            vm.Question.UpVotesByThisUser = 0;
-            vm.Question.AlreadyUpvoted = false;
             Button button = new Button
             {
                 Command = vm.UpvoteCommand
@@ -196,26 +194,7 @@ namespace UnitTests
             executeAsyncButton(button);
 
             // assert
-            Assert.Equal(1, vm.Question.UpVotesByThisUser);
-        }
-
-        [Fact]
-        public void UndoUpvoteCommandTest()
-        {
-            // arrange
-            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.registrationStatus = RegistrationStatus.Registered;
-            vm.Question.UpVotesByThisUser = 1;
-            vm.Question.AlreadyUpvoted = true;
-            Button button = new Button
-            {
-                Command = vm.UpvoteCommand
-            };
-
-            // act
-            executeAsyncButton(button);
-
-            // assert
-            Assert.Equal(0, vm.Question.UpVotesByThisUser);
+            Assert.True(vm.Question.AlreadyUpvoted);
         }
 
         [Fact]

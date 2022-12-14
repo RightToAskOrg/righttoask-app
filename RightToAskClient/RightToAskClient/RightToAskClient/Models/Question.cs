@@ -23,10 +23,6 @@ namespace RightToAskClient.Models
 
     public class Question : ObservableObject
     {
-        // Note these relate to whether this user up- or down-voted the question, not the global tally.
-        private int _upVotesByThisUser;
-        private int _downVotesByThisUser;
-
         public QuestionDetailsStatus Status { get; set; }
 
         private string _questionText = "";
@@ -36,7 +32,6 @@ namespace RightToAskClient.Models
             set
             {
                 SetProperty(ref _questionText, value);
-                //** QuestionViewModel.Instance.ServerQuestionUpdates.question_text = _questionText;
                 Updates.question_text = _questionText;
             }
         }
@@ -137,22 +132,6 @@ namespace RightToAskClient.Models
             }
         }
 
-        public string QuestionAnswerers =>  
-            Extensions.JoinFilter(", ",
-                string.Join(", ",Filters.SelectedAnsweringMPsNotMine.Select(mp => mp.ShortestName)),
-                string.Join(", ",Filters.SelectedAnsweringMPsMine.Select(mp => mp.ShortestName)),
-                string.Join(", ",Filters.SelectedAuthorities.Select(a => a.ShortestName)));
-
-        // The MPs or committee who are meant to ask the question
-        public string QuestionAskers =>
-            Extensions.JoinFilter(", ",
-                string.Join(", ", Filters.SelectedAskingMPsNotMine.Select(mp => mp.ShortestName)), 
-                string.Join(", ", Filters.SelectedAskingMPsMine.Select(mp => mp.ShortestName)), 
-                string.Join(",", Filters.SelectedCommittees.Select(com => com.ShortestName)));
-            // TODO add:
-            // + String.Join(",",Filters.SelectedAskingUsers.Select(....));
-            
-        
 
         // Whether the person writing the question allows other users to add QuestionAnswerers
         private RTAPermissions _whoShouldAskTheQuestionPermissions;
@@ -181,25 +160,11 @@ namespace RightToAskClient.Models
             //** QuestionViewModel.Instance.ServerQuestionUpdates.hansard_link = _hansardLink;
         }
 
-        public int UpVotesByThisUser
-        {
-            get => _upVotesByThisUser;
-            set => SetProperty(ref _upVotesByThisUser, value);
-        }
-        public int DownVotesByThisUser 
-        {
-            get => _downVotesByThisUser;
-            set
-            {
-                _downVotesByThisUser = value;
-                OnPropertyChanged();
-            }
-        }
         private bool _alreadyUpvoted;
         public bool AlreadyUpvoted 
         {
             get => _alreadyUpvoted;
-            set => SetProperty(ref _alreadyUpvoted, value);
+            private set => SetProperty(ref _alreadyUpvoted, value);
         }
 
         private bool _alreadyReported;
@@ -216,73 +181,22 @@ namespace RightToAskClient.Models
             set => SetProperty(ref _hasAnswer, value);
         }
 
-        // constructor needed for command creation
+        // Explicit empty constructor, for use in the case we're generating our own question.
         public Question()
         {
-            UpvoteCommand = new Command(async () => 
-
-            {
-                // can only upvote questions if you are registered
-                if (IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
-                {
-                    if (!AlreadyUpvoted)
-                    {
-                        UpVotesByThisUser += 1;
-                        AlreadyUpvoted = true;
-                        IndividualParticipant.getInstance().UpvotedQuestionIDs.Add(QuestionId);
-                    }
-                    else
-                    {
-                        UpVotesByThisUser -= 1;
-                        AlreadyUpvoted = false;
-                        IndividualParticipant.getInstance().UpvotedQuestionIDs.Remove(QuestionId);
-                    }
-                }
-                else
-                {
-                    await NavigationUtils.DoRegistrationCheck(
-                        IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
-                        AppResources.NotNowAnswerText);
-                }
-            });
-            QuestionDetailsCommand = new Command(() =>
-            {
-                QuestionViewModel.Instance.Question = this;
-                QuestionViewModel.Instance.IsNewQuestion = false;
-                _ = Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
-            });
-            ShareCommand = new AsyncCommand(async() =>
-            {
-                await Share.RequestAsync(new ShareTextRequest 
-                {
-                    Text = QuestionText,
-                    Title = "Share Text"
-                });
-            });
-            ReportCommand = new Command(() =>
-            {
-                AlreadyReported = !AlreadyReported;
-                if (AlreadyReported)
-                {
-                    IndividualParticipant.getInstance().ReportedQuestionIDs.Add(QuestionId);
-                }
-                else
-                {
-                    IndividualParticipant.getInstance().ReportedQuestionIDs.Remove(QuestionId);
-                }
-            });
+        } 
+        
+        // For questions we read off the server - check whether we've previously up-voted them or
+        // reported them.
+        public Question(in QuestionResponseRecords questionResponses) : base()
+        {
         }
-
-        // commands
-        public Command UpvoteCommand { get; }
-        public Command ReportCommand { get; }
-        public Command QuestionDetailsCommand { get; }
-        public IAsyncCommand ShareCommand { get; }
 
         // Call empty constructor to initialize commands etc.
         // Then convert data downloaded from server into a displayable form.
-        public Question(QuestionReceiveFromServer serverQuestion) : this()
+        public Question(QuestionReceiveFromServer serverQuestion, QuestionResponseRecords questionResponses) 
         {
+            
             // question-defining fields
             QuestionSuggester = serverQuestion.author ?? "";
             QuestionText = serverQuestion.question_text ?? "";
@@ -301,6 +215,10 @@ namespace RightToAskClient.Models
             // question non-defining fields
             Background = serverQuestion.background ?? "";
 
+            // Check whether the user has already responded to this question.
+            AlreadyUpvoted = questionResponses.IsAlreadyUpvoted(QuestionId);
+            AlreadyReported = questionResponses.IsAlreadyReported(QuestionId);
+            
             interpretFilters(serverQuestion);
 
             WhoShouldAnswerTheQuestionPermissions = serverQuestion.who_should_answer_the_question_permissions;
@@ -451,6 +369,16 @@ namespace RightToAskClient.Models
             };
         }
 
+        public void ToggleUpvotedStatus()
+        {
+                AlreadyUpvoted = !AlreadyUpvoted;
+        }
+
+        public void ToggleReportStatus()
+        {
+                AlreadyReported = !AlreadyReported;
+        }
+        
         //validation
         public bool ValidateNewQuestion()
         {

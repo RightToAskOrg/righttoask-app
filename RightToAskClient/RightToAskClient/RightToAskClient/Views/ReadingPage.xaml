@@ -15,10 +15,6 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="{xct:Translate SearchButtonText}" IconImageSource="{helpers:ImageResource RightToAskClient.Images.search_75.png}"
                      Command="{Binding SearchToolbarCommand}"/>
-        <!-- 
-        <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
-                     IconImageSource="{local:ImageResource RightToAskClient.Images.home4.png}"/> -->
-
         <ToolbarItem Text="{xct:Translate InfoPopupButtonText}" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
                      IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}"/>
     </ContentPage.ToolbarItems>
@@ -34,14 +30,11 @@
             <!--Search Frame-->
             <Frame Style="{StaticResource AppThemeGreenFrame}" Margin="0" Padding="0" IsVisible="{Binding ShowSearchFrame}">
                 <StackLayout>
-                    <!--<Label Text="Search" Style="{StaticResource LeftMedium}"/>-->
                     <Grid ColumnDefinitions="*,*,*,auto" MinimumHeightRequest="30">
                         <SearchBar Grid.Column="0" Grid.ColumnSpan="3" Placeholder="{xct:Translate SearchBarPlaceholderText}" Text="{Binding Keyword}"
                            Style="{StaticResource GreenSearchBar}" HorizontalOptions="Start" 
                            SearchCommand="{Binding RefreshCommand}"
                            Margin="0" />
-                        <!--SearchCommand="{Binding DoSearchCommand}"
-                           SearchCommandParameter="{Binding Keyword}"-->
                         <Grid ColumnDefinitions="auto, auto" Grid.Column="3" Padding="0" Margin="0">
                             <Label Grid.Column="0" Style="{StaticResource CenterSmall}" FontSize="Micro" Text="{xct:Translate AdvancedSearchButtonText}" 
                                    Padding="0" Margin="0" VerticalOptions="Center" VerticalTextAlignment="Center" WidthRequest="60" LineBreakMode="WordWrap">
@@ -50,7 +43,6 @@
                                     <TapGestureRecognizer Command="{Binding ShowFiltersCommand}"/>
                                 </Label.GestureRecognizers>
                             </Label>
-                            <!--<Button Grid.Column="0" Style="{StaticResource TransparentSquareButton}" Command="{Binding ShowFiltersCommand}"/>-->
                             <ImageButton Grid.Column="1" Source="{helpers:ImageResource RightToAskClient.Images.filter_sliders_48.png}" 
                                          Command="{Binding ShowFiltersCommand}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
                                          WidthRequest="40" Padding="0" Margin="0" BackgroundColor="{StaticResource ButtonColor}"/>
@@ -81,13 +73,12 @@
                 <RefreshView Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="2" IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
                     <ScrollView VerticalOptions="FillAndExpand">
                         <StackLayout><!--Heading text moved inside of the scrollview to have it scroll off the page-->
-                            <!-- <Label Text="{Binding Heading1}" Style="{StaticResource Header1}" HorizontalTextAlignment="Center"/> -->
-                            <!--Moved to the info popup potentially-->
-                            <!--<Label Text="{xct:Translate ReadingPageHeader1}" Style="{StaticResource Header2}" HorizontalTextAlignment="Center"/>-->
                             <CollectionView x:Name="QuestionList" ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None" 
-                                        SelectedItem="{Binding SelectedQuestion}" VerticalOptions="FillAndExpand">
+                                        SelectedItem="{Binding SelectedQuestion}" VerticalOptions="FillAndExpand">  
+                            <!-- <CollectionView x:Name="QuestionList" ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None" 
+                                        VerticalOptions="FillAndExpand"> -->
                                 <CollectionView.ItemTemplate>
-                                    <DataTemplate x:DataType="models:Question">
+                                    <DataTemplate x:DataType="vm:QuestionDisplayCardViewModel">
                                         <SwipeView VerticalOptions="FillAndExpand" BackgroundColor="Transparent">
                                             <SwipeView.RightItems>
                                                 <SwipeItem Text="Dismiss" IconImageSource="{helpers:ImageResource RightToAskClient.Images.trash_delete_48.png}" 
@@ -95,12 +86,6 @@
                                                        Command="{Binding Path=BindingContext.RemoveQuestionCommand, Source={x:Reference ReadingPageName}}" 
                                                        CommandParameter="{Binding .}"/>
                                             </SwipeView.RightItems>
-                                            <!--<SwipeView.LeftItems>
-                                            <SwipeItem Text="Dismiss" IconImageSource="{local:ImageResource RightToAskClient.Images.trash_delete_48.png}" 
-                                                       BackgroundColor="{StaticResource AlertColor}" 
-                                                       Command="{Binding Path=BindingContext.RemoveQuestionCommand, Source={x:Reference ReadingPageName}}" 
-                                                       CommandParameter="{Binding .}"/>
-                                        </SwipeView.LeftItems>-->
                                             <views:QuestionDisplayCard/>
                                         </SwipeView>
                                     </DataTemplate>
@@ -123,9 +108,6 @@
                 <ImageButton Grid.Row="1" Grid.Column="1" VerticalOptions="End" HorizontalOptions="End" Margin="10" 
                         Source="{helpers:ImageResource RightToAskClient.Images.half_roo.png}" WidthRequest="50" HeightRequest="50" CornerRadius="25" BackgroundColor="{StaticResource FrameColor}" 
                         Command="{Binding DraftCommand}" IsVisible="{Binding ShowQuestionFrame, Converter={StaticResource Key=cnvInvert}}"/>
-                <!--<ImageButton Grid.Row="1" Grid.Column="1" VerticalOptions="End" HorizontalOptions="End" Margin="10" 
-                        Source="{local:ImageResource RightToAskClient.Images.half_roo.png}" WidthRequest="50" HeightRequest="50" CornerRadius="25" BackgroundColor="{StaticResource FrameColor}" 
-                        Command="{Binding DraftCommand}" IsVisible="{Binding ShowQuestionFrame, Converter={StaticResource Key=cnvInvert}}"/>-->
             </Grid>
             <!-- Question Flow Details-->
             <Frame Style="{StaticResource InvertAppThemeFrame}" Margin="0" Padding="10" IsVisible="{Binding ShowQuestionFrame}">

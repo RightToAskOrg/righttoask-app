@@ -6,6 +6,7 @@ using RightToAskClient.Resx;
 using RightToAskClient.Views;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using RightToAskClient.Helpers;
 using RightToAskClient.Views.Popups;
@@ -19,6 +20,7 @@ namespace RightToAskClient.ViewModels
     public class QuestionViewModel : BaseViewModel
     {
         private static QuestionViewModel? _instance;
+        protected QuestionResponseRecords ResponseRecords = new QuestionResponseRecords();
         public static QuestionViewModel Instance => _instance ??= new QuestionViewModel();
 
         private Question _question = new Question();
@@ -44,7 +46,21 @@ namespace RightToAskClient.ViewModels
             }
         }
 
+        // Convenient views of things stored in the Question.
         public List<Answer> QuestionAnswers => Question.Answers;
+
+        public string QuestionAnswerers =>  
+            Extensions.JoinFilter(", ",
+                string.Join(", ",Question.Filters.SelectedAnsweringMPsNotMine.Select(mp => mp.ShortestName)),
+                string.Join(", ",Question.Filters.SelectedAnsweringMPsMine.Select(mp => mp.ShortestName)),
+                string.Join(", ",Question.Filters.SelectedAuthorities.Select(a => a.ShortestName)));
+
+        // The MPs or committee who are meant to ask the question
+        public string QuestionAskers =>
+            Extensions.JoinFilter(", ",
+                string.Join(", ", Question.Filters.SelectedAskingMPsNotMine.Select(mp => mp.ShortestName)), 
+                string.Join(", ", Question.Filters.SelectedAskingMPsMine.Select(mp => mp.ShortestName)), 
+                string.Join(",", Question.Filters.SelectedCommittees.Select(com => com.ShortestName)));
 
         private string? _newHansardLink; 
         public string NewHansardLink 
@@ -180,13 +196,6 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _selectButtonText, value);
         }
 
-        private string _upvoteButtonText = AppResources.UpvoteButtonText;
-        public string UpvoteButtonText
-        {
-            get => _upvoteButtonText;
-            set => SetProperty(ref _upvoteButtonText, value);
-        }
-
         private string _saveButtonText = AppResources.SaveAnswerButtonText;
         public string SaveButtonText
         {
@@ -202,9 +211,10 @@ namespace RightToAskClient.ViewModels
             OnPropertyChanged("MPButtonsEnabled"); // called by the UpdatableParliamentAndMPData class to update this variable in real time
         }
 
+        // Set up empty question
+        // Used when we're generating our own question for upload.
         public QuestionViewModel()
         {
-            // set up empty question
             Question = new Question();
             ReportLabelText = "";
             Question.QuestionSuggester = IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid;
@@ -286,17 +296,16 @@ namespace RightToAskClient.ViewModels
                 IndividualParticipant.getInstance().HasQuestions = true;
                 XamarinPreferences.shared.Set(Constants.HasQuestions, true);
                 
-                if (Question.AlreadyUpvoted)
+                // This toggles the appearance immediately but doesn't record it as an upvoted question
+                // unless we get a successful upload ack from the server.
+                if (!Question.AlreadyUpvoted)
                 {
-                    Question.UpVotesByThisUser--;
-                    Question.AlreadyUpvoted = false;
-                    UpvoteButtonText = AppResources.UpvoteButtonText;
-                }
-                else
-                {
-                    Question.UpVotesByThisUser++;
-                    Question.AlreadyUpvoted = true;
-                    UpvoteButtonText = AppResources.UpvotedButtonText;
+                    Question.ToggleUpvotedStatus();
+                    var upVoteSuccess = await SendUpVoteToServer(true);
+                    if (upVoteSuccess)
+                    {
+                        ResponseRecords.AddUpvotedQuestion(Question.QuestionId);
+                    }
                 }
             });
             SaveQuestionCommand = new Command(() =>
@@ -353,6 +362,19 @@ namespace RightToAskClient.ViewModels
             {
                 await Shell.Current.GoToAsync($"{nameof(MetadataPage)}");
             });
+            ShareCommand = new AsyncCommand(async() =>
+            {
+                await Share.RequestAsync(new ShareTextRequest 
+                {
+                    // FIXME should this be Instance.?
+                    Text = Question.QuestionText,
+                    Title = "Share Text"
+                });
+            });
+            ReportCommand = new Command(() =>
+            {
+                Question.ToggleReportStatus();
+            });
         }
 
         private Command? _findCommitteeCommand;
@@ -387,10 +409,11 @@ namespace RightToAskClient.ViewModels
         public IAsyncCommand OptionACommand { get; }
         public IAsyncCommand OptionBCommand { get; }
         public IAsyncCommand ToMetadataPageCommand { get; }
-        
         public IAsyncCommand ToAnswererPageWithHowAnsweredSelectionCommand { get; }
         public IAsyncCommand ToHowAnsweredOptionPageCommand { get; }
-
+        public IAsyncCommand ShareCommand { get; }
+        public Command ReportCommand { get; }
+        
         public void ClearQuestionDataAddWriter()
         {
             // set defaults
@@ -545,14 +568,48 @@ namespace RightToAskClient.ViewModels
 
         }
 
+        // For uploading an upvote 
+        // This should be called only if the person is already registered.
+        // Returns true if the upload was successful; false otherwise.
+        private async Task<bool> SendUpVoteToServer(bool isUp)
+        {
+            // This is only supposed to be called for registered participants.
+            if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
+            {
+                throw new TriedToUploadWhileNotRegisteredException("Sending up-vote to server.");
+            }
+
+            var voteOnQuestion = new PlainTextVoteOnQuestionCommand()
+            {
+                question_id = Question.QuestionId,
+                up = isUp
+            };
+
+            var httpResponse = await RTAClient.SendPlaintextUpvote(voteOnQuestion,
+                IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid);
+            (bool isValid, string errorMessage, string _) = RTAClient.ValidateHttpResponse(httpResponse, "Vote upload");  
+            if(!isValid) 
+            {
+                var error =  "Error uploading vote: " + errorMessage;
+                ReportLabelText = error;
+                Debug.WriteLine(error);
+                return false;
+            }
+
+            return true;
+        }
+        
         // For uploading a new question
         // This should be called only if the person is already registered.
         // Returns true if the upload was successful; false otherwise.
         private async Task<bool> SendNewQuestionToServer()
         {
             // This isn't supposed to be called for unregistered participants.
-            if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered) return false;
-
+            if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
+            {
+                throw new TriedToUploadWhileNotRegisteredException("Sending up-vote to server.");
+            }
+            
             // TODO use returnedData to record questionID, version, hash
             (bool isValid, string errorMessage, string returnedData) successfulSubmission =
                 await BuildSignAndUploadNewQuestion();
@@ -585,12 +642,6 @@ namespace RightToAskClient.ViewModels
                 MessagingCenter.Send(this, Constants.QuestionSubmittedDeleteDraft);
                 await Application.Current.MainPage.Navigation.PopToRootAsync();
                     
-                /*
-                await Application.Current.MainPage.Navigation.PopToRootAsync().ContinueWith((_) =>
-                {
-                    MessagingCenter.Send(this, Constants.QuestionSubmittedDeleteDraft);
-                });
-                */
             }
             // Otherwise remain on the question publish page with the opportunity to write a new question.
             else 
@@ -604,7 +655,10 @@ namespace RightToAskClient.ViewModels
         private async void SendQuestionEditToServer()
         {
             // This isn't supposed to be called for unregistered participants.
-            if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered) return;
+            if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
+            {
+                throw new TriedToUploadWhileNotRegisteredException("Sending up-vote to server.");
+            }
             
             var successfulSubmission = await BuildSignAndUploadQuestionUpdates();
             
