@@ -76,7 +76,6 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _isRefreshing, value);
         }
 
-        //TODO**: get rid of global filter choices.
         public string Keyword
         {
             get => FilterChoices.SearchKeyword;
@@ -93,7 +92,6 @@ namespace RightToAskClient.ViewModels
         // constructor
         public ReadingPageViewModel()
         {
-            FilterChoices.InitSelectableLists();
             // Retrieve previous responses from Preferences, e.g. to display proper colouration on prior up-votes.
             _thisUsersResponsesToQuestions.Init();
             
@@ -240,14 +238,14 @@ namespace RightToAskClient.ViewModels
         private async void OnSaveButtonClicked()
         {
             // Set up new question in preparation for upload. 
-            // The filters are what the user has chosen through the flow.
+            // The filters are new empty filters. 
             var newQuestion = new Question()
             {
                 QuestionText = DraftQuestion,
                 QuestionSuggester = (IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
                     ? IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid
                     : "",
-                Filters = FilterChoices,
+                Filters = new FilterChoices()
             };
 
             QuestionViewModel.Instance.Question = newQuestion;
