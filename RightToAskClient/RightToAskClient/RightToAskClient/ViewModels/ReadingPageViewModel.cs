@@ -20,6 +20,8 @@ namespace RightToAskClient.ViewModels
 {
     public class ReadingPageViewModel : BaseViewModel
     {
+
+        public FilterChoices FilterChoices = App.GlobalFilterChoices;
         // properties
         private bool _showQuestionFrame = false;
         public bool ShowQuestionFrame
@@ -81,10 +83,10 @@ namespace RightToAskClient.ViewModels
         //TODO**: get rid of global filter choices.
         public string Keyword
         {
-            get => App.GlobalFilterChoices.SearchKeyword;
+            get => FilterChoices.SearchKeyword;
             set
             {
-                App.GlobalFilterChoices.SearchKeyword = value;
+                FilterChoices.SearchKeyword = value;
                 OnPropertyChanged();
             }
         }
@@ -96,7 +98,7 @@ namespace RightToAskClient.ViewModels
         public ReadingPageViewModel()
         {
             // TODO**: can probably just be blank.
-            Keyword = App.GlobalFilterChoices.SearchKeyword;
+            Keyword = FilterChoices.SearchKeyword;
             
             // If we're already searching for something, show the user what.
             ShowSearchFrame = !string.IsNullOrWhiteSpace(Keyword); 
@@ -191,8 +193,8 @@ namespace RightToAskClient.ViewModels
             });
             ShowFiltersCommand = new AsyncCommand(async () =>
             {
-                // TODO**: Call constructor with local Filters; push.
-                await Shell.Current.GoToAsync(nameof(AdvancedSearchFiltersPage));
+                var advancedSearchFiltersPage = new AdvancedSearchFiltersPage(FilterChoices);
+                await Application.Current.MainPage.Navigation.PushAsync(advancedSearchFiltersPage);
             });
             RemoveQuestionCommand = new Command<Question>(questionToRemove =>
             {
@@ -214,7 +216,7 @@ namespace RightToAskClient.ViewModels
             MessagingCenter.Subscribe<SelectableListViewModel>(this,"ReadQuestionsWithASingleQuestionWriter", (sender) =>
             {
                 // TODO: this can probably be done better by sending the FilterChoices to the Adv search page.
-                var questionWriter = App.GlobalFilterChoices.QuestionWriterLists.SelectedEntities.FirstOrDefault();
+                var questionWriter = FilterChoices.QuestionWriterLists.SelectedEntities.FirstOrDefault();
                 if (questionWriter is null)
                 {
                     Debug.WriteLine("Error: ReadingPage for single question writer but no selection.");
@@ -256,7 +258,7 @@ namespace RightToAskClient.ViewModels
                     : "",
                 // TODO**: Should be new FilterChoices, then all subsequent pages should ref the Question's filters rather
                 // than the global ones.
-                Filters = App.GlobalFilterChoices,
+                Filters = FilterChoices,
                 DownVotesByThisUser = 0,
                 UpVotesByThisUser = 0
             };
@@ -375,7 +377,7 @@ namespace RightToAskClient.ViewModels
         private async Task<JOSResult<List<string>>> GetAppropriateQuestionList()
         {
             // TODO**: use the one stored in this class.
-            var filters = App.GlobalFilterChoices;
+            var filters = FilterChoices;
             
             // If we're looking for all the questions written by a given user, request them.
             // TODO** maybe put readByQuestionWriter into FilterChoices?

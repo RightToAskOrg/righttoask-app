@@ -1,4 +1,5 @@
-﻿using RightToAskClient.ViewModels;
+﻿using RightToAskClient.Models;
+using RightToAskClient.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -7,13 +8,15 @@ namespace RightToAskClient.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AdvancedSearchFiltersPage : ContentPage
     {
-        public AdvancedSearchFiltersPage()
+        public AdvancedSearchFiltersPage() : this (new FilterChoices())
+        {
+        }
+
+        public AdvancedSearchFiltersPage(FilterChoices FilterChoice)
         {
             InitializeComponent();
-            // TODO: because it should be shared?
             BindingContext = FilterViewModel.Instance;
-            // TODO: pass it through constructor
-            FilterViewModel.Instance.FilterChoices = App.GlobalFilterChoices;
+            FilterViewModel.Instance.FilterChoices = FilterChoice;
         }
     }
 }

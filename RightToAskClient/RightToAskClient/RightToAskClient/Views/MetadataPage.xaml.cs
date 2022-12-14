@@ -1,4 +1,5 @@
-﻿using RightToAskClient.ViewModels;
+﻿using RightToAskClient.Models;
+using RightToAskClient.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -7,13 +8,12 @@ namespace RightToAskClient.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MetadataPage : ContentPage
     {
+
         public MetadataPage()
         {
             InitializeComponent();
-            // TODO: because it should be shared?
+            // if(filterChoices)
             BindingContext = FilterViewModel.Instance;
-            // TODO: pass it through constructor
-            FilterViewModel.Instance.FilterChoices = App.GlobalFilterChoices;
 
             // Hide the clickable lists that are invisible.
             hideEmpties(myMPsToAnswer);
