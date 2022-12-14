@@ -92,9 +92,18 @@ namespace RightToAskClient.ViewModels
             }
         }
 
+        public FilterViewModel(FilterChoices filterChoice) : this()
+        {
+            FilterChoices = filterChoice;
+        }
         public FilterViewModel()
         {
+            // TODO: Re-initialising at this point has the effect of restarting the 
+            // search every time the user accesses and then leaves the Advanced Search 
+            // Page. Consider whether this is the desired behaviour or whether the 
+            // previous search state should be saved.
             FilterChoices.InitSelectableLists();
+            
             PopupLabelText = AppResources.FiltersPopupText;
             MessagingCenter.Subscribe<QuestionViewModel>(this, "UpdateFilters", (sender) =>
             {
@@ -254,8 +263,6 @@ namespace RightToAskClient.ViewModels
                 await Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
             });
         }
-
-
 
         // commands
         public Command AnsweringMPsMineFilterCommand { get; }
