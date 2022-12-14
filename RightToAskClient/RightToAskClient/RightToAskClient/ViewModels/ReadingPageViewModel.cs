@@ -20,7 +20,7 @@ namespace RightToAskClient.ViewModels
 {
     public class ReadingPageViewModel : BaseViewModel
     {
-        public FilterChoices FilterChoices = App.GlobalFilterChoices;
+        public FilterChoices FilterChoices = new FilterChoices();
      
         // This is static because we want every instance of ReadingPageViewModel to have the same one:
         // if you up-vote a question in one version of the ReadingView, we need the other ReadingPages to
@@ -93,6 +93,7 @@ namespace RightToAskClient.ViewModels
         // constructor
         public ReadingPageViewModel()
         {
+            FilterChoices.InitSelectableLists();
             // Retrieve previous responses from Preferences, e.g. to display proper colouration on prior up-votes.
             _thisUsersResponsesToQuestions.Init();
             

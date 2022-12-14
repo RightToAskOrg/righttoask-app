@@ -22,7 +22,6 @@ namespace RightToAskClient
     {
         // The selections of MPs, authorities, and various other options that is gradually
         // built as we step through the question-writing process.
-        public static FilterChoices GlobalFilterChoices = new FilterChoices();
         public App()
         {
             LocalizationResourceManager.Current.PropertyChanged += (temp, temp2) => AppResources.Culture = LocalizationResourceManager.Current.CurrentCulture;
@@ -48,9 +47,6 @@ namespace RightToAskClient
             var MPInitSuccess = await ParliamentData.MPAndOtherData.TryInit();
             var CommitteeInitSuccess = await CommitteesAndHearingsData.CommitteesData.TryInitialisingFromServer();
             var signingKeyRetrieved = await ClientSignatureGenerationService.Init();
-            
-            // Order is important here: the Filters need to be (re-)initialised after we've read MP and Committee data.
-		    GlobalFilterChoices.InitSelectableLists();
             
             IndividualParticipant.getInstance().Init();
             
