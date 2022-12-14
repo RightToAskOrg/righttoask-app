@@ -315,8 +315,7 @@ namespace RightToAskClient.ViewModels
 					break;
 				
 				case NextPageInstructions.AdvancedSearchPage:
-					var advancedSearchFiltersPage = new AdvancedSearchFiltersPage(App.GlobalFilterChoices);
-					await Application.Current.MainPage.Navigation.PushAsync(advancedSearchFiltersPage);
+					await Shell.Current.Navigation.PopAsync();
 					break;
 				
 				case NextPageInstructions.ReadingPage:
