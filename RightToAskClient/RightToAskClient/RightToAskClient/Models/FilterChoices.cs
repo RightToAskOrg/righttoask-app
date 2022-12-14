@@ -111,6 +111,13 @@ namespace RightToAskClient.Models
 				{
 					UpdateMyMPLists();
 				});
+			MessagingCenter.Subscribe<object> (
+				this, 
+				"InitSelectableLists", 
+				(sender) =>
+				{
+					InitSelectableLists();
+				});
 		}
 		public event PropertyChangedEventHandler? PropertyChanged;
         
@@ -150,6 +157,11 @@ namespace RightToAskClient.Models
         static public void NeedToUpdateMyMpLists(object sender)
         {
 	        MessagingCenter.Send<object>(sender, "NeedToUpdateMyMpLists");
+        }
+
+        static public void NeedToInitSelectableLists(object sender)
+        {
+	        MessagingCenter.Send<object>(sender, "InitSelectableLists");
         }
 
         // Update the list of my MPs. Note that it's a tiny bit unclear whether we should remove

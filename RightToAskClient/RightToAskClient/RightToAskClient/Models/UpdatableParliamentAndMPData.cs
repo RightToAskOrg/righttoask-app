@@ -111,6 +111,7 @@ namespace RightToAskClient.Models
 				}
 			}
 			Debug.WriteLine(ErrorMessage);
+			FilterChoices.NeedToInitSelectableLists(this);
 			
 			return IsInitialised;
 		}
