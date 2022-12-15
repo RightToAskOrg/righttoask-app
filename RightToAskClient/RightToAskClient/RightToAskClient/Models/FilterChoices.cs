@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Xamarin.Forms;
 
 namespace RightToAskClient.Models
 {
@@ -94,16 +95,40 @@ namespace RightToAskClient.Models
 		}
 
 
-		/* We have one instance of FilterChoices in the (static) reading context,
-		 * for which init must be redone explicitly after details such as MPs, Committees
-		 * etc are read. The other instances are related to specific questions as they are
+		/* Sometimes, FilterChoices may be initialised before the other complete lists are.
+		 * This is most likely to happen for MyMPs, but may also happen for Committees or AllMPs,
+		 * if server communication is slower than app load. In these cases, we need to re-initialise
+		 * after getting a message from the respective server-communicating data structures.
+		 * The other instances are related to specific questions as they are
 		 * downloaded - in these cases, the Init in the constructor is all that's needed
-		 * because the other information is already set up.
+		 * because the other information is (almost certainly) already set up.
 		 */
 		public FilterChoices()
 		{
 			InitSelectableLists();
+			MessagingCenter.Subscribe<object> (
+				this, 
+				Constants.NeedToUpdateMyMpLists, 
+				(sender) =>
+				{
+					UpdateMyMPLists();
+				});
+			MessagingCenter.Subscribe<object> (
+				this, 
+				Constants.InitAllMPsLists, 
+				(sender) =>
+				{
+					UpdateAllMPsLists();
+				});
+			MessagingCenter.Subscribe<object> (
+				this, 
+				Constants.InitCommitteeLists, 
+				(sender) =>
+				{
+					UpdateAllCommitteesLists();
+				});
 		}
+
 		public event PropertyChangedEventHandler? PropertyChanged;
         
         public void OnPropertyChanged([CallerMemberName] string propertyName = "")
@@ -117,7 +142,7 @@ namespace RightToAskClient.Models
         // This is necessary on startup because of the need to update the AllMPs list.
         // It's still helpful for them to use the constructor because if this data structure
         // is initialized after the MP read-in, the constructor should suffice.
-        public void InitSelectableLists()
+        private void InitSelectableLists()
         {
 	        // Note: No init for question writers, because it needs to be initialised when the user searches for names.
 	        AnsweringMPsListsNotMine = new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
@@ -125,6 +150,7 @@ namespace RightToAskClient.Models
 	        AuthorityLists = new SelectableList<Authority>(ParliamentData.AllAuthorities, new List<Authority>());
 	        CommitteeLists =
 		        new SelectableList<Committee>(CommitteesAndHearingsData.AllCommittees, new List<Committee>());
+	        UpdateMyMPLists();
         }
 
         public void RemoveAllSelections()
@@ -139,15 +165,46 @@ namespace RightToAskClient.Models
 	        SearchKeyword = "";
         }
 
-        // Update the list of my MPs. Note that it's a tiny bit unclear whether we should remove
+        static public void NeedToUpdateMyMpLists(object sender)
+        {
+	        MessagingCenter.Send<object>(sender, Constants.NeedToUpdateMyMpLists);
+        }
+
+        static public void NeedToInitAllMPsLists(object sender)
+        {
+	        MessagingCenter.Send<object>(sender, Constants.InitAllMPsLists);
+        }
+        static public void NeedToInitCommitteeLists(object sender)
+        {
+	        MessagingCenter.Send<object>(sender, Constants.InitCommitteeLists);
+        }
+
+        // Update the list of my MPs. Called when the user changes their electorates (including choosing some
+        // for the first time).
+        // Note that it's a tiny bit unclear whether we should remove
         // any selected MPs who are (now) not yours. At the moment, I have simply left it as it is,
         // which means that if a person starts drafting a question, then changes their electorate details,
         // it's still possible for the question to go to 'my MP' when that person is their previous MP.
-        public void UpdateMyMPLists()
+        private void UpdateMyMPLists()
         {
 	        AnsweringMPsListsMine.AllEntities = ParliamentData.FindAllMPsGivenElectorates(IndividualParticipant.getInstance().ProfileData.RegistrationInfo.Electorates.ToList());
 	        AskingMPsListsMine.AllEntities = AnsweringMPsListsMine.AllEntities;
         }
+        
+        // Called during initialization phase that reads all MP lists from server. The ...MPsListsMine will be non-empty if
+        // We already have stored electorates for this person. 
+		private void UpdateAllMPsLists()
+		{
+	        AnsweringMPsListsNotMine = new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
+	        AskingMPsListsNotMine =  new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
+		}
+
+		private void UpdateAllCommitteesLists()
+		{
+	        CommitteeLists =
+		        new SelectableList<Committee>(CommitteesAndHearingsData.AllCommittees, new List<Committee>());
+		}
+
 
         public bool Validate()
         {

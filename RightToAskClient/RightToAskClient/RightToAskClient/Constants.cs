@@ -41,6 +41,10 @@ namespace RightToAskClient
         public static string GoToAskingPageNext = "GoToAskingPageNext";
         public static string GoBackToAdvancedSearchPage = "GoBackToAdvancedSearchPage";
         public static string QuestionSubmittedDeleteDraft = "QuestionSubmittedDeleteDraft";
+        public static string InitCommitteeLists = "InitCommitteeLists";
+        public static string InitAllMPsLists = "InitAllMPsLists";
+        public static string NeedToUpdateMyMpLists= "NeedToUpdateMyMpLists";
+        
 
     }
 }

@@ -30,6 +30,8 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _question, value);
         }
 
+        // private FilterChoices _filterChoices = new FilterChoices();
+
         private string _newAnswer = "";
         public string NewAnswer
         {
@@ -209,6 +211,7 @@ namespace RightToAskClient.ViewModels
             OnPropertyChanged("MPButtonsEnabled"); // called by the UpdatableParliamentAndMPData class to update this variable in real time
         }
 
+        // constructor
         // Set up empty question
         // Used when we're generating our own question for upload.
         public QuestionViewModel()
@@ -243,7 +246,7 @@ namespace RightToAskClient.ViewModels
                 // Question.AnswerInApp = false;
                 // AnswerInApp = false;
                 var pageToSearchAuthorities
-                    = new SelectableListPage(App.GlobalFilterChoices.AuthorityLists, "Choose authorities");
+                    = new SelectableListPage(Instance.Question.Filters.AuthorityLists, "Choose authorities");
                 await Shell.Current.Navigation.PushAsync(pageToSearchAuthorities).ContinueWith((_) => 
                 {
                     MessagingCenter.Send(this, Constants.GoToAskingPageNext); // Sends this view model
@@ -257,7 +260,9 @@ namespace RightToAskClient.ViewModels
             {
                 // Question.AnswerInApp = true;
                 // AnswerInApp = true;
-                await NavigationUtils.PushMyAnsweringMPsExploringPage(IndividualParticipant.getInstance().ProfileData.RegistrationInfo.ElectoratesKnown).ContinueWith((_) =>
+                await NavigationUtils.PushMyAnsweringMPsExploringPage(
+                    IndividualParticipant.getInstance().ProfileData.RegistrationInfo.ElectoratesKnown,
+                    Instance.Question.Filters.AnsweringMPsListsMine).ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, _howAnswered == HowAnsweredOptions.InApp ?
                         Constants.GoToMetadataPageNext : Constants.GoToAskingPageNext); // Sends this view model
@@ -267,7 +272,8 @@ namespace RightToAskClient.ViewModels
             {
                 // Question.AnswerInApp = false;
                 // AnswerInApp = false;
-                await NavigationUtils.PushAnsweringMPsNotMineSelectableListPage().ContinueWith((_) =>
+                await NavigationUtils.PushAnsweringMPsNotMineSelectableListPage(
+                    Instance.Question.Filters.AnsweringMPsListsNotMine).ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, _howAnswered == HowAnsweredOptions.InApp ?
                         Constants.GoToMetadataPageNext : Constants.GoToAskingPageNext); // Sends this view model
@@ -438,7 +444,7 @@ namespace RightToAskClient.ViewModels
             if (CommitteesAndHearingsData.CommitteesData.IsInitialised)
             {
                 // RaisedByOptionSelected = true;
-                await NavigationUtils.EditCommitteesClicked().ContinueWith((_) =>
+                await NavigationUtils.EditCommitteesClicked(Instance.Question.Filters.CommitteeLists).ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, Constants.GoToMetadataPageNext); // Sends this view model
                 });
@@ -452,7 +458,9 @@ namespace RightToAskClient.ViewModels
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
                 // RaisedByOptionSelected = true;
-                await NavigationUtils.PushMyAskingMPsExploringPage(IndividualParticipant.getInstance().ProfileData.RegistrationInfo.ElectoratesKnown).ContinueWith((_) =>
+                await NavigationUtils.PushMyAskingMPsExploringPage(
+                    IndividualParticipant.getInstance().ProfileData.RegistrationInfo.ElectoratesKnown,
+                    Instance.Question.Filters.AskingMPsListsMine).ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, Constants.GoToMetadataPageNext); // Sends this view model
                 });
@@ -489,7 +497,7 @@ namespace RightToAskClient.ViewModels
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
             {
-                await NavigationUtils.PushAskingMPsNotMineSelectableListPageAsync().ContinueWith((_) =>
+                await NavigationUtils.PushAskingMPsNotMineSelectableListPageAsync(Instance.Question.Filters.AskingMPsListsNotMine).ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, Constants.GoToMetadataPageNext); // Sends this view model
                 });
@@ -631,7 +639,7 @@ namespace RightToAskClient.ViewModels
             _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
             if (GoHome)
             {
-                App.GlobalFilterChoices.RemoveAllSelections();
+                Instance.Question.Filters.RemoveAllSelections();
                 MessagingCenter.Send(this, Constants.QuestionSubmittedDeleteDraft);
                 await Application.Current.MainPage.Navigation.PopToRootAsync();
                     

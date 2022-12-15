@@ -17,23 +17,23 @@ namespace RightToAskClient.Helpers
 {
     public static class NavigationUtils
     {
-        public static async Task PushMyAnsweringMPsExploringPage(bool electoratesKnown)
+        public static async Task PushMyAnsweringMPsExploringPage(bool electoratesKnown, SelectableList<MP> answeringMPsListsMine)
         {
             var message = "These are your MPs.  Select the one(s) who should answer the question";
 
             //TODO** Seems unnecessary if our MPs are not initialized. 
             // Below, don't make the pages that are never used. The code is (somewhat redundant but)
             // correct but names are confusing.
-            var mpsSelectableListPage = new SelectableListPage(App.GlobalFilterChoices.AnsweringMPsListsMine, message);
+            var mpsSelectableListPage = new SelectableListPage(answeringMPsListsMine, message);
             var nextPage = ListMPsFindFirstIfNotAlreadyKnown(mpsSelectableListPage, electoratesKnown);
             await Application.Current.MainPage.Navigation.PushAsync(nextPage);
         }
 
-        public static async Task PushMyAskingMPsExploringPage(bool electoratesKnown)
+        public static async Task PushMyAskingMPsExploringPage(bool electoratesKnown, SelectableList<MP> askingMPsListsMine)
         {
             var message = "These are your MPs.  Select the one(s) who should raise the question in Parliament";
 
-            var mpsSelectableListPage = new SelectableListPage(App.GlobalFilterChoices.AskingMPsListsMine, message);
+            var mpsSelectableListPage = new SelectableListPage(askingMPsListsMine, message);
             await LaunchMPFindingAndSelectingPages(mpsSelectableListPage, electoratesKnown);
         }
 
@@ -61,26 +61,26 @@ namespace RightToAskClient.Helpers
             }
         }
 
-        public static async Task PushAnsweringMPsNotMineSelectableListPage()
+        public static async Task PushAnsweringMPsNotMineSelectableListPage(SelectableList<MP> answeringMPsListsNotMine)
         {
             var message = AppResources.SelectMPToAnswerText;
             var mpsPage =
-                new SelectableListPage(App.GlobalFilterChoices.AnsweringMPsListsNotMine, message);
+                new SelectableListPage(answeringMPsListsNotMine, message);
             await Application.Current.MainPage.Navigation.PushAsync(mpsPage);
         }
 
-        public static async Task PushAskingMPsNotMineSelectableListPageAsync()
+        public static async Task PushAskingMPsNotMineSelectableListPageAsync(SelectableList<MP> askingMPsListsNotMine)
         {
             var message = AppResources.SelectMPToRaiseText; 
             var mpsPage =
-                new SelectableListPage(App.GlobalFilterChoices.AskingMPsListsNotMine, message);
+                new SelectableListPage(askingMPsListsNotMine, message);
             await Application.Current.MainPage.Navigation.PushAsync(mpsPage);
         }
         
-        public static async Task EditCommitteesClicked()
+        public static async Task EditCommitteesClicked(SelectableList<Committee> committeeLists)
         {
             var committeeSelectableListPage
-                = new SelectableListPage(App.GlobalFilterChoices.CommitteeLists, AppResources.CommitteeText);
+                = new SelectableListPage(committeeLists, AppResources.CommitteeText);
             await Application.Current.MainPage.Navigation.PushAsync(committeeSelectableListPage);
         }
         

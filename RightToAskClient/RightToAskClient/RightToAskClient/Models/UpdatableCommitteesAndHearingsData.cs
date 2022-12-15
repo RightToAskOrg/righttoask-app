@@ -32,6 +32,7 @@ namespace RightToAskClient.Models
                 IsInitialised = true;
                 Committees = serverCommitteeList.Data.Select(com => new Committee(com)).ToList();
 				// App.ReadingContext.Filters.InitSelectableLists();
+				FilterChoices.NeedToInitCommitteeLists(this);
                 return new SuccessResult();
             }
 

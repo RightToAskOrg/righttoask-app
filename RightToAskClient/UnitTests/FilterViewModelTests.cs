@@ -23,7 +23,7 @@ namespace UnitTests
             // Filter must be empty 
             FilterChoices filters = new FilterChoices();
             filters.SearchKeyword = "changed Keyword";
-            App.GlobalFilterChoices.SearchKeyword = filters.SearchKeyword;
+            vm.FilterChoices = filters;
 
             // act
             vm.ReinitData(); // this should set vm.Keyword

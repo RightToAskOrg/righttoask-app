@@ -20,6 +20,8 @@ namespace RightToAskClient.ViewModels
 {
     public class ReadingPageViewModel : BaseViewModel
     {
+        public FilterChoices FilterChoices = new FilterChoices();
+     
         // This is static because we want every instance of ReadingPageViewModel to have the same one:
         // if you up-vote a question in one version of the ReadingView, we need the other ReadingPages to
         // see the same change.
@@ -76,10 +78,10 @@ namespace RightToAskClient.ViewModels
 
         public string Keyword
         {
-            get => App.GlobalFilterChoices.SearchKeyword;
+            get => FilterChoices.SearchKeyword;
             set
             {
-                App.GlobalFilterChoices.SearchKeyword = value;
+                FilterChoices.SearchKeyword = value;
                 OnPropertyChanged();
             }
         }
@@ -93,7 +95,7 @@ namespace RightToAskClient.ViewModels
             // Retrieve previous responses from Preferences, e.g. to display proper colouration on prior up-votes.
             _thisUsersResponsesToQuestions.Init();
             
-            Keyword = App.GlobalFilterChoices.SearchKeyword;
+            Keyword = FilterChoices.SearchKeyword;
             
             // If we're already searching for something, show the user what.
             ShowSearchFrame = !string.IsNullOrWhiteSpace(Keyword); 
@@ -180,7 +182,8 @@ namespace RightToAskClient.ViewModels
             });
             ShowFiltersCommand = new AsyncCommand(async () =>
             {
-                await Shell.Current.GoToAsync(nameof(AdvancedSearchFiltersPage));
+                var advancedSearchFiltersPage = new AdvancedSearchFiltersPage(FilterChoices);
+                await Application.Current.MainPage.Navigation.PushAsync(advancedSearchFiltersPage);
             });
             RemoveQuestionCommand = new Command<QuestionDisplayCardViewModel>(questionToRemove =>
             {
@@ -201,7 +204,8 @@ namespace RightToAskClient.ViewModels
             });
             MessagingCenter.Subscribe<SelectableListViewModel>(this,"ReadQuestionsWithASingleQuestionWriter", (sender) =>
             {
-                var questionWriter = App.GlobalFilterChoices.QuestionWriterLists.SelectedEntities.FirstOrDefault();
+                // TODO: this can probably be done better by sending the FilterChoices to the Adv search page.
+                var questionWriter = FilterChoices.QuestionWriterLists.SelectedEntities.FirstOrDefault();
                 if (questionWriter is null)
                 {
                     Debug.WriteLine("Error: ReadingPage for single question writer but no selection.");
@@ -234,14 +238,14 @@ namespace RightToAskClient.ViewModels
         private async void OnSaveButtonClicked()
         {
             // Set up new question in preparation for upload. 
-            // The filters are what the user has chosen through the flow.
+            // The filters are new empty filters. 
             var newQuestion = new Question()
             {
                 QuestionText = DraftQuestion,
                 QuestionSuggester = (IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
                     ? IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid
                     : "",
-                Filters = App.GlobalFilterChoices,
+                Filters = new FilterChoices()
             };
 
             QuestionViewModel.Instance.Question = newQuestion;
@@ -329,9 +333,11 @@ namespace RightToAskClient.ViewModels
         // given user.
         private async Task<JOSResult<List<string>>> GetAppropriateQuestionList()
         {
-            var filters = App.GlobalFilterChoices;
+            // TODO**: use the one stored in this class.
+            var filters = FilterChoices;
             
             // If we're looking for all the questions written by a given user, request them.
+            // TODO** maybe put readByQuestionWriter into FilterChoices?
             if (_readByQuestionWriter && !string.IsNullOrWhiteSpace(_writerOnlyUid))
             {
                 var questionIDs = await RTAClient.GetQuestionsByWriterId(_writerOnlyUid);
