@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+             xmlns:local="clr-namespace:RightToAskClient"
+             xmlns:models="clr-namespace:RightToAskClient.Models"
+             xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
+             xmlns:viewModels="clr-namespace:RightToAskClient.ViewModels;assembly=RightToAskClient"
+             x:Class="RightToAskClient.Views.AskQuestionPreviewCard"
+             x:DataType="viewModels:QuestionDisplayCardViewModel">
+  <ContentView.Content>
+        <Frame Style="{StaticResource AppThemeFrame}" Padding="5" VerticalOptions="FillAndExpand">
+            <Grid RowDefinitions="auto,auto,auto" ColumnDefinitions="2*,*,*" Padding="0" Margin="0" BackgroundColor="Transparent" RowSpacing="0" ColumnSpacing="0">
+                <Grid ColumnDefinitions="*,auto" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
+                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding QuestionAnswerers, StringFormat='To: {0}'}" Style="{StaticResource QuestionFrameCardText}" 
+                           FontAttributes="Bold"/>
+                </Grid>                
+                <Label Text="{Binding Question.QuestionText}" Style="{StaticResource QuestionFrameCardText}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"/>
+                <Button Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="3" Style="{StaticResource TransparentSquareButton}"
+                        Command="{Binding QuestionDetailsCommand}" BackgroundColor="Transparent"/>
+            </Grid>
+        </Frame>
+    </ContentView.Content>
+</ContentView>

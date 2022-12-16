@@ -23,15 +23,7 @@
                             SelectedItem="{Binding SelectedQuestion}" VerticalOptions="FillAndExpand">
                 <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="vm:QuestionDisplayCardViewModel">
-                    <SwipeView VerticalOptions="FillAndExpand" BackgroundColor="Transparent">
-                        <SwipeView.RightItems>
-                            <SwipeItem Text="Dismiss" IconImageSource="{helpers:ImageResource RightToAskClient.Images.trash_delete_48.png}" 
-                                       BackgroundColor="{StaticResource AlertColor}"
-                                       Command="{Binding Path=BindingContext.RemoveQuestionCommand, Source={x:Reference AskQuestionPageName}}" 
-                                       CommandParameter="{Binding .}"/>
-                        </SwipeView.RightItems>
-                        <views:QuestionDisplayCard/>
-                    </SwipeView>
+                    <views:AskQuestionPreviewCard/>
                 </DataTemplate>
                 </CollectionView.ItemTemplate>
                 <CollectionView.EmptyView>
