@@ -12,5 +12,11 @@ namespace RightToAskClient.Views
         {
             InitializeComponent();
         }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            KeywordEntry.Focus();
+        }
     }
 }

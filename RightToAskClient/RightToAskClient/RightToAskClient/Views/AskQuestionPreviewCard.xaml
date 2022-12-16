@@ -16,8 +16,6 @@
                            FontAttributes="Bold"/>
                 </Grid>                
                 <Label Text="{Binding Question.QuestionText}" Style="{StaticResource QuestionFrameCardText}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"/>
-                <Button Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="3" Style="{StaticResource TransparentSquareButton}"
-                        Command="{Binding QuestionDetailsCommand}" BackgroundColor="Transparent"/>
             </Grid>
         </Frame>
     </ContentView.Content>

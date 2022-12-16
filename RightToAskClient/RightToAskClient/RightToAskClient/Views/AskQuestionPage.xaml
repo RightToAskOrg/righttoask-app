@@ -19,7 +19,8 @@
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout>
-            <CollectionView x:Name="QuestionList" ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None"
+            <CollectionView x:Name="QuestionList"
+                            ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None"
                             SelectedItem="{Binding SelectedQuestion}" VerticalOptions="FillAndExpand">
                 <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="vm:QuestionDisplayCardViewModel">
@@ -39,8 +40,11 @@
                     </DataTemplate>
                 </CollectionView.EmptyViewTemplate>
             </CollectionView>
-            <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}" VerticalOptions="EndAndExpand"
-                    MaxLength="280" Style="{StaticResource NormalEditor}" />
+            <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}" 
+                    VerticalOptions="EndAndExpand"
+                    MaxLength="280" 
+                    Style="{StaticResource NormalEditor}" 
+                    x:Name="KeywordEntry"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
