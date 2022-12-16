@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RightToAskClient.Views.AskQuestionPage"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
+             xmlns:local="clr-namespace:RightToAskClient"
+             xmlns:views="clr-namespace:RightToAskClient.Views;assembly=RightToAskClient"
+             xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
+             Title="Ask Question">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding BackCommand}"
+                            IconOverride="back.png" />
+    </Shell.BackButtonBehavior>
+    <ContentPage.BindingContext>
+        <vm:FilterViewModel/>
+    </ContentPage.BindingContext>
+        <ContentPage.Content>
+        <ScrollView>
+           <StackLayout>
+               <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}"  
+                       HorizontalOptions="FillAndExpand" MaxLength="280" Style="{StaticResource NormalEditor}"/>
+           </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

@@ -25,6 +25,7 @@ namespace RightToAskClient.Views
             Routing.RegisterRoute(nameof(QuestionBackgroundPage), typeof(QuestionBackgroundPage));
             Routing.RegisterRoute(nameof(MetadataPage), typeof(MetadataPage));
             Routing.RegisterRoute(nameof(SelectableListPage), typeof(SelectableListPage));
+            Routing.RegisterRoute(nameof(AskQuestionPage), typeof(AskQuestionPage));
             // Routing.RegisterRoute(nameof(FindMPsPage), typeof(FindMPsPage));
         }
 

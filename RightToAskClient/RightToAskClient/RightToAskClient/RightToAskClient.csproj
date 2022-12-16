@@ -163,6 +163,10 @@
     <Compile Remove="Views\MainPage.xaml.cs" />
     <Compile Remove="ViewModels\MainPageViewModel.cs" />
     <Compile Remove="Views\QuestionDraftingPage.xaml.cs" />
+    <Compile Update="Views\AskQuestionPage.xaml.cs">
+      <DependentUpon>AskQuestionPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Views\SecondPage_old.xaml" />
