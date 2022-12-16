@@ -1,53 +1,54 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RightToAskClient.Views.AskQuestionPage"
+             x:Name="AskQuestionPageName"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              xmlns:local="clr-namespace:RightToAskClient"
              xmlns:views="clr-namespace:RightToAskClient.Views;assembly=RightToAskClient"
              xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
-             Title="Ask Question" x:DataType="vm:ReadingPageViewModel">
+             Title="Ask Question" x:DataType="vm:AskQuestionViewModel">
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding BackCommand}"
                             IconOverride="back.png" />
     </Shell.BackButtonBehavior>
     <ContentPage.BindingContext>
-        <vm:FilterViewModel/>
+        <vm:AskQuestionViewModel />
     </ContentPage.BindingContext>
-        <ContentPage.Content>
-           <StackLayout>
-                <CollectionView x:Name="QuestionList" ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None" 
-                                        SelectedItem="{Binding SelectedQuestion}" VerticalOptions="FillAndExpand">  
-                            <!-- <CollectionView x:Name="QuestionList" ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None" 
-                                        VerticalOptions="FillAndExpand"> -->
-                                <CollectionView.ItemTemplate>
-                                    <DataTemplate x:DataType="vm:QuestionDisplayCardViewModel">
-                                        <SwipeView VerticalOptions="FillAndExpand" BackgroundColor="Transparent">
-                                            <SwipeView.RightItems>
-                                                <SwipeItem Text="Dismiss" IconImageSource="{helpers:ImageResource RightToAskClient.Images.trash_delete_48.png}" 
-                                                       BackgroundColor="{StaticResource AlertColor}"
-                                                       Command="{Binding Path=BindingContext.RemoveQuestionCommand, Source={x:Reference ReadingPageName}}" 
-                                                       CommandParameter="{Binding .}"/>
-                                            </SwipeView.RightItems>
-                                            <views:QuestionDisplayCard/>
-                                        </SwipeView>
-                                    </DataTemplate>
-                                </CollectionView.ItemTemplate>
-                                <CollectionView.EmptyView>
-                                    <views:EmptyCollectionView/>
-                                </CollectionView.EmptyView>
-                                <CollectionView.EmptyViewTemplate>
-                                    <DataTemplate>
-                                        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                                            <Label Text="{xct:Translate EmptyMatchingQuestionCollectionViewString}" Style="{StaticResource HeaderButtonText}" 
-                                                   VerticalOptions="Start" Margin="0,100,0,0"/>
-                                        </StackLayout>
-                                    </DataTemplate>
-                                </CollectionView.EmptyViewTemplate>
-                            </CollectionView>
-               <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}" VerticalOptions="EndAndExpand"
-                       MaxLength="280" Style="{StaticResource NormalEditor}"/>
-           </StackLayout>
+    <ContentPage.Content>
+        <StackLayout>
+            <CollectionView x:Name="QuestionList" ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None"
+                            SelectedItem="{Binding SelectedQuestion}" VerticalOptions="FillAndExpand">
+                <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="vm:QuestionDisplayCardViewModel">
+                    <SwipeView VerticalOptions="FillAndExpand" BackgroundColor="Transparent">
+                        <SwipeView.RightItems>
+                            <SwipeItem Text="Dismiss" IconImageSource="{helpers:ImageResource RightToAskClient.Images.trash_delete_48.png}" 
+                                       BackgroundColor="{StaticResource AlertColor}"
+                                       Command="{Binding Path=BindingContext.RemoveQuestionCommand, Source={x:Reference AskQuestionPageName}}" 
+                                       CommandParameter="{Binding .}"/>
+                        </SwipeView.RightItems>
+                        <views:QuestionDisplayCard/>
+                    </SwipeView>
+                </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.EmptyView>
+                    <views:EmptyCollectionView />
+                </CollectionView.EmptyView>
+                <CollectionView.EmptyViewTemplate>
+                    <DataTemplate>
+                        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                            <Label Text="{xct:Translate EmptyMatchingQuestionCollectionViewString}"
+                                   Style="{StaticResource HeaderButtonText}"
+                                   VerticalOptions="Start" Margin="0,100,0,0" />
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.EmptyViewTemplate>
+            </CollectionView>
+            <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}" VerticalOptions="EndAndExpand"
+                    MaxLength="280" Style="{StaticResource NormalEditor}" />
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>
