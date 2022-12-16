@@ -44,18 +44,18 @@
                 Lighter: #c7bb9d     -->
             
             <!-- These are all meant to be the same dark green -->
-            <Color x:Key="Primary">#36642f</Color>
-            <Color x:Key="HeadingTextColor">#36642f</Color>
-            <Color x:Key="FrameOutlineColor">#36642f</Color>
-            <Color x:Key="DarkButtonColor">#36642f</Color>
+            <Color x:Key="Primary">#6E7C46</Color>
+            <Color x:Key="HeadingTextColor">#6E7C46</Color>
+            <Color x:Key="FrameOutlineColor">#6E7C46</Color>
+            <Color x:Key="DarkButtonColor">#6E7C46</Color>
             
             <!-- These are all the same mid green -->
-            <Color x:Key="ButtonColor">#649b49</Color>
-            <Color x:Key="HeadingTextColorDark">#649b49</Color>
+            <Color x:Key="ButtonColor">#6E7C46</Color>
+            <Color x:Key="HeadingTextColorDark">#6E7C46</Color>
             
             <!-- These are all the same light green -->
-            <Color x:Key="FadedButtonColor">#c1dfac</Color>
-            <Color x:Key="FrameColor">#c1dfac</Color> 
+            <Color x:Key="FadedButtonColor">#dfdfdf</Color>
+            <Color x:Key="FrameColor">#dfdfdf</Color> 
             
             <!-- Second theme colour -->
             <Color x:Key="ClickableLinkColor">#695f44</Color> 

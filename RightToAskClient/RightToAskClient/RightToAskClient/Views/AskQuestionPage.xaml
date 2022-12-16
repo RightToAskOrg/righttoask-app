@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:RightToAskClient"
              xmlns:views="clr-namespace:RightToAskClient.Views;assembly=RightToAskClient"
              xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
-             Title="Ask Question">
+             Title="Ask Question" x:DataType="vm:ReadingPageViewModel">
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding BackCommand}"
                             IconOverride="back.png" />
@@ -16,11 +16,38 @@
         <vm:FilterViewModel/>
     </ContentPage.BindingContext>
         <ContentPage.Content>
-        <ScrollView>
            <StackLayout>
-               <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}"  
-                       HorizontalOptions="FillAndExpand" MaxLength="280" Style="{StaticResource NormalEditor}"/>
+                <CollectionView x:Name="QuestionList" ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None" 
+                                        SelectedItem="{Binding SelectedQuestion}" VerticalOptions="FillAndExpand">  
+                            <!-- <CollectionView x:Name="QuestionList" ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None" 
+                                        VerticalOptions="FillAndExpand"> -->
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="vm:QuestionDisplayCardViewModel">
+                                        <SwipeView VerticalOptions="FillAndExpand" BackgroundColor="Transparent">
+                                            <SwipeView.RightItems>
+                                                <SwipeItem Text="Dismiss" IconImageSource="{helpers:ImageResource RightToAskClient.Images.trash_delete_48.png}" 
+                                                       BackgroundColor="{StaticResource AlertColor}"
+                                                       Command="{Binding Path=BindingContext.RemoveQuestionCommand, Source={x:Reference ReadingPageName}}" 
+                                                       CommandParameter="{Binding .}"/>
+                                            </SwipeView.RightItems>
+                                            <views:QuestionDisplayCard/>
+                                        </SwipeView>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                                <CollectionView.EmptyView>
+                                    <views:EmptyCollectionView/>
+                                </CollectionView.EmptyView>
+                                <CollectionView.EmptyViewTemplate>
+                                    <DataTemplate>
+                                        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                            <Label Text="{xct:Translate EmptyMatchingQuestionCollectionViewString}" Style="{StaticResource HeaderButtonText}" 
+                                                   VerticalOptions="Start" Margin="0,100,0,0"/>
+                                        </StackLayout>
+                                    </DataTemplate>
+                                </CollectionView.EmptyViewTemplate>
+                            </CollectionView>
+               <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}" VerticalOptions="EndAndExpand"
+                       MaxLength="280" Style="{StaticResource NormalEditor}"/>
            </StackLayout>
-        </ScrollView>
     </ContentPage.Content>
 </ContentPage>
