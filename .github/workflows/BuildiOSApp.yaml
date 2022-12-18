@@ -33,8 +33,11 @@ jobs:
         env:
           FILE: "./RightToAskClient/RightToAskClient/RightTOAskClient/Resources/GeoscapeAPIKey"
 
-      - name: Build
+      - name: Build iOS App
         run: msbuild ./RightToAskClient/RightToAskClient/RightToAskClient.iOS/RightToAskClient.iOS.csproj /p:Configuration=Debug /p:Platform=iPhoneSimulator /t:Rebuild
         
+      - name: Install xunit cli tool
+        run : dotnet tool install -g xunit-cli
+        
       - name: Run xunit tests
-        run: dotnet test -f netcoreapp3.1 ./RightToAskClient/RightToAskClient.sln
+        run: xunit ./RightToAskClient/UnitTests/obj/Debug/net472/UnitTests.dll

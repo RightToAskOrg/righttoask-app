@@ -33,8 +33,11 @@ jobs:
         env:
           FILE: "./RightToAskClient/RightToAskClient/RightTOAskClient/Resources/GeoscapeAPIKey"
 
-      - name: Build
+      - name: Build Android App
         run: msbuild ./RightToAskClient/RightToAskClient/RightToAskClient.Android/RightToAskClient.Android.csproj /p:Configuration=Debug /t:PackageForAndroid
 
+      - name: Install xunit cli tool
+        run : dotnet tool install -g xunit-cli
+
       - name: Run xunit tests
-        run: dotnet test ./RightToAskClient/RightToAskClient.sln
+        run: xunit ./RightToAskClient/RightToAskClient.sln
