@@ -760,8 +760,14 @@
   <data name="QuestionFrameThumbsUpAccessibilityName" xml:space="preserve">
     <value>Thumbs Up Icon or Up-vote Button.</value>
   </data>
+  <data name="QuestionFrameThumbsDownAccessibilityName" xml:space="preserve">
+    <value>Thumbs Down Icon or down-vote Button.</value>
+  </data>
   <data name="QuestionFrameThumbsUpAccessibilityText" xml:space="preserve">
     <value>Shows an image of a thumbs up icon that is highlighted green if you have already liked this question, or is not highlighted if you have not up-voted it. There is a tally number of total number of up-votes this question has to the right of this icon.</value>
+  </data>
+  <data name="QuestionFrameThumbsDownAccessibilityText" xml:space="preserve">
+    <value>Shows an image of a thumbs down icon that is highlighted green if you have already down-voted this question, or is not highlighted if you have not down-voted it. </value>
   </data>
   <data name="QuestionDraftingPagePopupText" xml:space="preserve">
     <value>New Popup Test for Drafting Question</value>

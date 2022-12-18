@@ -160,6 +160,13 @@ namespace RightToAskClient.Models
             //** QuestionViewModel.Instance.ServerQuestionUpdates.hansard_link = _hansardLink;
         }
 
+        private bool _alreadyDownvoted;
+        public bool AlreadyDownvoted 
+        {
+            get => _alreadyDownvoted;
+            private set => SetProperty(ref _alreadyDownvoted, value);
+        }
+        
         private bool _alreadyUpvoted;
         public bool AlreadyUpvoted 
         {
@@ -217,6 +224,7 @@ namespace RightToAskClient.Models
 
             // Check whether the user has already responded to this question.
             AlreadyUpvoted = questionResponses.IsAlreadyUpvoted(QuestionId);
+            AlreadyDownvoted = questionResponses.IsAlreadyDownvoted(QuestionId);
             AlreadyReported = questionResponses.IsAlreadyReported(QuestionId);
             
             interpretFilters(serverQuestion);
@@ -372,6 +380,10 @@ namespace RightToAskClient.Models
         public void ToggleUpvotedStatus()
         {
                 AlreadyUpvoted = !AlreadyUpvoted;
+        }
+        public void ToggleDownvotedStatus()
+        {
+                AlreadyDownvoted = !AlreadyDownvoted;
         }
 
         public void ToggleReportStatus()
