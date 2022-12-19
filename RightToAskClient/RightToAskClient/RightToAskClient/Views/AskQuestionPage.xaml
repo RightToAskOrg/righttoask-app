@@ -20,8 +20,10 @@
     <ContentPage.Content>
         <StackLayout>
             <StackLayout HorizontalOptions="FillAndExpand" Margin="10,10,10,10" VerticalOptions="StartAndExpand">
-                <Label Text="Let’s first check for similar questions" FontAttributes="Bold"/>
-                <Label Text="If there’s a similar question to yours, upvote the question, MPs will likely answer a question with more upvotes."/>
+                <Label Text="Let’s first check for similar questions" 
+                       Style="{StaticResource TitleMedium}"/>
+                <Label Text="If there’s a similar question to yours, upvote the question, MPs will likely answer a question with more upvotes."
+                       Style="{StaticResource BodyCopyLarge}"/>
             </StackLayout>
             <!-- <CollectionView x:Name="QuestionList" -->
             <!--                 ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None" -->
