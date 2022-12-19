@@ -2,10 +2,10 @@ using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace RightToAskClient.ViewModels
 {
-    public class AskQuestionViewModel : ReadingPageViewModel
+    public class WriteQuestionViewModel : ReadingPageViewModel
     {
         public IAsyncCommand BackCommand { get; }
-        public AskQuestionViewModel()
+        public WriteQuestionViewModel()
         {
             BackCommand = new AsyncCommand(async () =>
             {

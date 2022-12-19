@@ -2,20 +2,20 @@
 
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="RightToAskClient.Views.AskQuestionPage"
+             x:Class="RightToAskClient.Views.WriteQuestionPage"
              x:Name="AskQuestionPageName"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              xmlns:local="clr-namespace:RightToAskClient"
              xmlns:views="clr-namespace:RightToAskClient.Views;assembly=RightToAskClient"
              xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
-             Title="Write Question" x:DataType="vm:AskQuestionViewModel">
+             Title="Write Question" x:DataType="vm:WriteQuestionViewModel">
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding BackCommand}"
                             IconOverride="{helpers:ImageResource RightToAskClient.Images.close.png}" />
     </Shell.BackButtonBehavior>
     <ContentPage.BindingContext>
-        <vm:AskQuestionViewModel />
+        <vm:WriteQuestionViewModel />
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout>

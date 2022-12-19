@@ -8,9 +8,9 @@ using Xamarin.Forms.Xaml;
 namespace RightToAskClient.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AskQuestionPage : ContentPage
+    public partial class WriteQuestionPage : ContentPage
     {
-        public AskQuestionPage()
+        public WriteQuestionPage()
         {
             InitializeComponent();
         }
