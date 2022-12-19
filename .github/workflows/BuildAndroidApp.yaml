@@ -5,7 +5,7 @@ on: [push]
 jobs:
   build:
 
-    runs-on: windows-latest
+    runs-on: macos-latest
 
     steps:
       # If this starts breaking check the mono and android version, they should match the default Xamarin bundles 
@@ -33,11 +33,14 @@ jobs:
         env:
           FILE: "./RightToAskClient/RightToAskClient/RightTOAskClient/Resources/GeoscapeAPIKey"
 
-      - name: Build Android App
-        run: msbuild ./RightToAskClient/RightToAskClient/RightToAskClient.Android/RightToAskClient.Android.csproj /p:Configuration=Debug /t:PackageForAndroid
+      - name: Build Unit tests
+        run: msbuild ./RightToAskClient/UnitTests/UnitTests.csproj /p:Configuration=Debug /t:Rebuild
 
       - name: Install xunit cli tool
         run : dotnet tool install -g xunit-cli
 
       - name: Run xunit tests
-        run: xunit ./RightToAskClient/RightToAskClient.sln
+        run: xunit ./RightToAskClient/UnitTests/bin/Debug/net472/UnitTests.dll
+
+      - name: Build Android App
+        run: msbuild ./RightToAskClient/RightToAskClient/RightToAskClient.Android/RightToAskClient.Android.csproj /p:Configuration=Debug /t:PackageForAndroid
