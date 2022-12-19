@@ -45,7 +45,6 @@
 					             AutomationProperties.Name="{xct:Translate QuestionFrameThumbsUpAccessibilityName}"
 					             AutomationProperties.HelpText="{xct:Translate QuestionFrameThumbsUpAccessibilityText}" />
 					<Label Text="{Binding UpVotes, StringFormat='{0:F0}   '}" Style="{StaticResource NormalText}" Margin="0" Padding="0"/>	
-					<!-- <Label Text="{xct:Translate UpvoteDisplayCardButtonText, StringFormat='{0:F0}s'}" Style="{StaticResource NormalText}" /> -->
                     <!-- Down-vote button -->
                     <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.thumb_up_48.png}" Rotation="180"
                              IsVisible="{Binding Question.AlreadyDownvoted, Converter={StaticResource Key=cnvInvert}}" Padding="5"
@@ -107,21 +106,14 @@
 				    <Label Text="{xct:Translate AnswerHeaderText}" Style="{StaticResource Header2}"/>
 				    <StackLayout BindableLayout.ItemsSource="{Binding QuestionAnswers}">
 					    <BindableLayout.ItemTemplate>
-						    <!-- <CollectionView x:Name="AnswerList" ItemsSource="{Binding Answers}" SelectionMode="None">
-					    <CollectionView.ItemTemplate> -->
 						    <DataTemplate x:DataType="models:Answer">
 							    <views:AnswerDisplayCard />
 						    </DataTemplate>
 					    </BindableLayout.ItemTemplate>
 				    </StackLayout>
-					    <!-- </CollectionView.ItemTemplate>
-				    </CollectionView> -->
 				    <Editor x:Name="AnswerEditor" Placeholder="{xct:Translate AnswerPlaceholderText}" Completed="Answer_Entered" />
 				    <Label Text="{xct:Translate ApproveAnswerText}" />
 			    </StackLayout>
-			    <!-- <Button Text="{Binding SaveButtonText}" Style="{StaticResource SaveButton}"
-			            Command="{Binding SaveAnswerCommand}" HorizontalOptions="Center"
-			            IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}" /> -->
 			    <Button Text="{xct:Translate EditQuestionButtonText}" Style="{StaticResource SaveButton}"
 			            Command="{Binding EditAnswerCommand}" HorizontalOptions="Center" 
 			            IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}" />
