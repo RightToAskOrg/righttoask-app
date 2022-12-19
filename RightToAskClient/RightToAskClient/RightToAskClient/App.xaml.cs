@@ -29,17 +29,6 @@ namespace RightToAskClient
         {
             LocalizationResourceManager.Current.PropertyChanged += (temp, temp2) => AppResources.Culture = LocalizationResourceManager.Current.CurrentCulture;
             LocalizationResourceManager.Current.Init(AppResources.ResourceManager);
-            Task.Run(async () =>
-            { 
-                Task.Delay(100);
-                Device.BeginInvokeOnMainThread(async () =>
-                {
-                    Current.On<Xamarin.Forms.PlatformConfiguration.Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
-
-                });
-            });
-            
-            
             InitializeComponent();
             SetTheStyles();
 
@@ -67,6 +56,8 @@ namespace RightToAskClient
             {
                 FilterChoices.NeedToUpdateMyMpLists(this);
             }
+            Current.On<Xamarin.Forms.PlatformConfiguration.Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
+
         }
 
         protected override void OnSleep()
