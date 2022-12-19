@@ -1,4 +1,6 @@
-﻿using RightToAskClient.Models;
+﻿using System;
+using System.Threading.Tasks;
+using RightToAskClient.Models;
 using RightToAskClient.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -13,10 +15,12 @@ namespace RightToAskClient.Views
             InitializeComponent();
         }
 
-        protected override void OnAppearing()
+        private void LifecycleEffect_OnLoaded(object sender, EventArgs e)
         {
-            base.OnAppearing();
-            KeywordEntry.Focus();
+            if (ReferenceEquals(sender, KeywordEntry))
+            {
+                KeywordEntry.Focus();
+            }
         }
     }
 }

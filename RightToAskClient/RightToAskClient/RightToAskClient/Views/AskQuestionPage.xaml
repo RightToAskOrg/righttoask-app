@@ -19,32 +19,41 @@
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout>
-            <CollectionView x:Name="QuestionList"
-                            ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None"
-                            SelectedItem="{Binding SelectedQuestion}" VerticalOptions="FillAndExpand">
-                <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="vm:QuestionDisplayCardViewModel">
-                    <views:AskQuestionPreviewCard/>
-                </DataTemplate>
-                </CollectionView.ItemTemplate>
-                <CollectionView.EmptyView>
-                    <views:EmptyCollectionView />
-                </CollectionView.EmptyView>
-                <CollectionView.EmptyViewTemplate>
-                    <DataTemplate>
-                        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                            <Label Text="{xct:Translate EmptyMatchingQuestionCollectionViewString}"
-                                   Style="{StaticResource HeaderButtonText}"
-                                   VerticalOptions="Start" Margin="0,100,0,0" />
-                        </StackLayout>
-                    </DataTemplate>
-                </CollectionView.EmptyViewTemplate>
-            </CollectionView>
+            <StackLayout HorizontalOptions="FillAndExpand" Margin="10,10,10,10">
+                <Label Text="Let’s first check for similar questions" FontAttributes="Bold"/>
+                <Label Text="If there’s a similar question to yours, upvote the question, MPs will likely answer a question with more upvotes."/>
+            </StackLayout>
+            <!-- <CollectionView x:Name="QuestionList" -->
+            <!--                 ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None" -->
+            <!--                 SelectedItem="{Binding SelectedQuestion}" VerticalOptions="FillAndExpand"> -->
+            <!--     <CollectionView.ItemTemplate> -->
+            <!--     <DataTemplate x:DataType="vm:QuestionDisplayCardViewModel"> -->
+            <!--         <views:AskQuestionPreviewCard/> -->
+            <!--     </DataTemplate> -->
+            <!--     </CollectionView.ItemTemplate> -->
+            <!--     <CollectionView.EmptyView> -->
+            <!--         <views:EmptyCollectionView /> -->
+            <!--     </CollectionView.EmptyView> -->
+            <!--     <CollectionView.EmptyViewTemplate> -->
+            <!--         <DataTemplate> -->
+            <!--             <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"> -->
+            <!--                 <Label Text="{xct:Translate EmptyMatchingQuestionCollectionViewString}" -->
+            <!--                        Style="{StaticResource HeaderButtonText}" -->
+            <!--                        VerticalOptions="Start" Margin="0,100,0,0" /> -->
+            <!--             </StackLayout> -->
+            <!--         </DataTemplate> -->
+            <!--     </CollectionView.EmptyViewTemplate> -->
+            <!-- </CollectionView> -->
             <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}" 
                     VerticalOptions="EndAndExpand"
                     MaxLength="280" 
                     Style="{StaticResource NormalEditor}" 
-                    x:Name="KeywordEntry"/>
+                    x:Name="KeywordEntry"
+                    Keyboard="Chat">
+                <Editor.Effects> 
+                    <xct:LifecycleEffect Loaded="LifecycleEffect_OnLoaded" /> 
+                </Editor.Effects> 
+            </Editor>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
