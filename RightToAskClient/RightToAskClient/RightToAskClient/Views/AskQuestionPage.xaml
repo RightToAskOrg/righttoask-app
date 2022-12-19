@@ -19,7 +19,7 @@
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout>
-            <StackLayout HorizontalOptions="FillAndExpand" Margin="10,10,10,10">
+            <StackLayout HorizontalOptions="FillAndExpand" Margin="10,10,10,10" VerticalOptions="StartAndExpand">
                 <Label Text="Let’s first check for similar questions" FontAttributes="Bold"/>
                 <Label Text="If there’s a similar question to yours, upvote the question, MPs will likely answer a question with more upvotes."/>
             </StackLayout>
@@ -54,6 +54,8 @@
                     <xct:LifecycleEffect Loaded="LifecycleEffect_OnLoaded" /> 
                 </Editor.Effects> 
             </Editor>
+            
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

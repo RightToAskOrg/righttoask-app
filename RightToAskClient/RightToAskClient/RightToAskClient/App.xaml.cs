@@ -5,10 +5,13 @@ using RightToAskClient.Resx;
 using Xamarin.Essentials;
 using System.Text.Json;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using RightToAskClient.CryptoUtils;
 using RightToAskClient.Helpers;
 using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Views;
+using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
+using Application = Xamarin.Forms.Application;
 
 // [assembly: ExportFont("Roboto-Black.ttf", Alias = "AppFont")]
 // [assembly: ExportFont("OpenSans-Regular.ttf", Alias = "AppFont")]
@@ -26,7 +29,17 @@ namespace RightToAskClient
         {
             LocalizationResourceManager.Current.PropertyChanged += (temp, temp2) => AppResources.Culture = LocalizationResourceManager.Current.CurrentCulture;
             LocalizationResourceManager.Current.Init(AppResources.ResourceManager);
+            Task.Run(async () =>
+            { 
+                Task.Delay(100);
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    Current.On<Xamarin.Forms.PlatformConfiguration.Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
 
+                });
+            });
+            
+            
             InitializeComponent();
             SetTheStyles();
 

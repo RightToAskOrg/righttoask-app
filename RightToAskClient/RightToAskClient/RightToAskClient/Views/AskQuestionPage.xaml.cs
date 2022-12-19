@@ -22,5 +22,11 @@ namespace RightToAskClient.Views
                 KeywordEntry.Focus();
             }
         }
+
+        protected override void OnDisappearing()
+        {
+            KeywordEntry.Unfocus();
+            base.OnDisappearing();
+        }
     }
 }

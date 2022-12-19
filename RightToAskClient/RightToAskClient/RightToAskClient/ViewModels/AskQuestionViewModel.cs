@@ -7,7 +7,10 @@ namespace RightToAskClient.ViewModels
         public IAsyncCommand BackCommand { get; }
         public AskQuestionViewModel()
         {
-            BackCommand = new AsyncCommand(async () => { await App.Current.MainPage.Navigation.PopAsync(); });
+            BackCommand = new AsyncCommand(async () =>
+            {
+                await App.Current.MainPage.Navigation.PopAsync();
+            });
         }
        
     }
