@@ -35,6 +35,9 @@ jobs:
 
       - name: Build iOS App
         run: msbuild ./RightToAskClient/RightToAskClient/RightToAskClient.iOS/RightToAskClient.iOS.csproj /p:Configuration=Debug /p:Platform=iPhoneSimulator /t:Rebuild
+
+      - name: Build Unit tests
+        run: msbuild ./RightToAskClient/UnitTests/UnitTests.csproj /p:Configuration=Debug /t:Rebuild
         
       - name: Install xunit cli tool
         run : dotnet tool install -g xunit-cli
