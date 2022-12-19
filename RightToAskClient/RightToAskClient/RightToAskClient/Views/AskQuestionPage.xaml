@@ -9,10 +9,10 @@
              xmlns:local="clr-namespace:RightToAskClient"
              xmlns:views="clr-namespace:RightToAskClient.Views;assembly=RightToAskClient"
              xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
-             Title="Ask Question" x:DataType="vm:AskQuestionViewModel">
+             Title="Write Question" x:DataType="vm:AskQuestionViewModel">
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding BackCommand}"
-                            IconOverride="back.png" />
+                            IconOverride="{helpers:ImageResource RightToAskClient.Images.close.png}" />
     </Shell.BackButtonBehavior>
     <ContentPage.BindingContext>
         <vm:AskQuestionViewModel />

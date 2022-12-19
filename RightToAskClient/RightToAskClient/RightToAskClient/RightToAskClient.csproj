@@ -39,6 +39,7 @@
     <None Remove="Images\check_box_48.png" />
     <None Remove="Images\Clipboard.png" />
     <None Remove="Images\ClosedBook.png" />
+    <None Remove="Images\close.png" />
     <None Remove="Images\closed_book.png" />
     <None Remove="Images\collapse.png" />
     <None Remove="Images\collapse_48.png" />
@@ -184,6 +185,7 @@
     <EmbeddedResource Include="Images\checkmark_box.png" />
     <EmbeddedResource Include="Images\check_box_48.png" />
     <EmbeddedResource Include="Images\clipboard.png" />
+    <EmbeddedResource Include="Images\close.png" />
     <EmbeddedResource Include="Images\closed_book.png" />
     <EmbeddedResource Include="Images\collapse.png" />
     <EmbeddedResource Include="Images\collapse_48.png" />
