@@ -12,7 +12,7 @@ namespace RightToAskClient.Views.Controls
 
         public static BindableProperty IsBrightenedProperty =
             BindableProperty.Create("IsBrightened", typeof(bool), typeof(ColorSingleToggleButton), 
-                false, propertyChanged: OnIsBrightenedChanged);
+                false, BindingMode.OneWay, propertyChanged: OnIsBrightenedChanged);
 
         public static BindableProperty BrightColor =
             BindableProperty.Create("BrightColor", typeof(string), typeof(ColorSingleToggleButton), 
@@ -24,11 +24,9 @@ namespace RightToAskClient.Views.Controls
     
         public ColorSingleToggleButton()
         {
-            // This will turn it on if it's off, and keep it on thereafter.
-            Clicked += (sender, args) => IsBrightened |= true;
-        
-            // Note that the original MS code really did toggle:
+            // The original MS code really did toggle:
             // Clicked += (sender, args) => IsBrightened ^= true;
+            // but I want to retain control via the one-way bindable bool.
         }
 
         public bool IsBrightened
