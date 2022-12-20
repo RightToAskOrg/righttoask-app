@@ -1,0 +1,4 @@
+fileignoreconfig:
+- filename: RightToAskClient/RightToAskClient/RightToAskClient/Resources/serverconfig.json
+  checksum: 1f8f04e1e57695a3ffe862a5cdd019e9411c47c058f8c39072f4060e0d083517
+version: "1.0"
