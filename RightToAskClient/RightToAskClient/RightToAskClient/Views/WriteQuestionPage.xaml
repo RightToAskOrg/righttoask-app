@@ -19,11 +19,12 @@
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout>
-            <StackLayout HorizontalOptions="FillAndExpand" Margin="10,10,10,10" VerticalOptions="StartAndExpand">
+            <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
                 <Label Text="Let’s first check for similar questions" 
                        Style="{StaticResource TitleMedium}"/>
                 <Label Text="If there’s a similar question to yours, upvote the question, MPs will likely answer a question with more upvotes."
                        Style="{StaticResource BodyCopyLarge}"/>
+                <BoxView Style="{StaticResource Separator}" />
             </StackLayout>
             <!-- <CollectionView x:Name="QuestionList" -->
             <!--                 ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None" -->
