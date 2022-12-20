@@ -8,6 +8,7 @@
              xmlns:local="clr-namespace:RightToAskClient"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
+             xmlns:controls="clr-namespace:RightToAskClient.Views.Controls;assembly=RightToAskClient"
              x:Class="RightToAskClient.Views.QuestionDetailPage"
              x:DataType="vm:QuestionViewModel">
 	<ContentPage.ToolbarItems>
@@ -46,6 +47,7 @@
 					             AutomationProperties.HelpText="{xct:Translate QuestionFrameThumbsUpAccessibilityText}" />
 					<Label Text="{Binding UpVotes, StringFormat='{0:F0}   '}" Style="{StaticResource NormalText}" Margin="0" Padding="0"/>	
                     <!-- Down-vote button -->
+					<!--
                     <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.thumb_up_48.png}" Rotation="180"
                              IsVisible="{Binding Question.AlreadyDownvoted, Converter={StaticResource Key=cnvInvert}}" Padding="5"
                              BackgroundColor="Transparent" Command="{Binding DownvoteCommand}" HorizontalOptions="Start"
@@ -58,6 +60,34 @@
                              xct:IconTintColorEffect.TintColor="{StaticResource ButtonColor}" HorizontalOptions="Start"
                              AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{xct:Translate QuestionFrameThumbsDownAccessibilityName}"
                              AutomationProperties.HelpText="{xct:Translate QuestionFrameThumbsDownAccessibilityText}"/>
+                             -->
+                    <ImageButton x:Name="DownVoteButton" Source="{helpers:ImageResource RightToAskClient.Images.thumb_up_48.png}" 
+                             BackgroundColor="Transparent" Command="{Binding DownvoteCommand}" Rotation="180" Padding="5"
+                             xct:IconTintColorEffect.TintColor="{Binding Question.AlreadyDownvoted, Converter={StaticResource Key=boolToColor}, ConverterParameter=Blue}" 
+                             HorizontalOptions="Start"
+                             AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{xct:Translate QuestionFrameThumbsDownAccessibilityName}"
+                             AutomationProperties.HelpText="{xct:Translate QuestionFrameThumbsDownAccessibilityText}"/>
+                    <controls:ColorSingleToggleButton x:Name="DownVoteAutoBrightenedButton" Source="{helpers:ImageResource RightToAskClient.Images.thumb_up_48.png}" 
+                             BackgroundColor="Transparent" Command="{Binding DownvoteCommand}" Rotation="180" Padding="5"
+                             IsBrightened="{Binding Question.AlreadyDownvoted}"
+                             HorizontalOptions="Start"
+                             AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{xct:Translate QuestionFrameThumbsDownAccessibilityName}"
+                             AutomationProperties.HelpText="{xct:Translate QuestionFrameThumbsDownAccessibilityText}">
+	                    <VisualStateManager.VisualStateGroups>
+		                    <VisualStateGroup Name="BrightenedStates">
+			                    <VisualState Name="NotBrightened">
+				                    <VisualState.Setters>
+										<Setter Property="xct:IconTintColorEffect.TintColor" Value="Yellow" />
+				                    </VisualState.Setters>
+			                    </VisualState>
+			                    <VisualState Name="Brightened">
+				                    <VisualState.Setters>
+										<Setter Property="xct:IconTintColorEffect.TintColor" Value="Magenta" />
+				                    </VisualState.Setters>
+			                    </VisualState>
+		                    </VisualStateGroup>
+	                    </VisualStateManager.VisualStateGroups>
+	                    </controls:ColorSingleToggleButton>
 					<Label Text="{Binding DownVotes, StringFormat='{0:F0}'}" Style="{StaticResource NormalText}" Margin="0" Padding="0"/>	
 				</StackLayout>
 				<Editor x:Name="QuestionTextEditor" Text="{Binding Question.QuestionText}"

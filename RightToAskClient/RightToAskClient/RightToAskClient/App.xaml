@@ -15,13 +15,15 @@
             <helpers:InvertConvert x:Key="cnvInvert" />
             <helpers:NullOrEmptyConverter x:Key="emptyToFalse" />
             <helpers:IntEnumConverter x:Key="intEnum" />
+            <helpers:ColorConverter x:Key="boolToColor" />
+            
             <!-- Website colors -->
             <!--
             light green: #649b49
             yellow: #efd242 
             site background: #ffffff
             light grey background: #ededed
-            text colour (dark background) #ffffff
+            text color (dark background) #ffffff
             mid blue/green : #006d72
             mid-to-dark blue: #195a6a
             dark blue background & text: #2f4858
@@ -57,7 +59,7 @@
             <Color x:Key="FadedButtonColor">#c1dfac</Color>
             <Color x:Key="FrameColor">#c1dfac</Color> 
             
-            <!-- Second theme colour -->
+            <!-- Second theme color -->
             <Color x:Key="ClickableLinkColor">#695f44</Color> 
             <Color x:Key="ClickableLinkColorDark">#a79c7e</Color>  
             
@@ -71,7 +73,7 @@
             <Color x:Key="ClickableLinkColor3">#6453e6</Color> 
             <Color x:Key="ClickableLinkColor3Dark">#6453e6</Color>  -->
             
-            <!-- Highlight / Alert colours -->
+            <!-- Highlight / Alert colors -->
             <!-- Note that this mostly doesn't have much effect and has been separately
                  set in the Android project, in Resources/values/styles.xml -->
             <Color x:Key="AlertColor">#9a4119</Color> 
@@ -91,6 +93,7 @@
               
             <Color x:Key="TextColor">black</Color>
             <Color x:Key="TextColorGreen">#36642f</Color>
+            <Color x:Key="UnselectedOptionButtonColor">Gray</Color>
             <Color x:Key="TextColorGray">Gray</Color>
             <Color x:Key="TextColorDark">#f2f2f7</Color>
             
