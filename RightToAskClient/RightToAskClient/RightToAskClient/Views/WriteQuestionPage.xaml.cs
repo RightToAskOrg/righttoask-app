@@ -28,5 +28,11 @@ namespace RightToAskClient.Views
             KeywordEntry.Unfocus();
             base.OnDisappearing();
         }
+
+        private void KeywordEntry_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            // string EditorNewText = e.NewTextValue;
+            
+        }
     }
 }

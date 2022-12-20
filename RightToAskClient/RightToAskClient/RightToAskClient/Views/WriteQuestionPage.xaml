@@ -60,11 +60,16 @@
                             Style="{StaticResource KeyboardEditor}" 
                             x:Name="KeywordEntry"
                             Keyboard="Chat"
+                            TextChanged="KeywordEntry_OnTextChanged"
                             xct:CornerRadiusEffect.CornerRadius="5">
                         <Editor.Effects> 
                             <xct:LifecycleEffect Loaded="LifecycleEffect_OnLoaded" /> 
                         </Editor.Effects> 
                     </Editor>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand" Margin="20,8,20,12">
+                        <Label Text="0/280" Style="{StaticResource EditorTextNumber}"/>
+                        <Label Text="Proceed with this question" Style="{StaticResource EditorProceed}"/>
+                    </StackLayout>
                 </StackLayout>
             </Frame>
         </StackLayout>

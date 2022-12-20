@@ -583,9 +583,7 @@
             <Style x:Key="KeyboardEditor" BasedOn="{StaticResource DisabledEditor}" TargetType="Editor" ApplyToDerivedTypes="True">
                 <Setter Property="BackgroundColor"  Value="{StaticResource EditorBackground}"/>
                 <Setter Property="TextColor" Value="{StaticResource TextColor}" />
-                <Setter Property="Margin" Value="16, 16, 16, 16" />
-                <!-- <Setter Property="Col"></Setter> -->
-
+                <Setter Property="Margin" Value="16, 16, 16, 0" />
             </Style> 
             <Style x:Key="EditorSeparator" TargetType="BoxView">
                 <Setter Property="HeightRequest" Value="3" />
@@ -594,6 +592,14 @@
                 <Setter Property="Color" Value="LightGray" />
                 <Setter Property="CornerRadius" Value="3"/>
                 <Setter Property="Margin" Value="0, 8, 0, 0" />
+            </Style>
+            
+            <Style x:Key="EditorTextNumber" TargetType="Label">
+                <Setter Property="Margin" Value="0,0,20,0" />
+            </Style>
+            
+            <Style x:Key="EditorProceed" TargetType="Label">
+                <Setter Property="TextColor" Value="Gray"/>
             </Style>
         </ResourceDictionary>
     </Application.Resources>
