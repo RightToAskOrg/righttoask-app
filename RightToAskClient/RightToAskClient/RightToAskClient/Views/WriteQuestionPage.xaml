@@ -12,7 +12,9 @@
              Title="Write Question" x:DataType="vm:WriteQuestionViewModel">
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding BackCommand}"
-                            IconOverride="{helpers:ImageResource RightToAskClient.Images.close.png}" />
+                            IconOverride="{helpers:ImageResource RightToAskClient.Images.close.png}" 
+                            xct:SemanticEffect.Hint="{xct:Translate WriteQuestionBackHint}"
+                            xct:SemanticEffect.Description="{xct:Translate WriteQuestionBackDescription}"/>
     </Shell.BackButtonBehavior>
     <ContentPage.BindingContext>
         <vm:WriteQuestionViewModel />
@@ -61,14 +63,17 @@
                             x:Name="KeywordEntry"
                             Keyboard="Chat"
                             TextChanged="KeywordEntry_OnTextChanged"
-                            xct:CornerRadiusEffect.CornerRadius="5">
-                        <Editor.Effects> 
+                            xct:CornerRadiusEffect.CornerRadius="5"
+                            xct:SemanticEffect.Hint="{xct:Translate WriteQuestionEditorHint}"
+                            xct:SemanticEffect.Description="{xct:Translate WriteQuestionEditorDescription}">
+                        <Editor.Effects>
                             <xct:LifecycleEffect Loaded="LifecycleEffect_OnLoaded" /> 
                         </Editor.Effects> 
                     </Editor>
                     <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand" Margin="0,8,0,12">
                         <Label Text="0/280" Style="{StaticResource EditorTextNumber}"/>
-                        <Button Text="Proceed with this question" Style="{StaticResource EditorProceed}"/>
+                        <Button Text="Proceed with this question" 
+                                Style="{StaticResource EditorProceed}"/>
                     </StackLayout>
                 </StackLayout>
             </Frame>

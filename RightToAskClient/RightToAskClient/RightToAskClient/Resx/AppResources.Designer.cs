@@ -1904,5 +1904,41 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("AnswerHeaderText", resourceCulture);
             }
         }
+        
+        internal static string WriteQuestionEditorHint {
+            get {
+                return ResourceManager.GetString("WriteQuestionEditorHint", resourceCulture);
+            }
+        }
+        
+        internal static string WriteQuestionEditorDescription {
+            get {
+                return ResourceManager.GetString("WriteQuestionEditorDescription", resourceCulture);
+            }
+        }
+        
+        internal static string WriteQuestionBackHint {
+            get {
+                return ResourceManager.GetString("WriteQuestionBackHint", resourceCulture);
+            }
+        }
+        
+        internal static string WriteQuestionBackDescription {
+            get {
+                return ResourceManager.GetString("WriteQuestionBackDescription", resourceCulture);
+            }
+        }
+        
+        internal static string ReadingPageWriteHint {
+            get {
+                return ResourceManager.GetString("ReadingPageWriteHint", resourceCulture);
+            }
+        }
+        
+        internal static string ReadingPageWriteDescription {
+            get {
+                return ResourceManager.GetString("ReadingPageWriteDescription", resourceCulture);
+            }
+        }
     }
 }
