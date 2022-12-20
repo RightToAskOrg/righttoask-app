@@ -6,42 +6,25 @@ using Xamarin.Forms;
 // turned off. When it is turned on, it turns a bright colour.
 namespace RightToAskClient.Views.Controls
 {
-    class ColorSingleToggleButton : ImageButton 
+    class ColorSingleToggleButton : ImageButton
     {
         public event EventHandler<ToggledEventArgs> Brightened;
 
         public static BindableProperty IsBrightenedProperty =
-            BindableProperty.Create("IsBrightened", typeof(bool), typeof(ColorSingleToggleButton), 
+            BindableProperty.Create("IsBrightened", typeof(bool), typeof(ColorSingleToggleButton),
                 false, BindingMode.OneWay, propertyChanged: OnIsBrightenedChanged);
-
-        public static BindableProperty BrightColor =
-            BindableProperty.Create("BrightColor", typeof(string), typeof(ColorSingleToggleButton), 
-                "", BindingMode.OneWay);
-
-        public static BindableProperty DullColor =
-            BindableProperty.Create("DullColor", typeof(string), typeof(ColorSingleToggleButton), 
-                "", BindingMode.OneWay);
-    
-        public ColorSingleToggleButton()
-        {
-            // The original MS code really did toggle:
-            // Clicked += (sender, args) => IsBrightened ^= true;
-            // but I want to retain control via the one-way bindable bool.
-        }
 
         public bool IsBrightened
         {
             set { SetValue(IsBrightenedProperty, value); }
-            get { return (bool)GetValue(IsBrightenedProperty); }
         }
 
-        /* Not sure we need this.
-    protected override void OnParentSet()
-    {
-        base.OnParentSet();
-        VisualStateManager.GoToState(this, "ToggledOff");
-    }
-    */
+        // Set to NotBrightened state at init
+        protected override void OnParentSet()
+        {
+            base.OnParentSet();
+            VisualStateManager.GoToState(this, "NotBrightened");
+        }
 
         static void OnIsBrightenedChanged(BindableObject bindable, object oldValue, object newValue)
         {

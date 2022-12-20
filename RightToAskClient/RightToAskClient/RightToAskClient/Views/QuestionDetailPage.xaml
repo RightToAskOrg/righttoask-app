@@ -47,26 +47,6 @@
 					             AutomationProperties.HelpText="{xct:Translate QuestionFrameThumbsUpAccessibilityText}" />
 					<Label Text="{Binding UpVotes, StringFormat='{0:F0}   '}" Style="{StaticResource NormalText}" Margin="0" Padding="0"/>	
                     <!-- Down-vote button -->
-					<!--
-                    <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.thumb_up_48.png}" Rotation="180"
-                             IsVisible="{Binding Question.AlreadyDownvoted, Converter={StaticResource Key=cnvInvert}}" Padding="5"
-                             BackgroundColor="Transparent" Command="{Binding DownvoteCommand}" HorizontalOptions="Start"
-                             xct:IconTintColorEffect.TintColor="Gray"
-                             AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{xct:Translate QuestionFrameThumbsDownAccessibilityName}"
-                             AutomationProperties.HelpText="{xct:Translate QuestionFrameThumbsDownAccessibilityText}"/>
-                    <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.thumb_up_48.png}" 
-                             BackgroundColor="Transparent" Command="{Binding DownvoteCommand}" Rotation="180"
-                             IsVisible="{Binding Question.AlreadyDownvoted}" Padding="5"
-                             xct:IconTintColorEffect.TintColor="{StaticResource ButtonColor}" HorizontalOptions="Start"
-                             AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{xct:Translate QuestionFrameThumbsDownAccessibilityName}"
-                             AutomationProperties.HelpText="{xct:Translate QuestionFrameThumbsDownAccessibilityText}"/>
-                    <ImageButton x:Name="DownVoteButton" Source="{helpers:ImageResource RightToAskClient.Images.thumb_up_48.png}" 
-                             BackgroundColor="Transparent" Command="{Binding DownvoteCommand}" Rotation="180" Padding="5"
-                             xct:IconTintColorEffect.TintColor="{Binding Question.AlreadyDownvoted, Converter={StaticResource Key=boolToColor}, ConverterParameter=Blue}" 
-                             HorizontalOptions="Start"
-                             AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{xct:Translate QuestionFrameThumbsDownAccessibilityName}"
-                             AutomationProperties.HelpText="{xct:Translate QuestionFrameThumbsDownAccessibilityText}"/>
-                             -->
                     <controls:ColorSingleToggleButton x:Name="DownVoteAutoBrightenedButton" Source="{helpers:ImageResource RightToAskClient.Images.thumb_up_48.png}" 
                              BackgroundColor="Transparent" Command="{Binding DownvoteCommand}" Rotation="180" Padding="5"
                              IsBrightened="{Binding Question.AlreadyDownvoted}"
@@ -77,12 +57,12 @@
 		                    <VisualStateGroup Name="BrightenedStates">
 			                    <VisualState Name="NotBrightened">
 				                    <VisualState.Setters>
-										<Setter Property="xct:IconTintColorEffect.TintColor" Value="Yellow" />
+										<Setter Property="xct:IconTintColorEffect.TintColor" Value="{StaticResource UnselectedOptionButtonColor}" />
 				                    </VisualState.Setters>
 			                    </VisualState>
 			                    <VisualState Name="Brightened">
 				                    <VisualState.Setters>
-										<Setter Property="xct:IconTintColorEffect.TintColor" Value="Magenta" />
+										<Setter Property="xct:IconTintColorEffect.TintColor" Value= "{StaticResource ButtonColor}"/>
 				                    </VisualState.Setters>
 			                    </VisualState>
 		                    </VisualStateGroup>

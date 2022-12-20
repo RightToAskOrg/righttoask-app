@@ -6,6 +6,7 @@
              xmlns:models="clr-namespace:RightToAskClient.Models"
              xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
              xmlns:viewModels="clr-namespace:RightToAskClient.ViewModels;assembly=RightToAskClient"
+             xmlns:controls="clr-namespace:RightToAskClient.Views.Controls;assembly=RightToAskClient"
              x:Class="RightToAskClient.Views.QuestionDisplayCard"
              x:DataType="viewModels:QuestionDisplayCardViewModel">
   <ContentView.Content>
@@ -33,18 +34,29 @@
                              AutomationProperties.HelpText="{xct:Translate QuestionFrameThumbsUpAccessibilityText}"/>
                     <Label Text="{Binding UpVotes, StringFormat='{0:F0}'}" Style="{StaticResource QuestionButtonText}" Margin="0" Padding="0"/>
                     <!-- Down-vote button -->
-                    <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.thumb_up_48.png}" Rotation="180"
-                             IsVisible="{Binding Question.AlreadyDownvoted, Converter={StaticResource Key=cnvInvert}}" Padding="5"
-                             BackgroundColor="Transparent" Command="{Binding DownvoteCommand}" HorizontalOptions="Start"
-                             xct:IconTintColorEffect.TintColor="Gray"
-                             AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{xct:Translate QuestionFrameThumbsDownAccessibilityName}"
-                             AutomationProperties.HelpText="{xct:Translate QuestionFrameThumbsDownAccessibilityText}"/>
-                    <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.thumb_up_48.png}" 
-                             BackgroundColor="Transparent" Command="{Binding DownvoteCommand}" Rotation="180"
-                             IsVisible="{Binding Question.AlreadyDownvoted}" Padding="5"
-                             xct:IconTintColorEffect.TintColor="{StaticResource ButtonColor}" HorizontalOptions="Start"
-                             AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{xct:Translate QuestionFrameThumbsDownAccessibilityName}"
-                             AutomationProperties.HelpText="{xct:Translate QuestionFrameThumbsDownAccessibilityText}"/>
+                    <controls:ColorSingleToggleButton
+                        Source="{helpers:ImageResource RightToAskClient.Images.thumb_up_48.png}" Rotation="180"
+                        Padding="5"
+                        BackgroundColor="Transparent" Command="{Binding DownvoteCommand}" HorizontalOptions="Start"
+                        IsBrightened="{Binding Question.AlreadyDownvoted}"
+                        AutomationProperties.IsInAccessibleTree="True"
+                        AutomationProperties.Name="{xct:Translate QuestionFrameThumbsDownAccessibilityName}"
+                        AutomationProperties.HelpText="{xct:Translate QuestionFrameThumbsDownAccessibilityText}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup Name="BrightenedStates">
+                                <VisualState Name="NotBrightened">
+                                    <VisualState.Setters>
+                                        <Setter Property="xct:IconTintColorEffect.TintColor" Value ="{StaticResource UnselectedOptionButtonColor}"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState Name="Brightened">
+                                    <VisualState.Setters>
+                                        <Setter Property="xct:IconTintColorEffect.TintColor" Value="{StaticResource ButtonColor}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </controls:ColorSingleToggleButton>
                     <Label Text="{xct:Translate UpvoteDisplayCardButtonText}" Style="{StaticResource QuestionButtonText}"/>
                 </StackLayout>
                 <!--Share Button-->
