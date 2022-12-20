@@ -47,18 +47,21 @@
             <!--         </DataTemplate> -->
             <!--     </CollectionView.EmptyViewTemplate> -->
             <!-- </CollectionView> -->
-            <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}" 
-                    VerticalOptions="EndAndExpand"
-                    MaxLength="280" 
-                    Style="{StaticResource NormalEditor}" 
-                    x:Name="KeywordEntry"
-                    Keyboard="Chat">
-                <Editor.Effects> 
-                    <xct:LifecycleEffect Loaded="LifecycleEffect_OnLoaded" /> 
-                </Editor.Effects> 
-            </Editor>
-            
-            
+            <Frame Style="{StaticResource EditorContainer}"
+                   xct:ShadowEffect.Color="Black"
+                   xct:ShadowEffect.OffsetY="-2"
+                   xct:ShadowEffect.Radius="5">
+                <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}" 
+                        VerticalOptions="EndAndExpand"
+                        MaxLength="280" 
+                        Style="{StaticResource KeyboardEditor}" 
+                        x:Name="KeywordEntry"
+                        Keyboard="Chat">
+                    <Editor.Effects> 
+                        <xct:LifecycleEffect Loaded="LifecycleEffect_OnLoaded" /> 
+                    </Editor.Effects> 
+                </Editor>
+            </Frame>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

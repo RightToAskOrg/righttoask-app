@@ -551,6 +551,7 @@
                 <Setter Property="HorizontalOptions" Value="Center" />
                 <Setter Property="Padding" Value="10" />
             </Style>
+            
             <Style x:Key="TitleMedium" TargetType="Label">
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, 
                    Dark={StaticResource TextColorDark}}" />
@@ -573,6 +574,15 @@
                 <Setter Property="Margin" Value="0, 16, 0, 8" />
                 <Setter Property="Opacity" Value="0.25" />
             </Style>
+            <Style x:Key="EditorContainer" TargetType="BoxView">
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="CornerRadius" Value="2 2 0 0 " />
+            </Style>
+            <Style x:Key="KeyboardEditor" BasedOn="{StaticResource DisabledEditor}" TargetType="Editor" ApplyToDerivedTypes="True">
+                <Setter Property="BackgroundColor"  Value="LightGray"/>
+                <Setter Property="TextColor" Value="{StaticResource TextColor}" />
+            </Style> 
         </ResourceDictionary>
     </Application.Resources>
 </Application>
