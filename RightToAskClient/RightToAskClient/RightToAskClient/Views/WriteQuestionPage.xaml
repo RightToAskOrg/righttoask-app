@@ -48,19 +48,24 @@
             <!--     </CollectionView.EmptyViewTemplate> -->
             <!-- </CollectionView> -->
             <Frame Style="{StaticResource EditorContainer}"
+                   Padding="0"
                    xct:ShadowEffect.Color="Black"
                    xct:ShadowEffect.OffsetY="-2"
                    xct:ShadowEffect.Radius="5">
-                <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}" 
-                        VerticalOptions="EndAndExpand"
-                        MaxLength="280" 
-                        Style="{StaticResource KeyboardEditor}" 
-                        x:Name="KeywordEntry"
-                        Keyboard="Chat">
-                    <Editor.Effects> 
-                        <xct:LifecycleEffect Loaded="LifecycleEffect_OnLoaded" /> 
-                    </Editor.Effects> 
-                </Editor>
+                <StackLayout>
+                    <BoxView Style="{StaticResource EditorSeparator}" />
+                    <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}" 
+                            VerticalOptions="EndAndExpand"
+                            MaxLength="280" 
+                            Style="{StaticResource KeyboardEditor}" 
+                            x:Name="KeywordEntry"
+                            Keyboard="Chat"
+                            xct:CornerRadiusEffect.CornerRadius="5">
+                        <Editor.Effects> 
+                            <xct:LifecycleEffect Loaded="LifecycleEffect_OnLoaded" /> 
+                        </Editor.Effects> 
+                    </Editor>
+                </StackLayout>
             </Frame>
         </StackLayout>
     </ContentPage.Content>

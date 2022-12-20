@@ -94,6 +94,7 @@
             <Color x:Key="TextColorGray">Gray</Color>
             <Color x:Key="TextColorDark">#f2f2f7</Color>
             
+            <Color x:Key="EditorBackground">#F0F2F3</Color>
             <!--Generic Styles-->
             <Style TargetType="Label">
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, 
@@ -580,9 +581,20 @@
                 <Setter Property="CornerRadius" Value="2 2 0 0 " />
             </Style>
             <Style x:Key="KeyboardEditor" BasedOn="{StaticResource DisabledEditor}" TargetType="Editor" ApplyToDerivedTypes="True">
-                <Setter Property="BackgroundColor"  Value="LightGray"/>
+                <Setter Property="BackgroundColor"  Value="{StaticResource EditorBackground}"/>
                 <Setter Property="TextColor" Value="{StaticResource TextColor}" />
+                <Setter Property="Margin" Value="16, 16, 16, 16" />
+                <!-- <Setter Property="Col"></Setter> -->
+
             </Style> 
+            <Style x:Key="EditorSeparator" TargetType="BoxView">
+                <Setter Property="HeightRequest" Value="3" />
+                <Setter Property="WidthRequest" Value="35" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="Color" Value="LightGray" />
+                <Setter Property="CornerRadius" Value="3"/>
+                <Setter Property="Margin" Value="0, 8, 0, 0" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
