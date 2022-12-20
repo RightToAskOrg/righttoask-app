@@ -487,36 +487,5 @@ namespace UnitTests
             Assert.True(!string.IsNullOrEmpty(filters.SearchKeyword));
             return filters;
         }
-
-        [Fact]
-        public void ValidateClientSignedUnparsedTest()
-        {
-            // Arrange
-            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid = "TestUID10";
-            var csu = IndividualParticipant.getInstance().SignMessage("fakeMessageToSend");
-
-            // Act
-            // bool isValid = csu.Validate();
-            //TODO (unit-test) should estimate IndividualParticipant.getInstance().ProfileData.RegistrationInfo.public_key first then Validate()
-            Assert.Throws<ArgumentException>(() => csu.Validate());
-            // Assert
-            // Assert.True(isValid);
-        }
-
-        [Fact]
-        public void ValidateClientSignedUnparsedFailTest()
-        {
-            // Arrange
-            IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid = "TestUID10";
-            var csu = IndividualParticipant.getInstance().SignMessage("fakeMessageToSend");
-            csu.message = "changedMessage";
-
-            // Act (It will throw an exception )
-            //bool isValid = csu.Validate();
-            //TODO (unit-test) should estimate IndividualParticipant.getInstance().ProfileData.RegistrationInfo.public_key first then Validate()
-            Assert.Throws<ArgumentException>(() => csu.Validate());
-            // Assert
-            // Assert.False(isValid);
-        }
     }
 }
