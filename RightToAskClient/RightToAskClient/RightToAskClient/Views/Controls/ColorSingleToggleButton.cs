@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 
 // Losely based on https://learn.microsoft.com/en-us/xamarin/xamarin-forms/user-interface/button
@@ -6,7 +7,7 @@ using Xamarin.Forms;
 // turned off. When it is turned on, it turns a bright colour.
 namespace RightToAskClient.Views.Controls
 {
-    class ColorSingleToggleButton : ImageButton
+    public class ColorSingleToggleButton : ImageButton
     {
         public event EventHandler<ToggledEventArgs> Brightened;
 
@@ -18,7 +19,7 @@ namespace RightToAskClient.Views.Controls
         {
             set { SetValue(IsBrightenedProperty, value); }
         }
-
+        
         // Set to NotBrightened state at init
         protected override void OnParentSet()
         {
