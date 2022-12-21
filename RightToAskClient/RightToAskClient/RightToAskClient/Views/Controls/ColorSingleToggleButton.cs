@@ -9,7 +9,7 @@ namespace RightToAskClient.Views.Controls
 {
     public class ColorSingleToggleButton : ImageButton
     {
-        public event EventHandler<ToggledEventArgs> Brightened;
+        private event EventHandler<ToggledEventArgs> Brightened;
 
         public static BindableProperty IsBrightenedProperty =
             BindableProperty.Create("IsBrightened", typeof(bool), typeof(ColorSingleToggleButton),
