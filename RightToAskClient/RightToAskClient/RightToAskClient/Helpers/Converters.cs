@@ -13,8 +13,8 @@ namespace RightToAskClient.Helpers
             if (!(value is HowAnsweredOptions how))
             {
                 return false;
-            } 
-            
+            }
+
             return how == HowAnsweredOptions.InParliament;
         }
 
@@ -23,6 +23,8 @@ namespace RightToAskClient.Helpers
             throw new NotImplementedException();
         }
     }
+
+
 
     public class InvertConvert : IValueConverter
     {

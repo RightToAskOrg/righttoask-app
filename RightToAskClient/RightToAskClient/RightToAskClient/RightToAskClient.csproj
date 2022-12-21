@@ -108,6 +108,7 @@
     <None Remove="sqlite-net-pcl" />
     <None Remove="ViewModels\Registration1ViewModel.cs.old" />
     <None Remove="App.xaml.cs.old" />
+    <None Remove="CustomControls\**" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Models\ServerPubKey.cs" />
@@ -163,6 +164,7 @@
     <Compile Remove="Views\MainPage.xaml.cs" />
     <Compile Remove="ViewModels\MainPageViewModel.cs" />
     <Compile Remove="Views\QuestionDraftingPage.xaml.cs" />
+    <Compile Remove="CustomControls\**" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Views\SecondPage_old.xaml" />
@@ -261,6 +263,7 @@
     <EmbeddedResource Remove="Views\Popups\InfoPopup.xaml" />
     <EmbeddedResource Remove="Views\MainPage.xaml" />
     <EmbeddedResource Remove="Views\QuestionDraftingPage.xaml" />
+    <EmbeddedResource Remove="CustomControls\**" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Essentials">

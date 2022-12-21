@@ -40,23 +40,25 @@ namespace RightToAskClient.Views
 {
     public partial class QuestionDetailPage : ContentPage
     {
-        public QuestionDetailPage()
+        private QuestionViewModel vm;
+        public QuestionDetailPage(QuestionViewModel questionVM)
         {
             InitializeComponent();
-            BindingContext = QuestionViewModel.Instance;
+            vm = questionVM;
+            BindingContext = questionVM;
             
             // Reset the updates to blank/zero so that edits can be captured.
-            QuestionViewModel.Instance.ReinitQuestionUpdates();
+            questionVM.ReinitQuestionUpdates();
             
             // var vm = BindingContext as QuestionViewModel;
             // vm.ReinitQuestionUpdates();
             
-            QuestionViewModel.Instance.PopupLabelText = AppResources.QuestionDetailPopupText;
+            questionVM.PopupLabelText = AppResources.QuestionDetailPopupText;
             
             var normalEditorStyle = Application.Current.Resources["NormalEditor"] as Style;
             var disabledEditorStyle = Application.Current.Resources["DisabledEditor"] as Style;
             
-            if (QuestionViewModel.Instance.IsNewQuestion)
+            if (questionVM.IsNewQuestion)
             {
                 Title = AppResources.ReviewQuestionDetailsTitle;
                 QuestionTextEditor.Style = normalEditorStyle;
@@ -68,10 +70,10 @@ namespace RightToAskClient.Views
             }
 
             BackgroundEditor.Style =
-                QuestionViewModel.Instance.CanEditBackground ? normalEditorStyle : disabledEditorStyle;
+                questionVM.CanEditBackground ? normalEditorStyle : disabledEditorStyle;
             // Don't bother displaying it if it has no content and you can't edit it.
-            BackgroundEditor.IsVisible = QuestionViewModel.Instance.CanEditBackground ||
-                                         !string.IsNullOrWhiteSpace(QuestionViewModel.Instance.Question.Background);
+            BackgroundEditor.IsVisible = questionVM.CanEditBackground ||
+                                         !string.IsNullOrWhiteSpace(questionVM.Question.Background);
             BackgroundLabel.IsVisible = BackgroundEditor.IsVisible;
 
             // Only MPs can answer questions.
@@ -84,19 +86,12 @@ namespace RightToAskClient.Views
         private void Answer_Entered(object sender, EventArgs e)
         {
             // For Hansard links:
-            QuestionViewModel.Instance.NewAnswer = ((Editor)sender).Text;  
+            vm.NewAnswer = ((Editor)sender).Text;  
         }
 
         private void Link_Entered(object sender, EventArgs e)
         {
-            QuestionViewModel.Instance.NewHansardLink = ((Editor)sender).Text;
+            vm.NewHansardLink = ((Editor)sender).Text;
         }
-        
-        protected override bool OnBackButtonPressed()
-        {
-            Application.Current.MainPage.Navigation.PopToRootAsync();
-            return true;
-        }
-
     }
 }

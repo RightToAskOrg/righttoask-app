@@ -69,7 +69,6 @@ namespace RightToAskClient.Models
             set
             {
                 SetProperty(ref _background, value);
-                //** QuestionViewModel.Instance.ServerQuestionUpdates.background = _background;
                 Updates.background = _background;
             }
         }
@@ -90,22 +89,17 @@ namespace RightToAskClient.Models
         // TODO do updates.
         public bool AnswerAccepted { get; set; }
         public string IsFollowupTo { get; set; } = "";
-        // public List<string> Keywords { get; set; } = new List<string>();
-        // public List<string> Category { get; set; } = new List<string>();
-        // public DateTime ExpiryDate { get; set; }
         private string _questionId = "";
         public string QuestionId
         {
             get => _questionId;
             set => SetProperty(ref _questionId, value);
-            //** QuestionViewModel.Instance.ServerQuestionUpdates.question_id = _questionId;
         }
         private string _version = "";
         public string Version
         {
             get => _version;
             set => SetProperty(ref _version, value);
-            //** QuestionViewModel.Instance.ServerQuestionUpdates.version = _version;
         }
 
         // The person who suggested the question
@@ -157,9 +151,15 @@ namespace RightToAskClient.Models
         {
             get => _hansardLink;
             private set => SetProperty(ref _hansardLink, value);
-            //** QuestionViewModel.Instance.ServerQuestionUpdates.hansard_link = _hansardLink;
         }
 
+        private bool _alreadyDownvoted;
+        public bool AlreadyDownvoted 
+        {
+            get => _alreadyDownvoted;
+            private set => SetProperty(ref _alreadyDownvoted, value);
+        }
+        
         private bool _alreadyUpvoted;
         public bool AlreadyUpvoted 
         {
@@ -217,6 +217,7 @@ namespace RightToAskClient.Models
 
             // Check whether the user has already responded to this question.
             AlreadyUpvoted = questionResponses.IsAlreadyUpvoted(QuestionId);
+            AlreadyDownvoted = questionResponses.IsAlreadyDownvoted(QuestionId);
             AlreadyReported = questionResponses.IsAlreadyReported(QuestionId);
             
             interpretFilters(serverQuestion);
@@ -372,6 +373,10 @@ namespace RightToAskClient.Models
         public void ToggleUpvotedStatus()
         {
                 AlreadyUpvoted = !AlreadyUpvoted;
+        }
+        public void ToggleDownvotedStatus()
+        {
+                AlreadyDownvoted = !AlreadyDownvoted;
         }
 
         public void ToggleReportStatus()

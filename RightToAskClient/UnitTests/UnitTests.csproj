@@ -29,4 +29,8 @@
     <ProjectReference Include="..\RightToAskClient\RightToAskClient\RightToAskClient.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Models\ColorSingleToggleButtonTests.cs" />
+  </ItemGroup>
+
 </Project>

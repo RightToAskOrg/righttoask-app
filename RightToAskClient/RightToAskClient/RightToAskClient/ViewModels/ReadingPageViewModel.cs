@@ -92,7 +92,7 @@ namespace RightToAskClient.ViewModels
         // constructor
         public ReadingPageViewModel()
         {
-            // Retrieve previous responses from Preferences, e.g. to display proper colouration on prior up-votes.
+            // Retrieve previous responses from Preferences, e.g. to display proper coloration on prior up-votes.
             _thisUsersResponsesToQuestions.Init();
             
             Keyword = FilterChoices.SearchKeyword;
