@@ -24,21 +24,7 @@ namespace RightToAskClient.Helpers
         }
     }
 
-    public class ColorConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            var defaultColor = Application.Current.Resources["UnselectedOptionButtonColor"];
-            var valueBool = value is bool ? (bool)value : false;
-            var parameterString = parameter is string ? (string)parameter : "Gray";
-            return valueBool ? parameterString : "Gray";
-        }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
 
     public class InvertConvert : IValueConverter
     {

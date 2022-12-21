@@ -15,7 +15,6 @@
             <helpers:InvertConvert x:Key="cnvInvert" />
             <helpers:NullOrEmptyConverter x:Key="emptyToFalse" />
             <helpers:IntEnumConverter x:Key="intEnum" />
-            <helpers:ColorConverter x:Key="boolToColor" />
             
             <!-- Website colors -->
             <!--

@@ -46,53 +46,5 @@ namespace UnitTests.Helpers
             var output = (bool) isInParliamentConverter.Convert("", typeof(HowAnsweredOptions), "", CultureInfo.CurrentCulture);
             Assert.False(output);
         }
-
-        [Fact]
-        public void colorConverterReturnsGrayWhenFalsePassed()
-        {
-            var colorConverter = new ColorConverter();
-            var colorOutput = (string) colorConverter.Convert(false, typeof(string),"", CultureInfo.CurrentCulture);
-            
-            var defaultColor = Application.Current.Resources["UnselectedOptionButtonColor"];
-            Assert.Equal(defaultColor, colorOutput);
-        }
-        
-        [Fact]
-        public void colorConverterReturnsGrayWhenNonBoolPassed()
-        {
-            var colorConverter = new ColorConverter();
-            var colorOutput = (string) colorConverter.Convert("Invalid input", typeof(string),"", CultureInfo.CurrentCulture);
-            
-            var defaultColor = Application.Current.Resources["UnselectedOptionButtonColor"];
-            Assert.Equal(defaultColor, colorOutput);
-        }
-        
-        [Fact]
-        public void colorConverterReturnsParameterWhenTruePassed()
-        {
-            var colorConverter = new ColorConverter();
-            var expectedColor = "Red";
-            var colorOutput = (string) colorConverter.Convert(true, typeof(string),expectedColor, CultureInfo.CurrentCulture);
-            Assert.Equal(expectedColor, colorOutput);
-        }
-        
-        [Fact]
-        public void colorConverterReturnsEmptyStringParameterWhenTruePassed()
-        {
-            var colorConverter = new ColorConverter();
-            var expectedColor = "";
-            var colorOutput = (string) colorConverter.Convert(true, typeof(string),expectedColor, CultureInfo.CurrentCulture);
-            Assert.Equal(expectedColor, colorOutput);
-        }
-        
-        [Fact]
-        public void colorConverterReturnsDefaultWhenPassedNonStringParameter()
-        {
-            var colorConverter = new ColorConverter();
-            var colorOutput = (string) colorConverter.Convert(true, typeof(string), null, CultureInfo.CurrentCulture);
-            var defaultColor = "Gray";
-            Assert.Equal(defaultColor, colorOutput);
-        }
-        
     }
 }
