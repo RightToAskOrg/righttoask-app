@@ -12,9 +12,6 @@ namespace UnitTests
 {
     public class FilterViewModelTests
     {
-        // properties 
-        public ValidationTests vTests = new ValidationTests();
-
         [Fact]
         public void ReinitDataTest() // Function Test - Filter ViewModel
         {

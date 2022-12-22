@@ -204,6 +204,11 @@ namespace RightToAskClient.ViewModels
         }
 
 
+        // net = up - down;
+        // total = up + down
+        public int UpVotes => (Question.TotalVotes + Question.NetVotes) / 2;
+        public int DownVotes => (Question.TotalVotes - Question.NetVotes) / 2;
+        
         public string QuestionSuggesterButtonText => QuestionViewModel.Instance.IsNewQuestion ? AppResources.EditProfileButtonText : string.Format(AppResources.ViewOtherUserProfile, QuestionViewModel.Instance.Question.QuestionSuggester);
 
         public void UpdateMPButtons()
@@ -281,12 +286,15 @@ namespace RightToAskClient.ViewModels
             });
             UpvoteCommand = new AsyncCommand(async () =>
             {
-                if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered) 
+                // First check if they're registered, and offer them the chance to register if not
+                if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
                 {
                     await NavigationUtils.DoRegistrationCheck(
                         IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
                         AppResources.CancelButtonText);
                 }
+
+                // If they didn't register, return
                 if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
                 {
                     return;
@@ -296,16 +304,44 @@ namespace RightToAskClient.ViewModels
                 // TODO We probably want to separate having _written_ questions from having upvoted them.
                 IndividualParticipant.getInstance().HasQuestions = true;
                 XamarinPreferences.shared.Set(Constants.HasQuestions, true);
-                
+
                 // This toggles the appearance immediately but doesn't record it as an upvoted question
                 // unless we get a successful upload ack from the server.
-                if (!Question.AlreadyUpvoted)
+                if (!Question.AlreadyUpvoted && !Question.AlreadyDownvoted)
                 {
                     Question.ToggleUpvotedStatus();
                     var upVoteSuccess = await SendUpVoteToServer(true);
                     if (upVoteSuccess)
                     {
                         ResponseRecords.AddUpvotedQuestion(Question.QuestionId);
+                    }
+                }
+            });
+            DownvoteCommand = new AsyncCommand(async () =>
+            {
+                // First check if they're registered, and offer them the chance to register if not
+                if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered) 
+                {
+                    await NavigationUtils.DoRegistrationCheck(
+                        IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
+                        AppResources.CancelButtonText);
+                }
+                // If they didn't register, return
+                if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
+                {
+                    return;
+                }
+
+                // This toggles the appearance immediately but doesn't record it as an upvoted question
+                // unless we get a successful upload ack from the server.
+                if (!Question.AlreadyUpvoted && !Question.AlreadyDownvoted)
+                {
+                    Question.ToggleDownvotedStatus();
+                    // A 'false' up-vote is a down-vote
+                    var downVoteSuccess = await SendUpVoteToServer(false);
+                    if (downVoteSuccess)
+                    {
+                        ResponseRecords.AddDownvotedQuestion(Question.QuestionId);
                     }
                 }
             });
@@ -406,6 +442,7 @@ namespace RightToAskClient.ViewModels
         public IAsyncCommand BackCommand { get; }
         public Command SaveQuestionCommand { get; }
         public IAsyncCommand UpvoteCommand { get; }
+        public IAsyncCommand DownvoteCommand { get; }
         public Command EditAnswerCommand { get; }
         public IAsyncCommand OptionACommand { get; }
         public IAsyncCommand OptionBCommand { get; }

@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using RightToAskClient.Helpers;
 using RightToAskClient.Models;
+using Xamarin.Forms;
 using Xunit;
 
 namespace UnitTests.Helpers

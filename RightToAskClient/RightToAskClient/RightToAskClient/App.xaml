@@ -5,43 +5,12 @@
              xmlns:helpers="clr-namespace:RightToAskClient.Helpers"
              x:Class="RightToAskClient.App">
     <Application.Resources>
-        <!--<ResourceDictionary>
-            <Color x:Key="primaryGreen">#91CA47</Color>
-            <Color x:Key="primaryDarkGreen">#6FA22E</Color>
-        </ResourceDictionary>-->
         <ResourceDictionary>
             <!--Converter-->
             <helpers:IsInParliament x:Key="isInParliament" />
             <helpers:InvertConvert x:Key="cnvInvert" />
             <helpers:NullOrEmptyConverter x:Key="emptyToFalse" />
             <helpers:IntEnumConverter x:Key="intEnum" />
-            <!-- Website colors -->
-            <!--
-            light green: #649b49
-            yellow: #efd242 
-            site background: #ffffff
-            light grey background: #ededed
-            text colour (dark background) #ffffff
-            mid blue/green : #006d72
-            mid-to-dark blue: #195a6a
-            dark blue background & text: #2f4858
-            red (highlight): #9a4119
-            -->
-            <!--Colors -->
-            <!-- <Color x:Key="Primary">#649b49</Color> -->
-            <!-- Google's material.io suggestions based on Primary #649b49 (leaf green) -->
-            <!-- from https://material.io/design/color/the-color-system.html#tools-for-picking-colors -->
-            <!-- Darkest: #36642f -->
-            <!-- almost-darkest: #538740 -->
-            <!-- lighter: #77af53 #85bf5c #96c973 #a9d28c #c1dfac #d9eccc #f0f8eb (lightest) -->
-            <!-- Complementary: #6f4291 -->
-            <!-- Based on emu-neck blue Primary #18a9c7 
-                Darkest: #035f68
-                Lighter: #83dcf0     -->
-            <!-- Based on emu-feather brown Primary #695f44
-                Darkest: #271f03
-                Light:   #a79c7e
-                Lighter: #c7bb9d     -->
             
             <!-- These are all meant to be the same dark green -->
             <Color x:Key="Primary">#6E7C46</Color>
@@ -57,21 +26,11 @@
             <Color x:Key="FadedButtonColor">#dfdfdf</Color>
             <Color x:Key="FrameColor">#dfdfdf</Color> 
             
-            <!-- Second theme colour -->
+            <!-- Second theme color -->
             <Color x:Key="ClickableLinkColor">#695f44</Color> 
             <Color x:Key="ClickableLinkColorDark">#a79c7e</Color>  
             
-            <!-- Not used 
-            <Color x:Key="ClickableLinkColor">#6f4291</Color> 
-            <Color x:Key="ClickableLinkColorDark">#ad7cbf</Color> 
-            <Color x:Key="ClickableLinkColor2">#9a4119</Color> 
-            <Color x:Key="ClickableLinkColor2Dark">#9a4119</Color> 
-            <Color x:Key="ClickableLinkColor1">#035f68</Color> 
-            <Color x:Key="ClickableLinkColor1Dark">#18a9c7</Color> 
-            <Color x:Key="ClickableLinkColor3">#6453e6</Color> 
-            <Color x:Key="ClickableLinkColor3Dark">#6453e6</Color>  -->
-            
-            <!-- Highlight / Alert colours -->
+            <!-- Highlight / Alert colors -->
             <!-- Note that this mostly doesn't have much effect and has been separately
                  set in the Android project, in Resources/values/styles.xml -->
             <Color x:Key="AlertColor">#9a4119</Color> 
@@ -91,6 +50,7 @@
               
             <Color x:Key="TextColor">black</Color>
             <Color x:Key="TextColorGreen">#36642f</Color>
+            <Color x:Key="UnselectedOptionButtonColor">Gray</Color>
             <Color x:Key="TextColorGray">Gray</Color>
             <Color x:Key="TextColorDark">#f2f2f7</Color>
             
@@ -134,7 +94,6 @@
                 <Setter Property = "Scale" Value = "1.5" />
             </Style>
             <Style TargetType="RadioButton">
-                <!-- <Setter Property="Color" Value="{StaticResource WattleYellow}"/> -->
                 <Setter Property = "VisualStateManager.VisualStateGroups">
                     <VisualStateGroupList>
                     <VisualStateGroup x:Name="CheckedStates">
@@ -292,7 +251,6 @@
             <Style x:Key="SubtleFrame" TargetType="Frame">
                 <Setter Property="BackgroundColor" Value="{StaticResource FrameColor}" />
                 <Setter Property="CornerRadius" Value="10" />
-                <!-- <Setter Property="BorderColor" Value="{StaticResource AlertColor}"></Setter> -->
                 <Setter Property="Padding" Value="0" />
             </Style>
             <Style x:Key="ClickableFrame" TargetType="Frame">
@@ -301,12 +259,10 @@
                 <Setter Property="BackgroundColor" 
                         Value="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, 
                                                                               Dark={StaticResource WindowBackgroundColorDark}}" />
-                <!-- <Setter Property="BorderColor" Value="{StaticResource AlertColor}"></Setter> -->
                 <Setter Property="Padding" Value="0" />
             </Style>
             <Style x:Key="AppThemeFramePadding" TargetType="Frame">
                 <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}" />
-                <!-- <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource EmuFeatherBackgroundColor}, Dark={StaticResource EmuFeatherBackgroundColorDark}}"></Setter>-->
                 <Setter Property="CornerRadius" Value="0" />
                 <Setter Property="BorderColor" Value="{StaticResource FrameColor}" />
                 <Setter Property="Padding" Value="5" />

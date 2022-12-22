@@ -1329,9 +1329,21 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string QuestionFrameThumbsDownAccessibilityName {
+            get {
+                return ResourceManager.GetString("QuestionFrameThumbsDownAccessibilityName", resourceCulture);
+            }
+        }
+        
         internal static string QuestionFrameThumbsUpAccessibilityText {
             get {
                 return ResourceManager.GetString("QuestionFrameThumbsUpAccessibilityText", resourceCulture);
+            }
+        }
+        
+        internal static string QuestionFrameThumbsDownAccessibilityText {
+            get {
+                return ResourceManager.GetString("QuestionFrameThumbsDownAccessibilityText", resourceCulture);
             }
         }
         
