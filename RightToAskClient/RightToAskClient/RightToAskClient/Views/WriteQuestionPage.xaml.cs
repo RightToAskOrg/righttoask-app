@@ -2,10 +2,14 @@
 using System.Threading.Tasks;
 using RightToAskClient.Models;
 using RightToAskClient.ViewModels;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using Xamarin.Forms.Xaml;
+using Xamarin.Forms.PlatformConfiguration;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
+using Application = Xamarin.Forms.PlatformConfiguration.iOSSpecific.Application;
 
 namespace RightToAskClient.Views
 {
@@ -22,10 +26,6 @@ namespace RightToAskClient.Views
             if (ReferenceEquals(sender, KeywordEntry))
             {
                 KeywordEntry.Focus();
-                if (Device.RuntimePlatform == Device.iOS)
-                {
-                    EditorLayout.Margin = new Thickness(0, 0, 0, -50);
-                }
             }
         }
 
@@ -39,6 +39,15 @@ namespace RightToAskClient.Views
         {
             // string EditorNewText = e.NewTextValue;
             
+        }
+
+        private void WriteQuestionPage_OnSizeChanged(object sender, EventArgs e)
+        {
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                var safeArea = On<iOS>().SafeAreaInsets();
+                Padding = new Thickness(0, 0, 0, - safeArea.Bottom);
+            }
         }
     }
 }
