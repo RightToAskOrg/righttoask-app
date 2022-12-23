@@ -10,56 +10,59 @@
              xmlns:views="clr-namespace:RightToAskClient.Views;assembly=RightToAskClient"
              xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
              Title="Write Question" x:DataType="vm:WriteQuestionViewModel">
+
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding BackCommand}"
-                            IconOverride="{helpers:ImageResource RightToAskClient.Images.close.png}" 
+                            IconOverride="{helpers:ImageResource RightToAskClient.Images.close.png}"
                             xct:SemanticEffect.Hint="{xct:Translate WriteQuestionBackHint}"
-                            xct:SemanticEffect.Description="{xct:Translate WriteQuestionBackDescription}"/>
+                            xct:SemanticEffect.Description="{xct:Translate WriteQuestionBackDescription}" />
     </Shell.BackButtonBehavior>
     <ContentPage.BindingContext>
         <vm:WriteQuestionViewModel />
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <StackLayout>
-            <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
-                <Label Text="Let’s first check for similar questions" 
-                       Style="{StaticResource TitleMedium}"/>
-                <Label Text="If there’s a similar question to yours, upvote the question, MPs will likely answer a question with more upvotes."
-                       Style="{StaticResource BodyCopyLarge}"/>
+        <ScrollView>
+            <StackLayout VerticalOptions="FillAndExpand">
+                <Label Text="Let’s first check for similar questions"
+                       Style="{StaticResource TitleMedium}" />
+                <Label
+                    Text="If there’s a similar question to yours, upvote the question, MPs will likely answer a question with more upvotes."
+                    Style="{StaticResource BodyCopyLarge}" />
                 <BoxView Style="{StaticResource Separator}" />
-            </StackLayout>
-            <!-- <CollectionView x:Name="QuestionList" -->
-            <!--                 ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None" -->
-            <!--                 SelectedItem="{Binding SelectedQuestion}" VerticalOptions="FillAndExpand"> -->
-            <!--     <CollectionView.ItemTemplate> -->
-            <!--     <DataTemplate x:DataType="vm:QuestionDisplayCardViewModel"> -->
-            <!--         <views:AskQuestionPreviewCard/> -->
-            <!--     </DataTemplate> -->
-            <!--     </CollectionView.ItemTemplate> -->
-            <!--     <CollectionView.EmptyView> -->
-            <!--         <views:EmptyCollectionView /> -->
-            <!--     </CollectionView.EmptyView> -->
-            <!--     <CollectionView.EmptyViewTemplate> -->
-            <!--         <DataTemplate> -->
-            <!--             <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"> -->
-            <!--                 <Label Text="{xct:Translate EmptyMatchingQuestionCollectionViewString}" -->
-            <!--                        Style="{StaticResource HeaderButtonText}" -->
-            <!--                        VerticalOptions="Start" Margin="0,100,0,0" /> -->
-            <!--             </StackLayout> -->
-            <!--         </DataTemplate> -->
-            <!--     </CollectionView.EmptyViewTemplate> -->
-            <!-- </CollectionView> -->
-            <Frame Style="{StaticResource EditorContainer}"
-                   Padding="0"
-                   xct:ShadowEffect.Color="Black"
-                   xct:ShadowEffect.OffsetY="-2"
-                   xct:ShadowEffect.Radius="5">
-                <StackLayout>
+
+
+                <!-- <CollectionView x:Name="QuestionList" -->
+                <!--                 ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None" -->
+                <!--                 SelectedItem="{Binding SelectedQuestion}" VerticalOptions="FillAndExpand"> -->
+                <!--     <CollectionView.ItemTemplate> -->
+                <!--     <DataTemplate x:DataType="vm:QuestionDisplayCardViewModel"> -->
+                <!--         <views:AskQuestionPreviewCard/> -->
+                <!--     </DataTemplate> -->
+                <!--     </CollectionView.ItemTemplate> -->
+                <!--     <CollectionView.EmptyView> -->
+                <!--         <views:EmptyCollectionView /> -->
+                <!--     </CollectionView.EmptyView> -->
+                <!--     <CollectionView.EmptyViewTemplate> -->
+                <!--         <DataTemplate> -->
+                <!--             <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"> -->
+                <!--                 <Label Text="{xct:Translate EmptyMatchingQuestionCollectionViewString}" -->
+                <!--                        Style="{StaticResource HeaderButtonText}" -->
+                <!--                        VerticalOptions="Start" Margin="0,100,0,0" /> -->
+                <!--             </StackLayout> -->
+                <!--         </DataTemplate> -->
+                <!--     </CollectionView.EmptyViewTemplate> -->
+                <!-- </CollectionView> -->
+                <StackLayout Style="{StaticResource EditorContainer}"
+                             Padding="0"
+                             xct:ShadowEffect.Color="Black"
+                             xct:ShadowEffect.OffsetY="-2"
+                             xct:ShadowEffect.Radius="5"
+                             x:Name="EditorLayout"
+                             VerticalOptions="EndAndExpand">
                     <BoxView Style="{StaticResource EditorSeparator}" />
-                    <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}" 
+                    <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}"
                             VerticalOptions="EndAndExpand"
-                            MaxLength="280" 
-                            Style="{StaticResource KeyboardEditor}" 
+                            Style="{StaticResource KeyboardEditor}"
                             x:Name="KeywordEntry"
                             Keyboard="Chat"
                             TextChanged="KeywordEntry_OnTextChanged"
@@ -67,16 +70,16 @@
                             xct:SemanticEffect.Hint="{xct:Translate WriteQuestionEditorHint}"
                             xct:SemanticEffect.Description="{xct:Translate WriteQuestionEditorDescription}">
                         <Editor.Effects>
-                            <xct:LifecycleEffect Loaded="LifecycleEffect_OnLoaded" /> 
-                        </Editor.Effects> 
+                            <xct:LifecycleEffect Loaded="LifecycleEffect_OnLoaded" />
+                        </Editor.Effects>
                     </Editor>
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand" Margin="0,8,0,12">
-                        <Label Text="0/280" Style="{StaticResource EditorTextNumber}"/>
-                        <Button Text="Proceed with this question" 
-                                Style="{StaticResource EditorProceed}"/>
+                    <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal" Margin="0,8,0,12">
+                        <Label Text="0/280" Style="{StaticResource EditorTextNumber}" />
+                        <Button Text="Proceed with this question"
+                                Style="{StaticResource EditorProceed}" />
                     </StackLayout>
                 </StackLayout>
-            </Frame>
-        </StackLayout>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>
