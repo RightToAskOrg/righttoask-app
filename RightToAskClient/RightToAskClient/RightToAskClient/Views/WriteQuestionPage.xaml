@@ -74,7 +74,13 @@
                         </Editor.Effects>
                     </Editor>
                     <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal" Margin="0,8,0,12">
-                        <Label Text="0/280" Style="{StaticResource EditorTextNumber}" />
+                        <Label Text="0/280" Style="{StaticResource EditorTextNumber}">
+                            <Label.Margin>
+                                <OnPlatform x:TypeArguments="Thickness">
+                                    <On Platform="iOS" Value="0, 10, 16, 0" />
+                                </OnPlatform>
+                            </Label.Margin>
+                        </Label>
                         <Button Text="Proceed with this question"
                                 Style="{StaticResource EditorProceed}" />
                     </StackLayout>
