@@ -41,6 +41,13 @@ namespace RightToAskClient.Views
     public partial class QuestionDetailPage : ContentPage
     {
         private QuestionViewModel vm;
+
+        // This is used only in transition from the Metadata page
+        // and can be removed when it is removed.
+        public QuestionDetailPage() : this(QuestionViewModel.Instance)
+        {
+            
+        }
         public QuestionDetailPage(QuestionViewModel questionVM)
         {
             InitializeComponent();
