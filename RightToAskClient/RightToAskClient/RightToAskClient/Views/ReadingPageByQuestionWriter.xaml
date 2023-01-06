@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+			 xmlns:models="clr-namespace:RightToAskClient.Models;assembly=RightToAskClient"
+             xmlns:local="clr-namespace:RightToAskClient"
+             xmlns:views="clr-namespace:RightToAskClient.Views"
+             xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
+             xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
+             x:Class="RightToAskClient.Views.ReadingPageByQuestionWriter"
+			 x:Name="ReadingPageByQuestionWriterName"
+             Shell.FlyoutBehavior="Flyout"
+             Title="{Binding Title}"
+             x:DataType="vm:ReadingPageByQuestionWriterViewModel">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{xct:Translate SearchButtonText}" IconImageSource="{helpers:ImageResource RightToAskClient.Images.search_75.png}"
+                     Command="{Binding SearchToolbarCommand}"/>
+        <ToolbarItem Text="{xct:Translate InfoPopupButtonText}" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
+                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.BindingContext>
+        <vm:ReadingPageViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout x:Name="WholePage" HorizontalOptions="Center" VerticalOptions="FillAndExpand" Spacing="0">
+            <!-- Instructions for focus support. Show and hide when we're showing/hiding the question frame. --> 
+            <Label Text="{xct:Translate FocusSupportInstructionQuestionDrafting}"  Style = "{StaticResource Header1}"
+                   IsVisible="{Binding ShowQuestionFrame}" />
+            <BoxView />
+            <!--Search Frame-->
+            <Frame Style="{StaticResource AppThemeGreenFrame}" Margin="0" Padding="0" IsVisible="{Binding ShowSearchFrame}">
+                <StackLayout>
+                    <Grid ColumnDefinitions="*,*,*,auto" MinimumHeightRequest="30">
+                        <SearchBar Grid.Column="0" Grid.ColumnSpan="3" Placeholder="{xct:Translate SearchBarPlaceholderText}" Text="{Binding Keyword}"
+                           Style="{StaticResource GreenSearchBar}" HorizontalOptions="Start" 
+                           SearchCommand="{Binding RefreshCommand}"
+                           Margin="0" />
+                        <Grid ColumnDefinitions="auto, auto" Grid.Column="3" Padding="0" Margin="0">
+                            <Label Grid.Column="0" Style="{StaticResource CenterSmall}" FontSize="Micro" Text="{xct:Translate AdvancedSearchButtonText}" 
+                                   Padding="0" Margin="0" VerticalOptions="Center" VerticalTextAlignment="Center" WidthRequest="60" LineBreakMode="WordWrap">
+                                <!-- I was hoping LineBreakMode="WordWrap" would solve the text-wrapping problem on iOS, but it didn't so I used a widthrequest.-->
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ShowFiltersCommand}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <ImageButton Grid.Column="1" Source="{helpers:ImageResource RightToAskClient.Images.filter_sliders_48.png}" 
+                                         Command="{Binding ShowFiltersCommand}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
+                                         WidthRequest="40" Padding="0" Margin="0" BackgroundColor="{StaticResource ButtonColor}"/>
+                        </Grid>
+                    </Grid>
+                </StackLayout>
+            </Frame>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Padding="10,10,10,0">
+                <Label Text="{xct:Translate SortByText}" Style="{StaticResource Header2}" HorizontalOptions="StartAndExpand" VerticalOptions="Center"/>
+
+                <Label Text="{xct:Translate MyElectorateOnlyText}" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand"
+                       Style="{StaticResource RightSmallText}" />
+                <CheckBox />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Padding="0,0,0,10">
+                <RadioButton Content="{xct:Translate DateText}"
+                             GroupName="sortOptions" />
+                <RadioButton Content="{xct:Translate UpVotesText}"
+                             GroupName="sortOptions" />
+                <RadioButton Content="{xct:Translate TrendingButtonText}"
+                             GroupName="sortOptions" />
+                <RadioButton Content="{xct:Translate SurpriseMeText}"
+                             IsChecked="True"
+                             GroupName="sortOptions" />
+            </StackLayout>
+            <!--Questions Scroll View with Floating Draft Button-->
+            <Grid RowDefinitions="*,*" ColumnDefinitions="*,*" VerticalOptions="FillAndExpand">
+                <RefreshView Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="2" IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
+                    <ScrollView VerticalOptions="FillAndExpand">
+                        <StackLayout><!--Heading text moved inside of the scrollview to have it scroll off the page-->
+                            <CollectionView x:Name="QuestionList" ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None" 
+                                        SelectedItem="{Binding SelectedQuestion}" VerticalOptions="FillAndExpand">  
+                            <!-- <CollectionView x:Name="QuestionList" ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None" 
+                                        VerticalOptions="FillAndExpand"> -->
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="vm:QuestionDisplayCardViewModel">
+                                        <SwipeView VerticalOptions="FillAndExpand" BackgroundColor="Transparent">
+                                            <SwipeView.RightItems>
+                                                <SwipeItem Text="Dismiss" IconImageSource="{helpers:ImageResource RightToAskClient.Images.trash_delete_48.png}" 
+                                                       BackgroundColor="{StaticResource AlertColor}"
+                                                       Command="{Binding Path=BindingContext.RemoveQuestionCommand, Source={x:Reference ReadingPageName}}" 
+                                                       CommandParameter="{Binding .}"/>
+                                            </SwipeView.RightItems>
+                                            <views:QuestionDisplayCard/>
+                                        </SwipeView>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                                <CollectionView.EmptyView>
+                                    <views:EmptyCollectionView/>
+                                </CollectionView.EmptyView>
+                                <CollectionView.EmptyViewTemplate>
+                                    <DataTemplate>
+                                        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                            <Label Text="{xct:Translate EmptyMatchingQuestionCollectionViewString}" Style="{StaticResource HeaderButtonText}" 
+                                                   VerticalOptions="Start" Margin="0,100,0,0"/>
+                                        </StackLayout>
+                                    </DataTemplate>
+                                </CollectionView.EmptyViewTemplate>
+                            </CollectionView>
+                        </StackLayout>
+                    </ScrollView>
+                </RefreshView>
+                <ImageButton Grid.Row="1" Grid.Column="1" VerticalOptions="End" HorizontalOptions="End" Margin="10" 
+                        Source="{helpers:ImageResource RightToAskClient.Images.half_roo.png}" WidthRequest="50" HeightRequest="50" CornerRadius="25" BackgroundColor="{StaticResource FrameColor}" 
+                        Command="{Binding DraftCommand}" IsVisible="{Binding ShowQuestionFrame, Converter={StaticResource Key=cnvInvert}}"/>
+            </Grid>
+            <!-- Question Flow Details-->
+            <Frame Style="{StaticResource InvertAppThemeFrame}" Margin="0" Padding="10" IsVisible="{Binding ShowQuestionFrame}">
+                <StackLayout Margin="0" Padding="0" HeightRequest="100">
+                    <StackLayout Orientation="Horizontal" HeightRequest="35" Margin="0" VerticalOptions="CenterAndExpand" BackgroundColor="Transparent">
+                        <Label Text="{xct:Translate YourQuestionTitleText}" Style="{StaticResource InvertFrameText}" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"/>
+                        <Button Text="{xct:Translate DiscardDraftButtonText}" Margin="0,0,10,0" Style="{StaticResource DoneButton}" Command="{Binding DiscardButtonCommand}"/>
+                        <Button Text="{xct:Translate KeepQuestionButtonText}" Style="{StaticResource DoneButton}"
+                        Command="{Binding KeepQuestionButtonCommand}"/>
+                    </StackLayout>
+                    <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}" Text="{Binding DraftQuestion}" 
+                        HorizontalOptions="FillAndExpand" MaxLength="280" Style="{StaticResource NormalEditor}"/>
+                </StackLayout>
+            </Frame>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

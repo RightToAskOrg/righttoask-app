@@ -127,6 +127,11 @@ namespace RightToAskClient.HttpClients
         {
             return await SendDataToServerReturnResponse<QuestionSendToServer, List<ScoredIDs>>(draftQuestion, AppResources.QuestionErrorTypeDescription, SimilarQuestionsUrl);
         }
+        
+        public static async Task<JOSResult<List<ScoredIDs>>> GetSortedSimilarQuestionIDs(QuestionSendToServer draftQuestion)
+        {
+            return await SendDataToServerReturnResponse<QuestionSendToServer, List<ScoredIDs>>(draftQuestion, AppResources.QuestionErrorTypeDescription, SimilarQuestionsUrl);
+        }
 
         public static async Task<JOSResult<QuestionReceiveFromServer>> GetQuestionById(string questionId)
         {

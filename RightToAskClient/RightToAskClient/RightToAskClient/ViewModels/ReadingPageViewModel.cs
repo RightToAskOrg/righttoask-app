@@ -18,121 +18,13 @@ using Xamarin.Forms;
 
 namespace RightToAskClient.ViewModels
 {
-    public class ReadingPageViewModel : BaseViewModel
+    public class ReadingPageViewModel : ReadingPageBaseViewModel
     {
-        public FilterChoices FilterChoices = new FilterChoices();
-     
-        // This is static because we want every instance of ReadingPageViewModel to have the same one:
-        // if you up-vote a question in one version of the ReadingView, we need the other ReadingPages to
-        // see the same change.
-        private static QuestionResponseRecords _thisUsersResponsesToQuestions = new QuestionResponseRecords();
-        
-        // properties
-        private bool _showQuestionFrame = false;
-        public bool ShowQuestionFrame
-        {
-            get => _showQuestionFrame;
-            set => SetProperty(ref _showQuestionFrame, value);
-        }
-
-        private bool _showSearchFrame;
-        public bool ShowSearchFrame
-        {
-            get => _showSearchFrame;
-            set => SetProperty(ref _showSearchFrame, value);
-        }
-
-        private string _heading1 = string.Empty;
-        public string Heading1
-        {
-            get => _heading1;
-            set => SetProperty(ref _heading1, value);
-        }
-        private string _draftQuestion = "";
-        public string DraftQuestion
-        {
-            get => _draftQuestion;
-            set => SetProperty(ref _draftQuestion, value);
-        }
-
-        private Question? _selectedQuestion;
-        public Question? SelectedQuestion
-        {
-            get => _selectedQuestion;
-            set => SetProperty(ref _selectedQuestion, value);
-        }
-
-        private ObservableCollection<QuestionDisplayCardViewModel> _questionsToDisplay = new ObservableCollection<QuestionDisplayCardViewModel>();
-        public ObservableCollection<QuestionDisplayCardViewModel> QuestionsToDisplay
-        {
-            get => _questionsToDisplay;
-            set => SetProperty(ref _questionsToDisplay, value);
-        }
-
-        private bool _isRefreshing = true;
-        public bool IsRefreshing
-        {
-            get => _isRefreshing;
-            set => SetProperty(ref _isRefreshing, value);
-        }
-
-        public string Keyword
-        {
-            get => FilterChoices.SearchKeyword;
-            set
-            {
-                FilterChoices.SearchKeyword = value;
-                OnPropertyChanged();
-            }
-        }
-        
-        private string _writerOnlyUid = string.Empty;
-        private bool _readByQuestionWriter;
-
         // constructor
+        // Most of the real work is in the ReadingPageBaseViewModel - this just adds the loading
+        // function that is specific to the main reading page.
         public ReadingPageViewModel()
         {
-            // Retrieve previous responses from Preferences, e.g. to display proper coloration on prior up-votes.
-            _thisUsersResponsesToQuestions.Init();
-            
-            Keyword = FilterChoices.SearchKeyword;
-            
-            // If we're already searching for something, show the user what.
-            ShowSearchFrame = !string.IsNullOrWhiteSpace(Keyword); 
-
-
-            // Reading with a draft question - prompt for upvoting similar questions
-            if (ShowQuestionFrame)
-            {
-                Heading1 = AppResources.FocusSupportInstructionQuestionDrafting;
-                Title = AppResources.SimilarQuestionsTitle;
-            }
-            // Reading without a draft question
-            else
-            {
-                Heading1 = AppResources.FocusSupportInstructionReadingOnly;
-                Title = AppResources.ReadQuestionsTitle;
-            }
-            
-            PopupLabelText = AppResources.ReadingPageHeader1;
-            PopupHeaderText = Heading1;
-            
-            if (XamarinPreferences.shared.Get(Constants.ShowFirstTimeReadingPopup, true))
-            {
-                InfoPopupCommand.ExecuteAsync();
-                
-                // Only show it once.
-                XamarinPreferences.shared.Set(Constants.ShowFirstTimeReadingPopup, false);
-            }
-            
-            KeepQuestionButtonCommand = new AsyncCommand(async () =>
-            {
-                OnSaveButtonClicked();
-            });
-            DiscardButtonCommand = new AsyncCommand(async () =>
-            {
-                OnDiscardButtonClicked();
-            });
             // Note: There is a race condition here, in that it is possible
             // for this command to be executed multiple times simultaneously,
             // producing multiple calls to Clear and the simultaneous insertion
@@ -141,7 +33,7 @@ namespace RightToAskClient.ViewModels
             // ought to be able to be cleared and added to in any order.
             RefreshCommand = new AsyncCommand(async () =>
             {
-                var questionsToDisplayList = await LoadQuestions();
+                var questionsToDisplayList = await LoadQuestions(GetQuestionListBySearch());
                 QuestionsToDisplay.Clear();
                 foreach (var q in questionsToDisplayList)
                 {  
@@ -149,210 +41,20 @@ namespace RightToAskClient.ViewModels
                 }
                 IsRefreshing = false;
             });
-            DraftCommand = new AsyncCommand(async () =>
-            {
-                // Check that they are registered - if not, prompt them to get an account.
-                if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
-                {
-                    await NavigationUtils.DoRegistrationCheck(
-                        IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
-                        AppResources.CancelButtonText);
-                }
-
-                if (IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
-                {
-                    // If this is their first question, show them the 5-step instructions.
-                    var showHowToPublishPopup = XamarinPreferences.shared.Get(Constants.ShowHowToPublishPopup, true);
-                    if (showHowToPublishPopup)
-                    {
-                        var popup = new HowToPublishPopup();
-                        if (popup != null) _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
-
-                        // Only show it once.
-                        XamarinPreferences.shared.Set(Constants.ShowHowToPublishPopup, false);
-                    }
-                    
-                    // Now let them start drafting.
-                    ShowQuestionFrame = true;
-                }
-            });
-            SearchToolbarCommand = new Command(() =>
-            {
-                ShowSearchFrame = !ShowSearchFrame; // just toggle it
-            });
-            ShowFiltersCommand = new AsyncCommand(async () =>
-            {
-                var advancedSearchFiltersPage = new AdvancedSearchFiltersPage(FilterChoices);
-                await Application.Current.MainPage.Navigation.PushAsync(advancedSearchFiltersPage);
-            });
-            RemoveQuestionCommand = new Command<QuestionDisplayCardViewModel>(questionToRemove =>
-            {
-                if (questionToRemove?.Question.QuestionId != null)
-                {
-                    _thisUsersResponsesToQuestions.AddDismissedQuestion(questionToRemove.Question.QuestionId);
-                    QuestionsToDisplay.Remove(questionToRemove);
-                }
-                // removeQuestionAddRecord(questionToRemove);
-            }); 
-
-
-            MessagingCenter.Subscribe<QuestionViewModel>(this, Constants.QuestionSubmittedDeleteDraft,
-                (sender) =>
-            {
-                    DraftQuestion = "";
-                    ShowQuestionFrame = false;
-            });
-            MessagingCenter.Subscribe<SelectableListViewModel>(this,"ReadQuestionsWithASingleQuestionWriter", (sender) =>
-            {
-                // TODO: this can probably be done better by sending the FilterChoices to the Adv search page.
-                var questionWriter = FilterChoices.QuestionWriterLists.SelectedEntities.FirstOrDefault();
-                if (questionWriter is null)
-                {
-                    Debug.WriteLine("Error: ReadingPage for single question writer but no selection.");
-                }
-
-                _readByQuestionWriter = true;
-                _writerOnlyUid = questionWriter?.RegistrationInfo.uid ?? string.Empty;
-                Heading1 = AppResources.QuestionWriterReadingPageHeaderText+" "+questionWriter?.RegistrationInfo.display_name;
-                
-                RefreshCommand.ExecuteAsync();
-            });
             
             // Get the question list for display
-            if (!_readByQuestionWriter)
-            {
-                RefreshCommand.ExecuteAsync();
-            }
-        }
-
-        // commands
-        public IAsyncCommand KeepQuestionButtonCommand { get; }
-        public IAsyncCommand DiscardButtonCommand { get; }
-        public AsyncCommand RefreshCommand { get; }
-        public IAsyncCommand DraftCommand { get; }
-        public Command SearchToolbarCommand { get; }
-        public Command<QuestionDisplayCardViewModel> RemoveQuestionCommand { get; }
-        public IAsyncCommand ShowFiltersCommand { get; }
-
-        // helper methods
-        private async void OnSaveButtonClicked()
-        {
-            // Set up new question in preparation for upload. 
-            // The filters are new empty filters. 
-            var newQuestion = new Question()
-            {
-                QuestionText = DraftQuestion,
-                QuestionSuggester = (IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
-                    ? IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid
-                    : "",
-                Filters = new FilterChoices()
-            };
-
-            QuestionViewModel.Instance.Question = newQuestion;
-            QuestionViewModel.Instance.IsNewQuestion = true;
-
-            // instead of going to the questionDetailsPage we now go to a Background page and then a metadata page before the details page
-            await Shell.Current.GoToAsync($"{nameof(QuestionBackgroundPage)}");
-        }
-
-        private async void OnDiscardButtonClicked()
-        {
-            DraftQuestion = "";
-            ShowQuestionFrame = false;
-
-            var popup = new OneButtonPopup(AppResources.DraftDiscardedPopupTitle, AppResources.FocusSupportReport, AppResources.OKText);
-            _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
-
-            ShowQuestionFrame = false;
-        }
-
-        public async Task<List<QuestionDisplayCardViewModel>> LoadQuestions()
-        {
-            var serverQuestions = new List<QuestionReceiveFromServer>();
-            var questionsToDisplay = new List<QuestionDisplayCardViewModel>();
-            var httpResponse = await GetAppropriateQuestionList();
-            var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
-            if (!httpValidation.isValid)
-            {
-                ReportLabelText = "Failed to get Question List from server." + httpValidation.errorMessage;
-                return questionsToDisplay;
-            }
-            
-            // httpValidation isValid
-            var questionIds = httpResponse.Data;
-            
-            // loop through the questions
-            foreach (var questionId in questionIds)
-            {
-                // pull the individual question from the server by id
-                QuestionReceiveFromServer tempQuestion;
-                try
-                {
-                    // If retrieval is successful, add to the list of questions to be displayed.
-                    var dataResult = await RTAClient.GetQuestionById(questionId);
-                    if (dataResult.Success)
-                    {
-                        tempQuestion = dataResult.Data;
-                        if (!string.IsNullOrEmpty(tempQuestion.question_text))
-                        {
-                            serverQuestions.Add(tempQuestion);
-                        }
-                    }
-                    // Log retrieval failure.
-                    else
-                    {
-                        var errorMessage = "Could not retrieve question with ID " + questionId + ". ";
-                        if (dataResult is ErrorResult<QuestionReceiveFromServer> errorResult)
-                        {
-                            errorMessage += errorResult.Message;
-                        }
-                        Debug.WriteLine(errorMessage);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine("Could not find question: " + ex.Message);
-                }
-            }
-
-            // convert the ServerQuestions to a Displayable format. Drop already-dismissed ones.
-            foreach (var serverQuestion in serverQuestions)
-            {
-                if (!_thisUsersResponsesToQuestions.IsAlreadyDismissed(serverQuestion.question_id ?? ""))
-                {
-                    questionsToDisplay.Add(new QuestionDisplayCardViewModel(serverQuestion, _thisUsersResponsesToQuestions));
-                }
-            }
-
-            return questionsToDisplay;
+            RefreshCommand.ExecuteAsync();
         }
 
         // Gets the list of question IDs, using 'similarity' material
         // depending on whether this page was reached
         // by searching, drafting a question, 'what's trending' or by looking for all the questions written by a
         // given user.
-        private async Task<JOSResult<List<string>>> GetAppropriateQuestionList()
+        private async Task<JOSResult<List<string>>> GetQuestionListBySearch()
         {
-            // TODO**: use the one stored in this class.
             var filters = FilterChoices;
             
-            // If we're looking for all the questions written by a given user, request them.
-            // TODO** maybe put readByQuestionWriter into FilterChoices?
-            if (_readByQuestionWriter && !string.IsNullOrWhiteSpace(_writerOnlyUid))
-            {
-                var questionIDs = await RTAClient.GetQuestionsByWriterId(_writerOnlyUid);
-                
-                // If there's an error result, pass it back.
-                if (questionIDs.Failure)
-                {
-                    return questionIDs;
-                }
-
-                // Success. Return question list.
-                return new SuccessResult<List<string>>(questionIDs.Data);
-            } 
-            
-            // else use the filters to search for similar questions.
+            // use the filters to search for similar questions.
             var serverSearchQuestion = new QuestionSendToServer()
             {
                 question_text = DraftQuestion + " " + Keyword
@@ -390,15 +92,6 @@ namespace RightToAskClient.ViewModels
             }
             
             return new ErrorResult<List<string>>(AppResources.EmptyMatchingQuestionCollectionViewString);
-        }
-
-        private void removeQuestionAddRecord(QuestionDisplayCardViewModel? questionToRemove)
-        {
-            if (questionToRemove?.Question.QuestionId != null)
-            {
-                _thisUsersResponsesToQuestions.AddDismissedQuestion(questionToRemove.Question.QuestionId);
-                QuestionsToDisplay.Remove(questionToRemove);
-            }
         }
     }
 }
