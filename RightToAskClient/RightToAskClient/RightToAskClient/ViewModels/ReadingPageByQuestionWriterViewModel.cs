@@ -2,14 +2,30 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using RightToAskClient.HttpClients;
 using RightToAskClient.Models;
+using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace RightToAskClient.ViewModels
 {
-    public class ReadingPageByQuestionWriterViewModel : ReadingPageViewModel
+    public class ReadingPageByQuestionWriterViewModel : ReadingPageBaseViewModel
     {
-        private async Task<JOSResult<List<string>>> GetAppropriateQuestionList()
+        // Constructor
+        public ReadingPageByQuestionWriterViewModel()
         {
-            var questionIDs = await RTAClient.GetQuestionsByWriterId("AppTestUser64");
+            
+            RefreshCommand = new AsyncCommand(async () =>
+            {
+                var questionsToDisplayList = await LoadQuestions(GetQuestionListByWriter());
+                doQuestionDisplayRefresh(questionsToDisplayList);
+                IsRefreshing = false;
+            });
+            
+            // Get the question list for display
+            RefreshCommand.ExecuteAsync();
+        }
+        
+        private async Task<JOSResult<List<string>>> GetQuestionListByWriter()
+        {
+            var questionIDs = await RTAClient.GetQuestionsByWriterId("AppTestUser78");
 
             // If there's an error result, pass it back.
             if (questionIDs.Failure)

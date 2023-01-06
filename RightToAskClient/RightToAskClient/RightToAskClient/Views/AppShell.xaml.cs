@@ -14,9 +14,6 @@ namespace RightToAskClient.Views
             Routing.RegisterRoute(nameof(QuestionDetailPage), typeof(QuestionDetailPage));
             Routing.RegisterRoute(nameof(RegisterAccountPage), typeof(RegisterAccountPage));
             Routing.RegisterRoute(nameof(FindMPsPage), typeof(FindMPsPage));
-            // Routing.RegisterRoute(nameof(SecondPage), typeof(SecondPage));
-            // Routing.RegisterRoute("//MainPage/SecondPage", typeof(SecondPage));
-            // Routing.RegisterRoute(nameof(ReadingPage), typeof(ReadingPage));
             Routing.RegisterRoute(nameof(OtherUserProfilePage), typeof(OtherUserProfilePage));
             Routing.RegisterRoute(nameof(QuestionAnswererPage), typeof(QuestionAnswererPage));
             Routing.RegisterRoute(nameof(AdvancedSearchFiltersPage), typeof(AdvancedSearchFiltersPage));
@@ -25,7 +22,6 @@ namespace RightToAskClient.Views
             Routing.RegisterRoute(nameof(QuestionBackgroundPage), typeof(QuestionBackgroundPage));
             Routing.RegisterRoute(nameof(MetadataPage), typeof(MetadataPage));
             Routing.RegisterRoute(nameof(SelectableListPage), typeof(SelectableListPage));
-            // Routing.RegisterRoute(nameof(FindMPsPage), typeof(FindMPsPage));
         }
 
         protected override void OnNavigating(ShellNavigatingEventArgs args)

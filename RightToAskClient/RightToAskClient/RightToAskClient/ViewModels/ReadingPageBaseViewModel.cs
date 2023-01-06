@@ -344,13 +344,13 @@ namespace RightToAskClient.ViewModels
             return new ErrorResult<List<string>>(AppResources.EmptyMatchingQuestionCollectionViewString);
         }
 
-        private void removeQuestionAddRecord(QuestionDisplayCardViewModel? questionToRemove)
+        protected void doQuestionDisplayRefresh(List<QuestionDisplayCardViewModel> questions)
         {
-            if (questionToRemove?.Question.QuestionId != null)
-            {
-                _thisUsersResponsesToQuestions.AddDismissedQuestion(questionToRemove.Question.QuestionId);
-                QuestionsToDisplay.Remove(questionToRemove);
-            }
+                QuestionsToDisplay.Clear();
+                foreach (var q in questions)
+                {  
+                    QuestionsToDisplay.Add(q);
+                }
         }
     }
 }

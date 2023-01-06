@@ -34,11 +34,7 @@ namespace RightToAskClient.ViewModels
             RefreshCommand = new AsyncCommand(async () =>
             {
                 var questionsToDisplayList = await LoadQuestions(GetQuestionListBySearch());
-                QuestionsToDisplay.Clear();
-                foreach (var q in questionsToDisplayList)
-                {  
-                    QuestionsToDisplay.Add(q);
-                }
+                doQuestionDisplayRefresh(questionsToDisplayList);
                 IsRefreshing = false;
             });
             

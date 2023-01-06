@@ -19,14 +19,11 @@
                      IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.BindingContext>
-        <vm:ReadingPageViewModel/>
+        <vm:ReadingPageByQuestionWriterViewModel/>
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout x:Name="WholePage" HorizontalOptions="Center" VerticalOptions="FillAndExpand" Spacing="0">
             <!-- Instructions for focus support. Show and hide when we're showing/hiding the question frame. --> 
-            <Label Text="{xct:Translate FocusSupportInstructionQuestionDrafting}"  Style = "{StaticResource Header1}"
-                   IsVisible="{Binding ShowQuestionFrame}" />
-            <BoxView />
             <!--Search Frame-->
             <Frame Style="{StaticResource AppThemeGreenFrame}" Margin="0" Padding="0" IsVisible="{Binding ShowSearchFrame}">
                 <StackLayout>
@@ -80,12 +77,6 @@
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate x:DataType="vm:QuestionDisplayCardViewModel">
                                         <SwipeView VerticalOptions="FillAndExpand" BackgroundColor="Transparent">
-                                            <SwipeView.RightItems>
-                                                <SwipeItem Text="Dismiss" IconImageSource="{helpers:ImageResource RightToAskClient.Images.trash_delete_48.png}" 
-                                                       BackgroundColor="{StaticResource AlertColor}"
-                                                       Command="{Binding Path=BindingContext.RemoveQuestionCommand, Source={x:Reference ReadingPageName}}" 
-                                                       CommandParameter="{Binding .}"/>
-                                            </SwipeView.RightItems>
                                             <views:QuestionDisplayCard/>
                                         </SwipeView>
                                     </DataTemplate>
