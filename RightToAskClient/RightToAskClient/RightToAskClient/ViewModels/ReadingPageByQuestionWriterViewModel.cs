@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using RightToAskClient.HttpClients;
 using RightToAskClient.Models;
+using RightToAskClient.Resx;
 using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace RightToAskClient.ViewModels
@@ -11,6 +12,7 @@ namespace RightToAskClient.ViewModels
         // Constructor
         public ReadingPageByQuestionWriterViewModel()
         {
+            Title = AppResources.MyQuestionsTitle;
             
             RefreshCommand = new AsyncCommand(async () =>
             {
@@ -25,7 +27,14 @@ namespace RightToAskClient.ViewModels
         
         private async Task<JOSResult<List<string>>> GetQuestionListByWriter()
         {
-            var questionIDs = await RTAClient.GetQuestionsByWriterId("AppTestUser78");
+            var myUID = IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid;
+            if (string.IsNullOrEmpty(myUID))
+            {
+                // TODO: Sensible error result when not registered.
+                return new SuccessResult<List<string>>(new List<string>());
+            }
+
+            var questionIDs = await RTAClient.GetQuestionsByWriterId(myUID);
 
             // If there's an error result, pass it back.
             if (questionIDs.Failure)
