@@ -36,6 +36,8 @@ namespace RightToAskClient
         public static readonly float similarityThreshold = 2.5F;
         
         // Default settings for sorted search
+        public static readonly int DefaultPageSize = 20;
+        
         // Main reading page
         public static readonly int ReadingPageMetadataWeight = 20;
         public static readonly int ReadingNetVotesWeight = 5;

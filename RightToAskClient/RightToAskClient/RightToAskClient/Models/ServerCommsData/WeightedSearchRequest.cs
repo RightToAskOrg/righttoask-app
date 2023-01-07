@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Serialization;
 
 // Information necessary for a search request, including characteristics from QuestionSendToServer
@@ -20,7 +21,7 @@ namespace RightToAskClient.Models.ServerCommsData
         public List<PersonID>? entity_who_should_answer_the_question { get; set; }
  
         [JsonPropertyName("page")]
-        public Page? page { get; set; }
+        public QuestionListPage? page { get; set; }
         
         [JsonPropertyName("weights")]
         public Weights? weights { get; set; }

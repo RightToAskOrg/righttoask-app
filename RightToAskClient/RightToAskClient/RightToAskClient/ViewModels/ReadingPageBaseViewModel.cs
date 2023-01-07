@@ -296,54 +296,6 @@ namespace RightToAskClient.ViewModels
             return questionsToDisplay;
         }
 
-        // Gets the list of question IDs, using 'similarity' material
-        // depending on whether this page was reached
-        // by searching, drafting a question, 'what's trending' or by looking for all the questions written by a
-        // given user.
-        private async Task<JOSResult<List<string>>> GetQuestionListBySearch()
-        {
-            var filters = FilterChoices;
-            
-            // use the filters to search for similar questions.
-            var serverSearchQuestion = new QuestionSendToServer()
-            {
-                question_text = DraftQuestion + " " + Keyword
-            };
-            
-            // If there are no filters, keyword or draft question set, just ask for all questions.
-            if( string.IsNullOrWhiteSpace(serverSearchQuestion.question_text) 
-                && !serverSearchQuestion.TranscribeQuestionFiltersForUpload(filters))
-            {
-                return await RTAClient.GetQuestionList();
-            }
-
-            // Search based on filters and/or search/draft words.
-            var scoredList = await RTAClient.GetSimilarQuestionIDs(serverSearchQuestion);
-
-            // Error
-            if (scoredList.Failure)
-            {
-                if (scoredList is ErrorResult<List<ScoredIDs>> errorResult)
-                {
-                    return new ErrorResult<List<string>>(errorResult.Message);
-                }
-                // Fallback error case - currently not reachable.
-                return new ErrorResult<List<string>>("Error getting questions from server.");
-            }
-
-            // scoredList.Success
-            // If we've successfully retrieved a list of scored question IDs, filter them
-            // to select the ones we want
-            var questionIDsOverThreshold = scoredList.Data
-                .Where(q => q.score > Constants.similarityThreshold).Select(q => q.id).ToList();
-            if (questionIDsOverThreshold.Any())
-            {
-                return new SuccessResult<List<string>>(questionIDsOverThreshold);
-            }
-            
-            return new ErrorResult<List<string>>(AppResources.EmptyMatchingQuestionCollectionViewString);
-        }
-
         protected void doQuestionDisplayRefresh(List<QuestionDisplayCardViewModel> questions)
         {
                 QuestionsToDisplay.Clear();
