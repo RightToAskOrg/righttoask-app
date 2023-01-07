@@ -57,9 +57,6 @@ namespace RightToAskClient.Views
             // Reset the updates to blank/zero so that edits can be captured.
             questionVM.ReinitQuestionUpdates();
             
-            // var vm = BindingContext as QuestionViewModel;
-            // vm.ReinitQuestionUpdates();
-            
             questionVM.PopupLabelText = AppResources.QuestionDetailPopupText;
             
             var normalEditorStyle = Application.Current.Resources["NormalEditor"] as Style;
@@ -84,8 +81,7 @@ namespace RightToAskClient.Views
             BackgroundLabel.IsVisible = BackgroundEditor.IsVisible;
 
             // Only MPs can answer questions.
-            var viewModel = BindingContext as QuestionViewModel;
-            var isMP = viewModel != null ? viewModel.IsVerifiedMpAccount : false;
+            var isMP = questionVM.IsVerifiedMpAccount;
             AnswerEditor.Style = isMP ? normalEditorStyle : disabledEditorStyle;
             AnswerEditor.IsEnabled = isMP;
         }
