@@ -37,6 +37,8 @@ namespace RightToAskClient.ViewModels
                 doQuestionDisplayRefresh(questionsToDisplayList);
                 IsRefreshing = false;
             });
+
+            ShowSearchFrame = true;
             
             // Get the question list for display
             RefreshCommand.ExecuteAsync();
