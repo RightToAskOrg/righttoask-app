@@ -1073,4 +1073,10 @@
   <data name="ReadingPageWriteDescription" xml:space="preserve">
     <value>WriteQuestion</value>
   </data>
+  <data name="ClearButtonHint" xml:space="preserve">
+    <value>Clears input field</value>
+  </data>
+  <data name="ClearButtonDescription" xml:space="preserve">
+    <value>ClearButton</value>
+  </data>
 </root>

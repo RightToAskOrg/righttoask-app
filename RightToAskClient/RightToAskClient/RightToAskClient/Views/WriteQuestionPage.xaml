@@ -102,6 +102,8 @@
                             <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.close.png}"
                                          Style="{StaticResource ClearButton}"
                                          xct:CornerRadiusEffect.CornerRadius="8"
+                                         xct:SemanticEffect.Hint="{xct:Translate ClearButtonHint}"
+                                         xct:SemanticEffect.Description="{xct:Translate ClearButtonDescription}"
                                          Clicked="ClearButton_OnClicked"
                                          x:Name="ClearButton">
                             </ImageButton>

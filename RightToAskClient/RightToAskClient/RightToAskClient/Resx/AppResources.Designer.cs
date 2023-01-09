@@ -1952,5 +1952,17 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("ReadingPageWriteDescription", resourceCulture);
             }
         }
+        
+        internal static string ClearButtonHint {
+            get {
+                return ResourceManager.GetString("ClearButtonHint", resourceCulture);
+            }
+        }
+        
+        internal static string ClearButtonDescription {
+            get {
+                return ResourceManager.GetString("ClearButtonDescription", resourceCulture);
+            }
+        }
     }
 }
