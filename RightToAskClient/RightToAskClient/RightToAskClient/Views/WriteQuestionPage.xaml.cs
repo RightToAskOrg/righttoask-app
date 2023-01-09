@@ -19,6 +19,7 @@ namespace RightToAskClient.Views
         public WriteQuestionPage()
         {
             InitializeComponent();
+            ClearButton.IsVisible = false;
         }
 
         private void LifecycleEffect_OnLoaded(object sender, EventArgs e)
@@ -37,8 +38,7 @@ namespace RightToAskClient.Views
 
         private void KeywordEntry_OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            // string EditorNewText = e.NewTextValue;
-            
+            ClearButton.IsVisible = e.NewTextValue.Length > 0;
         }
 
         private void WriteQuestionPage_OnSizeChanged(object sender, EventArgs e)
@@ -48,6 +48,12 @@ namespace RightToAskClient.Views
                 var safeArea = On<iOS>().SafeAreaInsets();
                 Padding = new Thickness(0, 0, 0, - safeArea.Bottom);
             }
+        }
+
+        private void ClearButton_OnClicked(object sender, EventArgs e)
+        {
+            KeywordEntry.Text = "";
+            ClearButton.IsVisible = false;
         }
     }
 }

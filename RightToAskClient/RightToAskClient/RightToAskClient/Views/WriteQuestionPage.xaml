@@ -63,19 +63,53 @@
                              x:Name="EditorLayout"
                              VerticalOptions="EndAndExpand">
                     <BoxView Style="{StaticResource EditorSeparator}" />
-                    <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}"
-                            VerticalOptions="EndAndExpand"
-                            Style="{StaticResource KeyboardEditor}"
-                            x:Name="KeywordEntry"
-                            Keyboard="Chat"
-                            TextChanged="KeywordEntry_OnTextChanged"
-                            xct:CornerRadiusEffect.CornerRadius="5"
-                            xct:SemanticEffect.Hint="{xct:Translate WriteQuestionEditorHint}"
-                            xct:SemanticEffect.Description="{xct:Translate WriteQuestionEditorDescription}">
-                        <Editor.Effects>
-                            <xct:LifecycleEffect Loaded="LifecycleEffect_OnLoaded" />
-                        </Editor.Effects>
-                    </Editor>
+                    <Grid ColumnSpacing="8"
+                          RowSpacing="0"
+                          Margin="8"
+                          BackgroundColor="{StaticResource EditorBackground}"
+                          Padding="0,0,8,0"
+                          xct:CornerRadiusEffect.CornerRadius="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="24" />
+                        </Grid.ColumnDefinitions>
+                        <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}"
+                                VerticalOptions="EndAndExpand"
+                                HorizontalOptions="Fill"
+                                Style="{StaticResource KeyboardEditor}"
+                                x:Name="KeywordEntry"
+                                Keyboard="Chat"
+                                TextChanged="KeywordEntry_OnTextChanged"
+                                xct:CornerRadiusEffect.CornerRadius="5"
+                                xct:SemanticEffect.Hint="{xct:Translate WriteQuestionEditorHint}"
+                                xct:SemanticEffect.Description="{xct:Translate WriteQuestionEditorDescription}"
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Margin="0">
+                            <Editor.Effects>
+                                <xct:LifecycleEffect Loaded="LifecycleEffect_OnLoaded" />
+                            </Editor.Effects>
+                        </Editor>
+                        <StackLayout
+                            Orientation="Vertical"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            Grid.Row="0"
+                            Grid.Column="1">
+                            <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.close.png}"
+                                         BackgroundColor="Purple"
+                                         WidthRequest="16"
+                                         HeightRequest="16"
+                                         Margin="0"
+                                         Padding="0"
+                                         Clicked="ClearButton_OnClicked"
+                                         x:Name="ClearButton">
+                            </ImageButton>
+                        </StackLayout>
+                    </Grid>
                     <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal" Margin="0,8,0,12">
                         <Label Text="0/280" Style="{StaticResource EditorTextNumber}">
                             <Label.Margin>
