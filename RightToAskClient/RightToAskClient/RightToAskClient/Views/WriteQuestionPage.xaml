@@ -100,11 +100,8 @@
                             Grid.Row="0"
                             Grid.Column="1">
                             <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.close.png}"
-                                         BackgroundColor="Purple"
-                                         WidthRequest="16"
-                                         HeightRequest="16"
-                                         Margin="0"
-                                         Padding="0"
+                                         Style="{StaticResource ClearButton}"
+                                         xct:CornerRadiusEffect.CornerRadius="8"
                                          Clicked="ClearButton_OnClicked"
                                          x:Name="ClearButton">
                             </ImageButton>
