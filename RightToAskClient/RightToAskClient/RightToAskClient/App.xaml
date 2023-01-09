@@ -525,6 +525,7 @@
                 <Setter Property="FontSize" Value="16" />
                 <Setter Property="HorizontalOptions" Value="Start" />
                 <Setter Property="Margin" Value="16, 8, 16, 0" />
+                <Setter Property="LineHeight" Value="1.2"/>
             </Style>
             <Style x:Key="Separator" TargetType="BoxView">
                 <Setter Property="HeightRequest" Value="1" />
@@ -554,12 +555,14 @@
             </Style>
             <Style x:Key="EditorTextNumber" TargetType="Label">
                 <Setter Property="Margin" Value="0,0,20,0" />
+                <Setter Property="FontSize" Value="14" />
             </Style>
             <Style x:Key="EditorProceed" TargetType="Button">
                 <Setter Property="TextColor" Value="Gray"/>
                 <Setter Property="BackgroundColor" Value="Transparent"/>
                 <Setter Property="Padding" Value="0"/>
                 <Setter Property="Margin" Value="0,0,20,0" />   
+                <Setter Property="FontSize" Value="14" />
             </Style>
             <Style x:Key="ClearButton" TargetType="ImageButton">
                 <Setter Property="BackgroundColor" Value="{StaticResource Purple}"/>

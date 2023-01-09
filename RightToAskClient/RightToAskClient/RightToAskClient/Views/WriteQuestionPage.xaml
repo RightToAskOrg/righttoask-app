@@ -9,7 +9,7 @@
              xmlns:local="clr-namespace:RightToAskClient"
              xmlns:views="clr-namespace:RightToAskClient.Views;assembly=RightToAskClient"
              xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
-             Title="Write Question" x:DataType="vm:WriteQuestionViewModel"
+             Title="Write question" x:DataType="vm:WriteQuestionViewModel"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="true"
              SizeChanged="WriteQuestionPage_OnSizeChanged">
@@ -25,7 +25,7 @@
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout VerticalOptions="FillAndExpand">
+            <StackLayout VerticalOptions="FillAndExpand" BackgroundColor="White">
                 <Label Text="Let’s first check for similar questions"
                        Style="{StaticResource TitleMedium}" />
                 <Label
@@ -65,7 +65,7 @@
                     <BoxView Style="{StaticResource EditorSeparator}" />
                     <Grid ColumnSpacing="8"
                           RowSpacing="0"
-                          Margin="8"
+                          Margin="16, 8, 16, 8"
                           BackgroundColor="{StaticResource EditorBackground}"
                           Padding="0,0,8,0"
                           xct:CornerRadiusEffect.CornerRadius="5">
@@ -109,11 +109,12 @@
                             </ImageButton>
                         </StackLayout>
                     </Grid>
-                    <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal" Margin="0,8,0,12">
+                    <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal" Margin="0,0,0,12">
                         <Label Text="0/280" Style="{StaticResource EditorTextNumber}">
                             <Label.Margin>
                                 <OnPlatform x:TypeArguments="Thickness">
-                                    <On Platform="iOS" Value="0, 10, 16, 0" />
+                                    <On Platform="iOS" Value="0, 13, 16, 0" />
+                                    <On Platform="Android" Value="0, 0, 16, 0" />
                                 </OnPlatform>
                             </Label.Margin>
                         </Label>

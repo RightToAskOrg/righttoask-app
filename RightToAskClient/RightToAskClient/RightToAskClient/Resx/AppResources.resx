@@ -205,7 +205,7 @@
     <value>Done</value>
   </data>
   <data name="DraftQuestionPlaceholderText" xml:space="preserve">
-    <value>Draft Question: </value>
+    <value>Enter your question here </value>
   </data>
   <data name="EditProfileButtonText" xml:space="preserve">
     <value>Edit Your Profile</value>
