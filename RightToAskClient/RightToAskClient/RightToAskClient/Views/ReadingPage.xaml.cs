@@ -20,17 +20,17 @@ namespace RightToAskClient.Views
 
         protected override void OnAppearing()
         {
+            if (ReadingPageExchanger.ByQuestionWriter)
+            {
+                BindingContext = new ReadingPageViewModel(ReadingPageExchanger.ByQuestionWriter);
+                ReadingPageExchanger.ByQuestionWriter = false;
+            }
             if (BindingContext is ReadingPageViewModel vm)
             {
-                vm.ReadByQuestionWriter = ReadingPageExchanger.ByQuestionWriter;
-
-                if (ReadingPageExchanger.ByQuestionWriter)
-                {
-                    vm.Title = AppResources.MyQuestionsTitle;
-                    ReadingPageExchanger.ByQuestionWriter = false;
-                }
+                vm.Title = AppResources.MyQuestionsTitle;
             }
         }
+        
         protected override void OnDisappearing()
         {
             // clear the selected item

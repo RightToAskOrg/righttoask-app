@@ -18,7 +18,7 @@ using Xamarin.Forms;
 
 namespace RightToAskClient.ViewModels
 {
-    public class ReadingPageViewModel : ReadingPageBaseViewModel
+    public class ReadingPageViewModel: BaseViewModel
     {
         public FilterChoices FilterChoices = new FilterChoices();
      
@@ -95,9 +95,14 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _readByQuestionWriter, value);
         }
 
-        // constructor
-        public ReadingPageViewModel()
+        public ReadingPageViewModel(): this(false)
         {
+        }
+        
+        // constructor
+        public ReadingPageViewModel(bool ReadByQuestionWriter)
+        {
+            _readByQuestionWriter = ReadByQuestionWriter;
             // Retrieve previous responses from Preferences, e.g. to display proper coloration on prior up-votes.
             _thisUsersResponsesToQuestions.Init();
             
@@ -259,7 +264,7 @@ namespace RightToAskClient.ViewModels
             var questionsToDisplay = new List<QuestionDisplayCardViewModel>();
             
             JOSResult<List<string>> httpResponse;
-            if (ReadByQuestionWriter)
+            if (_readByQuestionWriter)
             {
                 httpResponse = await GetQuestionListByWriter();
             }
