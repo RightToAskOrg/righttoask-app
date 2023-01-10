@@ -25,11 +25,10 @@
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout VerticalOptions="FillAndExpand" BackgroundColor="White">
-                <Label Text="Let’s first check for similar questions"
+            <StackLayout VerticalOptions="FillAndExpand" >
+                <Label Text="{xct:Translate SimilarQuestionsInstructionHeader}"
                        Style="{StaticResource TitleMedium}" />
-                <Label
-                    Text="If there’s a similar question to yours, upvote the question, MPs will likely answer a question with more upvotes."
+                <Label Text="{xct:Translate SimilarQuestionsInstructionText}"
                     Style="{StaticResource BodyCopyLarge}" />
                 <BoxView Style="{StaticResource Separator}" />
 
