@@ -14,12 +14,14 @@ namespace RightToAskClient.ViewModels
         {
             Title = AppResources.MyQuestionsTitle;
             
+            /*
             RefreshCommand = new AsyncCommand(async () =>
             {
                 var questionsToDisplayList = await LoadQuestions(GetQuestionListByWriter());
                 doQuestionDisplayRefresh(questionsToDisplayList);
                 IsRefreshing = false;
             });
+            */
             
             // Get the question list for display
             RefreshCommand.ExecuteAsync();

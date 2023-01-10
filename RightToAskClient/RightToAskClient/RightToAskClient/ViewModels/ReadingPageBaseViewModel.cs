@@ -89,6 +89,12 @@ namespace RightToAskClient.ViewModels
         protected string _writerOnlyUid = string.Empty;
         protected bool _readByQuestionWriter;
 
+        public bool ReadByQuestionWriter
+        {
+            get => _readByQuestionWriter;
+            set => SetProperty(ref _readByQuestionWriter, value);
+        }
+
         // constructor
         public ReadingPageBaseViewModel()
         {
@@ -195,7 +201,7 @@ namespace RightToAskClient.ViewModels
         // commands
         public IAsyncCommand KeepQuestionButtonCommand { get; }
         public IAsyncCommand DiscardButtonCommand { get; }
-        public AsyncCommand RefreshCommand { get; protected set; }
+        public AsyncCommand RefreshCommand { get; }
         public IAsyncCommand DraftCommand { get; }
         public Command SearchToolbarCommand { get; }
         public Command<QuestionDisplayCardViewModel> RemoveQuestionCommand { get; }

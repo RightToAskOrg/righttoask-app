@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using RightToAskClient.Models;
 using RightToAskClient.ViewModels;
 using Xamarin.Forms;
@@ -26,10 +27,16 @@ namespace RightToAskClient.Views
 
         protected override void OnNavigating(ShellNavigatingEventArgs args)
         {
+            Debug.WriteLine(args.Target.Location.OriginalString);
             base.OnNavigating(args);
             if (args.Target.Location.OriginalString.ToLower().Contains("account"))
             {
                 AccountPageExchanger.Registration = IndividualParticipant.getInstance().ProfileData.RegistrationInfo;
+            }
+
+            if (args.Target.Location.OriginalString.ToLower().Contains("readingpagebyquestionwriter"))
+            {
+               ReadingPageExchanger.ByQuestionWriter = true;
             }
         }
     }

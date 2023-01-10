@@ -87,7 +87,7 @@
         <ShellContent Route="ReadingPage" ContentTemplate="{DataTemplate local:ReadingPage}" />
     </FlyoutItem>
     <FlyoutItem Title="My questions" FlyoutIcon="{helpers:ImageResource RightToAskClient.Images.emu_75.png}">
-        <ShellContent Route="ReadingPageByQuestionWriter" ContentTemplate="{DataTemplate local:ReadingPageByQuestionWriter}" />
+        <ShellContent Route="ReadingPageByQuestionWriter" ContentTemplate="{DataTemplate local:ReadingPage}" />
     </FlyoutItem>
     <FlyoutItem Title="Account" FlyoutIcon="{extensions:ImageResource RightToAskClient.Images.info_48.png}">
         <ShellContent Route="Account" ContentTemplate="{DataTemplate local:AccountPage}" />
