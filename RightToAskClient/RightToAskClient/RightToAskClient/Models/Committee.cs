@@ -17,7 +17,7 @@ namespace RightToAskClient.Models
 
         public override string ShortestName => Jurisdiction+": "+Name;
 
-        // Contstructor
+        // Constructor
         public Committee(CommitteeInfo info)
         {
             Jurisdiction = info.jurisdiction; 
