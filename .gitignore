@@ -16,6 +16,9 @@
 # Mono auto generated files
 mono_crash.*
 
+# config files
+RightToAskClient/RightToAskClient/RightToAskClient/Resources/serverconfig.json
+
 # Build results
 RightToAskClient/RightToAskClient/RightToAskClient/Resx/AppResources.Designer.cs
 [Dd]ebug/
