@@ -87,9 +87,20 @@
                         </StackLayout>
                     </ScrollView>
                 </RefreshView>
-                <ImageButton Grid.Row="1" Grid.Column="1" VerticalOptions="End" HorizontalOptions="End" Margin="10" 
-                        Source="{helpers:ImageResource RightToAskClient.Images.half_roo.png}" WidthRequest="50" HeightRequest="50" CornerRadius="25" BackgroundColor="{StaticResource FrameColor}" 
-                        Command="{Binding DraftCommand}" IsVisible="{Binding ShowQuestionFrame, Converter={StaticResource Key=cnvInvert}}"/>
+                <ImageButton Grid.Row="1"
+                             Grid.Column="1" 
+                             VerticalOptions="End" 
+                             HorizontalOptions="End" 
+                             Margin="10" 
+                             Source="{helpers:ImageResource RightToAskClient.Images.half_roo.png}" 
+                             WidthRequest="50"
+                             HeightRequest="50"
+                             CornerRadius="25"
+                             BackgroundColor="{StaticResource FrameColor}" 
+                             Command="{Binding DraftCommand}" 
+                             IsVisible="{Binding ShowQuestionFrame, Converter={StaticResource Key=cnvInvert}}"
+                             xct:SemanticEffect.Hint="{xct:Translate ReadingPageWriteHint}"
+                             xct:SemanticEffect.Description="{xct:Translate ReadingPageWriteDescription}"/>
             </Grid>
             <!-- Question Flow Details-->
             <Frame Style="{StaticResource InvertAppThemeFrame}" Margin="0" Padding="10" IsVisible="{Binding ShowQuestionFrame}">

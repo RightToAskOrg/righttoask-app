@@ -23,11 +23,12 @@ namespace RightToAskClient.Views
             Routing.RegisterRoute(nameof(QuestionBackgroundPage), typeof(QuestionBackgroundPage));
             Routing.RegisterRoute(nameof(MetadataPage), typeof(MetadataPage));
             Routing.RegisterRoute(nameof(SelectableListPage), typeof(SelectableListPage));
+            Routing.RegisterRoute(nameof(WriteQuestionPage), typeof(WriteQuestionPage));
+            // Routing.RegisterRoute(nameof(FindMPsPage), typeof(FindMPsPage));
         }
 
         protected override void OnNavigating(ShellNavigatingEventArgs args)
         {
-            Debug.WriteLine(args.Target.Location.OriginalString);
             base.OnNavigating(args);
             if (args.Target.Location.OriginalString.ToLower().Contains("account"))
             {

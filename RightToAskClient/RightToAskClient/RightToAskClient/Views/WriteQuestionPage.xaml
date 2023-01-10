@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RightToAskClient.Views.WriteQuestionPage"
+             x:Name="AskQuestionPageName"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
+             xmlns:local="clr-namespace:RightToAskClient"
+             xmlns:views="clr-namespace:RightToAskClient.Views;assembly=RightToAskClient"
+             xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
+             Title="Write question" x:DataType="vm:WriteQuestionViewModel"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             ios:Page.UseSafeArea="true"
+             SizeChanged="WriteQuestionPage_OnSizeChanged">
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding BackCommand}"
+                            IconOverride="{helpers:ImageResource RightToAskClient.Images.close.png}"
+                            xct:SemanticEffect.Hint="{xct:Translate WriteQuestionBackHint}"
+                            xct:SemanticEffect.Description="{xct:Translate WriteQuestionBackDescription}" />
+    </Shell.BackButtonBehavior>
+    <ContentPage.BindingContext>
+        <vm:WriteQuestionViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout VerticalOptions="FillAndExpand" >
+                <Label Text="{xct:Translate SimilarQuestionsInstructionHeader}"
+                       Style="{StaticResource TitleMedium}" />
+                <Label Text="{xct:Translate SimilarQuestionsInstructionText}"
+                    Style="{StaticResource BodyCopyLarge}" />
+                <BoxView Style="{StaticResource Separator}" />
+
+
+                <!-- <CollectionView x:Name="QuestionList" -->
+                <!--                 ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None" -->
+                <!--                 SelectedItem="{Binding SelectedQuestion}" VerticalOptions="FillAndExpand"> -->
+                <!--     <CollectionView.ItemTemplate> -->
+                <!--     <DataTemplate x:DataType="vm:QuestionDisplayCardViewModel"> -->
+                <!--         <views:AskQuestionPreviewCard/> -->
+                <!--     </DataTemplate> -->
+                <!--     </CollectionView.ItemTemplate> -->
+                <!--     <CollectionView.EmptyView> -->
+                <!--         <views:EmptyCollectionView /> -->
+                <!--     </CollectionView.EmptyView> -->
+                <!--     <CollectionView.EmptyViewTemplate> -->
+                <!--         <DataTemplate> -->
+                <!--             <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"> -->
+                <!--                 <Label Text="{xct:Translate EmptyMatchingQuestionCollectionViewString}" -->
+                <!--                        Style="{StaticResource HeaderButtonText}" -->
+                <!--                        VerticalOptions="Start" Margin="0,100,0,0" /> -->
+                <!--             </StackLayout> -->
+                <!--         </DataTemplate> -->
+                <!--     </CollectionView.EmptyViewTemplate> -->
+                <!-- </CollectionView> -->
+                <StackLayout Style="{StaticResource EditorContainer}"
+                             Padding="0"
+                             xct:ShadowEffect.Color="Black"
+                             xct:ShadowEffect.OffsetY="-2"
+                             xct:ShadowEffect.Radius="5"
+                             x:Name="EditorLayout"
+                             VerticalOptions="EndAndExpand">
+                    <BoxView Style="{StaticResource EditorSeparator}" />
+                    <Grid ColumnSpacing="8"
+                          RowSpacing="0"
+                          Margin="16, 8, 16, 8"
+                          BackgroundColor="{StaticResource EditorBackground}"
+                          Padding="0,0,8,0"
+                          xct:CornerRadiusEffect.CornerRadius="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="24" />
+                        </Grid.ColumnDefinitions>
+                        <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}"
+                                VerticalOptions="EndAndExpand"
+                                HorizontalOptions="Fill"
+                                Style="{StaticResource KeyboardEditor}"
+                                x:Name="KeywordEntry"
+                                Keyboard="Chat"
+                                TextChanged="KeywordEntry_OnTextChanged"
+                                xct:CornerRadiusEffect.CornerRadius="5"
+                                xct:SemanticEffect.Hint="{xct:Translate WriteQuestionEditorHint}"
+                                xct:SemanticEffect.Description="{xct:Translate WriteQuestionEditorDescription}"
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Margin="0">
+                            <Editor.Effects>
+                                <xct:LifecycleEffect Loaded="LifecycleEffect_OnLoaded" />
+                            </Editor.Effects>
+                        </Editor>
+                        <StackLayout
+                            Orientation="Vertical"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            Grid.Row="0"
+                            Grid.Column="1">
+                            <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.close.png}"
+                                         Style="{StaticResource ClearButton}"
+                                         xct:CornerRadiusEffect.CornerRadius="8"
+                                         xct:SemanticEffect.Hint="{xct:Translate ClearButtonHint}"
+                                         xct:SemanticEffect.Description="{xct:Translate ClearButtonDescription}"
+                                         Clicked="ClearButton_OnClicked"
+                                         x:Name="ClearButton">
+                            </ImageButton>
+                        </StackLayout>
+                    </Grid>
+                    <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal" Margin="0,0,0,12">
+                        <Label Text="0/280" Style="{StaticResource EditorTextNumber}">
+                            <Label.Margin>
+                                <OnPlatform x:TypeArguments="Thickness">
+                                    <On Platform="iOS" Value="0, 13, 16, 0" />
+                                    <On Platform="Android" Value="0, 0, 16, 0" />
+                                </OnPlatform>
+                            </Label.Margin>
+                        </Label>
+                        <Button Text="Proceed with this question"
+                                Style="{StaticResource EditorProceed}" />
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

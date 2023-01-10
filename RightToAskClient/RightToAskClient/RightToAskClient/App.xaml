@@ -13,18 +13,18 @@
             <helpers:IntEnumConverter x:Key="intEnum" />
             
             <!-- These are all meant to be the same dark green -->
-            <Color x:Key="Primary">#36642f</Color>
-            <Color x:Key="HeadingTextColor">#36642f</Color>
-            <Color x:Key="FrameOutlineColor">#36642f</Color>
-            <Color x:Key="DarkButtonColor">#36642f</Color>
+            <Color x:Key="Primary">#6E7C46</Color>
+            <Color x:Key="HeadingTextColor">#6E7C46</Color>
+            <Color x:Key="FrameOutlineColor">#6E7C46</Color>
+            <Color x:Key="DarkButtonColor">#6E7C46</Color>
             
             <!-- These are all the same mid green -->
-            <Color x:Key="ButtonColor">#649b49</Color>
-            <Color x:Key="HeadingTextColorDark">#649b49</Color>
+            <Color x:Key="ButtonColor">#6E7C46</Color>
+            <Color x:Key="HeadingTextColorDark">#6E7C46</Color>
             
             <!-- These are all the same light green -->
-            <Color x:Key="FadedButtonColor">#c1dfac</Color>
-            <Color x:Key="FrameColor">#c1dfac</Color> 
+            <Color x:Key="FadedButtonColor">#dfdfdf</Color>
+            <Color x:Key="FrameColor">#dfdfdf</Color> 
             
             <!-- Second theme color -->
             <Color x:Key="ClickableLinkColor">#695f44</Color> 
@@ -54,6 +54,10 @@
             <Color x:Key="TextColorGray">Gray</Color>
             <Color x:Key="TextColorDark">#f2f2f7</Color>
             
+            <Color x:Key="EditorBackground">#F0F2F3</Color>
+            <Color x:Key="EditorBackgroundDark">#111111</Color>
+            <Color x:Key="Transparent">#00000000</Color>
+            <Color x:Key="Purple">#9141B2</Color>
             <!--Generic Styles-->
             <Style TargetType="Label">
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, 
@@ -506,6 +510,68 @@
                 <Setter Property="VerticalOptions" Value="CenterAndExpand" />
                 <Setter Property="HorizontalOptions" Value="Center" />
                 <Setter Property="Padding" Value="10" />
+            </Style>
+            
+            <Style x:Key="TitleMedium" TargetType="Label">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, 
+                   Dark={StaticResource TextColorDark}}" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="HorizontalOptions" Value="Start" />
+                <Setter Property="Margin" Value="16, 16, 16, 0" />
+            </Style>
+            <Style x:Key="BodyCopyLarge" TargetType="Label">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, 
+                   Dark={StaticResource TextColorDark}}" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="HorizontalOptions" Value="Start" />
+                <Setter Property="Margin" Value="16, 8, 16, 0" />
+                <Setter Property="LineHeight" Value="1.2"/>
+            </Style>
+            <Style x:Key="Separator" TargetType="BoxView">
+                <Setter Property="HeightRequest" Value="1" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="Color" Value="Gray" />
+                <Setter Property="Margin" Value="0, 16, 0, 8" />
+                <Setter Property="Opacity" Value="0.25" />
+            </Style>
+            <Style x:Key="EditorContainer" TargetType="BoxView">
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, 
+                   Dark={StaticResource WindowBackgroundColorDark}}" />
+                <Setter Property="CornerRadius" Value="2 2 0 0 " />
+            </Style>
+            <Style x:Key="KeyboardEditor" BasedOn="{StaticResource DisabledEditor}" TargetType="Editor" ApplyToDerivedTypes="True">
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource EditorBackground}, 
+                   Dark={StaticResource EditorBackgroundDark}}" />
+                <Setter Property="FontAttributes" Value="None"></Setter>
+                <Setter Property="Margin" Value="16, 16, 16, 0" />
+            </Style> 
+            <Style x:Key="EditorSeparator" TargetType="BoxView">
+                <Setter Property="HeightRequest" Value="3" />
+                <Setter Property="WidthRequest" Value="35" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="Color" Value="LightGray" />
+                <Setter Property="CornerRadius" Value="3"/>
+                <Setter Property="Margin" Value="0, 8, 0, 0" />
+            </Style>
+            <Style x:Key="EditorTextNumber" TargetType="Label">
+                <Setter Property="Margin" Value="0,0,20,0" />
+                <Setter Property="FontSize" Value="14" />
+            </Style>
+            <Style x:Key="EditorProceed" TargetType="Button">
+                <Setter Property="TextColor" Value="Gray"/>
+                <Setter Property="BackgroundColor" Value="Transparent"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Margin" Value="0,0,20,0" />   
+                <Setter Property="FontSize" Value="14" />
+            </Style>
+            <Style x:Key="ClearButton" TargetType="ImageButton">
+                <Setter Property="BackgroundColor" Value="{StaticResource Purple}"/>
+                <Setter Property="Padding" Value="2"/>
+                <Setter Property="Margin" Value="0" />   
+                <Setter Property="WidthRequest" Value="16" />  
+                <Setter Property="HeightRequest" Value="16" />  
             </Style>
         </ResourceDictionary>
     </Application.Resources>

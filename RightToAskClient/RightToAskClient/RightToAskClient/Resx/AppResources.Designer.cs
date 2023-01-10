@@ -789,6 +789,18 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string SimilarQuestionsInstructionHeader {
+            get {
+                return ResourceManager.GetString("SimilarQuestionsInstructionHeader", resourceCulture);
+            }
+        }
+        
+        internal static string SimilarQuestionsInstructionText {
+            get {
+                return ResourceManager.GetString("SimilarQuestionsInstructionText", resourceCulture);
+            }
+        }
+        
         internal static string SimilarQuestionsTitle {
             get {
                 return ResourceManager.GetString("SimilarQuestionsTitle", resourceCulture);
@@ -1920,6 +1932,54 @@ namespace RightToAskClient.Resx {
         internal static string AnswerHeaderText {
             get {
                 return ResourceManager.GetString("AnswerHeaderText", resourceCulture);
+            }
+        }
+        
+        internal static string WriteQuestionEditorHint {
+            get {
+                return ResourceManager.GetString("WriteQuestionEditorHint", resourceCulture);
+            }
+        }
+        
+        internal static string WriteQuestionEditorDescription {
+            get {
+                return ResourceManager.GetString("WriteQuestionEditorDescription", resourceCulture);
+            }
+        }
+        
+        internal static string WriteQuestionBackHint {
+            get {
+                return ResourceManager.GetString("WriteQuestionBackHint", resourceCulture);
+            }
+        }
+        
+        internal static string WriteQuestionBackDescription {
+            get {
+                return ResourceManager.GetString("WriteQuestionBackDescription", resourceCulture);
+            }
+        }
+        
+        internal static string ReadingPageWriteHint {
+            get {
+                return ResourceManager.GetString("ReadingPageWriteHint", resourceCulture);
+            }
+        }
+        
+        internal static string ReadingPageWriteDescription {
+            get {
+                return ResourceManager.GetString("ReadingPageWriteDescription", resourceCulture);
+            }
+        }
+        
+        internal static string ClearButtonHint {
+            get {
+                return ResourceManager.GetString("ClearButtonHint", resourceCulture);
+            }
+        }
+        
+        internal static string ClearButtonDescription {
+            get {
+                return ResourceManager.GetString("ClearButtonDescription", resourceCulture);
             }
         }
     }

@@ -3,10 +3,13 @@
 	<!--<style name="myTheme" parent="android:Theme.Material">
 		<item name="android:buttonStyle">@style/noPaddingButtonStyle</item>
 	</style>-->
-	<style name="noPaddingButtonStyle" parent="android:Widget.Material.Button">
-		<item name="android:paddingLeft">0dp</item>
-		<item name="android:paddingRight">0dp</item>
+	<style name="noPaddingButtonStyle" parent="@android:style/Widget.Button">
+		<item name="android:padding">0dp</item>
 		<item name="android:textAllCaps">false</item>
+	</style>
+	<style name="editorWithoutUnderline" parent="@android:style/Widget.EditText">
+		<item name="android:background">@android:color/transparent</item>
+		<item name="android:padding">10dp</item>
 	</style>
 	<style name="MainTheme" parent="MainTheme.Base">
 		<!-- As of Xamarin.Forms 4.6 the theme has moved into the Forms binary -->
@@ -21,9 +24,9 @@
          which is used to tint widgets -->
 		<!--<item name="colorAccent">#FF4081</item>-->
 		<!-- Top status bar area on Android -->
-		<!-- <item name="android:statusBarColor">#a9a9a9</item> -->
-		<item name="android:statusBarColor">#649b49</item>
+		<item name="android:statusBarColor">#6e7c46</item> 
 		<item name="colorAccent">#9a4119</item>
 		<item name="android:buttonStyle">@style/noPaddingButtonStyle</item>
+		<item name="android:editTextStyle">@style/editorWithoutUnderline</item>
 	</style>
 </resources>

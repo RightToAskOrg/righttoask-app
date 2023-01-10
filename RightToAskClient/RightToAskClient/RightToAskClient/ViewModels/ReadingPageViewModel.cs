@@ -179,7 +179,8 @@ namespace RightToAskClient.ViewModels
                     }
                     
                     // Now let them start drafting.
-                    ShowQuestionFrame = true;
+                    // ShowQuestionFrame = true;
+                    await Shell.Current.GoToAsync($"{nameof(WriteQuestionPage)}");
                 }
             });
             SearchToolbarCommand = new Command(() =>

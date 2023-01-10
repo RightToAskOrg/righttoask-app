@@ -205,7 +205,7 @@
     <value>Done</value>
   </data>
   <data name="DraftQuestionPlaceholderText" xml:space="preserve">
-    <value>Draft Question: </value>
+    <value>Enter your question here </value>
   </data>
   <data name="EditProfileButtonText" xml:space="preserve">
     <value>Edit Your Profile</value>
@@ -488,6 +488,12 @@
   </data>
   <data name="ServerConfigErrorText" xml:space="preserve">
     <value>Server configuration error.</value>
+  </data>
+  <data name="SimilarQuestionsInstructionHeader" xml:space="preserve">
+    <value>Let’s first check for similar questions</value>
+  </data>
+  <data name="SimilarQuestionsInstructionText" xml:space="preserve">
+    <value>If a similar question is here already, focus support by up-voting it rather than writing another. MPs are more likely to answer popular questions.</value>
   </data>
   <data name="SimilarQuestionsTitle" xml:space="preserve">
     <value>Similar Questions</value>
@@ -1055,5 +1061,30 @@
   </data>
   <data name="AnswerHeaderText" xml:space="preserve">
     <value>Answer</value>
+  </data>
+  
+  <data name="WriteQuestionEditorHint" xml:space="preserve">
+    <value>Your question editor</value>
+  </data>
+  <data name="WriteQuestionEditorDescription" xml:space="preserve">
+    <value>QuestionField</value>
+  </data>
+  <data name="WriteQuestionBackHint" xml:space="preserve">
+    <value>Returns on previous screen</value>
+  </data>
+  <data name="WriteQuestionBackDescription" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="ReadingPageWriteHint" xml:space="preserve">
+    <value>Starts writing question process</value>
+  </data>
+  <data name="ReadingPageWriteDescription" xml:space="preserve">
+    <value>WriteQuestion</value>
+  </data>
+  <data name="ClearButtonHint" xml:space="preserve">
+    <value>Clears input field</value>
+  </data>
+  <data name="ClearButtonDescription" xml:space="preserve">
+    <value>ClearButton</value>
   </data>
 </root>
