@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using RightToAskClient.Models.ServerCommsData;
 using Xamarin.Forms;
 
 namespace RightToAskClient.Models
@@ -177,6 +178,29 @@ namespace RightToAskClient.Models
         static public void NeedToInitCommitteeLists(object sender)
         {
 	        MessagingCenter.Send<object>(sender, Constants.InitCommitteeLists);
+        }
+
+        public List<PersonID> TranscribeQuestionAnswerersForUpload()
+        {
+            // We take the (duplicate-removing) union of selected MPs, because at the moment the UI doesn't remove 
+            // your MPs from the 'other MPs' list and the user may have selected the same MP in both categories.
+            var MPAnswerers = SelectedAnsweringMPsNotMine.Union(SelectedAnsweringMPsMine);
+            var MPanswerersServerData = MPAnswerers.Select(mp => new PersonID(new MPId(mp)));
+            
+            // Add authorities, guaranteed not to be duplicates.
+            return MPanswerersServerData.
+                Concat(SelectedAuthorities.Select(a => new PersonID(a))).ToList();
+        }
+
+        public List<PersonID> TranscribeQuestionAskersForUpload()
+        {
+	        // Entities who should raise the question - currently just MPs and committees.
+	        var MPAskers = SelectedAskingMPsNotMine.Union(SelectedAskingMPsMine);
+	        var MPAskersServerData = MPAskers.Select(mp => new PersonID(new MPId(mp)));
+
+	        // Add committees, guaranteed not to be duplicates.
+	        return MPAskersServerData.
+		        Concat(SelectedCommittees.Select(c => new PersonID(new CommitteeInfo(c)))).ToList();
         }
 
         // Update the list of my MPs. Called when the user changes their electorates (including choosing some

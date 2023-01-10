@@ -726,7 +726,9 @@
   <data name="NotNowAnswerText" xml:space="preserve">
     <value>Not now</value>
   </data>
-  
+  <data name="MyQuestionsTitle" xml:space="preserve">
+    <value>My Questions</value>
+  </data>
   <data name="EmptyMatchingQuestionCollectionViewString" xml:space="preserve">
     <value>No Similar Questions Found.</value>
   </data>

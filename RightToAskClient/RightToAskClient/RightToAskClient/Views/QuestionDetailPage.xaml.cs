@@ -41,6 +41,13 @@ namespace RightToAskClient.Views
     public partial class QuestionDetailPage : ContentPage
     {
         private QuestionViewModel vm;
+
+        // This is used only in transition from the Metadata page
+        // and can be removed when it is removed.
+        public QuestionDetailPage() : this(QuestionViewModel.Instance)
+        {
+            
+        }
         public QuestionDetailPage(QuestionViewModel questionVM)
         {
             InitializeComponent();
@@ -49,9 +56,6 @@ namespace RightToAskClient.Views
             
             // Reset the updates to blank/zero so that edits can be captured.
             questionVM.ReinitQuestionUpdates();
-            
-            // var vm = BindingContext as QuestionViewModel;
-            // vm.ReinitQuestionUpdates();
             
             questionVM.PopupLabelText = AppResources.QuestionDetailPopupText;
             
@@ -77,8 +81,7 @@ namespace RightToAskClient.Views
             BackgroundLabel.IsVisible = BackgroundEditor.IsVisible;
 
             // Only MPs can answer questions.
-            var viewModel = BindingContext as QuestionViewModel;
-            var isMP = viewModel != null ? viewModel.IsVerifiedMpAccount : false;
+            var isMP = questionVM.IsVerifiedMpAccount;
             AnswerEditor.Style = isMP ? normalEditorStyle : disabledEditorStyle;
             AnswerEditor.IsEnabled = isMP;
         }

@@ -36,6 +36,7 @@ namespace RightToAskClient.HttpClients
         private static readonly string EmailValidationUrl = BaseUrl + "/request_email_validation";
         private static readonly string EmailValidationPinUrl = BaseUrl + "/email_proof";
         private static readonly string SimilarQuestionsUrl = BaseUrl + "/similar_questions";
+        private static readonly string WeightedSearchQuestionsUrl = BaseUrl + "/get_similar_questions";
         
         // TODO At the moment, this is not used, because we don't have a cert chain for the server Public Key.
         // Instead, the public key itself is hardcoded.
@@ -126,6 +127,11 @@ namespace RightToAskClient.HttpClients
         public static async Task<JOSResult<List<ScoredIDs>>> GetSimilarQuestionIDs(QuestionSendToServer draftQuestion)
         {
             return await SendDataToServerReturnResponse<QuestionSendToServer, List<ScoredIDs>>(draftQuestion, AppResources.QuestionErrorTypeDescription, SimilarQuestionsUrl);
+        }
+        
+        public static async Task<JOSResult<SortedQuestionList>> GetSortedSimilarQuestionIDs(WeightedSearchRequest request)
+        {
+            return await SendDataToServerReturnResponse<WeightedSearchRequest, SortedQuestionList>(request, AppResources.QuestionErrorTypeDescription, WeightedSearchQuestionsUrl);
         }
 
         public static async Task<JOSResult<QuestionReceiveFromServer>> GetQuestionById(string questionId)

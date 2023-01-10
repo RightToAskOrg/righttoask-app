@@ -83,15 +83,11 @@
         https://docs.microsoft.com/dotnet/api/xamarin.forms.shellgroupitem.flyoutdisplayoptions?view=xamarin-forms
     -->
 
-    <!--
-    <FlyoutItem Title="Main" FlyoutIcon="{rta:ImageResource RightToAskClient.Images.home4.png}">
-        <ShellContent Route="MainPage" ContentTemplate="{DataTemplate local:MainPage}" />
-    </FlyoutItem> -->
     <FlyoutItem Title="Home" FlyoutIcon="{helpers:ImageResource RightToAskClient.Images.home4.png}">
         <ShellContent Route="ReadingPage" ContentTemplate="{DataTemplate local:ReadingPage}" />
     </FlyoutItem>
-    <FlyoutItem Title="About" FlyoutIcon="{helpers:ImageResource RightToAskClient.Images.emu_75.png}">
-        <ShellContent Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />
+    <FlyoutItem Title="My questions" FlyoutIcon="{helpers:ImageResource RightToAskClient.Images.emu_75.png}">
+        <ShellContent Route="ReadingPageByQuestionWriter" ContentTemplate="{DataTemplate local:ReadingPage}" />
     </FlyoutItem>
     <FlyoutItem Title="Account" FlyoutIcon="{extensions:ImageResource RightToAskClient.Images.info_48.png}">
         <ShellContent Route="Account" ContentTemplate="{DataTemplate local:AccountPage}" />
@@ -99,14 +95,9 @@
     <FlyoutItem Title="How To">
         <ShellContent Route="HowToPublishPage" ContentTemplate="{DataTemplate local:HowToPublishPage}" />
     </FlyoutItem>
-    <!--
-    <FlyoutItem Title="About">
+    <FlyoutItem Title="About" FlyoutIcon="{helpers:ImageResource RightToAskClient.Images.emu_75.png}">
         <ShellContent Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />
-    </FlyoutItem>-->
-    <!--
-    <FlyoutItem Title="Browse" Icon="icon_feed.png">
-        <ShellContent Route="ItemsPage" ContentTemplate="{DataTemplate local:ItemsPage}" />
-    </FlyoutItem>-->
+    </FlyoutItem>
 
     <!-- When the Flyout is visible this will be a menu item you can tie a click behavior to  -->
     <!--<MenuItem Text="Logout" StyleClass="MenuItemLayoutStyle" Clicked="OnMenuItemClicked">

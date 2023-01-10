@@ -18,7 +18,7 @@ using Xamarin.Forms;
 
 namespace RightToAskClient.ViewModels
 {
-    public class ReadingPageViewModel : BaseViewModel
+    public class ReadingPageViewModel: BaseViewModel
     {
         public FilterChoices FilterChoices = new FilterChoices();
      
@@ -89,17 +89,27 @@ namespace RightToAskClient.ViewModels
         private string _writerOnlyUid = string.Empty;
         private bool _readByQuestionWriter;
 
-        // constructor
-        public ReadingPageViewModel()
+        public bool ReadByQuestionWriter
         {
+            get => _readByQuestionWriter;
+            set => SetProperty(ref _readByQuestionWriter, value);
+        }
+
+        public ReadingPageViewModel(): this(false)
+        {
+        }
+        
+        // constructor
+        public ReadingPageViewModel(bool ReadByQuestionWriter)
+        {
+            _readByQuestionWriter = ReadByQuestionWriter;
             // Retrieve previous responses from Preferences, e.g. to display proper coloration on prior up-votes.
             _thisUsersResponsesToQuestions.Init();
             
             Keyword = FilterChoices.SearchKeyword;
             
             // If we're already searching for something, show the user what.
-            ShowSearchFrame = !string.IsNullOrWhiteSpace(Keyword); 
-
+            ShowSearchFrame = !ReadByQuestionWriter; 
 
             // Reading with a draft question - prompt for upvoting similar questions
             if (ShowQuestionFrame)
@@ -133,20 +143,16 @@ namespace RightToAskClient.ViewModels
             {
                 OnDiscardButtonClicked();
             });
-            // Note: There is a race condition here, in that it is possible
-            // for this command to be executed multiple times simultaneously,
-            // producing multiple calls to Clear and the simultaneous insertion
-            // of questions from various versions of questionsToDisplay List.
-            // I don't *think* this will cause a lock because QuestionsToDisplay
-            // ought to be able to be cleared and added to in any order.
+                // Note: There is a race condition here, in that it is possible
+                // for this command to be executed multiple times simultaneously,
+                // producing multiple calls to Clear and the simultaneous insertion
+                // of questions from various versions of questionsToDisplay List.
+                // I don't *think* this will cause a lock because QuestionsToDisplay
+                // ought to be able to be cleared and added to in any order.
             RefreshCommand = new AsyncCommand(async () =>
             {
                 var questionsToDisplayList = await LoadQuestions();
-                QuestionsToDisplay.Clear();
-                foreach (var q in questionsToDisplayList)
-                {  
-                    QuestionsToDisplay.Add(q);
-                }
+                doQuestionDisplayRefresh(questionsToDisplayList);
                 IsRefreshing = false;
             });
             DraftCommand = new AsyncCommand(async () =>
@@ -203,27 +209,9 @@ namespace RightToAskClient.ViewModels
                     DraftQuestion = "";
                     ShowQuestionFrame = false;
             });
-            MessagingCenter.Subscribe<SelectableListViewModel>(this,"ReadQuestionsWithASingleQuestionWriter", (sender) =>
-            {
-                // TODO: this can probably be done better by sending the FilterChoices to the Adv search page.
-                var questionWriter = FilterChoices.QuestionWriterLists.SelectedEntities.FirstOrDefault();
-                if (questionWriter is null)
-                {
-                    Debug.WriteLine("Error: ReadingPage for single question writer but no selection.");
-                }
-
-                _readByQuestionWriter = true;
-                _writerOnlyUid = questionWriter?.RegistrationInfo.uid ?? string.Empty;
-                Heading1 = AppResources.QuestionWriterReadingPageHeaderText+" "+questionWriter?.RegistrationInfo.display_name;
-                
-                RefreshCommand.ExecuteAsync();
-            });
             
             // Get the question list for display
-            if (!_readByQuestionWriter)
-            {
-                RefreshCommand.ExecuteAsync();
-            }
+            RefreshCommand.ExecuteAsync(); 
         }
 
         // commands
@@ -267,11 +255,22 @@ namespace RightToAskClient.ViewModels
             ShowQuestionFrame = false;
         }
 
-        public async Task<List<QuestionDisplayCardViewModel>> LoadQuestions()
+        // Loads the questions, depending on the value of ReadByQuestionWriter.
+        private async Task<List<QuestionDisplayCardViewModel>> LoadQuestions()
         {
             var serverQuestions = new List<QuestionReceiveFromServer>();
             var questionsToDisplay = new List<QuestionDisplayCardViewModel>();
-            var httpResponse = await GetAppropriateQuestionList();
+            
+            JOSResult<List<string>> httpResponse;
+            if (_readByQuestionWriter)
+            {
+                httpResponse = await GetQuestionListByWriter();
+            }
+            else
+            {
+                httpResponse = await GetQuestionListBySearch();
+            }
+            
             var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
             if (!httpValidation.isValid)
             {
@@ -328,51 +327,49 @@ namespace RightToAskClient.ViewModels
             return questionsToDisplay;
         }
 
-        // Gets the list of question IDs, using 'similarity' material
-        // depending on whether this page was reached
-        // by searching, drafting a question, 'what's trending' or by looking for all the questions written by a
-        // given user.
-        private async Task<JOSResult<List<string>>> GetAppropriateQuestionList()
+        private void doQuestionDisplayRefresh(List<QuestionDisplayCardViewModel> questions)
         {
-            // TODO**: use the one stored in this class.
+                QuestionsToDisplay.Clear();
+                foreach (var q in questions)
+                {  
+                    QuestionsToDisplay.Add(q);
+                }
+        }
+        
+        // Gets the list of question IDs, using 'similarity' material
+        private async Task<JOSResult<List<string>>> GetQuestionListBySearch()
+        {
             var filters = FilterChoices;
             
-            // If we're looking for all the questions written by a given user, request them.
-            // TODO** maybe put readByQuestionWriter into FilterChoices?
-            if (_readByQuestionWriter && !string.IsNullOrWhiteSpace(_writerOnlyUid))
+            // use the filters to search for similar questions.
+            var serverSearchQuery = new WeightedSearchRequest()
             {
-                var questionIDs = await RTAClient.GetQuestionsByWriterId(_writerOnlyUid);
-                
-                // If there's an error result, pass it back.
-                if (questionIDs.Failure)
+                question_text = Keyword,
+                page = new QuestionListPage()
                 {
-                    return questionIDs;
-                }
-
-                // Success. Return question list.
-                return new SuccessResult<List<string>>(questionIDs.Data);
-            } 
-            
-            // else use the filters to search for similar questions.
-            var serverSearchQuestion = new QuestionSendToServer()
-            {
-                question_text = DraftQuestion + " " + Keyword
+                    from = 0,
+                    to = Constants.DefaultPageSize 
+                },
+                weights = new Weights()
+                {
+                    metadata = Constants.ReadingPageMetadataWeight,
+                    net_votes = Constants.ReadingNetVotesWeight,
+                    total_votes = Constants.ReadingPageTotalVotesWeight,
+                    recentness = Constants.ReadingPageRecentnessWeight,
+                    recentness_timescale = Constants.ReadingPageRecentnessTimescale,
+                    text = Constants.ReadingPageTextSimilarityWeight
+                },
+                entity_who_should_answer_the_question = filters.TranscribeQuestionAnswerersForUpload(),
+                mp_who_should_ask_the_question = filters.TranscribeQuestionAskersForUpload()
             };
             
-            // If there are no filters, keyword or draft question set, just ask for all questions.
-            if( string.IsNullOrWhiteSpace(serverSearchQuestion.question_text) 
-                && !serverSearchQuestion.TranscribeQuestionFiltersForUpload(filters))
-            {
-                return await RTAClient.GetQuestionList();
-            }
-
             // Search based on filters and/or search/draft words.
-            var scoredList = await RTAClient.GetSimilarQuestionIDs(serverSearchQuestion);
+            var scoredList = await RTAClient.GetSortedSimilarQuestionIDs(serverSearchQuery);
 
             // Error
             if (scoredList.Failure)
             {
-                if (scoredList is ErrorResult<List<ScoredIDs>> errorResult)
+                if (scoredList is ErrorResult<SortedQuestionList> errorResult)
                 {
                     return new ErrorResult<List<string>>(errorResult.Message);
                 }
@@ -380,26 +377,30 @@ namespace RightToAskClient.ViewModels
                 return new ErrorResult<List<string>>("Error getting questions from server.");
             }
 
-            // scoredList.Success
-            // If we've successfully retrieved a list of scored question IDs, filter them
-            // to select the ones we want
-            var questionIDsOverThreshold = scoredList.Data
-                .Where(q => q.score > Constants.similarityThreshold).Select(q => q.id).ToList();
-            if (questionIDsOverThreshold.Any())
-            {
-                return new SuccessResult<List<string>>(questionIDsOverThreshold);
-            }
-            
-            return new ErrorResult<List<string>>(AppResources.EmptyMatchingQuestionCollectionViewString);
+            // scoredList.success
+            // For the moment, ignore both the token and the individual-question scores.
+            return new SuccessResult<List<string>>(scoredList.Data.questions.Select(sq => sq.id).ToList());
         }
-
-        private void removeQuestionAddRecord(QuestionDisplayCardViewModel? questionToRemove)
+        
+        private async Task<JOSResult<List<string>>> GetQuestionListByWriter()
         {
-            if (questionToRemove?.Question.QuestionId != null)
+            var myUID = IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid;
+            if (string.IsNullOrEmpty(myUID))
             {
-                _thisUsersResponsesToQuestions.AddDismissedQuestion(questionToRemove.Question.QuestionId);
-                QuestionsToDisplay.Remove(questionToRemove);
+                // TODO: Sensible error result when not registered.
+                return new SuccessResult<List<string>>(new List<string>());
             }
+
+            var questionIDs = await RTAClient.GetQuestionsByWriterId(myUID);
+
+            // If there's an error result, pass it back.
+            if (questionIDs.Failure)
+            {
+                return questionIDs;
+            }
+
+            // Success. Return question list.
+            return new SuccessResult<List<string>>(questionIDs.Data);
         }
     }
 }

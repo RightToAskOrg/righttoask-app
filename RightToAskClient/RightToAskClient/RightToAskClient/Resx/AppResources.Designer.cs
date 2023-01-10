@@ -1263,6 +1263,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string MyQuestionsTitle {
+            get {
+                return ResourceManager.GetString("MyQuestionsTitle", resourceCulture);
+            }
+        }
+        
         internal static string EmptyMatchingQuestionCollectionViewString {
             get {
                 return ResourceManager.GetString("EmptyMatchingQuestionCollectionViewString", resourceCulture);

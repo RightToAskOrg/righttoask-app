@@ -50,24 +50,6 @@
                     </Grid>
                 </StackLayout>
             </Frame>
-            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Padding="10,10,10,0">
-                <Label Text="{xct:Translate SortByText}" Style="{StaticResource Header2}" HorizontalOptions="StartAndExpand" VerticalOptions="Center"/>
-
-                <Label Text="{xct:Translate MyElectorateOnlyText}" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand"
-                       Style="{StaticResource RightSmallText}" />
-                <CheckBox />
-            </StackLayout>
-            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Padding="0,0,0,10">
-                <RadioButton Content="{xct:Translate DateText}"
-                             GroupName="sortOptions" />
-                <RadioButton Content="{xct:Translate UpVotesText}"
-                             GroupName="sortOptions" />
-                <RadioButton Content="{xct:Translate TrendingButtonText}"
-                             GroupName="sortOptions" />
-                <RadioButton Content="{xct:Translate SurpriseMeText}"
-                             IsChecked="True"
-                             GroupName="sortOptions" />
-            </StackLayout>
             <!--Questions Scroll View with Floating Draft Button-->
             <Grid RowDefinitions="*,*" ColumnDefinitions="*,*" VerticalOptions="FillAndExpand">
                 <RefreshView Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="2" IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
