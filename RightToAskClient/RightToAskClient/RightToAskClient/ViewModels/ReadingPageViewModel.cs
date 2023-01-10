@@ -109,8 +109,7 @@ namespace RightToAskClient.ViewModels
             Keyword = FilterChoices.SearchKeyword;
             
             // If we're already searching for something, show the user what.
-            ShowSearchFrame = !string.IsNullOrWhiteSpace(Keyword); 
-
+            ShowSearchFrame = !ReadByQuestionWriter; 
 
             // Reading with a draft question - prompt for upvoting similar questions
             if (ShowQuestionFrame)
@@ -210,10 +209,8 @@ namespace RightToAskClient.ViewModels
                     ShowQuestionFrame = false;
             });
             
-            ShowSearchFrame = true;
-            
             // Get the question list for display
-            // RefreshCommand.ExecuteAsync(); 
+            RefreshCommand.ExecuteAsync(); 
         }
 
         // commands
@@ -257,7 +254,7 @@ namespace RightToAskClient.ViewModels
             ShowQuestionFrame = false;
         }
 
-        // Loads the questions, given a parameter specifying the function for retrieving the correct list of them.
+        // Loads the questions, depending on the value of ReadByQuestionWriter.
         private async Task<List<QuestionDisplayCardViewModel>> LoadQuestions()
         {
             var serverQuestions = new List<QuestionReceiveFromServer>();
