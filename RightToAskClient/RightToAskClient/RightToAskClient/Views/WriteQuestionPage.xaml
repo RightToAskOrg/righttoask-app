@@ -81,6 +81,7 @@
                                 Style="{StaticResource KeyboardEditor}"
                                 x:Name="KeywordEntry"
                                 Keyboard="Chat"
+                                MaxLength="280"
                                 TextChanged="KeywordEntry_OnTextChanged"
                                 xct:CornerRadiusEffect.CornerRadius="5"
                                 xct:SemanticEffect.Hint="{xct:Translate WriteQuestionEditorHint}"
@@ -109,7 +110,7 @@
                         </StackLayout>
                     </Grid>
                     <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal" Margin="0,0,0,12">
-                        <Label Text="0/280" Style="{StaticResource EditorTextNumber}">
+                        <Label Text="0/280" Style="{StaticResource EditorTextNumber}" x:Name="EditorTextNumber">
                             <Label.Margin>
                                 <OnPlatform x:TypeArguments="Thickness">
                                     <On Platform="iOS" Value="0, 13, 16, 0" />
@@ -117,7 +118,7 @@
                                 </OnPlatform>
                             </Label.Margin>
                         </Label>
-                        <Button Text="Proceed with this question"
+                        <Button Text="Proceed with this question" x:Name="EditorProceedButton"
                                 Style="{StaticResource EditorProceed}" />
                     </StackLayout>
                 </StackLayout>

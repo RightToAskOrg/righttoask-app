@@ -20,6 +20,7 @@ namespace RightToAskClient.Views
         {
             InitializeComponent();
             ClearButton.IsVisible = false;
+            EditorProceedButton.IsEnabled = false;
         }
 
         private void LifecycleEffect_OnLoaded(object sender, EventArgs e)
@@ -38,7 +39,10 @@ namespace RightToAskClient.Views
 
         private void KeywordEntry_OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            ClearButton.IsVisible = e.NewTextValue.Length > 0;
+            int length = e.NewTextValue.Length;
+            ClearButton.IsVisible = length > 0;
+            EditorTextNumber.Text = length + "/" + KeywordEntry.MaxLength;
+            EditorProceedButton.IsEnabled = length > 0;
         }
 
         private void WriteQuestionPage_OnSizeChanged(object sender, EventArgs e)
