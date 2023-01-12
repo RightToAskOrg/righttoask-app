@@ -63,7 +63,9 @@
 
                 <StackLayout Style="{StaticResource EditorContainer}"
                              Padding="0"
-                             xct:ShadowEffect.Color="Black"
+                             xct:ShadowEffect.Color="{AppThemeBinding 
+                          Light={StaticResource EditorBackgroundDark},
+                          Dark={StaticResource EditorBackground}}"
                              xct:ShadowEffect.OffsetY="-2"
                              xct:ShadowEffect.Radius="5"
                              x:Name="EditorArea"
@@ -72,7 +74,9 @@
                     <Grid ColumnSpacing="8"
                           RowSpacing="0"
                           Margin="16, 8, 16, 8"
-                          BackgroundColor="{AppThemeBinding Light={StaticResource EditorBackground}, Dark={StaticResource EditorBackgroundDark}}"
+                          BackgroundColor="{AppThemeBinding 
+                          Light={StaticResource EditorBackground}, 
+                          Dark={StaticResource EditorBackgroundDark}}"
                           Padding="0,0,8,0"
                           xct:CornerRadiusEffect.CornerRadius="5">
                         <Grid.RowDefinitions>
