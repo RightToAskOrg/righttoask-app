@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Threading.Tasks;
-using RightToAskClient.Models;
-using RightToAskClient.ViewModels;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using Xamarin.Forms.Xaml;
-using Xamarin.Forms.PlatformConfiguration;
-using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
-using Application = Xamarin.Forms.PlatformConfiguration.iOSSpecific.Application;
 
 namespace RightToAskClient.Views
 {
@@ -47,11 +42,14 @@ namespace RightToAskClient.Views
 
         private void WriteQuestionPage_OnSizeChanged(object sender, EventArgs e)
         {
+            Questions_HeightSet();
+            
             if (Device.RuntimePlatform == Device.iOS)
             {
                 var safeArea = On<iOS>().SafeAreaInsets();
                 Padding = new Thickness(0, 0, 0, - safeArea.Bottom);
             }
+            
         }
 
         private void ClearButton_OnClicked(object sender, EventArgs e)
@@ -60,21 +58,22 @@ namespace RightToAskClient.Views
             ClearButton.IsVisible = false;
         }
 
-        private void KeywordEntry_OnFocused(object sender, FocusEventArgs e)
+        private void KeywordEntry_FocusedChange(object sender, FocusEventArgs e)
         {
-            // Get Metrics
-            var mainDisplayInfo = DeviceDisplay.MainDisplayInfo;
-            var density = mainDisplayInfo.Density;
-            var width = mainDisplayInfo.Width;
-            var height = mainDisplayInfo.Height;
-            var xamarinWidth = width / density;
-            var xamarinHeight = height / density;
-            
-            var pageHeight = xamarinHeight;
-            var headerHeight = HeaderArea.Height;
-            var editorHeight = EditorArea.Height;
-            var newHeight = pageHeight - (headerHeight + editorHeight);
-            QuestionsArea.HeightRequest = newHeight;
+            Questions_HeightSet();
+            if(!e.IsFocused)
+                QuestionsArea.HeightRequest += 100;
         }
+
+        private void Questions_HeightSet()
+        {
+            var newHeight = Content.Height - EditorArea.Height - HeaderArea.Height;
+            QuestionsArea.HeightRequest = newHeight;
+            if (Device.RuntimePlatform == Device.Android)
+            {
+                QuestionsArea.HeightRequest += 130;
+            }
+        }
+
     }
 }
