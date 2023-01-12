@@ -25,41 +25,63 @@
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout VerticalOptions="FillAndExpand" >
-                <Label Text="{xct:Translate SimilarQuestionsInstructionHeader}"
-                       Style="{StaticResource TitleMedium}" />
-                <Label Text="{xct:Translate SimilarQuestionsInstructionText}"
-                    Style="{StaticResource BodyCopyLarge}" />
-                <BoxView Style="{StaticResource Separator}" />
+            <StackLayout VerticalOptions="FillAndExpand">
+                <StackLayout VerticalOptions="Fill"
+                             x:Name="HeaderArea">
+                    <Label Text="{xct:Translate SimilarQuestionsInstructionHeader}"
+                           Style="{StaticResource TitleMedium}" />
+                    <Label Text="{xct:Translate SimilarQuestionsInstructionText}"
+                           Style="{StaticResource BodyCopyLarge}" />
+                    <BoxView Style="{StaticResource Separator}" />
+                </StackLayout>
 
+                <StackLayout VerticalOptions="Fill"
+                             x:Name="QuestionsArea">
+                    <RefreshView IsRefreshing="{Binding IsRefreshing}"
+                                 Command="{Binding RefreshCommand}">
+                        <StackLayout><!--Heading text moved inside of the scrollview to have it scroll off the page-->
+                            <CollectionView x:Name="QuestionList" ItemsSource="{Binding QuestionsToDisplay}"
+                                            SelectionMode="None"
+                                            SelectedItem="{Binding SelectedQuestion}" VerticalOptions="FillAndExpand">
+                                <!-- <CollectionView x:Name="QuestionList" ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None" 
+                                        VerticalOptions="FillAndExpand"> -->
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="vm:QuestionDisplayCardViewModel">
+                                        <SwipeView VerticalOptions="FillAndExpand" BackgroundColor="Transparent">
+                                            <SwipeView.RightItems>
+                                                <SwipeItem Text="Dismiss"
+                                                           IconImageSource="{helpers:ImageResource RightToAskClient.Images.trash_delete_48.png}"
+                                                           BackgroundColor="{StaticResource AlertColor}"
+                                                           Command="{Binding Path=BindingContext.RemoveQuestionCommand, Source={x:Reference AskQuestionPageName}}"
+                                                           CommandParameter="{Binding .}" />
+                                            </SwipeView.RightItems>
+                                            <views:QuestionDisplayCard />
+                                        </SwipeView>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                                <CollectionView.EmptyView>
+                                    <views:EmptyCollectionView />
+                                </CollectionView.EmptyView>
+                                <CollectionView.EmptyViewTemplate>
+                                    <DataTemplate>
+                                        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                            <Label Text="{xct:Translate EmptyMatchingQuestionCollectionViewString}"
+                                                   Style="{StaticResource HeaderButtonText}"
+                                                   VerticalOptions="Start" Margin="0,100,0,0" />
+                                        </StackLayout>
+                                    </DataTemplate>
+                                </CollectionView.EmptyViewTemplate>
+                            </CollectionView>
+                        </StackLayout>
+                    </RefreshView>
+                </StackLayout>
 
-                <!-- <CollectionView x:Name="QuestionList" -->
-                <!--                 ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None" -->
-                <!--                 SelectedItem="{Binding SelectedQuestion}" VerticalOptions="FillAndExpand"> -->
-                <!--     <CollectionView.ItemTemplate> -->
-                <!--     <DataTemplate x:DataType="vm:QuestionDisplayCardViewModel"> -->
-                <!--         <views:AskQuestionPreviewCard/> -->
-                <!--     </DataTemplate> -->
-                <!--     </CollectionView.ItemTemplate> -->
-                <!--     <CollectionView.EmptyView> -->
-                <!--         <views:EmptyCollectionView /> -->
-                <!--     </CollectionView.EmptyView> -->
-                <!--     <CollectionView.EmptyViewTemplate> -->
-                <!--         <DataTemplate> -->
-                <!--             <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"> -->
-                <!--                 <Label Text="{xct:Translate EmptyMatchingQuestionCollectionViewString}" -->
-                <!--                        Style="{StaticResource HeaderButtonText}" -->
-                <!--                        VerticalOptions="Start" Margin="0,100,0,0" /> -->
-                <!--             </StackLayout> -->
-                <!--         </DataTemplate> -->
-                <!--     </CollectionView.EmptyViewTemplate> -->
-                <!-- </CollectionView> -->
                 <StackLayout Style="{StaticResource EditorContainer}"
                              Padding="0"
                              xct:ShadowEffect.Color="Black"
                              xct:ShadowEffect.OffsetY="-2"
                              xct:ShadowEffect.Radius="5"
-                             x:Name="EditorLayout"
+                             x:Name="EditorArea"
                              VerticalOptions="EndAndExpand">
                     <BoxView Style="{StaticResource EditorSeparator}" />
                     <Grid ColumnSpacing="8"
@@ -82,6 +104,8 @@
                                 x:Name="KeywordEntry"
                                 Keyboard="Chat"
                                 MaxLength="280"
+                                Focused="KeywordEntry_OnFocused"
+                                Unfocused="KeywordEntry_OnFocused"
                                 TextChanged="KeywordEntry_OnTextChanged"
                                 xct:CornerRadiusEffect.CornerRadius="5"
                                 xct:SemanticEffect.Hint="{xct:Translate WriteQuestionEditorHint}"

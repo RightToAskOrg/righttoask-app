@@ -157,6 +157,8 @@ namespace RightToAskClient.ViewModels
             });
             DraftCommand = new AsyncCommand(async () =>
             {
+                await Shell.Current.GoToAsync($"{nameof(WriteQuestionPage)}");
+                return;
                 // Check that they are registered - if not, prompt them to get an account.
                 if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
                 {

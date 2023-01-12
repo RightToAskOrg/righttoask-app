@@ -59,5 +59,22 @@ namespace RightToAskClient.Views
             KeywordEntry.Text = "";
             ClearButton.IsVisible = false;
         }
+
+        private void KeywordEntry_OnFocused(object sender, FocusEventArgs e)
+        {
+            // Get Metrics
+            var mainDisplayInfo = DeviceDisplay.MainDisplayInfo;
+            var density = mainDisplayInfo.Density;
+            var width = mainDisplayInfo.Width;
+            var height = mainDisplayInfo.Height;
+            var xamarinWidth = width / density;
+            var xamarinHeight = height / density;
+            
+            var pageHeight = xamarinHeight;
+            var headerHeight = HeaderArea.Height;
+            var editorHeight = EditorArea.Height;
+            var newHeight = pageHeight - (headerHeight + editorHeight);
+            QuestionsArea.HeightRequest = newHeight;
+        }
     }
 }
