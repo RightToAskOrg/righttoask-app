@@ -43,13 +43,12 @@ namespace RightToAskClient.ViewModels
             {
                 return;
             }
-            
+
+            FilterChoices = new FilterChoices();
+            FilterChoices.SearchKeyword = query;
             hasQuery = true;
             RefreshCommand.ExecuteAsync();
             
         }
-        
-        
-
     }
 }
