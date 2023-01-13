@@ -95,12 +95,12 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _readByQuestionWriter, value);
         }
 
-        public ReadingPageViewModel(): this(false)
+        public ReadingPageViewModel(): this(false, true)
         {
         }
         
         // constructor
-        public ReadingPageViewModel(bool ReadByQuestionWriter)
+        public ReadingPageViewModel(bool ReadByQuestionWriter, bool needRefersh)
         {
             _readByQuestionWriter = ReadByQuestionWriter;
             // Retrieve previous responses from Preferences, e.g. to display proper coloration on prior up-votes.
@@ -212,7 +212,14 @@ namespace RightToAskClient.ViewModels
             });
             
             // Get the question list for display
-            RefreshCommand.ExecuteAsync(); 
+            if (needRefersh)
+            {
+                RefreshCommand.ExecuteAsync();
+            }
+            else
+            {
+                IsRefreshing = false;
+            }
         }
 
         // commands
@@ -257,7 +264,7 @@ namespace RightToAskClient.ViewModels
         }
 
         // Loads the questions, depending on the value of ReadByQuestionWriter.
-        private async Task<List<QuestionDisplayCardViewModel>> LoadQuestions()
+        protected async Task<List<QuestionDisplayCardViewModel>> LoadQuestions()
         {
             var serverQuestions = new List<QuestionReceiveFromServer>();
             var questionsToDisplay = new List<QuestionDisplayCardViewModel>();
@@ -328,7 +335,7 @@ namespace RightToAskClient.ViewModels
             return questionsToDisplay;
         }
 
-        private void doQuestionDisplayRefresh(List<QuestionDisplayCardViewModel> questions)
+        protected void doQuestionDisplayRefresh(List<QuestionDisplayCardViewModel> questions)
         {
                 QuestionsToDisplay.Clear();
                 foreach (var q in questions)

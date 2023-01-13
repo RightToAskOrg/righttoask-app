@@ -19,7 +19,7 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _showReturnHomeButton, value);
         }
         
-        public WriteQuestionViewModel()
+        public WriteQuestionViewModel() : base(false, false)
         {
             BackCommand = new AsyncCommand(async () =>
             {
