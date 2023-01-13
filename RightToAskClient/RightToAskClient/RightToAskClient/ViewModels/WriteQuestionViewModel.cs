@@ -12,6 +12,13 @@ namespace RightToAskClient.ViewModels
 
         private bool hasQuery = false;
         
+        private bool _showReturnHomeButton = false;
+        public bool ShowReturnHomeButton
+        {
+            get => _showReturnHomeButton;
+            set => SetProperty(ref _showReturnHomeButton, value);
+        }
+        
         public WriteQuestionViewModel()
         {
             BackCommand = new AsyncCommand(async () =>
@@ -24,7 +31,7 @@ namespace RightToAskClient.ViewModels
                 var questionsToDisplayList = await LoadQuestions();
                 if(hasQuery)
                     doQuestionDisplayRefresh(questionsToDisplayList);
-                
+                ShowReturnHomeButton = questionsToDisplayList.Count > 0;
                 IsRefreshing = false;
             });
         }
@@ -35,6 +42,7 @@ namespace RightToAskClient.ViewModels
             {
                 hasQuery = false;
                 QuestionsToDisplay.Clear();
+                ShowReturnHomeButton = false;
                 return;
             }
 

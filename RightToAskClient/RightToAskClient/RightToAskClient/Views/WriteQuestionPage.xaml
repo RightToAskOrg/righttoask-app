@@ -132,6 +132,9 @@
                                 </OnPlatform>
                             </Label.Margin>
                         </Label>
+                        <Button Text="Return home" IsVisible="{Binding ShowReturnHomeButton}"
+                                Style="{StaticResource EditorProceed}" />
+                        
                         <Button Text="Proceed with this question" x:Name="EditorProceedButton"
                                 Style="{StaticResource EditorProceed}" />
                     </StackLayout>

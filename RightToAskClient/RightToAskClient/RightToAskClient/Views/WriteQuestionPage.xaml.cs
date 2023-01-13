@@ -17,7 +17,6 @@ namespace RightToAskClient.Views
             InitializeComponent();
             ClearButton.IsVisible = false;
             EditorProceedButton.IsEnabled = false;
-            
         }
 
         private void LifecycleEffect_OnLoaded(object sender, EventArgs e)
