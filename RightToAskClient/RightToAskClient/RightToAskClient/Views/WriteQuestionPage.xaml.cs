@@ -1,4 +1,5 @@
 ﻿using System;
+using RightToAskClient.ViewModels;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
@@ -16,6 +17,7 @@ namespace RightToAskClient.Views
             InitializeComponent();
             ClearButton.IsVisible = false;
             EditorProceedButton.IsEnabled = false;
+            
         }
 
         private void LifecycleEffect_OnLoaded(object sender, EventArgs e)
@@ -38,6 +40,9 @@ namespace RightToAskClient.Views
             ClearButton.IsVisible = length > 0;
             EditorTextNumber.Text = length + "/" + KeywordEntry.MaxLength;
             EditorProceedButton.IsEnabled = length > 0;
+            
+            var vm = BindingContext as WriteQuestionViewModel;
+            vm.RequestUpdate(e.NewTextValue);
         }
 
         private Double _contentHeight = -1;
@@ -91,6 +96,5 @@ namespace RightToAskClient.Views
                     return 0;
             }
         }
-
     }
 }

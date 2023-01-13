@@ -64,8 +64,8 @@
                 <StackLayout Style="{StaticResource EditorContainer}"
                              Padding="0"
                              xct:ShadowEffect.Color="{AppThemeBinding 
-                          Light={StaticResource EditorBackgroundDark},
-                          Dark={StaticResource EditorBackground}}"
+                             Light={StaticResource EditorBackgroundDark},
+                             Dark={StaticResource EditorBackground}}"
                              xct:ShadowEffect.OffsetY="-2"
                              xct:ShadowEffect.Radius="5"
                              x:Name="EditorArea"
