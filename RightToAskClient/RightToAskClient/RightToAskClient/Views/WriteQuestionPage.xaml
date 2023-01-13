@@ -26,40 +26,40 @@
     <ContentPage.Content>
         <ScrollView VerticalScrollBarVisibility="Never">
             <StackLayout>
-
-                <RefreshView IsRefreshing="{Binding IsRefreshing}" VerticalOptions="FillAndExpand"
-                             Command="{Binding RefreshCommand}" x:Name="QuestionsArea">
-                    <CollectionView x:Name="QuestionList"
-                                    ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None"
-                                    SelectedItem="{Binding SelectedQuestion}" VerticalOptions="FillAndExpand">
-                        <CollectionView.Header>
-                            <StackLayout x:Name="HeaderArea" >
-                                <Label Text="{xct:Translate SimilarQuestionsInstructionHeader}"
-                                       Style="{StaticResource TitleMedium}" />
-                                <Label Text="{xct:Translate SimilarQuestionsInstructionText}"
-                                       Style="{StaticResource BodyCopyLarge}" />
-                                <BoxView Style="{StaticResource Separator}" />
-                            </StackLayout>
-                        </CollectionView.Header>
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="vm:QuestionDisplayCardViewModel">
-                                <views:QuestionDisplayCard />
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                        <CollectionView.EmptyView>
-                            <views:EmptyCollectionView />
-                        </CollectionView.EmptyView>
-                        <CollectionView.EmptyViewTemplate>
-                            <DataTemplate>
-                                <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                                    <Label Text="{xct:Translate EmptyMatchingQuestionCollectionViewString}"
-                                           Style="{StaticResource HeaderButtonText}"
-                                           VerticalOptions="Start" Margin="0,100,0,0" />
-                                </StackLayout>
-                            </DataTemplate>
-                        </CollectionView.EmptyViewTemplate>
-                    </CollectionView>
-                </RefreshView>
+                <StackLayout x:Name="HeaderArea">
+                    <Label Text="{xct:Translate SimilarQuestionsInstructionHeader}"
+                           Style="{StaticResource TitleMedium}" />
+                    <Label Text="{xct:Translate SimilarQuestionsInstructionText}"
+                           Style="{StaticResource BodyCopyLarge}" />
+                    <BoxView Style="{StaticResource Separator}" />
+                </StackLayout>
+                <StackLayout x:Name="QuestionsArea"
+                             VerticalOptions="Fill">
+                    <RefreshView IsRefreshing="{Binding IsRefreshing}" VerticalOptions="FillAndExpand"
+                                 Command="{Binding RefreshCommand}">
+                        <CollectionView x:Name="QuestionList"
+                                        ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None"
+                                        SelectedItem="{Binding SelectedQuestion}" VerticalOptions="FillAndExpand">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="vm:QuestionDisplayCardViewModel">
+                                    <views:QuestionDisplayCard />
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                            <CollectionView.EmptyView>
+                                <views:EmptyCollectionView />
+                            </CollectionView.EmptyView>
+                            <CollectionView.EmptyViewTemplate>
+                                <DataTemplate>
+                                    <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                        <Label Text="{xct:Translate EmptyMatchingQuestionCollectionViewString}"
+                                               Style="{StaticResource HeaderButtonText}"
+                                               VerticalOptions="Start" Margin="0,100,0,0" />
+                                    </StackLayout>
+                                </DataTemplate>
+                            </CollectionView.EmptyViewTemplate>
+                        </CollectionView>
+                    </RefreshView>
+                </StackLayout>
 
                 <StackLayout Style="{StaticResource EditorContainer}"
                              Padding="0"

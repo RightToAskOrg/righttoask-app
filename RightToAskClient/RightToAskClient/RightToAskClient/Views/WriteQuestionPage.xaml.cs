@@ -40,9 +40,12 @@ namespace RightToAskClient.Views
             EditorProceedButton.IsEnabled = length > 0;
         }
 
+        private Double _contentHeight = -1;
+
         private void WriteQuestionPage_OnSizeChanged(object sender, EventArgs e)
         {
-            Questions_HeightSet();
+            _contentHeight = Content.Height;
+            Questions_HeightSet(KeywordEntry.IsFocused);
             
             if (Device.RuntimePlatform == Device.iOS)
             {
@@ -60,18 +63,32 @@ namespace RightToAskClient.Views
 
         private void KeywordEntry_FocusedChange(object sender, FocusEventArgs e)
         {
-            Questions_HeightSet();
-            if(!e.IsFocused)
-                QuestionsArea.HeightRequest += 100;
+            Questions_HeightSet(e.IsFocused);
         }
 
-        private void Questions_HeightSet()
+        private void Questions_HeightSet(bool isFocused)
         {
-            var newHeight = Content.Height - EditorArea.Height - HeaderArea.Height;
-            QuestionsArea.HeightRequest = newHeight;
-            if (Device.RuntimePlatform == Device.Android)
+            var contentHeight = _contentHeight;
+            var editorHeight = EditorArea.Height;
+            var headerHeight = HeaderArea.Height;
+            var newHeight = Math.Max(0, contentHeight - editorHeight - headerHeight);
+            if (isFocused)
             {
-                QuestionsArea.HeightRequest += 130;
+                newHeight -= GetKeyboardHeight();
+            }
+            QuestionsArea.HeightRequest = newHeight;
+        }
+
+        private Double GetKeyboardHeight()
+        {
+            switch (Device.RuntimePlatform)
+            {
+                case Device.iOS:
+                    return 368;
+                case Device.Android:
+                    return 239;
+                default:
+                    return 0;
             }
         }
 
