@@ -48,12 +48,12 @@ namespace RightToAskClient.ViewModels
 
         public void RequestUpdate(String query)
         {
-            HeaderContent = AppResources.SimilarQuestionsInstructionText;
             if (query.Length == 0)
             {
                 hasQuery = false;
                 QuestionsToDisplay.Clear();
                 ShowReturnHomeButton = false;
+                HeaderContent = AppResources.SimilarQuestionsInstructionText;
                 return;
             }
 
