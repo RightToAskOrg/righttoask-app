@@ -789,15 +789,15 @@ namespace RightToAskClient.Resx {
             }
         }
         
-        internal static string SimilarQuestionsInstructionHeader {
-            get {
-                return ResourceManager.GetString("SimilarQuestionsInstructionHeader", resourceCulture);
-            }
-        }
-        
         internal static string SimilarQuestionsInstructionText {
             get {
                 return ResourceManager.GetString("SimilarQuestionsInstructionText", resourceCulture);
+            }
+        }
+        
+        internal static string SimilarQuestionsFound {
+            get {
+                return ResourceManager.GetString("SimilarQuestionsFound", resourceCulture);
             }
         }
         

@@ -489,11 +489,11 @@
   <data name="ServerConfigErrorText" xml:space="preserve">
     <value>Server configuration error.</value>
   </data>
-  <data name="SimilarQuestionsInstructionHeader" xml:space="preserve">
-    <value>Let’s first check for similar questions</value>
-  </data>
   <data name="SimilarQuestionsInstructionText" xml:space="preserve">
-    <value>If a similar question is here already, focus support by up-voting it rather than writing another. MPs are more likely to answer popular questions.</value>
+    <value>If a similar question is here already, focus support by upvoting it, rather than writing another. MPs are more likely to answer popular questions.</value>
+  </data>
+  <data name="SimilarQuestionsFound" xml:space="preserve">
+    <value>If a similar question is already here, upvote it and return home.</value>
   </data>
   <data name="SimilarQuestionsTitle" xml:space="preserve">
     <value>Similar Questions</value>

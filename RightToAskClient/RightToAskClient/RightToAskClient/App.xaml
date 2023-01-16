@@ -59,6 +59,9 @@
             <Color x:Key="Transparent">#00000000</Color>
             <Color x:Key="Purple">#9141B2</Color>
             <Color x:Key="TransparentPurple">#229141B2</Color>
+            <Color x:Key="LightGreen">#F1F2ED</Color>
+            <Color x:Key="DarkGreen">#556035</Color>
+
             <!--Generic Styles-->
             <Style TargetType="Label">
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, 
@@ -512,22 +515,16 @@
                 <Setter Property="HorizontalOptions" Value="Center" />
                 <Setter Property="Padding" Value="10" />
             </Style>
-            
-            <Style x:Key="TitleMedium" TargetType="Label">
-                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, 
-                   Dark={StaticResource TextColorDark}}" />
-                <Setter Property="FontSize" Value="16" />
-                <Setter Property="FontAttributes" Value="Bold" />
-                <Setter Property="HorizontalOptions" Value="Start" />
-                <Setter Property="Margin" Value="16, 16, 16, 0" />
-            </Style>
             <Style x:Key="BodyCopyLarge" TargetType="Label">
-                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, 
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource DarkGreen}, 
                    Dark={StaticResource TextColorDark}}" />
                 <Setter Property="FontSize" Value="16" />
                 <Setter Property="HorizontalOptions" Value="Start" />
-                <Setter Property="Margin" Value="16, 8, 16, 0" />
+                <Setter Property="Margin" Value="16" />
+                <Setter Property="Padding" Value="16" />
                 <Setter Property="LineHeight" Value="1.2"/>
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource LightGreen}, 
+                   Dark={StaticResource DarkGreen}}"/>
             </Style>
             <Style x:Key="Separator" TargetType="BoxView">
                 <Setter Property="HeightRequest" Value="1" />

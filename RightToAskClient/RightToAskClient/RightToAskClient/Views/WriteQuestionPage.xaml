@@ -26,13 +26,7 @@
     <ContentPage.Content>
         <ScrollView VerticalScrollBarVisibility="Never">
             <StackLayout>
-                <StackLayout x:Name="HeaderArea">
-                    <Label Text="{xct:Translate SimilarQuestionsInstructionHeader}"
-                           Style="{StaticResource TitleMedium}" />
-                    <Label Text="{xct:Translate SimilarQuestionsInstructionText}"
-                           Style="{StaticResource BodyCopyLarge}" />
-                    <BoxView Style="{StaticResource Separator}" />
-                </StackLayout>
+                
                 <StackLayout x:Name="QuestionsArea"
                              VerticalOptions="Fill">
                     <RefreshView IsRefreshing="{Binding IsRefreshing}" VerticalOptions="FillAndExpand"
@@ -40,6 +34,15 @@
                         <CollectionView x:Name="QuestionList"
                                         ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None"
                                         SelectedItem="{Binding SelectedQuestion}" VerticalOptions="FillAndExpand">
+                            <CollectionView.Header>
+                                <StackLayout x:Name="HeaderArea" VerticalOptions="StartAndExpand">
+                                    <Label Text="{xct:Translate SimilarQuestionsInstructionText}"
+                                           Style="{StaticResource BodyCopyLarge}" 
+                                           xct:CornerRadiusEffect.CornerRadius="5"/>
+                                </StackLayout>
+                                
+                            </CollectionView.Header>
+                            
                             <CollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="vm:QuestionDisplayCardViewModel">
                                     <views:QuestionDisplayCard />

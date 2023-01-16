@@ -74,8 +74,8 @@ namespace RightToAskClient.Views
         {
             var contentHeight = _contentHeight;
             var editorHeight = EditorArea.Height;
-            var headerHeight = HeaderArea.Height;
-            var newHeight = Math.Max(0, contentHeight - editorHeight - headerHeight);
+
+            var newHeight = Math.Max(0, contentHeight - editorHeight);
             if (isFocused)
             {
                 newHeight -= GetKeyboardHeight();
@@ -85,15 +85,9 @@ namespace RightToAskClient.Views
 
         private Double GetKeyboardHeight()
         {
-            switch (Device.RuntimePlatform)
-            {
-                case Device.iOS:
-                    return 368;
-                case Device.Android:
-                    return 239;
-                default:
-                    return 0;
-            }
+            if (Device.RuntimePlatform == Device.iOS) 
+                return 368;
+            return 0;
         }
     }
 }
