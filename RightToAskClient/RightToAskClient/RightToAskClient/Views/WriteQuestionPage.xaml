@@ -36,7 +36,7 @@
                                         SelectedItem="{Binding SelectedQuestion}" VerticalOptions="FillAndExpand">
                             <CollectionView.Header>
                                 <StackLayout x:Name="HeaderArea" VerticalOptions="StartAndExpand">
-                                    <Label Text="{xct:Translate SimilarQuestionsInstructionText}"
+                                    <Label Text="{Binding HeaderContent}"
                                            Style="{StaticResource BodyCopyLarge}" 
                                            xct:CornerRadiusEffect.CornerRadius="5"/>
                                 </StackLayout>

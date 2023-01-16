@@ -1,7 +1,9 @@
 using System;
 using System.Text.RegularExpressions;
 using RightToAskClient.Models;
+using RightToAskClient.Resx;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace RightToAskClient.ViewModels
 {
@@ -19,6 +21,13 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _showReturnHomeButton, value);
         }
         
+        private string _headerContent = AppResources.SimilarQuestionsInstructionText;
+        public string HeaderContent
+        {
+            get => _headerContent;
+            set => SetProperty(ref _headerContent, value);
+        }
+        
         public WriteQuestionViewModel() : base(false, false)
         {
             BackCommand = new AsyncCommand(async () =>
@@ -32,12 +41,14 @@ namespace RightToAskClient.ViewModels
                 if(hasQuery)
                     doQuestionDisplayRefresh(questionsToDisplayList);
                 ShowReturnHomeButton = questionsToDisplayList.Count > 0;
+                HeaderContent = AppResources.SimilarQuestionsFound;
                 IsRefreshing = false;
             });
         }
 
         public void RequestUpdate(String query)
         {
+            HeaderContent = AppResources.SimilarQuestionsInstructionText;
             if (query.Length == 0)
             {
                 hasQuery = false;
