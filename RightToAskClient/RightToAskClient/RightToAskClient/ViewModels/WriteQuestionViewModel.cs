@@ -36,6 +36,13 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _showReturnHomeButton, value);
         }
         
+        private bool _showHeader = true;
+        public bool ShowHeader
+        {
+            get => _showHeader;
+            set => SetProperty(ref _showHeader, value);
+        }
+        
         private string _headerContent = AppResources.SimilarQuestionsInstructionText;
         public string HeaderContent
         {
@@ -62,14 +69,24 @@ namespace RightToAskClient.ViewModels
                 IsRefreshing = false;
                 if (QuestionsToDisplay.Count == 0)
                 {
-                    EmptyViewContent = AppResources.EmptyMatchingQuestionCollectionViewString;
-                    EmptyViewIcon = ImageSource.FromResource("RightToAskClient.Images.auto_awesome.png");
+                    if (!_successRespond)
+                    {
+                        ShowHeader = false;
+                        EmptyViewContent = AppResources.NoNetwork;
+                        EmptyViewIcon = ImageSource.FromResource("RightToAskClient.Images.sentiment_very_dissatisfied.png");
+                    }
+                    else
+                    {
+                        EmptyViewContent = AppResources.NoQuestionFound;
+                        EmptyViewIcon = ImageSource.FromResource("RightToAskClient.Images.auto_awesome.png");
+                    }
                 }
             });
         }
 
         public void RequestUpdate(String query)
         {
+            ShowHeader = true;
             if (query.Length == 0)
             {
                 EmptyViewContent = "";

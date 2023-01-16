@@ -1299,6 +1299,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string NoNetwork {
+            get {
+                return ResourceManager.GetString("NoNetwork", resourceCulture);
+            }
+        }
+        
         internal static string SearchFrameSubtext {
             get {
                 return ResourceManager.GetString("SearchFrameSubtext", resourceCulture);

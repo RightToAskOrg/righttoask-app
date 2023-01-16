@@ -744,6 +744,9 @@
   <data name="NoQuestionFound" xml:space="preserve">
     <value>No similar questions found, consider proceeding with a new question!</value>
   </data>
+  <data name="NoNetwork" xml:space="preserve">
+    <value>We couldn’t reach the server, please check your internet connection</value>
+  </data>
   <data name="SearchFrameSubtext" xml:space="preserve">
     <value>by keyword or other filters</value>
   </data>

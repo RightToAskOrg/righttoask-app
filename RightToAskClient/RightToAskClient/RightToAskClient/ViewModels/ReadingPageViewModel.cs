@@ -88,6 +88,7 @@ namespace RightToAskClient.ViewModels
         
         private string _writerOnlyUid = string.Empty;
         private bool _readByQuestionWriter;
+        protected bool _successRespond = true;
 
         public bool ReadByQuestionWriter
         {
@@ -278,8 +279,9 @@ namespace RightToAskClient.ViewModels
             {
                 httpResponse = await GetQuestionListBySearch();
             }
-            
+
             var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
+            _successRespond = httpValidation.isValid;
             if (!httpValidation.isValid)
             {
                 ReportLabelText = "Failed to get Question List from server." + httpValidation.errorMessage;

@@ -26,7 +26,7 @@
     <ContentPage.Content>
         <ScrollView VerticalScrollBarVisibility="Never">
             <StackLayout>
-                
+
                 <StackLayout x:Name="QuestionsArea"
                              VerticalOptions="Fill">
                     <RefreshView IsRefreshing="{Binding IsRefreshing}" VerticalOptions="FillAndExpand"
@@ -35,28 +35,32 @@
                                         ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None"
                                         SelectedItem="{Binding SelectedQuestion}" VerticalOptions="FillAndExpand">
                             <CollectionView.Header>
-                                <StackLayout x:Name="HeaderArea" VerticalOptions="StartAndExpand">
+                                <StackLayout x:Name="HeaderArea" VerticalOptions="StartAndExpand"
+                                             IsVisible="{Binding ShowHeader}">
                                     <Label Text="{Binding HeaderContent}"
-                                           Style="{StaticResource BodyCopyLarge}" 
-                                           xct:CornerRadiusEffect.CornerRadius="5"/>
+                                           Style="{StaticResource BodyCopyLarge}"
+                                           xct:CornerRadiusEffect.CornerRadius="5" />
                                 </StackLayout>
-                                
+
                             </CollectionView.Header>
-                            
+
                             <CollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="vm:QuestionDisplayCardViewModel">
                                     <views:QuestionDisplayCard />
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
                             <CollectionView.EmptyView>
-                                <StackLayout HorizontalOptions="FillAndExpand" 
+                                <StackLayout HorizontalOptions="FillAndExpand"
                                              VerticalOptions="FillAndExpand"
                                              Orientation="Vertical">
                                     <BoxView VerticalOptions="StartAndExpand" Opacity="0" />
                                     <Image Source="{Binding EmptyViewIcon}"
-                                           Style="{StaticResource ListErrorIcon}"/>
+                                           Style="{StaticResource ListErrorIcon}"
+                                           xct:IconTintColorEffect.TintColor="{AppThemeBinding 
+                          Light={StaticResource EditorBackgroundDark}, 
+                          Dark={StaticResource EditorBackground}}" />
                                     <Label Text="{Binding EmptyViewContent}"
-                                           Style="{StaticResource ListErrorText}"/>
+                                           Style="{StaticResource ListErrorText}" />
                                     <BoxView VerticalOptions="EndAndExpand" Opacity="0" />
                                 </StackLayout>
                             </CollectionView.EmptyView>
@@ -137,7 +141,7 @@
                         </Label>
                         <Button Text="Return home" IsVisible="{Binding ShowReturnHomeButton}"
                                 Style="{StaticResource EditorProceed}" />
-                        
+
                         <Button Text="Proceed with this question" x:Name="EditorProceedButton"
                                 Style="{StaticResource EditorProceed}" />
                     </StackLayout>
