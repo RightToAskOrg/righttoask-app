@@ -1091,6 +1091,18 @@
     <value>Clears input field</value>
   </data>
   <data name="ClearButtonDescription" xml:space="preserve">
-    <value>ClearButton</value>
+    <value>Clear</value>
+  </data>
+  <data name="ReturnHomeHint" xml:space="preserve">
+    <value>Returns to home page</value>
+  </data>
+  <data name="ReturnHomeButtonDescription" xml:space="preserve">
+    <value>ReturnHome</value>
+  </data>
+  <data name="EditorProceedHint" xml:space="preserve">
+    <value>Proceed with this question</value>
+  </data>
+  <data name="EditorProceedButtonDescription" xml:space="preserve">
+    <value>Proceed</value>
   </data>
 </root>

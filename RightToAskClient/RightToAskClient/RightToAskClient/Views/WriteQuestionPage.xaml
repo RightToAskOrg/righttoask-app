@@ -36,9 +36,11 @@
                                         SelectedItem="{Binding SelectedQuestion}" VerticalOptions="FillAndExpand">
                             <CollectionView.Header>
                                 <StackLayout x:Name="HeaderArea" VerticalOptions="StartAndExpand"
+                                             HorizontalOptions="FillAndExpand"
                                              IsVisible="{Binding ShowHeader}">
                                     <Label Text="{Binding HeaderContent}"
                                            Style="{StaticResource BodyCopyLarge}"
+                                           HorizontalOptions="FillAndExpand"
                                            xct:CornerRadiusEffect.CornerRadius="5" />
                                 </StackLayout>
 
@@ -140,10 +142,18 @@
                             </Label.Margin>
                         </Label>
                         <Button Text="Return home" IsVisible="{Binding ShowReturnHomeButton}"
-                                Style="{StaticResource EditorProceed}" />
+                                Style="{StaticResource EditorProceed}" 
+                                Clicked="ReturnHomeButton_OnClicked"
+                                Margin="0,0,10,0"
+                                xct:SemanticEffect.Hint="{xct:Translate ReturnHomeHint}"
+                                xct:SemanticEffect.Description="{xct:Translate ReturnHomeButtonDescription}"/>
+                        <!-- <BoxView /> -->
 
                         <Button Text="Proceed with this question" x:Name="EditorProceedButton"
-                                Style="{StaticResource EditorProceed}" />
+                                Style="{StaticResource EditorProceed}" 
+                                Clicked="EditorProceedButton_OnClicked"
+                                xct:SemanticEffect.Hint="{xct:Translate EditorProceedHint}"
+                                xct:SemanticEffect.Description="{xct:Translate EditorProceedButtonDescription}"/>
                     </StackLayout>
                 </StackLayout>
             </StackLayout>

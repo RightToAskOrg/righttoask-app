@@ -1994,5 +1994,29 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("ClearButtonDescription", resourceCulture);
             }
         }
+        
+        internal static string ReturnHomeHint {
+            get {
+                return ResourceManager.GetString("ReturnHomeHint", resourceCulture);
+            }
+        }
+        
+        internal static string ReturnHomeButtonDescription {
+            get {
+                return ResourceManager.GetString("ReturnHomeButtonDescription", resourceCulture);
+            }
+        }
+        
+        internal static string EditorProceedHint {
+            get {
+                return ResourceManager.GetString("EditorProceedHint", resourceCulture);
+            }
+        }
+        
+        internal static string EditorProceedButtonDescription {
+            get {
+                return ResourceManager.GetString("EditorProceedButtonDescription", resourceCulture);
+            }
+        }
     }
 }
