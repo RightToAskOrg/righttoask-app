@@ -395,6 +395,20 @@
                 <Setter Property="VerticalOptions" Value="Center" />
                 <Setter Property="HorizontalTextAlignment" Value="Center" />
             </Style>
+            <Style x:Key="ListErrorText" TargetType="Label">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColorDark}}" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+            </Style>
+            <Style x:Key="ListErrorIcon" TargetType="Image">
+                <Setter Property="WidthRequest" Value="45"/>
+                <Setter Property="HeightRequest" Value="45"/>
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="VerticalOptions" Value="Center" />
+            </Style>
             <Style x:Key="BodyButtonText" TargetType="Label">
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColorDark}}" />
                 <Setter Property="FontSize" Value="Small" />

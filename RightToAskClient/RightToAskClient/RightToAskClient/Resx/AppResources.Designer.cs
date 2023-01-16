@@ -1293,6 +1293,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string NoQuestionFound {
+            get {
+                return ResourceManager.GetString("NoQuestionFound", resourceCulture);
+            }
+        }
+        
         internal static string SearchFrameSubtext {
             get {
                 return ResourceManager.GetString("SearchFrameSubtext", resourceCulture);

@@ -1,5 +1,6 @@
 using System;
 using System.Text.RegularExpressions;
+using RightToAskClient.Helpers;
 using RightToAskClient.Models;
 using RightToAskClient.Resx;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -13,6 +14,20 @@ namespace RightToAskClient.ViewModels
         public AsyncCommand RefreshCommand { get; }
 
         private bool hasQuery = false;
+        
+        private string _emptyViewContent = "";
+        public string EmptyViewContent
+        {
+            get => _emptyViewContent;
+            set => SetProperty(ref _emptyViewContent, value);
+        }
+
+        private ImageSource _emptyViewIcon;
+        public ImageSource EmptyViewIcon
+        {
+            get => _emptyViewIcon;
+            set => SetProperty(ref _emptyViewIcon, value);
+        }
         
         private bool _showReturnHomeButton = false;
         public bool ShowReturnHomeButton
@@ -38,11 +53,18 @@ namespace RightToAskClient.ViewModels
             RefreshCommand = new AsyncCommand(async () =>
             {
                 var questionsToDisplayList = await LoadQuestions();
-                if(hasQuery)
+                if (hasQuery)
+                {
                     doQuestionDisplayRefresh(questionsToDisplayList);
+                    HeaderContent = AppResources.SimilarQuestionsFound;
+                }
                 ShowReturnHomeButton = questionsToDisplayList.Count > 0;
-                HeaderContent = AppResources.SimilarQuestionsFound;
                 IsRefreshing = false;
+                if (QuestionsToDisplay.Count == 0)
+                {
+                    EmptyViewContent = AppResources.EmptyMatchingQuestionCollectionViewString;
+                    EmptyViewIcon = ImageSource.FromResource("RightToAskClient.Images.auto_awesome.png");
+                }
             });
         }
 
@@ -50,6 +72,8 @@ namespace RightToAskClient.ViewModels
         {
             if (query.Length == 0)
             {
+                EmptyViewContent = "";
+                EmptyViewIcon = "";
                 hasQuery = false;
                 QuestionsToDisplay.Clear();
                 ShowReturnHomeButton = false;

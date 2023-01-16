@@ -180,6 +180,7 @@
     <EmbeddedResource Include="Images\arrow_back_48.png" />
     <EmbeddedResource Include="Images\arrow_forward_48.png" />
     <EmbeddedResource Include="Images\assured_workload_48.png" />
+    <EmbeddedResource Include="Images\auto_awesome.png" />
     <EmbeddedResource Include="Images\book_stack.png" />
     <EmbeddedResource Include="Images\calendar_checkmark.png" />
     <EmbeddedResource Include="Images\calendar_check_simple.png" />
