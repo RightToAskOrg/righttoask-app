@@ -85,8 +85,19 @@ namespace RightToAskClient.Views
 
         private Double GetKeyboardHeight()
         {
-            if (Device.RuntimePlatform == Device.iOS) 
-                return 368;
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                var safeArea = On<iOS>().SafeAreaInsets();
+                if (safeArea.Bottom == 0)
+                {
+                    return 320;
+                }
+                else
+                {
+                    return 360;
+                }
+            }
+
             return 0;
         }
     }

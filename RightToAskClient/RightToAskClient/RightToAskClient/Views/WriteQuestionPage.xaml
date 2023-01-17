@@ -35,12 +35,14 @@
                                         ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None"
                                         SelectedItem="{Binding SelectedQuestion}" VerticalOptions="FillAndExpand">
                             <CollectionView.Header>
-                                <StackLayout x:Name="HeaderArea" VerticalOptions="StartAndExpand"
+                                <StackLayout x:Name="HeaderArea" 
+                                             VerticalOptions="StartAndExpand"
                                              HorizontalOptions="FillAndExpand"
                                              IsVisible="{Binding ShowHeader}">
                                     <Label Text="{Binding HeaderContent}"
                                            Style="{StaticResource BodyCopyLarge}"
                                            HorizontalOptions="FillAndExpand"
+                                           VerticalOptions="FillAndExpand"
                                            xct:CornerRadiusEffect.CornerRadius="5" />
                                 </StackLayout>
 
