@@ -143,7 +143,7 @@
                         </Label>
                         <Button Text="Return home" IsVisible="{Binding ShowReturnHomeButton}"
                                 Style="{StaticResource EditorProceed}" 
-                                Clicked="ReturnHomeButton_OnClicked"
+                                Command="{Binding BackCommand}"
                                 Margin="0,0,10,0"
                                 xct:SemanticEffect.Hint="{xct:Translate ReturnHomeHint}"
                                 xct:SemanticEffect.Description="{xct:Translate ReturnHomeButtonDescription}"/>
@@ -151,7 +151,7 @@
 
                         <Button Text="Proceed with this question" x:Name="EditorProceedButton"
                                 Style="{StaticResource EditorProceed}" 
-                                Clicked="EditorProceedButton_OnClicked"
+                                Command="{Binding ProceedButtonCommand}"
                                 xct:SemanticEffect.Hint="{xct:Translate EditorProceedHint}"
                                 xct:SemanticEffect.Description="{xct:Translate EditorProceedButtonDescription}"/>
                     </StackLayout>

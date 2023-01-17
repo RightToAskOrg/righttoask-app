@@ -28,12 +28,6 @@ namespace RightToAskClient.ViewModels
         private static QuestionResponseRecords _thisUsersResponsesToQuestions = new QuestionResponseRecords();
         
         // properties
-        private bool _showQuestionFrame = false;
-        public bool ShowQuestionFrame
-        {
-            get => _showQuestionFrame;
-            set => SetProperty(ref _showQuestionFrame, value);
-        }
 
         private bool _showSearchFrame;
         public bool ShowSearchFrame
@@ -47,12 +41,6 @@ namespace RightToAskClient.ViewModels
         {
             get => _heading1;
             set => SetProperty(ref _heading1, value);
-        }
-        private string _draftQuestion = "";
-        public string DraftQuestion
-        {
-            get => _draftQuestion;
-            set => SetProperty(ref _draftQuestion, value);
         }
 
         private Question? _selectedQuestion;
@@ -113,18 +101,9 @@ namespace RightToAskClient.ViewModels
             ShowSearchFrame = !ReadByQuestionWriter; 
 
             // Reading with a draft question - prompt for upvoting similar questions
-            if (ShowQuestionFrame)
-            {
-                Heading1 = AppResources.FocusSupportInstructionQuestionDrafting;
-                Title = AppResources.SimilarQuestionsTitle;
-            }
-            // Reading without a draft question
-            else
-            {
-                Heading1 = AppResources.FocusSupportInstructionReadingOnly;
-                Title = AppResources.ReadQuestionsTitle;
-            }
-            
+            Heading1 = AppResources.FocusSupportInstructionReadingOnly;
+            Title = AppResources.ReadQuestionsTitle;
+
             PopupLabelText = AppResources.ReadingPageHeader1;
             PopupHeaderText = Heading1;
             
@@ -135,21 +114,12 @@ namespace RightToAskClient.ViewModels
                 // Only show it once.
                 XamarinPreferences.shared.Set(Constants.ShowFirstTimeReadingPopup, false);
             }
-            
-            KeepQuestionButtonCommand = new AsyncCommand(async () =>
-            {
-                OnSaveButtonClicked();
-            });
-            DiscardButtonCommand = new AsyncCommand(async () =>
-            {
-                OnDiscardButtonClicked();
-            });
-                // Note: There is a race condition here, in that it is possible
-                // for this command to be executed multiple times simultaneously,
-                // producing multiple calls to Clear and the simultaneous insertion
-                // of questions from various versions of questionsToDisplay List.
-                // I don't *think* this will cause a lock because QuestionsToDisplay
-                // ought to be able to be cleared and added to in any order.
+            // Note: There is a race condition here, in that it is possible
+            // for this command to be executed multiple times simultaneously,
+            // producing multiple calls to Clear and the simultaneous insertion
+            // of questions from various versions of questionsToDisplay List.
+            // I don't *think* this will cause a lock because QuestionsToDisplay
+            // ought to be able to be cleared and added to in any order.
             RefreshCommand = new AsyncCommand(async () =>
             {
                 var questionsToDisplayList = await LoadQuestions();
@@ -181,7 +151,6 @@ namespace RightToAskClient.ViewModels
                     }
                     
                     // Now let them start drafting.
-                    // ShowQuestionFrame = true;
                     await Shell.Current.GoToAsync($"{nameof(WriteQuestionPage)}");
                 }
             });
@@ -207,10 +176,8 @@ namespace RightToAskClient.ViewModels
 
             MessagingCenter.Subscribe<QuestionViewModel>(this, Constants.QuestionSubmittedDeleteDraft,
                 (sender) =>
-            {
-                    DraftQuestion = "";
-                    ShowQuestionFrame = false;
-            });
+                {
+                });
             
             // Get the question list for display
             if (needRefersh)
@@ -224,45 +191,11 @@ namespace RightToAskClient.ViewModels
         }
 
         // commands
-        public IAsyncCommand KeepQuestionButtonCommand { get; }
-        public IAsyncCommand DiscardButtonCommand { get; }
         public AsyncCommand RefreshCommand { get; }
         public IAsyncCommand DraftCommand { get; }
         public Command SearchToolbarCommand { get; }
         public Command<QuestionDisplayCardViewModel> RemoveQuestionCommand { get; }
         public IAsyncCommand ShowFiltersCommand { get; }
-
-        // helper methods
-        private async void OnSaveButtonClicked()
-        {
-            // Set up new question in preparation for upload. 
-            // The filters are new empty filters. 
-            var newQuestion = new Question()
-            {
-                QuestionText = DraftQuestion,
-                QuestionSuggester = (IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
-                    ? IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid
-                    : "",
-                Filters = new FilterChoices()
-            };
-
-            QuestionViewModel.Instance.Question = newQuestion;
-            QuestionViewModel.Instance.IsNewQuestion = true;
-
-            // instead of going to the questionDetailsPage we now go to a Background page and then a metadata page before the details page
-            await Shell.Current.GoToAsync($"{nameof(QuestionBackgroundPage)}");
-        }
-
-        private async void OnDiscardButtonClicked()
-        {
-            DraftQuestion = "";
-            ShowQuestionFrame = false;
-
-            var popup = new OneButtonPopup(AppResources.DraftDiscardedPopupTitle, AppResources.FocusSupportReport, AppResources.OKText);
-            _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
-
-            ShowQuestionFrame = false;
-        }
 
         // Loads the questions, depending on the value of ReadByQuestionWriter.
         protected async Task<List<QuestionDisplayCardViewModel>> LoadQuestions()
@@ -339,11 +272,11 @@ namespace RightToAskClient.ViewModels
 
         protected void doQuestionDisplayRefresh(List<QuestionDisplayCardViewModel> questions)
         {
-                QuestionsToDisplay.Clear();
-                foreach (var q in questions)
-                {  
-                    QuestionsToDisplay.Add(q);
-                }
+            QuestionsToDisplay.Clear();
+            foreach (var q in questions)
+            {  
+                QuestionsToDisplay.Add(q);
+            }
         }
         
         // Gets the list of question IDs, using 'similarity' material

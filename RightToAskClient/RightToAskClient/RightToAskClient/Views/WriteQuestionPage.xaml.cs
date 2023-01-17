@@ -89,15 +89,5 @@ namespace RightToAskClient.Views
                 return 368;
             return 0;
         }
-
-        private void ReturnHomeButton_OnClicked(object sender, EventArgs e)
-        {
-            Shell.Current.Navigation.PopAsync();
-        }
-
-        private void EditorProceedButton_OnClicked(object sender, EventArgs e)
-        {
-            //todo
-        }
     }
 }
