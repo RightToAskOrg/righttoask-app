@@ -32,11 +32,11 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _emptyViewIcon, value);
         }
         
-        private bool _showReturnHomeButton = false;
-        public bool ShowReturnHomeButton
+        private bool _hasSearchedResults = false;
+        public bool HasSearchedResults
         {
-            get => _showReturnHomeButton;
-            set => SetProperty(ref _showReturnHomeButton, value);
+            get => _hasSearchedResults;
+            set => SetProperty(ref _hasSearchedResults, value);
         }
         
         private bool _showHeader = true;
@@ -59,7 +59,7 @@ namespace RightToAskClient.ViewModels
             get => _draftQuestion;
             set => SetProperty(ref _draftQuestion, value);
         }
-        
+
         // Commands
         public IAsyncCommand ProceedButtonCommand { get; }
         
@@ -78,7 +78,7 @@ namespace RightToAskClient.ViewModels
                     doQuestionDisplayRefresh(questionsToDisplayList);
                     HeaderContent = AppResources.SimilarQuestionsFound;
                 }
-                ShowReturnHomeButton = questionsToDisplayList.Count > 0;
+                HasSearchedResults = questionsToDisplayList.Count > 0;
                 IsRefreshing = false;
                 if (QuestionsToDisplay.Count == 0)
                 {
@@ -112,7 +112,7 @@ namespace RightToAskClient.ViewModels
                 EmptyViewIcon = "";
                 hasQuery = false;
                 QuestionsToDisplay.Clear();
-                ShowReturnHomeButton = false;
+                HasSearchedResults = false;
                 HeaderContent = AppResources.SimilarQuestionsInstructionText;
                 return;
             }
