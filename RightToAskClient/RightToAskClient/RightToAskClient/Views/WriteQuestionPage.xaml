@@ -142,6 +142,11 @@
                                     <On Platform="Android" Value="0, 0, 16, 0" />
                                 </OnPlatform>
                             </Label.Margin>
+                            <Label.VerticalOptions>
+                                <OnPlatform x:TypeArguments="LayoutOptions">
+                                    <On Platform="Android" Value="Center" />
+                                </OnPlatform>
+                            </Label.VerticalOptions>
                         </Label>
                         <Button Text="Return home"
                                 Style="{StaticResource EditorProceed}" 
