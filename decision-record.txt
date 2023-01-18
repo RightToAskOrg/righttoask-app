@@ -1,0 +1,62 @@
+Title: A short description of the decision to be made, this is similar to an 
+  email subject
+Date: The Date the decision was made
+Participants: List the people involved in the decision. This can make it easier
+  to get more information later
+Context: Provide as much context around the problem as possible.
+  This should include any factors at play including; technological, political, 
+  social and anything else. This should be fact based and in full sentences.
+Decisions: Describe the decision made and the reasons why in full sentences.  
+Consequences: Describe the resulting context after applying the decision. All
+  consequences should be listed here, positive, negative, and neutral. They
+  affect the team and project in the future.
+Review Triggers: Provide any factors that would cause a re-evaluation of the
+  decision. Examples of this might be newer versions of software, assumptions
+  or situations changing
+
+References:
+  https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions
+  https://www.thoughtworks.com/radar/techniques/lightweight-architecture-decision-records
+--------------------------------------------------------------------------------
+
+Title:
+
+Date: 
+
+Participants:
+
+Context:  
+
+Decisions:
+ 
+Consequences:
+ 
+Review Triggers: 
+
+--------------------------------------------------------------------------------
+
+Title: Automated testing strategy before MVP release
+
+Date: 17-Jan-2023
+
+Participants: 
+    Vanessa Teague, George Ostrobrod, Wenping Du, Luke McCarthy, Alicia Duong. Shuai Wang, Komal Kaur
+
+Context: 
+    Currently the Right to Ask app only has unit tests. The only other testing done is manual testing. 
+
+Decisions:
+    The team will continue with unit testing and manually testing the app until the MVP release is done. A testing plan 
+will be created in confluence, to enable consistent manual testing be done before a release. This documentation will be 
+used to create the automated user acceptance tests in the future. The team made this decision because setting up 
+automated user acceptance tests can take a considerable amount of time and the team is trying to release the first MVP 
+at the beginning of February.
+ 
+Consequences:
+    Team will develop features more slowly and may miss some bugs because we don't have any automated user acceptance
+testing in place. 
+ 
+Review Triggers: 
+    Once the MVP has been launch the team should look at doing some automated user acceptance testing. 
+
+--------------------------------------------------------------------------------
