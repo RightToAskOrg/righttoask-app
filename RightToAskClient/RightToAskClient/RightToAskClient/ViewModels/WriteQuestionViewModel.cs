@@ -72,7 +72,7 @@ namespace RightToAskClient.ViewModels
                 }
                 HasSearchedResults = questionsToDisplayList.Count > 0;
                 IsRefreshing = false;
-                if (QuestionsToDisplay.Count == 0)
+                if (QuestionsToDisplay.Count == 0 && hasQuery)
                 {
                     if (!_successRespond)
                     {
@@ -94,7 +94,7 @@ namespace RightToAskClient.ViewModels
             });
         }
 
-        public void RequestUpdate(String query)
+        public void RequestUpdate(String query, bool force = false)
         {
             DraftQuestion = query;
             ShowHeader = true;
@@ -109,7 +109,7 @@ namespace RightToAskClient.ViewModels
             }
 
             var endOfWord = new Regex(@"\W").IsMatch(query[query.Length - 1]+"");
-            if (!endOfWord)
+            if (!endOfWord && !force)
             {
                 return;
             }

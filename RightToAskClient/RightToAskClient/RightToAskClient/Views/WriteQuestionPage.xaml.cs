@@ -68,6 +68,12 @@ namespace RightToAskClient.Views
         private void KeywordEntry_FocusedChange(object sender, FocusEventArgs e)
         {
             Questions_HeightSet(e.IsFocused);
+            var query = KeywordEntry.Text;
+            if (query != null)
+            {
+                var vm = BindingContext as WriteQuestionViewModel;
+                vm.RequestUpdate(query, true);
+            }
         }
 
         private void Questions_HeightSet(bool isFocused)
