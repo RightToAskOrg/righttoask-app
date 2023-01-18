@@ -490,10 +490,7 @@
     <value>Server configuration error.</value>
   </data>
   <data name="SimilarQuestionsInstructionText" xml:space="preserve">
-    <value>If a similar question is here already, focus support by upvoting it, rather than writing another. MPs are more likely to answer popular questions.</value>
-  </data>
-  <data name="SimilarQuestionsFound" xml:space="preserve">
-    <value>If a similar question is already here, upvote it and return home.</value>
+    <value>Upvoted questions are more likely to get an answer. Upvote an existing question instead of asking a similar question.</value>
   </data>
   <data name="SimilarQuestionsTitle" xml:space="preserve">
     <value>Similar Questions</value>

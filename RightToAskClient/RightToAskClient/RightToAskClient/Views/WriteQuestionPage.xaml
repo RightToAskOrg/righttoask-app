@@ -39,7 +39,7 @@
                                              VerticalOptions="StartAndExpand"
                                              HorizontalOptions="FillAndExpand"
                                              IsVisible="{Binding ShowHeader}">
-                                    <Label Text="{Binding HeaderContent}"
+                                    <Label Text="{xct:Translate SimilarQuestionsInstructionText}"
                                            Style="{StaticResource BodyCopyLarge}"
                                            HorizontalOptions="FillAndExpand"
                                            VerticalOptions="FillAndExpand"

@@ -795,12 +795,6 @@ namespace RightToAskClient.Resx {
             }
         }
         
-        internal static string SimilarQuestionsFound {
-            get {
-                return ResourceManager.GetString("SimilarQuestionsFound", resourceCulture);
-            }
-        }
-        
         internal static string SimilarQuestionsTitle {
             get {
                 return ResourceManager.GetString("SimilarQuestionsTitle", resourceCulture);

@@ -46,13 +46,6 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _showHeader, value);
         }
         
-        private string _headerContent = AppResources.SimilarQuestionsInstructionText;
-        public string HeaderContent
-        {
-            get => _headerContent;
-            set => SetProperty(ref _headerContent, value);
-        }
-        
         private string _draftQuestion = "";
         public string DraftQuestion
         {
@@ -76,7 +69,6 @@ namespace RightToAskClient.ViewModels
                 if (hasQuery)
                 {
                     doQuestionDisplayRefresh(questionsToDisplayList);
-                    HeaderContent = AppResources.SimilarQuestionsFound;
                 }
                 HasSearchedResults = questionsToDisplayList.Count > 0;
                 IsRefreshing = false;
@@ -113,7 +105,6 @@ namespace RightToAskClient.ViewModels
                 hasQuery = false;
                 QuestionsToDisplay.Clear();
                 HasSearchedResults = false;
-                HeaderContent = AppResources.SimilarQuestionsInstructionText;
                 return;
             }
 
