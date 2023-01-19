@@ -32,13 +32,6 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _emptyViewIcon, value);
         }
         
-        private bool _hasSearchedResults = false;
-        public bool HasSearchedResults
-        {
-            get => _hasSearchedResults;
-            set => SetProperty(ref _hasSearchedResults, value);
-        }
-        
         private bool _showHeader = true;
         public bool ShowHeader
         {
@@ -70,7 +63,6 @@ namespace RightToAskClient.ViewModels
                 {
                     doQuestionDisplayRefresh(questionsToDisplayList);
                 }
-                HasSearchedResults = questionsToDisplayList.Count > 0;
                 IsRefreshing = false;
                 if (QuestionsToDisplay.Count == 0 && hasQuery)
                 {
@@ -104,7 +96,6 @@ namespace RightToAskClient.ViewModels
                 EmptyViewIcon = "";
                 hasQuery = false;
                 QuestionsToDisplay.Clear();
-                HasSearchedResults = false;
                 return;
             }
 
