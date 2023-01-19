@@ -134,38 +134,29 @@
                             </ImageButton>
                         </StackLayout>
                     </Grid>
-                    <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal" Margin="0,0,0,12">
-                        <Label Text="0/280" Style="{StaticResource EditorTextNumber}" x:Name="EditorTextNumber">
-                            <Label.Margin>
-                                <OnPlatform x:TypeArguments="Thickness">
-                                    <On Platform="iOS" Value="0, 13, 16, 0" />
-                                    <On Platform="Android" Value="0, 0, 16, 0" />
-                                </OnPlatform>
-                            </Label.Margin>
-                            <Label.VerticalOptions>
-                                <OnPlatform x:TypeArguments="LayoutOptions">
-                                    <On Platform="Android" Value="Center" />
-                                </OnPlatform>
-                            </Label.VerticalOptions>
-                        </Label>
+                    <FlexLayout AlignItems="Center" JustifyContent="SpaceBetween" HorizontalOptions="CenterAndExpand" Direction="Row" Margin="16,0,16,12">
+                        <Label Text="0/280" 
+                               Style="{StaticResource EditorTextNumber}" 
+                               x:Name="EditorTextNumber" />
                         <Button Text="Return home"
                                 Style="{StaticResource EditorProceed}" 
                                 Command="{Binding BackCommand}"
-                                Margin="0,0,10,0"
                                 IsEnabled="{Binding HasSearchedResults}"
                                 xct:SemanticEffect.Hint="{xct:Translate ReturnHomeHint}"
                                 xct:SemanticEffect.Description="{xct:Translate ReturnHomeButtonDescription}"/>
-                        <BoxView BackgroundColor="{StaticResource FadedButtonColor}" 
-                                 VerticalOptions="Center" 
-                                 HeightRequest="24"
-                                 WidthRequest="1" 
-                                 Margin="0"/>
+                        <StackLayout VerticalOptions="CenterAndExpand"
+                                     HorizontalOptions="CenterAndExpand">
+                            <BoxView BackgroundColor="{StaticResource FadedButtonColor}" 
+                                     VerticalOptions="CenterAndExpand" 
+                                     HeightRequest="24"
+                                     WidthRequest="1" />
+                        </StackLayout>
                         <Button Text="Proceed with this question" x:Name="EditorProceedButton"
                                 Style="{StaticResource EditorProceed}" 
                                 Command="{Binding ProceedButtonCommand}"
                                 xct:SemanticEffect.Hint="{xct:Translate EditorProceedHint}"
                                 xct:SemanticEffect.Description="{xct:Translate EditorProceedButtonDescription}"/>
-                    </StackLayout>
+                    </FlexLayout>
                 </StackLayout>
             </StackLayout>
         </ScrollView>
