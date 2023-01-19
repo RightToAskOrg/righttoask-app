@@ -53,7 +53,17 @@ namespace RightToAskClient.ViewModels
         {
             BackCommand = new AsyncCommand(async () =>
             {
-                await App.Current.MainPage.Navigation.PopAsync();
+                var popup = new TwoButtonPopup(
+                    AppResources.GoHomePopupTitle, 
+                    AppResources.GoHomePopupText, 
+                    AppResources.CancelButtonText, 
+                    AppResources.GoHomeButtonText, 
+                    false);
+                var popupResult = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                if (popup.HasApproved(popupResult))
+                {
+                    await App.Current.MainPage.Navigation.PopAsync();
+                }
             });
             
             RefreshCommand = new AsyncCommand(async () =>
