@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
+             xmlns:local="clr-namespace:RightToAskClient"
+             xmlns:views="clr-namespace:RightToAskClient.Views;assembly=RightToAskClient"
+             xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
+             Title="Write question" 
+             x:Class="RightToAskClient.Views.ReportQuestionPage"
+             x:DataType="vm:ReportQuestionViewModel">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Hello, world!"
+                   VerticalOptions="CenterAndExpand"
+                   HorizontalOptions="CenterAndExpand" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
