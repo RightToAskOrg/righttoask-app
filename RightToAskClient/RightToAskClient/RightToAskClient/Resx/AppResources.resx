@@ -490,7 +490,7 @@
     <value>Server configuration error.</value>
   </data>
   <data name="SimilarQuestionsInstructionText" xml:space="preserve">
-    <value>Upvoted questions are more likely to get an answer. Upvote an existing question instead of asking a similar question.</value>
+    <value>Up-voted questions are more likely to get an answer. Up-vote an existing question instead of asking a similar question.</value>
   </data>
   <data name="SimilarQuestionsTitle" xml:space="preserve">
     <value>Similar Questions</value>
