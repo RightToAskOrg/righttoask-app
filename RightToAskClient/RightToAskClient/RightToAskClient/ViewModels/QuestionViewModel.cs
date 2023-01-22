@@ -408,9 +408,13 @@ namespace RightToAskClient.ViewModels
                     Title = "Share Text"
                 });
             });
-            ReportCommand = new Command(() =>
+            ReportCommand = new AsyncCommand(async () =>
             {
-                Question.ToggleReportStatus();
+                // TODO: pass there the question
+                var nextPage = new ReportQuestionPage();
+                await Application.Current.MainPage.Navigation.PushAsync(nextPage);
+                // TODO: move this inside ReportQuestionViewModel                 
+                // Question.ToggleReportStatus();
             });
         }
 
@@ -450,7 +454,7 @@ namespace RightToAskClient.ViewModels
         public IAsyncCommand ToAnswererPageWithHowAnsweredSelectionCommand { get; }
         public IAsyncCommand ToHowAnsweredOptionPageCommand { get; }
         public IAsyncCommand ShareCommand { get; }
-        public Command ReportCommand { get; }
+        public IAsyncCommand ReportCommand { get; }
         
         public void ClearQuestionDataAddWriter()
         {

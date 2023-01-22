@@ -1953,15 +1953,15 @@ namespace RightToAskClient.Resx {
             }
         }
         
-        internal static string WriteQuestionBackHint {
+        internal static string BackHint {
             get {
-                return ResourceManager.GetString("WriteQuestionBackHint", resourceCulture);
+                return ResourceManager.GetString("BackHint", resourceCulture);
             }
         }
         
-        internal static string WriteQuestionBackDescription {
+        internal static string BackDescription {
             get {
-                return ResourceManager.GetString("WriteQuestionBackDescription", resourceCulture);
+                return ResourceManager.GetString("BackDescription", resourceCulture);
             }
         }
         

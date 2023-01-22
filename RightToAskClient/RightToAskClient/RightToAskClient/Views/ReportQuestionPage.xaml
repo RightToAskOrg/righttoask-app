@@ -7,9 +7,18 @@
              xmlns:local="clr-namespace:RightToAskClient"
              xmlns:views="clr-namespace:RightToAskClient.Views;assembly=RightToAskClient"
              xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
-             Title="Write question" 
+             Title="Report question" 
              x:Class="RightToAskClient.Views.ReportQuestionPage"
              x:DataType="vm:ReportQuestionViewModel">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding BackCommand}"
+                            IconOverride="{helpers:ImageResource RightToAskClient.Images.close.png}"
+                            xct:SemanticEffect.Hint="{xct:Translate BackHint}"
+                            xct:SemanticEffect.Description="{xct:Translate BackDescription}" />
+    </Shell.BackButtonBehavior>
+    <ContentPage.BindingContext>
+        <vm:ReportQuestionViewModel />
+    </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout>
             <Label Text="Hello, world!"

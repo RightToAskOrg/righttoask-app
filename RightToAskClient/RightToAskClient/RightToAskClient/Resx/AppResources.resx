@@ -1072,10 +1072,10 @@
   <data name="WriteQuestionEditorDescription" xml:space="preserve">
     <value>QuestionField</value>
   </data>
-  <data name="WriteQuestionBackHint" xml:space="preserve">
+  <data name="BackHint" xml:space="preserve">
     <value>Returns on previous screen</value>
   </data>
-  <data name="WriteQuestionBackDescription" xml:space="preserve">
+  <data name="BackDescription" xml:space="preserve">
     <value>Back</value>
   </data>
   <data name="ReadingPageWriteHint" xml:space="preserve">

@@ -100,16 +100,12 @@
                 <!--Report/Flag Button-->
                 <StackLayout Orientation="Horizontal" Grid.Row="2" Grid.Column="2">
                     <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.flag_48.png}"
-                             IsVisible="{Binding Question.AlreadyReported, Converter={StaticResource Key=cnvInvert}}" Command="{Binding ReportCommand}" 
-                             xct:IconTintColorEffect.TintColor="Gray"
-                             Padding="5" BackgroundColor="Transparent"
-                             AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{xct:Translate QuestionFrameFlagButtonAccessibilityName}"
-                             AutomationProperties.HelpText="{xct:Translate QuestionFrameFlagButtonAccessibilityText}"/>
-                    <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.flag_48.png}" 
-                             Padding="5" xct:IconTintColorEffect.TintColor="{StaticResource AlertColor}" Command="{Binding ReportCommand}" 
-                             IsVisible="{Binding Question.AlreadyReported}" BackgroundColor="Transparent"
-                             AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{xct:Translate QuestionFrameFlagButtonAccessibilityName}"
-                             AutomationProperties.HelpText="{xct:Translate QuestionFrameFlagButtonAccessibilityTextRed}"/>
+                                 Padding="5" xct:IconTintColorEffect.TintColor="{StaticResource AlertColor}"
+                                 Command="{Binding ReportCommand}"
+                                 BackgroundColor="Transparent"
+                                 AutomationProperties.IsInAccessibleTree="True"
+                                 AutomationProperties.Name="{xct:Translate QuestionFrameFlagButtonAccessibilityName}"
+                                 AutomationProperties.HelpText="{xct:Translate QuestionFrameFlagButtonAccessibilityTextRed}"/>
                     <Label Text="Flag" Style="{StaticResource QuestionButtonText}"/>
                 </StackLayout>
                 <BoxView Style="{StaticResource Separator}" Grid.Row="3" Grid.Column="0"/>

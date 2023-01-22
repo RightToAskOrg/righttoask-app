@@ -18,8 +18,8 @@
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding BackCommand}"
                             IconOverride="{helpers:ImageResource RightToAskClient.Images.close.png}"
-                            xct:SemanticEffect.Hint="{xct:Translate WriteQuestionBackHint}"
-                            xct:SemanticEffect.Description="{xct:Translate WriteQuestionBackDescription}" />
+                            xct:SemanticEffect.Hint="{xct:Translate BackHint}"
+                            xct:SemanticEffect.Description="{xct:Translate BackDescription}" />
     </Shell.BackButtonBehavior>
     <ContentPage.BindingContext>
         <vm:WriteQuestionViewModel />
