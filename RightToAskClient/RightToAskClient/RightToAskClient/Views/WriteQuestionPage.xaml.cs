@@ -39,9 +39,11 @@ namespace RightToAskClient.Views
             ClearButton.IsVisible = length > 0;
             EditorTextNumber.Text = length + "/" + KeywordEntry.MaxLength;
             EditorProceedButton.IsEnabled = length > 0;
-            
-            var vm = BindingContext as WriteQuestionViewModel;
-            vm.RequestUpdate(e.NewTextValue);
+
+            if (BindingContext is WriteQuestionViewModel vm)
+            {
+                vm.RequestUpdate(e.NewTextValue);
+            }
         }
 
         private Double _contentHeight = -1;
