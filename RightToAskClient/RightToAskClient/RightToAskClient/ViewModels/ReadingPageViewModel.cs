@@ -89,7 +89,7 @@ namespace RightToAskClient.ViewModels
         }
         
         // constructor
-        public ReadingPageViewModel(bool ReadByQuestionWriter, bool needRefersh)
+        public ReadingPageViewModel(bool ReadByQuestionWriter, bool needRefresh)
         {
             _readByQuestionWriter = ReadByQuestionWriter;
             // Retrieve previous responses from Preferences, e.g. to display proper coloration on prior up-votes.
@@ -180,7 +180,7 @@ namespace RightToAskClient.ViewModels
                 });
             
             // Get the question list for display
-            if (needRefersh)
+            if (needRefresh)
             {
                 RefreshCommand.ExecuteAsync();
             }
