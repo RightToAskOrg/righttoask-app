@@ -14,7 +14,7 @@ namespace RightToAskClient.ViewModels
     public class WriteQuestionViewModel : ReadingPageViewModel
     {
         public IAsyncCommand BackCommand { get; }
-        public AsyncCommand RefreshCommand { get; }
+        // public AsyncCommand RefreshCommand { get; }
 
         private bool hasQuery = false;
         

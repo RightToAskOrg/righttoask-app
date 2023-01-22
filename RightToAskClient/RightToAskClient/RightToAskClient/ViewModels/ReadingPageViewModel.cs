@@ -191,7 +191,7 @@ namespace RightToAskClient.ViewModels
         }
 
         // commands
-        public AsyncCommand RefreshCommand { get; }
+        public AsyncCommand RefreshCommand { get; protected set; }
         public IAsyncCommand DraftCommand { get; }
         public Command SearchToolbarCommand { get; }
         public Command<QuestionDisplayCardViewModel> RemoveQuestionCommand { get; }
