@@ -141,7 +141,6 @@
                         <Button Text="Return home"
                                 Style="{StaticResource EditorProceed}" 
                                 Command="{Binding BackCommand}"
-                                IsEnabled="{Binding HasSearchedResults}"
                                 xct:SemanticEffect.Hint="{xct:Translate ReturnHomeHint}"
                                 xct:SemanticEffect.Description="{xct:Translate ReturnHomeButtonDescription}"/>
                         <StackLayout VerticalOptions="CenterAndExpand"
