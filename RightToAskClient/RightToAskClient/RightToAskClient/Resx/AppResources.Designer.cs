@@ -789,12 +789,6 @@ namespace RightToAskClient.Resx {
             }
         }
         
-        internal static string SimilarQuestionsInstructionHeader {
-            get {
-                return ResourceManager.GetString("SimilarQuestionsInstructionHeader", resourceCulture);
-            }
-        }
-        
         internal static string SimilarQuestionsInstructionText {
             get {
                 return ResourceManager.GetString("SimilarQuestionsInstructionText", resourceCulture);
@@ -1290,6 +1284,18 @@ namespace RightToAskClient.Resx {
         internal static string EmptyQuestionCollectionViewString {
             get {
                 return ResourceManager.GetString("EmptyQuestionCollectionViewString", resourceCulture);
+            }
+        }
+        
+        internal static string NoQuestionFound {
+            get {
+                return ResourceManager.GetString("NoQuestionFound", resourceCulture);
+            }
+        }
+        
+        internal static string NoNetwork {
+            get {
+                return ResourceManager.GetString("NoNetwork", resourceCulture);
             }
         }
         
@@ -1980,6 +1986,30 @@ namespace RightToAskClient.Resx {
         internal static string ClearButtonDescription {
             get {
                 return ResourceManager.GetString("ClearButtonDescription", resourceCulture);
+            }
+        }
+        
+        internal static string ReturnHomeHint {
+            get {
+                return ResourceManager.GetString("ReturnHomeHint", resourceCulture);
+            }
+        }
+        
+        internal static string ReturnHomeButtonDescription {
+            get {
+                return ResourceManager.GetString("ReturnHomeButtonDescription", resourceCulture);
+            }
+        }
+        
+        internal static string EditorProceedHint {
+            get {
+                return ResourceManager.GetString("EditorProceedHint", resourceCulture);
+            }
+        }
+        
+        internal static string EditorProceedButtonDescription {
+            get {
+                return ResourceManager.GetString("EditorProceedButtonDescription", resourceCulture);
             }
         }
     }

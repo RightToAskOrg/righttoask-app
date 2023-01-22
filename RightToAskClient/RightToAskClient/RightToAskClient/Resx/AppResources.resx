@@ -489,11 +489,8 @@
   <data name="ServerConfigErrorText" xml:space="preserve">
     <value>Server configuration error.</value>
   </data>
-  <data name="SimilarQuestionsInstructionHeader" xml:space="preserve">
-    <value>Let’s first check for similar questions</value>
-  </data>
   <data name="SimilarQuestionsInstructionText" xml:space="preserve">
-    <value>If a similar question is here already, focus support by up-voting it rather than writing another. MPs are more likely to answer popular questions.</value>
+    <value>Up-voted questions are more likely to get an answer. Up-vote an existing question instead of asking a similar question.</value>
   </data>
   <data name="SimilarQuestionsTitle" xml:space="preserve">
     <value>Similar Questions</value>
@@ -740,6 +737,12 @@
   </data>
   <data name="EmptyQuestionCollectionViewString" xml:space="preserve">
     <value>Unable to Connect to Server or No Questions Available.</value>
+  </data>
+  <data name="NoQuestionFound" xml:space="preserve">
+    <value>No similar questions found, consider proceeding with a new question!</value>
+  </data>
+  <data name="NoNetwork" xml:space="preserve">
+    <value>We couldn’t reach the server, please check your internet connection</value>
   </data>
   <data name="SearchFrameSubtext" xml:space="preserve">
     <value>by keyword or other filters</value>
@@ -1085,6 +1088,18 @@
     <value>Clears input field</value>
   </data>
   <data name="ClearButtonDescription" xml:space="preserve">
-    <value>ClearButton</value>
+    <value>Clear</value>
+  </data>
+  <data name="ReturnHomeHint" xml:space="preserve">
+    <value>Returns to home page</value>
+  </data>
+  <data name="ReturnHomeButtonDescription" xml:space="preserve">
+    <value>ReturnHome</value>
+  </data>
+  <data name="EditorProceedHint" xml:space="preserve">
+    <value>Proceed with this question</value>
+  </data>
+  <data name="EditorProceedButtonDescription" xml:space="preserve">
+    <value>Proceed</value>
   </data>
 </root>

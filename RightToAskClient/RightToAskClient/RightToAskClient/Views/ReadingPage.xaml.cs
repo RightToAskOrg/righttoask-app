@@ -22,7 +22,7 @@ namespace RightToAskClient.Views
         {
             if (ReadingPageExchanger.ByQuestionWriter)
             {
-                var vm = new ReadingPageViewModel(ReadingPageExchanger.ByQuestionWriter);
+                var vm = new ReadingPageViewModel(ReadingPageExchanger.ByQuestionWriter, true);
                 BindingContext = vm;
                 vm.Title = AppResources.MyQuestionsTitle;
                 ReadingPageExchanger.ByQuestionWriter = false;

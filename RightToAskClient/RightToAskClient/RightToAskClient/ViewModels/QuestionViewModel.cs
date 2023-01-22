@@ -577,10 +577,10 @@ namespace RightToAskClient.ViewModels
             try
             {
                 if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
-                {
-                    NavigationUtils.DoRegistrationCheck(
+                { 
+                    await NavigationUtils.DoRegistrationCheck(
                         IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
-                        AppResources.CancelButtonText).Wait();
+                        AppResources.CancelButtonText);
                 }
             }
             catch (Exception e)

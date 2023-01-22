@@ -23,9 +23,6 @@
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout x:Name="WholePage" HorizontalOptions="Center" VerticalOptions="FillAndExpand" Spacing="0">
-            <!-- Instructions for focus support. Show and hide when we're showing/hiding the question frame. --> 
-            <Label Text="{xct:Translate FocusSupportInstructionQuestionDrafting}"  Style = "{StaticResource Header1}"
-                   IsVisible="{Binding ShowQuestionFrame}" />
             <BoxView />
             <!--Search Frame-->
             <Frame Style="{StaticResource AppThemeGreenFrame}" Margin="0" Padding="0" IsVisible="{Binding ShowSearchFrame}">
@@ -98,23 +95,9 @@
                              CornerRadius="25"
                              BackgroundColor="{StaticResource FrameColor}" 
                              Command="{Binding DraftCommand}" 
-                             IsVisible="{Binding ShowQuestionFrame, Converter={StaticResource Key=cnvInvert}}"
                              xct:SemanticEffect.Hint="{xct:Translate ReadingPageWriteHint}"
                              xct:SemanticEffect.Description="{xct:Translate ReadingPageWriteDescription}"/>
             </Grid>
-            <!-- Question Flow Details-->
-            <Frame Style="{StaticResource InvertAppThemeFrame}" Margin="0" Padding="10" IsVisible="{Binding ShowQuestionFrame}">
-                <StackLayout Margin="0" Padding="0" HeightRequest="100">
-                    <StackLayout Orientation="Horizontal" HeightRequest="35" Margin="0" VerticalOptions="CenterAndExpand" BackgroundColor="Transparent">
-                        <Label Text="{xct:Translate YourQuestionTitleText}" Style="{StaticResource InvertFrameText}" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"/>
-                        <Button Text="{xct:Translate DiscardDraftButtonText}" Margin="0,0,10,0" Style="{StaticResource DoneButton}" Command="{Binding DiscardButtonCommand}"/>
-                        <Button Text="{xct:Translate KeepQuestionButtonText}" Style="{StaticResource DoneButton}"
-                        Command="{Binding KeepQuestionButtonCommand}"/>
-                    </StackLayout>
-                    <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}" Text="{Binding DraftQuestion}" 
-                        HorizontalOptions="FillAndExpand" MaxLength="280" Style="{StaticResource NormalEditor}"/>
-                </StackLayout>
-            </Frame>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

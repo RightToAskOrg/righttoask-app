@@ -24,48 +24,70 @@
         <vm:WriteQuestionViewModel />
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <ScrollView>
-            <StackLayout VerticalOptions="FillAndExpand" >
-                <Label Text="{xct:Translate SimilarQuestionsInstructionHeader}"
-                       Style="{StaticResource TitleMedium}" />
-                <Label Text="{xct:Translate SimilarQuestionsInstructionText}"
-                    Style="{StaticResource BodyCopyLarge}" />
-                <BoxView Style="{StaticResource Separator}" />
+        <ScrollView VerticalScrollBarVisibility="Never">
+            <StackLayout>
 
+                <StackLayout x:Name="QuestionsArea"
+                             VerticalOptions="Fill">
+                    <RefreshView IsRefreshing="{Binding IsRefreshing}" VerticalOptions="FillAndExpand"
+                                 Command="{Binding RefreshCommand}">
+                        <CollectionView x:Name="QuestionList"
+                                        ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None"
+                                        SelectedItem="{Binding SelectedQuestion}" VerticalOptions="FillAndExpand">
+                            <CollectionView.Header>
+                                <StackLayout x:Name="HeaderArea" 
+                                             VerticalOptions="StartAndExpand"
+                                             HorizontalOptions="FillAndExpand"
+                                             IsVisible="{Binding ShowHeader}">
+                                    <Label Text="{xct:Translate SimilarQuestionsInstructionText}"
+                                           Style="{StaticResource BodyCopyLarge}"
+                                           HorizontalOptions="FillAndExpand"
+                                           VerticalOptions="FillAndExpand"
+                                           xct:CornerRadiusEffect.CornerRadius="5" />
+                                </StackLayout>
 
-                <!-- <CollectionView x:Name="QuestionList" -->
-                <!--                 ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None" -->
-                <!--                 SelectedItem="{Binding SelectedQuestion}" VerticalOptions="FillAndExpand"> -->
-                <!--     <CollectionView.ItemTemplate> -->
-                <!--     <DataTemplate x:DataType="vm:QuestionDisplayCardViewModel"> -->
-                <!--         <views:AskQuestionPreviewCard/> -->
-                <!--     </DataTemplate> -->
-                <!--     </CollectionView.ItemTemplate> -->
-                <!--     <CollectionView.EmptyView> -->
-                <!--         <views:EmptyCollectionView /> -->
-                <!--     </CollectionView.EmptyView> -->
-                <!--     <CollectionView.EmptyViewTemplate> -->
-                <!--         <DataTemplate> -->
-                <!--             <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"> -->
-                <!--                 <Label Text="{xct:Translate EmptyMatchingQuestionCollectionViewString}" -->
-                <!--                        Style="{StaticResource HeaderButtonText}" -->
-                <!--                        VerticalOptions="Start" Margin="0,100,0,0" /> -->
-                <!--             </StackLayout> -->
-                <!--         </DataTemplate> -->
-                <!--     </CollectionView.EmptyViewTemplate> -->
-                <!-- </CollectionView> -->
+                            </CollectionView.Header>
+
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="vm:QuestionDisplayCardViewModel">
+                                    <views:QuestionDisplayCard />
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                            <CollectionView.EmptyView>
+                                <StackLayout HorizontalOptions="FillAndExpand"
+                                             VerticalOptions="FillAndExpand"
+                                             Orientation="Vertical">
+                                    <BoxView VerticalOptions="StartAndExpand" Opacity="0" />
+                                    <Image Source="{Binding EmptyViewIcon}"
+                                           Style="{StaticResource ListErrorIcon}"
+                                           xct:IconTintColorEffect.TintColor="{AppThemeBinding 
+                          Light={StaticResource EditorBackgroundDark}, 
+                          Dark={StaticResource EditorBackground}}" />
+                                    <Label Text="{Binding EmptyViewContent}"
+                                           Style="{StaticResource ListErrorText}" />
+                                    <BoxView VerticalOptions="EndAndExpand" Opacity="0" />
+                                </StackLayout>
+                            </CollectionView.EmptyView>
+                        </CollectionView>
+                    </RefreshView>
+                </StackLayout>
+
                 <StackLayout Style="{StaticResource EditorContainer}"
                              Padding="0"
-                             xct:ShadowEffect.Color="Black"
+                             xct:ShadowEffect.Color="{AppThemeBinding 
+                             Light={StaticResource EditorBackgroundDark},
+                             Dark={StaticResource EditorBackground}}"
                              xct:ShadowEffect.OffsetY="-2"
                              xct:ShadowEffect.Radius="5"
-                             x:Name="EditorLayout"
+                             x:Name="EditorArea"
                              VerticalOptions="EndAndExpand">
                     <BoxView Style="{StaticResource EditorSeparator}" />
                     <Grid ColumnSpacing="8"
                           RowSpacing="0"
                           Margin="16, 8, 16, 8"
-                          BackgroundColor="{StaticResource EditorBackground}"
+                          BackgroundColor="{AppThemeBinding 
+                          Light={StaticResource EditorBackground}, 
+                          Dark={StaticResource EditorBackgroundDark}}"
                           Padding="0,0,8,0"
                           xct:CornerRadiusEffect.CornerRadius="5">
                         <Grid.RowDefinitions>
@@ -79,8 +101,12 @@
                                 VerticalOptions="EndAndExpand"
                                 HorizontalOptions="Fill"
                                 Style="{StaticResource KeyboardEditor}"
+                                BackgroundColor="Transparent"
                                 x:Name="KeywordEntry"
                                 Keyboard="Chat"
+                                MaxLength="280"
+                                Focused="KeywordEntry_FocusedChange"
+                                Unfocused="KeywordEntry_FocusedChange"
                                 TextChanged="KeywordEntry_OnTextChanged"
                                 xct:CornerRadiusEffect.CornerRadius="5"
                                 xct:SemanticEffect.Hint="{xct:Translate WriteQuestionEditorHint}"
@@ -108,18 +134,28 @@
                             </ImageButton>
                         </StackLayout>
                     </Grid>
-                    <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal" Margin="0,0,0,12">
-                        <Label Text="0/280" Style="{StaticResource EditorTextNumber}">
-                            <Label.Margin>
-                                <OnPlatform x:TypeArguments="Thickness">
-                                    <On Platform="iOS" Value="0, 13, 16, 0" />
-                                    <On Platform="Android" Value="0, 0, 16, 0" />
-                                </OnPlatform>
-                            </Label.Margin>
-                        </Label>
-                        <Button Text="Proceed with this question"
-                                Style="{StaticResource EditorProceed}" />
-                    </StackLayout>
+                    <FlexLayout AlignItems="Center" JustifyContent="SpaceBetween" HorizontalOptions="CenterAndExpand" Direction="Row" Margin="16,0,16,12">
+                        <Label Text="0/280" 
+                               Style="{StaticResource EditorTextNumber}" 
+                               x:Name="EditorTextNumber" />
+                        <Button Text="Return home"
+                                Style="{StaticResource EditorProceed}" 
+                                Command="{Binding BackCommand}"
+                                xct:SemanticEffect.Hint="{xct:Translate ReturnHomeHint}"
+                                xct:SemanticEffect.Description="{xct:Translate ReturnHomeButtonDescription}"/>
+                        <StackLayout VerticalOptions="CenterAndExpand"
+                                     HorizontalOptions="CenterAndExpand">
+                            <BoxView BackgroundColor="{StaticResource FadedButtonColor}" 
+                                     VerticalOptions="CenterAndExpand" 
+                                     HeightRequest="24"
+                                     WidthRequest="1" />
+                        </StackLayout>
+                        <Button Text="Proceed with this question" x:Name="EditorProceedButton"
+                                Style="{StaticResource EditorProceed}" 
+                                Command="{Binding ProceedButtonCommand}"
+                                xct:SemanticEffect.Hint="{xct:Translate EditorProceedHint}"
+                                xct:SemanticEffect.Description="{xct:Translate EditorProceedButtonDescription}"/>
+                    </FlexLayout>
                 </StackLayout>
             </StackLayout>
         </ScrollView>

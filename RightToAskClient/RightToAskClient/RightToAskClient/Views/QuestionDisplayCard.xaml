@@ -10,17 +10,18 @@
              x:Class="RightToAskClient.Views.QuestionDisplayCard"
              x:DataType="viewModels:QuestionDisplayCardViewModel">
   <ContentView.Content>
-        <Frame Style="{StaticResource AppThemeFrame}" Padding="5" VerticalOptions="FillAndExpand">
+      <!-- <StackLayout> -->
+      <StackLayout Style="{StaticResource AppThemeFrame}" Padding="5" VerticalOptions="FillAndExpand">
             <Grid RowDefinitions="auto,auto,auto" ColumnDefinitions="2*,*,*" Padding="0" Margin="0" BackgroundColor="Transparent" RowSpacing="0" ColumnSpacing="0">
                 <Grid ColumnDefinitions="*,auto" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
-                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding QuestionAnswerers, StringFormat='To: {0}'}" Style="{StaticResource QuestionFrameCardText}" 
+                    <Label Margin="16, 0, 16, 0" Grid.Row="0" Grid.Column="0" Text="{Binding QuestionAnswerers, StringFormat='To: {0}'}" Style="{StaticResource QuestionFrameCardText}" 
                            FontAttributes="Bold"/>
                 </Grid>                
-                <Label Text="{Binding Question.QuestionText}" Style="{StaticResource QuestionFrameCardText}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"/>
+                <Label Margin="16, 0, 16, 0" Text="{Binding Question.QuestionText}" Style="{StaticResource QuestionFrameCardText}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"/>
                 <Button Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="3" Style="{StaticResource TransparentSquareButton}"
                         Command="{Binding QuestionDetailsCommand}" BackgroundColor="Transparent"/>
                 <!--UpVote Button-->
-                <StackLayout Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
+                <StackLayout Margin="16, 0, 16, 0" Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
                     <controls:ColorSingleToggleButton Source="{helpers:ImageResource RightToAskClient.Images.thumb_up_48.png}"
 					                                  IsBrightened="{Binding Question.AlreadyUpvoted}"
 					                                  Padding="5"
@@ -111,7 +112,12 @@
                              AutomationProperties.HelpText="{xct:Translate QuestionFrameFlagButtonAccessibilityTextRed}"/>
                     <Label Text="Flag" Style="{StaticResource QuestionButtonText}"/>
                 </StackLayout>
+                <BoxView Style="{StaticResource Separator}" Grid.Row="3" Grid.Column="0"/>
+                <BoxView Style="{StaticResource Separator}" Grid.Row="3" Grid.Column="1"/>
+                <BoxView Style="{StaticResource Separator}" Grid.Row="3" Grid.Column="2"/>
             </Grid>
-        </Frame>
+            
+        </StackLayout>
+      <!-- </StackLayout> -->
     </ContentView.Content>
 </ContentView>
