@@ -13,6 +13,62 @@
              x:DataType="vm:ReportQuestionViewModel"
              Style="{StaticResource SubPage}"
              ios:Page.UseSafeArea="true">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <ControlTemplate x:Key="ThemeRadioTemplate">
+                <Frame x:Name="CheckFrame" 
+                       Margin="0, 8, 0, 8"
+                       Padding="0"
+                       HasShadow="False" 
+                       HorizontalOptions="Fill"
+                       VerticalOptions="StartAndExpand">
+                    <Grid VerticalOptions="StartAndExpand" HorizontalOptions="Fill">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Start">
+                            <Ellipse Fill="White" 
+                                     HeightRequest="18" 
+                                     HorizontalOptions="Center" 
+                                     Stroke="#Black"
+                                     StrokeThickness="1" 
+                                     VerticalOptions="Center"
+                                     WidthRequest="18" />
+                            <Ellipse x:Name="Check"
+                                     BackgroundColor="Transparent"
+                                     Fill="{StaticResource DarkGreen}" 
+                                     HeightRequest="10"
+                                     HorizontalOptions="Center" 
+                                     StrokeThickness="0"
+                                     VerticalOptions="Center" 
+                                     WidthRequest="10" />
+                        </Grid>
+                        <!-- This enables us to put in dynamic content -->
+                        <ContentPresenter Grid.Column="1"/>
+                    </Grid>
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroupList>
+                            <VisualStateGroup x:Name="CheckedStates">
+                                <VisualState x:Name="Checked">
+                                    <VisualState.Setters>
+                                        <Setter TargetName="Check" Property="Opacity" Value="1" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Unchecked">
+                                    <VisualState.Setters>
+                                        <Setter TargetName="Check" Property="Opacity" Value="0" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateGroupList>
+                    </VisualStateManager.VisualStateGroups>
+                </Frame>
+            </ControlTemplate>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding BackCommand}"
                             IconOverride="{helpers:ImageResource RightToAskClient.Images.back.png}"
@@ -39,18 +95,20 @@
                             <DataTemplate x:DataType="vm:ReportReason">
                                 <RadioButton GroupName="Reasons"
                                              Value="{Binding ID}"
-                                             IsChecked="{Binding Selected}">
+                                             IsChecked="{Binding Selected}"
+                                             ControlTemplate="{StaticResource ThemeRadioTemplate}">
                                     <RadioButton.Content>
                                         <StackLayout Orientation="Vertical"
                                                      VerticalOptions="StartAndExpand"
                                                      HorizontalOptions="Fill">
                                             <!-- TODO: Use bindings -->
-                                            <Label Text="Binding Title"
+                                            <Label Text="Sharing personal information"
                                                    HorizontalOptions="Fill"
                                                    FontAttributes="Bold" />
-                                            <Label Text="Binding Subtitle"
-                                                   HorizontalOptions="Fill"
-                                                   VerticalOptions="End" />
+                                            <Label
+                                                Text="Sharing other people’s private information without their consent."
+                                                HorizontalOptions="Fill"
+                                                VerticalOptions="End" />
                                         </StackLayout>
                                     </RadioButton.Content>
                                 </RadioButton>

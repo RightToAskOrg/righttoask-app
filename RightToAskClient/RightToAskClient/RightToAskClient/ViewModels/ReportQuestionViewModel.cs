@@ -32,29 +32,43 @@ namespace RightToAskClient.ViewModels
             ReasonList.Add(new ReportReason
             {
                 ID = 0,
-                Title = "A",
-                Subtitle = "aaaaaaaa",
+                Title = "Harassment",
+                Subtitle = "Aggression against a specific individual or group.",
                 Selected = false
             });
             ReasonList.Add(new ReportReason
             {
                 ID = 1,
-                Title = "B",
-                Subtitle = "bbbbbbbb",
+                Title = "Threatening violence",
+                Subtitle = "",
                 Selected = false
             });
             ReasonList.Add(new ReportReason
             {
                 ID = 2,
-                Title = "C",
-                Subtitle = "ccccccc",
+                Title = "Encouraging harm",
+                Subtitle = "Encouragement of self-harm or harm to others.",
                 Selected = false
             });
             ReasonList.Add(new ReportReason
             {
                 ID = 3,
-                Title = "D",
-                Subtitle = "ddddddd",
+                Title = "Hate",
+                Subtitle = "Attacks or threats against an individual or group because of their protected attributes or anything else about them that does not relate to a political issue.",
+                Selected = false
+            });
+            ReasonList.Add(new ReportReason
+            {
+                ID = 4,
+                Title = "Spam",
+                Subtitle = "Malicious links, fake engagement, or advertisements.",
+                Selected = false
+            });
+            ReasonList.Add(new ReportReason
+            {
+                ID = 5,
+                Title = "Sharing personal information",
+                Subtitle = "Sharing other people’s private information without their consent.",
                 Selected = false
             });
 
