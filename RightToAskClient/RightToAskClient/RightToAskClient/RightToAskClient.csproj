@@ -28,6 +28,7 @@
     <None Remove="Images\arrow_back_48.png" />
     <None Remove="Images\arrow_forward_48.png" />
     <None Remove="Images\assured_workload_48.png" />
+    <None Remove="Images\back.png" />
     <None Remove="Images\BookStack.png" />
     <None Remove="Images\book_stack.png" />
     <None Remove="Images\CalendarCheckmark.png" />

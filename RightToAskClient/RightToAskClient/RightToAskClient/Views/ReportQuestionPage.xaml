@@ -4,15 +4,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              xmlns:local="clr-namespace:RightToAskClient"
              xmlns:views="clr-namespace:RightToAskClient.Views;assembly=RightToAskClient"
              xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
-             Title="Report question" 
+             Title="Report Question"
              x:Class="RightToAskClient.Views.ReportQuestionPage"
-             x:DataType="vm:ReportQuestionViewModel">
+             x:DataType="vm:ReportQuestionViewModel"
+             Style="{StaticResource SubPage}"
+             ios:Page.UseSafeArea="true">
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding BackCommand}"
-                            IconOverride="{helpers:ImageResource RightToAskClient.Images.close.png}"
+                            IconOverride="{helpers:ImageResource RightToAskClient.Images.back.png}"
                             xct:SemanticEffect.Hint="{xct:Translate BackHint}"
                             xct:SemanticEffect.Description="{xct:Translate BackDescription}" />
     </Shell.BackButtonBehavior>
@@ -20,10 +23,33 @@
         <vm:ReportQuestionViewModel />
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Hello, world!"
-                   VerticalOptions="CenterAndExpand"
-                   HorizontalOptions="CenterAndExpand" />
+        <StackLayout Orientation="Vertical"
+                     VerticalOptions="Fill"
+                     HorizontalOptions="Fill">
+            <ScrollView VerticalOptions="StartAndExpand"
+                        HorizontalOptions="Fill">
+                <StackLayout Orientation="Vertical"
+                             VerticalOptions="StartAndExpand"
+                             HorizontalOptions="Fill"
+                             Padding="16">
+                    <Label Text="Hello, world!" />
+                    <Label Text="Hello, world!" />
+                    <Label Text="Hello, world!" />
+                    <Label Text="Hello, world!" />
+                    <Label Text="Hello, world!" />
+                    <Label Text="Hello, world!" />
+                    <Label Text="Hello, world!" />
+                </StackLayout>
+            </ScrollView>
+            <BoxView Style="{StaticResource ButtonSeparator}" />
+            <StackLayout Orientation="Vertical"
+                         VerticalOptions="End"
+                         HorizontalOptions="Fill"
+                         Padding="10">
+                <Button Text="{xct:Translate ReportSubmit}"
+                        Style="{StaticResource NormalButton}"
+                        CornerRadius="5"/>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

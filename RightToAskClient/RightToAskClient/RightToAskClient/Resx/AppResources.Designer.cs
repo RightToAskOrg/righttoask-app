@@ -945,6 +945,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string ReportSubmit {
+            get {
+                return ResourceManager.GetString("ReportSubmit", resourceCulture);
+            }
+        }
+        
         internal static string UpperHouseElectorateText {
             get {
                 return ResourceManager.GetString("UpperHouseElectorateText", resourceCulture);
