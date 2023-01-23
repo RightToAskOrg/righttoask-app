@@ -32,13 +32,31 @@
                              VerticalOptions="StartAndExpand"
                              HorizontalOptions="Fill"
                              Padding="16">
-                    <Label Text="Hello, world!" />
-                    <Label Text="Hello, world!" />
-                    <Label Text="Hello, world!" />
-                    <Label Text="Hello, world!" />
-                    <Label Text="Hello, world!" />
-                    <Label Text="Hello, world!" />
-                    <Label Text="Hello, world!" />
+                    <CollectionView x:Name="QuestionList"
+                                    ItemsSource="{Binding ReasonList}"
+                                    SelectionMode="None">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="vm:ReportReason">
+                                <RadioButton GroupName="Reasons"
+                                             Value="{Binding ID}"
+                                             IsChecked="{Binding Selected}">
+                                    <RadioButton.Content>
+                                        <StackLayout Orientation="Vertical"
+                                                     VerticalOptions="StartAndExpand"
+                                                     HorizontalOptions="Fill">
+                                            <!-- TODO: Use bindings -->
+                                            <Label Text="Binding Title"
+                                                   HorizontalOptions="Fill"
+                                                   FontAttributes="Bold" />
+                                            <Label Text="Binding Subtitle"
+                                                   HorizontalOptions="Fill"
+                                                   VerticalOptions="End" />
+                                        </StackLayout>
+                                    </RadioButton.Content>
+                                </RadioButton>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
                 </StackLayout>
             </ScrollView>
             <BoxView Style="{StaticResource ButtonSeparator}" />
@@ -48,7 +66,7 @@
                          Padding="10">
                 <Button Text="{xct:Translate ReportSubmit}"
                         Style="{StaticResource NormalButton}"
-                        CornerRadius="5"/>
+                        CornerRadius="5" />
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>
