@@ -630,6 +630,7 @@
             <Style x:Key="ButtonSeparator" TargetType="BoxView">
                 <Setter Property="HeightRequest" Value="1" />
                 <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="VerticalOptions" Value="End" />
                 <Setter Property="Color" Value="LightGray" />
                 <Setter Property="Margin" Value="0" />
             </Style>
