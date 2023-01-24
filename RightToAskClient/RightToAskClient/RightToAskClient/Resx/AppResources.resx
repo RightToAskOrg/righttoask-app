@@ -1105,4 +1105,14 @@
   <data name="EditorProceedButtonDescription" xml:space="preserve">
     <value>Proceed</value>
   </data>
+  <data name="ReportTitle" xml:space="preserve">
+    <value>Thanks for reporting</value>
+  </data>
+  <data name="ReportMessage" xml:space="preserve">
+    <value>
+      Your report is in our queue.
+      
+      To improve your experience, this question will be hidden from your view in the mean time. 
+    </value>
+  </data>
 </root>

@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+using RightToAskClient.Resx;
+using RightToAskClient.Views.Popups;
+using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
@@ -20,11 +23,23 @@ namespace RightToAskClient.ViewModels
     {
         public IList<ReportReason> ReasonList { get; private set; }
         public IAsyncCommand BackCommand { get; }
+        public IAsyncCommand ReportCommand { get; }
         
         public ReportQuestionViewModel()
         {
             BackCommand = new AsyncCommand(async () =>
             {
+                await App.Current.MainPage.Navigation.PopAsync();
+            });
+            ReportCommand = new AsyncCommand(async () =>
+            {
+                // TODO: Send request
+                // Process respond
+                var popup = new OneButtonPopup(
+                    AppResources.ReportTitle,
+                    AppResources.ReportMessage,
+                    AppResources.DoneButtonText);
+                _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
                 await App.Current.MainPage.Navigation.PopAsync();
             });
 

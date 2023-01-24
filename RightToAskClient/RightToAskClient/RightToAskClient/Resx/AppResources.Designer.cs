@@ -2018,5 +2018,17 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("EditorProceedButtonDescription", resourceCulture);
             }
         }
+        
+        internal static string ReportTitle {
+            get {
+                return ResourceManager.GetString("ReportTitle", resourceCulture);
+            }
+        }
+        
+        internal static string ReportMessage {
+            get {
+                return ResourceManager.GetString("ReportMessage", resourceCulture);
+            }
+        }
     }
 }

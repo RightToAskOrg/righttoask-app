@@ -136,6 +136,7 @@
                          HorizontalOptions="Fill"
                          Padding="10">
                 <Button Text="{xct:Translate ReportSubmit}"
+                        Command="{Binding ReportCommand}"
                         Style="{StaticResource NormalButton}"
                         CornerRadius="5" />
             </StackLayout>
