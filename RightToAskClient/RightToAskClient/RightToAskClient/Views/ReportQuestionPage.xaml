@@ -22,7 +22,8 @@
                        Padding="0"
                        HasShadow="False"
                        HorizontalOptions="Fill"
-                       VerticalOptions="StartAndExpand">
+                       VerticalOptions="StartAndExpand"
+                       BackgroundColor="Transparent">
                     <Grid VerticalOptions="StartAndExpand" HorizontalOptions="Fill">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="30" />
@@ -97,23 +98,33 @@
                                     VerticalOptions="FillAndExpand">
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="vm:ReportReason">
-                                <RadioButton GroupName="Reasons"
-                                             Value="{Binding ID}"
-                                             IsChecked="{Binding Selected}"
-                                             ControlTemplate="{StaticResource ThemeRadioTemplate}">
-                                    <RadioButton.Content>
+                                <Grid VerticalOptions="StartAndExpand"
+                                      HorizontalOptions="Fill">
+                                    <Grid VerticalOptions="StartAndExpand"
+                                          HorizontalOptions="Fill"
+                                          Margin="16, 16, 16, 0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
                                         <StackLayout Orientation="Vertical"
                                                      VerticalOptions="StartAndExpand"
-                                                     HorizontalOptions="Fill">
-                                            <!-- TODO: Use bindings -->
-                                            <Label Text="Sharing personal information"
+                                                     HorizontalOptions="Fill"
+                                                     Grid.Column="1">
+                                            <Label Text="{Binding Title}"
                                                    Style="{StaticResource ReportReasonTitle}" />
-                                            <Label
-                                                Text="Sharing other people’s private information without their consent."
-                                                Style="{StaticResource ReportReasonDetails}" />
+                                            <Label Text="{Binding Subtitle}"
+                                                   Style="{StaticResource ReportReasonDetails}" />
                                         </StackLayout>
-                                    </RadioButton.Content>
-                                </RadioButton>
+                                    </Grid>
+                                    <RadioButton GroupName="Reasons"
+                                                 Value="{Binding ID}"
+                                                 IsChecked="{Binding Selected}"
+                                                 VerticalOptions="Fill"
+                                                 HorizontalOptions="Fill"
+                                                 ControlTemplate="{StaticResource ThemeRadioTemplate}"
+                                                 Content=" "/>
+                                </Grid>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
