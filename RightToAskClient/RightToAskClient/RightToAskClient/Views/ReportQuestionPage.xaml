@@ -29,16 +29,20 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Grid Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Start">
-                            <Ellipse Fill="White"
+                            <Ellipse Fill="{AppThemeBinding Light=White, Dark=Black}"
                                      HeightRequest="18"
                                      HorizontalOptions="Center"
-                                     Stroke="#Black"
+                                     Stroke="{AppThemeBinding 
+                                     Light={StaticResource DarkGreen}, 
+                                     Dark={StaticResource LightGreen}}"
                                      StrokeThickness="1"
                                      VerticalOptions="Center"
                                      WidthRequest="18" />
                             <Ellipse x:Name="Check"
                                      BackgroundColor="Transparent"
-                                     Fill="{StaticResource DarkGreen}"
+                                     Fill="{AppThemeBinding 
+                                     Light={StaticResource DarkGreen}, 
+                                     Dark={StaticResource LightGreen}}"
                                      HeightRequest="10"
                                      HorizontalOptions="Center"
                                      StrokeThickness="0"
@@ -103,12 +107,10 @@
                                                      HorizontalOptions="Fill">
                                             <!-- TODO: Use bindings -->
                                             <Label Text="Sharing personal information"
-                                                   HorizontalOptions="Fill"
-                                                   FontAttributes="Bold" />
+                                                   Style="{StaticResource ReportReasonTitle}" />
                                             <Label
                                                 Text="Sharing other people’s private information without their consent."
-                                                HorizontalOptions="Fill"
-                                                VerticalOptions="End" />
+                                                Style="{StaticResource ReportReasonDetails}" />
                                         </StackLayout>
                                     </RadioButton.Content>
                                 </RadioButton>
