@@ -1,4 +1,9 @@
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using RightToAskClient.HttpClients;
+using RightToAskClient.Models;
+using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Resx;
 using RightToAskClient.Views.Popups;
 using Xamarin.CommunityToolkit.Extensions;
@@ -7,9 +12,24 @@ using Xamarin.Forms;
 
 namespace RightToAskClient.ViewModels
 {
+    
+    public enum CensorshipReason
+    {
+        NotAQuestion,
+        ThreateningViolence,
+        IncludesPrivateInformation,
+        IncitesHatredorDiscrimination,
+        EncouragesHarm,
+        TargetedHarassment,
+        DefamatoryInsinuation,
+        Illegal,
+        Impersonation,
+        Spam
+    }
+
     public class ReportReason
     {
-        public int ID { get; set; }
+        public CensorshipReason ID { get; set; }
         public string Title { get; set; }
         public string Subtitle { get; set; }
         public bool Selected { get; set; }
@@ -33,61 +53,137 @@ namespace RightToAskClient.ViewModels
             });
             ReportCommand = new AsyncCommand(async () =>
             {
-                // TODO: Send request
+                ReportReason? reportReason = null;
+                foreach (var v in ReasonList)
+                {
+                    if (v.Selected)
+                    {
+                        reportReason = v;
+                        break;
+                    }
+                }
+                if (reportReason == null) return;
+                bool success = await SendReport(reportReason);
                 // Process respond
-                var popup = new OneButtonPopup(
-                    AppResources.ReportTitle,
-                    AppResources.ReportMessage,
-                    AppResources.DoneButtonText);
-                _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
-                await App.Current.MainPage.Navigation.PopAsync();
+                if (success)
+                {
+                    //todo write into local black question list
+                    var popup = new OneButtonPopup(
+                        AppResources.ReportTitle,
+                        AppResources.ReportMessage,
+                        AppResources.DoneButtonText);
+                    _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                    await App.Current.MainPage.Navigation.PopAsync(); 
+                }
+                else
+                {
+                    //todo need to ask Alicia/Shuai
+                }
+
             });
 
             ReasonList = new List<ReportReason>();
             ReasonList.Add(new ReportReason
             {
-                ID = 0,
+                ID = CensorshipReason.TargetedHarassment,
                 Title = "Harassment",
                 Subtitle = "Aggression against a specific individual or group.",
                 Selected = false
             });
             ReasonList.Add(new ReportReason
             {
-                ID = 1,
+                ID = CensorshipReason.ThreateningViolence,
                 Title = "Threatening violence",
                 Subtitle = "",
                 Selected = false
             });
             ReasonList.Add(new ReportReason
             {
-                ID = 2,
+                ID = CensorshipReason.EncouragesHarm,
                 Title = "Encouraging harm",
                 Subtitle = "Encouragement of self-harm or harm to others.",
                 Selected = false
             });
             ReasonList.Add(new ReportReason
             {
-                ID = 3,
+                ID = CensorshipReason.IncitesHatredorDiscrimination,
                 Title = "Hate",
                 Subtitle = "Attacks or threats against an individual or group because of their protected attributes or anything else about them that does not relate to a political issue.",
                 Selected = false
             });
             ReasonList.Add(new ReportReason
             {
-                ID = 4,
+                ID = CensorshipReason.Spam,
                 Title = "Spam",
                 Subtitle = "Malicious links, fake engagement, or advertisements.",
                 Selected = false
             });
             ReasonList.Add(new ReportReason
             {
-                ID = 5,
+                ID = CensorshipReason.IncludesPrivateInformation,
                 Title = "Sharing personal information",
                 Subtitle = "Sharing other people’s private information without their consent.",
                 Selected = false
             });
-
+            ReasonList.Add(new ReportReason
+            {
+                ID = CensorshipReason.DefamatoryInsinuation,
+                Title = "Insulting someone",
+                Subtitle = "Accusations or other defamatory statements.",
+                Selected = false
+            });
+            ReasonList.Add(new ReportReason
+            {
+                ID = CensorshipReason.Impersonation,
+                Title = "Impersonation",
+                Subtitle = "Claiming to be someone they’re not",
+                Selected = false
+            });
+            
+            ReasonList.Add(new ReportReason
+            {
+                ID = CensorshipReason.Illegal,
+                Title = "Illegal",
+                Subtitle = "",
+                Selected = false
+            });
+            ReasonList.Add(new ReportReason
+            {
+                ID = CensorshipReason.NotAQuestion,
+                Title = "Not a question",
+                Subtitle = "",
+                Selected = false
+            });
             ReasonList[0].Selected = true;
         }
-    }
+
+        private string _questionID = "";
+        
+        public ReportQuestionViewModel(string question_id): this()
+        {
+            _questionID = question_id;
+        }
+
+        private async Task<bool> SendReport(ReportReason reason)
+        {
+            var reportQuestion = new ReportQuestionCommand()
+            {
+                question_id = _questionID,
+                reason = reason.ID
+            };
+            var httpResponse = await RTAClient.SendReportQuestion(reportQuestion,
+                IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid);
+            (bool isValid, string errorMessage, string _) = RTAClient.ValidateHttpResponse(httpResponse, "Report question");  
+            if(!isValid) 
+            {
+                var error =  "Error Reporting question: " + errorMessage;
+                ReportLabelText = error;
+                Debug.WriteLine(error);
+                return false;
+            }
+
+            return true;
+        }
+
+    } 
 }

@@ -410,11 +410,8 @@ namespace RightToAskClient.ViewModels
             });
             ReportCommand = new AsyncCommand(async () =>
             {
-                // TODO: pass there the question
-                var nextPage = new ReportQuestionPage();
+                var nextPage = new ReportQuestionPage(Question.QuestionId);
                 await Application.Current.MainPage.Navigation.PushAsync(nextPage);
-                // TODO: move this inside ReportQuestionViewModel                 
-                // Question.ToggleReportStatus();
             });
         }
 
