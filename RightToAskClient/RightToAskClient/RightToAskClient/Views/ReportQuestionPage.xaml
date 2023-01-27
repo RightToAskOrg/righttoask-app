@@ -76,7 +76,6 @@
 
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding BackCommand}"
-                            IconOverride="{helpers:ImageResource RightToAskClient.Images.back.png}"
                             xct:SemanticEffect.Hint="{xct:Translate BackHint}"
                             xct:SemanticEffect.Description="{xct:Translate BackDescription}" />
     </Shell.BackButtonBehavior>
