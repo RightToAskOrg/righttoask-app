@@ -12,21 +12,6 @@ using Xamarin.Forms;
 
 namespace RightToAskClient.ViewModels
 {
-    
-    public enum CensorshipReason
-    {
-        NotAQuestion,
-        ThreateningViolence,
-        IncludesPrivateInformation,
-        IncitesHatredorDiscrimination,
-        EncouragesHarm,
-        TargetedHarassment,
-        DefamatoryInsinuation,
-        Illegal,
-        Impersonation,
-        Spam
-    }
-
     public class ReportReason
     {
         public CensorshipReason ID { get; set; }
@@ -44,6 +29,8 @@ namespace RightToAskClient.ViewModels
         public IList<ReportReason> ReasonList { get; private set; }
         public IAsyncCommand BackCommand { get; }
         public IAsyncCommand ReportCommand { get; }
+        
+        protected QuestionResponseRecords ResponseRecords = new QuestionResponseRecords();
         
         public ReportQuestionViewModel()
         {
@@ -67,7 +54,7 @@ namespace RightToAskClient.ViewModels
                 // Process respond
                 if (success)
                 {
-                    //todo write into local black question list
+                    ResponseRecords.AddReportedQuestion(_questionID);
                     var popup = new OneButtonPopup(
                         AppResources.ReportTitle,
                         AppResources.ReportMessage,
@@ -77,7 +64,11 @@ namespace RightToAskClient.ViewModels
                 }
                 else
                 {
-                    //todo need to ask Alicia/Shuai
+                    var popup = new OneButtonPopup(
+                        AppResources.ReportTitleError,
+                        AppResources.ReportMessageError,
+                        AppResources.OKText);
+                    _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
                 }
 
             });
@@ -184,6 +175,5 @@ namespace RightToAskClient.ViewModels
 
             return true;
         }
-
     } 
 }

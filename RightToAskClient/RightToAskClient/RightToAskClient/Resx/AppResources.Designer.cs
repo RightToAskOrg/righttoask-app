@@ -2030,5 +2030,17 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("ReportMessage", resourceCulture);
             }
         }
+        
+        internal static string ReportTitleError {
+            get {
+                return ResourceManager.GetString("ReportTitleError", resourceCulture);
+            }
+        }
+        
+        internal static string ReportMessageError {
+            get {
+                return ResourceManager.GetString("ReportMessageError", resourceCulture);
+            }
+        }
     }
 }

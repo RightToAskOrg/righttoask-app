@@ -1115,4 +1115,12 @@
       To improve your experience, this question will be hidden from your view in the mean time. 
     </value>
   </data>
+  <data name="ReportTitleError" xml:space="preserve">
+    <value>Error submitting report </value>
+  </data>
+  <data name="ReportMessageError" xml:space="preserve">
+    <value>
+      We couldn’t reach the server, please try again. 
+    </value>
+  </data>
 </root>
