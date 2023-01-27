@@ -1109,11 +1109,8 @@
     <value>Thanks for reporting</value>
   </data>
   <data name="ReportMessage" xml:space="preserve">
-    <value>
-      Your report is in our queue.
-      
-      To improve your experience, this question will be hidden from your view in the mean time. 
-    </value>
+    <value>Your report is in our queue.
+To improve your experience, this question will be hidden from your view in the mean time.</value>
   </data>
   <data name="ReportTitleError" xml:space="preserve">
     <value>Error submitting report </value>
