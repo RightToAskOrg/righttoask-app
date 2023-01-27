@@ -1120,4 +1120,10 @@ To improve your experience, this question will be hidden from your view in the m
       We couldn’t reach the server, please try again. 
     </value>
   </data>
+  <data name="DisplayCardHiddenQuestionTitle" xml:space="preserve">
+    <value>Hidden question</value>
+  </data>
+  <data name="DisplayCardHiddenQuestionBody" xml:space="preserve">
+    <value>You reported this question</value>
+  </data>
 </root>

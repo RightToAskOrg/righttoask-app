@@ -238,6 +238,7 @@
     <EmbeddedResource Include="Images\toolbox_bag.png" />
     <EmbeddedResource Include="Images\trash_delete_48.png" />
     <EmbeddedResource Include="Images\trending_up_48.png" />
+    <EmbeddedResource Include="Images\visibility_off.png" />
     <EmbeddedResource Include="Images\wireframe_roo_small.png" />
     <EmbeddedResource Include="Images\wireframe_roo_smaller.png" />
     <EmbeddedResource Include="Images\write_draft.png" />

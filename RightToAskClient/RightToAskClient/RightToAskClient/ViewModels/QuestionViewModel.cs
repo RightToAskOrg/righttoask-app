@@ -422,7 +422,7 @@ namespace RightToAskClient.ViewModels
                 {
                     return;
                 }
-                var nextPage = new ReportQuestionPage(Question.QuestionId);
+                var nextPage = new ReportQuestionPage(Question.QuestionId, ResponseRecords);
                 await Application.Current.MainPage.Navigation.PushAsync(nextPage);
             });
         }

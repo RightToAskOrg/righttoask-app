@@ -30,7 +30,7 @@ namespace RightToAskClient.ViewModels
         public IAsyncCommand BackCommand { get; }
         public IAsyncCommand ReportCommand { get; }
         
-        protected QuestionResponseRecords ResponseRecords = new QuestionResponseRecords();
+        private QuestionResponseRecords _responseRecords = new QuestionResponseRecords();
         
         public ReportQuestionViewModel()
         {
@@ -54,7 +54,7 @@ namespace RightToAskClient.ViewModels
                 // Process respond
                 if (success)
                 {
-                    ResponseRecords.AddReportedQuestion(_questionID);
+                    _responseRecords.AddReportedQuestion(_questionID);
                     var popup = new OneButtonPopup(
                         AppResources.ReportTitle,
                         AppResources.ReportMessage,
@@ -150,9 +150,10 @@ namespace RightToAskClient.ViewModels
 
         private string _questionID = "";
         
-        public ReportQuestionViewModel(string question_id): this()
+        public ReportQuestionViewModel(string questionId, QuestionResponseRecords responseRecords): this()
         {
-            _questionID = question_id;
+            _questionID = questionId;
+            _responseRecords = responseRecords;
         }
 
         private async Task<bool> SendReport(ReportReason reason)

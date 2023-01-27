@@ -2042,5 +2042,17 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("ReportMessageError", resourceCulture);
             }
         }
+        
+        internal static string DisplayCardHiddenQuestionTitle {
+            get {
+                return ResourceManager.GetString("DisplayCardHiddenQuestionTitle", resourceCulture);
+            }
+        }
+        
+        internal static string DisplayCardHiddenQuestionBody {
+            get {
+                return ResourceManager.GetString("DisplayCardHiddenQuestionBody", resourceCulture);
+            }
+        }
     }
 }

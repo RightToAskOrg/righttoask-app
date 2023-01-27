@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RightToAskClient.Models;
 using RightToAskClient.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -17,10 +18,10 @@ namespace RightToAskClient.Views
             InitializeComponent();
         }
 
-        public ReportQuestionPage(string question_id)
+        public ReportQuestionPage(string questionId, QuestionResponseRecords responseRecords)
         {
             InitializeComponent();
-            BindingContext = new ReportQuestionViewModel(question_id);
+            BindingContext = new ReportQuestionViewModel(questionId, responseRecords);
         }
     }
 }
