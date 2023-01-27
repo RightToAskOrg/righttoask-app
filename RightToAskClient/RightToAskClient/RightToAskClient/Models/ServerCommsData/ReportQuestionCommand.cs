@@ -21,7 +21,7 @@ namespace RightToAskClient.Models.ServerCommsData
         [JsonPropertyName("question_id")] 
         public string question_id { get; set; } 
 
-        [JsonPropertyName("up")] 
+        [JsonPropertyName("reason")] 
         public CensorshipReason reason { get; set; }
     }
 }

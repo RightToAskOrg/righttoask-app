@@ -19,9 +19,8 @@ namespace RightToAskClient.Views
 
         public ReportQuestionPage(string question_id)
         {
-            BindingContext = new ReportQuestionViewModel(question_id);
             InitializeComponent();
-            
+            BindingContext = new ReportQuestionViewModel(question_id);
         }
     }
 }

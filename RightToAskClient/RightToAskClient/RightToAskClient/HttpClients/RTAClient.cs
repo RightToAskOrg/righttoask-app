@@ -170,7 +170,7 @@ namespace RightToAskClient.HttpClients
         
         public static async Task<JOSResult<string>> SendReportQuestion(ReportQuestionCommand reportQuestion, string uid)
         {
-            return await SignAndSendDataToServer(reportQuestion, AppResources.QuestionErrorTypeDescription, ReportQuestionUrl, "Error voting on question", uid);
+            return await SignAndSendDataToServer(reportQuestion, AppResources.QuestionErrorTypeDescription, ReportQuestionUrl, "Error reporting on question", uid);
         }
 
         public static async Task<JOSResult<string>> RequestEmailValidation(ClientSignedUnparsed signedMsg, string email)
