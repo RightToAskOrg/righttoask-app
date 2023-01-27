@@ -410,6 +410,18 @@ namespace RightToAskClient.ViewModels
             });
             ReportCommand = new AsyncCommand(async () =>
             {
+                if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
+                {
+                    await NavigationUtils.DoRegistrationCheck(
+                        IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
+                        AppResources.CancelButtonText);
+                }
+
+                // If they didn't register, return
+                if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
+                {
+                    return;
+                }
                 var nextPage = new ReportQuestionPage(Question.QuestionId);
                 await Application.Current.MainPage.Navigation.PushAsync(nextPage);
             });
