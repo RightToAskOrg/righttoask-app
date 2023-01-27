@@ -567,6 +567,9 @@
   <data name="UpdateAccountButtonText" xml:space="preserve">
     <value>Update Account</value>
   </data>
+  <data name="ReportSubmitHint" xml:space="preserve">
+    <value>Submits report</value>
+  </data>
   <data name="ReportSubmit" xml:space="preserve">
     <value>Submit</value>
   </data>

@@ -119,6 +119,8 @@
                                     <RadioButton GroupName="Reasons"
                                                  Value="{Binding ID}"
                                                  IsChecked="{Binding Selected}"
+                                                 xct:SemanticEffect.Hint="{Binding Title}"
+                                                 xct:SemanticEffect.Description="{Binding Subtitle}"
                                                  VerticalOptions="Fill"
                                                  HorizontalOptions="Fill"
                                                  ControlTemplate="{StaticResource ThemeRadioTemplate}"
@@ -136,6 +138,8 @@
                          Padding="10">
                 <Button Text="{xct:Translate ReportSubmit}"
                         Command="{Binding ReportCommand}"
+                        xct:SemanticEffect.Hint="{xct:Translate ReportSubmitHint}"
+                        xct:SemanticEffect.Description="{xct:Translate ReportSubmit}" 
                         Style="{StaticResource NormalButton}"
                         CornerRadius="5" />
             </StackLayout>

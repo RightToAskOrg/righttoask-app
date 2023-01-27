@@ -945,6 +945,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string ReportSubmitHint {
+            get {
+                return ResourceManager.GetString("ReportSubmitHint", resourceCulture);
+            }
+        }
+        
         internal static string ReportSubmit {
             get {
                 return ResourceManager.GetString("ReportSubmit", resourceCulture);
