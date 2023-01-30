@@ -84,7 +84,8 @@
 					<Label Text="{Binding DownVotes, StringFormat='{0:F0}'}" Style="{StaticResource NormalText}" Margin="0" Padding="0"/>	
 					<StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
 						<ImageButton Source="{helpers:ImageResource RightToAskClient.Images.flag_48.png}"
-						             Padding="5" xct:IconTintColorEffect.TintColor="{StaticResource TextColorGray}"
+						             Padding="5" 
+						             xct:IconTintColorEffect.TintColor="{Binding FlagColor}"
 						             Command="{Binding ReportCommand}"
 						             BackgroundColor="Transparent"
 						             AutomationProperties.IsInAccessibleTree="True"

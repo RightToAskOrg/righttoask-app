@@ -46,6 +46,14 @@ namespace RightToAskClient.ViewModels
             }
         }
 
+        private Color _flagColor = Color.Gray;
+        public Color FlagColor
+        {
+            get => _flagColor; 
+            set => SetProperty(ref _flagColor, value);
+        }
+        
+
         // Convenient views of things stored in the Question.
         public List<Answer> QuestionAnswers => Question.Answers;
 
@@ -424,6 +432,7 @@ namespace RightToAskClient.ViewModels
                 }
                 var nextPage = new ReportQuestionPage(Question.QuestionId, ResponseRecords, new Command(() =>
                 {
+                    FlagColor = Color.Crimson;
                     Question.AlreadyReported = true;
                 }));
                 await Application.Current.MainPage.Navigation.PushAsync(nextPage);
