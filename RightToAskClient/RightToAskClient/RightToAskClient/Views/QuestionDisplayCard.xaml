@@ -116,7 +116,7 @@
                     <!--Report/Flag Button-->
                     <StackLayout Orientation="Horizontal" Grid.Row="2" Grid.Column="2">
                         <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.flag_48.png}"
-                                     Padding="5" xct:IconTintColorEffect.TintColor="{StaticResource AlertColor}"
+                                     Padding="5" xct:IconTintColorEffect.TintColor="{StaticResource TextColorGray}"
                                      Command="{Binding ReportCommand}"
                                      BackgroundColor="Transparent"
                                      AutomationProperties.IsInAccessibleTree="True"

@@ -30,6 +30,10 @@
 				<StackLayout Orientation="Horizontal" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
 					<Label Text="{xct:Translate QuestionHeaderText}" Style="{StaticResource Header2}"
 					       HorizontalOptions="StartAndExpand" />
+				</StackLayout>
+				<Editor x:Name="QuestionTextEditor" Text="{Binding Question.QuestionText}"
+				        IsReadOnly="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}" />
+				<StackLayout Orientation="Horizontal">
 					<!-- Up-vote button -->
 					<controls:ColorSingleToggleButton Source="{helpers:ImageResource RightToAskClient.Images.thumb_up_48.png}"
 					                                  IsBrightened="{Binding Question.AlreadyUpvoted}"
@@ -78,9 +82,18 @@
 	                    </VisualStateManager.VisualStateGroups>
 	                    </controls:ColorSingleToggleButton>
 					<Label Text="{Binding DownVotes, StringFormat='{0:F0}'}" Style="{StaticResource NormalText}" Margin="0" Padding="0"/>	
+					<StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
+						<ImageButton Source="{helpers:ImageResource RightToAskClient.Images.flag_48.png}"
+						             Padding="5" xct:IconTintColorEffect.TintColor="{StaticResource TextColorGray}"
+						             Command="{Binding ReportCommand}"
+						             BackgroundColor="Transparent"
+						             AutomationProperties.IsInAccessibleTree="True"
+						             AutomationProperties.Name="{xct:Translate QuestionFrameFlagButtonAccessibilityName}"
+						             AutomationProperties.HelpText="{xct:Translate QuestionFrameFlagButtonAccessibilityTextRed}" />
+						<Label Text="Flag" Style="{StaticResource QuestionButtonText}" />
+					</StackLayout>
+					
 				</StackLayout>
-				<Editor x:Name="QuestionTextEditor" Text="{Binding Question.QuestionText}"
-				        IsReadOnly="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}" />
 				<Label Text="{xct:Translate WhoShouldAnswerTitle}" Style="{StaticResource Header2}" />
 				<Label Text="{Binding QuestionAnswerers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
 				<StackLayout Orientation="Horizontal" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
