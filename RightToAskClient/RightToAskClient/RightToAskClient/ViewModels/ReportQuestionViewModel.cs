@@ -60,6 +60,7 @@ namespace RightToAskClient.ViewModels
                         AppResources.ReportMessage,
                         AppResources.DoneButtonText);
                     _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                    _command.Execute(true);
                     await App.Current.MainPage.Navigation.PopAsync(); 
                 }
                 else
@@ -149,11 +150,13 @@ namespace RightToAskClient.ViewModels
         }
 
         private string _questionID = "";
-        
-        public ReportQuestionViewModel(string questionId, QuestionResponseRecords responseRecords): this()
+        private Command _command = null;
+
+        public ReportQuestionViewModel(string questionId, QuestionResponseRecords responseRecords, Command command): this()
         {
             _questionID = questionId;
             _responseRecords = responseRecords;
+            _command = command;
         }
 
         private async Task<bool> SendReport(ReportReason reason)

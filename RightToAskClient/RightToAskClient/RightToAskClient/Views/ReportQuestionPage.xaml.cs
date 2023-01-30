@@ -18,10 +18,10 @@ namespace RightToAskClient.Views
             InitializeComponent();
         }
 
-        public ReportQuestionPage(string questionId, QuestionResponseRecords responseRecords)
+        public ReportQuestionPage(string questionId, QuestionResponseRecords responseRecords, Command command)
         {
             InitializeComponent();
-            BindingContext = new ReportQuestionViewModel(questionId, responseRecords);
+            BindingContext = new ReportQuestionViewModel(questionId, responseRecords, command);
         }
     }
 }
