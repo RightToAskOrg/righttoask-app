@@ -88,6 +88,7 @@
                                Style="{StaticResource QuestionButtonText}" />
                     </StackLayout>
                     <!--Share Button-->
+                    <!-- TODO: Commented until better times
                     <StackLayout Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
                         <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.share_48.png}"
                                      Padding="5" Command="{Binding ShareCommand}" BackgroundColor="Transparent"
@@ -97,6 +98,7 @@
                                      AutomationProperties.HelpText="{xct:Translate QuestionFrameShareButtonAccessibilityText}" />
                         <Label Text="Share" Style="{StaticResource QuestionButtonText}" />
                     </StackLayout>
+                    -->
                     <!--Answer/Has an Answer Buttons-->
                     <!-- TODO: We will still need a 'has answer' indicator and a 'write an answer' button (for MPs), but do UI design first.
                 <StackLayout Orientation="Horizontal" Grid.Row="2" Grid.Column="2">
