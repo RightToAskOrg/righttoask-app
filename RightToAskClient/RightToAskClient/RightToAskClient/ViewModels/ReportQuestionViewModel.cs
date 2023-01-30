@@ -105,7 +105,7 @@ namespace RightToAskClient.ViewModels
             });
             ReasonList.Add(new ReportReason
             {
-                ID = CensorshipReason.IncitesHatredorDiscrimination,
+                ID = CensorshipReason.IncitesHatredOrDiscrimination,
                 Title = "Hate",
                 Subtitle = "Attacks or threats against an individual or group because of their protected attributes or anything else about them that does not relate to a political issue.",
                 Selected = false
@@ -143,7 +143,7 @@ namespace RightToAskClient.ViewModels
             {
                 ID = CensorshipReason.Illegal,
                 Title = "Illegal",
-                Subtitle = "",
+                Subtitle = "Copyright violation, promotion of criminal activities, money scams etc.",
                 Selected = false
             });
             ReasonList.Add(new ReportReason

@@ -7,7 +7,7 @@ namespace RightToAskClient.Models.ServerCommsData
         NotAQuestion,
         ThreateningViolence,
         IncludesPrivateInformation,
-        IncitesHatredorDiscrimination,
+        IncitesHatredOrDiscrimination,
         EncouragesHarm,
         TargetedHarassment,
         DefamatoryInsinuation,
