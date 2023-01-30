@@ -61,6 +61,7 @@
             <Color x:Key="TransparentPurple">#229141B2</Color>
             <Color x:Key="LightGreen">#F1F2ED</Color>
             <Color x:Key="DarkGreen">#556035</Color>
+            <Color x:Key="LightGray">#E3E3E4</Color>
 
             <!--Generic Styles-->
             <Style TargetType="Label">
@@ -622,10 +623,32 @@
                 <Setter Property="Shell.TabBarTitleColor" Value="{AppThemeBinding Light=Black,  Dark=White}"/>
             </Style>
             <Style x:Key="NormalButton" TargetType="Button" >
-                <Setter Property="TextColor" Value="White" />
-                <Setter Property="Background" Value="{StaticResource Purple}" />
                 <Setter Property="HorizontalOptions" Value="FillAndExpand" />
                 <Setter Property="Padding" Value="16" />
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="TextColor" Value="White" />
+                                    <Setter Property="BackgroundColor" Value="{StaticResource Purple}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="TextColor" Value="{StaticResource Purple}" />
+                                    <Setter Property="BackgroundColor" Value="{StaticResource TransparentPurple}"/>
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Disabled">
+                                <VisualState.Setters>
+                                    <Setter Property="TextColor" Value="Gray" />
+                                    <Setter Property="BackgroundColor" Value="{StaticResource LightGray}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter>
             </Style>
             <Style x:Key="ButtonSeparator" TargetType="BoxView">
                 <Setter Property="HeightRequest" Value="1" />

@@ -32,6 +32,13 @@ namespace RightToAskClient.ViewModels
         
         private QuestionResponseRecords _responseRecords = new QuestionResponseRecords();
         
+        private bool _isSelected = false;
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set => SetProperty(ref _isSelected, value);
+        }
+
         public ReportQuestionViewModel()
         {
             BackCommand = new AsyncCommand(async () =>
@@ -146,7 +153,6 @@ namespace RightToAskClient.ViewModels
                 Subtitle = "",
                 Selected = false
             });
-            ReasonList[0].Selected = true;
         }
 
         private string _questionID = "";

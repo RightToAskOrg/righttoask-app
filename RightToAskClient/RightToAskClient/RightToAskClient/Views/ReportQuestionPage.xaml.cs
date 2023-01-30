@@ -23,5 +23,14 @@ namespace RightToAskClient.Views
             InitializeComponent();
             BindingContext = new ReportQuestionViewModel(questionId, responseRecords, command);
         }
+
+        private void RadioButton_OnCheckedChanged(object sender, CheckedChangedEventArgs e)
+        {
+            var vm = BindingContext as ReportQuestionViewModel;
+            if (vm != null)
+            {
+                vm.IsSelected = true;
+            }
+        }
     }
 }
