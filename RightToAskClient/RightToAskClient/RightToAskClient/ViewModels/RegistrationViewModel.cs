@@ -341,6 +341,11 @@ namespace RightToAskClient.ViewModels
                 {
                     await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
                 });
+                DoRegistrationCommand = new AsyncCommand(async () =>
+                {
+                    var registerAccountPage = new RegisterAccountPage(_registration);
+                    await Application.Current.MainPage.Navigation.PushAsync(registerAccountPage);
+                });
             }
 
             // commands
@@ -353,7 +358,7 @@ namespace RightToAskClient.ViewModels
         public Command DMButtonCommand { get; }
         public IAsyncCommand CancelButtonCommand { get; }
         public IAsyncCommand SeeQuestionsButtonCommand { get; }
-
+        public IAsyncCommand DoRegistrationCommand { get; }
 
         #region Methods
         public async void NavigateToFindMPsPage()

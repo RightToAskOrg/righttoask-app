@@ -64,7 +64,8 @@
                         <Button Text="Sign up"
                                 Margin="70, 0"
                                 Style="{StaticResource NormalButton}"
-                                CornerRadius="5" />
+                                CornerRadius="5" 
+                                Command="{Binding DoRegistrationCommand}"/>
                     </StackLayout>
                 </StackLayout>
             </StackLayout>
