@@ -27,6 +27,13 @@ namespace RightToAskClient.ViewModels
         // on this page.
         private readonly Registration _registration = new Registration(); 
         
+        private bool _isNotRegistered;
+        public bool IsNotRegistered
+        {
+            get => _isNotRegistered;
+            set => SetProperty(ref _isNotRegistered, value);
+        }
+        
         // The updates that have been made to this user's registration on this page
         // Note this is used only for updating an existing registration - new registrations are handled
         // with _registration.
@@ -260,18 +267,21 @@ namespace RightToAskClient.ViewModels
             switch (_registration.registrationStatus)
             {
                 case RegistrationStatus.Registered:
+                    IsNotRegistered = false;
                     CanEditUid = false;
                     PopupLabelText = AppResources.EditAccountPopupText;
                     Title = AppResources.EditYourAccountTitle;
                     ShowTheRightButtonsForOwnAccount();
                     break;
                 case RegistrationStatus.NotRegistered:
+                    IsNotRegistered = true;
                     CanEditUid = true;
                     PopupLabelText = AppResources.CreateNewAccountPopupText;
                     Title = AppResources.CreateAccountTitle;
                     ShowTheRightButtonsForOwnAccount();
                     break;
                 case RegistrationStatus.AnotherPerson:
+                    IsNotRegistered = true;
                     CanEditUid = false;
                     PopupLabelText = AppResources.OtherUserInfoText;
                     ShowTheRightButtonsForOtherUser(registration.display_name);
@@ -287,6 +297,7 @@ namespace RightToAskClient.ViewModels
         // Parameterless constructor sets defaults assuming it's a new registration for this app user, i.e ThisParticipant.
         public RegistrationViewModel() : this(false)
         {
+            IsNotRegistered = true;
             _registration.registrationStatus = RegistrationStatus.NotRegistered;
         }
         
