@@ -573,6 +573,12 @@
   <data name="ReportSubmit" xml:space="preserve">
     <value>Submit</value>
   </data>
+  <data name="AgreeText" xml:space="preserve">
+    <value>Agree</value>
+  </data>
+  <data name="DisagreeText" xml:space="preserve">
+    <value>Disagree</value>
+  </data>
   <data name="UpperHouseElectorateText" xml:space="preserve">
     <value>Legislative Council electorate</value>
   </data>

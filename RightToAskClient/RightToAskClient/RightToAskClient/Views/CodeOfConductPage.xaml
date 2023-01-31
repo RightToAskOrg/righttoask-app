@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:local="clr-namespace:RightToAskClient"
+             xmlns:views="clr-namespace:RightToAskClient.Views;assembly=RightToAskClient"
+             xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
+             Title="Code of Conduct"
+             x:Class="RightToAskClient.Views.CodeOfConductPage">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding BackCommand}"
+                            xct:SemanticEffect.Hint="{xct:Translate BackHint}"
+                            xct:SemanticEffect.Description="{xct:Translate BackDescription}" />
+    </Shell.BackButtonBehavior>
+    <ContentPage.BindingContext>
+        <vm:ReportQuestionViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical"
+                     VerticalOptions="Fill"
+                     HorizontalOptions="Fill">
+            <ScrollView VerticalOptions="FillAndExpand"
+                        HorizontalOptions="Fill">
+                <StackLayout Orientation="Vertical"
+                             VerticalOptions="FillAndExpand"
+                             HorizontalOptions="Fill">
+                    
+                    <BoxView Style="{StaticResource ButtonSeparator}" />
+                    <StackLayout Orientation="Horizontal"
+                                 VerticalOptions="End"
+                                 HorizontalOptions="Fill"
+                                 Padding="10">
+                        <Button Text="{xct:Translate DisagreeText}"
+                                xct:SemanticEffect.Hint="{xct:Translate ReportSubmitHint}"
+                                xct:SemanticEffect.Description="{xct:Translate ReportSubmit}" 
+                                Style="{StaticResource NormalButton}"
+                                CornerRadius="5" 
+                                IsEnabled="{Binding IsSelected}"/>
+                        <Button Text="{xct:Translate AgreeText}"
+                                xct:SemanticEffect.Hint="{xct:Translate ReportSubmitHint}"
+                                xct:SemanticEffect.Description="{xct:Translate ReportSubmit}" 
+                                Style="{StaticResource NormalButton}"
+                                CornerRadius="5" 
+                                IsEnabled="{Binding IsSelected}"/>
+                    </StackLayout>
+                </StackLayout>
+            </ScrollView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

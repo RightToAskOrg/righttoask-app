@@ -957,6 +957,18 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string AgreeText {
+            get {
+                return ResourceManager.GetString("AgreeText", resourceCulture);
+            }
+        }
+        
+        internal static string DisagreeText {
+            get {
+                return ResourceManager.GetString("DisagreeText", resourceCulture);
+            }
+        }
+        
         internal static string UpperHouseElectorateText {
             get {
                 return ResourceManager.GetString("UpperHouseElectorateText", resourceCulture);
