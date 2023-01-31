@@ -197,6 +197,7 @@
     <EmbeddedResource Include="Images\contact_mail_48.png" />
     <EmbeddedResource Include="Images\contact_support_48.png" />
     <EmbeddedResource Include="Images\cup_of_supplies.png" />
+    <EmbeddedResource Include="Images\edit.png" />
     <EmbeddedResource Include="Images\edit_note_48.png" />
     <EmbeddedResource Include="Images\emu_75.png" />
     <EmbeddedResource Include="Images\emu_tall.PNG" />
