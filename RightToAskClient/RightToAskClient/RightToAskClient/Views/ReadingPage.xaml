@@ -89,12 +89,21 @@
                              VerticalOptions="End" 
                              HorizontalOptions="End" 
                              Margin="10" 
-                             Source="{helpers:ImageResource RightToAskClient.Images.half_roo.png}" 
-                             WidthRequest="50"
-                             HeightRequest="50"
-                             CornerRadius="25"
-                             BackgroundColor="{StaticResource FrameColor}" 
+                             Source="{helpers:ImageResource RightToAskClient.Images.edit.png}" 
+                             WidthRequest="70"
+                             HeightRequest="70"
+                             CornerRadius="35"
+                             Padding="20" 
+                             Aspect="AspectFit"
+                             BackgroundColor="{StaticResource Purple}" 
                              Command="{Binding DraftCommand}" 
+                             xct:ShadowEffect.Color="{AppThemeBinding 
+                             Light={StaticResource EditorBackgroundDark},
+                             Dark={StaticResource EditorBackground}}"
+                             xct:ShadowEffect.Opacity="0.25"
+                             xct:ShadowEffect.Radius="4"
+                             xct:ShadowEffect.OffsetX="0"
+                             xct:ShadowEffect.OffsetY="4"
                              xct:SemanticEffect.Hint="{xct:Translate ReadingPageWriteHint}"
                              xct:SemanticEffect.Description="{xct:Translate ReadingPageWriteDescription}"/>
             </Grid>

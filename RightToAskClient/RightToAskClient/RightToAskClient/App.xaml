@@ -61,6 +61,7 @@
             <Color x:Key="TransparentPurple">#229141B2</Color>
             <Color x:Key="LightGreen">#F1F2ED</Color>
             <Color x:Key="DarkGreen">#556035</Color>
+            <Color x:Key="LightGray">#E3E3E4</Color>
 
             <!--Generic Styles-->
             <Style TargetType="Label">
@@ -99,7 +100,7 @@
                 </Setter>
                 <Setter Property = "Scale" Value = "1.5" />
             </Style>
-            <Style TargetType="RadioButton">
+            <Style x:Key="DefaultRadioButton" TargetType="RadioButton">
                 <Setter Property = "VisualStateManager.VisualStateGroups">
                     <VisualStateGroupList>
                     <VisualStateGroup x:Name="CheckedStates">
@@ -609,6 +610,65 @@
                 <Setter Property="Margin" Value="0" />   
                 <Setter Property="WidthRequest" Value="16" />  
                 <Setter Property="HeightRequest" Value="16" />  
+            </Style>
+            <Style x:Key="SubPage" TargetType="NavigationPage">
+                <Setter Property="Shell.BackgroundColor" Value="{AppThemeBinding Light=White,  Dark=Black}" />
+                <Setter Property="Shell.ForegroundColor" Value="{AppThemeBinding Light=Black,  Dark=White}" />
+                <Setter Property="Shell.TitleColor" Value="{AppThemeBinding Light=Black,  Dark=White}" />
+                <Setter Property="Shell.DisabledColor" Value="#B4FFFFFF" />
+                <Setter Property="Shell.UnselectedColor" Value="#95FFFFFF" />
+                <Setter Property="Shell.TabBarBackgroundColor" Value="{AppThemeBinding Light=White,  Dark=Black}" />
+                <Setter Property="Shell.TabBarForegroundColor" Value="{AppThemeBinding Light=Black,  Dark=White}"/>
+                <Setter Property="Shell.TabBarUnselectedColor" Value="#95FFFFFF"/>
+                <Setter Property="Shell.TabBarTitleColor" Value="{AppThemeBinding Light=Black,  Dark=White}"/>
+            </Style>
+            <Style x:Key="NormalButton" TargetType="Button" >
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="Padding" Value="16" />
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="TextColor" Value="White" />
+                                    <Setter Property="BackgroundColor" Value="{StaticResource Purple}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="TextColor" Value="{StaticResource Purple}" />
+                                    <Setter Property="BackgroundColor" Value="{StaticResource TransparentPurple}"/>
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Disabled">
+                                <VisualState.Setters>
+                                    <Setter Property="TextColor" Value="Gray" />
+                                    <Setter Property="BackgroundColor" Value="{StaticResource LightGray}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter>
+            </Style>
+            <Style x:Key="ButtonSeparator" TargetType="BoxView">
+                <Setter Property="HeightRequest" Value="1" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="VerticalOptions" Value="End" />
+                <Setter Property="Color" Value="LightGray" />
+                <Setter Property="Margin" Value="0" />
+            </Style>
+            <Style x:Key="ReportReasonTitle" TargetType="Label">
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="TextColor" Value="{AppThemeBinding Light=Black,  Dark=White}" />
+                <Setter Property="HorizontalOptions" Value="Fill" />
+            </Style>
+            <Style x:Key="ReportReasonDetails" TargetType="Label">
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="TextColor" Value="{AppThemeBinding Light=#595959,  Dark=#A6A6A6}" />
+                <Setter Property="HorizontalOptions" Value="Fill" />
+                <Setter Property="VerticalOptions" Value="End" />
             </Style>
         </ResourceDictionary>
     </Application.Resources>

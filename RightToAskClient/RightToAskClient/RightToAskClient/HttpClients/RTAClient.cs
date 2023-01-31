@@ -37,6 +37,7 @@ namespace RightToAskClient.HttpClients
         private static readonly string EmailValidationPinUrl = BaseUrl + "/email_proof";
         private static readonly string SimilarQuestionsUrl = BaseUrl + "/similar_questions";
         private static readonly string WeightedSearchQuestionsUrl = BaseUrl + "/get_similar_questions";
+        private static readonly string ReportQuestionUrl = BaseUrl + "/report_question";
         
         // TODO At the moment, this is not used, because we don't have a cert chain for the server Public Key.
         // Instead, the public key itself is hardcoded.
@@ -165,6 +166,11 @@ namespace RightToAskClient.HttpClients
         public static async Task<JOSResult<string>> SendPlaintextUpvote(PlainTextVoteOnQuestionCommand voteOnQuestion, string uid)
         {
             return await SignAndSendDataToServer(voteOnQuestion, AppResources.QuestionErrorTypeDescription, PlaintextVoteQnUrl, "Error voting on question", uid);
+        }
+        
+        public static async Task<JOSResult<string>> SendReportQuestion(ReportQuestionCommand reportQuestion, string uid)
+        {
+            return await SignAndSendDataToServer(reportQuestion, AppResources.QuestionErrorTypeDescription, ReportQuestionUrl, "Error reporting on question", uid);
         }
 
         public static async Task<JOSResult<string>> RequestEmailValidation(ClientSignedUnparsed signedMsg, string email)

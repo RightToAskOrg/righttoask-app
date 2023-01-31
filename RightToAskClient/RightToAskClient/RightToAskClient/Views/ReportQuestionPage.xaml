@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:local="clr-namespace:RightToAskClient"
+             xmlns:views="clr-namespace:RightToAskClient.Views;assembly=RightToAskClient"
+             xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
+             Title="Report Question"
+             x:Class="RightToAskClient.Views.ReportQuestionPage"
+             x:DataType="vm:ReportQuestionViewModel"
+             Style="{StaticResource SubPage}"
+             ios:Page.UseSafeArea="true">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <ControlTemplate x:Key="ThemeRadioTemplate">
+                <Frame x:Name="CheckFrame"
+                       Margin="16, 16, 16, 0"
+                       Padding="0"
+                       HasShadow="False"
+                       HorizontalOptions="Fill"
+                       VerticalOptions="StartAndExpand"
+                       BackgroundColor="Transparent">
+                    <Grid VerticalOptions="StartAndExpand" HorizontalOptions="Fill">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Start">
+                            <Ellipse Fill="{AppThemeBinding Light=White, Dark=Black}"
+                                     HeightRequest="18"
+                                     HorizontalOptions="Center"
+                                     Stroke="{AppThemeBinding 
+                                     Light={StaticResource DarkGreen}, 
+                                     Dark={StaticResource LightGreen}}"
+                                     StrokeThickness="1"
+                                     VerticalOptions="Center"
+                                     WidthRequest="18" />
+                            <Ellipse x:Name="Check"
+                                     BackgroundColor="Transparent"
+                                     Fill="{AppThemeBinding 
+                                     Light={StaticResource DarkGreen}, 
+                                     Dark={StaticResource LightGreen}}"
+                                     HeightRequest="10"
+                                     HorizontalOptions="Center"
+                                     StrokeThickness="0"
+                                     VerticalOptions="Center"
+                                     WidthRequest="10" />
+                        </Grid>
+                        <!-- This enables us to put in dynamic content -->
+                        <ContentPresenter Grid.Column="1" />
+                    </Grid>
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroupList>
+                            <VisualStateGroup x:Name="CheckedStates">
+                                <VisualState x:Name="Checked">
+                                    <VisualState.Setters>
+                                        <Setter TargetName="Check" Property="Opacity" Value="1" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Unchecked">
+                                    <VisualState.Setters>
+                                        <Setter TargetName="Check" Property="Opacity" Value="0" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateGroupList>
+                    </VisualStateManager.VisualStateGroups>
+                </Frame>
+            </ControlTemplate>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding BackCommand}"
+                            xct:SemanticEffect.Hint="{xct:Translate BackHint}"
+                            xct:SemanticEffect.Description="{xct:Translate BackDescription}" />
+    </Shell.BackButtonBehavior>
+    <ContentPage.BindingContext>
+        <vm:ReportQuestionViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical"
+                     VerticalOptions="Fill"
+                     HorizontalOptions="Fill">
+            <ScrollView VerticalOptions="FillAndExpand"
+                        HorizontalOptions="Fill">
+                <StackLayout Orientation="Vertical"
+                             VerticalOptions="FillAndExpand"
+                             HorizontalOptions="Fill">
+                    <CollectionView x:Name="QuestionList"
+                                    ItemsSource="{Binding ReasonList}"
+                                    SelectionMode="None"
+                                    VerticalOptions="FillAndExpand">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="vm:ReportReason">
+                                <Grid VerticalOptions="StartAndExpand"
+                                      HorizontalOptions="Fill">
+                                    <Grid VerticalOptions="StartAndExpand"
+                                          HorizontalOptions="Fill"
+                                          Margin="16, 16, 16, 0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <StackLayout Orientation="Vertical"
+                                                     VerticalOptions="StartAndExpand"
+                                                     HorizontalOptions="Fill"
+                                                     Grid.Column="1">
+                                            <Label Text="{Binding Title}"
+                                                   Style="{StaticResource ReportReasonTitle}" />
+                                            <Label Text="{Binding Subtitle}"
+                                                   Style="{StaticResource ReportReasonDetails}" 
+                                                   IsVisible="{Binding Subtitle.Length}"/>
+                                        </StackLayout>
+                                    </Grid>
+                                    <RadioButton GroupName="Reasons"
+                                                 CheckedChanged="RadioButton_OnCheckedChanged"
+                                                 Value="{Binding ID}"
+                                                 IsChecked="{Binding Selected}"
+                                                 xct:SemanticEffect.Hint="{Binding Subtitle}"
+                                                 xct:SemanticEffect.Description="{Binding Title}"
+                                                 VerticalOptions="Fill"
+                                                 HorizontalOptions="Fill"
+                                                 ControlTemplate="{StaticResource ThemeRadioTemplate}"
+                                                 Content=" "/>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+            </ScrollView>
+            <BoxView Style="{StaticResource ButtonSeparator}" />
+            <StackLayout Orientation="Vertical"
+                         VerticalOptions="End"
+                         HorizontalOptions="Fill"
+                         Padding="10">
+                <Button Text="{xct:Translate ReportSubmit}"
+                        Command="{Binding ReportCommand}"
+                        xct:SemanticEffect.Hint="{xct:Translate ReportSubmitHint}"
+                        xct:SemanticEffect.Description="{xct:Translate ReportSubmit}" 
+                        Style="{StaticResource NormalButton}"
+                        CornerRadius="5" 
+                        IsEnabled="{Binding IsSelected}"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

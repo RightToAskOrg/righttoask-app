@@ -28,6 +28,7 @@
     <None Remove="Images\arrow_back_48.png" />
     <None Remove="Images\arrow_forward_48.png" />
     <None Remove="Images\assured_workload_48.png" />
+    <None Remove="Images\back.png" />
     <None Remove="Images\BookStack.png" />
     <None Remove="Images\book_stack.png" />
     <None Remove="Images\CalendarCheckmark.png" />
@@ -196,6 +197,7 @@
     <EmbeddedResource Include="Images\contact_mail_48.png" />
     <EmbeddedResource Include="Images\contact_support_48.png" />
     <EmbeddedResource Include="Images\cup_of_supplies.png" />
+    <EmbeddedResource Include="Images\edit.png" />
     <EmbeddedResource Include="Images\edit_note_48.png" />
     <EmbeddedResource Include="Images\emu_75.png" />
     <EmbeddedResource Include="Images\emu_tall.PNG" />
@@ -237,6 +239,7 @@
     <EmbeddedResource Include="Images\toolbox_bag.png" />
     <EmbeddedResource Include="Images\trash_delete_48.png" />
     <EmbeddedResource Include="Images\trending_up_48.png" />
+    <EmbeddedResource Include="Images\visibility_off.png" />
     <EmbeddedResource Include="Images\wireframe_roo_small.png" />
     <EmbeddedResource Include="Images\wireframe_roo_smaller.png" />
     <EmbeddedResource Include="Images\write_draft.png" />

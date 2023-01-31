@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:local="clr-namespace:RightToAskClient"
@@ -10,32 +11,38 @@
              x:DataType="vm:QuestionViewModel"
              Title="{xct:Translate OptionsTitleText}">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
-                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.home4.png}"/>
-        <ToolbarItem Text="{xct:Translate InfoPopupButtonText}" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
-                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}"/>
+        <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}"
+                     x:DataType="vm:BaseViewModel"
+                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.home4.png}" />
+        <ToolbarItem Text="{xct:Translate InfoPopupButtonText}" Command="{Binding InfoPopupCommand}"
+                     x:DataType="vm:BaseViewModel"
+                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" Padding="10">
+        <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand"
+                     Padding="10">
             <Label Text="{xct:Translate OptionsHeaderText}" Style="{StaticResource Header1}" />
             <BoxView />
-            <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Padding="20"
-                RadioButtonGroup.GroupName="OptionsTest"  >
+            <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"
+                         Padding="20"
+                         RadioButtonGroup.GroupName="OptionsTest">
                 <StackLayout.Resources>
                     <helpers:BoolEnumConverter x:Key="BoolEnumConverter" />
                 </StackLayout.Resources>
-                <RadioButton Content="Answered by MPs in the Right To Ask app" 
+                <RadioButton Style="{StaticResource DefaultRadioButton}"
+                             Content="Answered by MPs in the Right To Ask app"
                              IsChecked="{Binding Path=HowAnswered, Converter={StaticResource BoolEnumConverter}, 
-                            ConverterParameter={x:Static models:HowAnsweredOptions.InApp}}" /> 
-                    <RadioButton Content="Raised in Parliament"
+                            ConverterParameter={x:Static models:HowAnsweredOptions.InApp}}" />
+                <RadioButton Style="{StaticResource DefaultRadioButton}" Content="Raised in Parliament"
                              IsChecked="{Binding Path=HowAnswered, Converter={StaticResource BoolEnumConverter}, 
-                            ConverterParameter={x:Static models:HowAnsweredOptions.InParliament}}" /> 
-                    <RadioButton Content="Don't know"
+                            ConverterParameter={x:Static models:HowAnsweredOptions.InParliament}}" />
+                <RadioButton Style="{StaticResource DefaultRadioButton}" Content="Don't know"
                              IsChecked="{Binding Path=HowAnswered, Converter={StaticResource BoolEnumConverter}, 
-                            ConverterParameter={x:Static models:HowAnsweredOptions.DontKnow}}" /> 
+                            ConverterParameter={x:Static models:HowAnsweredOptions.DontKnow}}" />
             </StackLayout>
-            <StackLayout Orientation="Horizontal" HorizontalOptions="End" VerticalOptions="End" Margin="0,40,0,0" >
-                <Button Text="{xct:Translate NextButtonText}" Style="{StaticResource DoneButton}"  Command="{Binding ToAnswererPageWithHowAnsweredSelectionCommand}" HorizontalOptions="End"/>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="End" VerticalOptions="End" Margin="0,40,0,0">
+                <Button Text="{xct:Translate NextButtonText}" Style="{StaticResource DoneButton}"
+                        Command="{Binding ToAnswererPageWithHowAnsweredSelectionCommand}" HorizontalOptions="End" />
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

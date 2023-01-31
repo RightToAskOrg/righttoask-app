@@ -46,6 +46,14 @@ namespace RightToAskClient.ViewModels
             }
         }
 
+        private Color _flagColor = Color.Gray;
+        public Color FlagColor
+        {
+            get => _flagColor; 
+            set => SetProperty(ref _flagColor, value);
+        }
+        
+
         // Convenient views of things stored in the Question.
         public List<Answer> QuestionAnswers => Question.Answers;
 
@@ -408,9 +416,26 @@ namespace RightToAskClient.ViewModels
                     Title = "Share Text"
                 });
             });
-            ReportCommand = new Command(() =>
+            ReportCommand = new AsyncCommand(async () =>
             {
-                Question.ToggleReportStatus();
+                if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
+                {
+                    await NavigationUtils.DoRegistrationCheck(
+                        IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
+                        AppResources.CancelButtonText);
+                }
+
+                // If they didn't register, return
+                if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
+                {
+                    return;
+                }
+                var nextPage = new ReportQuestionPage(Question.QuestionId, ResponseRecords, new Command(() =>
+                {
+                    FlagColor = Color.Crimson;
+                    Question.AlreadyReported = true;
+                }));
+                await Application.Current.MainPage.Navigation.PushAsync(nextPage);
             });
         }
 
@@ -450,7 +475,7 @@ namespace RightToAskClient.ViewModels
         public IAsyncCommand ToAnswererPageWithHowAnsweredSelectionCommand { get; }
         public IAsyncCommand ToHowAnsweredOptionPageCommand { get; }
         public IAsyncCommand ShareCommand { get; }
-        public Command ReportCommand { get; }
+        public IAsyncCommand ReportCommand { get; }
         
         public void ClearQuestionDataAddWriter()
         {

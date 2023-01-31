@@ -945,6 +945,18 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string ReportSubmitHint {
+            get {
+                return ResourceManager.GetString("ReportSubmitHint", resourceCulture);
+            }
+        }
+        
+        internal static string ReportSubmit {
+            get {
+                return ResourceManager.GetString("ReportSubmit", resourceCulture);
+            }
+        }
+        
         internal static string UpperHouseElectorateText {
             get {
                 return ResourceManager.GetString("UpperHouseElectorateText", resourceCulture);
@@ -1953,15 +1965,15 @@ namespace RightToAskClient.Resx {
             }
         }
         
-        internal static string WriteQuestionBackHint {
+        internal static string BackHint {
             get {
-                return ResourceManager.GetString("WriteQuestionBackHint", resourceCulture);
+                return ResourceManager.GetString("BackHint", resourceCulture);
             }
         }
         
-        internal static string WriteQuestionBackDescription {
+        internal static string BackDescription {
             get {
-                return ResourceManager.GetString("WriteQuestionBackDescription", resourceCulture);
+                return ResourceManager.GetString("BackDescription", resourceCulture);
             }
         }
         
@@ -2010,6 +2022,42 @@ namespace RightToAskClient.Resx {
         internal static string EditorProceedButtonDescription {
             get {
                 return ResourceManager.GetString("EditorProceedButtonDescription", resourceCulture);
+            }
+        }
+        
+        internal static string ReportTitle {
+            get {
+                return ResourceManager.GetString("ReportTitle", resourceCulture);
+            }
+        }
+        
+        internal static string ReportMessage {
+            get {
+                return ResourceManager.GetString("ReportMessage", resourceCulture);
+            }
+        }
+        
+        internal static string ReportTitleError {
+            get {
+                return ResourceManager.GetString("ReportTitleError", resourceCulture);
+            }
+        }
+        
+        internal static string ReportMessageError {
+            get {
+                return ResourceManager.GetString("ReportMessageError", resourceCulture);
+            }
+        }
+        
+        internal static string DisplayCardHiddenQuestionTitle {
+            get {
+                return ResourceManager.GetString("DisplayCardHiddenQuestionTitle", resourceCulture);
+            }
+        }
+        
+        internal static string DisplayCardHiddenQuestionBody {
+            get {
+                return ResourceManager.GetString("DisplayCardHiddenQuestionBody", resourceCulture);
             }
         }
     }

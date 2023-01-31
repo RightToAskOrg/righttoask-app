@@ -567,6 +567,12 @@
   <data name="UpdateAccountButtonText" xml:space="preserve">
     <value>Update Account</value>
   </data>
+  <data name="ReportSubmitHint" xml:space="preserve">
+    <value>Submits report</value>
+  </data>
+  <data name="ReportSubmit" xml:space="preserve">
+    <value>Submit</value>
+  </data>
   <data name="UpperHouseElectorateText" xml:space="preserve">
     <value>Legislative Council electorate</value>
   </data>
@@ -1072,10 +1078,10 @@
   <data name="WriteQuestionEditorDescription" xml:space="preserve">
     <value>QuestionField</value>
   </data>
-  <data name="WriteQuestionBackHint" xml:space="preserve">
+  <data name="BackHint" xml:space="preserve">
     <value>Returns on previous screen</value>
   </data>
-  <data name="WriteQuestionBackDescription" xml:space="preserve">
+  <data name="BackDescription" xml:space="preserve">
     <value>Back</value>
   </data>
   <data name="ReadingPageWriteHint" xml:space="preserve">
@@ -1101,5 +1107,26 @@
   </data>
   <data name="EditorProceedButtonDescription" xml:space="preserve">
     <value>Proceed</value>
+  </data>
+  <data name="ReportTitle" xml:space="preserve">
+    <value>Thanks for reporting</value>
+  </data>
+  <data name="ReportMessage" xml:space="preserve">
+    <value>Your report is in our queue.
+To improve your experience, this question will be hidden from your view in the mean time.</value>
+  </data>
+  <data name="ReportTitleError" xml:space="preserve">
+    <value>Error submitting report </value>
+  </data>
+  <data name="ReportMessageError" xml:space="preserve">
+    <value>
+      We couldn’t reach the server, please try again. 
+    </value>
+  </data>
+  <data name="DisplayCardHiddenQuestionTitle" xml:space="preserve">
+    <value>Hidden question</value>
+  </data>
+  <data name="DisplayCardHiddenQuestionBody" xml:space="preserve">
+    <value>You reported this question</value>
   </data>
 </root>
