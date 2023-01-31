@@ -35,12 +35,48 @@ Review Triggers:
 
 --------------------------------------------------------------------------------
 
+Title: Feature toggle strategy
+
+Date: 24-Jan-2023
+
+Participants: Vanessa Teague, Luke McCarthy, Komal Kaur, George Ostrobrod, Wenping Du, Alicia Duong, Shuai Wang
+
+Context:
+    Currently the Right to Ask app has no way of toggling features on or off. Before the release of the MVP we would 
+like to hide the share a question, as it hasn't been fully implemented yet. The team feels a feature toggling strategy
+would help with situations like this going forward.
+
+Decisions:
+    The team decided to use hard coded feature toggles to start with and iterate on the strategy as we gained a better
+understanding of the requirements and pain points. George and Wenping raised concerns around using an online service to
+dynamically control the values of feature toggles. This was because both Apple and Google require us to provide a way
+for them to change the values of a toggle to ensure malicious code isn't hidden by a toggle. 
+    Note
+    * Toggles should have unit tests for both the on and off position to ensure the expected behaviour is correct when a
+    toggle is on or off
+    * Toggles need to have different values for dev and non dev. This is to ensure a feature isn't accidently released
+    before intended
+     
+Consequences:
+    * Toggle doesn't need to support different operating systems or app version
+    * Don't need to worry about old versions still installed on users phones/devices
+    * Don't need to provide Apple and Google a way to change toggle values
+    * Will need to know at build time which version is being built to load the correct values for the toggles
+    * Feature can't be turned off in production if a bug is found
+    * A/B Testing and other advance toggle strategies aren't possible
+    
+Review Triggers: 
+    * Team wants the ability to toggle features dynamically in production
+    * Team wants the ability to A/B Testing or other advance toggle strategies
+
+--------------------------------------------------------------------------------
+
 Title: Automated testing strategy before MVP release
 
 Date: 17-Jan-2023
 
 Participants: 
-    Vanessa Teague, George Ostrobrod, Wenping Du, Luke McCarthy, Alicia Duong. Shuai Wang, Komal Kaur
+    Vanessa Teague, George Ostrobrod, Wenping Du, Luke McCarthy, Alicia Duong, Shuai Wang, Komal Kaur
 
 Context: 
     Currently the Right to Ask app only has unit tests. The only other testing done is manual testing. 
