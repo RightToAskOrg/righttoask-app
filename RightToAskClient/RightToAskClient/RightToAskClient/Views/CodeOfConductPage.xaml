@@ -28,7 +28,11 @@
                 <StackLayout Orientation="Vertical"
                              VerticalOptions="FillAndExpand"
                              HorizontalOptions="Fill">
-                    <Label Text="Old Content" />
+                    <StackLayout Orientation="Vertical"
+                                 VerticalOptions="FillAndExpand"
+                                 HorizontalOptions="Fill"
+                                 x:Name="MarkdownView">
+                    </StackLayout>
                     <BoxView Style="{StaticResource ButtonSeparator}" />
                     <StackLayout Orientation="Horizontal"
                                  VerticalOptions="End"
@@ -36,16 +40,16 @@
                                  Padding="10">
                         <Button Text="{xct:Translate DisagreeText}"
                                 xct:SemanticEffect.Hint="{xct:Translate ReportSubmitHint}"
-                                xct:SemanticEffect.Description="{xct:Translate ReportSubmit}" 
+                                xct:SemanticEffect.Description="{xct:Translate ReportSubmit}"
                                 Style="{StaticResource NormalButton}"
-                                CornerRadius="5" 
-                                IsEnabled="{Binding IsSelected}"/>
+                                CornerRadius="5"
+                                IsEnabled="{Binding IsSelected}" />
                         <Button Text="{xct:Translate AgreeText}"
                                 xct:SemanticEffect.Hint="{xct:Translate ReportSubmitHint}"
-                                xct:SemanticEffect.Description="{xct:Translate ReportSubmit}" 
+                                xct:SemanticEffect.Description="{xct:Translate ReportSubmit}"
                                 Style="{StaticResource NormalButton}"
-                                CornerRadius="5" 
-                                IsEnabled="{Binding IsSelected}"/>
+                                CornerRadius="5"
+                                IsEnabled="{Binding IsSelected}" />
                     </StackLayout>
                 </StackLayout>
             </ScrollView>

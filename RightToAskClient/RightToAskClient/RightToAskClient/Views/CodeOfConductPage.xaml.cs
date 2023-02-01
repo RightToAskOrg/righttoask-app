@@ -11,7 +11,7 @@ namespace RightToAskClient.Views
             var mdView = new Xam.Forms.Markdown.MarkdownView();
             mdView.Markdown = AppResources.CodeOfConductCopy;
             mdView.RelativeUrlHost = "";
-            this.Content = new ScrollView() { Content = mdView };
+            MarkdownView.Children.Add(new ScrollView() { Content = mdView });
         }
     }
 }
