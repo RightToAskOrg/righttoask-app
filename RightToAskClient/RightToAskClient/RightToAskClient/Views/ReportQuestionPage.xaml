@@ -18,7 +18,7 @@
         <ResourceDictionary>
             <ControlTemplate x:Key="ThemeRadioTemplate">
                 <Frame x:Name="CheckFrame"
-                       Margin="16, 16, 16, 0"
+                       Margin="16, 8, 16, 8"
                        Padding="0"
                        HasShadow="False"
                        HorizontalOptions="Fill"
@@ -101,7 +101,7 @@
                                       HorizontalOptions="Fill">
                                     <Grid VerticalOptions="StartAndExpand"
                                           HorizontalOptions="Fill"
-                                          Margin="16, 16, 16, 0">
+                                          Margin="16, 8, 16, 8">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="30" />
                                             <ColumnDefinition Width="*" />
