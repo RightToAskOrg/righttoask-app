@@ -2072,5 +2072,11 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("DisplayCardHiddenQuestionBody", resourceCulture);
             }
         }
+        
+        internal static string CodeOfConductCopy {
+            get {
+                return ResourceManager.GetString("CodeOfConductCopy", resourceCulture);
+            }
+        }
     }
 }

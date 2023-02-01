@@ -1135,4 +1135,159 @@ To improve your experience, this question will be hidden from your view in the m
   <data name="DisplayCardHiddenQuestionBody" xml:space="preserve">
     <value>You reported this question</value>
   </data>
+  <data name="CodeOfConductCopy" xml:space="preserve">
+    <value> <![CDATA[
+      <h2>Right To Ask code of conduct</h2>
+<p>Democracy demands civil exchange of differing views.</p>
+<h3>Behaviour that is encouraged</h3>
+<p>We encourage real questions.</p>
+<ul>
+    <li>
+        <p><em>Ask for information </em>especially when you think nobody else
+            has noticed that the information isn’t available</p>
+    </li>
+    <li>
+        <p><em>Ask for explanations</em> of decisions, policies or outcomes,
+            especially if you disagree with them</p>
+    </li>
+    <li>
+        <p>
+            <em>Be specific - </em>specific questions are much harder to evade</p>
+    </li>
+</ul>
+<h3>Questions that may be removed</h3>
+<ul data-indent-level="1">
+    <li>
+        <p><strong>Harassment </strong></p>
+        <ul data-indent-level="2">
+            <li>
+                <p>Aggression against a specific individual or group.</p>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <p>
+            <strong>Threatening Violence</strong>
+        </p>
+    </li>
+    <li>
+        <p>
+            <strong>Encouraging harm</strong>
+        </p>
+        <ul data-indent-level="2">
+            <li>
+                <p>Encourage of self-harm or harm to others.</p>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <p>
+            <strong>Hate</strong>
+        </p>
+        <ul data-indent-level="2">
+            <li>
+                <p>Attacks or threats against an individual or group because of
+                    their <span id="9a3239fa-156a-4675-8886-883a1935afda"
+                        data-mark-type="annotation"
+                        data-mark-annotation-type="inlineComment"
+                        data-id="9a3239fa-156a-4675-8886-883a1935afda"
+                        class="inline-highlight">protected attributes</span> or
+                    anything else about them that does not relate to a political
+                    issue.</p>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <p>
+            <strong>Spam</strong>
+        </p>
+        <ul data-indent-level="2">
+            <li>
+                <p>Malicious links, fake engagement, or advertisements.</p>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <p>
+            <strong>personal information</strong>
+        </p>
+        <ul data-indent-level="2">
+            <li>
+                <p>Sharing other people’s private information without their
+                    consent.</p>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <p>
+            <strong>Insulting someone</strong>
+        </p>
+        <ul data-indent-level="2">
+            <li>
+                <p>Accusations or other defamatory statements</p>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <p>
+            <strong>Impersonation</strong>
+        </p>
+        <ul data-indent-level="2">
+            <li>
+                <p>Claiming to be someone they’re not</p>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <p>
+            <strong>Illegal</strong>
+        </p>
+        <ul data-indent-level="2">
+            <li>
+                <p>Copyright violation, promotion of criminal activities, money
+                    scams etc.</p>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <p>
+            <strong>Not a question</strong>
+        </p>
+    </li>
+</ul>
+<h3><strong>Accounts that may be suspended</strong></h3>
+<p>Accounts that post questions in any of the above categories may be suspended.
+    Also accounts in the following categories.</p>
+<ul data-indent-level="1">
+    <li>
+        <p>
+            <strong>Sockpuppet accounts.</strong> A sockpuppet account is an
+            additional account set up to evade suspension, inflate influence
+            (e.g. by having multiple up- or down-votes on one question), or for
+            other forms of bad behavior. This does not include multiple accounts
+            set up for multiple roles, e.g. a personal account and a
+            professional account.</p>
+    </li>
+    <li>
+        <p>
+            <strong>Accounts that claim to be someone they’re not.</strong>
+            Pseudonyms or non-names are fine, but using someone else’s name is
+            not.</p>
+    </li>
+    <li>
+        <p>
+            <strong>Accounts with a name that violates any of our rules for
+                questions.</strong>
+        </p>
+    </li>
+</ul>
+<p>There is no guarantee that suspended accounts will be reinstated.</p>
+<p>We are still learning about how people use Right To Ask. These rules may
+    change as we improve our understanding.</p>
+<p>If you choose not to accept the code of conduct, you may still read Right To
+    Ask questions freely. To participate actively (including writing questions),
+    click accept here.</p>
+    ]]></value>
+  </data>
+  
 </root>

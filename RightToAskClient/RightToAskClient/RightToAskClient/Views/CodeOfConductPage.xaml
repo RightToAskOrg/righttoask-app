@@ -27,7 +27,7 @@
                 <StackLayout Orientation="Vertical"
                              VerticalOptions="FillAndExpand"
                              HorizontalOptions="Fill">
-                    
+                    <Label TextType="Html" Text="{xct:Translate CodeOfConductCopy}" />
                     <BoxView Style="{StaticResource ButtonSeparator}" />
                     <StackLayout Orientation="Horizontal"
                                  VerticalOptions="End"
