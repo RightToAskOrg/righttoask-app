@@ -1199,6 +1199,18 @@ To improve your experience, this question will be hidden from your view in the m
 <p><strong>If you choose not to accept the code of conduct, you may still read Right To Ask questions freely. To participate actively (including writing questions), click accept here.</strong></p>
 ]]>
     </value>
+    
   </data>
-  
+  <data name="CodeOfConductCopy2" xml:space="preserve">
+  <value>
+    Democracy demands civil exchange of differing views.
+### Behaviour that is encouraged
+We encourage real questions.
+    -**Ask for information** especially when you think nobody else has noticed that the information isn't available
+    -**Ask for explanations** of decisions, policies or outcomes, especially if you disagree with them
+    -**Be specific - specific questions are much harder to evade
+
+### Questions that may be removed
+  </value>
+  </data>
 </root>
