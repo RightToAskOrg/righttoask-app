@@ -8,8 +8,9 @@
              xmlns:local="clr-namespace:RightToAskClient"
              xmlns:views="clr-namespace:RightToAskClient.Views;assembly=RightToAskClient"
              xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
-             Title="Code of Conduct"
-             x:Class="RightToAskClient.Views.CodeOfConductPage">
+             Title="Right to Ask Code of Conduct"
+             x:Class="RightToAskClient.Views.CodeOfConductPage"
+             Style="{StaticResource SubPage}">
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding BackCommand}"
                             xct:SemanticEffect.Hint="{xct:Translate BackHint}"
@@ -27,7 +28,10 @@
                 <StackLayout Orientation="Vertical"
                              VerticalOptions="FillAndExpand"
                              HorizontalOptions="Fill">
-                    <Label TextType="Html" Text="{xct:Translate CodeOfConductCopy}" />
+                    <Label TextType="Html"
+                           Padding="16"
+                           LineHeight="1.5"
+                           Text="{xct:Translate CodeOfConductCopy}" />
                     <BoxView Style="{StaticResource ButtonSeparator}" />
                     <StackLayout Orientation="Horizontal"
                                  VerticalOptions="End"
