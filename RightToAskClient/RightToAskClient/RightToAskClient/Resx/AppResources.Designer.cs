@@ -2078,11 +2078,5 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("CodeOfConductCopy", resourceCulture);
             }
         }
-        
-        internal static string CodeOfConductCopy2 {
-            get {
-                return ResourceManager.GetString("CodeOfConductCopy2", resourceCulture);
-            }
-        }
     }
 }

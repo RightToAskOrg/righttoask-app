@@ -28,10 +28,7 @@
                 <StackLayout Orientation="Vertical"
                              VerticalOptions="FillAndExpand"
                              HorizontalOptions="Fill">
-                    <Label TextType="Html"
-                           Padding="16"
-                           LineHeight="1.5"
-                           Text="{xct:Translate CodeOfConductCopy}" />
+                    <Label Text="Old Content" />
                     <BoxView Style="{StaticResource ButtonSeparator}" />
                     <StackLayout Orientation="Horizontal"
                                  VerticalOptions="End"

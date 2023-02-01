@@ -1136,81 +1136,55 @@ To improve your experience, this question will be hidden from your view in the m
     <value>You reported this question</value>
   </data>
   <data name="CodeOfConductCopy" xml:space="preserve">
-    <value> 
-<![CDATA[
-<p>Democracy demands civil exchange of differing views.</p>
-<h3>Behaviour that is encouraged</h3>
-<p>We encourage real questions.</p>
-<ul>
-    <li><p><strong>Ask for information </strong>especially when you think nobody else has noticed that the information isn’t available</p></li>
-    <li><p><strong>Ask for explanations</strong> of decisions, policies or outcomes, especially if you disagree with them</p></li>
-    <li><p><strong>Be specific - </strong>specific questions are much harder to evade</p></li>
-</ul>
-<h3 style="font-size:16px; padding-top:16px;>Questions that may be removed</h3>
-<ul>
-    <li>
-        <p><strong>Harassment </strong></p>
-        <p>Aggression against a specific individual or group.</p>
-    </li>
-    <li>
-        <p><strong>Threatening Violence</strong></p>
-    </li>
-    <li>
-        <p><strong>Encouraging harm</strong></p>
-        <p>Encourage of self-harm or harm to others.</p>
-    </li>
-    <li>
-        <p><strong>Hate</strong></p>
-        <p>Attacks or threats against an individual or group because of their or anything else about them that does not relate to a political issue.</p>
-    </li>
-    <li>
-        <p><strong>Spam</strong></p>
-        <p>Malicious links, fake engagement, or advertisements.</p>
-    </li>
-    <li>
-        <p><strong>Personal information</strong></p>
-        <p>Sharing other people’s private information without theirconsent.</p>
-    </li>
-    <li>
-        <p><strong>Insulting someone</strong></p>
-        <p>Accusations or other defamatory statements</p>
-    </li>
-    <li>
-        <p><strong>Impersonation</strong></p>
-        <p>Claiming to be someone they’re not</p>
-    </li>
-    <li>
-        <p><strong>Illegal</strong></p>
-        <p>Copyright violation, promotion of criminal activities, money scams etc.</p>
-    </li>
-    <li>
-        <p><strong>Not a question</strong></p>
-    </li>
-</ul>
-<h3 style="font-size:16px; padding-top:16px;><strong>Accounts that may be suspended</strong></h3>
-<p>Accounts that post questions in any of the above categories may be suspended. Also accounts in the following categories.</p>
-<ul>
-    <li><p><strong>Sockpuppet accounts.</strong> A sockpuppet account is an additional account set up to evade suspension, inflate influence (e.g. by having multiple up- or down-votes on one question), or for other forms of bad behavior. This does not include multiple accounts set up for multiple roles, e.g. a personal account and a professional account.</p></li>
-    <li><p><strong>Accounts that claim to be someone they’re not.</strong> Pseudonyms or non-names are fine, but using someone else’s name is not.</p></li>
-    <li><p><strong>Accounts with a name that violates any of our rules for questions.</strong></p></li>
-</ul>
-<p>There is no guarantee that suspended accounts will be reinstated.</p>
-<p>We are still learning about how people use Right To Ask. These rules may change as we improve our understanding.</p>
-<p><strong>If you choose not to accept the code of conduct, you may still read Right To Ask questions freely. To participate actively (including writing questions), click accept here.</strong></p>
-]]>
-    </value>
-    
-  </data>
-  <data name="CodeOfConductCopy2" xml:space="preserve">
-  <value>
-    Democracy demands civil exchange of differing views.
+    <value>
+Democracy demands civil exchange of differing views.
+      
 ### Behaviour that is encouraged
 We encourage real questions.
-    -**Ask for information** especially when you think nobody else has noticed that the information isn't available
-    -**Ask for explanations** of decisions, policies or outcomes, especially if you disagree with them
-    -**Be specific - specific questions are much harder to evade
+ - **Ask for information** especially when you think nobody else has noticed that the information isn’t available
+ - **Ask for explanations** of decisions, policies or outcomes, especially if you disagree with them
+ - **Be specific** - specific questions are much harder to evade
 
 ### Questions that may be removed
-  </value>
+- **Harassment**
+  Aggression against a specific individual or group.
+
+- **Threatening Violence**
+- **Encouraging harm**
+  Encourage of self-harm or harm to others.
+
+- **Hate**
+  Attacks or threats against an individual or group because of their or anything else about them that does not relate to a political issue.
+
+- **Spam**
+  Malicious links, fake engagement, or advertisements.
+
+- **Personal information**
+  Sharing other people’s private information without theirconsent.
+      
+- **Insulting someone**
+  Accusations or other defamatory statements
+
+- **Impersonation**
+  Claiming to be someone they’re not
+
+- **Illegal**
+  Copyright violation, promotion of criminal activities, money scams etc.
+
+- **Not a question**
+      
+### Accounts that may be suspended
+Accounts that post questions in any of the above categories may be suspended. Also accounts in the following categories.
+- **Sockpuppet accounts.** A sockpuppet account is an additional account set up to evade suspension, inflate influence (e.g. by having multiple up- or down-votes on one question), or for other forms of bad behavior. This does not include multiple accounts set up for multiple roles, e.g. a personal account and a professional account.
+- **Accounts that claim to be someone they’re not.** Pseudonyms or non-names are fine, but using someone else’s name is not.
+- **Accounts with a name that violates any of our rules for questions.**
+
+
+There is no guarantee that suspended accounts will be reinstated.
+      
+We are still learning about how people use Right To Ask. These rules may change as we improve our understanding.
+      
+**If you choose not to accept the code of conduct, you may still read Right To Ask questions freely. To participate actively (including writing questions), click accept here.**
+    </value>
   </data>
 </root>
