@@ -95,7 +95,7 @@ namespace RightToAskClient.Helpers
             var popupResult = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
             if (popup.HasApproved(popupResult))
             {
-                var registerAccountFlow = new CodeOfConductPage();
+                var registerAccountFlow = new CodeOfConductPage(registration);
                 await Application.Current.MainPage.Navigation.PushAsync(registerAccountFlow);
                 // var registerAccountPage = new RegisterAccountPage(registration);
                 // await Application.Current.MainPage.Navigation.PushAsync(registerAccountPage);

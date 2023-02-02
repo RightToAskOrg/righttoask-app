@@ -58,6 +58,7 @@
             <Color x:Key="EditorBackgroundDark">#222222</Color>
             <Color x:Key="Transparent">#00000000</Color>
             <Color x:Key="Purple">#9141B2</Color>
+            <Color x:Key="DarkPurple">#613F70</Color>
             <Color x:Key="TransparentPurple">#229141B2</Color>
             <Color x:Key="LightGreen">#F1F2ED</Color>
             <Color x:Key="DarkGreen">#556035</Color>
@@ -682,7 +683,41 @@
                 <Setter Property="Margin" Value="0, 0, 0, 24" />
                 <Setter Property="HorizontalOptions" Value="Center" />
             </Style>
-            
+            <Style x:Key="OutlineButton" TargetType="Button" BasedOn="{StaticResource DefaultButton}">
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="Padding" Value="24, 0"/>
+                <Setter Property="BorderWidth" Value="1"/>
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="TextColor" Value="{StaticResource Purple}" />
+                                    <Setter Property="BorderColor" Value="{StaticResource DarkPurple}"/>
+                                    <Setter Property="BackgroundColor" Value="White" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="TextColor" Value="{StaticResource Purple}" />
+                                    <Setter Property="BorderColor" Value="{StaticResource DarkPurple}"/>
+                                    <Setter Property="BackgroundColor" Value="{StaticResource TransparentPurple}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Disabled">
+                                <VisualState.Setters>
+                                    <Setter Property="TextColor" Value="{StaticResource TextColorGray}" />
+                                    <Setter Property="BorderColor" Value="LightGray"/>
+                                    <Setter Property="BackgroundColor" Value="White" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter>
+            </Style>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

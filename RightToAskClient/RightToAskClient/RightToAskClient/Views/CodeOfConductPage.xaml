@@ -31,26 +31,24 @@
                     <StackLayout Orientation="Vertical"
                                  VerticalOptions="FillAndExpand"
                                  HorizontalOptions="Fill"
-                                 x:Name="MarkdownView">
-                    </StackLayout>
+                                 x:Name="MarkdownView"/>
                     <BoxView Style="{StaticResource ButtonSeparator}" />
-                    <StackLayout Orientation="Horizontal"
-                                 VerticalOptions="End"
-                                 HorizontalOptions="Fill"
-                                 Padding="10">
-                        <Button Text="{xct:Translate DisagreeText}"
+                    <Grid 
+                         VerticalOptions="End"
+                         HorizontalOptions="Fill"
+                         Padding="10"
+                         RowDefinitions="Auto" ColumnDefinitions="*, *">
+                        <Button Grid.Row="0" Grid.Column="0" Text="{xct:Translate DisagreeText}"
                                 xct:SemanticEffect.Hint="{xct:Translate ReportSubmitHint}"
                                 xct:SemanticEffect.Description="{xct:Translate ReportSubmit}"
-                                Style="{StaticResource NormalButton}"
-                                CornerRadius="5"
-                                IsEnabled="{Binding IsSelected}" />
-                        <Button Text="{xct:Translate AgreeText}"
+                                Style="{StaticResource OutlineButton}"
+                                Clicked="Disagree_OnClicked"/>
+                        <Button Grid.Row="0" Grid.Column="1" Text="{xct:Translate AgreeText}"
                                 xct:SemanticEffect.Hint="{xct:Translate ReportSubmitHint}"
                                 xct:SemanticEffect.Description="{xct:Translate ReportSubmit}"
-                                Style="{StaticResource NormalButton}"
-                                CornerRadius="5"
-                                IsEnabled="{Binding IsSelected}" />
-                    </StackLayout>
+                                Style="{StaticResource OutlineButton}"
+                                Clicked="Agree_OnClicked"/>
+                    </Grid>
                 </StackLayout>
             </ScrollView>
         </StackLayout>

@@ -343,8 +343,10 @@ namespace RightToAskClient.ViewModels
                 });
                 DoRegistrationCommand = new AsyncCommand(async () =>
                 {
-                    var registerAccountPage = new RegisterAccountPage(_registration);
-                    await Application.Current.MainPage.Navigation.PushAsync(registerAccountPage);
+                    // var registerAccountPage = new RegisterAccountPage(_registration);
+                    // await Application.Current.MainPage.Navigation.PushAsync(registerAccountPage);
+                    var registerAccountFlow = new CodeOfConductPage(_registration);
+                    await Application.Current.MainPage.Navigation.PushAsync(registerAccountFlow);
                 });
             }
 
