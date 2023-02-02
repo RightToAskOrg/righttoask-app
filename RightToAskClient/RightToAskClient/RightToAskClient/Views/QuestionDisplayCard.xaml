@@ -153,13 +153,11 @@
                            FontAttributes="Bold"
                            FontSize="16"
                            HorizontalOptions="CenterAndExpand"
-                           VerticalOptions="Center"
-                           xct:SemanticEffect.Hint="{xct:Translate DisplayCardHiddenQuestionTitle}" />
+                           VerticalOptions="Center"/>
                     <Label Text="{xct:Translate DisplayCardHiddenQuestionBody}"
                            FontSize="14"
                            HorizontalOptions="CenterAndExpand"
-                           VerticalOptions="Center"
-                           xct:SemanticEffect.Hint="{xct:Translate DisplayCardHiddenQuestionBody}" />
+                           VerticalOptions="Center"/>
                 </StackLayout>
                 <BoxView Style="{StaticResource Separator}"
                          VerticalOptions="End" />
