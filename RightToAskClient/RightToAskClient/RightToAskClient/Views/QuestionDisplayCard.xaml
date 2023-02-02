@@ -143,7 +143,8 @@
                          HorizontalOptions="Fill">
                 <StackLayout Orientation="Vertical"
                              VerticalOptions="CenterAndExpand"
-                             HorizontalOptions="CenterAndExpand">
+                             HorizontalOptions="CenterAndExpand"
+                             Padding="16">
                     <Image Source="{helpers:ImageResource RightToAskClient.Images.visibility_off.png}"
                            xct:IconTintColorEffect.TintColor="{AppThemeBinding Light=Black, Dark=White}"
                            WidthRequest="24"
