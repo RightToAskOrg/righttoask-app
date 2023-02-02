@@ -18,7 +18,7 @@
         <ResourceDictionary>
             <ControlTemplate x:Key="ThemeRadioTemplate">
                 <Frame x:Name="CheckFrame"
-                       Margin="16, 16, 16, 0"
+                       Margin="16, 8, 16, 8"
                        Padding="0"
                        HasShadow="False"
                        HorizontalOptions="Fill"
@@ -90,47 +90,43 @@
                         HorizontalOptions="Fill">
                 <StackLayout Orientation="Vertical"
                              VerticalOptions="FillAndExpand"
-                             HorizontalOptions="Fill">
-                    <CollectionView x:Name="QuestionList"
-                                    ItemsSource="{Binding ReasonList}"
-                                    SelectionMode="None"
-                                    VerticalOptions="FillAndExpand">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="vm:ReportReason">
+                             HorizontalOptions="Fill"
+                             BindableLayout.ItemsSource="{Binding ReasonList}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="vm:ReportReason">
+                            <Grid VerticalOptions="StartAndExpand"
+                                  HorizontalOptions="Fill">
                                 <Grid VerticalOptions="StartAndExpand"
-                                      HorizontalOptions="Fill">
-                                    <Grid VerticalOptions="StartAndExpand"
-                                          HorizontalOptions="Fill"
-                                          Margin="16, 16, 16, 0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="30" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <StackLayout Orientation="Vertical"
-                                                     VerticalOptions="StartAndExpand"
-                                                     HorizontalOptions="Fill"
-                                                     Grid.Column="1">
-                                            <Label Text="{Binding Title}"
-                                                   Style="{StaticResource ReportReasonTitle}" />
-                                            <Label Text="{Binding Subtitle}"
-                                                   Style="{StaticResource ReportReasonDetails}" 
-                                                   IsVisible="{Binding Subtitle.Length}"/>
-                                        </StackLayout>
-                                    </Grid>
-                                    <RadioButton GroupName="Reasons"
-                                                 CheckedChanged="RadioButton_OnCheckedChanged"
-                                                 Value="{Binding ID}"
-                                                 IsChecked="{Binding Selected}"
-                                                 xct:SemanticEffect.Hint="{Binding Subtitle}"
-                                                 xct:SemanticEffect.Description="{Binding Title}"
-                                                 VerticalOptions="Fill"
+                                      HorizontalOptions="Fill"
+                                      Margin="16, 8, 16, 8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackLayout Orientation="Vertical"
+                                                 VerticalOptions="StartAndExpand"
                                                  HorizontalOptions="Fill"
-                                                 ControlTemplate="{StaticResource ThemeRadioTemplate}"
-                                                 Content=" "/>
+                                                 Grid.Column="1">
+                                        <Label Text="{Binding Title}"
+                                               Style="{StaticResource ReportReasonTitle}" />
+                                        <Label Text="{Binding Subtitle}"
+                                               Style="{StaticResource ReportReasonDetails}"
+                                               IsVisible="{Binding Subtitle.Length}" />
+                                    </StackLayout>
                                 </Grid>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
+                                <RadioButton GroupName="Reasons"
+                                             CheckedChanged="RadioButton_OnCheckedChanged"
+                                             Value="{Binding ID}"
+                                             IsChecked="{Binding Selected}"
+                                             xct:SemanticEffect.Hint="{Binding Subtitle}"
+                                             xct:SemanticEffect.Description="{Binding Title}"
+                                             VerticalOptions="Fill"
+                                             HorizontalOptions="Fill"
+                                             ControlTemplate="{StaticResource ThemeRadioTemplate}"
+                                             Content=" " />
+                            </Grid>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
                 </StackLayout>
             </ScrollView>
             <BoxView Style="{StaticResource ButtonSeparator}" />
@@ -141,10 +137,10 @@
                 <Button Text="{xct:Translate ReportSubmit}"
                         Command="{Binding ReportCommand}"
                         xct:SemanticEffect.Hint="{xct:Translate ReportSubmitHint}"
-                        xct:SemanticEffect.Description="{xct:Translate ReportSubmit}" 
+                        xct:SemanticEffect.Description="{xct:Translate ReportSubmit}"
                         Style="{StaticResource NormalButton}"
-                        CornerRadius="5" 
-                        IsEnabled="{Binding IsSelected}"/>
+                        CornerRadius="5"
+                        IsEnabled="{Binding IsSelected}" />
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

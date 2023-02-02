@@ -432,8 +432,8 @@ namespace RightToAskClient.ViewModels
                 }
                 var nextPage = new ReportQuestionPage(Question.QuestionId, ResponseRecords, new Command(() =>
                 {
-                    FlagColor = Color.Crimson;
                     Question.AlreadyReported = true;
+                    FlagColor = Color.Crimson;
                 }));
                 await Application.Current.MainPage.Navigation.PushAsync(nextPage);
             });
