@@ -741,6 +741,9 @@
   <data name="EmptyMatchingQuestionCollectionViewString" xml:space="preserve">
     <value>No Similar Questions Found.</value>
   </data>
+  <data name="NoPostedQuestionCollectionViewString" xml:space="preserve">
+    <value>You haven't posted any questions.</value>
+  </data>
   <data name="EmptyQuestionCollectionViewString" xml:space="preserve">
     <value>Unable to Connect to Server or No Questions Available.</value>
   </data>

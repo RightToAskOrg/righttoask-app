@@ -83,6 +83,13 @@ namespace RightToAskClient.ViewModels
             get => _readByQuestionWriter;
             set => SetProperty(ref _readByQuestionWriter, value);
         }
+        
+        private string _emptyViewLabelText;
+        public string EmptyViewLabelText
+        {
+            get => _emptyViewLabelText;
+            set => SetProperty(ref _emptyViewLabelText, value);
+        }
 
         public ReadingPageViewModel(): this(false, true)
         {
@@ -206,13 +213,15 @@ namespace RightToAskClient.ViewModels
             JOSResult<List<string>> httpResponse;
             if (_readByQuestionWriter)
             {
+                EmptyViewLabelText = AppResources.NoPostedQuestionCollectionViewString;
                 httpResponse = await GetQuestionListByWriter();
             }
             else
             {
+                EmptyViewLabelText = AppResources.EmptyMatchingQuestionCollectionViewString;
                 httpResponse = await GetQuestionListBySearch();
             }
-
+            
             var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
             _successRespond = httpValidation.isValid;
             if (!httpValidation.isValid)
