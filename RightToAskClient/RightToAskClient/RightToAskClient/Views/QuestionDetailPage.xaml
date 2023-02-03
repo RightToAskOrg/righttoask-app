@@ -85,6 +85,7 @@
 					<StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
 						<ImageButton Source="{helpers:ImageResource RightToAskClient.Images.flag_48.png}"
 						             Padding="5" 
+						             IsEnabled="{Binding Question.AlreadyReported, Converter={StaticResource Key=cnvInvert}}"
 						             xct:IconTintColorEffect.TintColor="{Binding FlagColor}"
 						             Command="{Binding ReportCommand}"
 						             BackgroundColor="Transparent"

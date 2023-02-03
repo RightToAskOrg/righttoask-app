@@ -1305,6 +1305,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string NoPostedQuestionCollectionViewString {
+            get {
+                return ResourceManager.GetString("NoPostedQuestionCollectionViewString", resourceCulture);
+            }
+        }
+        
         internal static string EmptyQuestionCollectionViewString {
             get {
                 return ResourceManager.GetString("EmptyQuestionCollectionViewString", resourceCulture);

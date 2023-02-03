@@ -747,6 +747,9 @@
   <data name="EmptyMatchingQuestionCollectionViewString" xml:space="preserve">
     <value>No Similar Questions Found.</value>
   </data>
+  <data name="NoPostedQuestionCollectionViewString" xml:space="preserve">
+    <value>You haven't posted any questions.</value>
+  </data>
   <data name="EmptyQuestionCollectionViewString" xml:space="preserve">
     <value>Unable to Connect to Server or No Questions Available.</value>
   </data>
@@ -766,13 +769,13 @@
     <value>This button indicates that you can answer the question by clicking here. There is no checkmark on this icon, which means that there are no other answers to this question yet. The icon is also not highlighted, which means you have not yet answered this question.</value>
   </data>
   <data name="QuestionFrameFlagButtonAccessibilityName" xml:space="preserve">
-    <value>Icon for a button that depicts a flag.</value>
+    <value>Flag button</value>
   </data>
   <data name="QuestionFrameFlagButtonAccessibilityText" xml:space="preserve">
     <value>This button indicates that you can flag or report the question by clicking here. It is currently not highlighted, which means you have not chosen to report this question.</value>
   </data>
   <data name="QuestionFrameFlagButtonAccessibilityTextRed" xml:space="preserve">
-    <value>This button indicates that you can flag or report the question by clicking here. It is currently highlighted in a redish brown color, indicating that you have already reported this question. Re-activating this button will undo and remove the report.</value>
+    <value>Reports question</value>
   </data>
   <data name="QuestionFrameShareButtonAccessibilityName" xml:space="preserve">
     <value>Share button image. Visually represented by 3 dots connected by 2 lines forming a less than sign pointing towards the left.</value>

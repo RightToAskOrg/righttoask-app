@@ -13,7 +13,11 @@
     <ContentView.Content>
         <!-- <StackLayout> -->
         <Grid>
-            <StackLayout Style="{StaticResource AppThemeFrame}" Padding="5" VerticalOptions="FillAndExpand">
+            <StackLayout Style="{StaticResource AppThemeFrame}" 
+                         Padding="5" 
+                         VerticalOptions="FillAndExpand"
+                         IsVisible="{Binding Question.AlreadyReported, Converter={StaticResource Key=cnvInvert}}"
+            >
                 <Grid RowDefinitions="auto,auto,auto" ColumnDefinitions="2*,*,*" Padding="0" Margin="0"
                       BackgroundColor="Transparent" RowSpacing="0" ColumnSpacing="0">
                     <Grid ColumnDefinitions="*,auto" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
@@ -134,13 +138,13 @@
             </StackLayout>
             <!-- </StackLayout> -->
             <StackLayout BackgroundColor="{AppThemeBinding Light=White, Dark=Black}"
-                         Opacity="0.98"
                          IsVisible="{Binding Question.AlreadyReported}"
                          VerticalOptions="Fill"
                          HorizontalOptions="Fill">
                 <StackLayout Orientation="Vertical"
                              VerticalOptions="CenterAndExpand"
-                             HorizontalOptions="CenterAndExpand">
+                             HorizontalOptions="CenterAndExpand"
+                             Padding="16">
                     <Image Source="{helpers:ImageResource RightToAskClient.Images.visibility_off.png}"
                            xct:IconTintColorEffect.TintColor="{AppThemeBinding Light=Black, Dark=White}"
                            WidthRequest="24"
@@ -150,11 +154,11 @@
                            FontAttributes="Bold"
                            FontSize="16"
                            HorizontalOptions="CenterAndExpand"
-                           VerticalOptions="Center" />
+                           VerticalOptions="Center"/>
                     <Label Text="{xct:Translate DisplayCardHiddenQuestionBody}"
                            FontSize="14"
                            HorizontalOptions="CenterAndExpand"
-                           VerticalOptions="Center" />
+                           VerticalOptions="Center"/>
                 </StackLayout>
                 <BoxView Style="{StaticResource Separator}"
                          VerticalOptions="End" />

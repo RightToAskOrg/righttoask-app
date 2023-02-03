@@ -70,16 +70,11 @@
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
                                 <CollectionView.EmptyView>
-                                    <views:EmptyCollectionView/>
+                                    <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                        <Label Text="{Binding EmptyViewLabelText}" Style="{StaticResource HeaderButtonText}" 
+                                               VerticalOptions="Start" Margin="0,100,0,0"/>
+                                    </StackLayout>
                                 </CollectionView.EmptyView>
-                                <CollectionView.EmptyViewTemplate>
-                                    <DataTemplate>
-                                        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                                            <Label Text="{xct:Translate EmptyMatchingQuestionCollectionViewString}" Style="{StaticResource HeaderButtonText}" 
-                                                   VerticalOptions="Start" Margin="0,100,0,0"/>
-                                        </StackLayout>
-                                    </DataTemplate>
-                                </CollectionView.EmptyViewTemplate>
                             </CollectionView>
                         </StackLayout>
                     </ScrollView>
