@@ -92,13 +92,6 @@
                              Aspect="AspectFit"
                              BackgroundColor="{StaticResource Purple}" 
                              Command="{Binding DraftCommand}" 
-                             xct:ShadowEffect.Color="{AppThemeBinding 
-                             Light={StaticResource EditorBackgroundDark},
-                             Dark={StaticResource EditorBackground}}"
-                             xct:ShadowEffect.Opacity="0.25"
-                             xct:ShadowEffect.Radius="4"
-                             xct:ShadowEffect.OffsetX="0"
-                             xct:ShadowEffect.OffsetY="4"
                              xct:SemanticEffect.Hint="{xct:Translate ReadingPageWriteHint}"
                              xct:SemanticEffect.Description="{xct:Translate ReadingPageWriteDescription}"/>
             </Grid>
