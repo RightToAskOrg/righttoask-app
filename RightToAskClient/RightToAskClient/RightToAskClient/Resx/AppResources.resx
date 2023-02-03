@@ -1198,6 +1198,13 @@ We are still learning about how people use Right To Ask. These rules may change 
   </data>
   
   <data name="DisagreeCodeOfConductPopText" xml:space="preserve">
-  <value> By disagreeing to our Code of Conduct, you can only continue reading questions.</value>
+  <value>By disagreeing to our Code of Conduct, you can only continue reading questions.</value>
+  </data>
+
+  <data name="SignUpTitleText" xml:space="preserve">
+  <value>Sign up to Right To Ask</value>
+  </data>
+  <data name="SignUpBodyText" xml:space="preserve">
+  <value>You haven’t created an account yet</value>
   </data>
 </root>

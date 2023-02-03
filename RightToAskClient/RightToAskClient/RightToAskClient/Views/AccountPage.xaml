@@ -54,12 +54,14 @@
 
 
             </StackLayout>
-            <StackLayout HorizontalOptions="Fill" VerticalOptions="Fill" BackgroundColor="White" IsVisible="{Binding IsNotRegistered}">
+            <StackLayout HorizontalOptions="Fill" VerticalOptions="Fill" 
+                         BackgroundColor="{AppThemeBinding 
+                             Light=White, Dark=Black}" IsVisible="{Binding IsNotRegistered}">
                 <StackLayout Orientation="Vertical"
                              VerticalOptions="CenterAndExpand"
                              HorizontalOptions="CenterAndExpand">
-                    <Label Text="Sign up to Right To Ask" Style="{StaticResource SignUpTitle}"/>
-                    <Label Text="You haven’t created an account yet" Style="{StaticResource SignUpBody}"/>
+                    <Label Text="{xct:Translate SignUpTitleText}" Style="{StaticResource SignUpTitle}"/>
+                    <Label Text="{xct:Translate SignUpBodyText}" Style="{StaticResource SignUpBody}"/>
                     <StackLayout>
                         <Button Text="Sign up"
                                 Margin="70, 0"

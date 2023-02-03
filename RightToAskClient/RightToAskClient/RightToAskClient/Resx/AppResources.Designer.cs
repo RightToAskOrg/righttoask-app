@@ -2102,5 +2102,17 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("DisagreeCodeOfConductPopText", resourceCulture);
             }
         }
+        
+        internal static string SignUpTitleText {
+            get {
+                return ResourceManager.GetString("SignUpTitleText", resourceCulture);
+            }
+        }
+        
+        internal static string SignUpBodyText {
+            get {
+                return ResourceManager.GetString("SignUpBodyText", resourceCulture);
+            }
+        }
     }
 }
