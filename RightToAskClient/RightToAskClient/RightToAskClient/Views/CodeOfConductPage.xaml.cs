@@ -2,6 +2,7 @@ using System;
 using RightToAskClient.Models;
 using RightToAskClient.Resx;
 using RightToAskClient.Views.Popups;
+using Xam.Forms.Markdown;
 using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.Forms;
 
@@ -20,11 +21,16 @@ namespace RightToAskClient.Views
         {
             InitializeComponent();
             _registration = registration;
-            
+
+            var lightTheme = new LightMarkdownTheme();
+            var darkTheme = new DarkMarkdownTheme();
+            darkTheme.BackgroundColor = Color.Black;
+
             var mdView = new Xam.Forms.Markdown.MarkdownView();
             mdView.Theme.Paragraph.FontSize = 15;
             mdView.Markdown = AppResources.CodeOfConductCopy;
             mdView.RelativeUrlHost = "";
+            mdView.SetOnAppTheme<MarkdownTheme>(Xam.Forms.Markdown.MarkdownView.ThemeProperty, lightTheme, darkTheme);
             MarkdownView.Children.Add(new ScrollView() { Content = mdView });
         }
 
