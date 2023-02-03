@@ -24,13 +24,18 @@ namespace RightToAskClient.Views
 
             var lightTheme = new LightMarkdownTheme();
             var darkTheme = new DarkMarkdownTheme();
+            lightTheme.Paragraph.FontSize = 15;
+            lightTheme.Heading3.FontSize = 18;
+            darkTheme.Paragraph.FontSize = 15;
+            darkTheme.Heading3.FontSize = 18;
             darkTheme.BackgroundColor = Color.Black;
 
             var mdView = new Xam.Forms.Markdown.MarkdownView();
-            mdView.Theme.Paragraph.FontSize = 15;
+           
             mdView.Markdown = AppResources.CodeOfConductCopy;
             mdView.RelativeUrlHost = "";
             mdView.SetOnAppTheme<MarkdownTheme>(Xam.Forms.Markdown.MarkdownView.ThemeProperty, lightTheme, darkTheme);
+            
             MarkdownView.Children.Add(new ScrollView() { Content = mdView });
         }
 

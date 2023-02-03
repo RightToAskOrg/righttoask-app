@@ -31,6 +31,7 @@
                     <StackLayout Orientation="Vertical"
                                  VerticalOptions="FillAndExpand"
                                  HorizontalOptions="Fill"
+                                 Padding="16"
                                  x:Name="MarkdownView"/>
                     <BoxView Style="{StaticResource ButtonSeparator}" />
                     <Grid 
