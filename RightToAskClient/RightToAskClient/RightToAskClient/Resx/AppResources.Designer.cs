@@ -2078,5 +2078,11 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("CodeOfConductCopy", resourceCulture);
             }
         }
+        
+        internal static string DisagreeCodeOfConductPopText {
+            get {
+                return ResourceManager.GetString("DisagreeCodeOfConductPopText", resourceCulture);
+            }
+        }
     }
 }

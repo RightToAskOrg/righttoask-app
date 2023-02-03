@@ -36,7 +36,7 @@
                     <Grid 
                          VerticalOptions="End"
                          HorizontalOptions="Fill"
-                         Padding="10"
+                         Padding="10" ColumnSpacing="20"
                          RowDefinitions="Auto" ColumnDefinitions="*, *">
                         <Button Grid.Row="0" Grid.Column="0" Text="{xct:Translate DisagreeText}"
                                 xct:SemanticEffect.Hint="{xct:Translate ReportSubmitHint}"

@@ -1187,4 +1187,8 @@ We are still learning about how people use Right To Ask. These rules may change 
 **If you choose not to accept the code of conduct, you may still read Right To Ask questions freely. To participate actively (including writing questions), click accept here.**
     </value>
   </data>
+  
+  <data name="DisagreeCodeOfConductPopText" xml:space="preserve">
+  <value> By disagreeing to our Code of Conduct, you can only continue reading questions.</value>
+  </data>
 </root>
