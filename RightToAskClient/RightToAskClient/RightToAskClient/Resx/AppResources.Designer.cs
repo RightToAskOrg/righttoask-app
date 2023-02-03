@@ -963,9 +963,21 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string AgreeHint {
+            get {
+                return ResourceManager.GetString("AgreeHint", resourceCulture);
+            }
+        }
+        
         internal static string DisagreeText {
             get {
                 return ResourceManager.GetString("DisagreeText", resourceCulture);
+            }
+        }
+        
+        internal static string DisagreeHint {
+            get {
+                return ResourceManager.GetString("DisagreeHint", resourceCulture);
             }
         }
         

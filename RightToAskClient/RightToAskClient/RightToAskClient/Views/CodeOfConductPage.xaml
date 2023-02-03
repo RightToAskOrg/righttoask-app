@@ -39,13 +39,13 @@
                          Padding="10" ColumnSpacing="20"
                          RowDefinitions="Auto" ColumnDefinitions="*, *">
                         <Button Grid.Row="0" Grid.Column="0" Text="{xct:Translate DisagreeText}"
-                                xct:SemanticEffect.Hint="{xct:Translate ReportSubmitHint}"
-                                xct:SemanticEffect.Description="{xct:Translate ReportSubmit}"
+                                xct:SemanticEffect.Hint="{xct:Translate DisagreeHint}"
+                                xct:SemanticEffect.Description="{xct:Translate DisagreeText}"
                                 Style="{StaticResource OutlineButton}"
                                 Clicked="Disagree_OnClicked"/>
                         <Button Grid.Row="0" Grid.Column="1" Text="{xct:Translate AgreeText}"
-                                xct:SemanticEffect.Hint="{xct:Translate ReportSubmitHint}"
-                                xct:SemanticEffect.Description="{xct:Translate ReportSubmit}"
+                                xct:SemanticEffect.Hint="{xct:Translate AgreeHint}"
+                                xct:SemanticEffect.Description="{xct:Translate AgreeText}"
                                 Style="{StaticResource OutlineButton}"
                                 Clicked="Agree_OnClicked"/>
                     </Grid>

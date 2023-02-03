@@ -576,8 +576,14 @@
   <data name="AgreeText" xml:space="preserve">
     <value>Agree</value>
   </data>
+  <data name="AgreeHint" xml:space="preserve">
+    <value>Accepts Code of Conduct</value>
+  </data>
   <data name="DisagreeText" xml:space="preserve">
     <value>Disagree</value>
+  </data>
+  <data name="DisagreeHint" xml:space="preserve">
+    <value>Rejects Code of Conduct</value>
   </data>
   <data name="UpperHouseElectorateText" xml:space="preserve">
     <value>Legislative Council electorate</value>
