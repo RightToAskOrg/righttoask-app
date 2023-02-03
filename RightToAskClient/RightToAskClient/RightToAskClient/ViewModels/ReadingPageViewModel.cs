@@ -91,6 +91,7 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _emptyViewLabelText, value);
         }
 
+        protected readonly Weights searchWeights;
         public ReadingPageViewModel(): this(false, true)
         {
         }
@@ -103,6 +104,9 @@ namespace RightToAskClient.ViewModels
             _thisUsersResponsesToQuestions.Init();
             
             Keyword = FilterChoices.SearchKeyword;
+            
+            // Default to search weights for main reading page; derived classes can alter this for other priorities.
+            searchWeights = Constants.mainReadingPageWeights;
             
             // If we're already searching for something, show the user what.
             ShowSearchFrame = !ReadByQuestionWriter; 
@@ -302,7 +306,8 @@ namespace RightToAskClient.ViewModels
                     from = 0,
                     to = Constants.DefaultPageSize 
                 },
-                weights = new Weights()
+                weights = searchWeights,
+                /*
                 {
                     metadata = Constants.ReadingPageMetadataWeight,
                     net_votes = Constants.ReadingNetVotesWeight,
@@ -311,6 +316,7 @@ namespace RightToAskClient.ViewModels
                     recentness_timescale = Constants.ReadingPageRecentnessTimescale,
                     text = Constants.ReadingPageTextSimilarityWeight
                 },
+                */
                 entity_who_should_answer_the_question = filters.TranscribeQuestionAnswerersForUpload(),
                 mp_who_should_ask_the_question = filters.TranscribeQuestionAskersForUpload()
             };

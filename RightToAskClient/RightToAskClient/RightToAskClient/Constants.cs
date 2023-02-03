@@ -1,4 +1,5 @@
-﻿using Xamarin.Essentials;
+﻿using RightToAskClient.Models.ServerCommsData;
+using Xamarin.Essentials;
 
 namespace RightToAskClient
 {
@@ -37,6 +38,16 @@ namespace RightToAskClient
         
         // Default settings for sorted search
         public static readonly int DefaultPageSize = 20;
+
+        public static readonly Weights mainReadingPageWeights = new Weights()
+        {
+            metadata = 20,
+            net_votes = 5,
+            total_votes = 5,
+            recentness = 10,
+            recentness_timescale = 3600,
+            text = 1
+        };
         
         // Main reading page
         public static readonly int ReadingPageMetadataWeight = 20;
