@@ -14,7 +14,7 @@ namespace RightToAskClient.ViewModels
 {
     public class FilterViewModel : BaseViewModel
     {
-        public FilterChoices FilterChoices = new FilterChoices(); 
+        public FilterChoices FilterChoices; 
         
         public ClickableListViewModel AnsweringMPsOther { get; }
         public ClickableListViewModel AnsweringMPsMine { get; }
@@ -79,25 +79,23 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        public FilterViewModel(FilterChoices filterChoice) : this()
+        public FilterViewModel(FilterChoices filterChoice) 
         {
             FilterChoices = filterChoice;
-        }
-        public FilterViewModel()
-        {
+            
             PopupLabelText = AppResources.FiltersPopupText;
-            MessagingCenter.Subscribe<QuestionViewModel>(this, "UpdateFilters", (sender) =>
+            MessagingCenter.Subscribe<QuestionViewModel>(this, Constants.UpdateFilters, (sender) =>
             {
                 ReinitData();
-                MessagingCenter.Unsubscribe<QuestionViewModel>(this, "UpdateFilters");
+                MessagingCenter.Unsubscribe<QuestionViewModel>(this, Constants.UpdateFilters);
             });
-            MessagingCenter.Subscribe<SelectableListViewModel>(this, "UpdateFilters", (sender) =>
+            MessagingCenter.Subscribe<SelectableListViewModel>(this, Constants.UpdateFilters, (sender) =>
             {
                 ReinitData();
                 // Normally we'd want to unsubscribe to prevent multiple instances of the subscriber from happening,
                 // but because these listeners happen when popping back to this page from a selectableList page we want to keep the listener/subscriber
                 // active to update all of the lists/filters on this page with the newly selected data
-                //MessagingCenter.Unsubscribe<SelectableListViewModel>(this, "UpdateFilters");
+                //MessagingCenter.Unsubscribe<SelectableListViewModel>(this, Constants.UpdateFilters);
             });
             /*
             MessagingCenter.Subscribe<MainPageViewModel>(this, "MainPage", (sender) =>

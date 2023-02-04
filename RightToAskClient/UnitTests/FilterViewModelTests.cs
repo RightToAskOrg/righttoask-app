@@ -15,10 +15,11 @@ namespace UnitTests
         [Fact]
         public void ReinitDataTest() // Function Test - Filter ViewModel
         {
-            // arrange
-            FilterViewModel vm = new FilterViewModel();
             // Filter must be empty 
             FilterChoices filters = new FilterChoices();
+            
+            // arrange
+            FilterViewModel vm = new FilterViewModel(filters);
             filters.SearchKeyword = "changed Keyword";
             vm.FilterChoices = filters;
 
@@ -79,7 +80,8 @@ namespace UnitTests
             };
 
             // act
-            FilterViewModel vm = new FilterViewModel();
+            FilterChoices filters = new FilterChoices();
+            FilterViewModel vm = new FilterViewModel(filters);
             string result = vm.CreateTextGivenListEntities(mps);
 
             // assert

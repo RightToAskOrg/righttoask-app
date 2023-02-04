@@ -19,9 +19,10 @@
         <BackButtonBehavior Command="{Binding BackCommand}"
                             IconOverride="back.png" />
     </Shell.BackButtonBehavior>
+    <!-- 
     <ContentPage.BindingContext>
         <vm:FilterViewModel/>
-    </ContentPage.BindingContext>
+    </ContentPage.BindingContext>  -->
         <ContentPage.Content>
         <ScrollView>
             <StackLayout>
