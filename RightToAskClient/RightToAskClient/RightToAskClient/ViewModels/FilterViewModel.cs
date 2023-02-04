@@ -92,13 +92,6 @@ namespace RightToAskClient.ViewModels
                 // active to update all of the lists/filters on this page with the newly selected data
                 //MessagingCenter.Unsubscribe<SelectableListViewModel>(this, Constants.UpdateFilters);
             });
-            /*
-            MessagingCenter.Subscribe<MainPageViewModel>(this, "MainPage", (sender) =>
-            {
-                CameFromMainPage = true;
-                MessagingCenter.Unsubscribe<MainPageViewModel>(this, "MainPage");
-            });
-            */
 
             Title = AppResources.AdvancedSearchButtonText; 
             ReinitData(); // to set the display strings
@@ -223,6 +216,7 @@ namespace RightToAskClient.ViewModels
             SearchCommand = new Command(() =>
             {
                 ApplyFiltersAndSearch();
+                MessagingCenter.Send(this, Constants.RefreshQuestionList); // Sends this view model
             });
             BackCommand = new AsyncCommand(async () =>
             {
@@ -351,6 +345,7 @@ namespace RightToAskClient.ViewModels
         }
         private async void ApplyFiltersAndSearch()
         {
+            
             await Shell.Current.Navigation.PopToRootAsync();
         }
     }

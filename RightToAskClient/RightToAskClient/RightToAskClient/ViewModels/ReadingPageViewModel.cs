@@ -186,6 +186,12 @@ namespace RightToAskClient.ViewModels
                 {
                 });
             
+            MessagingCenter.Subscribe<FilterViewModel>(this, Constants.RefreshQuestionList, 
+                 (sender) =>
+                {
+                    needRefresh = true;
+                });
+            
             // Get the question list for display
             if (needRefresh)
             {

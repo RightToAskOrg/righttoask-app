@@ -72,6 +72,7 @@ namespace RightToAskClient
         public static readonly string InitAllMPsLists = "InitAllMPsLists";
         public static readonly string NeedToUpdateMyMpLists= "NeedToUpdateMyMpLists";
         public static readonly string UpdateFilters = "UpdateFilters";
+        public static readonly string RefreshQuestionList = "RefreshQuestionList";
         
 
     }
