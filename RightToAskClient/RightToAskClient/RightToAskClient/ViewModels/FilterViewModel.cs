@@ -309,6 +309,8 @@ namespace RightToAskClient.ViewModels
             }
         }
 
+        // **Note to devs: This function is not currently used, but contains all the logic
+        // necessary for searching for an existing username when registering.
         private async Task SearchUserWrittenByClicked()
         {
             var searchString = QuestionWriterSearchText;
