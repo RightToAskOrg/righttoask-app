@@ -180,12 +180,6 @@ namespace RightToAskClient.ViewModels
                 // removeQuestionAddRecord(questionToRemove);
             }); 
 
-            MessagingCenter.Subscribe<FilterViewModel>(this, Constants.RefreshQuestionList, 
-                 (sender) =>
-                {
-                    needRefresh = true;
-                });
-            
             // Get the question list for display
             if (needRefresh)
             {
@@ -195,6 +189,13 @@ namespace RightToAskClient.ViewModels
             {
                 IsRefreshing = false;
             }
+            
+            // Makes the question list refresh when the Advanced Search page has updated search terms.
+            MessagingCenter.Subscribe<FilterViewModel>(this, Constants.RefreshQuestionList, 
+                 (sender) =>
+                {
+                    RefreshCommand.ExecuteAsync();
+                });
         }
 
         // commands
