@@ -27,8 +27,12 @@
             <Color x:Key="FrameColor">#dfdfdf</Color> 
             
             <!-- Second theme color -->
-            <Color x:Key="ClickableLinkColor">#695f44</Color> 
-            <Color x:Key="ClickableLinkColorDark">#a79c7e</Color>  
+            <Color x:Key="DarkPurple">#600C82</Color>
+            <Color x:Key="Purple">#9141B2</Color>
+            <Color x:Key="PalePurple">#c470e5</Color>
+            <Color x:Key="TransparentPurple">#229141B2</Color>
+            <Color x:Key="ClickableLinkColor">#600c82</Color>
+            <Color x:Key="ClickableLinkColorDark">#c470e5</Color>  
             
             <!-- Highlight / Alert colors -->
             <!-- Note that this mostly doesn't have much effect and has been separately
@@ -57,8 +61,6 @@
             <Color x:Key="EditorBackground">#F0F2F3</Color>
             <Color x:Key="EditorBackgroundDark">#222222</Color>
             <Color x:Key="Transparent">#00000000</Color>
-            <Color x:Key="Purple">#9141B2</Color>
-            <Color x:Key="TransparentPurple">#229141B2</Color>
             <Color x:Key="LightGreen">#F1F2ED</Color>
             <Color x:Key="DarkGreen">#556035</Color>
             <Color x:Key="LightGray">#E3E3E4</Color>
@@ -261,7 +263,8 @@
                 <Setter Property="Padding" Value="0" />
             </Style>
             <Style x:Key="ClickableFrame" TargetType="Frame">
-                <Setter Property="BorderColor" Value="{StaticResource ClickableLinkColor}" />
+                <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource ClickableLinkColor}, 
+                                                                              Dark={StaticResource ClickableLinkColorDark}}" />
                 <Setter Property="CornerRadius" Value="10" />
                 <Setter Property="BackgroundColor" 
                         Value="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, 
