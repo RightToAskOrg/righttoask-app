@@ -33,20 +33,24 @@ namespace RightToAskClient
         public static readonly string DismissedQuestions = "DismissedQuestions";
         public static readonly string ReportedQuestions = "ReportedQuestions";
         
-        // Special numbers
-        public static readonly float similarityThreshold = 2.5F;
-        
         // Default settings for sorted search
         public static readonly int DefaultPageSize = 20;
 
+        // These weights are designed so that metadata (i.e. directions for who should
+        // raise or answer it) dominate when present. Otherwise, search text similarity
+        // is most important.
         public static readonly Weights mainReadingPageWeights = new Weights()
         {
+            // Text similarity
+            text = 6,
+            
+            // Directions
             metadata = 20,
-            net_votes = 5,
-            total_votes = 5,
-            recentness = 10,
-            recentness_timescale = 3600,
-            text = 1
+            
+            net_votes = 2,
+            total_votes = 1,
+            recentness = 1,
+            recentness_timescale = 3600
         };
         
         // Main reading page
