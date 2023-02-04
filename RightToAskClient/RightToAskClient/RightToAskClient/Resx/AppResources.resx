@@ -1160,22 +1160,19 @@ We encourage real questions.
 
 - **Threatening Violence**
 - **Encouraging harm**
-  Encourage of self-harm or harm to others.
+  Encouraging self-harm or harm to others.
 
 - **Hate**
-  Attacks or threats against an individual or group because of their or anything else about them that does not relate to a political issue.
+  Attacks or threats against an individual or group because of their protected attributes or anything else about them that does not relate to a political issue.
 
 - **Spam**
   Malicious links, fake engagement, or advertisements.
 
 - **Personal information**
-  Sharing other people’s private information without theirconsent.
+  Sharing other people’s private information without their consent.
       
 - **Insulting someone**
-  Accusations or other defamatory statements
-
-- **Impersonation**
-  Claiming to be someone they’re not
+  Accusations or other defamatory statements.
 
 - **Illegal**
   Copyright violation, promotion of criminal activities, money scams etc.
@@ -1184,7 +1181,7 @@ We encourage real questions.
       
 ### Accounts that may be suspended
 Accounts that post questions in any of the above categories may be suspended. Also accounts in the following categories.
-- **Sockpuppet accounts.** A sockpuppet account is an additional account set up to evade suspension, inflate influence (e.g. by having multiple up- or down-votes on one question), or for other forms of bad behavior. This does not include multiple accounts set up for multiple roles, e.g. a personal account and a professional account.
+- **Sockpuppet accounts.** An additional account set up to evade suspension, inflate influence (e.g. by having multiple up- or down-votes on one question), or for other forms of bad behavior. This does not include multiple accounts set up for multiple roles, e.g. a personal account and a professional account.
 - **Accounts that claim to be someone they’re not.** Pseudonyms or non-names are fine, but using someone else’s name is not.
 - **Accounts with a name that violates any of our rules for questions.**
 
@@ -1198,7 +1195,7 @@ We are still learning about how people use Right To Ask. These rules may change 
   </data>
   
   <data name="DisagreeCodeOfConductPopText" xml:space="preserve">
-  <value>By disagreeing to our Code of Conduct, you can only continue reading questions.</value>
+  <value>Because you disagreed with our Code of Conduct, you can only read questions.</value>
   </data>
 
   <data name="SignUpTitleText" xml:space="preserve">
