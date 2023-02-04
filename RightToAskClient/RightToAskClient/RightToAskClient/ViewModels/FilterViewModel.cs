@@ -65,17 +65,12 @@ namespace RightToAskClient.ViewModels
 
         private bool _answerInApp;
         
-        private string _keyword = "";
         public string Keyword
         {
-            get => _keyword;
+            get => FilterChoices.SearchKeyword;
             set
             {
-                var changed = SetProperty(ref _keyword, value);
-                if (changed)
-                {
-                    FilterChoices.SearchKeyword = _keyword;
-                }
+                FilterChoices.SearchKeyword = value;
             }
         }
 
@@ -259,9 +254,6 @@ namespace RightToAskClient.ViewModels
         // helper methods
         public void ReinitData()
         {
-            // set the keyword
-            Keyword = FilterChoices.SearchKeyword;
-
             // TODO Ideally, we shouldn't have to do this manually,
             // but I don't see a more elegant way at the moment.
             // I tried raising it in SelectableList.cs but that didn't work.
@@ -273,6 +265,7 @@ namespace RightToAskClient.ViewModels
             OnPropertyChanged("AskingMPsMine");
             OnPropertyChanged("SelectedCommittees");
             OnPropertyChanged("QuestionWriter");
+            OnPropertyChanged("Keyword");
             
         }
 
