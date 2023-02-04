@@ -19,20 +19,9 @@
         <BackButtonBehavior Command="{Binding BackCommand}"
                             IconOverride="back.png" />
     </Shell.BackButtonBehavior>
-    <ContentPage.BindingContext>
-        <vm:FilterViewModel/>
-    </ContentPage.BindingContext>
         <ContentPage.Content>
         <ScrollView>
             <StackLayout>
-                <!--Standard Search Frame-->
-                <Frame Style="{StaticResource AppThemeFramePadding}">
-                    <StackLayout>
-                        <SearchBar Placeholder="{xct:Translate SearchBarPlaceholderText}" Text="{Binding Keyword}" 
-                                   Style="{StaticResource GreenSearchBar}" SearchCommand="{Binding SearchCommand}"/>
-                        <Button Text="{xct:Translate GoButtonText}" Style="{StaticResource NextButton}" Command="{Binding SearchCommand}"/>
-                    </StackLayout>
-                </Frame>
                 <!--Answered By Frame-->
                 <Frame Style="{StaticResource AppThemeFramePadding}">
                     <xct:Expander ForceUpdateSizeCommand="{Binding ForceUpdateSizeCommand}">
@@ -54,12 +43,14 @@
                                 <views:ClickableListView BindingContext="{Binding AnsweringMPsMine}"/>
                                 <views:ClickableListView BindingContext="{Binding AnsweringMPsOther}"/>
                                 <views:ClickableListView BindingContext="{Binding AnsweringAuthorities}"/>
+                                <!-- Not currently functional.
                                 <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="Auto, Auto" RowSpacing="10">
                                         <Label Grid.Column="0" Text="{xct:Translate IncludeAnsweredQuestions}" Style="{StaticResource NormalText}" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" />
                                         <CheckBox Grid.Column="1" IsChecked="True" />
                                         <Label Grid.Row="1" Grid.Column="0" Text="{xct:Translate IncludeUnansweredQuestions}" Style="{StaticResource NormalText}" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" />
                                         <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="True" />
                                 </Grid>
+                                -->
                             </StackLayout>
                         </xct:Expander.Content>
                     </xct:Expander>
@@ -84,30 +75,12 @@
                                 <views:ClickableListView BindingContext="{Binding AskingMPsMine}"/>
                                 <views:ClickableListView BindingContext="{Binding AskingMPsOther}" />
                                 <views:ClickableListView BindingContext="{Binding Committees}"/>
-                                <StackLayout Spacing="0" Margin="0" Padding="0">
-                                    <Label Text="Right to Ask Participant" Style="{StaticResource ClickableHeader}" >
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding WrittenByRightToAskUserCommand}"/>
-                                        </Label.GestureRecognizers>
-                                    </Label>
-                                    <Label Text="{Binding OtherRightToAskUserText}" Style="{StaticResource NormalText}">
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding WrittenByRightToAskUserCommand}"/>
-                                        </Label.GestureRecognizers>
-                                    </Label>
-                                </StackLayout>
-                                <StackLayout Spacing="0" Margin="0" Padding="0">
-                                    <Label Text="Not Stated">
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding NotSureCommand}"/>
-                                        </Label.GestureRecognizers>
-                                    </Label>
-                                </StackLayout>
                             </StackLayout>
                         </xct:Expander.Content>
                     </xct:Expander>
                 </Frame>
                 <!--Written By Frame-->
+                <!-- Temporarily commented out, but will be re-introduced at some point.
                 <Frame Style="{StaticResource AppThemeFramePadding}">
                     <xct:Expander>
                         <xct:Expander.Header>
@@ -127,22 +100,12 @@
                                 <SearchBar Placeholder="{xct:Translate ParticipantSearchBarPlaceholderText}" Text="{Binding QuestionWriterSearchText}" 
                                    Style="{StaticResource GreenSearchBar}" SearchCommand="{Binding WrittenByRightToAskUserCommand}"/>
                                 <Button Text="{xct:Translate GoButtonText}" Style="{StaticResource NextButton}" Command="{Binding WrittenByRightToAskUserCommand}"/>
-                                <!-- 
-                                <Label Text="Right to Ask Participant" Style="{StaticResource ClickableHeader}" >
-                                    <Label.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding WrittenByRightToAskUserCommand}"/>
-                                    </Label.GestureRecognizers>
-                                </Label>
-                                <Label Text="{Binding OtherRightToAskUserText}" Style="{StaticResource NormalText}">
-                                    <Label.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding WrittenByRightToAskUserCommand}"/>
-                                    </Label.GestureRecognizers>
-                                </Label>
-                                -->
                             </StackLayout>
                         </xct:Expander.Content>
                     </xct:Expander>
                 </Frame>
+                -->
+                <Button Text="{xct:Translate GoButtonText}" Style="{StaticResource NextButton}" Command="{Binding SearchCommand}"/>
                 <Label Text="{Binding ReportLabelText}"/>
             </StackLayout>
         </ScrollView>

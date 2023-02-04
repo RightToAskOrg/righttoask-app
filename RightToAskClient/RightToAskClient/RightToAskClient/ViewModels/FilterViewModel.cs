@@ -14,7 +14,7 @@ namespace RightToAskClient.ViewModels
 {
     public class FilterViewModel : BaseViewModel
     {
-        public FilterChoices FilterChoices = new FilterChoices(); 
+        public FilterChoices FilterChoices; 
         
         public ClickableListViewModel AnsweringMPsOther { get; }
         public ClickableListViewModel AnsweringMPsMine { get; }
@@ -65,47 +65,33 @@ namespace RightToAskClient.ViewModels
 
         private bool _answerInApp;
         
-        private string _keyword = "";
         public string Keyword
         {
-            get => _keyword;
+            get => FilterChoices.SearchKeyword;
             set
             {
-                var changed = SetProperty(ref _keyword, value);
-                if (changed)
-                {
-                    FilterChoices.SearchKeyword = _keyword;
-                }
+                FilterChoices.SearchKeyword = value;
             }
         }
 
-        public FilterViewModel(FilterChoices filterChoice) : this()
+        public FilterViewModel(FilterChoices filterChoice) 
         {
             FilterChoices = filterChoice;
-        }
-        public FilterViewModel()
-        {
+            
             PopupLabelText = AppResources.FiltersPopupText;
-            MessagingCenter.Subscribe<QuestionViewModel>(this, "UpdateFilters", (sender) =>
+            MessagingCenter.Subscribe<QuestionViewModel>(this, Constants.UpdateFilters, (sender) =>
             {
                 ReinitData();
-                MessagingCenter.Unsubscribe<QuestionViewModel>(this, "UpdateFilters");
+                MessagingCenter.Unsubscribe<QuestionViewModel>(this, Constants.UpdateFilters);
             });
-            MessagingCenter.Subscribe<SelectableListViewModel>(this, "UpdateFilters", (sender) =>
+            MessagingCenter.Subscribe<SelectableListViewModel>(this, Constants.UpdateFilters, (sender) =>
             {
                 ReinitData();
                 // Normally we'd want to unsubscribe to prevent multiple instances of the subscriber from happening,
                 // but because these listeners happen when popping back to this page from a selectableList page we want to keep the listener/subscriber
                 // active to update all of the lists/filters on this page with the newly selected data
-                //MessagingCenter.Unsubscribe<SelectableListViewModel>(this, "UpdateFilters");
+                //MessagingCenter.Unsubscribe<SelectableListViewModel>(this, Constants.UpdateFilters);
             });
-            /*
-            MessagingCenter.Subscribe<MainPageViewModel>(this, "MainPage", (sender) =>
-            {
-                CameFromMainPage = true;
-                MessagingCenter.Unsubscribe<MainPageViewModel>(this, "MainPage");
-            });
-            */
 
             Title = AppResources.AdvancedSearchButtonText; 
             ReinitData(); // to set the display strings
@@ -230,6 +216,7 @@ namespace RightToAskClient.ViewModels
             SearchCommand = new Command(() =>
             {
                 ApplyFiltersAndSearch();
+                MessagingCenter.Send(this, Constants.RefreshQuestionList); // Sends this view model
             });
             BackCommand = new AsyncCommand(async () =>
             {
@@ -261,9 +248,6 @@ namespace RightToAskClient.ViewModels
         // helper methods
         public void ReinitData()
         {
-            // set the keyword
-            Keyword = FilterChoices.SearchKeyword;
-
             // TODO Ideally, we shouldn't have to do this manually,
             // but I don't see a more elegant way at the moment.
             // I tried raising it in SelectableList.cs but that didn't work.
@@ -275,12 +259,8 @@ namespace RightToAskClient.ViewModels
             OnPropertyChanged("AskingMPsMine");
             OnPropertyChanged("SelectedCommittees");
             OnPropertyChanged("QuestionWriter");
+            OnPropertyChanged("Keyword");
             
-        }
-
-        public string CreateTextGivenListEntities(IEnumerable<Entity> entityList)
-        {
-            return string.Join(", ", entityList.Select(e => e.ShortestName));
         }
 
         private async Task EditSelectedAnsweringMPsMineClicked()
@@ -329,6 +309,8 @@ namespace RightToAskClient.ViewModels
             }
         }
 
+        // **Note to devs: This function is not currently used, but contains all the logic
+        // necessary for searching for an existing username when registering.
         private async Task SearchUserWrittenByClicked()
         {
             var searchString = QuestionWriterSearchText;
@@ -360,6 +342,7 @@ namespace RightToAskClient.ViewModels
         }
         private async void ApplyFiltersAndSearch()
         {
+            
             await Shell.Current.Navigation.PopToRootAsync();
         }
     }
