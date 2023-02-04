@@ -78,12 +78,6 @@ namespace RightToAskClient.ViewModels
         private bool _readByQuestionWriter;
         protected bool _successRespond = true;
 
-        public bool ReadByQuestionWriter
-        {
-            get => _readByQuestionWriter;
-            set => SetProperty(ref _readByQuestionWriter, value);
-        }
-        
         private string _emptyViewLabelText;
         public string EmptyViewLabelText
         {
@@ -91,25 +85,27 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _emptyViewLabelText, value);
         }
 
-        protected readonly Weights searchWeights;
+        // Parameters for server question searches
+        protected readonly Weights SearchWeights;
         public ReadingPageViewModel(): this(false, true)
         {
         }
         
         // constructor
-        public ReadingPageViewModel(bool ReadByQuestionWriter, bool needRefresh)
+        public ReadingPageViewModel(bool readByQuestionWriter, bool needRefresh)
         {
-            _readByQuestionWriter = ReadByQuestionWriter;
+            _readByQuestionWriter = readByQuestionWriter;
+            
             // Retrieve previous responses from Preferences, e.g. to display proper coloration on prior up-votes.
             _thisUsersResponsesToQuestions.Init();
             
-            Keyword = FilterChoices.SearchKeyword;
+            // Keyword = FilterChoices.SearchKeyword;
             
             // Default to search weights for main reading page; derived classes can alter this for other priorities.
-            searchWeights = Constants.mainReadingPageWeights;
+            SearchWeights = Constants.mainReadingPageWeights;
             
             // If we're already searching for something, show the user what.
-            ShowSearchFrame = !ReadByQuestionWriter; 
+            ShowSearchFrame = !readByQuestionWriter; 
 
             // Reading with a draft question - prompt for upvoting similar questions
             Heading1 = AppResources.FocusSupportInstructionReadingOnly;
@@ -300,23 +296,13 @@ namespace RightToAskClient.ViewModels
             // use the filters to search for similar questions.
             var serverSearchQuery = new WeightedSearchRequest()
             {
-                question_text = Keyword,
+                question_text = filters.SearchKeyword,
                 page = new QuestionListPage()
                 {
                     from = 0,
                     to = Constants.DefaultPageSize 
                 },
-                weights = searchWeights,
-                /*
-                {
-                    metadata = Constants.ReadingPageMetadataWeight,
-                    net_votes = Constants.ReadingNetVotesWeight,
-                    total_votes = Constants.ReadingPageTotalVotesWeight,
-                    recentness = Constants.ReadingPageRecentnessWeight,
-                    recentness_timescale = Constants.ReadingPageRecentnessTimescale,
-                    text = Constants.ReadingPageTextSimilarityWeight
-                },
-                */
+                weights = SearchWeights,
                 entity_who_should_answer_the_question = filters.TranscribeQuestionAnswerersForUpload(),
                 mp_who_should_ask_the_question = filters.TranscribeQuestionAskersForUpload()
             };
