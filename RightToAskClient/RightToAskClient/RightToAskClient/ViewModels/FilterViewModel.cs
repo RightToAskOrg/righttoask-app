@@ -263,11 +263,6 @@ namespace RightToAskClient.ViewModels
             
         }
 
-        public string CreateTextGivenListEntities(IEnumerable<Entity> entityList)
-        {
-            return string.Join(", ", entityList.Select(e => e.ShortestName));
-        }
-
         private async Task EditSelectedAnsweringMPsMineClicked()
         {
             if (ParliamentData.MPAndOtherData.IsInitialised)
