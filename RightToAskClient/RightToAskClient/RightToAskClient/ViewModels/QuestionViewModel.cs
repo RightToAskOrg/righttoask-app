@@ -702,7 +702,6 @@ namespace RightToAskClient.ViewModels
             if (GoHome)
             {
                 Instance.Question.Filters.RemoveAllSelections();
-                MessagingCenter.Send(this, Constants.QuestionSubmittedDeleteDraft);
                 await Application.Current.MainPage.Navigation.PopToRootAsync();
                     
             }

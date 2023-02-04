@@ -180,12 +180,6 @@ namespace RightToAskClient.ViewModels
                 // removeQuestionAddRecord(questionToRemove);
             }); 
 
-
-            MessagingCenter.Subscribe<QuestionViewModel>(this, Constants.QuestionSubmittedDeleteDraft,
-                (sender) =>
-                {
-                });
-            
             MessagingCenter.Subscribe<FilterViewModel>(this, Constants.RefreshQuestionList, 
                  (sender) =>
                 {
