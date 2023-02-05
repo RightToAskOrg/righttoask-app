@@ -116,7 +116,7 @@ namespace RightToAskClient.HttpClients
 
         public static async Task<JOSResult<string>> UpdateExistingUser(ServerUser existingReg, string uid)
         {
-            return await SignAndSendDataToServer(existingReg, "user", EditUserUrl, AppResources.AccountUpdateSigningError, uid);
+            return await SignAndSendDataToServerVerifySignedResponse(existingReg, "user", EditUserUrl, AppResources.AccountUpdateSigningError, uid);
         }
 
 
@@ -155,22 +155,22 @@ namespace RightToAskClient.HttpClients
         }
         public static async Task<JOSResult<string>> RegisterNewQuestion(QuestionSendToServer newQuestion, string uid)
         {
-            return await SignAndSendDataToServer(newQuestion, AppResources.QuestionErrorTypeDescription, QnUrl,"Error publishing New Question", uid);
+            return await SignAndSendDataToServerVerifySignedResponse(newQuestion, AppResources.QuestionErrorTypeDescription, QnUrl,"Error publishing New Question", uid);
         }
 
         public static async Task<JOSResult<string>> UpdateExistingQuestion(QuestionSendToServer existingQuestion, string uid)
         {
-            return await SignAndSendDataToServer(existingQuestion, AppResources.QuestionErrorTypeDescription, EditQnUrl, "Error editing question", uid);
+            return await SignAndSendDataToServerVerifySignedResponse(existingQuestion, AppResources.QuestionErrorTypeDescription, EditQnUrl, "Error editing question", uid);
         }
         
         public static async Task<JOSResult<string>> SendPlaintextUpvote(PlainTextVoteOnQuestionCommand voteOnQuestion, string uid)
         {
-            return await SignAndSendDataToServer(voteOnQuestion, AppResources.QuestionErrorTypeDescription, PlaintextVoteQnUrl, "Error voting on question", uid);
+            return await SignAndSendDataToServerVerifySignedResponse(voteOnQuestion, AppResources.QuestionErrorTypeDescription, PlaintextVoteQnUrl, "Error voting on question", uid);
         }
         
-        public static async Task<JOSResult<string>> SendReportQuestion(ReportQuestionCommand reportQuestion, string uid)
+        public static async Task<JOSResult> SendReportQuestion(ReportQuestionCommand reportQuestion, string uid)
         {
-            return await SignAndSendDataToServer(reportQuestion, AppResources.QuestionErrorTypeDescription, ReportQuestionUrl, "Error reporting on question", uid);
+            return await SignAndSendDataToServerExpectNoResponse(reportQuestion, AppResources.QuestionErrorTypeDescription, ReportQuestionUrl, "Error reporting on question", uid);
         }
 
         public static async Task<JOSResult<string>> RequestEmailValidation(ClientSignedUnparsed signedMsg, string email)
@@ -188,17 +188,31 @@ namespace RightToAskClient.HttpClients
 
         public static async Task<JOSResult<string>> SendEmailValidationPin(EmailValidationPIN msg, string uid)
         {
-            return await SignAndSendDataToServer(msg, "Sending PIN", EmailValidationPinUrl, "Signing PIN", uid);
+            return await SignAndSendDataToServerVerifySignedResponse(msg, "Sending PIN", EmailValidationPinUrl, "Signing PIN", uid);
         }
 
         // Sign a message (data) with this user's key, then upload to the specified url. 
         // "description" and "error string" are for reporting errors in upload and signing resp.
-        private static async Task<JOSResult<string>> SignAndSendDataToServer<T>(T data, string description, string url, string errorString, string uid)
+        private static async Task<JOSResult<string>> SignAndSendDataToServerVerifySignedResponse<T>(T data, string description, string url, string errorString, string uid)
         {
             var signedUserMessage = ClientSignatureGenerationService.SignMessage(data, uid);
             if (!string.IsNullOrEmpty(signedUserMessage.signature))
             {
                 return await SendDataToServerVerifySignedResponse(signedUserMessage, description, url);
+            }
+
+            Debug.WriteLine(errorString);
+            return new ErrorResult<string>(errorString);
+        }
+
+        // Note that server success isn't really a string - it's just a thing that must be null.
+        private static async Task<JOSResult> SignAndSendDataToServerExpectNoResponse<T>(T data,
+            string description, string url, string errorString, string uid)
+        {
+            var signedUserMessage = ClientSignatureGenerationService.SignMessage(data, uid);
+            if (!string.IsNullOrEmpty(signedUserMessage.signature))
+            {
+                return await SendDataToServerExpectNoResponse<ClientSignedUnparsed>(signedUserMessage, description, url);
             }
 
             Debug.WriteLine(errorString);
@@ -267,6 +281,43 @@ namespace RightToAskClient.HttpClients
             return new ErrorResult<TReturn>(httpResponse.Err ?? "");
         }
         
+        /*
+ * Errors in the outer layer represent http errors, (e.g. 404).
+ * These are logged because they represent a problem with the system.
+ * Ditto signature verification.
+ * Errors in the inner layer represent server errors, e.g. UID already taken.
+ * These are returned to the user on the assumption that there's something they
+ * can do.
+ * In some cases, the server returns some information
+ * in the form of a message that is then returned in Result.Ok.
+ */
+        private static async Task<JOSResult> SendDataToServerExpectNoResponse<TUpload>(
+            TUpload newThing,
+            string typeDescription,
+            string uri)
+        {
+            // We don't really expect the ServerResult to be a string - it just needs to be something
+            // that can be null.
+            var httpResponse 
+                = await Client.PostGenericItemAsync<ServerResult<string>, TUpload>(newThing, uri);
+
+            // http errors
+            if (string.IsNullOrEmpty(httpResponse.Err))
+            {
+                // Error responses from the server
+                if (string.IsNullOrEmpty(httpResponse.Ok.Err))
+                {
+                    return new SuccessResult();
+                }
+                    
+                Debug.WriteLine(@"\tError sending "+typeDescription+": "+httpResponse.Ok.Err);
+                return new ErrorResult(httpResponse.Ok.Err ?? "");
+            }
+
+            Debug.WriteLine(@"\tError reaching server for sending " +typeDescription+": "+httpResponse.Err);
+            return new ErrorResult(httpResponse.Err ?? "");
+        }
+        
         // At the moment, this simply passes the information back to the user. We might perhaps want
         // to triage errors more carefully, or explain them to users better, or distinguish user-upload
         // errors from question-upload errors.
@@ -304,6 +355,25 @@ namespace RightToAskClient.HttpClients
                 errorMessage += errorResult.Message;
             }
             return (false, errorMessage, "");
+        }
+
+        // For the case of not expecting data.
+        public static (bool isValid, string errorMessage) ValidateHttpResponse(
+            JOSResult response, string messageTopic)
+        {
+            if (response.Success)
+            {
+                return (true, "");
+            }
+
+            // response.Failure
+            var errorMessage = messageTopic + "Server error: ";
+            if (response is ErrorResult<string> errorResult)
+            {
+                errorMessage += errorResult.Message;
+            }
+
+            return (false, errorMessage);
         }
 
         // Tries to read server config, returns the url if there's a valid configuration file

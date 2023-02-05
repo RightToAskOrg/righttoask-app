@@ -174,7 +174,7 @@ namespace RightToAskClient.ViewModels
             };
             var httpResponse = await RTAClient.SendReportQuestion(reportQuestion,
                 IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid);
-            (bool isValid, string errorMessage, string _) = RTAClient.ValidateHttpResponse(httpResponse, "Report question");  
+            (bool isValid, string errorMessage) = RTAClient.ValidateHttpResponse(httpResponse, "Report question");  
             if(!isValid) 
             {
                 var error =  "Error Reporting question: " + errorMessage;
