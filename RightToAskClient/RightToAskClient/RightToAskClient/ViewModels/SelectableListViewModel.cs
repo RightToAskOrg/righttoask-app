@@ -126,7 +126,7 @@ namespace RightToAskClient.ViewModels
 				DoneButton_OnClicked(
 					() => UpdateSelectedList(authorityLists), singleSelection
 				);
-				MessagingCenter.Send(this, "UpdateFilters");
+				MessagingCenter.Send(this, Constants.UpdateFilters);
 			});
 		}
 
@@ -142,7 +142,7 @@ namespace RightToAskClient.ViewModels
 				DoneButton_OnClicked(
 					() => UpdateSelectedList(participantLists), singleSelection
 				);
-				MessagingCenter.Send(this, "UpdateFilters");
+				MessagingCenter.Send(this, Constants.UpdateFilters);
 			});
 
 		}
@@ -158,7 +158,7 @@ namespace RightToAskClient.ViewModels
                 DoneButton_OnClicked(
 	                () => UpdateSelectedList(committeeLists), singleSelection       
 	                );
-				MessagingCenter.Send(this, "UpdateFilters");
+				MessagingCenter.Send(this, Constants.UpdateFilters);
             });
 		}
 		
@@ -199,7 +199,7 @@ namespace RightToAskClient.ViewModels
                 DoneButton_OnClicked(
 	                () => UpdateSelectedList(mpLists), singleSelection
 	                );
-				MessagingCenter.Send(this, "UpdateFilters");
+				MessagingCenter.Send(this, Constants.UpdateFilters);
             });
         }
 
@@ -323,7 +323,7 @@ namespace RightToAskClient.ViewModels
 					break;
 			}
 
-			MessagingCenter.Send(this, "UpdateFilters");
+			MessagingCenter.Send(this, Constants.UpdateFilters);
 		}
 
 		// Used for settings where the user has to select exactly one Entity from the list

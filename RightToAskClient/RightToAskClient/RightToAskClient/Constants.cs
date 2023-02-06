@@ -1,4 +1,5 @@
-﻿using Xamarin.Essentials;
+﻿using RightToAskClient.Models.ServerCommsData;
+using Xamarin.Essentials;
 
 namespace RightToAskClient
 {
@@ -32,11 +33,25 @@ namespace RightToAskClient
         public static readonly string DismissedQuestions = "DismissedQuestions";
         public static readonly string ReportedQuestions = "ReportedQuestions";
         
-        // Special numbers
-        public static readonly float similarityThreshold = 2.5F;
-        
         // Default settings for sorted search
         public static readonly int DefaultPageSize = 20;
+
+        // These weights are designed so that metadata (i.e. directions for who should
+        // raise or answer it) dominate when present. Otherwise, search text similarity
+        // is most important.
+        public static readonly Weights mainReadingPageWeights = new Weights()
+        {
+            // Text similarity
+            text = 6,
+            
+            // Directions
+            metadata = 20,
+            
+            net_votes = 2,
+            total_votes = 1,
+            recentness = 1,
+            recentness_timescale = 3600
+        };
         
         // Main reading page
         public static readonly int ReadingPageMetadataWeight = 20;
@@ -56,6 +71,8 @@ namespace RightToAskClient
         public static readonly string InitCommitteeLists = "InitCommitteeLists";
         public static readonly string InitAllMPsLists = "InitAllMPsLists";
         public static readonly string NeedToUpdateMyMpLists= "NeedToUpdateMyMpLists";
+        public static readonly string UpdateFilters = "UpdateFilters";
+        public static readonly string RefreshQuestionList = "RefreshQuestionList";
         
 
     }

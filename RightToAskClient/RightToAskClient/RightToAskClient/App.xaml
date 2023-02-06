@@ -1,5 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
@@ -12,25 +11,29 @@
             <helpers:InvertConvert x:Key="cnvInvert" />
             <helpers:NullOrEmptyConverter x:Key="emptyToFalse" />
             <helpers:IntEnumConverter x:Key="intEnum" />
-
+            
             <!-- These are all meant to be the same dark green -->
             <Color x:Key="Primary">#6E7C46</Color>
             <Color x:Key="HeadingTextColor">#6E7C46</Color>
             <Color x:Key="FrameOutlineColor">#6E7C46</Color>
             <Color x:Key="DarkButtonColor">#6E7C46</Color>
-
+            
             <!-- These are all the same mid green -->
             <Color x:Key="ButtonColor">#6E7C46</Color>
             <Color x:Key="HeadingTextColorDark">#6E7C46</Color>
-
+            
             <!-- These are all the same light green -->
             <Color x:Key="FadedButtonColor">#dfdfdf</Color>
-            <Color x:Key="FrameColor">#dfdfdf</Color>
-
+            <Color x:Key="FrameColor">#dfdfdf</Color> 
+            
             <!-- Second theme color -->
-            <Color x:Key="ClickableLinkColor">#695f44</Color>
-            <Color x:Key="ClickableLinkColorDark">#a79c7e</Color>
-
+            <Color x:Key="DarkPurple">#600C82</Color>
+            <Color x:Key="Purple">#9141B2</Color>
+            <Color x:Key="PalePurple">#c470e5</Color>
+            <Color x:Key="TransparentPurple">#229141B2</Color>
+            <Color x:Key="ClickableLinkColor">#600c82</Color>
+            <Color x:Key="ClickableLinkColorDark">#c470e5</Color>  
+            
             <!-- Highlight / Alert colors -->
             <!-- Note that this mostly doesn't have much effect and has been separately
                  set in the Android project, in Resources/values/styles.xml -->
@@ -39,12 +42,12 @@
             <Color x:Key="IndicatorColor">#efd242</Color>
             <!-- <Color x:Key="TitleTextColor">#efd242</Color> -->
             <Color x:Key="WattleYellow">#efd242</Color>
-
+            
             <!-- white/grey/black/beige text & background colors -->
             <Color x:Key="WindowBackgroundColor">#ffffff</Color>
             <!-- <Color x:Key="WindowBackgroundColorDark">#14171c</Color>-->
             <Color x:Key="WindowBackgroundColorDark">#000000</Color>
-
+            
             <!-- One of these is light brown, the other dark purple. Not currently a coherent style.-->
             <Color x:Key="EmuFeatherBackgroundColor">#c7bb9d</Color>
             <Color x:Key="EmuFeatherBackgroundColorDark">#271f03</Color>
@@ -58,10 +61,6 @@
             <Color x:Key="EditorBackground">#F0F2F3</Color>
             <Color x:Key="EditorBackgroundDark">#222222</Color>
             <Color x:Key="Transparent">#00000000</Color>
-            <Color x:Key="Purple">#9141B2</Color>
-            <Color x:Key="DarkPurple">#613F70</Color>
-            <Color x:Key="LightPurple">#D05DFF</Color>
-            <Color x:Key="TransparentPurple">#229141B2</Color>
             <Color x:Key="LightGreen">#F1F2ED</Color>
             <Color x:Key="DarkGreen">#556035</Color>
             <Color x:Key="LightGray">#E3E3E4</Color>
@@ -289,7 +288,8 @@
                 <Setter Property="Padding" Value="0" />
             </Style>
             <Style x:Key="ClickableFrame" TargetType="Frame">
-                <Setter Property="BorderColor" Value="{StaticResource ClickableLinkColor}" />
+                <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource ClickableLinkColor}, 
+                                                                              Dark={StaticResource ClickableLinkColorDark}}" />
                 <Setter Property="CornerRadius" Value="10" />
                 <Setter Property="BackgroundColor"
                         Value="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, 
