@@ -21,42 +21,27 @@
     </ContentPage.BindingContext>
 	<ContentPage.Content >
         <StackLayout Margin="20">
-            <views:UserAccountInfoView/>
+            <Grid RowDefinitions="Auto, Auto, Auto"
+                  ColumnDefinitions="*, 2*">
+                <Label Text="{xct:Translate UserNameHeaderText}" Style="{StaticResource Header2}" />
+                <!-- Styled in code-behind according to whether this is permitted edits. -->
+                <Entry x:Name="UIDEntry" Grid.Column="1" Text="{Binding UserId}" Placeholder="{xct:Translate UIDPlaceholderText}" />
+                <Label Grid.Row="1" Text="{xct:Translate DisplayNameHeaderText}" Style="{StaticResource Header2}" />
+                <Entry Grid.Row="1" Grid.Column="1" Text="{Binding DisplayName}"
+                       Placeholder="{xct:Translate DisplayNamePlaceholderText}"
+                       Style="{StaticResource NormalEntry}" />
+                <Label Grid.Row="2" Text="{xct:Translate StateHeaderText}" Style="{StaticResource Header2}" />
+                <Picker Grid.Row="2" Grid.Column="1" Title="{Binding State,  StringFormat='{0:F0}'}"
+                        ItemsSource="{Binding StateList}"
+                        Style="{StaticResource LeftPicker}"
+                        SelectedIndex="{Binding SelectedStateAsIndex}" />
+            </Grid>
             <Label x:Name="ReportLabel" Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}"/>
             <StackLayout Orientation="Vertical" VerticalOptions="Center">
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
                     <Button Text="{xct:Translate CompleteAccountCreationButtonText}" Style="{StaticResource DoneButton}" Command="{Binding DoneButtonCommand}" HorizontalOptions="Center"/>
                 </StackLayout>
             </StackLayout>
-            <StackLayout Orientation="Horizontal" VerticalOptions="Center">
-	            <!-- removing option to register MPs or orgs, except as a second step as part of the account settings.
-	            <Button Text="{Binding RegisterMPButtonText}" Command="{Binding ChooseMPToRegisterButtonCommand}" IsVisible="{Binding ShowRegisterMPButton}" Style="{StaticResource DoneButton}" HorizontalOptions="Center"/>
-                <Button Text="{Binding RegisterOrgButtonText}" Command="{Binding RegisterOrgButtonCommand}" IsVisible="{Binding ShowRegisterOrgButton}" Style="{StaticResource DoneButton}" HorizontalOptions="Center"/>
-                -->
-                <Button Text="{xct:Translate CancelButtonText}" Command="{Binding CancelButtonCommand}" IsVisible="{Binding ShowDoneButton}"/>
-			</StackLayout>
-            <Button Text="{Binding FollowButtonText}" Style="{StaticResource GreenButton}" Command="{Binding FollowButtonCommand}" IsVisible="{Binding ShowFollowButton}" HorizontalOptions="Center"/>
-            <Button Text="{Binding SeeQuestionsButtonText}" Style="{StaticResource GreenButton}"  IsVisible="{Binding ShowSeeQuestionsButton}" Command="{Binding SeeQuestionsButtonCommand}" HorizontalOptions="Center"/>
-            <Button Text="{Binding DMButtonText}" Style="{StaticResource GreenButton}" IsVisible="{Binding ShowDMButton}" Command="{Binding DMButtonCommand}" HorizontalOptions="Center"/>
         </StackLayout>
-	<!--
-	</StackLayout>
-        <StackLayout>
-            <Label Text="You need to create an account to publish questions or vote." />
-            <Label x:Name="registerNameInstructions" Text="Enter your name. You can choose a pseudonym but your MP is more likely to listen if you use your real name." />
-            <Editor x:Name="registerNameButton" Placeholder="name" Completed="OnRegisterNameFieldCompleted" StyleClass="NormalEditor" HorizontalOptions="Center"/>
-            <Label Text="Enter your email. This optional for standard accounts but is used to verify MP and Organisational accounts." />
-            <Editor x:Name="registerEmailButton" Placeholder="email (optional)" Completed="OnRegisterEmailFieldCompleted" StyleClass="NormalEditor" HorizontalOptions="Center"/>
-			<StackLayout Orientation="Vertical" VerticalOptions="Center">
-				<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-					<Button x:Name="registerCitizenButton" Clicked="OnRegisterCitizenButtonClicked" Text="Complete Account Creation" StyleClass="DoneButton" HorizontalOptions="Center"/>
-				</StackLayout>
-			</StackLayout>
-			<StackLayout Orientation="Horizontal" VerticalOptions="Center">
-				<Button x:Name="registerMPButton" Text="Register MP Account" Clicked="OnRegisterMPButtonClicked"  StyleClass="DoneButton" HorizontalOptions="Center"/>
-				<Button x:Name="registerOrgButton" Text="Register Organisational Account" Clicked="OnRegisterOrgButtonClicked"  StyleClass="DoneButton" HorizontalOptions="Center"/>
-			</StackLayout>
-        </StackLayout>
-	-->
     </ContentPage.Content>
 </ContentPage>
