@@ -478,7 +478,9 @@ namespace RightToAskClient.ViewModels
                 Title = AppResources.EditYourAccountTitle;
                 PopupLabelText = AppResources.EditAccountPopupText;
                 // pop back to the QuestionDetailsPage after the account is created
-                await Application.Current.MainPage.Navigation.PopToRootAsync();
+                var Navigation = Application.Current.MainPage.Navigation;
+                Navigation.RemovePage(Navigation.NavigationStack[Navigation.NavigationStack.Count - 2]);
+                await Navigation.PopAsync();
             }
         }
 
