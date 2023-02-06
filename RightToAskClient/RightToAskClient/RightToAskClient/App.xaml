@@ -29,6 +29,7 @@
             <!-- Second theme color -->
             <Color x:Key="DarkPurple">#600C82</Color>
             <Color x:Key="Purple">#9141B2</Color>
+            <Color x:Key="LightPurple">#D05DFF</Color>
             <Color x:Key="PalePurple">#c470e5</Color>
             <Color x:Key="TransparentPurple">#229141B2</Color>
             <Color x:Key="ClickableLinkColor">#600c82</Color>
