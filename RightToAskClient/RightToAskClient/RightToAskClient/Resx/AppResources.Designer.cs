@@ -957,6 +957,30 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string AgreeText {
+            get {
+                return ResourceManager.GetString("AgreeText", resourceCulture);
+            }
+        }
+        
+        internal static string AgreeHint {
+            get {
+                return ResourceManager.GetString("AgreeHint", resourceCulture);
+            }
+        }
+        
+        internal static string DisagreeText {
+            get {
+                return ResourceManager.GetString("DisagreeText", resourceCulture);
+            }
+        }
+        
+        internal static string DisagreeHint {
+            get {
+                return ResourceManager.GetString("DisagreeHint", resourceCulture);
+            }
+        }
+        
         internal static string UpperHouseElectorateText {
             get {
                 return ResourceManager.GetString("UpperHouseElectorateText", resourceCulture);
@@ -2064,6 +2088,30 @@ namespace RightToAskClient.Resx {
         internal static string DisplayCardHiddenQuestionBody {
             get {
                 return ResourceManager.GetString("DisplayCardHiddenQuestionBody", resourceCulture);
+            }
+        }
+        
+        internal static string CodeOfConductCopy {
+            get {
+                return ResourceManager.GetString("CodeOfConductCopy", resourceCulture);
+            }
+        }
+        
+        internal static string DisagreeCodeOfConductPopText {
+            get {
+                return ResourceManager.GetString("DisagreeCodeOfConductPopText", resourceCulture);
+            }
+        }
+        
+        internal static string SignUpTitleText {
+            get {
+                return ResourceManager.GetString("SignUpTitleText", resourceCulture);
+            }
+        }
+        
+        internal static string SignUpBodyText {
+            get {
+                return ResourceManager.GetString("SignUpBodyText", resourceCulture);
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
@@ -14,35 +15,62 @@
         <vm:RegistrationViewModel />
     </ContentPage.BindingContext>
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="{xct:Translate InfoPopupButtonText}" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
-                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}"/>
+        <ToolbarItem Text="{xct:Translate InfoPopupButtonText}" Command="{Binding InfoPopupCommand}"
+                     x:DataType="vm:BaseViewModel"
+                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout Margin="20" VerticalOptions="Start">
-            <views:UserAccountInfoView/>
-            <Label Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}"/>
-            <Button Text="{xct:Translate UpdateAccountButtonText}" Command="{Binding UpdateAccountButtonCommand}" Style="{StaticResource DoneButton}" IsVisible="{Binding ShowUpdateAccountButton}"/>
-            <StackLayout Orientation="Vertical"> 
-            <!-- TODO Unfortunately I think this is getting drawn, then made invisible, hence creating a lot of whitespace -->
-            <StackLayout Orientation="Vertical" VerticalOptions="Center">
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                    <Button Text="{xct:Translate CompleteAccountCreationButtonText}" Style="{StaticResource DoneButton}" Command="{Binding DoneButtonCommand}" HorizontalOptions="Center" IsVisible="{Binding ShowUpdateAccountButton, Converter={StaticResource Key=cnvInvert}}"/>
-                </StackLayout>
-            </StackLayout>
-            <!-- This button seems redundant because you can tap on the electorates to edit -->
-            <!-- <Button Text="{xct:Translate UpdateMPsButtonText}" Style="{StaticResource DoneButton}" Command="{Binding UpdateMPsButtonCommand}" IsVisible="{Binding ShowUpdateAccountButton}"/> -->
-            <!-- 
+        <Grid>
+            <StackLayout Margin="20" VerticalOptions="Start">
+                <views:UserAccountInfoView />
+                <Label Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}" />
+                <Button Text="{xct:Translate UpdateAccountButtonText}" Command="{Binding UpdateAccountButtonCommand}"
+                        Style="{StaticResource DoneButton}" IsVisible="{Binding ShowUpdateAccountButton}" />
+                <StackLayout Orientation="Vertical">
+                    <!-- TODO Unfortunately I think this is getting drawn, then made invisible, hence creating a lot of whitespace -->
+                    <StackLayout Orientation="Vertical" VerticalOptions="Center">
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                            <Button Text="{xct:Translate CompleteAccountCreationButtonText}"
+                                    Style="{StaticResource DoneButton}" Command="{Binding DoneButtonCommand}"
+                                    HorizontalOptions="Center"
+                                    IsVisible="{Binding ShowUpdateAccountButton, Converter={StaticResource Key=cnvInvert}}" />
+                        </StackLayout>
+                    </StackLayout>
+                    <!-- This button seems redundant because you can tap on the electorates to edit -->
+                    <!-- <Button Text="{xct:Translate UpdateMPsButtonText}" Style="{StaticResource DoneButton}" Command="{Binding UpdateMPsButtonCommand}" IsVisible="{Binding ShowUpdateAccountButton}"/> -->
+                    <!-- 
             <Label Text="{Binding RegisteredMP.ShortestName, StringFormat='Registered MP account for {0}'}"
                    IsVisible="{Binding ShowExistingMPRegistrationLabel}" Style="{StaticResource NormalText}" />
             <Label Text="Verified staffer" IsVisible="{Binding ShowStafferLabel}" Style="{StaticResource NormalText}" /> -->
-            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                <Label Text="{xct:Translate MPRegistrationOptionText}" Style="{StaticResource NormalText}"
-                       VerticalOptions="Center" />
-                <Button Text="{Binding RegisterMPButtonText}" Command="{Binding ChooseMPToRegisterButtonCommand}"
-                        IsVisible="{Binding ShowRegisterMPButton}" Style="{StaticResource DoneButton}"
-                        HorizontalOptions="Center" />
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                        <Label Text="{xct:Translate MPRegistrationOptionText}" Style="{StaticResource NormalText}"
+                               VerticalOptions="Center" />
+                        <Button Text="{Binding RegisterMPButtonText}"
+                                Command="{Binding ChooseMPToRegisterButtonCommand}"
+                                IsVisible="{Binding ShowRegisterMPButton}" Style="{StaticResource DoneButton}"
+                                HorizontalOptions="Center" />
+                    </StackLayout>
+                </StackLayout>
+
+
             </StackLayout>
+            <StackLayout HorizontalOptions="Fill" VerticalOptions="Fill" 
+                         BackgroundColor="{AppThemeBinding 
+                             Light=White, Dark=Black}" IsVisible="{Binding IsNotRegistered}">
+                <StackLayout Orientation="Vertical"
+                             VerticalOptions="CenterAndExpand"
+                             HorizontalOptions="CenterAndExpand">
+                    <Label Text="{xct:Translate SignUpTitleText}" Style="{StaticResource SignUpTitle}"/>
+                    <Label Text="{xct:Translate SignUpBodyText}" Style="{StaticResource SignUpBody}"/>
+                    <StackLayout>
+                        <Button Text="Sign up"
+                                Margin="70, 0"
+                                Style="{StaticResource NormalButton}"
+                                CornerRadius="5" 
+                                Command="{Binding DoRegistrationCommand}"/>
+                    </StackLayout>
+                </StackLayout>
             </StackLayout>
-        </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>
