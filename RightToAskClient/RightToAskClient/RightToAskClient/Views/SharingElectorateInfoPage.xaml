@@ -3,13 +3,23 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:RightToAskClient.ViewModels;assembly=RightToAskClient"
+             xmlns:effects="http://xamarin.com/schemas/2020/toolkit"
              x:Class="RightToAskClient.Views.SharingElectorateInfoPage"
              x:DataType="viewModels:SharingElectorateInfoViewModel">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding BackCommand}"
+                            effects:SemanticEffect.Hint="{effects:Translate BackHint}"
+                            effects:SemanticEffect.Description="{effects:Translate BackDescription}" />
+    </Shell.BackButtonBehavior>
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="{Binding ShowUserName}"
-                   VerticalOptions="CenterAndExpand"
-                   HorizontalOptions="CenterAndExpand" />
+            <Button Text="{effects:Translate SaveAndFinish}"
+                    Command="{Binding SaveAndFinishCommand}"
+                    effects:SemanticEffect.Hint="{effects:Translate SaveAndFinishHint}"
+                    effects:SemanticEffect.Description="{effects:Translate SaveAndFinish}"
+                    Style="{StaticResource NormalButton}"
+                    CornerRadius="5"
+                    IsEnabled="{Binding AbleToFinish}" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

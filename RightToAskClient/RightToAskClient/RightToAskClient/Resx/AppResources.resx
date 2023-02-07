@@ -1210,4 +1210,10 @@ We are still learning about how people use Right To Ask. These rules may change 
   <data name="Continue" xml:space="preserve">
   <value>Continue</value>
   </data>
+  <data name="SaveAndFinish" xml:space="preserve">
+  <value>Save and Finish</value>
+  </data>
+  <data name="SaveAndFinishHint" xml:space="preserve">
+  <value>Saves registration data to server and locally.</value>
+  </data>
 </root>

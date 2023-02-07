@@ -2126,5 +2126,17 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("Continue", resourceCulture);
             }
         }
+        
+        internal static string SaveAndFinish {
+            get {
+                return ResourceManager.GetString("SaveAndFinish", resourceCulture);
+            }
+        }
+        
+        internal static string SaveAndFinishHint {
+            get {
+                return ResourceManager.GetString("SaveAndFinishHint", resourceCulture);
+            }
+        }
     }
 }

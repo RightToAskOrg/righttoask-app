@@ -1,4 +1,6 @@
 fileignoreconfig:
 - filename: RightToAskClient/RightToAskClient/RightToAskClient/Resources/serverconfig.json
   checksum: 1f8f04e1e57695a3ffe862a5cdd019e9411c47c058f8c39072f4060e0d083517
+- filename: RightToAskClient/RightToAskClient/RightToAskClient/ViewModels/SharingElectorateInfoViewModel.cs
+  checksum: d4cca0a51fcf3fc1d48cbb857afa61055310bfa4e427f1b936a4fed9743d76c5
 version: "1.0"
