@@ -48,7 +48,6 @@ namespace UnitTests
             Assert.False(string.IsNullOrEmpty(IndividualParticipant.getInstance().ProfileData.RegistrationInfo.State));
             Assert.True(string.IsNullOrEmpty(vm.ReportLabelText));
             //Assert.True(vm.ShowFindMPsButton);
-            Assert.False(vm.ShowSkipButton);
         }
 
         // the actual method is private and called from the command that was tried to be tested above

@@ -28,6 +28,8 @@ namespace RightToAskClient.ViewModels
             get => _address;
             set => SetProperty(ref _address, value);
         }
+
+        private bool _signUpFlow = false;
         private bool _showFindMPsButton;
         public bool ShowFindMPsButton
         {
@@ -39,12 +41,6 @@ namespace RightToAskClient.ViewModels
         {
             get => _showMapFrame;
             set => SetProperty(ref _showMapFrame, value);
-        }
-        private bool _showSkipButton;
-        public bool ShowSkipButton
-        {
-            get => _showSkipButton;
-            set => SetProperty(ref _showSkipButton, value);
         }
         private bool _showStateOnly = true;
         public bool ShowStateOnly
@@ -211,12 +207,12 @@ namespace RightToAskClient.ViewModels
         // constructor
         public FindMPsViewModel(Registration registration) : this()
         {
+            _signUpFlow = true;
             _registration = registration;
         }
         public FindMPsViewModel()
         {
             PopupLabelText = AppResources.FindMPsPopupText;
-            ShowSkipButton = false;
             ShowAddressStack = false;
             ShowKnowElectoratesFrame = false;
             ShowMapFrame = false;
@@ -249,8 +245,17 @@ namespace RightToAskClient.ViewModels
             // commands
             SaveMPsButtonCommand = new AsyncCommand(async () =>
             {
-                RegistrationViewModel.SaveRegistrationToPreferences(_registration);
-                await App.Current.MainPage.Navigation.PopAsync();
+                if (_signUpFlow)
+                {
+                    // TODO: pass `_registration`
+                    var sharingElectoratePage = new SharingElectorateInfoPage();
+                    await Application.Current.MainPage.Navigation.PushAsync(sharingElectoratePage);
+                }
+                else
+                {
+                    RegistrationViewModel.SaveRegistrationToPreferences(_registration);
+                    await App.Current.MainPage.Navigation.PopAsync();
+                }
             });
             SubmitAddressButtonCommand = new AsyncCommand(async () =>
             {
@@ -415,8 +420,7 @@ namespace RightToAskClient.ViewModels
                 SaveAddress();
             }
             await ShowOneButtonPopup(electoratePopupTitle, electoratePopupText, AppResources.OKText);
-
-            ShowSkipButton = false;
+            
             // display the map if we stored the Federal Electorate properly
             if (!string.IsNullOrEmpty(IndividualParticipant.getInstance().ProfileData.CommonwealthElectorate))
             {

@@ -1,4 +1,5 @@
 using RightToAskClient.Models;
+using RightToAskClient.Resx;
 using RightToAskClient.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -23,14 +24,22 @@ namespace RightToAskClient.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class FindMPsPage : ContentPage
     {
+        private string _doneButtonText;
         public FindMPsPage()
         {
             InitializeComponent();
+            _doneButtonText = AppResources.SaveButtonText;
         }
         public FindMPsPage(Registration registration)
         {
             InitializeComponent();
             BindingContext = new FindMPsViewModel(registration);
+            _doneButtonText = AppResources.Continue;
+        }
+
+        protected override void OnAppearing()
+        {
+            DoneButton.Text = _doneButtonText;
         }
     }
 }
