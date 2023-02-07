@@ -24,6 +24,7 @@
             
             <!-- These are all the same light green -->
             <Color x:Key="FadedButtonColor">#dfdfdf</Color>
+            <Color x:Key="SeperatorDarkModeColor">#363636</Color>
             <Color x:Key="FrameColor">#dfdfdf</Color> 
             
             <!-- Second theme color -->
@@ -67,7 +68,8 @@
             <Color x:Key="LightGray">#E3E3E4</Color>
             <Color x:Key="PopupTextColor">#595959</Color>
 
-            <Color x:Key="PopupDarkModeBgColor">#110221</Color>
+            <Color x:Key="PopupDarkModeBgColor">#262626</Color>
+            <Color x:Key="PopupDarkModeTextColor">#B3B3B3</Color>
             <!--Generic Styles-->
             <Style TargetType="Label">
                 <Setter Property="TextColor"
@@ -214,13 +216,13 @@
             <Style x:Key="PopupOKButton" BasedOn="{StaticResource PopupButton}" TargetType="Button"
                    ApplyToDerivedTypes="True">
                 <Setter Property="TextColor" Value="{StaticResource Purple}" />
-                <Setter Property="FontSize" Value="16" />
+                <Setter Property="FontSize" Value="14" />
                 <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=White, Dark=Black}" />
             </Style>
             <Style x:Key="PopupCancelButton" BasedOn="{StaticResource PopupButton}" TargetType="Button"
                    ApplyToDerivedTypes="True">
-                <Setter Property="TextColor" Value="{StaticResource PopupTextColor}" />
-                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource PopupTextColor}, Dark={StaticResource PopupDarkModeTextColor}}" />
+                <Setter Property="FontSize" Value="14"/>
                 <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=White, Dark=Black}" />
             </Style>
             <Style x:Key="UpVoteButton" TargetType="Button" ApplyToDerivedTypes="True">
@@ -337,7 +339,8 @@
                 <Setter Property="TextColor"
                         Value="{AppThemeBinding Light=Black, Dark=White}" />
                 <Setter Property="FontAttributes" Value="Bold" />
-                <Setter Property="FontSize" Value="19" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="Margin" Value="24,24,24,0" />
                 <Setter Property="HorizontalOptions" Value="Center" />
                 <Setter Property="HorizontalTextAlignment" Value="Center" />
             </Style>
@@ -355,11 +358,11 @@
                         Value="{AppThemeBinding Light={StaticResource PopupTextColor}, 
                    Dark={StaticResource TextColorDark}}" />
                 <Setter Property="BackgroundColor" Value="Transparent" />
-                <Setter Property="FontSize" Value="Medium" />
+                <Setter Property="FontSize" Value="14" />
                 <Setter Property="HorizontalTextAlignment" Value="Center" />
                 <Setter Property="HorizontalOptions" Value="Center" />
                 <Setter Property="LineHeight" Value="1.3" />
-                <Setter Property="Margin" Value="24,0,24,0"/>
+                <Setter Property="Margin" Value="16,0,16,0"/>
             </Style>
             <Style x:Key="PopupOKText" TargetType="Label">
                 <Setter Property="TextColor" Value="{StaticResource HeadingTextColor }" />
@@ -609,7 +612,7 @@
             <Style x:Key="Separator" TargetType="BoxView">
                 <Setter Property="HeightRequest" Value="1" />
                 <Setter Property="HorizontalOptions" Value="FillAndExpand" />
-                <Setter Property="Color" Value="{AppThemeBinding Light=Gray,  Dark=White}" />
+                <Setter Property="Color" Value="{AppThemeBinding Light=Gray,  Dark={StaticResource SeperatorDarkModeColor}}" />
                 <Setter Property="Margin" Value="0, 16, 0, 0" />
                 <Setter Property="Opacity" Value="0.25" />
             </Style>

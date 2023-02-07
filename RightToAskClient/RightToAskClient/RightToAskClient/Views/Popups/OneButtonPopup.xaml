@@ -8,17 +8,15 @@
            Size="300,300"
            IsLightDismissEnabled="True"
            Color="Transparent">
-    <Frame CornerRadius="10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="0"
+    <Frame CornerRadius="5" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="0"
                BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource PopupDarkModeBgColor}}">
         <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent"  >
             <Label x:Name="mainTitle" VerticalOptions="StartAndExpand" VerticalTextAlignment="Center" 
-                   HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource PopupHeaderText}" 
-                   Margin="24,24,24,0"/>
-            <Label x:Name="mainMessage" VerticalOptions="StartAndExpand" VerticalTextAlignment="Center" 
+                   HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource PopupHeaderText}" />
+            <Label x:Name="mainMessage" VerticalOptions="StartAndExpand" 
                    HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource PopupText}"/>
-            <!-- <Grid ColumnDefinitions="*,*" VerticalOptions="EndAndExpand"> -->
-            <BoxView Style="{StaticResource Separator}"></BoxView>
-                <Button x:Name="okButton" Grid.Column="1" Grid.Row="0" HorizontalOptions="Center" VerticalOptions="End" Clicked="okButton_Clicked" 
+            <BoxView Style="{StaticResource Separator}"/>
+                <Button x:Name="okButton" HorizontalOptions="Center" VerticalOptions="End" Clicked="okButton_Clicked" 
                         Style="{StaticResource PopupOKButton}" />
             <!-- </Grid> -->
         </StackLayout>
