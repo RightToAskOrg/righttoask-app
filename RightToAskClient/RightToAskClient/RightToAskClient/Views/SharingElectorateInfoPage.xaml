@@ -20,20 +20,20 @@
                             HorizontalOptions="Fill"
                             Padding="10">
                 <Label Text="{effects:Translate SharingElectorateInfoHeaderText}"
-                       Style="{StaticResource TitleStyle}"
+                       Style="{StaticResource SignUpTitle}"
                        HorizontalOptions="StartAndExpand" />
                 <Label Text="{effects:Translate SharingElectorateInfoParagraph}"
-                       Style="{StaticResource SubtitleStyle}"
+                       Style="{StaticResource SignUpBody}"
                        HorizontalOptions="StartAndExpand" />
                 
                 <Label Text="{Binding State}"
-                       Style="{StaticResource SubtitleStyle}"
+                       Style="{StaticResource SignUpBody}"
                        HorizontalOptions="StartAndExpand" />
                 <Label Text="{Binding FederalElectorate}"
-                       Style="{StaticResource SubtitleStyle}"
+                       Style="{StaticResource SignUpBody}"
                        HorizontalOptions="StartAndExpand" />
                 <Label Text="{Binding StateElectorate}"
-                       Style="{StaticResource SubtitleStyle}"
+                       Style="{StaticResource SignUpBody}"
                        HorizontalOptions="StartAndExpand" />
                 
             </StackLayout>
