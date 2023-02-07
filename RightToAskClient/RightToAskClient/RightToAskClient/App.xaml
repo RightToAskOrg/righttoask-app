@@ -67,6 +67,7 @@
             <Color x:Key="LightGray">#E3E3E4</Color>
             <Color x:Key="PopupTextColor">#595959</Color>
 
+            <Color x:Key="PopupDarkModeBgColor">#110221</Color>
             <!--Generic Styles-->
             <Style TargetType="Label">
                 <Setter Property="TextColor"
