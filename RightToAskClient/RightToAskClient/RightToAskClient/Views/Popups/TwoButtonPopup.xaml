@@ -6,21 +6,30 @@
            Size="300,210"
            IsLightDismissEnabled="True"
            Color="Transparent">
-    <Frame CornerRadius="10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
+    <Frame CornerRadius="10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="0"
                BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}">
         <StackLayout VerticalOptions="FillAndExpand" BackgroundColor="Transparent">
             <ScrollView VerticalOptions="FillAndExpand">
                 <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent">
                     <Label x:Name="mainTitle" 
-                       HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource PopupHeaderText}"/>
+                       HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource PopupHeaderText}" 
+                       Margin="24,24,24,0"/>
                     <Label x:Name="mainMessage" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" 
                        Style="{StaticResource PopupText}" />
                 </StackLayout>
             </ScrollView>
-            <Grid x:Name="vmButtons" ColumnDefinitions="*,*" VerticalOptions="End" BackgroundColor="Transparent">
-                <Button x:Name="cancelButton" Grid.Column="0" Clicked="CancelButtonClicked" 
+            <Grid x:Name="vmButtons" ColumnDefinitions="*,*" VerticalOptions="End" BackgroundColor="{StaticResource FadedButtonColor}"
+                  HorizontalOptions="FillAndExpand"
+                  RowSpacing="0"
+                  ColumnSpacing="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <BoxView Grid.Row="0" Style="{StaticResource Separator}" BackgroundColor="{StaticResource FadedButtonColor}"/>
+                <Button Grid.Row="1" Grid.Column="0" x:Name="cancelButton" Clicked="CancelButtonClicked" BackgroundColor="{AppThemeBinding Light=White, Dark=Black}" 
                         Style="{StaticResource PopupCancelButton}"/>
-                <Button x:Name="approveButton" Grid.Column="1" Clicked="ApproveButtonClicked" 
+                <Button Grid.Row="1" Grid.Column="1" x:Name="approveButton" Clicked="ApproveButtonClicked" BackgroundColor="{AppThemeBinding Light=White, Dark=Black}" 
                         Style="{StaticResource PopupOKButton}"/>
             </Grid>
             <Grid x:Name="modelButtons" ColumnDefinitions="*,*" VerticalOptions="End" BackgroundColor="Transparent">

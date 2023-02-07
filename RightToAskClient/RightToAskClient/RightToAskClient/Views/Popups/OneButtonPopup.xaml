@@ -8,21 +8,19 @@
            Size="300,300"
            IsLightDismissEnabled="True"
            Color="Transparent">
-    <Frame CornerRadius="10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
+    <Frame CornerRadius="10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="0"
                BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}">
-        <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent">
+        <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent"  >
             <Label x:Name="mainTitle" VerticalOptions="StartAndExpand" VerticalTextAlignment="Center" 
-                   HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource PopupHeaderText}" />
+                   HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource PopupHeaderText}" 
+                   Margin="24,24,24,0"/>
             <Label x:Name="mainMessage" VerticalOptions="StartAndExpand" VerticalTextAlignment="Center" 
                    HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource PopupText}"/>
-            <Grid ColumnDefinitions="*,*" VerticalOptions="EndAndExpand">
-            <!--Emu Bottom Left-->
-            <Image Grid.Column="0" Grid.Row="0" Source="{helpers:ImageResource RightToAskClient.Images.emu_tall.PNG}" 
-                   WidthRequest="100" HeightRequest="100" Rotation="0" VerticalOptions="End" BackgroundColor="Transparent"/>
-            <!--Acknowledge/Dismiss Button Bottom Right-->
+            <!-- <Grid ColumnDefinitions="*,*" VerticalOptions="EndAndExpand"> -->
+            <BoxView Style="{StaticResource Separator}"></BoxView>
                 <Button x:Name="okButton" Grid.Column="1" Grid.Row="0" HorizontalOptions="Center" VerticalOptions="End" Clicked="okButton_Clicked" 
                         Style="{StaticResource PopupOKButton}" />
-            </Grid>
+            <!-- </Grid> -->
         </StackLayout>
     </Frame>
 </xct:Popup>
