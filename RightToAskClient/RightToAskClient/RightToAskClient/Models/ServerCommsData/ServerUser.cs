@@ -10,6 +10,7 @@ namespace RightToAskClient.Models.ServerCommsData
         // These individual-level controls can be used to override the Json serialiser settings in RTAClient.cs
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
         [JsonPropertyName("uid")]
+        // TODO: will uid ever be null?
         public string? uid { get; set; }
         
         [JsonPropertyName("display_name")] 

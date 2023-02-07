@@ -415,6 +415,25 @@ namespace RightToAskClient.ViewModels
         // public key and uid. Electorates are optional.
         private async void OnSaveButtonClicked()
         {
+            try
+            {
+                var userIdExists = await RTAClient.CheckUserIdExists(UserId);
+                if (userIdExists)
+                {
+                    ReportLabelText = AppResources.UserIDAlreadyExists;
+                    return;
+                }
+            }
+            catch (Exception e)
+            {
+                ReportLabelText = e.Message;
+                return;
+            }
+
+            ReportLabelText = "";
+            NavigateToFindMPsPage();
+            return;
+
             SaveRegistrationToPreferences(_registration);
             Debug.Assert(_registration.registrationStatus == RegistrationStatus.NotRegistered);
 

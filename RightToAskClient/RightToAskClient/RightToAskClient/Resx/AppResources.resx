@@ -1204,4 +1204,7 @@ We are still learning about how people use Right To Ask. These rules may change 
   <data name="SignUpBodyText" xml:space="preserve">
   <value>You haven’t created an account yet</value>
   </data>
+  <data name="UserIDAlreadyExists" xml:space="preserve">
+  <value>User ID already exists. Please choose another one.</value>
+  </data>
 </root>

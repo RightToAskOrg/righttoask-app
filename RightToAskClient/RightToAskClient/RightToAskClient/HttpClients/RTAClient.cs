@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -427,5 +428,20 @@ namespace RightToAskClient.HttpClients
             // ServerConfigValidInit = true;
             return (key, url);
         }
+        
+        
+        // For the case of not expecting data.
+        public static async Task<bool> CheckUserIdExists(string userId)
+        {
+            var userListResponse = await SearchUser(userId);
+            
+            if (userListResponse.Failure)
+            {
+                throw new Exception("Something went wrong");
+            }
+
+            return !userListResponse.Data.IsNullOrEmpty() && userListResponse.Data.Any(user => user.uid.Equals(userId));
+        }
+
     }
 }
