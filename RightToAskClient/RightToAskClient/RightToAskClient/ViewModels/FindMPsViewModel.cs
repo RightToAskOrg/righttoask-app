@@ -247,8 +247,7 @@ namespace RightToAskClient.ViewModels
             {
                 if (_signUpFlow)
                 {
-                    // TODO: pass `_registration`
-                    var sharingElectoratePage = new SharingElectorateInfoPage();
+                    var sharingElectoratePage = new SharingElectorateInfoPage(_registration);
                     await Application.Current.MainPage.Navigation.PushAsync(sharingElectoratePage);
                 }
                 else
