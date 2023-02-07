@@ -1216,4 +1216,10 @@ We are still learning about how people use Right To Ask. These rules may change 
   <data name="SaveAndFinishHint" xml:space="preserve">
   <value>Saves registration data to server and locally.</value>
   </data>
+  <data name="SharingElectorateInfoHeaderText" xml:space="preserve">
+    <value>Show your electorate on your public profile?</value>
+  </data>
+  <data name="SharingElectorateInfoParagraph" xml:space="preserve">
+    <value>Select what to show on your profile. If you choose to make this public, your MP is more likely to answer your question.</value>
+  </data>
 </root>

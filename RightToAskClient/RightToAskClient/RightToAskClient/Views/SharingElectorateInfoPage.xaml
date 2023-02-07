@@ -12,14 +12,47 @@
                             effects:SemanticEffect.Description="{effects:Translate BackDescription}" />
     </Shell.BackButtonBehavior>
     <ContentPage.Content>
-        <StackLayout>
-            <Button Text="{effects:Translate SaveAndFinish}"
-                    Command="{Binding SaveAndFinishCommand}"
-                    effects:SemanticEffect.Hint="{effects:Translate SaveAndFinishHint}"
-                    effects:SemanticEffect.Description="{effects:Translate SaveAndFinish}"
-                    Style="{StaticResource NormalButton}"
-                    CornerRadius="5"
-                    IsEnabled="{Binding AbleToFinish}" />
+        <StackLayout Orientation="Vertical"
+                     VerticalOptions="Fill"
+                     HorizontalOptions="Fill">
+               <StackLayout Orientation="Vertical"
+                            VerticalOptions="FillAndExpand"
+                            HorizontalOptions="Fill"
+                            Padding="10">
+                <Label Text="{effects:Translate SharingElectorateInfoHeaderText}"
+                       Style="{StaticResource TitleStyle}"
+                       HorizontalOptions="StartAndExpand" />
+                <Label Text="{effects:Translate SharingElectorateInfoParagraph}"
+                       Style="{StaticResource SubtitleStyle}"
+                       HorizontalOptions="StartAndExpand" />
+                
+                <Label Text="{Binding State}"
+                       Style="{StaticResource SubtitleStyle}"
+                       HorizontalOptions="StartAndExpand" />
+                <Label Text="{Binding FederalElectorate}"
+                       Style="{StaticResource SubtitleStyle}"
+                       HorizontalOptions="StartAndExpand" />
+                <Label Text="{Binding StateElectorate}"
+                       Style="{StaticResource SubtitleStyle}"
+                       HorizontalOptions="StartAndExpand" />
+                
+            </StackLayout>
+            
+               <BoxView Style="{StaticResource ButtonSeparator}" />
+            
+            <StackLayout Orientation="Vertical"
+                         VerticalOptions="End"
+                         HorizontalOptions="Fill"
+                         Padding="10">
+                <Button Text="{effects:Translate SaveAndFinish}"
+                        Command="{Binding SaveAndFinishCommand}"
+                        effects:SemanticEffect.Hint="{effects:Translate SaveAndFinishHint}"
+                        effects:SemanticEffect.Description="{effects:Translate SaveAndFinish}"
+                        Style="{StaticResource NormalButton}"
+                        CornerRadius="5"
+                        IsEnabled="{Binding AbleToFinish}" />
+            </StackLayout>
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

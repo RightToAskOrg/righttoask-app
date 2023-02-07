@@ -2138,5 +2138,17 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("SaveAndFinishHint", resourceCulture);
             }
         }
+        
+        internal static string SharingElectorateInfoHeaderText {
+            get {
+                return ResourceManager.GetString("SharingElectorateInfoHeaderText", resourceCulture);
+            }
+        }
+        
+        internal static string SharingElectorateInfoParagraph {
+            get {
+                return ResourceManager.GetString("SharingElectorateInfoParagraph", resourceCulture);
+            }
+        }
     }
 }

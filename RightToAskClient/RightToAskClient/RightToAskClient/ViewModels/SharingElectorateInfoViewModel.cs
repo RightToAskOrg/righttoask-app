@@ -1,4 +1,8 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using RightToAskClient.CryptoUtils;
 using RightToAskClient.Helpers;
@@ -26,11 +30,55 @@ namespace RightToAskClient.ViewModels
             get => _ableToFinish;
             set => SetProperty(ref _ableToFinish, value);
         }
-        
+
+        private string _state = "";
+
+        public string State
+        {
+            get => _state;
+            set => SetProperty(ref _state, value);
+        }
+
+        private string _federalElectorate = "";
+
+        public string FederalElectorate
+        {
+            get => _federalElectorate;
+            set => SetProperty(ref _federalElectorate, value);
+        }
+
+        private string _stateElectorate = "";
+
+        public string StateElectorate
+        {
+            get => _stateElectorate;
+            set => SetProperty(ref _stateElectorate, value);
+        }
+
         public SharingElectorateInfoViewModel(Registration registration) : this()
         {
             _registration = registration;
             AbleToFinish = true;
+            var stateElectorates = new List<string>();
+            foreach (var electorate in _registration.Electorates)
+            {
+                switch (electorate.chamber)
+                {
+                    case ParliamentData.Chamber.Australian_Senate:
+                        State = electorate.region;
+                        break;
+                    case ParliamentData.Chamber.Australian_House_Of_Representatives:
+                        FederalElectorate = electorate.region;
+                        break;
+                    default:
+                        if (!electorate.region.IsNullOrEmpty())
+                        {
+                            stateElectorates.Add(electorate.region);
+                        }
+                        break;
+                }
+            }
+            StateElectorate = String.Join(", ", stateElectorates);
         }
 
         public SharingElectorateInfoViewModel()
