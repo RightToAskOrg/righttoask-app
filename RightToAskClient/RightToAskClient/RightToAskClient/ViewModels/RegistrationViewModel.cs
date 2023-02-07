@@ -365,7 +365,8 @@ namespace RightToAskClient.ViewModels
         #region Methods
         public async void NavigateToFindMPsPage()
         {
-            await Shell.Current.GoToAsync($"{nameof(FindMPsPage)}");
+            var findMPsPage = new FindMPsPage(_registration);
+            await Application.Current.MainPage.Navigation.PushAsync(findMPsPage);
         }
 
         // Show and label different buttons according to whether we're registering

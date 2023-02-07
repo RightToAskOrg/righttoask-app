@@ -2120,5 +2120,11 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("UserIDAlreadyExists", resourceCulture);
             }
         }
+        
+        internal static string Continue {
+            get {
+                return ResourceManager.GetString("Continue", resourceCulture);
+            }
+        }
     }
 }

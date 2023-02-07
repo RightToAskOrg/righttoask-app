@@ -39,7 +39,7 @@
             <Label x:Name="ReportLabel" Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}"/>
             <StackLayout Orientation="Vertical" VerticalOptions="Center">
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                    <Button Text="{xct:Translate CompleteAccountCreationButtonText}" Style="{StaticResource DoneButton}" Command="{Binding DoneButtonCommand}" HorizontalOptions="Center"/>
+                    <Button Text="{xct:Translate Continue}" Style="{StaticResource DoneButton}" Command="{Binding DoneButtonCommand}" HorizontalOptions="Center"/>
                 </StackLayout>
             </StackLayout>
         </StackLayout>

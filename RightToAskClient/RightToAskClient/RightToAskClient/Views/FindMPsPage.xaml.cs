@@ -1,3 +1,5 @@
+using RightToAskClient.Models;
+using RightToAskClient.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -24,6 +26,11 @@ namespace RightToAskClient.Views
         public FindMPsPage()
         {
             InitializeComponent();
+        }
+        public FindMPsPage(Registration registration)
+        {
+            InitializeComponent();
+            BindingContext = new FindMPsViewModel(registration);
         }
     }
 }

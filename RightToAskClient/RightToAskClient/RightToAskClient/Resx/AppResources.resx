@@ -1205,6 +1205,9 @@ We are still learning about how people use Right To Ask. These rules may change 
   <value>You haven’t created an account yet</value>
   </data>
   <data name="UserIDAlreadyExists" xml:space="preserve">
-  <value>User ID already exists. Please choose another one.</value>
+  <value>This username isn’t available. Please try another.</value>
+  </data>
+  <data name="Continue" xml:space="preserve">
+  <value>Continue</value>
   </data>
 </root>

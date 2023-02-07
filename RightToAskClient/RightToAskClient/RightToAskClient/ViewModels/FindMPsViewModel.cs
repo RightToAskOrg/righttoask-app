@@ -209,6 +209,10 @@ namespace RightToAskClient.ViewModels
         #endregion
 
         // constructor
+        public FindMPsViewModel(Registration registration) : this()
+        {
+            _registration = registration;
+        }
         public FindMPsViewModel()
         {
             PopupLabelText = AppResources.FindMPsPopupText;
