@@ -30,6 +30,7 @@
             <!-- Second theme color -->
             <Color x:Key="DarkPurple">#600C82</Color>
             <Color x:Key="Purple">#9141B2</Color>
+            <Color x:Key="DarkModePurple">#CF65FE</Color>
             <Color x:Key="LightPurple">#D05DFF</Color>
             <Color x:Key="PalePurple">#c470e5</Color>
             <Color x:Key="TransparentPurple">#229141B2</Color>
@@ -215,7 +216,7 @@
             </Style>
             <Style x:Key="PopupOKButton" BasedOn="{StaticResource PopupButton}" TargetType="Button"
                    ApplyToDerivedTypes="True">
-                <Setter Property="TextColor" Value="{StaticResource Purple}" />
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Purple}, Dark={StaticResource DarkModePurple}}" />
                 <Setter Property="FontSize" Value="14" />
                 <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=White, Dark=Black}" />
             </Style>
