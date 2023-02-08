@@ -3,7 +3,7 @@ using Xunit;
 
 namespace UnitTests
 {
-    public class SharingElectorateInfoViewModelTests_
+    public class SharingElectorateInfoViewModelTests
     {
         [Fact]
         public void ShouldEnableButtonAfterSelecting()

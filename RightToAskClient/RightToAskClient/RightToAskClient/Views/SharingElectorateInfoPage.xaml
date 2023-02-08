@@ -15,31 +15,43 @@
         <StackLayout Orientation="Vertical"
                      VerticalOptions="Fill"
                      HorizontalOptions="Fill">
-               <StackLayout Orientation="Vertical"
-                            VerticalOptions="FillAndExpand"
-                            HorizontalOptions="Fill"
-                            Padding="10">
+            <StackLayout Orientation="Vertical"
+                         VerticalOptions="FillAndExpand"
+                         HorizontalOptions="Fill"
+                         Padding="10">
                 <Label Text="{effects:Translate SharingElectorateInfoHeaderText}"
                        Style="{StaticResource SignUpTitle}"
                        HorizontalOptions="StartAndExpand" />
                 <Label Text="{effects:Translate SharingElectorateInfoParagraph}"
                        Style="{StaticResource SignUpBody}"
                        HorizontalOptions="StartAndExpand" />
-                
-                <Label Text="{Binding State}"
-                       Style="{StaticResource SignUpBody}"
-                       HorizontalOptions="StartAndExpand" />
-                <Label Text="{Binding FederalElectorate}"
-                       Style="{StaticResource SignUpBody}"
-                       HorizontalOptions="StartAndExpand" />
-                <Label Text="{Binding StateElectorate}"
-                       Style="{StaticResource SignUpBody}"
-                       HorizontalOptions="StartAndExpand" />
-                
+
+
+                <Picker Title="Electorate info on your profile"
+                        ItemsSource="{Binding SharingElectorateInfoOptionValues}"
+                        Style="{StaticResource CenterFramePicker}" HorizontalOptions="FillAndExpand"
+                        SelectedIndex="{Binding SelectedIndexValue}" />
+
+                <StackLayout>
+                    <Label Text="{Binding State}"
+                           Style="{StaticResource SignUpBody}"
+                           HorizontalOptions="StartAndExpand" />
+                </StackLayout>
+                <StackLayout>
+                    <Label Text="{Binding FederalElectorate}"
+                           Style="{StaticResource SignUpBody}"
+                           HorizontalOptions="StartAndExpand" />
+                </StackLayout>
+                <StackLayout>
+                    <Label Text="{Binding StateElectorate}"
+                           Style="{StaticResource SignUpBody}"
+                           HorizontalOptions="StartAndExpand" />
+                </StackLayout>
+
             </StackLayout>
-            
-               <BoxView Style="{StaticResource ButtonSeparator}" />
-            
+
+            <BoxView Style="{StaticResource ButtonSeparator}" />
+
             <StackLayout Orientation="Vertical"
                          VerticalOptions="End"
                          HorizontalOptions="Fill"

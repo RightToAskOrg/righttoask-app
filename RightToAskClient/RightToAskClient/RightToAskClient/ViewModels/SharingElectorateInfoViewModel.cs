@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using RightToAskClient.CryptoUtils;
 using RightToAskClient.Helpers;
@@ -18,15 +19,33 @@ namespace RightToAskClient.ViewModels
 {
     public enum SharingElectorateInfoOptions
     {
-        NOTHING,
+        [EnumMember(Value = "Nothing")] NOTHING,
+
+        [EnumMember(Value = "State or Territory")]
         STATE_OR_TERRITORY,
+
+        [EnumMember(Value = "Federal Electorate and state/ territory")]
         FEDERAL_ELECTORATE_AND_STATE,
+
+        [EnumMember(Value = "State Electorate and state/ territory")]
         STATE_ELECTORATE_AND_STATE,
+
+        [EnumMember(Value = "Federal Electorate, State Electorate and state/ territory")]
         ALL,
     }
 
+
     public class SharingElectorateInfoViewModel : BaseViewModel
     {
+        public List<string> SharingElectorateInfoOptionValues => new List<string>
+        {
+            "Nothing",
+            "State or Territory",
+            "Federal Electorate and state/ territory",
+            "State Electorate and state/ territory",
+            "Federal Electorate, State Electorate and state/ territory"
+        };
+
         private readonly Registration? _registration;
 
         public IAsyncCommand BackCommand { get; }
@@ -64,7 +83,7 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _stateElectorate, value);
         }
 
-        private int _selectedIndexValue;
+        private int _selectedIndexValue = -1;
 
         public int SelectedIndexValue
         {
@@ -126,7 +145,6 @@ namespace RightToAskClient.ViewModels
         public SharingElectorateInfoViewModel(Registration registration) : this()
         {
             _registration = registration;
-            AbleToFinish = true;
             var stateElectorates = new List<string>();
             foreach (var electorate in _registration.Electorates)
             {
