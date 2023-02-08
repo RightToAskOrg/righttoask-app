@@ -5,7 +5,7 @@
            xmlns:local="clr-namespace:RightToAskClient"
            xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
            x:Class="RightToAskClient.Views.Popups.OneButtonPopup"
-           Size="300,210"
+           Size="300,220"
            IsLightDismissEnabled="True"
            Color="Transparent">
     <Frame CornerRadius="5" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="0"
@@ -15,17 +15,26 @@
                    HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource PopupHeaderText}" />
             <Label x:Name="mainMessage" VerticalOptions="StartAndExpand" 
                    HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource PopupText}"/>
-            <Grid ColumnDefinitions="*,*" VerticalOptions="EndAndExpand">
-                   <!--Emu Bottom Left-->
-                   <Image x:Name="EmuImage" Grid.Column="0" Grid.Row="0" Source="{helpers:ImageResource RightToAskClient.Images.emu_tall.PNG}" 
-                          WidthRequest="100" HeightRequest="100" Rotation="0" VerticalOptions="End" BackgroundColor="Transparent"/>
-                   <StackLayout Grid.Column="1" Grid.Row="0">
-                          <BoxView x:Name="separatorView" Style="{StaticResource Separator}"/>
-                          <!--Acknowledge/Dismiss Button Bottom Right-->
-                          <Button x:Name="okButton"  HorizontalOptions="Center" VerticalOptions="End" Clicked="okButton_Clicked" 
-                                  Style="{StaticResource PopupOKButton}" />
+            
+            <Grid x:Name="EmuAndButtonLayout" BackgroundColor="{AppThemeBinding Light={StaticResource FadedButtonColor}, Dark={StaticResource SeperatorDarkModeColor}}"
+                  ColumnDefinitions="*" RowSpacing="0" >
+                   <Grid.RowDefinitions>
+                          <RowDefinition Height="1"/>
+                          <RowDefinition Height="Auto"/>
+                   </Grid.RowDefinitions>
+                   <StackLayout Grid.Row="1" Grid.Column="0" HorizontalOptions="FillAndExpand" Orientation="Horizontal" BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource PopupDarkModeBgColor}}" >
+                          <!--Emu Bottom Left-->
+                          <Image x:Name="EmuImage" Source="{helpers:ImageResource RightToAskClient.Images.emu_tall.PNG}"
+                                 WidthRequest="100" HeightRequest="100" Rotation="0" VerticalOptions="End" BackgroundColor="Transparent"/>
+                          <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
+                                 <!--Acknowledge/Dismiss Button Bottom Right-->
+                                 <Button x:Name="okButton" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Clicked="okButton_Clicked"
+                                         Style="{StaticResource PopupOKButton}" BackgroundColor="Transparent" />
+                          
+                          </StackLayout>
                    </StackLayout>
             </Grid>
+            
             
         </StackLayout>
     </Frame>
