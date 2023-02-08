@@ -16,6 +16,15 @@ using Xamarin.Forms;
 
 namespace RightToAskClient.ViewModels
 {
+    public enum SharingElectorateInfoOptions
+    {
+        NOTHING,
+        STATE_OR_TERRITORY,
+        FEDERAL_ELECTORATE_AND_STATE,
+        STATE_ELECTORATE_AND_STATE,
+        ALL,
+    }
+
     public class SharingElectorateInfoViewModel : BaseViewModel
     {
         private readonly Registration? _registration;
@@ -55,6 +64,65 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _stateElectorate, value);
         }
 
+        private int _selectedIndexValue;
+
+        public int SelectedIndexValue
+        {
+            get => _selectedIndexValue;
+            set
+            {
+                SetProperty(ref _selectedIndexValue, value);
+                IsStatePublic = false;
+                IsFederalElectoratePublic = false;
+                IsStateElectoratePublic = false;
+                switch (value)
+                {
+                    case (int)SharingElectorateInfoOptions.STATE_OR_TERRITORY:
+                        IsStatePublic = true;
+                        break;
+                    case (int)SharingElectorateInfoOptions.FEDERAL_ELECTORATE_AND_STATE:
+                        IsStatePublic = true;
+                        IsFederalElectoratePublic = true;
+                        break;
+                    case (int)SharingElectorateInfoOptions.STATE_ELECTORATE_AND_STATE:
+                        IsStatePublic = true;
+                        IsStateElectoratePublic = true;
+                        break;
+                    case (int)SharingElectorateInfoOptions.ALL:
+                        IsStatePublic = true;
+                        IsFederalElectoratePublic = true;
+                        IsStateElectoratePublic = true;
+                        break;
+                }
+
+                AbleToFinish = true;
+            }
+        }
+
+        private bool _isStatePublic;
+
+        public bool IsStatePublic
+        {
+            get => _isStatePublic;
+            set => SetProperty(ref _isStatePublic, value);
+        }
+
+        private bool _isFederalElectoratePublic;
+
+        public bool IsFederalElectoratePublic
+        {
+            get => _isFederalElectoratePublic;
+            set => SetProperty(ref _isFederalElectoratePublic, value);
+        }
+
+        private bool _isStateElectoratePublic;
+
+        public bool IsStateElectoratePublic
+        {
+            get => _isStateElectoratePublic;
+            set => SetProperty(ref _isStateElectoratePublic, value);
+        }
+
         public SharingElectorateInfoViewModel(Registration registration) : this()
         {
             _registration = registration;
@@ -75,9 +143,11 @@ namespace RightToAskClient.ViewModels
                         {
                             stateElectorates.Add(electorate.region);
                         }
+
                         break;
                 }
             }
+
             StateElectorate = String.Join(", ", stateElectorates);
         }
 
