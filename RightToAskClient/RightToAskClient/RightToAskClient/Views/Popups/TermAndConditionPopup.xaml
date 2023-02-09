@@ -5,8 +5,8 @@
            xmlns:local="clr-namespace:RightToAskClient"
            xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
            x:Class="RightToAskClient.Views.Popups.TermAndConditionPopup"
-           Size="300,170"
-           IsLightDismissEnabled="True"
+           Size="300,160"
+           IsLightDismissEnabled="False"
            Color="Transparent">
     <Frame CornerRadius="5" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="0"
                BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource PopupDarkModeBgColor}}">
@@ -20,27 +20,27 @@
                               TextColor="{AppThemeBinding Light={StaticResource UrlTextColorLightMode}, Dark={StaticResource UrlTextColorDarkMode}}"
                               TextDecorations="Underline">
                             <Span.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding ClickCommand}"
-                                                      CommandParameter="https://xamarin.com" />
+                                <TapGestureRecognizer Tapped="PrivacyPolicy_OnTapped"/>
                             </Span.GestureRecognizers>
                         </Span>
                         <Span Text="{xct:Translate and}"/>
                         <Span Text="{xct:Translate TermAndCondition}"
-                              TextColor="{StaticResource UrlTextColorLightMode}"
+                              TextColor="{AppThemeBinding Light={StaticResource UrlTextColorLightMode}, Dark={StaticResource UrlTextColorDarkMode}}"
                               TextDecorations="Underline">
                             <Span.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding ClickCommand}"
-                                                      CommandParameter="https://xamarin.com" />
+                                <TapGestureRecognizer Tapped="TermAndCondition_OnTapped"/>
                             </Span.GestureRecognizers>
                         </Span>
+                        <Span Text="."/>
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
-            <StackLayout >
-                   <BoxView Style="{StaticResource Separator}"/>
+            <StackLayout Padding="0,1,0,0" BackgroundColor="{AppThemeBinding Light={StaticResource FadedButtonColor}, Dark={StaticResource SeperatorDarkModeColor}}">
                    <!--Acknowledge/Dismiss Button Bottom Right-->
+                   <StackLayout BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource PopupDarkModeBgColor}}">
                    <Button Text="{xct:Translate AgreeAndContinueButton}" HorizontalOptions="Center" VerticalOptions="End" Clicked="okButton_Clicked" 
                            Style="{StaticResource PopupOKButton}" BackgroundColor="Transparent"/>
+                   </StackLayout>
             </StackLayout>
             
         </StackLayout>
