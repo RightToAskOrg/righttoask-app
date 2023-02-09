@@ -1,5 +1,8 @@
 ﻿using System;
+using RightToAskClient.Resx;
+using Xam.Forms.Markdown;
 using Xamarin.CommunityToolkit.UI.Views;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace RightToAskClient.Views.Popups
@@ -10,10 +13,6 @@ namespace RightToAskClient.Views.Popups
         public OneButtonPopup(string message, string buttonText)
         {
             initialize("",message, buttonText, false);
-            // InitializeComponent();
-            // mainTitle.IsVisible = false;
-            // mainMessage.Text = message;
-            // okButton.Text = buttonText;
         }
 
         public OneButtonPopup(string message, string buttonText, bool isInfoPopup)
@@ -24,21 +23,11 @@ namespace RightToAskClient.Views.Popups
         public OneButtonPopup(string title, string message, string buttonText)
         {
             initialize(title, message, buttonText, false);
-            // InitializeComponent();
-            // mainTitle.IsVisible = true;
-            // mainTitle.Text = title;
-            // mainMessage.Text = message;
-            // okButton.Text = buttonText;
         }
         
         public OneButtonPopup(string title, string message, string buttonText, bool isInfoPopup)
         {
             initialize(title, message, buttonText, true);
-            // InitializeComponent();
-            // mainTitle.IsVisible = true;
-            // mainTitle.Text = title;
-            // mainMessage.Text = message;
-            // okButton.Text = buttonText;
         }
 
         private void okButton_Clicked(object sender, EventArgs e)
@@ -53,8 +42,10 @@ namespace RightToAskClient.Views.Popups
             mainTitle.Text = title;
             mainMessage.Text = message;
             okButton.Text = buttonText;
-            separatorView.IsVisible = !isInfoPopup;
+            // separatorView.IsVisible = false;
             EmuImage.IsVisible = isInfoPopup;
+            if(isInfoPopup)
+                EmuAndButtonLayout.SetAppThemeColor(BackgroundColorProperty, Color.White, (Color) Application.Current.Resources["PopupDarkModeBgColor"]);
         }
     }
 }
