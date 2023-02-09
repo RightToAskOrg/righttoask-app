@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:RightToAskClient.ViewModels;assembly=RightToAskClient"
              xmlns:effects="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:views="clr-namespace:RightToAskClient.Views;assembly=RightToAskClient"
              x:Class="RightToAskClient.Views.SharingElectorateInfoPage"
              x:DataType="viewModels:SharingElectorateInfoViewModel">
     <Shell.BackButtonBehavior>
@@ -32,11 +33,33 @@
                         Style="{StaticResource CenterFramePicker}" HorizontalOptions="FillAndExpand"
                         SelectedIndex="{Binding SelectedIndexValue}" />
 
-                <StackLayout>
-                    <Label Text="{Binding State}"
-                           Style="{StaticResource SignUpBody}"
-                           HorizontalOptions="StartAndExpand" />
-                </StackLayout>
+                <Frame CornerRadius="5"
+                       OutlineColor="Gray"
+                       Padding="16"
+                       BackgroundColor="{AppThemeBinding Light=White, Dark=Black}">
+                    <StackLayout Orientation="Vertical"
+                                 VerticalOptions="Start"
+                                 Padding="0"
+                                 Margin="0">
+                        <StackLayout Orientation="Horizontal"
+                                     VerticalOptions="Start"
+                                     Padding="0"
+                                     Margin="0">
+                            <Label Text="State"
+                                   Style="{StaticResource SignUpBody}"
+                                   HorizontalOptions="Start" 
+                                   VerticalOptions="Start"/>
+                            <views:PublicPrivateLabel IsVisible="{Binding AbleToFinish}"
+                                                      IsPublic="{Binding IsStatePublic}"/>
+                        </StackLayout>
+                        <Label Text="{Binding State}"
+                               Style="{StaticResource SignUpBody}"
+                               HorizontalOptions="StartAndExpand"
+                               VerticalOptions="Start" 
+                               Padding="0"
+                               Margin="0"/>
+                    </StackLayout>
+                </Frame>
                 <StackLayout>
                     <Label Text="{Binding FederalElectorate}"
                            Style="{StaticResource SignUpBody}"

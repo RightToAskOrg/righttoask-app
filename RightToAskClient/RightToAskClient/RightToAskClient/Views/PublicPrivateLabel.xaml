@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<StackLayout xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="RightToAskClient.Views.PublicPrivateLabel">
+    <Frame
+        BackgroundColor="{AppThemeBinding 
+    Light={StaticResource DarkGreen},
+    Dark={StaticResource Primary}}"
+        HeightRequest="24"
+        VerticalOptions="Start"
+        CornerRadius="12"
+        Padding="15, 0"
+        x:Name="PublicLabel">
+        <Label Text="{xct:Translate PublicLabel}" TextColor="White" />
+    </Frame>
+    <Frame BackgroundColor="{AppThemeBinding Light=White, Dark=Black}"
+           HeightRequest="24"
+           VerticalOptions="Start"
+           CornerRadius="12"
+           Padding="15, 0"
+           BorderColor="{AppThemeBinding 
+    Light={StaticResource DarkGreen},
+    Dark={StaticResource Primary}}"
+           x:Name="PrivateLabel">
+        <Label Text="{xct:Translate PrivateLabel}" />
+    </Frame>
+</StackLayout>

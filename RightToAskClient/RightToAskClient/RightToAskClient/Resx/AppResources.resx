@@ -1222,4 +1222,10 @@ We are still learning about how people use Right To Ask. These rules may change 
   <data name="SharingElectorateInfoParagraph" xml:space="preserve">
     <value>Select what to show on your profile. If you choose to make this public, your MP is more likely to answer your question.</value>
   </data>
+  <data name="PublicLabel" xml:space="preserve">
+    <value>Public</value>
+  </data>
+  <data name="PrivateLabel" xml:space="preserve">
+    <value>Private</value>
+  </data>
 </root>

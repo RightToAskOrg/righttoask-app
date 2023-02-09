@@ -2150,5 +2150,17 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("SharingElectorateInfoParagraph", resourceCulture);
             }
         }
+        
+        internal static string PublicLabel {
+            get {
+                return ResourceManager.GetString("PublicLabel", resourceCulture);
+            }
+        }
+        
+        internal static string PrivateLabel {
+            get {
+                return ResourceManager.GetString("PrivateLabel", resourceCulture);
+            }
+        }
     }
 }
