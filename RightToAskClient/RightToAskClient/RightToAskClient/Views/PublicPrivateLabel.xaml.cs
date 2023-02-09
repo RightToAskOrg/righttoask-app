@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -14,21 +13,24 @@ namespace RightToAskClient.Views
     {
         public static BindableProperty IsPublicProperty =
             BindableProperty.Create(
-                "IsPublic", 
+                nameof(IsPublic),
                 typeof(Boolean),
                 typeof(PublicPrivateLabel),
                 false,
-                BindingMode.OneWay,
-                propertyChanged: OnIsPublicChanged);
+                propertyChanged: OnIsPublicChanged
+            );
+
         public Boolean IsPublic
         {
+            get => (bool)GetValue(IsPublicProperty);
             set => SetValue(IsPublicProperty, value);
         }
+
         public PublicPrivateLabel()
         {
             InitializeComponent();
         }
-        
+
         static void OnIsPublicChanged(BindableObject bindable, object oldValue, object newValue)
         {
             PublicPrivateLabel label = (PublicPrivateLabel)bindable;

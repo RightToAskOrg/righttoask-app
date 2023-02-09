@@ -3,7 +3,8 @@
 <StackLayout xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             x:Class="RightToAskClient.Views.PublicPrivateLabel">
+             x:Class="RightToAskClient.Views.PublicPrivateLabel"
+             x:Name="This">
     <Frame
         BackgroundColor="{AppThemeBinding 
     Light={StaticResource DarkGreen},
@@ -12,7 +13,8 @@
         VerticalOptions="Start"
         CornerRadius="12"
         Padding="15, 0"
-        x:Name="PublicLabel">
+        x:Name="PublicLabel"
+        IsVisible="{Binding IsPublic, Source={x:Reference This}}">
         <Label Text="{xct:Translate PublicLabel}" TextColor="White" />
     </Frame>
     <Frame BackgroundColor="{AppThemeBinding Light=White, Dark=Black}"
@@ -23,7 +25,8 @@
            BorderColor="{AppThemeBinding 
     Light={StaticResource DarkGreen},
     Dark={StaticResource Primary}}"
-           x:Name="PrivateLabel">
+           x:Name="PrivateLabel"
+           IsVisible="{Binding IsPublic, Source={x:Reference This}, Converter={StaticResource cnvInvert}}">
         <Label Text="{xct:Translate PrivateLabel}" />
     </Frame>
 </StackLayout>
