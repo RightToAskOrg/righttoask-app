@@ -17,7 +17,7 @@
                     <FormattedString>
                         <Span Text="{xct:Translate TermAndConditionPlainText}"/>
                         <Span Text="{xct:Translate PrivacyPolicy}"
-                              TextColor="{StaticResource UrlTextColor}"
+                              TextColor="{AppThemeBinding Light={StaticResource UrlTextColorLightMode}, Dark={StaticResource UrlTextColorDarkMode}}"
                               TextDecorations="Underline">
                             <Span.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding ClickCommand}"
@@ -26,7 +26,7 @@
                         </Span>
                         <Span Text="{xct:Translate and}"/>
                         <Span Text="{xct:Translate TermAndCondition}"
-                              TextColor="{StaticResource UrlTextColor}"
+                              TextColor="{StaticResource UrlTextColorLightMode}"
                               TextDecorations="Underline">
                             <Span.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding ClickCommand}"
@@ -40,7 +40,7 @@
                    <BoxView Style="{StaticResource Separator}"/>
                    <!--Acknowledge/Dismiss Button Bottom Right-->
                    <Button Text="{xct:Translate AgreeAndContinueButton}" HorizontalOptions="Center" VerticalOptions="End" Clicked="okButton_Clicked" 
-                           Style="{StaticResource PopupOKButton}" />
+                           Style="{StaticResource PopupOKButton}" BackgroundColor="Transparent"/>
             </StackLayout>
             
         </StackLayout>

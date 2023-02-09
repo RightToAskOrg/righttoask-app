@@ -68,7 +68,8 @@
             <Color x:Key="DarkGreen">#556035</Color>
             <Color x:Key="LightGray">#E3E3E4</Color>
             <Color x:Key="PopupTextColor">#595959</Color>
-            <Color x:Key="UrlTextColor">#0C1C9A</Color>
+            <Color x:Key="UrlTextColorLightMode">#0C1C9A</Color>
+            <Color x:Key="UrlTextColorDarkMode">#A5BBFC</Color>
 
             <Color x:Key="PopupDarkModeBgColor">#262626</Color>
             <Color x:Key="PopupDarkModeTextColor">#B3B3B3</Color>

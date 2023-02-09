@@ -1206,10 +1206,10 @@ We are still learning about how people use Right To Ask. These rules may change 
   </data>
 
   <data name="TermAndConditionPlainText" xml:space="preserve">
-  <value>By tapping “Agree and continue”, you agree to our</value>
+  <value>By tapping “Agree and continue”, you agree to our </value>
   </data>
   <data name="PrivacyPolicy" xml:space="preserve">
-  <value> Privacy Policy</value>
+  <value>Privacy Policy</value>
   </data>
   <data name="and" xml:space="preserve">
   <value> and </value>
