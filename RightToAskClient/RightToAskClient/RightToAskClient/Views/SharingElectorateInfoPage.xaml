@@ -33,44 +33,21 @@
                         Style="{StaticResource CenterFramePicker}" HorizontalOptions="FillAndExpand"
                         SelectedIndex="{Binding SelectedIndexValue}" />
 
-                <Frame CornerRadius="5"
-                       OutlineColor="Gray"
-                       Padding="16"
-                       BackgroundColor="{AppThemeBinding Light=White, Dark=Black}">
-                    <StackLayout Orientation="Vertical"
-                                 VerticalOptions="Start"
-                                 Padding="0"
-                                 Margin="0">
-                        <StackLayout Orientation="Horizontal"
-                                     VerticalOptions="Start"
-                                     Padding="0"
-                                     Margin="0">
-                            <Label Text="State"
-                                   Style="{StaticResource SignUpBody}"
-                                   HorizontalOptions="Start" 
-                                   VerticalOptions="Start"/>
-                            <views:PublicPrivateLabel IsVisible="{Binding AbleToFinish}"
-                                                      IsPublic="{Binding IsStatePublic}"/>
-                        </StackLayout>
-                        <Label Text="{Binding State}"
-                               Style="{StaticResource SignUpBody}"
-                               HorizontalOptions="StartAndExpand"
-                               VerticalOptions="Start" 
-                               Padding="0"
-                               Margin="0"/>
-                    </StackLayout>
-                </Frame>
-                <StackLayout>
-                    <Label Text="{Binding FederalElectorate}"
-                           Style="{StaticResource SignUpBody}"
-                           HorizontalOptions="StartAndExpand" />
-                </StackLayout>
-                <StackLayout>
-                    <Label Text="{Binding StateElectorate}"
-                           Style="{StaticResource SignUpBody}"
-                           HorizontalOptions="StartAndExpand" />
-                </StackLayout>
-
+                <views:ShareElectorateInfoPanel
+                    Title="State"
+                    Value="{Binding State}"
+                    IsPublic="{Binding IsStatePublic}"
+                    IsAbleToFinish="{Binding AbleToFinish}" />
+                <views:ShareElectorateInfoPanel
+                    Title="Federal Electorate"
+                    Value="{Binding FederalElectorate}"
+                    IsPublic="{Binding IsFederalElectoratePublic}"
+                    IsAbleToFinish="{Binding AbleToFinish}" />
+                <views:ShareElectorateInfoPanel
+                    Title="State Electorate"
+                    Value="{Binding StateElectorate}"
+                    IsPublic="{Binding IsStateElectoratePublic}"
+                    IsAbleToFinish="{Binding AbleToFinish}" />
             </StackLayout>
 
             <BoxView Style="{StaticResource ButtonSeparator}" />

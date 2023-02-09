@@ -16,8 +16,7 @@ namespace RightToAskClient.Views
                 nameof(IsPublic),
                 typeof(Boolean),
                 typeof(PublicPrivateLabel),
-                false,
-                propertyChanged: OnIsPublicChanged
+                false
             );
 
         public Boolean IsPublic
@@ -31,12 +30,5 @@ namespace RightToAskClient.Views
             InitializeComponent();
         }
 
-        static void OnIsPublicChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            PublicPrivateLabel label = (PublicPrivateLabel)bindable;
-            Boolean isPublic = (Boolean)newValue;
-            label.PublicLabel.IsVisible = isPublic;
-            label.PrivateLabel.IsVisible = !isPublic;
-        }
     }
 }

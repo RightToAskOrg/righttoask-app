@@ -203,6 +203,7 @@ namespace RightToAskClient.ViewModels
 
         private async Task SendNewUserToServer()
         {
+            // filter value according to private information
             var httpResponse = await RTAClient.RegisterNewUser(_registration);
             var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
             ReportLabelText = httpValidation.errorMessage;
