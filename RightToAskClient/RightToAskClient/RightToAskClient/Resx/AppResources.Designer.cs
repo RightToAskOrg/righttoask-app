@@ -2162,5 +2162,11 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("PrivateLabel", resourceCulture);
             }
         }
+        
+        internal static string EmptyNameMessage {
+            get {
+                return ResourceManager.GetString("EmptyNameMessage", resourceCulture);
+            }
+        }
     }
 }

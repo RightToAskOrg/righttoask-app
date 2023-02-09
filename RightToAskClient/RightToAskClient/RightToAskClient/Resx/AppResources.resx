@@ -1228,4 +1228,7 @@ We are still learning about how people use Right To Ask. These rules may change 
   <data name="PrivateLabel" xml:space="preserve">
     <value>Private</value>
   </data>
+  <data name="EmptyNameMessage" xml:space="preserve">
+    <value>User ID and displayed name must not be empty.</value>
+  </data>
 </root>
