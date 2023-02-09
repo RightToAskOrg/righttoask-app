@@ -1,3 +1,4 @@
+using RightToAskClient.Models;
 using RightToAskClient.ViewModels;
 using Xunit;
 
@@ -23,7 +24,7 @@ namespace UnitTests
             var viewModel = new SharingElectorateInfoViewModel();
             
             Assert.False(viewModel.AbleToFinish);
-            viewModel.SelectedIndexValue = (int)SharingElectorateInfoOptions.NOTHING;
+            viewModel.SelectedIndexValue = (int)SharingElectorateInfoOptions.Nothing;
             
             Assert.True(viewModel.AbleToFinish);
             
@@ -38,7 +39,7 @@ namespace UnitTests
             var viewModel = new SharingElectorateInfoViewModel();
             
             Assert.False(viewModel.AbleToFinish);
-            viewModel.SelectedIndexValue = (int)SharingElectorateInfoOptions.STATE_OR_TERRITORY;
+            viewModel.SelectedIndexValue = (int)SharingElectorateInfoOptions.StateOrTerritory;
             
             Assert.True(viewModel.AbleToFinish);
             
@@ -53,7 +54,7 @@ namespace UnitTests
             var viewModel = new SharingElectorateInfoViewModel();
             
             Assert.False(viewModel.AbleToFinish);
-            viewModel.SelectedIndexValue = (int)SharingElectorateInfoOptions.FEDERAL_ELECTORATE_AND_STATE;
+            viewModel.SelectedIndexValue = (int)SharingElectorateInfoOptions.FederalElectorateAndState;
             
             Assert.True(viewModel.AbleToFinish);
             
@@ -68,7 +69,7 @@ namespace UnitTests
             var viewModel = new SharingElectorateInfoViewModel();
             
             Assert.False(viewModel.AbleToFinish);
-            viewModel.SelectedIndexValue = (int)SharingElectorateInfoOptions.STATE_ELECTORATE_AND_STATE;
+            viewModel.SelectedIndexValue = (int)SharingElectorateInfoOptions.StateElectorateAndState;
             
             Assert.True(viewModel.AbleToFinish);
             
@@ -82,7 +83,7 @@ namespace UnitTests
             var viewModel = new SharingElectorateInfoViewModel();
             
             Assert.False(viewModel.AbleToFinish);
-            viewModel.SelectedIndexValue = (int)SharingElectorateInfoOptions.ALL;
+            viewModel.SelectedIndexValue = (int)SharingElectorateInfoOptions.All;
             
             Assert.True(viewModel.AbleToFinish);
             

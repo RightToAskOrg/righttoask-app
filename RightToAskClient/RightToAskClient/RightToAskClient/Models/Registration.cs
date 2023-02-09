@@ -17,19 +17,10 @@ namespace RightToAskClient.Models
     }
     public enum SharingElectorateInfoOptions
     {
-        [EnumMember(Value = "Nothing")] 
         Nothing,
-
-        [EnumMember(Value = "State or Territory")]
         StateOrTerritory,
-
-        [EnumMember(Value = "Federal Electorate and state/ territory")]
         FederalElectorateAndState,
-
-        [EnumMember(Value = "State Electorate and state/ territory")]
         StateElectorateAndState,
-
-        [EnumMember(Value = "Federal Electorate, State Electorate and state/ territory")]
         All,
     }
     public class Registration : ObservableObject
@@ -124,6 +115,14 @@ namespace RightToAskClient.Models
                     
                 }
             }
+        }
+
+        private SharingElectorateInfoOptions? _sharingElectorateInfoOption;
+
+        public SharingElectorateInfoOptions? SharingElectorateInfoOption
+        {
+            get => _sharingElectorateInfoOption; 
+            set => SetProperty(ref _sharingElectorateInfoOption, value);
         }
 
         // Necesary for java serialisation & deserlialisation.

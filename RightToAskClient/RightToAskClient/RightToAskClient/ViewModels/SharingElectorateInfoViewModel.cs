@@ -73,6 +73,11 @@ namespace RightToAskClient.ViewModels
             set
             {
                 SetProperty(ref _selectedIndexValue, value);
+                if (_registration != null)
+                {
+                    _registration.SharingElectorateInfoOption = (SharingElectorateInfoOptions)value;
+                }
+
                 IsStatePublic = false;
                 IsFederalElectoratePublic = false;
                 IsStateElectoratePublic = false;
