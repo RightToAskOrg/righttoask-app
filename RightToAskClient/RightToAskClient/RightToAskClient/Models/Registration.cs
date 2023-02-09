@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using RightToAskClient.Helpers;
 using RightToAskClient.Models.ServerCommsData;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -13,6 +14,23 @@ namespace RightToAskClient.Models
         AnotherPerson,
         Registered,
         NotRegistered
+    }
+    public enum SharingElectorateInfoOptions
+    {
+        [EnumMember(Value = "Nothing")] 
+        Nothing,
+
+        [EnumMember(Value = "State or Territory")]
+        StateOrTerritory,
+
+        [EnumMember(Value = "Federal Electorate and state/ territory")]
+        FederalElectorateAndState,
+
+        [EnumMember(Value = "State Electorate and state/ territory")]
+        StateElectorateAndState,
+
+        [EnumMember(Value = "Federal Electorate, State Electorate and state/ territory")]
+        All,
     }
     public class Registration : ObservableObject
     {

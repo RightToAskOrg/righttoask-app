@@ -111,7 +111,7 @@ namespace RightToAskClient.HttpClients
 
         public static async Task<JOSResult<string>> RegisterNewUser(Registration newReg)
         {
-            var newUserForServer = new ServerUser(newReg);
+            var newUserForServer = new ServerUser(newReg, true);
             return await SendDataToServerVerifySignedResponse(newUserForServer, "user", RegUrl);
         }
 

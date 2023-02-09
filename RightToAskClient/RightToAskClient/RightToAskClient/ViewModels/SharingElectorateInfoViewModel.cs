@@ -17,24 +17,6 @@ using Xamarin.Forms;
 
 namespace RightToAskClient.ViewModels
 {
-    public enum SharingElectorateInfoOptions
-    {
-        [EnumMember(Value = "Nothing")] NOTHING,
-
-        [EnumMember(Value = "State or Territory")]
-        STATE_OR_TERRITORY,
-
-        [EnumMember(Value = "Federal Electorate and state/ territory")]
-        FEDERAL_ELECTORATE_AND_STATE,
-
-        [EnumMember(Value = "State Electorate and state/ territory")]
-        STATE_ELECTORATE_AND_STATE,
-
-        [EnumMember(Value = "Federal Electorate, State Electorate and state/ territory")]
-        ALL,
-    }
-
-
     public class SharingElectorateInfoViewModel : BaseViewModel
     {
         public List<string> SharingElectorateInfoOptionValues => new List<string>
@@ -96,18 +78,18 @@ namespace RightToAskClient.ViewModels
                 IsStateElectoratePublic = false;
                 switch (value)
                 {
-                    case (int)SharingElectorateInfoOptions.STATE_OR_TERRITORY:
+                    case (int)SharingElectorateInfoOptions.StateOrTerritory:
                         IsStatePublic = true;
                         break;
-                    case (int)SharingElectorateInfoOptions.FEDERAL_ELECTORATE_AND_STATE:
+                    case (int)SharingElectorateInfoOptions.FederalElectorateAndState:
                         IsStatePublic = true;
                         IsFederalElectoratePublic = true;
                         break;
-                    case (int)SharingElectorateInfoOptions.STATE_ELECTORATE_AND_STATE:
+                    case (int)SharingElectorateInfoOptions.StateElectorateAndState:
                         IsStatePublic = true;
                         IsStateElectoratePublic = true;
                         break;
-                    case (int)SharingElectorateInfoOptions.ALL:
+                    case (int)SharingElectorateInfoOptions.All:
                         IsStatePublic = true;
                         IsFederalElectoratePublic = true;
                         IsStateElectoratePublic = true;

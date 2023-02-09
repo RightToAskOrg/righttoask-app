@@ -33,7 +33,8 @@ namespace RightToAskClient.Models.ServerCommsData
         {
         }
 
-        public ServerUser(Registration newReg)
+        // TODO: use `checkPrivacyOptions` for filtering data sent to server
+        public ServerUser(Registration newReg, bool checkPrivacyOptions=false)
         {
             // Compulsory fields
             uid = newReg.uid;
