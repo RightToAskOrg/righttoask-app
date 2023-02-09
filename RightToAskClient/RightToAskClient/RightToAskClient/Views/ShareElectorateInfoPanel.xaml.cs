@@ -44,7 +44,7 @@ namespace RightToAskClient.Views
                 nameof(Title),
                 typeof(string),
                 typeof(PublicPrivateLabel),
-                false
+                ""
             );
 
         public string Title
@@ -58,7 +58,7 @@ namespace RightToAskClient.Views
                 nameof(Value),
                 typeof(string),
                 typeof(PublicPrivateLabel),
-                false
+                ""
             );
 
         public string Value
