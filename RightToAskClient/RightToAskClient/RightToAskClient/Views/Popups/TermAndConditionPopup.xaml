@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xct:Popup xmlns="http://xamarin.com/schemas/2014/forms"
+           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"    
+           xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+           xmlns:local="clr-namespace:RightToAskClient"
+           xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
+           x:Class="RightToAskClient.Views.Popups.TermAndConditionPopup"
+           Size="300,170"
+           IsLightDismissEnabled="True"
+           Color="Transparent">
+    <Frame CornerRadius="5" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="0"
+               BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource PopupDarkModeBgColor}}">
+        <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent"  >
+            <Label  VerticalOptions="StartAndExpand" 
+                   HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource PopupText}" Margin="24,24,24,0">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="{xct:Translate TermAndConditionPlainText}"/>
+                        <Span Text="{xct:Translate PrivacyPolicy}"
+                              TextColor="{StaticResource UrlTextColor}"
+                              TextDecorations="Underline">
+                            <Span.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ClickCommand}"
+                                                      CommandParameter="https://xamarin.com" />
+                            </Span.GestureRecognizers>
+                        </Span>
+                        <Span Text="{xct:Translate and}"/>
+                        <Span Text="{xct:Translate TermAndCondition}"
+                              TextColor="{StaticResource UrlTextColor}"
+                              TextDecorations="Underline">
+                            <Span.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ClickCommand}"
+                                                      CommandParameter="https://xamarin.com" />
+                            </Span.GestureRecognizers>
+                        </Span>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <StackLayout >
+                   <BoxView Style="{StaticResource Separator}"/>
+                   <!--Acknowledge/Dismiss Button Bottom Right-->
+                   <Button Text="{xct:Translate AgreeAndContinueButton}" HorizontalOptions="Center" VerticalOptions="End" Clicked="okButton_Clicked" 
+                           Style="{StaticResource PopupOKButton}" />
+            </StackLayout>
+            
+        </StackLayout>
+    </Frame>
+</xct:Popup>

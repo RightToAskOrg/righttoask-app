@@ -26,7 +26,9 @@ namespace RightToAskClient.ViewModels
             InfoPopupCommand = new AsyncCommand(async () =>
             {
                 //Page.Navigation.ShowPopup(new InfoPopup());
-                var popup = new InfoPopup(PopupHeaderText,PopupLabelText, AppResources.OKText);
+                // var popup = new InfoPopup(PopupHeaderText,PopupLabelText, AppResources.OKText);
+                // _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                var popup = new TermAndConditionPopup();
                 _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
             });
         }

@@ -2114,5 +2114,35 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("SignUpBodyText", resourceCulture);
             }
         }
+        
+        internal static string TermAndConditionPlainText {
+            get {
+                return ResourceManager.GetString("TermAndConditionPlainText", resourceCulture);
+            }
+        }
+        
+        internal static string PrivacyPolicy {
+            get {
+                return ResourceManager.GetString("PrivacyPolicy", resourceCulture);
+            }
+        }
+        
+        internal static string and {
+            get {
+                return ResourceManager.GetString("and", resourceCulture);
+            }
+        }
+        
+        internal static string TermAndCondition {
+            get {
+                return ResourceManager.GetString("TermAndCondition", resourceCulture);
+            }
+        }
+        
+        internal static string AgreeAndContinueButton {
+            get {
+                return ResourceManager.GetString("AgreeAndContinueButton", resourceCulture);
+            }
+        }
     }
 }
