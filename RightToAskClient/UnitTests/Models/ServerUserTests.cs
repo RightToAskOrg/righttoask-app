@@ -51,6 +51,7 @@ namespace UnitTests.Models
             registration.SharingElectorateInfoOption = SharingElectorateInfoOptions.All;
             var serverUser = new ServerUser(registration);
 
+            Assert.Equal(registration.State, serverUser.state);
             Assert.Equal(CreateElectorates(SharingElectorateInfoOptions.All), serverUser.electorates);
             Assert.Equal(SharingElectorateInfoOptions.All, serverUser.sharing_electorate_info);
         }
@@ -64,6 +65,7 @@ namespace UnitTests.Models
 
             var serverUser = new ServerUser(registration, true);
 
+            Assert.Null(serverUser.state);
             Assert.Empty(serverUser.electorates);
             Assert.Null(serverUser.sharing_electorate_info);
         }
@@ -76,6 +78,7 @@ namespace UnitTests.Models
 
             var serverUser = new ServerUser(registration, true);
 
+            Assert.Equal(registration.State, serverUser.state);
             Assert.Equal(
                 CreateElectorates(SharingElectorateInfoOptions.StateOrTerritory),
                 serverUser.electorates);
@@ -90,6 +93,7 @@ namespace UnitTests.Models
 
             var serverUser = new ServerUser(registration, true);
 
+            Assert.Equal(registration.State, serverUser.state);
             Assert.Equal(
                 CreateElectorates(SharingElectorateInfoOptions.FederalElectorateAndState),
                 serverUser.electorates);
@@ -104,6 +108,7 @@ namespace UnitTests.Models
 
             var serverUser = new ServerUser(registration, true);
 
+            Assert.Equal(registration.State, serverUser.state);
             Assert.Equal(
                 CreateElectorates(SharingElectorateInfoOptions.StateElectorateAndState),
                 serverUser.electorates);
@@ -119,6 +124,7 @@ namespace UnitTests.Models
 
             var serverUser = new ServerUser(registration, true);
 
+            Assert.Equal(registration.State, serverUser.state);
             Assert.Equal(
                 CreateElectorates(SharingElectorateInfoOptions.All),
                 serverUser.electorates);

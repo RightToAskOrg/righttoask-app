@@ -39,19 +39,35 @@ namespace RightToAskClient.Models.ServerCommsData
             display_name = newReg.display_name;
             public_key = newReg.public_key;
 
+            // Optional fields. Add only if non-empty.
+            if (newReg.Badges.Any())
+            {
+                badges = newReg.Badges;
+            }
+            
             if (!checkPrivacyOptions)
             {
                 sharing_electorate_info = newReg.SharingElectorateInfoOption;
-            }
-
-            // Optional fields. Add only if non-empty.
-            if (newReg.Electorates.Any())
-            {
-                if (!checkPrivacyOptions || (checkPrivacyOptions && newReg.SharingElectorateInfoOption == SharingElectorateInfoOptions.All))
+                if (newReg.Electorates.Any())
                 {
                     electorates = newReg.Electorates;
                 }
-                else
+                if (!string.IsNullOrEmpty(newReg.State))
+                {
+                    state = newReg.State;
+                }
+            }
+            else
+            {
+                var sharingOption = newReg.SharingElectorateInfoOption;
+                var storeState = (sharingOption & SharingElectorateInfoOptions.StateOrTerritory) != 0;
+                var storeFederalElect = (sharingOption & SharingElectorateInfoOptions.FederalElectorate) != 0;
+                var storeStateElect = (sharingOption & SharingElectorateInfoOptions.StateElectorate) != 0;
+                if (storeState && !string.IsNullOrEmpty(newReg.State))
+                {
+                    state = newReg.State;
+                }
+                if (newReg.Electorates.Any())
                 {
                     electorates = new List<ElectorateWithChamber>();
                     ElectorateWithChamber? stateChamber = null;
@@ -73,11 +89,6 @@ namespace RightToAskClient.Models.ServerCommsData
                         }
                     }
 
-                    var sharingOption = newReg.SharingElectorateInfoOption;
-                    var storeState = (sharingOption & SharingElectorateInfoOptions.StateOrTerritory) != 0;
-                    var storeFederalElect = (sharingOption & SharingElectorateInfoOptions.FederalElectorate) != 0;
-                    var storeStateElect = (sharingOption & SharingElectorateInfoOptions.StateElectorate) != 0;
-
                     if (storeState && stateChamber != null)
                     {
                         electorates.Add(stateChamber);
@@ -91,16 +102,6 @@ namespace RightToAskClient.Models.ServerCommsData
                         electorates.AddRange(stateElectorate);
                     }
                 }
-            }
-
-            if (!string.IsNullOrEmpty(newReg.State))
-            {
-                state = newReg.State;
-            }
-
-            if (newReg.Badges.Any())
-            {
-                badges = newReg.Badges;
             }
         }
 
