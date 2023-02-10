@@ -40,7 +40,7 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _ableToFinish, value);
         }
 
-        private string _state = AppResources.NoneSelected;
+        private string _state;
 
         public string State
         {
@@ -48,7 +48,7 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _state, value);
         }
 
-        private string _federalElectorate = AppResources.NoneSelected;
+        private string _federalElectorate;
 
         public string FederalElectorate
         {
@@ -56,7 +56,7 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _federalElectorate, value);
         }
 
-        private string _stateElectorate = AppResources.NoneSelected;
+        private string _stateElectorate;
 
         public string StateElectorate
         {
@@ -193,8 +193,11 @@ namespace RightToAskClient.ViewModels
                 _availableOptions.Add(SharingElectorateInfoOptions.All);
                 SharingElectorateInfoOptionValues.Add("Federal Electorate, State Electorate and state/ territory");
             }
-            
-            StateElectorate = String.Join(", ", stateElectorates);
+
+            if (!stateElectorates.IsNullOrEmpty())
+            {
+                StateElectorate = String.Join(", ", stateElectorates);
+            }
         }
 
         public SharingElectorateInfoViewModel()
@@ -227,6 +230,10 @@ namespace RightToAskClient.ViewModels
                     await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
                 }
             });
+            
+            State = AppResources.NoneSelected;
+            FederalElectorate = AppResources.NoneSelected;
+            StateElectorate = AppResources.NoneSelected;
         }
 
         private async Task SendNewUserToServer()
