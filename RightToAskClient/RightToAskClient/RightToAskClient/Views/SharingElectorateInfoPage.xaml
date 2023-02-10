@@ -5,6 +5,7 @@
              xmlns:viewModels="clr-namespace:RightToAskClient.ViewModels;assembly=RightToAskClient"
              xmlns:effects="http://xamarin.com/schemas/2020/toolkit"
              xmlns:views="clr-namespace:RightToAskClient.Views;assembly=RightToAskClient"
+             xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
              x:Class="RightToAskClient.Views.SharingElectorateInfoPage"
              x:DataType="viewModels:SharingElectorateInfoViewModel">
     <Shell.BackButtonBehavior>
@@ -27,11 +28,20 @@
                        Style="{StaticResource SignUpBody}"
                        HorizontalOptions="StartAndExpand" />
 
+                <!-- TODO: extract to a reusable component -->
+                <Grid>
+                    <BoxView Style="{StaticResource Separator}" VerticalOptions="End" />
 
-                <Picker Title="Electorate info on your profile"
-                        ItemsSource="{Binding SharingElectorateInfoOptionValues}"
-                        Style="{StaticResource CenterFramePicker}" HorizontalOptions="FillAndExpand"
-                        SelectedIndex="{Binding SelectedIndexValue}" />
+                    <Image Source="{helpers:ImageResource RightToAskClient.Images.expand_48.png }"
+                           effects:IconTintColorEffect.TintColor="{AppThemeBinding Light={StaticResource TextColor} ,Dark={StaticResource TextColorDark}}"
+                           HorizontalOptions="End" VerticalOptions="Center" WidthRequest="10" HeightRequest="10" />
+
+                    <Picker Title="Electorate info on your profile"
+                            ItemsSource="{Binding SharingElectorateInfoOptionValues}"
+                            Style="{StaticResource TransparentBgPicker}" HorizontalOptions="FillAndExpand"
+                            SelectedIndex="{Binding SelectedIndexValue}" VerticalOptions="Center" />
+
+                </Grid>
 
                 <views:ShareElectorateInfoPanel
                     Title="State"
