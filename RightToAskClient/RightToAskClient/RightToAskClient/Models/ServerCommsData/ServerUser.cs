@@ -70,24 +70,16 @@ namespace RightToAskClient.Models.ServerCommsData
                 if (newReg.Electorates.Any())
                 {
                     electorates = new List<ElectorateWithChamber>();
-                    ElectorateWithChamber? stateChamber = null;
-                    ElectorateWithChamber? federalElectorate = null;
-                    var stateElectorate = new List<ElectorateWithChamber>();
-                    foreach (var electorate in newReg.Electorates)
-                    {
-                        switch (electorate.chamber)
-                        {
-                            case ParliamentData.Chamber.Australian_Senate:
-                                stateChamber = electorate;
-                                break;
-                            case ParliamentData.Chamber.Australian_House_Of_Representatives:
-                                federalElectorate = electorate;
-                                break;
-                            default:
-                                stateElectorate.Add(electorate);
-                                break;
-                        }
-                    }
+                    var stateChamber = 
+                        newReg.Electorates.Find(x => 
+                            x.chamber == ParliamentData.Chamber.Australian_Senate);
+                    var federalElectorate = 
+                        newReg.Electorates.Find(x => 
+                            x.chamber == ParliamentData.Chamber.Australian_House_Of_Representatives);
+                    var stateElectorate = 
+                        newReg.Electorates.FindAll(x => 
+                            (x.chamber != ParliamentData.Chamber.Australian_House_Of_Representatives &&
+                             x.chamber != ParliamentData.Chamber.Australian_Senate));
 
                     if (storeState && stateChamber != null)
                     {
