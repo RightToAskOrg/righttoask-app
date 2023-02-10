@@ -1,4 +1,5 @@
 using System;
+using RightToAskClient.Helpers;
 using Xamarin.CommunityToolkit.UI.Views;
 using Xamarin.Essentials;
 using Xamarin.Forms.Xaml;
@@ -15,6 +16,7 @@ namespace RightToAskClient.Views.Popups
         
         private void okButton_Clicked(object sender, EventArgs e)
         {
+            XamarinPreferences.shared.Set(Constants.ShowFirstTimeReadingPopup, false);
             Dismiss("Dismissed");
         }
 

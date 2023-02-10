@@ -2055,6 +2055,24 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string TCContinueButtonHint {
+            get {
+                return ResourceManager.GetString("TCContinueButtonHint", resourceCulture);
+            }
+        }
+        
+        internal static string TCPolicyHint {
+            get {
+                return ResourceManager.GetString("TCPolicyHint", resourceCulture);
+            }
+        }
+        
+        internal static string TCHint {
+            get {
+                return ResourceManager.GetString("TCHint", resourceCulture);
+            }
+        }
+        
         internal static string ReportTitle {
             get {
                 return ResourceManager.GetString("ReportTitle", resourceCulture);

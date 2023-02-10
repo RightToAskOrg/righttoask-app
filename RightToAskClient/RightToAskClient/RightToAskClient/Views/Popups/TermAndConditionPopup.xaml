@@ -20,7 +20,9 @@
                               TextColor="{AppThemeBinding Light={StaticResource UrlTextColorLightMode}, Dark={StaticResource UrlTextColorDarkMode}}"
                               TextDecorations="Underline">
                             <Span.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="PrivacyPolicy_OnTapped"/>
+                                <TapGestureRecognizer Tapped="PrivacyPolicy_OnTapped"
+                                                      xct:SemanticEffect.Hint="{xct:Translate TCPolicyHint}"
+                                                      xct:SemanticEffect.Description="{xct:Translate PrivacyPolicy}"/>
                             </Span.GestureRecognizers>
                         </Span>
                         <Span Text="{xct:Translate and}"/>
@@ -28,7 +30,9 @@
                               TextColor="{AppThemeBinding Light={StaticResource UrlTextColorLightMode}, Dark={StaticResource UrlTextColorDarkMode}}"
                               TextDecorations="Underline">
                             <Span.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="TermAndCondition_OnTapped"/>
+                                <TapGestureRecognizer Tapped="TermAndCondition_OnTapped" 
+                                                      xct:SemanticEffect.Hint="{xct:Translate TCHint}"
+                                                      xct:SemanticEffect.Description="{xct:Translate TermAndCondition}"/>
                             </Span.GestureRecognizers>
                         </Span>
                         <Span Text="."/>
@@ -39,6 +43,8 @@
                    <!--Acknowledge/Dismiss Button Bottom Right-->
                    <StackLayout BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource PopupDarkModeBgColor}}">
                    <Button Text="{xct:Translate AgreeAndContinueButton}" HorizontalOptions="Center" VerticalOptions="End" Clicked="okButton_Clicked" 
+                           xct:SemanticEffect.Hint="{xct:Translate TCContinueButtonHint}"
+                           xct:SemanticEffect.Description="{xct:Translate AgreeAndContinueButton}"
                            Style="{StaticResource PopupOKButton}" BackgroundColor="Transparent"/>
                    </StackLayout>
             </StackLayout>

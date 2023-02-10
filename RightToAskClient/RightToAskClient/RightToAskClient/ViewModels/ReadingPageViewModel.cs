@@ -118,8 +118,6 @@ namespace RightToAskClient.ViewModels
                 // InfoPopupCommand.ExecuteAsync();
                 TCCommand.ExecuteAsync();
                 
-                // Only show it once.
-                XamarinPreferences.shared.Set(Constants.ShowFirstTimeReadingPopup, false);
             }
             // Note: There is a race condition here, in that it is possible
             // for this command to be executed multiple times simultaneously,

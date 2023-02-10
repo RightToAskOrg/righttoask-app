@@ -1123,6 +1123,16 @@
   <data name="EditorProceedButtonDescription" xml:space="preserve">
     <value>Proceed</value>
   </data>
+  <data name="TCContinueButtonHint" xml:space="preserve">
+    <value>Agree with the Privacy Policy and Terms and Conditions</value>
+  </data>
+  <data name="TCPolicyHint" xml:space="preserve">
+    <value>Check out privacy policy</value>
+  </data>
+  <data name="TCHint" xml:space="preserve">
+    <value>Check out terms and conditions</value>
+  </data>
+  
   <data name="ReportTitle" xml:space="preserve">
     <value>Thanks for reporting</value>
   </data>
