@@ -18,16 +18,19 @@
         <StackLayout Orientation="Horizontal"
                      VerticalOptions="Start"
                      Padding="0"
-                     Margin="0">
+                     Margin="0"
+                     >
             <Label Text="{Binding Title, Source={x:Reference This}}"
                    Style="{StaticResource SignUpBody}"
                    HorizontalOptions="Start"
-                   VerticalOptions="Start" />
+                   VerticalOptions="Start"
+                   Margin="0"
+                   />
             <views:PublicPrivateLabel IsVisible="{Binding  IsAbleToFinish, Source={x:Reference This}}"
                                       IsPublic="{Binding IsPublic, Source={x:Reference This}}" />
         </StackLayout>
         <Label Text="{Binding Value, Source={x:Reference This}}"
-               Style="{StaticResource SignUpBody}"
+               Style="{StaticResource ReportReasonDetails}"
                HorizontalOptions="StartAndExpand"
                VerticalOptions="Start"
                Padding="0"
