@@ -47,10 +47,14 @@ namespace RightToAskClient.Models.ServerCommsData
             // Optional fields. Add only if non-empty.
             if (newReg.Electorates.Any())
             {
-                if (checkPrivacyOptions)
+                if (!checkPrivacyOptions || (checkPrivacyOptions && newReg.SharingElectorateInfoOption == SharingElectorateInfoOptions.All))
+                {
+                    electorates = newReg.Electorates;
+                }
+                else
                 {
                     electorates = new List<ElectorateWithChamber>();
-                    ElectorateWithChamber? state = null;
+                    ElectorateWithChamber? stateChamber = null;
                     ElectorateWithChamber? federalElectorate = null;
                     var stateElectorate = new List<ElectorateWithChamber>();
                     foreach (var electorate in newReg.Electorates)
@@ -58,7 +62,7 @@ namespace RightToAskClient.Models.ServerCommsData
                         switch (electorate.chamber)
                         {
                             case ParliamentData.Chamber.Australian_Senate:
-                                state = electorate;
+                                stateChamber = electorate;
                                 break;
                             case ParliamentData.Chamber.Australian_House_Of_Representatives:
                                 federalElectorate = electorate;
@@ -68,53 +72,24 @@ namespace RightToAskClient.Models.ServerCommsData
                                 break;
                         }
                     }
-                    
-                    switch (newReg.SharingElectorateInfoOption)
+
+                    var sharingOption = newReg.SharingElectorateInfoOption;
+                    var storeState = sharingOption != SharingElectorateInfoOptions.Nothing;
+                    var storeFederalElect = sharingOption == SharingElectorateInfoOptions.FederalElectorateAndState;
+                    var storeStateElect = sharingOption == SharingElectorateInfoOptions.StateElectorateAndState;
+
+                    if (storeState && stateChamber != null)
                     {
-                        case SharingElectorateInfoOptions.Nothing:
-                            break;
-                        case SharingElectorateInfoOptions.StateOrTerritory:
-                            if (state != null)
-                            {
-                                electorates.Add(state);
-                            }
-                            break;
-                        
-                        case SharingElectorateInfoOptions.FederalElectorateAndState:
-                            if (state != null)
-                            {
-                                electorates.Add(state);
-                            }
-                            if (federalElectorate != null)
-                            {
-                                electorates.Add(federalElectorate);
-                            }
-                            break;
-                        
-                        case SharingElectorateInfoOptions.StateElectorateAndState:
-                            if (state != null)
-                            {
-                                electorates.Add(state);
-                            }
-                            electorates.AddRange(stateElectorate);
-                            break;
-                        
-                        case SharingElectorateInfoOptions.All:
-                            if (state != null)
-                            {
-                                electorates.Add(state);
-                            }
-                            if (federalElectorate != null)
-                            {
-                                electorates.Add(federalElectorate);
-                            }
-                            electorates.AddRange(stateElectorate);
-                            break;
+                        electorates.Add(stateChamber);
                     }
-                }
-                else
-                {
-                    electorates = newReg.Electorates;
+                    if (storeFederalElect && federalElectorate != null)
+                    {
+                        electorates.Add(federalElectorate);
+                    }
+                    if (storeStateElect)
+                    {
+                        electorates.AddRange(stateElectorate);
+                    }
                 }
             }
 
