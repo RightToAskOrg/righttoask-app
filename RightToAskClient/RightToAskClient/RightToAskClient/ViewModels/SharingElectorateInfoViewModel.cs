@@ -74,29 +74,28 @@ namespace RightToAskClient.ViewModels
             set
             {
                 SetProperty(ref _selectedIndexValue, value);
-                if (_registration != null)
+                if (_registration == null)
                 {
-                    // TODO: use index in _availableOptions
-                    _registration.SharingElectorateInfoOption = (SharingElectorateInfoOptions)value;
+                    return;
                 }
-
+                _registration.SharingElectorateInfoOption = _availableOptions[value];
                 IsStatePublic = false;
                 IsFederalElectoratePublic = false;
                 IsStateElectoratePublic = false;
-                switch (value)
+                switch (_registration.SharingElectorateInfoOption)
                 {
-                    case (int)SharingElectorateInfoOptions.StateOrTerritory:
+                    case SharingElectorateInfoOptions.StateOrTerritory:
                         IsStatePublic = true;
                         break;
-                    case (int)SharingElectorateInfoOptions.FederalElectorateAndState:
+                    case SharingElectorateInfoOptions.FederalElectorateAndState:
                         IsStatePublic = true;
                         IsFederalElectoratePublic = true;
                         break;
-                    case (int)SharingElectorateInfoOptions.StateElectorateAndState:
+                    case SharingElectorateInfoOptions.StateElectorateAndState:
                         IsStatePublic = true;
                         IsStateElectoratePublic = true;
                         break;
-                    case (int)SharingElectorateInfoOptions.All:
+                    case SharingElectorateInfoOptions.All:
                         IsStatePublic = true;
                         IsFederalElectoratePublic = true;
                         IsStateElectoratePublic = true;

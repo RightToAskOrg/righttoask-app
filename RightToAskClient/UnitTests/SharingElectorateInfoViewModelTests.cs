@@ -7,10 +7,30 @@ namespace UnitTests
 {
     public class SharingElectorateInfoViewModelTests
     {
+        private Registration CreateRegistration(SharingElectorateInfoOptions options)
+        {
+            var registration = new Registration();
+            var electorates = new List<ElectorateWithChamber>();
+            if ((options & SharingElectorateInfoOptions.StateOrTerritory) != 0)
+            {
+                electorates.Add(new ElectorateWithChamber(ParliamentData.Chamber.Australian_Senate, "VIC"));
+            }
+            if ((options & SharingElectorateInfoOptions.FederalElectorate) != 0)
+            {
+                electorates.Add(new ElectorateWithChamber(ParliamentData.Chamber.Australian_House_Of_Representatives, "VIC"));
+            }
+            if ((options & SharingElectorateInfoOptions.StateElectorate) != 0)
+            {
+                electorates.Add(new ElectorateWithChamber(ParliamentData.Chamber.Qld_Legislative_Assembly, "VIC"));
+            }
+            registration.Electorates = electorates;
+
+            return registration;
+        }
         [Fact]
         public void ShouldEnableButtonAfterSelecting()
         {
-            var viewModel = new SharingElectorateInfoViewModel();
+            var viewModel = new SharingElectorateInfoViewModel(CreateRegistration(SharingElectorateInfoOptions.All));
 
             Assert.False(viewModel.AbleToFinish);
 
@@ -22,7 +42,7 @@ namespace UnitTests
         [Fact]
         public void ShouldShowPrivateForAllInfo_NOTHING()
         {
-            var viewModel = new SharingElectorateInfoViewModel();
+            var viewModel = new SharingElectorateInfoViewModel(CreateRegistration(SharingElectorateInfoOptions.All));
 
             Assert.False(viewModel.AbleToFinish);
             viewModel.SelectedIndexValue = (int)SharingElectorateInfoOptions.Nothing;
@@ -37,7 +57,7 @@ namespace UnitTests
         [Fact]
         public void ShouldShowPublicForStateInfo_STATE_OR_TERRITORY()
         {
-            var viewModel = new SharingElectorateInfoViewModel();
+            var viewModel = new SharingElectorateInfoViewModel(CreateRegistration(SharingElectorateInfoOptions.All));
 
             Assert.False(viewModel.AbleToFinish);
             viewModel.SelectedIndexValue = (int)SharingElectorateInfoOptions.StateOrTerritory;
@@ -52,10 +72,10 @@ namespace UnitTests
         [Fact]
         public void ShouldShowPublicForStateAndFederalElectorateInfo_FEDERAL_ELECTORATE_AND_STATE()
         {
-            var viewModel = new SharingElectorateInfoViewModel();
+            var viewModel = new SharingElectorateInfoViewModel(CreateRegistration(SharingElectorateInfoOptions.All));
 
             Assert.False(viewModel.AbleToFinish);
-            viewModel.SelectedIndexValue = (int)SharingElectorateInfoOptions.FederalElectorateAndState;
+            viewModel.SelectedIndexValue = 2; // FederalElectorateAndState;
 
             Assert.True(viewModel.AbleToFinish);
 
@@ -67,10 +87,10 @@ namespace UnitTests
         [Fact]
         public void ShouldShowPublicForStateAndStateElectorateInfo_STATE_ELECTORATE_AND_STATE()
         {
-            var viewModel = new SharingElectorateInfoViewModel();
+            var viewModel = new SharingElectorateInfoViewModel(CreateRegistration(SharingElectorateInfoOptions.All));
 
             Assert.False(viewModel.AbleToFinish);
-            viewModel.SelectedIndexValue = (int)SharingElectorateInfoOptions.StateElectorateAndState;
+            viewModel.SelectedIndexValue = 3; // StateElectorateAndState;
 
             Assert.True(viewModel.AbleToFinish);
 
@@ -82,10 +102,10 @@ namespace UnitTests
         [Fact]
         public void ShouldShowPublicForAllInfo_ALL()
         {
-            var viewModel = new SharingElectorateInfoViewModel();
+            var viewModel = new SharingElectorateInfoViewModel(CreateRegistration(SharingElectorateInfoOptions.All));
 
             Assert.False(viewModel.AbleToFinish);
-            viewModel.SelectedIndexValue = (int)SharingElectorateInfoOptions.All;
+            viewModel.SelectedIndexValue = 4; // All;
 
             Assert.True(viewModel.AbleToFinish);
 
@@ -97,17 +117,7 @@ namespace UnitTests
         [Fact]
         public void ShouldShowAllOptions_ElectoratesAllAnswered()
         {
-            var electorates = new List<ElectorateWithChamber>
-            {
-                new ElectorateWithChamber(ParliamentData.Chamber.Australian_Senate, "VIC"),
-                new ElectorateWithChamber(ParliamentData.Chamber.Australian_House_Of_Representatives,
-                    "house of representative"),
-                new ElectorateWithChamber(ParliamentData.Chamber.Vic_Legislative_Assembly, "legislative")
-            };
-            var viewModel = new SharingElectorateInfoViewModel(new Registration()
-            {
-                Electorates = electorates
-            });
+            var viewModel = new SharingElectorateInfoViewModel(CreateRegistration(SharingElectorateInfoOptions.All));
 
             Assert.Equal(new List<string>
             {
@@ -122,16 +132,8 @@ namespace UnitTests
         [Fact]
         public void ShouldShowAllOptions_OnlyStateAndFederalElectorate()
         {
-            var electorates = new List<ElectorateWithChamber>
-            {
-                new ElectorateWithChamber(ParliamentData.Chamber.Australian_Senate, "VIC"),
-                new ElectorateWithChamber(ParliamentData.Chamber.Australian_House_Of_Representatives,
-                    "house of representative"),
-            };
-            var viewModel = new SharingElectorateInfoViewModel(new Registration()
-            {
-                Electorates = electorates
-            });
+            
+            var viewModel = new SharingElectorateInfoViewModel(CreateRegistration(SharingElectorateInfoOptions.FederalElectorateAndState));
 
             Assert.Equal(new List<string>
             {
@@ -144,15 +146,7 @@ namespace UnitTests
         [Fact]
         public void ShouldShowAllOptions_OnlyStateAndStateElectorate()
         {
-            var electorates = new List<ElectorateWithChamber>
-            {
-                new ElectorateWithChamber(ParliamentData.Chamber.Australian_Senate, "VIC"),
-                new ElectorateWithChamber(ParliamentData.Chamber.Vic_Legislative_Assembly, "legislative")
-            };
-            var viewModel = new SharingElectorateInfoViewModel(new Registration()
-            {
-                Electorates = electorates
-            });
+            var viewModel = new SharingElectorateInfoViewModel(CreateRegistration(SharingElectorateInfoOptions.StateElectorateAndState));
 
             Assert.Equal(new List<string>
             {
@@ -165,14 +159,7 @@ namespace UnitTests
         [Fact]
         public void ShouldShowAllOptions_OnlyState()
         {
-            var electorates = new List<ElectorateWithChamber>
-            {
-                new ElectorateWithChamber(ParliamentData.Chamber.Australian_Senate, "VIC")
-            };
-            var viewModel = new SharingElectorateInfoViewModel(new Registration()
-            {
-                Electorates = electorates
-            });
+            var viewModel = new SharingElectorateInfoViewModel(CreateRegistration(SharingElectorateInfoOptions.StateOrTerritory));
 
             Assert.Equal(new List<string>
             {
