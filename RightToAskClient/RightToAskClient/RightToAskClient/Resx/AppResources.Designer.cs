@@ -2168,5 +2168,11 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("EmptyNameMessage", resourceCulture);
             }
         }
+        
+        internal static string NoneSelected {
+            get {
+                return ResourceManager.GetString("NoneSelected", resourceCulture);
+            }
+        }
     }
 }

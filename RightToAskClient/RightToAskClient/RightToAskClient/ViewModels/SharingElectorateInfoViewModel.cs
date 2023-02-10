@@ -19,14 +19,13 @@ namespace RightToAskClient.ViewModels
 {
     public class SharingElectorateInfoViewModel : BaseViewModel
     {
-        public List<string> SharingElectorateInfoOptionValues => new List<string>
+        private List<string> _sharingElectorateInfoOptionValues;
+
+        public List<string> SharingElectorateInfoOptionValues
         {
-            "Nothing",
-            "State or Territory",
-            "Federal Electorate and state/ territory",
-            "State Electorate and state/ territory",
-            "Federal Electorate, State Electorate and state/ territory"
-        };
+            get => _sharingElectorateInfoOptionValues;
+            set => SetProperty(ref _sharingElectorateInfoOptionValues, value);
+        }
 
         private readonly Registration? _registration;
 
@@ -41,7 +40,7 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _ableToFinish, value);
         }
 
-        private string _state = "";
+        private string _state = AppResources.NoneSelected;
 
         public string State
         {
@@ -49,7 +48,7 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _state, value);
         }
 
-        private string _federalElectorate = "";
+        private string _federalElectorate = AppResources.NoneSelected;
 
         public string FederalElectorate
         {
@@ -57,13 +56,15 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _federalElectorate, value);
         }
 
-        private string _stateElectorate = "";
+        private string _stateElectorate = AppResources.NoneSelected;
 
         public string StateElectorate
         {
             get => _stateElectorate;
             set => SetProperty(ref _stateElectorate, value);
         }
+
+        private List<SharingElectorateInfoOptions> _availableOptions;
 
         private int _selectedIndexValue = -1;
 
@@ -75,6 +76,7 @@ namespace RightToAskClient.ViewModels
                 SetProperty(ref _selectedIndexValue, value);
                 if (_registration != null)
                 {
+                    // TODO: use index in _availableOptions
                     _registration.SharingElectorateInfoOption = (SharingElectorateInfoOptions)value;
                 }
 
@@ -133,15 +135,18 @@ namespace RightToAskClient.ViewModels
         {
             _registration = registration;
             var stateElectorates = new List<string>();
+            var options = SharingElectorateInfoOptions.Nothing;
             foreach (var electorate in _registration.Electorates)
             {
                 switch (electorate.chamber)
                 {
                     case ParliamentData.Chamber.Australian_Senate:
                         State = electorate.region;
+                        options |= SharingElectorateInfoOptions.StateOrTerritory;
                         break;
                     case ParliamentData.Chamber.Australian_House_Of_Representatives:
                         FederalElectorate = electorate.region;
+                        options |= SharingElectorateInfoOptions.FederalElectorate;
                         break;
                     default:
                         if (!electorate.region.IsNullOrEmpty())
@@ -149,10 +154,47 @@ namespace RightToAskClient.ViewModels
                             stateElectorates.Add(electorate.region);
                         }
 
+                        options |= SharingElectorateInfoOptions.StateElectorate;
                         break;
                 }
             }
 
+            _availableOptions = new List<SharingElectorateInfoOptions>
+            {
+                SharingElectorateInfoOptions.Nothing
+            };
+            SharingElectorateInfoOptionValues = new List<string>
+            {
+                "Nothing"
+            };
+
+            if ((options & SharingElectorateInfoOptions.StateOrTerritory) ==
+                SharingElectorateInfoOptions.StateOrTerritory)
+            {
+                _availableOptions.Add(SharingElectorateInfoOptions.StateOrTerritory);
+                SharingElectorateInfoOptionValues.Add("State or Territory");
+            }
+
+            if ((options & SharingElectorateInfoOptions.FederalElectorateAndState) ==
+                SharingElectorateInfoOptions.FederalElectorateAndState)
+            {
+                _availableOptions.Add(SharingElectorateInfoOptions.FederalElectorateAndState);
+                SharingElectorateInfoOptionValues.Add("Federal Electorate and state/ territory");
+            }
+
+            if ((options & SharingElectorateInfoOptions.StateElectorateAndState) ==
+                SharingElectorateInfoOptions.StateElectorateAndState)
+            {
+                _availableOptions.Add(SharingElectorateInfoOptions.StateElectorateAndState);
+                SharingElectorateInfoOptionValues.Add("State Electorate and state/ territory");
+            }
+
+            if ((options & SharingElectorateInfoOptions.All) == SharingElectorateInfoOptions.All)
+            {
+                _availableOptions.Add(SharingElectorateInfoOptions.All);
+                SharingElectorateInfoOptionValues.Add("Federal Electorate, State Electorate and state/ territory");
+            }
+            
             StateElectorate = String.Join(", ", stateElectorates);
         }
 

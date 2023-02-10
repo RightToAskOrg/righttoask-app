@@ -1231,4 +1231,7 @@ We are still learning about how people use Right To Ask. These rules may change 
   <data name="EmptyNameMessage" xml:space="preserve">
     <value>User ID and displayed name must not be empty.</value>
   </data>
+  <data name="NoneSelected" xml:space="preserve">
+    <value>None selected</value>
+  </data>
 </root>

@@ -15,13 +15,18 @@ namespace RightToAskClient.Models
         Registered,
         NotRegistered
     }
+    
+    // bitwise approach
+    [Flags]
     public enum SharingElectorateInfoOptions
     {
-        Nothing,
-        StateOrTerritory,
-        FederalElectorateAndState,
-        StateElectorateAndState,
-        All,
+        Nothing = 0,
+        StateOrTerritory = 1,
+        FederalElectorate = 2,
+        StateElectorate = 4,
+        FederalElectorateAndState = StateOrTerritory | FederalElectorate,
+        StateElectorateAndState = StateOrTerritory | StateElectorate,
+        All = StateOrTerritory | FederalElectorate | StateElectorate,
     }
     public class Registration : ObservableObject
     {
