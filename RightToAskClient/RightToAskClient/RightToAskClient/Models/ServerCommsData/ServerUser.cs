@@ -74,9 +74,9 @@ namespace RightToAskClient.Models.ServerCommsData
                     }
 
                     var sharingOption = newReg.SharingElectorateInfoOption;
-                    var storeState = sharingOption != SharingElectorateInfoOptions.Nothing;
-                    var storeFederalElect = sharingOption == SharingElectorateInfoOptions.FederalElectorateAndState;
-                    var storeStateElect = sharingOption == SharingElectorateInfoOptions.StateElectorateAndState;
+                    var storeState = (sharingOption & SharingElectorateInfoOptions.StateOrTerritory) != 0;
+                    var storeFederalElect = (sharingOption & SharingElectorateInfoOptions.FederalElectorate) != 0;
+                    var storeStateElect = (sharingOption & SharingElectorateInfoOptions.StateElectorate) != 0;
 
                     if (storeState && stateChamber != null)
                     {
