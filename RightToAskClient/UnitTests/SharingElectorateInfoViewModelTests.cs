@@ -15,18 +15,23 @@ namespace UnitTests
             {
                 electorates.Add(new ElectorateWithChamber(ParliamentData.Chamber.Australian_Senate, "VIC"));
             }
+
             if ((options & SharingElectorateInfoOptions.FederalElectorate) != 0)
             {
-                electorates.Add(new ElectorateWithChamber(ParliamentData.Chamber.Australian_House_Of_Representatives, "VIC"));
+                electorates.Add(new ElectorateWithChamber(ParliamentData.Chamber.Australian_House_Of_Representatives,
+                    "VIC"));
             }
+
             if ((options & SharingElectorateInfoOptions.StateElectorate) != 0)
             {
                 electorates.Add(new ElectorateWithChamber(ParliamentData.Chamber.Qld_Legislative_Assembly, "VIC"));
             }
+
             registration.Electorates = electorates;
 
             return registration;
         }
+
         [Fact]
         public void ShouldEnableButtonAfterSelecting()
         {
@@ -132,8 +137,9 @@ namespace UnitTests
         [Fact]
         public void ShouldShowAllOptions_OnlyStateAndFederalElectorate()
         {
-            
-            var viewModel = new SharingElectorateInfoViewModel(CreateRegistration(SharingElectorateInfoOptions.FederalElectorateAndState));
+            var viewModel =
+                new SharingElectorateInfoViewModel(
+                    CreateRegistration(SharingElectorateInfoOptions.FederalElectorateAndState));
 
             Assert.Equal(new List<string>
             {
@@ -146,7 +152,9 @@ namespace UnitTests
         [Fact]
         public void ShouldShowAllOptions_OnlyStateAndStateElectorate()
         {
-            var viewModel = new SharingElectorateInfoViewModel(CreateRegistration(SharingElectorateInfoOptions.StateElectorateAndState));
+            var viewModel =
+                new SharingElectorateInfoViewModel(
+                    CreateRegistration(SharingElectorateInfoOptions.StateElectorateAndState));
 
             Assert.Equal(new List<string>
             {
@@ -157,9 +165,26 @@ namespace UnitTests
         }
 
         [Fact]
+        public void ShouldShowAllOptions_OnlyStateAndFederalElectorate_EmptyStateElectorate()
+        {
+            var registration = CreateRegistration(SharingElectorateInfoOptions.FederalElectorateAndState);
+            registration.Electorates.Add(new ElectorateWithChamber(ParliamentData.Chamber.Qld_Legislative_Assembly, ""));
+            var viewModel = new SharingElectorateInfoViewModel(registration);
+
+            Assert.Equal(new List<string>
+            {
+                "Nothing",
+                "State or Territory",
+                "Federal Electorate and state/ territory"
+            }, viewModel.SharingElectorateInfoOptionValues);
+        }
+
+
+        [Fact]
         public void ShouldShowAllOptions_OnlyState()
         {
-            var viewModel = new SharingElectorateInfoViewModel(CreateRegistration(SharingElectorateInfoOptions.StateOrTerritory));
+            var viewModel =
+                new SharingElectorateInfoViewModel(CreateRegistration(SharingElectorateInfoOptions.StateOrTerritory));
 
             Assert.Equal(new List<string>
             {

@@ -78,6 +78,7 @@ namespace RightToAskClient.ViewModels
                 {
                     return;
                 }
+
                 _registration.SharingElectorateInfoOption = _availableOptions[value];
                 IsStatePublic = false;
                 IsFederalElectoratePublic = false;
@@ -151,9 +152,8 @@ namespace RightToAskClient.ViewModels
                         if (!electorate.region.IsNullOrEmpty())
                         {
                             stateElectorates.Add(electorate.region);
+                            options |= SharingElectorateInfoOptions.StateElectorate;
                         }
-
-                        options |= SharingElectorateInfoOptions.StateElectorate;
                         break;
                 }
             }
@@ -230,7 +230,7 @@ namespace RightToAskClient.ViewModels
                     await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
                 }
             });
-            
+
             State = AppResources.NoneSelected;
             FederalElectorate = AppResources.NoneSelected;
             StateElectorate = AppResources.NoneSelected;
