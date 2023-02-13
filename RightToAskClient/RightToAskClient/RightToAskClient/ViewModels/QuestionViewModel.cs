@@ -650,7 +650,7 @@ namespace RightToAskClient.ViewModels
 
             var httpResponse = await RTAClient.SendPlaintextUpvote(voteOnQuestion,
                 IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid);
-            (bool isValid, string errorMessage, string _) = RTAClient.ValidateHttpResponse(httpResponse, "Vote upload");  
+            (bool isValid, string errorMessage) = RTAClient.ValidateHttpResponse(httpResponse, "Vote upload");  
             if(!isValid) 
             {
                 var error =  "Error uploading vote: " + errorMessage;
