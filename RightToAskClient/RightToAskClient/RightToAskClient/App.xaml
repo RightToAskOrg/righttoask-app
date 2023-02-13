@@ -262,6 +262,10 @@
                 <Setter Property="BackgroundColor" Value="{StaticResource FadedButtonColor}" />
                 <Setter Property="TextColor" Value="{StaticResource TextColor}" />
             </Style>
+            <Style x:Key="PickerTitle" TargetType="Label" ApplyToDerivedTypes="True">
+                <Setter Property="TextColor" Value="{StaticResource Purple}" />
+                <Setter Property="FontSize" Value="Small"></Setter>
+            </Style>
             <Style x:Key="GreenSearchBar" TargetType="SearchBar">
                 <Setter Property="BackgroundColor" Value="{StaticResource FrameColor}" />
                 <Setter Property="MinimumWidthRequest" Value="200" />

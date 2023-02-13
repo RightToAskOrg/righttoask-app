@@ -29,6 +29,9 @@
                        HorizontalOptions="StartAndExpand" />
 
                 <!-- TODO: extract to a reusable component -->
+                <Label Text="{effects:Translate SharingElectorateInfoPickerTitle}" Style="{StaticResource PickerTitle}"
+                       IsVisible="{Binding AbleToFinish}">
+                </Label>
                 <Grid>
                     <BoxView Style="{StaticResource Separator}" VerticalOptions="End" />
 
@@ -36,11 +39,10 @@
                            effects:IconTintColorEffect.TintColor="{AppThemeBinding Light={StaticResource TextColor} ,Dark={StaticResource TextColorDark}}"
                            HorizontalOptions="End" VerticalOptions="Center" WidthRequest="10" HeightRequest="10" />
 
-                    <Picker Title="Electorate info on your profile"
+                    <Picker Title="{effects:Translate SharingElectorateInfoPickerTitle}"
                             ItemsSource="{Binding SharingElectorateInfoOptionValues}"
                             Style="{StaticResource TransparentBgPicker}" HorizontalOptions="FillAndExpand"
                             SelectedIndex="{Binding SelectedIndexValue}" VerticalOptions="Center" />
-
                 </Grid>
 
                 <views:ShareElectorateInfoPanel

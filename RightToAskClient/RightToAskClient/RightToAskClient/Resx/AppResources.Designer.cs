@@ -2174,5 +2174,11 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("NoneSelected", resourceCulture);
             }
         }
+        
+        internal static string SharingElectorateInfoPickerTitle {
+            get {
+                return ResourceManager.GetString("SharingElectorateInfoPickerTitle", resourceCulture);
+            }
+        }
     }
 }

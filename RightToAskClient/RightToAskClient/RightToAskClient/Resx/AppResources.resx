@@ -1234,4 +1234,7 @@ We are still learning about how people use Right To Ask. These rules may change 
   <data name="NoneSelected" xml:space="preserve">
     <value>None selected</value>
   </data>
+  <data name="SharingElectorateInfoPickerTitle" xml:space="preserve">
+    <value>Electorate info on your profile</value>
+  </data>
 </root>
