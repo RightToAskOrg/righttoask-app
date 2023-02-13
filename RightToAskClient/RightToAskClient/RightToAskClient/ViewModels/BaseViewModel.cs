@@ -29,6 +29,11 @@ namespace RightToAskClient.ViewModels
                 var popup = new InfoPopup(PopupHeaderText,PopupLabelText, AppResources.OKText);
                 _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
             });
+            TCCommand = new AsyncCommand(async () =>
+            {
+                var popup = new TermAndConditionPopup();
+                _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
+            });
         }
 
         private string _title = string.Empty;
@@ -62,5 +67,6 @@ namespace RightToAskClient.ViewModels
         // commands
         public IAsyncCommand HomeButtonCommand { get; }
         public IAsyncCommand InfoPopupCommand { get; }
+        public IAsyncCommand TCCommand { get; }
     }
 }

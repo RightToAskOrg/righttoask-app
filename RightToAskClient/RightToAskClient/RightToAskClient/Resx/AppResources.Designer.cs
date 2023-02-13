@@ -2055,6 +2055,24 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string TCContinueButtonHint {
+            get {
+                return ResourceManager.GetString("TCContinueButtonHint", resourceCulture);
+            }
+        }
+        
+        internal static string TCPolicyHint {
+            get {
+                return ResourceManager.GetString("TCPolicyHint", resourceCulture);
+            }
+        }
+        
+        internal static string TCHint {
+            get {
+                return ResourceManager.GetString("TCHint", resourceCulture);
+            }
+        }
+        
         internal static string ReportTitle {
             get {
                 return ResourceManager.GetString("ReportTitle", resourceCulture);
@@ -2178,6 +2196,36 @@ namespace RightToAskClient.Resx {
         internal static string SharingElectorateInfoPickerTitle {
             get {
                 return ResourceManager.GetString("SharingElectorateInfoPickerTitle", resourceCulture);
+            }
+        }
+        
+        internal static string TermAndConditionPlainText {
+            get {
+                return ResourceManager.GetString("TermAndConditionPlainText", resourceCulture);
+            }
+        }
+        
+        internal static string PrivacyPolicy {
+            get {
+                return ResourceManager.GetString("PrivacyPolicy", resourceCulture);
+            }
+        }
+        
+        internal static string and {
+            get {
+                return ResourceManager.GetString("and", resourceCulture);
+            }
+        }
+        
+        internal static string TermAndCondition {
+            get {
+                return ResourceManager.GetString("TermAndCondition", resourceCulture);
+            }
+        }
+        
+        internal static string AgreeAndContinueButton {
+            get {
+                return ResourceManager.GetString("AgreeAndContinueButton", resourceCulture);
             }
         }
     }

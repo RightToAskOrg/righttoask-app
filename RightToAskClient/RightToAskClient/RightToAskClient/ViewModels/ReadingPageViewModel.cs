@@ -13,7 +13,6 @@ using System.Threading.Tasks;
 using RightToAskClient.Views.Popups;
 using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace RightToAskClient.ViewModels
@@ -116,10 +115,9 @@ namespace RightToAskClient.ViewModels
             
             if (XamarinPreferences.shared.Get(Constants.ShowFirstTimeReadingPopup, true))
             {
-                InfoPopupCommand.ExecuteAsync();
+                // InfoPopupCommand.ExecuteAsync();
+                TCCommand.ExecuteAsync();
                 
-                // Only show it once.
-                XamarinPreferences.shared.Set(Constants.ShowFirstTimeReadingPopup, false);
             }
             // Note: There is a race condition here, in that it is possible
             // for this command to be executed multiple times simultaneously,
