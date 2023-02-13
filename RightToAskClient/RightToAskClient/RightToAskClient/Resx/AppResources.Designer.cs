@@ -2241,6 +2241,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string TerritoryTitle {
+            get {
+                return ResourceManager.GetString("TerritoryTitle", resourceCulture);
+            }
+        }
+        
         internal static string StateOrTerritoryTitle {
             get {
                 return ResourceManager.GetString("StateOrTerritoryTitle", resourceCulture);
@@ -2250,6 +2256,60 @@ namespace RightToAskClient.Resx {
         internal static string StateOrTerritoryElectorateTitle {
             get {
                 return ResourceManager.GetString("StateOrTerritoryElectorateTitle", resourceCulture);
+            }
+        }
+        
+        internal static string Nothing {
+            get {
+                return ResourceManager.GetString("Nothing", resourceCulture);
+            }
+        }
+        
+        internal static string TerritoryElectorate {
+            get {
+                return ResourceManager.GetString("TerritoryElectorate", resourceCulture);
+            }
+        }
+        
+        internal static string StateElectorate {
+            get {
+                return ResourceManager.GetString("StateElectorate", resourceCulture);
+            }
+        }
+        
+        internal static string FedElectorateTerritory {
+            get {
+                return ResourceManager.GetString("FedElectorateTerritory", resourceCulture);
+            }
+        }
+        
+        internal static string FedElectorateState {
+            get {
+                return ResourceManager.GetString("FedElectorateState", resourceCulture);
+            }
+        }
+        
+        internal static string TerElectorateTerritory {
+            get {
+                return ResourceManager.GetString("TerElectorateTerritory", resourceCulture);
+            }
+        }
+        
+        internal static string StateElectorateState {
+            get {
+                return ResourceManager.GetString("StateElectorateState", resourceCulture);
+            }
+        }
+        
+        internal static string AllElectorateTerritory {
+            get {
+                return ResourceManager.GetString("AllElectorateTerritory", resourceCulture);
+            }
+        }
+        
+        internal static string AllElectorateState {
+            get {
+                return ResourceManager.GetString("AllElectorateState", resourceCulture);
             }
         }
     }

@@ -1268,10 +1268,40 @@ We are still learning about how people use Right To Ask. These rules may change 
   <data name="StateTitle" xml:space="preserve">
   <value>State</value>
   </data>
+  <data name="TerritoryTitle" xml:space="preserve">
+  <value>Territory</value>
+  </data>
   <data name="StateOrTerritoryTitle" xml:space="preserve">
   <value>State/ Territory</value>
   </data>
   <data name="StateOrTerritoryElectorateTitle" xml:space="preserve">
   <value>State/ Territory Electorate</value>
+  </data>
+  <data name="Nothing" xml:space="preserve">
+  <value>Nothing</value>
+  </data>
+  <data name="TerritoryElectorate" xml:space="preserve">
+  <value>Territory Electorate</value>
+  </data>
+  <data name="StateElectorate" xml:space="preserve">
+  <value>State Electorate</value>
+  </data>
+  <data name="FedElectorateTerritory" xml:space="preserve">
+  <value>Federal Electorate and territory</value>
+  </data>
+  <data name="FedElectorateState" xml:space="preserve">
+  <value>Federal Electorate and state</value>
+  </data>
+  <data name="TerElectorateTerritory" xml:space="preserve">
+  <value>Territory Electorate and territory</value>
+  </data>
+  <data name="StateElectorateState" xml:space="preserve">
+  <value>State Electorate and state</value>
+  </data>
+  <data name="AllElectorateTerritory" xml:space="preserve">
+  <value>Federal Electorate, Territory Electorate and territory</value>
+  </data>
+  <data name="AllElectorateState" xml:space="preserve">
+  <value>Federal Electorate, State Electorate and state</value>
   </data>
 </root>
