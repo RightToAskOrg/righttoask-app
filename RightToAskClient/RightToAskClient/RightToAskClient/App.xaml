@@ -699,7 +699,7 @@
             <Style x:Key="NormalButton" TargetType="Button">
                 <Setter Property="HorizontalOptions" Value="FillAndExpand" />
                 <Setter Property="Padding" Value="16" />
-                <Setter Property="FontSize" Value="14" />
+                <Setter Property="FontSize" Value="Small" />
                 <Setter Property="FontAttributes" Value="Bold" />
                 <Setter Property="VisualStateManager.VisualStateGroups">
                     <VisualStateGroupList>
@@ -739,21 +739,21 @@
                 <Setter Property="HorizontalOptions" Value="Fill" />
             </Style>
             <Style x:Key="ReportReasonDetails" TargetType="Label">
-                <Setter Property="FontSize" Value="14" />
+                <Setter Property="FontSize" Value="Small" />
                 <Setter Property="TextColor" Value="{AppThemeBinding Light=#595959,  Dark=#A6A6A6}" />
                 <Setter Property="HorizontalOptions" Value="Fill" />
                 <Setter Property="VerticalOptions" Value="End" />
             </Style>
 
             <Style x:Key="SignUpTitle" TargetType="Label">
-                <Setter Property="FontSize" Value="22" />
+                <Setter Property="FontSize" Value="Large" />
                 <Setter Property="Margin" Value="0, 0, 0, 16" />
                 <Setter Property="FontAttributes" Value="Bold" />
                 <Setter Property="HorizontalOptions" Value="Center" />
                 <Setter Property="TextColor" Value="{AppThemeBinding Light=Black,  Dark=White}" />
             </Style>
             <Style x:Key="SignUpBody" TargetType="Label">
-                <Setter Property="FontSize" Value="16" />
+                <Setter Property="FontSize" Value="Medium" />
                 <Setter Property="Margin" Value="0, 0, 0, 24" />
                 <Setter Property="HorizontalOptions" Value="Center" />
                 <Setter Property="TextColor" Value="{AppThemeBinding Light=Black,  Dark=White}" />

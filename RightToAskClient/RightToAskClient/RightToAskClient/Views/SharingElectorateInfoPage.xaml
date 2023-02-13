@@ -17,51 +17,54 @@
         <StackLayout Orientation="Vertical"
                      VerticalOptions="Fill"
                      HorizontalOptions="Fill">
-            <StackLayout Orientation="Vertical"
-                         VerticalOptions="FillAndExpand"
-                         HorizontalOptions="Fill"
-                         Padding="10">
-                <Label Text="{effects:Translate SharingElectorateInfoHeaderText}"
-                       Style="{StaticResource SignUpTitle}"
-                       HorizontalOptions="StartAndExpand" />
-                <Label Text="{effects:Translate SharingElectorateInfoParagraph}"
-                       Style="{StaticResource SignUpBody}"
-                       HorizontalOptions="StartAndExpand" />
+            <ScrollView VerticalOptions="FillAndExpand">
 
-                <!-- TODO: extract to a reusable component -->
-                <Label Text="{effects:Translate SharingElectorateInfoPickerTitle}" Style="{StaticResource PickerTitle}"
-                       IsVisible="{Binding AbleToFinish}">
-                </Label>
-                <Grid>
-                    <BoxView Style="{StaticResource Separator}" VerticalOptions="End" />
+                <StackLayout Orientation="Vertical"
+                             VerticalOptions="FillAndExpand"
+                             HorizontalOptions="Fill"
+                             Padding="10">
+                    <Label Text="{effects:Translate SharingElectorateInfoHeaderText}"
+                           Style="{StaticResource SignUpTitle}"
+                           HorizontalOptions="StartAndExpand" />
+                    <Label Text="{effects:Translate SharingElectorateInfoParagraph}"
+                           Style="{StaticResource SignUpBody}"
+                           HorizontalOptions="StartAndExpand" />
 
-                    <Image Source="{helpers:ImageResource RightToAskClient.Images.expand_48.png }"
-                           effects:IconTintColorEffect.TintColor="{AppThemeBinding Light={StaticResource TextColor} ,Dark={StaticResource TextColorDark}}"
-                           HorizontalOptions="End" VerticalOptions="Center" WidthRequest="10" HeightRequest="10" />
+                    <!-- TODO: extract to a reusable component -->
+                    <Label Text="{effects:Translate SharingElectorateInfoPickerTitle}"
+                           Style="{StaticResource PickerTitle}"
+                           IsVisible="{Binding AbleToFinish}">
+                    </Label>
+                    <Grid>
+                        <BoxView Style="{StaticResource Separator}" VerticalOptions="End" />
 
-                    <Picker Title="{effects:Translate SharingElectorateInfoPickerTitle}"
-                            ItemsSource="{Binding SharingElectorateInfoOptionValues}"
-                            Style="{StaticResource TransparentBgPicker}" HorizontalOptions="FillAndExpand"
-                            SelectedIndex="{Binding SelectedIndexValue}" VerticalOptions="Center" />
-                </Grid>
+                        <Image Source="{helpers:ImageResource RightToAskClient.Images.expand_48.png }"
+                               effects:IconTintColorEffect.TintColor="{AppThemeBinding Light={StaticResource TextColor} ,Dark={StaticResource TextColorDark}}"
+                               HorizontalOptions="End" VerticalOptions="Center" WidthRequest="10" HeightRequest="10" />
 
-                <views:ShareElectorateInfoPanel
-                    Title="State"
-                    Value="{Binding State}"
-                    IsPublic="{Binding IsStatePublic}"
-                    IsAbleToFinish="{Binding AbleToFinish}" />
-                <views:ShareElectorateInfoPanel
-                    Title="Federal Electorate"
-                    Value="{Binding FederalElectorate}"
-                    IsPublic="{Binding IsFederalElectoratePublic}"
-                    IsAbleToFinish="{Binding AbleToFinish}" />
-                <views:ShareElectorateInfoPanel
-                    Title="State Electorate"
-                    Value="{Binding StateElectorate}"
-                    IsPublic="{Binding IsStateElectoratePublic}"
-                    IsAbleToFinish="{Binding AbleToFinish}" />
-            </StackLayout>
+                        <Picker Title="{effects:Translate SharingElectorateInfoPickerTitle}"
+                                ItemsSource="{Binding SharingElectorateInfoOptionValues}"
+                                Style="{StaticResource TransparentBgPicker}" HorizontalOptions="FillAndExpand"
+                                SelectedIndex="{Binding SelectedIndexValue}" VerticalOptions="Center" />
+                    </Grid>
 
+                    <views:ShareElectorateInfoPanel
+                        Title="State"
+                        Value="{Binding State}"
+                        IsPublic="{Binding IsStatePublic}"
+                        IsAbleToFinish="{Binding AbleToFinish}" />
+                    <views:ShareElectorateInfoPanel
+                        Title="Federal Electorate"
+                        Value="{Binding FederalElectorate}"
+                        IsPublic="{Binding IsFederalElectoratePublic}"
+                        IsAbleToFinish="{Binding AbleToFinish}" />
+                    <views:ShareElectorateInfoPanel
+                        Title="State Electorate"
+                        Value="{Binding StateElectorate}"
+                        IsPublic="{Binding IsStateElectoratePublic}"
+                        IsAbleToFinish="{Binding AbleToFinish}" />
+                </StackLayout>
+            </ScrollView>
             <BoxView Style="{StaticResource ButtonSeparator}" />
 
             <StackLayout Orientation="Vertical"

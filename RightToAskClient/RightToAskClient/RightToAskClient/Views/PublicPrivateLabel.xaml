@@ -16,7 +16,7 @@
         x:Name="PublicLabel"
         IsVisible="{Binding IsPublic, Source={x:Reference This}}"
         HasShadow="False">
-        <Label Text="{xct:Translate PublicLabel}" TextColor="White" VerticalOptions="Center" />
+        <Label Text="{xct:Translate PublicLabel}" TextColor="White" VerticalOptions="Center" FontSize="Micro" />
     </Frame>
     <Frame BackgroundColor="{AppThemeBinding Light=White, Dark=Black}"
            HeightRequest="24"
@@ -30,6 +30,6 @@
            IsVisible="{Binding IsPublic, Source={x:Reference This}, Converter={StaticResource cnvInvert}}"
            HasShadow="False">
         <Label Text="{xct:Translate PrivateLabel}" VerticalOptions="Center"
-               TextColor="{StaticResource Primary}" />
+               TextColor="{StaticResource Primary}" FontSize="Micro" />
     </Frame>
 </StackLayout>
