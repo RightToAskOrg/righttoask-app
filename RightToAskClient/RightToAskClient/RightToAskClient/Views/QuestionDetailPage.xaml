@@ -62,7 +62,7 @@
 					<Label Text="{Binding UpVotes, StringFormat='{0:F0}   '}" Style="{StaticResource NormalText}" Margin="0" Padding="0"/>	
                     <!-- Down-vote button -->
                     <controls:ColorSingleToggleButton 
-                             BackgroundColor="Transparent" Command="{Binding DownvoteCommand}" Rotation="180" Padding="5"
+                             BackgroundColor="Transparent" Command="{Binding DownvoteCommand}" Padding="5"
                              IsBrightened="{Binding Question.AlreadyDownvoted}"
                              HorizontalOptions="Start"
                              HeightRequest="{x:OnPlatform Android=25, iOS=40}"
