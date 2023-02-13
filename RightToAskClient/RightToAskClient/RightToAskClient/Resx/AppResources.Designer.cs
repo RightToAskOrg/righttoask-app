@@ -2228,5 +2228,29 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("AgreeAndContinueButton", resourceCulture);
             }
         }
+        
+        internal static string FederalElectorate {
+            get {
+                return ResourceManager.GetString("FederalElectorate", resourceCulture);
+            }
+        }
+        
+        internal static string StateTitle {
+            get {
+                return ResourceManager.GetString("StateTitle", resourceCulture);
+            }
+        }
+        
+        internal static string StateOrTerritoryTitle {
+            get {
+                return ResourceManager.GetString("StateOrTerritoryTitle", resourceCulture);
+            }
+        }
+        
+        internal static string StateOrTerritoryElectorateTitle {
+            get {
+                return ResourceManager.GetString("StateOrTerritoryElectorateTitle", resourceCulture);
+            }
+        }
     }
 }

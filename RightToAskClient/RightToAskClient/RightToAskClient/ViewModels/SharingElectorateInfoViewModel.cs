@@ -47,6 +47,20 @@ namespace RightToAskClient.ViewModels
             get => _state;
             set => SetProperty(ref _state, value);
         }
+        private string _stateOrTerritoryTitle = AppResources.StateOrTerritoryTitle;
+
+        public string StateOrTerritoryTitle
+        {
+            get => _stateOrTerritoryTitle;
+            set => SetProperty(ref _stateOrTerritoryTitle, value);
+        }
+        private string _stateOrTerritoryElectorateTitle = AppResources.StateOrTerritoryElectorateTitle;
+
+        public string StateOrTerritoryElectorateTitle
+        {
+            get => _stateOrTerritoryElectorateTitle;
+            set => SetProperty(ref _stateOrTerritoryElectorateTitle, value);
+        }
 
         private string _federalElectorate;
 
@@ -157,6 +171,10 @@ namespace RightToAskClient.ViewModels
                         break;
                 }
             }
+            var isTerritory = (State == ParliamentData.StateEnum.NT.ToString() || 
+                               State == ParliamentData.StateEnum.ACT.ToString());
+            StateOrTerritoryTitle = isTerritory ? "Territory" : "State";
+            StateOrTerritoryElectorateTitle = isTerritory ? "Territory Electorate" : "State Electorate";
 
             _availableOptions = new List<SharingElectorateInfoOptions>
             {
@@ -171,27 +189,28 @@ namespace RightToAskClient.ViewModels
                 SharingElectorateInfoOptions.StateOrTerritory)
             {
                 _availableOptions.Add(SharingElectorateInfoOptions.StateOrTerritory);
-                SharingElectorateInfoOptionValues.Add("State or Territory");
+                
+                SharingElectorateInfoOptionValues.Add(isTerritory ? "Territory" : "State");
             }
 
             if ((options & SharingElectorateInfoOptions.FederalElectorateAndState) ==
                 SharingElectorateInfoOptions.FederalElectorateAndState)
             {
                 _availableOptions.Add(SharingElectorateInfoOptions.FederalElectorateAndState);
-                SharingElectorateInfoOptionValues.Add("Federal Electorate and state/ territory");
+                SharingElectorateInfoOptionValues.Add(isTerritory ? "Federal Electorate and territory" : "Federal Electorate and state");
             }
 
             if ((options & SharingElectorateInfoOptions.StateElectorateAndState) ==
                 SharingElectorateInfoOptions.StateElectorateAndState)
             {
                 _availableOptions.Add(SharingElectorateInfoOptions.StateElectorateAndState);
-                SharingElectorateInfoOptionValues.Add("State Electorate and state/ territory");
+                SharingElectorateInfoOptionValues.Add(isTerritory ? "Territory Electorate and territory" : "State Electorate and state");
             }
 
             if ((options & SharingElectorateInfoOptions.All) == SharingElectorateInfoOptions.All)
             {
                 _availableOptions.Add(SharingElectorateInfoOptions.All);
-                SharingElectorateInfoOptionValues.Add("Federal Electorate, State Electorate and state/ territory");
+                SharingElectorateInfoOptionValues.Add(isTerritory ? "Federal Electorate, Territory Electorate and territory" : "Federal Electorate, State Electorate and state");
             }
 
             if (!stateElectorates.IsNullOrEmpty())

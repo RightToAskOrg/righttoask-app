@@ -49,17 +49,17 @@
                     </Grid>
 
                     <views:ShareElectorateInfoPanel
-                        Title="State"
+                        Title="{Binding StateOrTerritoryTitle}"
                         Value="{Binding State}"
                         IsPublic="{Binding IsStatePublic}"
                         IsAbleToFinish="{Binding AbleToFinish}" />
                     <views:ShareElectorateInfoPanel
-                        Title="Federal Electorate"
+                        Title="{effects:Translate FederalElectorate}"
                         Value="{Binding FederalElectorate}"
                         IsPublic="{Binding IsFederalElectoratePublic}"
                         IsAbleToFinish="{Binding AbleToFinish}" />
                     <views:ShareElectorateInfoPanel
-                        Title="State Electorate"
+                        Title="{Binding StateOrTerritoryElectorateTitle}"
                         Value="{Binding StateElectorate}"
                         IsPublic="{Binding IsStateElectoratePublic}"
                         IsAbleToFinish="{Binding AbleToFinish}" />

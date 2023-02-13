@@ -1,31 +1,41 @@
 using System.Collections.Generic;
 using RightToAskClient.Models;
 using RightToAskClient.ViewModels;
+using Xamarin.Forms.Platform.WPF.Extensions;
 using Xunit;
 
 namespace UnitTests
 {
     public class SharingElectorateInfoViewModelTests
     {
-        private Registration CreateRegistration(SharingElectorateInfoOptions options)
+        private Registration CreateRegistration(
+            SharingElectorateInfoOptions options, 
+            ParliamentData.StateEnum stateTerritory = ParliamentData.StateEnum.VIC)
         {
             var registration = new Registration();
             var electorates = new List<ElectorateWithChamber>();
             if ((options & SharingElectorateInfoOptions.StateOrTerritory) != 0)
             {
-                electorates.Add(new ElectorateWithChamber(ParliamentData.Chamber.Australian_Senate, "VIC"));
+                electorates.Add(new ElectorateWithChamber(
+                    ParliamentData.Chamber.Australian_Senate,
+                    stateTerritory.ToString()));
             }
 
             if ((options & SharingElectorateInfoOptions.FederalElectorate) != 0)
             {
-                electorates.Add(new ElectorateWithChamber(ParliamentData.Chamber.Australian_House_Of_Representatives,
-                    "VIC"));
+                electorates.Add(
+                    new ElectorateWithChamber(ParliamentData.Chamber.Australian_House_Of_Representatives,
+                        stateTerritory.ToString()));
             }
 
             if ((options & SharingElectorateInfoOptions.StateElectorate) != 0)
             {
-                electorates.Add(new ElectorateWithChamber(ParliamentData.Chamber.Qld_Legislative_Assembly, "VIC"));
+                electorates.Add(
+                    new ElectorateWithChamber(ParliamentData.Chamber.Qld_Legislative_Assembly, 
+                        stateTerritory.ToString()));
             }
+
+            registration.UpdateStateStorePreferences((int)stateTerritory);
 
             registration.Electorates = electorates;
 
@@ -120,18 +130,38 @@ namespace UnitTests
         }
 
         [Fact]
-        public void ShouldShowAllOptions_ElectoratesAllAnswered()
+        public void ShouldShowAllOptions_ElectoratesAllAnswered_State()
         {
             var viewModel = new SharingElectorateInfoViewModel(CreateRegistration(SharingElectorateInfoOptions.All));
 
             Assert.Equal(new List<string>
             {
                 "Nothing",
-                "State or Territory",
-                "Federal Electorate and state/ territory",
-                "State Electorate and state/ territory",
-                "Federal Electorate, State Electorate and state/ territory"
+                "State",
+                "Federal Electorate and state",
+                "State Electorate and state",
+                "Federal Electorate, State Electorate and state"
             }, viewModel.SharingElectorateInfoOptionValues);
+            Assert.Equal("State", viewModel.StateOrTerritoryTitle);
+            Assert.Equal("State Electorate", viewModel.StateOrTerritoryElectorateTitle);
+        }
+
+        [Fact]
+        public void ShouldShowAllOptions_ElectoratesAllAnswered_Territory()
+        {
+            var viewModel = new SharingElectorateInfoViewModel(
+                CreateRegistration(SharingElectorateInfoOptions.All, ParliamentData.StateEnum.NT));
+
+            Assert.Equal(new List<string>
+            {
+                "Nothing",
+                "Territory",
+                "Federal Electorate and territory",
+                "Territory Electorate and territory",
+                "Federal Electorate, Territory Electorate and territory"
+            }, viewModel.SharingElectorateInfoOptionValues);
+            Assert.Equal("Territory", viewModel.StateOrTerritoryTitle);
+            Assert.Equal("Territory Electorate", viewModel.StateOrTerritoryElectorateTitle);
         }
 
         [Fact]
@@ -144,8 +174,8 @@ namespace UnitTests
             Assert.Equal(new List<string>
             {
                 "Nothing",
-                "State or Territory",
-                "Federal Electorate and state/ territory"
+                "State",
+                "Federal Electorate and state"
             }, viewModel.SharingElectorateInfoOptionValues);
         }
 
@@ -159,8 +189,8 @@ namespace UnitTests
             Assert.Equal(new List<string>
             {
                 "Nothing",
-                "State or Territory",
-                "State Electorate and state/ territory",
+                "State",
+                "State Electorate and state",
             }, viewModel.SharingElectorateInfoOptionValues);
         }
 
@@ -174,8 +204,8 @@ namespace UnitTests
             Assert.Equal(new List<string>
             {
                 "Nothing",
-                "State or Territory",
-                "Federal Electorate and state/ territory"
+                "State",
+                "Federal Electorate and state"
             }, viewModel.SharingElectorateInfoOptionValues);
         }
 
@@ -189,7 +219,7 @@ namespace UnitTests
             Assert.Equal(new List<string>
             {
                 "Nothing",
-                "State or Territory"
+                "State"
             }, viewModel.SharingElectorateInfoOptionValues);
         }
     }
