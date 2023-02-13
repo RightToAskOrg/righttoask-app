@@ -171,10 +171,26 @@ namespace RightToAskClient.ViewModels
                         break;
                 }
             }
-            var isTerritory = (State == ParliamentData.StateEnum.NT.ToString() || 
-                               State == ParliamentData.StateEnum.ACT.ToString());
-            StateOrTerritoryTitle = isTerritory ? AppResources.TerritoryTitle : AppResources.StateTitle;
-            StateOrTerritoryElectorateTitle = isTerritory ? AppResources.TerritoryElectorate : AppResources.StateElectorate;
+            
+            string fedElectorateTitle;
+            string terStateElectorateTitle;
+            string allElectorateTitle;
+            if (State == ParliamentData.StateEnum.NT.ToString() || State == ParliamentData.StateEnum.ACT.ToString())
+            {
+                StateOrTerritoryTitle = AppResources.TerritoryTitle;
+                StateOrTerritoryElectorateTitle = AppResources.TerritoryElectorate;
+                fedElectorateTitle = AppResources.FedElectorateTerritory;
+                terStateElectorateTitle = AppResources.TerElectorateTerritory;
+                allElectorateTitle = AppResources.AllElectorateTerritory;
+            }
+            else
+            {
+                StateOrTerritoryTitle = AppResources.StateTitle;
+                StateOrTerritoryElectorateTitle = AppResources.StateElectorate;
+                fedElectorateTitle = AppResources.FedElectorateState;
+                terStateElectorateTitle = AppResources.StateElectorateState;
+                allElectorateTitle = AppResources.AllElectorateState;
+            }
 
             _availableOptions = new List<SharingElectorateInfoOptions>
             {
@@ -196,20 +212,20 @@ namespace RightToAskClient.ViewModels
                 SharingElectorateInfoOptions.FederalElectorateAndState)
             {
                 _availableOptions.Add(SharingElectorateInfoOptions.FederalElectorateAndState);
-                SharingElectorateInfoOptionValues.Add(isTerritory ? AppResources.FedElectorateTerritory : AppResources.FedElectorateState);
+                SharingElectorateInfoOptionValues.Add(fedElectorateTitle);
             }
 
             if ((options & SharingElectorateInfoOptions.StateElectorateAndState) ==
                 SharingElectorateInfoOptions.StateElectorateAndState)
             {
                 _availableOptions.Add(SharingElectorateInfoOptions.StateElectorateAndState);
-                SharingElectorateInfoOptionValues.Add(isTerritory ? AppResources.TerElectorateTerritory : AppResources.StateElectorateState);
+                SharingElectorateInfoOptionValues.Add(terStateElectorateTitle);
             }
 
             if ((options & SharingElectorateInfoOptions.All) == SharingElectorateInfoOptions.All)
             {
                 _availableOptions.Add(SharingElectorateInfoOptions.All);
-                SharingElectorateInfoOptionValues.Add(isTerritory ? AppResources.AllElectorateTerritory : AppResources.AllElectorateState);
+                SharingElectorateInfoOptionValues.Add(allElectorateTitle);
             }
 
             if (!stateElectorates.IsNullOrEmpty())
