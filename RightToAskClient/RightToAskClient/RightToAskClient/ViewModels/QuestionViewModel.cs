@@ -45,13 +45,6 @@ namespace RightToAskClient.ViewModels
                 OnPropertyChanged();
             }
         }
-
-        private Color _flagColor = Color.Gray;
-        public Color FlagColor
-        {
-            get => _flagColor; 
-            set => SetProperty(ref _flagColor, value);
-        }
         
 
         // Convenient views of things stored in the Question.
@@ -433,7 +426,6 @@ namespace RightToAskClient.ViewModels
                 var nextPage = new ReportQuestionPage(Question.QuestionId, ResponseRecords, new Command(() =>
                 {
                     Question.AlreadyReported = true;
-                    FlagColor = Color.Crimson;
                 }));
                 await Application.Current.MainPage.Navigation.PushAsync(nextPage);
             });
