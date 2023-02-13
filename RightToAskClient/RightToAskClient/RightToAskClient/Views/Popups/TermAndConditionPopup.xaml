@@ -19,6 +19,7 @@
                     <FormattedString>
                         <Span Text="{xct:Translate TermAndConditionPlainText}"/>
                         <Span Text="{xct:Translate TermAndConditionPlainText2}"/>
+                        <Span Text=" "/>
                         <Span Text="{xct:Translate PrivacyPolicy}"
                               TextColor="{AppThemeBinding Light={StaticResource UrlTextColorLightMode}, Dark={StaticResource UrlTextColorDarkMode}}"
                               TextDecorations="Underline">
@@ -28,7 +29,9 @@
                                                       xct:SemanticEffect.Description="{xct:Translate PrivacyPolicy}"/>
                             </Span.GestureRecognizers>
                         </Span>
+                        <Span Text=" "/>
                         <Span Text="{xct:Translate and}"/>
+                        <Span Text=" "/>
                         <Span Text="{xct:Translate TermAndCondition}"
                               TextColor="{AppThemeBinding Light={StaticResource UrlTextColorLightMode}, Dark={StaticResource UrlTextColorDarkMode}}"
                               TextDecorations="Underline">
