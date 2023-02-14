@@ -72,6 +72,8 @@ namespace RightToAskClient.HttpClients
         }
         
         /* Unwinds the double layer of Result<> when the server itself responds with a ServerResult<T> data structure.
+         * TODO - I think this could simply say "if result is null [generate new error]; return result.
+         * TODO** even better, could this simply be 'return await DoGetJsonRequeset...' ?
          */
         public async Task<JOSResult<T>> DoGetResultRequest<T>(string uriString)
         {
@@ -141,6 +143,8 @@ namespace RightToAskClient.HttpClients
         // If there is no error, produce an empty JOS Success Result, otherwise a type-less Error result with the
         // same message. Note that this will throw an exception
         // if there actually is some data.
+        // FIXME This thows an exception because the call to PostGenericItemAsync<string,TIn>
+        // tries to build a <string> JOSResult with no data.
         public async Task<JOSResult> PostGenericItemAsync<TIn>(TIn item, string requestedUri)
         {
             var result = await PostGenericItemAsync<string, TIn>(item, requestedUri);
