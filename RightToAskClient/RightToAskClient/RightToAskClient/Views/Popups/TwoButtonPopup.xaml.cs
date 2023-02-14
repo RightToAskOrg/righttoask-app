@@ -26,6 +26,8 @@ namespace RightToAskClient.Views.Popups
                 cancelButton.Text = cancelMessage;
                 approveButton.Text = approveMessage;
             }
+
+            mainTitle.IsVisible = popupTitle.Length > 0;
         }
 
         public bool HasApproved(object? value)

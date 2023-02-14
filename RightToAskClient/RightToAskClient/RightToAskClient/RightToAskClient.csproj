@@ -13,6 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Xam.Forms.MarkdownView" Version="0.6.1-pre" />
     <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.0" />
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2337" />
@@ -243,6 +244,16 @@
     <EmbeddedResource Include="Images\wireframe_roo_small.png" />
     <EmbeddedResource Include="Images\wireframe_roo_smaller.png" />
     <EmbeddedResource Include="Images\write_draft.png" />
+    <EmbeddedResource Include="Images\thumb_up_light.png" />
+    <EmbeddedResource Include="Images\thumb_down_light.png" />
+    <EmbeddedResource Include="Images\thumb_up_dark.png" />
+    <EmbeddedResource Include="Images\thumb_down_dark.png" />
+    <EmbeddedResource Include="Images\thumb_up_filled.png" />
+    <EmbeddedResource Include="Images\thumb_down_filled.png" />
+    <EmbeddedResource Include="Images\flags_light.png" />
+    <EmbeddedResource Include="Images\flags_dark.png" />
+    <EmbeddedResource Include="Images\flags_filled_light.png" />
+    <EmbeddedResource Include="Images\flags_filled_dark.png" />
     <EmbeddedResource Include="Resources\Fonts\DancingScript-VariableFont_wght.ttf" />
     <EmbeddedResource Include="Resources\Fonts\Roboto-Black.ttf" />
     <EmbeddedResource Include="Resources\VicLegislativeAssemblymembers.csv" />
