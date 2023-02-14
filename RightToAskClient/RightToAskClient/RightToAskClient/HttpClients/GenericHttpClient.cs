@@ -98,7 +98,8 @@ namespace RightToAskClient.HttpClients
         }
 
         // Tin is the type of the thing we post, which is also the input type of this function.
-        // TResponse is the type of the server's response, which we return.
+        // TResponse is the type of the server's response, which we assume to be incorporated
+        // into a ServerResult. We check for errors and return.
         public async Task<ServerResult<TResponse>> PostGenericItemAsync<TResponse, TIn>(TIn item, string requestedUri)
         {
             var uri = new Uri(requestedUri);
@@ -120,7 +121,7 @@ namespace RightToAskClient.HttpClients
                 
                 var responseContent = await response.Content.ReadAsStringAsync();
                 var httpResponse =
-                    JsonSerializer.Deserialize<TResponse>(responseContent, _serializerOptions);
+                    JsonSerializer.Deserialize<ServerResult<TResponse>>(responseContent, _serializerOptions);
 
                 if (httpResponse is null)
                 {
@@ -129,12 +130,8 @@ namespace RightToAskClient.HttpClients
                 }
 
                 Debug.WriteLine(@"\tItem successfully saved on server.");
-                
-                return new ServerResult<TResponse>
-                {
-                    Ok = httpResponse
-                };
 
+                return httpResponse;
             }
             catch (Exception ex)
             {

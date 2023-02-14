@@ -246,56 +246,27 @@ namespace RightToAskClient.HttpClients
             return new SuccessResult<string>(serverResponse.Data.message);
         }
 
-        /*
-         * Errors in the outer layer represent http errors, (e.g. 404).
-         * These are logged because they represent a problem with the system.
-         * Ditto signature verification.
-         * Errors in the inner layer represent server errors, e.g. UID already taken.
-         * These are returned to the user on the assumption that there's something they
-         * can do.
-         * In some cases, the server returns some information
-         * in the form of a message that is then returned in Result.Ok.
-         * TODO: Probably it would be better if the inner function, PostGenericItemAsync, rolled the two layers of error into
-         * one.
-         */
-        
         private static async Task<JOSResult<TReturn>> SendDataToServerReturnResponse<TUpload,TReturn>(
             TUpload newThing,
             string typeDescription,
             string uri)
         {
             var httpResponse 
-                = await Client.PostGenericItemAsync<ServerResult<TReturn>, TUpload>(newThing, uri);
+                = await Client.PostGenericItemAsync<TReturn, TUpload>(newThing, uri);
 
             // http errors
             if (string.IsNullOrEmpty(httpResponse.Err))
             {
                 // Error responses from the server, 
-                // FIXME This code is wrong when httpResponse.Ok.Ok is null, because the constructor interprets a null 
+                // FIXME This code is wrong when httpResponse.Ok is null, because the constructor interprets a null 
                 // argument as a non-success result.
-                if (string.IsNullOrEmpty(httpResponse.Ok.Err))
-                {
-                    return new SuccessResult<TReturn>(httpResponse.Ok.Ok);
-                }
-                    
-                Debug.WriteLine(@"\tError sending "+typeDescription+": "+httpResponse.Ok.Err);
-                return new ErrorResult<TReturn>(httpResponse.Ok.Err ?? "");
+                return new SuccessResult<TReturn>(httpResponse.Ok);
             }
 
             Debug.WriteLine(@"\tError reaching server for sending " +typeDescription+": "+httpResponse.Err);
             return new ErrorResult<TReturn>(httpResponse.Err ?? "");
         }
         
-        /*
- * Errors in the outer layer represent http errors, (e.g. 404).
- * These are logged because they represent a problem with the system.
- * Ditto signature verification.
- * Errors in the inner layer represent server errors, e.g. UID already taken.
- * These are returned to the user on the assumption that there's something they
- * can do.
- * In some cases, the server returns some information
- * in the form of a message that is then returned in Result.Ok.
- */
         private static async Task<JOSResult> SendDataToServerExpectNoResponse<TUpload>(
             TUpload newThing,
             string typeDescription,
@@ -304,19 +275,12 @@ namespace RightToAskClient.HttpClients
             // We don't really expect the ServerResult to be a string - it just needs to be something
             // that can be null.
             var httpResponse 
-                = await Client.PostGenericItemAsync<ServerResult<string>, TUpload>(newThing, uri);
+                = await Client.PostGenericItemAsync<string, TUpload>(newThing, uri);
 
             // http errors
             if (string.IsNullOrEmpty(httpResponse.Err))
             {
-                // Error responses from the server
-                if (string.IsNullOrEmpty(httpResponse.Ok.Err))
-                {
-                    return new SuccessResult();
-                }
-                    
-                Debug.WriteLine(@"\tError sending "+typeDescription+": "+httpResponse.Ok.Err);
-                return new ErrorResult(httpResponse.Ok.Err ?? "");
+                return new SuccessResult();
             }
 
             Debug.WriteLine(@"\tError reaching server for sending " +typeDescription+": "+httpResponse.Err);
