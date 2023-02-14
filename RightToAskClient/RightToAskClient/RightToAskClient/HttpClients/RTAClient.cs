@@ -251,20 +251,7 @@ namespace RightToAskClient.HttpClients
             string typeDescription,
             string uri)
         {
-            var httpResponse 
-                = await Client.PostGenericItemAsync<TReturn, TUpload>(newThing, uri);
-
-            // http errors
-            if (string.IsNullOrEmpty(httpResponse.Err))
-            {
-                // Error responses from the server, 
-                // FIXME This code is wrong when httpResponse.Ok is null, because the constructor interprets a null 
-                // argument as a non-success result.
-                return new SuccessResult<TReturn>(httpResponse.Ok);
-            }
-
-            Debug.WriteLine(@"\tError reaching server for sending " +typeDescription+": "+httpResponse.Err);
-            return new ErrorResult<TReturn>(httpResponse.Err ?? "");
+                return await Client.PostGenericItemAsync<TReturn, TUpload>(newThing, uri);
         }
         
         private static async Task<JOSResult> SendDataToServerExpectNoResponse<TUpload>(
@@ -272,19 +259,7 @@ namespace RightToAskClient.HttpClients
             string typeDescription,
             string uri)
         {
-            // We don't really expect the ServerResult to be a string - it just needs to be something
-            // that can be null.
-            var httpResponse 
-                = await Client.PostGenericItemAsync<string, TUpload>(newThing, uri);
-
-            // http errors
-            if (string.IsNullOrEmpty(httpResponse.Err))
-            {
-                return new SuccessResult();
-            }
-
-            Debug.WriteLine(@"\tError reaching server for sending " +typeDescription+": "+httpResponse.Err);
-            return new ErrorResult(httpResponse.Err ?? "");
+                return await Client.PostGenericItemAsync<TUpload>(newThing, uri);
         }
         
         // At the moment, this simply passes the information back to the user. We might perhaps want
