@@ -168,6 +168,7 @@ namespace RightToAskClient.ViewModels
                             stateElectorates.Add(electorate.region);
                             options |= SharingElectorateInfoOptions.StateElectorate;
                         }
+
                         break;
                 }
             }

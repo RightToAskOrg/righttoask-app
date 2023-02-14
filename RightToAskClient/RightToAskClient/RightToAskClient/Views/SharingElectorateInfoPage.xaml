@@ -35,7 +35,7 @@
                            Style="{StaticResource PickerTitle}"
                            IsVisible="{Binding AbleToFinish}">
                     </Label>
-                    <Grid>
+                    <Grid Margin="0,0,0,16">
                         <BoxView Style="{StaticResource Separator}" VerticalOptions="End" />
 
                         <Image Source="{helpers:ImageResource RightToAskClient.Images.expand_48.png }"

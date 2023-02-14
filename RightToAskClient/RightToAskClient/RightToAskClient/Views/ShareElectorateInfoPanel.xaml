@@ -6,16 +6,15 @@
     xmlns:views="clr-namespace:RightToAskClient.Views;assembly=RightToAskClient"
     x:Class="RightToAskClient.Views.ShareElectorateInfoPanel"
     CornerRadius="5"
-    BorderColor="Gray"
+    BorderColor="{AppThemeBinding Light={StaticResource FadedButtonColor}, Dark={StaticResource SeparatorDarkModeColor}}"
     Padding="16"
     BackgroundColor="{AppThemeBinding Light=White, Dark=Black}"
     x:Name="This"
-    Margin="8 0"
+    Margin="0 ,8"
     HasShadow="False">
     <StackLayout Orientation="Vertical"
                  VerticalOptions="Start"
-                 Padding="0"
-                 Margin="0">
+                 Padding="0">
         <StackLayout Orientation="Horizontal"
                      VerticalOptions="Start"
                      Padding="0"
