@@ -5,4 +5,8 @@ fileignoreconfig:
   checksum: d4cca0a51fcf3fc1d48cbb857afa61055310bfa4e427f1b936a4fed9743d76c5
 - filename: RightToAskClient/RightToAskClient/RightToAskClient/App.xaml
   checksum: d88cd560cb7f414d5a217183c6fcb30317d77a61a1ee2fd162101641e5ad5320
+- filename: RightToAskClient/RightToAskClient/RightToAskClient/Views/QuestionDetailPage.xaml
+  checksum: c537441313f24c3e4f405cd6fb5ab3643c511fc66f7031fa3b6376f505588c59
+- filename: RightToAskClient/RightToAskClient/RightToAskClient/Views/QuestionDisplayCard.xaml
+  checksum: 0a6d88a09a8472ef1f4da73393246851d9b162ac7b9da793c26ec8d8acb595a6
 version: "1.0"

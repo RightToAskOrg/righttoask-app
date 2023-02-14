@@ -24,10 +24,10 @@ namespace RightToAskClient.Views
 
             var lightTheme = new LightMarkdownTheme();
             var darkTheme = new DarkMarkdownTheme();
-            lightTheme.Paragraph.FontSize = 15;
-            lightTheme.Heading3.FontSize = 18;
-            darkTheme.Paragraph.FontSize = 15;
-            darkTheme.Heading3.FontSize = 18;
+            lightTheme.Paragraph.FontSize = (float)Device.GetNamedSize(NamedSize.Small, typeof(Label));
+            lightTheme.Heading3.FontSize = (float)Device.GetNamedSize(NamedSize.Medium, typeof(Label));
+            darkTheme.Paragraph.FontSize = (float)Device.GetNamedSize(NamedSize.Small, typeof(Label));
+            darkTheme.Heading3.FontSize = (float)Device.GetNamedSize(NamedSize.Medium, typeof(Label));
             darkTheme.BackgroundColor = Color.Black;
 
             var mdView = new Xam.Forms.Markdown.MarkdownView();

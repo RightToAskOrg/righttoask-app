@@ -8,7 +8,7 @@
              xmlns:local="clr-namespace:RightToAskClient"
              xmlns:views="clr-namespace:RightToAskClient.Views;assembly=RightToAskClient"
              xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
-             Title="Right to Ask Code of Conduct"
+             Title="Code of Conduct"
              x:Class="RightToAskClient.Views.CodeOfConductPage"
              Style="{StaticResource SubPage}">
     <Shell.BackButtonBehavior>

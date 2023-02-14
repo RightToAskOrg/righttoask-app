@@ -45,13 +45,6 @@ namespace RightToAskClient.ViewModels
                 OnPropertyChanged();
             }
         }
-
-        private Color _flagColor = Color.Gray;
-        public Color FlagColor
-        {
-            get => _flagColor; 
-            set => SetProperty(ref _flagColor, value);
-        }
         
 
         // Convenient views of things stored in the Question.
@@ -433,7 +426,6 @@ namespace RightToAskClient.ViewModels
                 var nextPage = new ReportQuestionPage(Question.QuestionId, ResponseRecords, new Command(() =>
                 {
                     Question.AlreadyReported = true;
-                    FlagColor = Color.Crimson;
                 }));
                 await Application.Current.MainPage.Navigation.PushAsync(nextPage);
             });
@@ -650,7 +642,7 @@ namespace RightToAskClient.ViewModels
 
             var httpResponse = await RTAClient.SendPlaintextUpvote(voteOnQuestion,
                 IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid);
-            (bool isValid, string errorMessage, string _) = RTAClient.ValidateHttpResponse(httpResponse, "Vote upload");  
+            (bool isValid, string errorMessage) = RTAClient.ValidateHttpResponse(httpResponse, "Vote upload");  
             if(!isValid) 
             {
                 var error =  "Error uploading vote: " + errorMessage;

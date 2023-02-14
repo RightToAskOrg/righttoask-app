@@ -164,9 +164,9 @@ namespace RightToAskClient.HttpClients
             return await SignAndSendDataToServerVerifySignedResponse(existingQuestion, AppResources.QuestionErrorTypeDescription, EditQnUrl, "Error editing question", uid);
         }
         
-        public static async Task<JOSResult<string>> SendPlaintextUpvote(PlainTextVoteOnQuestionCommand voteOnQuestion, string uid)
+        public static async Task<JOSResult> SendPlaintextUpvote(PlainTextVoteOnQuestionCommand voteOnQuestion, string uid)
         {
-            return await SignAndSendDataToServerVerifySignedResponse(voteOnQuestion, AppResources.QuestionErrorTypeDescription, PlaintextVoteQnUrl, "Error voting on question", uid);
+            return await SignAndSendDataToServerExpectNoResponse(voteOnQuestion, AppResources.QuestionErrorTypeDescription, PlaintextVoteQnUrl, "Error voting on question", uid);
         }
         
         public static async Task<JOSResult> SendReportQuestion(ReportQuestionCommand reportQuestion, string uid)
@@ -256,7 +256,10 @@ namespace RightToAskClient.HttpClients
          * can do.
          * In some cases, the server returns some information
          * in the form of a message that is then returned in Result.Ok.
+         * TODO: Probably it would be better if the inner function, PostGenericItemAsync, rolled the two layers of error into
+         * one.
          */
+        
         private static async Task<JOSResult<TReturn>> SendDataToServerReturnResponse<TUpload,TReturn>(
             TUpload newThing,
             string typeDescription,
@@ -268,7 +271,9 @@ namespace RightToAskClient.HttpClients
             // http errors
             if (string.IsNullOrEmpty(httpResponse.Err))
             {
-                // Error responses from the server
+                // Error responses from the server, 
+                // FIXME This code is wrong when httpResponse.Ok.Ok is null, because the constructor interprets a null 
+                // argument as a non-success result.
                 if (string.IsNullOrEmpty(httpResponse.Ok.Err))
                 {
                     return new SuccessResult<TReturn>(httpResponse.Ok.Ok);

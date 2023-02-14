@@ -2205,6 +2205,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string TermAndConditionPlainText2 {
+            get {
+                return ResourceManager.GetString("TermAndConditionPlainText2", resourceCulture);
+            }
+        }
+        
         internal static string PrivacyPolicy {
             get {
                 return ResourceManager.GetString("PrivacyPolicy", resourceCulture);
