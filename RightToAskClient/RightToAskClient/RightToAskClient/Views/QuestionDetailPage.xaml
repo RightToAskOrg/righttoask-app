@@ -116,7 +116,7 @@
 				</StackLayout>
 				<Label Text="{xct:Translate WhoShouldAnswerTitle}" Style="{StaticResource Header2}" />
 				<Label Text="{Binding QuestionAnswerers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
-				<StackLayout Orientation="Horizontal" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
+				<StackLayout Orientation="Horizontal">
 					<Label Text="{xct:Translate AnswererPermissions}" Style="{StaticResource Header2}" />
 					<CheckBox IsChecked="{Binding OthersCanAddQuestionAnswerers}" />
 				</StackLayout>
@@ -125,8 +125,7 @@
 					<Label Text="{xct:Translate OptionBText4}" Style="{StaticResource Header2}" />
 					<Label Text="{Binding QuestionAskers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
 					<!-- Ask the user whether they allow other users to add QuestionAskers. (Y/N) -->
-					<StackLayout Orientation="Horizontal"
-					             IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
+					<StackLayout Orientation="Horizontal">
 						<Label Text="{xct:Translate AskerPermissions}" Style="{StaticResource Header2}" />
 						<CheckBox IsChecked="{Binding OthersCanAddQuestionAskers}" />
 					</StackLayout>
