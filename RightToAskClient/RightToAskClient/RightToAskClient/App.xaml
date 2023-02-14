@@ -758,6 +758,12 @@
                 <Setter Property="HorizontalOptions" Value="Fill" />
                 <Setter Property="VerticalOptions" Value="End" />
             </Style>
+            <Style x:Key="ShareElectoralInfoValue" TargetType="Label">
+                <Setter Property="FontSize" Value="Medium" />
+                <Setter Property="TextColor" Value="{AppThemeBinding Light=#595959,  Dark=#A6A6A6}" />
+                <Setter Property="HorizontalOptions" Value="Fill" />
+                <Setter Property="VerticalOptions" Value="End" />
+            </Style>
 
             <Style x:Key="SignUpTitle" TargetType="Label">
                 <Setter Property="FontSize" Value="Large" />

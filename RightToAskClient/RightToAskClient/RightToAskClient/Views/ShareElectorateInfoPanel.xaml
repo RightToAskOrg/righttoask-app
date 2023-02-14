@@ -10,6 +10,7 @@
     Padding="16"
     BackgroundColor="{AppThemeBinding Light=White, Dark=Black}"
     x:Name="This"
+    Margin="8 0"
     HasShadow="False">
     <StackLayout Orientation="Vertical"
                  VerticalOptions="Start"
@@ -28,7 +29,7 @@
                                       IsPublic="{Binding IsPublic, Source={x:Reference This}}" />
         </StackLayout>
         <Label Text="{Binding Value, Source={x:Reference This}}"
-               Style="{StaticResource ReportReasonDetails}"
+               Style="{StaticResource ShareElectoralInfoValue}"
                HorizontalOptions="StartAndExpand"
                VerticalOptions="Start"
                Padding="0"

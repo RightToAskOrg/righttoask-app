@@ -17,14 +17,14 @@
         <StackLayout Orientation="Vertical"
                      VerticalOptions="Fill"
                      HorizontalOptions="Fill">
-            <ScrollView VerticalOptions="FillAndExpand">
+            <ScrollView VerticalOptions="FillAndExpand" Padding="16">
 
                 <StackLayout Orientation="Vertical"
                              VerticalOptions="FillAndExpand"
-                             HorizontalOptions="Fill"
-                             Padding="10">
+                             HorizontalOptions="Fill">
                     <Label Text="{effects:Translate SharingElectorateInfoHeaderText}"
                            Style="{StaticResource SignUpTitle}"
+                           Margin="0, 0, 0, 8"
                            HorizontalOptions="StartAndExpand" />
                     <Label Text="{effects:Translate SharingElectorateInfoParagraph}"
                            Style="{StaticResource SignUpBody}"
@@ -70,7 +70,7 @@
             <StackLayout Orientation="Vertical"
                          VerticalOptions="End"
                          HorizontalOptions="Fill"
-                         Padding="10">
+                         Padding="16">
                 <Button Text="{effects:Translate SaveAndFinish}"
                         Command="{Binding SaveAndFinishCommand}"
                         effects:SemanticEffect.Hint="{effects:Translate SaveAndFinishHint}"

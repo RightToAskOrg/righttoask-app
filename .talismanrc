@@ -4,5 +4,5 @@ fileignoreconfig:
 - filename: RightToAskClient/RightToAskClient/RightToAskClient/ViewModels/SharingElectorateInfoViewModel.cs
   checksum: d4cca0a51fcf3fc1d48cbb857afa61055310bfa4e427f1b936a4fed9743d76c5
 - filename: RightToAskClient/RightToAskClient/RightToAskClient/App.xaml
-  checksum: 50186ce5cdecbbcab41b751c2c15eeea9864f22f58795a67a6d45869a0c21ba7
+  checksum: d88cd560cb7f414d5a217183c6fcb30317d77a61a1ee2fd162101641e5ad5320
 version: "1.0"
