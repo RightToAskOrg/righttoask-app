@@ -852,7 +852,7 @@
                 <Setter Property="HasShadow" Value="False" />
             </Style>
             <Style x:Key="PublicPrivateLabelText" TargetType="Label">
-                <Setter Property="FontSize" Value="Micro" />
+                <Setter Property="FontSize" Value="Small" />
                 <Setter Property="FontAttributes" Value="Bold" />
                 <Setter Property="CharacterSpacing" Value="1" />
                 <Setter Property="VerticalOptions" Value="Center" />
