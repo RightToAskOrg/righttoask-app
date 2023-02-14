@@ -70,9 +70,14 @@
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
                                 <CollectionView.EmptyView>
-                                    <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                                        <Label Text="{Binding EmptyViewLabelText}" Style="{StaticResource HeaderButtonText}" 
-                                               VerticalOptions="Start" Margin="0,100,0,0"/>
+                                    <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="0, 100 ,0 ,0">
+                                        <Image Source="{Binding ListEmptyViewIcon}"
+                                               Style="{StaticResource ListErrorIcon}"
+                                               xct:IconTintColorEffect.TintColor="{AppThemeBinding 
+                                               Light={StaticResource EditorBackgroundDark}, 
+                                               Dark={StaticResource EditorBackground}}" />
+                                        <Label Text="{Binding EmptyViewLabelText}" Style="{StaticResource ListErrorText}" 
+                                               VerticalOptions="Start"/>
                                     </StackLayout>
                                 </CollectionView.EmptyView>
                             </CollectionView>
