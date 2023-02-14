@@ -16,7 +16,7 @@
             <Label x:Name="mainMessage" VerticalOptions="StartAndExpand" 
                    HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource PopupText}"/>
             
-            <Grid x:Name="EmuAndButtonLayout" BackgroundColor="{AppThemeBinding Light={StaticResource FadedButtonColor}, Dark={StaticResource SeperatorDarkModeColor}}"
+            <Grid x:Name="EmuAndButtonLayout" BackgroundColor="{AppThemeBinding Light={StaticResource FadedButtonColor}, Dark={StaticResource SeparatorDarkModeColor}}"
                   ColumnDefinitions="*" RowSpacing="0" >
                    <Grid.RowDefinitions>
                           <RowDefinition Height="1"/>

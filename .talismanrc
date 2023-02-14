@@ -1,4 +1,12 @@
 fileignoreconfig:
 - filename: RightToAskClient/RightToAskClient/RightToAskClient/Resources/serverconfig.json
   checksum: 1f8f04e1e57695a3ffe862a5cdd019e9411c47c058f8c39072f4060e0d083517
+- filename: RightToAskClient/RightToAskClient/RightToAskClient/ViewModels/SharingElectorateInfoViewModel.cs
+  checksum: d4cca0a51fcf3fc1d48cbb857afa61055310bfa4e427f1b936a4fed9743d76c5
+- filename: RightToAskClient/RightToAskClient/RightToAskClient/App.xaml
+  checksum: 93d5f34be687b297f3377ffc304c77e05117f7ad28700d8cb8a41d4b503fd596
+- filename: RightToAskClient/RightToAskClient/RightToAskClient/Views/QuestionDetailPage.xaml
+  checksum: c537441313f24c3e4f405cd6fb5ab3643c511fc66f7031fa3b6376f505588c59
+- filename: RightToAskClient/RightToAskClient/RightToAskClient/Views/QuestionDisplayCard.xaml
+  checksum: 0a6d88a09a8472ef1f4da73393246851d9b162ac7b9da793c26ec8d8acb595a6
 version: "1.0"

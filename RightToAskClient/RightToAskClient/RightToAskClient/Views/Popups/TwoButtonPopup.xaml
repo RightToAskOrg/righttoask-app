@@ -17,7 +17,7 @@
                        Style="{StaticResource PopupText}" />
                 </StackLayout>
             </ScrollView>
-            <Grid x:Name="vmButtons" ColumnDefinitions="*,*" VerticalOptions="End" BackgroundColor="{AppThemeBinding Light={StaticResource FadedButtonColor}, Dark={StaticResource SeperatorDarkModeColor}}"
+            <Grid x:Name="vmButtons" ColumnDefinitions="*,*" VerticalOptions="End" BackgroundColor="{AppThemeBinding Light={StaticResource FadedButtonColor}, Dark={StaticResource SeparatorDarkModeColor}}"
                   HorizontalOptions="FillAndExpand"
                   RowSpacing="0"
                   ColumnSpacing="1">

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using RightToAskClient.Helpers;
 using RightToAskClient.Models.ServerCommsData;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -13,6 +14,19 @@ namespace RightToAskClient.Models
         AnotherPerson,
         Registered,
         NotRegistered
+    }
+    
+    // bitwise approach
+    [Flags]
+    public enum SharingElectorateInfoOptions
+    {
+        Nothing = 0,
+        StateOrTerritory = 1,
+        FederalElectorate = 2,
+        StateElectorate = 4,
+        FederalElectorateAndState = StateOrTerritory | FederalElectorate,
+        StateElectorateAndState = StateOrTerritory | StateElectorate,
+        All = StateOrTerritory | FederalElectorate | StateElectorate,
     }
     public class Registration : ObservableObject
     {
@@ -106,6 +120,14 @@ namespace RightToAskClient.Models
                     
                 }
             }
+        }
+
+        private SharingElectorateInfoOptions? _sharingElectorateInfoOption;
+
+        public SharingElectorateInfoOptions? SharingElectorateInfoOption
+        {
+            get => _sharingElectorateInfoOption; 
+            set => SetProperty(ref _sharingElectorateInfoOption, value);
         }
 
         // Necesary for java serialisation & deserlialisation.

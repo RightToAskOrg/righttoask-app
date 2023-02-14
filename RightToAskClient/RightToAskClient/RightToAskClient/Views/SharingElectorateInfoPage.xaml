@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:RightToAskClient.ViewModels;assembly=RightToAskClient"
+             xmlns:effects="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:views="clr-namespace:RightToAskClient.Views;assembly=RightToAskClient"
+             xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
+             x:Class="RightToAskClient.Views.SharingElectorateInfoPage"
+             x:DataType="viewModels:SharingElectorateInfoViewModel">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding BackCommand}"
+                            effects:SemanticEffect.Hint="{effects:Translate BackHint}"
+                            effects:SemanticEffect.Description="{effects:Translate BackDescription}" />
+    </Shell.BackButtonBehavior>
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical"
+                     VerticalOptions="Fill"
+                     HorizontalOptions="Fill">
+            <ScrollView VerticalOptions="FillAndExpand" Padding="16">
+
+                <StackLayout Orientation="Vertical"
+                             VerticalOptions="FillAndExpand"
+                             HorizontalOptions="Fill">
+                    <Label Text="{effects:Translate SharingElectorateInfoHeaderText}"
+                           Style="{StaticResource SignUpTitle}"
+                           Margin="0, 0, 0, 8"
+                           HorizontalOptions="StartAndExpand" />
+                    <Label Text="{effects:Translate SharingElectorateInfoParagraph}"
+                           Style="{StaticResource SignUpBody}"
+                           HorizontalOptions="StartAndExpand" />
+
+                    <!-- TODO: extract to a reusable component -->
+                    <Label Text="{effects:Translate SharingElectorateInfoPickerTitle}"
+                           Style="{StaticResource PickerTitle}"
+                           IsVisible="{Binding AbleToFinish}">
+                    </Label>
+                    <Grid Margin="0,0,0,16">
+                        <BoxView Style="{StaticResource Separator}" VerticalOptions="End" />
+
+                        <Image Source="{helpers:ImageResource RightToAskClient.Images.expand_48.png }"
+                               effects:IconTintColorEffect.TintColor="{AppThemeBinding Light={StaticResource TextColor} ,Dark={StaticResource TextColorDark}}"
+                               HorizontalOptions="End" VerticalOptions="Center" WidthRequest="10" HeightRequest="10" />
+
+                        <Picker Title="{effects:Translate SharingElectorateInfoPickerTitle}"
+                                ItemsSource="{Binding SharingElectorateInfoOptionValues}"
+                                Style="{StaticResource TransparentBgPicker}" HorizontalOptions="FillAndExpand"
+                                SelectedIndex="{Binding SelectedIndexValue}" VerticalOptions="Center" />
+                    </Grid>
+
+                    <views:ShareElectorateInfoPanel
+                        Title="{Binding StateOrTerritoryTitle}"
+                        Value="{Binding State}"
+                        IsPublic="{Binding IsStatePublic}"
+                        IsAbleToFinish="{Binding AbleToFinish}" />
+                    <views:ShareElectorateInfoPanel
+                        Title="{effects:Translate FederalElectorate}"
+                        Value="{Binding FederalElectorate}"
+                        IsPublic="{Binding IsFederalElectoratePublic}"
+                        IsAbleToFinish="{Binding AbleToFinish}" />
+                    <views:ShareElectorateInfoPanel
+                        Title="{Binding StateOrTerritoryElectorateTitle}"
+                        Value="{Binding StateElectorate}"
+                        IsPublic="{Binding IsStateElectoratePublic}"
+                        IsAbleToFinish="{Binding AbleToFinish}" />
+                </StackLayout>
+            </ScrollView>
+            <BoxView Style="{StaticResource ButtonSeparator}" />
+
+            <StackLayout Orientation="Vertical"
+                         VerticalOptions="End"
+                         HorizontalOptions="Fill"
+                         Padding="16">
+                <Button Text="{effects:Translate SaveAndFinish}"
+                        Command="{Binding SaveAndFinishCommand}"
+                        effects:SemanticEffect.Hint="{effects:Translate SaveAndFinishHint}"
+                        effects:SemanticEffect.Description="{effects:Translate SaveAndFinish}"
+                        Style="{StaticResource NormalButton}"
+                        CornerRadius="5"
+                        IsEnabled="{Binding AbleToFinish}" />
+            </StackLayout>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

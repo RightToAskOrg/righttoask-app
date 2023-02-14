@@ -2133,6 +2133,72 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string UserIDAlreadyExists {
+            get {
+                return ResourceManager.GetString("UserIDAlreadyExists", resourceCulture);
+            }
+        }
+        
+        internal static string Continue {
+            get {
+                return ResourceManager.GetString("Continue", resourceCulture);
+            }
+        }
+        
+        internal static string SaveAndFinish {
+            get {
+                return ResourceManager.GetString("SaveAndFinish", resourceCulture);
+            }
+        }
+        
+        internal static string SaveAndFinishHint {
+            get {
+                return ResourceManager.GetString("SaveAndFinishHint", resourceCulture);
+            }
+        }
+        
+        internal static string SharingElectorateInfoHeaderText {
+            get {
+                return ResourceManager.GetString("SharingElectorateInfoHeaderText", resourceCulture);
+            }
+        }
+        
+        internal static string SharingElectorateInfoParagraph {
+            get {
+                return ResourceManager.GetString("SharingElectorateInfoParagraph", resourceCulture);
+            }
+        }
+        
+        internal static string PublicLabel {
+            get {
+                return ResourceManager.GetString("PublicLabel", resourceCulture);
+            }
+        }
+        
+        internal static string PrivateLabel {
+            get {
+                return ResourceManager.GetString("PrivateLabel", resourceCulture);
+            }
+        }
+        
+        internal static string EmptyNameMessage {
+            get {
+                return ResourceManager.GetString("EmptyNameMessage", resourceCulture);
+            }
+        }
+        
+        internal static string NoneSelected {
+            get {
+                return ResourceManager.GetString("NoneSelected", resourceCulture);
+            }
+        }
+        
+        internal static string SharingElectorateInfoPickerTitle {
+            get {
+                return ResourceManager.GetString("SharingElectorateInfoPickerTitle", resourceCulture);
+            }
+        }
+        
         internal static string TermAndConditionPlainText {
             get {
                 return ResourceManager.GetString("TermAndConditionPlainText", resourceCulture);
@@ -2166,6 +2232,90 @@ namespace RightToAskClient.Resx {
         internal static string AgreeAndContinueButton {
             get {
                 return ResourceManager.GetString("AgreeAndContinueButton", resourceCulture);
+            }
+        }
+        
+        internal static string FederalElectorate {
+            get {
+                return ResourceManager.GetString("FederalElectorate", resourceCulture);
+            }
+        }
+        
+        internal static string StateTitle {
+            get {
+                return ResourceManager.GetString("StateTitle", resourceCulture);
+            }
+        }
+        
+        internal static string TerritoryTitle {
+            get {
+                return ResourceManager.GetString("TerritoryTitle", resourceCulture);
+            }
+        }
+        
+        internal static string StateOrTerritoryTitle {
+            get {
+                return ResourceManager.GetString("StateOrTerritoryTitle", resourceCulture);
+            }
+        }
+        
+        internal static string StateOrTerritoryElectorateTitle {
+            get {
+                return ResourceManager.GetString("StateOrTerritoryElectorateTitle", resourceCulture);
+            }
+        }
+        
+        internal static string Nothing {
+            get {
+                return ResourceManager.GetString("Nothing", resourceCulture);
+            }
+        }
+        
+        internal static string TerritoryElectorate {
+            get {
+                return ResourceManager.GetString("TerritoryElectorate", resourceCulture);
+            }
+        }
+        
+        internal static string StateElectorate {
+            get {
+                return ResourceManager.GetString("StateElectorate", resourceCulture);
+            }
+        }
+        
+        internal static string FedElectorateTerritory {
+            get {
+                return ResourceManager.GetString("FedElectorateTerritory", resourceCulture);
+            }
+        }
+        
+        internal static string FedElectorateState {
+            get {
+                return ResourceManager.GetString("FedElectorateState", resourceCulture);
+            }
+        }
+        
+        internal static string TerElectorateTerritory {
+            get {
+                return ResourceManager.GetString("TerElectorateTerritory", resourceCulture);
+            }
+        }
+        
+        internal static string StateElectorateState {
+            get {
+                return ResourceManager.GetString("StateElectorateState", resourceCulture);
+            }
+        }
+        
+        internal static string AllElectorateTerritory {
+            get {
+                return ResourceManager.GetString("AllElectorateTerritory", resourceCulture);
+            }
+        }
+        
+        internal static string AllElectorateState {
+            get {
+                return ResourceManager.GetString("AllElectorateState", resourceCulture);
             }
         }
     }

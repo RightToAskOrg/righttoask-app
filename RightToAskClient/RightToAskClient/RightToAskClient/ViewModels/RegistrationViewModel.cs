@@ -365,7 +365,8 @@ namespace RightToAskClient.ViewModels
         #region Methods
         public async void NavigateToFindMPsPage()
         {
-            await Shell.Current.GoToAsync($"{nameof(FindMPsPage)}");
+            var findMPsPage = new FindMPsPage(_registration);
+            await Application.Current.MainPage.Navigation.PushAsync(findMPsPage);
         }
 
         // Show and label different buttons according to whether we're registering
@@ -415,73 +416,29 @@ namespace RightToAskClient.ViewModels
         // public key and uid. Electorates are optional.
         private async void OnSaveButtonClicked()
         {
-            SaveRegistrationToPreferences(_registration);
-            Debug.Assert(_registration.registrationStatus == RegistrationStatus.NotRegistered);
-
-            _registration.public_key = ClientSignatureGenerationService.MyPublicKey; 
+            if (UserId.IsNullOrEmpty() || DisplayName.IsNullOrEmpty())
+            {
+                ReportLabelText = AppResources.EmptyNameMessage;
+                return;
+            }
             
-            // Check that the registration info we're about to send to the server is valid.
-            var regTest = _registration.IsValid();
-            if (regTest.Success)
+            try
             {
-                // see if we need to push the electorates page or if we push the server account things
-                if (!_registration.ElectoratesKnown)
+                var userIdExists = await RTAClient.CheckUserIdExists(UserId);
+                if (userIdExists)
                 {
-                    // if MPs have not been found for this user yet, prompt to find them
-                    var popup = new TwoButtonPopup(AppResources.MPsPopupTitle, AppResources.MPsPopupText, AppResources.SkipButtonText, AppResources.YesButtonText, false);
-                    var popupResult = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
-                    if (popup.HasApproved(popupResult))
-                    {
-                        NavigateToFindMPsPage();
-                    }
-                    else
-                    {
-                        await SendNewUserToServer();
-                    }
-                }
-                else
-                {
-                    await SendNewUserToServer();
+                    ReportLabelText = AppResources.UserIDAlreadyExists;
+                    return;
                 }
             }
-            // If registration info is invalid, prompt the user to fix it up.
-            else
+            catch (Exception e)
             {
-                var errorMessage = AppResources.InvalidRegistration;
-                if (regTest is ErrorResult errorResult)
-                {
-                    errorMessage = errorResult.Message;
-                }
-                PromptUser(errorMessage);
+                ReportLabelText = e.Message;
+                return;
             }
-        }
 
-        private async Task SendNewUserToServer()
-        {
-
-            var httpResponse = await RTAClient.RegisterNewUser(_registration);
-            var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
-            ReportLabelText = httpValidation.errorMessage;
-            if (httpValidation.isValid)
-            {
-                _registration.registrationStatus = RegistrationStatus.Registered;
-                UpdateLocalRegistrationInfo();
-                     
-                // if the response seemed successful, put it in more common terms for the user.
-                if (ReportLabelText.Contains("Success"))
-                {
-                    ReportLabelText = AppResources.AccountCreationSuccessResponseText;
-                }
-                // Now we're registered, we can't change our UID - we can only update the other fields.
-                ShowUpdateAccountButton = true;
-                CanEditUid = false;
-                Title = AppResources.EditYourAccountTitle;
-                PopupLabelText = AppResources.EditAccountPopupText;
-                // pop back to the QuestionDetailsPage after the account is created
-                var Navigation = Application.Current.MainPage.Navigation;
-                Navigation.RemovePage(Navigation.NavigationStack[Navigation.NavigationStack.Count - 2]);
-                await Navigation.PopAsync();
-            }
+            ReportLabelText = "";
+            NavigateToFindMPsPage();
         }
 
         // TODO: This may put the app into a problematic state in which the server thinks

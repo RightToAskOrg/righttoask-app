@@ -1214,7 +1214,39 @@ We are still learning about how people use Right To Ask. These rules may change 
   <data name="SignUpBodyText" xml:space="preserve">
   <value>You haven’t created an account yet</value>
   </data>
-
+  <data name="UserIDAlreadyExists" xml:space="preserve">
+  <value>This username isn’t available. Please try another.</value>
+  </data>
+  <data name="Continue" xml:space="preserve">
+  <value>Continue</value>
+  </data>
+  <data name="SaveAndFinish" xml:space="preserve">
+  <value>Save and Finish</value>
+  </data>
+  <data name="SaveAndFinishHint" xml:space="preserve">
+  <value>Saves registration data to server and locally.</value>
+  </data>
+  <data name="SharingElectorateInfoHeaderText" xml:space="preserve">
+    <value>Show your electorate on your public profile?</value>
+  </data>
+  <data name="SharingElectorateInfoParagraph" xml:space="preserve">
+    <value>Select what to show on your profile. If you choose to make this public, your MP is more likely to answer your question.</value>
+  </data>
+  <data name="PublicLabel" xml:space="preserve">
+    <value>Public</value>
+  </data>
+  <data name="PrivateLabel" xml:space="preserve">
+    <value>Private</value>
+  </data>
+  <data name="EmptyNameMessage" xml:space="preserve">
+    <value>User ID and displayed name must not be empty.</value>
+  </data>
+  <data name="NoneSelected" xml:space="preserve">
+    <value>None selected</value>
+  </data>
+  <data name="SharingElectorateInfoPickerTitle" xml:space="preserve">
+    <value>Electorate info on your profile</value>
+  </data>
   <data name="TermAndConditionPlainText" xml:space="preserve">
   <value>By tapping “Agree and continue”, </value>
   </data>
@@ -1232,5 +1264,47 @@ We are still learning about how people use Right To Ask. These rules may change 
   </data>
     <data name="AgreeAndContinueButton" xml:space="preserve">
   <value>Agree and continue</value>
+  </data>
+  <data name="FederalElectorate" xml:space="preserve">
+  <value>Federal Electorate</value>
+  </data>
+  <data name="StateTitle" xml:space="preserve">
+  <value>State</value>
+  </data>
+  <data name="TerritoryTitle" xml:space="preserve">
+  <value>Territory</value>
+  </data>
+  <data name="StateOrTerritoryTitle" xml:space="preserve">
+  <value>State/ Territory</value>
+  </data>
+  <data name="StateOrTerritoryElectorateTitle" xml:space="preserve">
+  <value>State/ Territory Electorate</value>
+  </data>
+  <data name="Nothing" xml:space="preserve">
+  <value>Nothing</value>
+  </data>
+  <data name="TerritoryElectorate" xml:space="preserve">
+  <value>Territory Electorate</value>
+  </data>
+  <data name="StateElectorate" xml:space="preserve">
+  <value>State Electorate</value>
+  </data>
+  <data name="FedElectorateTerritory" xml:space="preserve">
+  <value>Federal Electorate and territory</value>
+  </data>
+  <data name="FedElectorateState" xml:space="preserve">
+  <value>Federal Electorate and state</value>
+  </data>
+  <data name="TerElectorateTerritory" xml:space="preserve">
+  <value>Territory Electorate and territory</value>
+  </data>
+  <data name="StateElectorateState" xml:space="preserve">
+  <value>State Electorate and state</value>
+  </data>
+  <data name="AllElectorateTerritory" xml:space="preserve">
+  <value>Federal Electorate, Territory Electorate and territory</value>
+  </data>
+  <data name="AllElectorateState" xml:space="preserve">
+  <value>Federal Electorate, State Electorate and state</value>
   </data>
 </root>
