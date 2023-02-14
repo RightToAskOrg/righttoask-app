@@ -26,8 +26,8 @@
             <!-- These are all the same light green -->
             <Color x:Key="FadedButtonColor">#dfdfdf</Color>
             <Color x:Key="SeparatorDarkModeColor">#363636</Color>
-            <Color x:Key="FrameColor">#dfdfdf</Color> 
-            
+            <Color x:Key="FrameColor">#dfdfdf</Color>
+
             <!-- Second theme color -->
             <Color x:Key="DarkPurple">#600C82</Color>
             <Color x:Key="Purple">#9141B2</Color>
@@ -220,14 +220,16 @@
             </Style>
             <Style x:Key="PopupOKButton" BasedOn="{StaticResource PopupButton}" TargetType="Button"
                    ApplyToDerivedTypes="True">
-                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Purple}, Dark={StaticResource DarkModePurple}}" />
+                <Setter Property="TextColor"
+                        Value="{AppThemeBinding Light={StaticResource Purple}, Dark={StaticResource DarkModePurple}}" />
                 <Setter Property="FontSize" Value="14" />
                 <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=White, Dark=Black}" />
             </Style>
             <Style x:Key="PopupCancelButton" BasedOn="{StaticResource PopupButton}" TargetType="Button"
                    ApplyToDerivedTypes="True">
-                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource PopupTextColor}, Dark={StaticResource PopupDarkModeTextColor}}" />
-                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="TextColor"
+                        Value="{AppThemeBinding Light={StaticResource PopupTextColor}, Dark={StaticResource PopupDarkModeTextColor}}" />
+                <Setter Property="FontSize" Value="14" />
                 <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=White, Dark=Black}" />
             </Style>
             <Style x:Key="UpVoteButton" TargetType="Button" ApplyToDerivedTypes="True">
@@ -632,7 +634,8 @@
             <Style x:Key="Separator" TargetType="BoxView">
                 <Setter Property="HeightRequest" Value="1" />
                 <Setter Property="HorizontalOptions" Value="FillAndExpand" />
-                <Setter Property="Color" Value="{AppThemeBinding Light=Gray,  Dark={StaticResource SeparatorDarkModeColor}}" />
+                <Setter Property="Color"
+                        Value="{AppThemeBinding Light=Gray,  Dark={StaticResource SeparatorDarkModeColor}}" />
                 <Setter Property="Margin" Value="0, 16, 0, 0" />
                 <Setter Property="Opacity" Value="0.25" />
             </Style>
@@ -745,7 +748,8 @@
                 <Setter Property="HeightRequest" Value="1" />
                 <Setter Property="HorizontalOptions" Value="FillAndExpand" />
                 <Setter Property="VerticalOptions" Value="End" />
-                <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource FadedButtonColor}, Dark={StaticResource SeparatorDarkModeColor}}" />
+                <Setter Property="Color"
+                        Value="{AppThemeBinding Light={StaticResource FadedButtonColor}, Dark={StaticResource SeparatorDarkModeColor}}" />
                 <Setter Property="Margin" Value="0" />
             </Style>
             <Style x:Key="ReportReasonTitle" TargetType="Label">
@@ -840,7 +844,19 @@
                     </VisualStateGroupList>
                 </Setter>
             </Style>
-
+            <Style x:Key="PublicPrivateLabel" TargetType="Frame">
+                <Setter Property="HeightRequest" Value="24" />
+                <Setter Property="VerticalOptions" Value="Start" />
+                <Setter Property="CornerRadius" Value="12" />
+                <Setter Property="Padding" Value="15, 0" />
+                <Setter Property="HasShadow" Value="False" />
+            </Style>
+            <Style x:Key="PublicPrivateLabelText" TargetType="Label">
+                <Setter Property="FontSize" Value="Micro" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="CharacterSpacing" Value="1" />
+                <Setter Property="VerticalOptions" Value="Center" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

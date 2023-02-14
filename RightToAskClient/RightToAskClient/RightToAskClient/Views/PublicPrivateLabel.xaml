@@ -6,32 +6,26 @@
              x:Class="RightToAskClient.Views.PublicPrivateLabel"
              x:Name="This">
     <Frame
+        x:Name="PublicLabel"
+        Style="{StaticResource PublicPrivateLabel}"
         BackgroundColor="{AppThemeBinding 
     Light={StaticResource DarkGreen},
     Dark={StaticResource Primary}}"
-        HeightRequest="24"
-        VerticalOptions="Start"
-        CornerRadius="12"
-        Padding="15, 0"
-        x:Name="PublicLabel"
-        IsVisible="{Binding IsPublic, Source={x:Reference This}}"
-        HasShadow="False">
-        <Label Text="{xct:Translate PublicLabel}" TextColor="White" VerticalOptions="Center" FontSize="Micro"
-               FontAttributes="Bold" CharacterSpacing="1" />
+        IsVisible="{Binding IsPublic, Source={x:Reference This}}">
+        <Label Style="{StaticResource PublicPrivateLabelText}"
+               Text="{xct:Translate PublicLabel}"
+               TextColor="White" />
     </Frame>
-    <Frame BackgroundColor="{AppThemeBinding Light=White, Dark=Black}"
-           HeightRequest="24"
-           VerticalOptions="Start"
-           CornerRadius="12"
-           Padding="15, 0"
-           BorderColor="{AppThemeBinding 
+    <Frame
+        x:Name="PrivateLabel"
+        Style="{StaticResource PublicPrivateLabel}"
+        BackgroundColor="{AppThemeBinding Light=White, Dark=Black}"
+        BorderColor="{AppThemeBinding 
     Light={StaticResource DarkGreen},
     Dark={StaticResource Primary}}"
-           x:Name="PrivateLabel"
-           IsVisible="{Binding IsPublic, Source={x:Reference This}, Converter={StaticResource cnvInvert}}"
-           HasShadow="False">
-        <Label Text="{xct:Translate PrivateLabel}" VerticalOptions="Center"
-               TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark=White}" FontSize="Micro"
-               FontAttributes="Bold" CharacterSpacing="1" />
+        IsVisible="{Binding IsPublic, Source={x:Reference This}, Converter={StaticResource cnvInvert}}">
+        <Label Style="{StaticResource PublicPrivateLabelText}"
+               Text="{xct:Translate PrivateLabel}"
+               TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark=White}" />
     </Frame>
 </StackLayout>
