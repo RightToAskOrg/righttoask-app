@@ -27,6 +27,12 @@ namespace RightToAskClient.ViewModels
         private static QuestionResponseRecords _thisUsersResponsesToQuestions = new QuestionResponseRecords();
         
         // properties
+        private ImageSource _listEmptyViewIcon;
+        public ImageSource ListEmptyViewIcon
+        {
+            get => _listEmptyViewIcon;
+            set => SetProperty(ref _listEmptyViewIcon, value);
+        }
 
         private bool _showSearchFrame;
         public bool ShowSearchFrame
@@ -284,6 +290,20 @@ namespace RightToAskClient.ViewModels
             foreach (var q in questions)
             {  
                 QuestionsToDisplay.Add(q);
+                
+            }
+
+            if (QuestionsToDisplay.Count == 0)
+            {
+                if (!_successRespond)
+                {
+                    ListEmptyViewIcon = ImageSource.FromResource("RightToAskClient.Images.sentiment_very_dissatisfied.png");
+                    EmptyViewLabelText = AppResources.NoNetwork;
+                }
+                else
+                {
+                    ListEmptyViewIcon = ImageSource.FromResource("RightToAskClient.Images.auto_awesome.png");
+                }
             }
         }
         
