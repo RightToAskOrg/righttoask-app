@@ -64,7 +64,7 @@ namespace RightToAskClient
         
         // Messaging center strings
         public static readonly string GoToReadingPageNext = "GoToReadingPageNext";
-        public static readonly string GoToMetadataPageNext = "GoToMetadataPageNext";
+        public static readonly string GoToQuestionDetailPageNext = "GoToQuestionDetailPageNext";
         public static readonly string GoToAskingPageNext = "GoToAskingPageNext";
         public static readonly string GoBackToAdvancedSearchPage = "GoBackToAdvancedSearchPage";
         public static readonly string QuestionSubmittedDeleteDraft = "QuestionSubmittedDeleteDraft";
