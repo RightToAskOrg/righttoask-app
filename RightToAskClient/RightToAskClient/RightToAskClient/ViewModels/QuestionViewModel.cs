@@ -271,7 +271,7 @@ namespace RightToAskClient.ViewModels
                     Instance.Question.Filters.AnsweringMPsListsMine).ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, _howAnswered == HowAnsweredOptions.InApp ?
-                        Constants.GoToMetadataPageNext : Constants.GoToAskingPageNext); // Sends this view model
+                        Constants.GoToQuestionDetailPageNext : Constants.GoToAskingPageNext); // Sends this view model
                 });
             });
             AnsweredByOtherMPCommandOptionB = new AsyncCommand(async () =>
@@ -282,7 +282,7 @@ namespace RightToAskClient.ViewModels
                     Instance.Question.Filters.AnsweringMPsListsNotMine).ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, _howAnswered == HowAnsweredOptions.InApp ?
-                        Constants.GoToMetadataPageNext : Constants.GoToAskingPageNext); // Sends this view model
+                        Constants.GoToQuestionDetailPageNext : Constants.GoToAskingPageNext); // Sends this view model
                 });
             });
             UpvoteCommand = new AsyncCommand(async () =>
@@ -396,10 +396,6 @@ namespace RightToAskClient.ViewModels
             {
                 await Shell.Current.GoToAsync($"{nameof(QuestionAnswererPage)}");
             });
-            ToMetadataPageCommand = new AsyncCommand(async () =>
-            {
-                await Shell.Current.GoToAsync($"{nameof(MetadataPage)}");
-            });
             ShareCommand = new AsyncCommand(async() =>
             {
                 await Share.RequestAsync(new ShareTextRequest 
@@ -463,7 +459,7 @@ namespace RightToAskClient.ViewModels
         public Command EditAnswerCommand { get; }
         public IAsyncCommand OptionACommand { get; }
         public IAsyncCommand OptionBCommand { get; }
-        public IAsyncCommand ToMetadataPageCommand { get; }
+        
         public IAsyncCommand ToAnswererPageWithHowAnsweredSelectionCommand { get; }
         public IAsyncCommand ToHowAnsweredOptionPageCommand { get; }
         public IAsyncCommand ShareCommand { get; }
@@ -500,7 +496,7 @@ namespace RightToAskClient.ViewModels
                 // RaisedByOptionSelected = true;
                 await NavigationUtils.EditCommitteesClicked(Instance.Question.Filters.CommitteeLists).ContinueWith((_) =>
                 {
-                    MessagingCenter.Send(this, Constants.GoToMetadataPageNext); // Sends this view model
+                    MessagingCenter.Send(this, Constants.GoToQuestionDetailPageNext); // Sends this view model
                 });
             }
         }
@@ -516,7 +512,7 @@ namespace RightToAskClient.ViewModels
                     IndividualParticipant.getInstance().ProfileData.RegistrationInfo.ElectoratesKnown,
                     Instance.Question.Filters.AskingMPsListsMine).ContinueWith((_) =>
                 {
-                    MessagingCenter.Send(this, Constants.GoToMetadataPageNext); // Sends this view model
+                    MessagingCenter.Send(this, Constants.GoToQuestionDetailPageNext); // Sends this view model
                 });
             }
             else
@@ -537,7 +533,7 @@ namespace RightToAskClient.ViewModels
         private async void NotSureWhoShouldRaiseButtonClicked()
         {
             // RaisedByOptionSelected = true;
-            await Shell.Current.GoToAsync(nameof(MetadataPage));
+            await Shell.Current.GoToAsync(nameof(QuestionDetailPage));
         }
 
         // TODO: Implement SearchableListPage constructor for people.
@@ -553,7 +549,7 @@ namespace RightToAskClient.ViewModels
             {
                 await NavigationUtils.PushAskingMPsNotMineSelectableListPageAsync(Instance.Question.Filters.AskingMPsListsNotMine).ContinueWith((_) =>
                 {
-                    MessagingCenter.Send(this, Constants.GoToMetadataPageNext); // Sends this view model
+                    MessagingCenter.Send(this, Constants.GoToQuestionDetailPageNext); // Sends this view model
                 });
             }
             else
