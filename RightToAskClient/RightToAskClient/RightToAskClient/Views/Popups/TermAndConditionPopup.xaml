@@ -70,7 +70,7 @@
                 </On>
             </OnPlatform>
             
-            <StackLayout Padding="0,1,0,0" BackgroundColor="{AppThemeBinding Light={StaticResource FadedButtonColor}, Dark={StaticResource SeperatorDarkModeColor}}">
+            <StackLayout Padding="0,1,0,0" BackgroundColor="{AppThemeBinding Light={StaticResource FadedButtonColor}, Dark={StaticResource SeparatorDarkModeColor}}">
                    <!--Acknowledge/Dismiss Button Bottom Right-->
                    <StackLayout BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource PopupDarkModeBgColor}}">
                    <Button Text="{xct:Translate AgreeAndContinueButton}" HorizontalOptions="Center" VerticalOptions="End" Clicked="okButton_Clicked" 
