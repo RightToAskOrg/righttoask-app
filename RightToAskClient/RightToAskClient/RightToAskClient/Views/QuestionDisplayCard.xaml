@@ -134,7 +134,7 @@
                                          AutomationProperties.IsInAccessibleTree="True"
                                          AutomationProperties.Name="{xct:Translate QuestionFrameFlagButtonAccessibilityName}"
                                          AutomationProperties.HelpText="{xct:Translate QuestionFrameFlagButtonAccessibilityTextRed}" />
-                            <Label Text="Flag" Style="{StaticResource QuestionButtonText}" TextColor="{AppThemeBinding Light={StaticResource TextColorGray}, Dark=White}"/>
+                            <Label Text="{xct:Translate ReportDisplayCardButtonText}" Style="{StaticResource QuestionButtonText}" TextColor="{AppThemeBinding Light={StaticResource TextColorGray}, Dark=White}"/>
                         </StackLayout>
                     </FlexLayout>
                     

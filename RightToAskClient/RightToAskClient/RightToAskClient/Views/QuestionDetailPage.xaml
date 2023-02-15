@@ -113,7 +113,7 @@
 								</VisualStateGroup>
 							</VisualStateManager.VisualStateGroups>
 						</controls:ColorSingleToggleButton>
-						<Label Text="Flag" Style="{StaticResource QuestionButtonText}" TextColor="{AppThemeBinding Light={StaticResource TextColorGray}, Dark=White}"/>
+						<Label Text="{xct:Translate ReportDisplayCardButtonText}" Style="{StaticResource QuestionButtonText}" TextColor="{AppThemeBinding Light={StaticResource TextColorGray}, Dark=White}"/>
 					</StackLayout>
 					
 				</FlexLayout>
