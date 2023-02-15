@@ -17,8 +17,13 @@
                          Padding="5" 
                          VerticalOptions="FillAndExpand"
                          IsVisible="{Binding Question.AlreadyReported, Converter={StaticResource Key=cnvInvert}}" >
-                <Grid RowDefinitions="auto,auto,auto" ColumnDefinitions="2*,*,*" Padding="0" Margin="0"
+                <Grid ColumnDefinitions="2*,*,*" Padding="0" Margin="0"
                       BackgroundColor="Transparent" RowSpacing="0" ColumnSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
                     <Grid ColumnDefinitions="*,auto" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
                         <Label Margin="16, 0, 16, 0" Grid.Row="0" Grid.Column="0"
                                Text="{Binding QuestionAnswerers, StringFormat='To: {0}'}"
@@ -33,7 +38,7 @@
                             Command="{Binding QuestionDetailsCommand}" BackgroundColor="Transparent" />
                     <!--UpVote Button-->
                     <FlexLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" AlignItems="Center" JustifyContent="SpaceBetween" HorizontalOptions="CenterAndExpand"
-                                Direction="Row" Margin="16, 0">
+                                Direction="Row" Margin="16, 0" >
                         <StackLayout Orientation="Horizontal">
                             <controls:ColorSingleToggleButton
                                 IsBrightened="{Binding Question.AlreadyUpvoted}"
@@ -132,8 +137,9 @@
                             <Label Text="Flag" Style="{StaticResource QuestionButtonText}" TextColor="{AppThemeBinding Light={StaticResource TextColorGray}, Dark=White}"/>
                         </StackLayout>
                     </FlexLayout>
+                    
                 </Grid>
-
+                <BoxView Style="{StaticResource Separator}" Margin="0,6,0,0"/>
             </StackLayout>
             <!-- </StackLayout> -->
             <StackLayout BackgroundColor="{AppThemeBinding Light=White, Dark=Black}"
