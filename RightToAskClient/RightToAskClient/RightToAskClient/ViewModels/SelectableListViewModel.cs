@@ -123,7 +123,7 @@ namespace RightToAskClient.ViewModels
 			PopupLabelText = AppResources.SelectableListAuthoritiesPopupText;
 			DoneButtonCommand = new AsyncCommand(async () =>
 			{
-				DoneButton_OnClicked(
+				DoneButtonOnClicked(
 					() => UpdateSelectedList(authorityLists), singleSelection
 				);
 				MessagingCenter.Send(this, Constants.UpdateFilters);
@@ -139,7 +139,7 @@ namespace RightToAskClient.ViewModels
 			PopupLabelText = AppResources.ParticipantPopupText;
 			DoneButtonCommand = new AsyncCommand(async () =>
 			{
-				DoneButton_OnClicked(
+				DoneButtonOnClicked(
 					() => UpdateSelectedList(participantLists), singleSelection
 				);
 				MessagingCenter.Send(this, Constants.UpdateFilters);
@@ -155,7 +155,7 @@ namespace RightToAskClient.ViewModels
 			PopupLabelText = AppResources.SelectableListCommitteePopupText;
 			DoneButtonCommand = new AsyncCommand(async () =>
             {
-                DoneButton_OnClicked(
+                DoneButtonOnClicked(
 	                () => UpdateSelectedList(committeeLists), singleSelection       
 	                );
 				MessagingCenter.Send(this, Constants.UpdateFilters);
@@ -196,7 +196,7 @@ namespace RightToAskClient.ViewModels
 			PopupLabelText = AppResources.SelectableListMPsPopupText;
 			DoneButtonCommand = new AsyncCommand(async () =>
             {
-                DoneButton_OnClicked(
+                DoneButtonOnClicked(
 	                () => UpdateSelectedList(mpLists), singleSelection
 	                );
 				MessagingCenter.Send(this, Constants.UpdateFilters);
@@ -268,7 +268,7 @@ namespace RightToAskClient.ViewModels
 		// TODO Consider whether the semantics of 'back' should be different from
 		// 'done', i.e. whether 'back' should undo.
 		// Also consider whether this should raise a warning if neither of the types match.
-		private async void DoneButton_OnClicked(Action updateAction, bool singleSelection)
+		private async void DoneButtonOnClicked(Action updateAction, bool singleSelection)
 		{
 			// Check whether the existing selections match requirements. This will pop up a warning if not.
 			bool validSelection = await verifyValidSelection(singleSelection);
