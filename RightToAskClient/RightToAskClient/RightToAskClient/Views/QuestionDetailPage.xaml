@@ -34,7 +34,7 @@
 				<Editor x:Name="QuestionTextEditor" Text="{Binding Question.QuestionText}"
 				        IsReadOnly="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}" />
 				<FlexLayout AlignItems="Center" JustifyContent="SpaceBetween" HorizontalOptions="CenterAndExpand"
-				            Direction="Row" Margin="16, 0">
+				            Direction="Row" Margin="0" Wrap="Wrap">
 					<StackLayout Orientation="Horizontal">
 						<!-- Up-vote button -->
 						<controls:ColorSingleToggleButton 
