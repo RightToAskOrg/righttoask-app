@@ -30,6 +30,8 @@ namespace RightToAskClient.Views.Popups
 
             mdView.Markdown = AppResources.TermsAndConditionsMarkdown;
             mdView.RelativeUrlHost = "";
+            AutomationProperties.SetHelpText(mdView,
+                "By tapping Agree and Continue, you agree to our Privacy Policy and Terms and Conditions, double tap to activate read the Privacy Policy or Terms and Conditions");
             mdView.SetOnAppTheme<MarkdownTheme>(Xam.Forms.Markdown.MarkdownView.ThemeProperty, lightTheme, darkTheme);
 
             MarkdownView.Children.Add(new ScrollView() { Content = mdView });
