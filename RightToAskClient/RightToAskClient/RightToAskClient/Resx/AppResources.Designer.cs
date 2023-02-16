@@ -2318,5 +2318,11 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("AllElectorateState", resourceCulture);
             }
         }
+        
+        internal static string TermsAndConditionsMarkdown {
+            get {
+                return ResourceManager.GetString("TermsAndConditionsMarkdown", resourceCulture);
+            }
+        }
     }
 }
