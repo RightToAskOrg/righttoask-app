@@ -775,10 +775,10 @@
     <value>This button indicates that you can answer the question by clicking here. There is no checkmark on this icon, which means that there are no other answers to this question yet. The icon is also not highlighted, which means you have not yet answered this question.</value>
   </data>
   <data name="QuestionFrameFlagButtonAccessibilityName" xml:space="preserve">
-    <value>Flag button</value>
+    <value>Report button</value>
   </data>
   <data name="QuestionFrameFlagButtonAccessibilityText" xml:space="preserve">
-    <value>This button indicates that you can flag or report the question by clicking here. It is currently not highlighted, which means you have not chosen to report this question.</value>
+    <value>This button indicates that you can report the question by clicking here. It is currently not highlighted, which means you have not chosen to report this question.</value>
   </data>
   <data name="QuestionFrameFlagButtonAccessibilityTextRed" xml:space="preserve">
     <value>Reports question</value>
@@ -1036,7 +1036,7 @@
     <value>Answer</value>
   </data>
   <data name="ReportDisplayCardButtonText" xml:space="preserve">
-    <value>Flag</value>
+    <value>Report</value>
   </data>
   <data name="ShareDisplayCardButtonText" xml:space="preserve">
     <value>Share</value>

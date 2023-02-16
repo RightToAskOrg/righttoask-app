@@ -38,7 +38,7 @@
                             Command="{Binding QuestionDetailsCommand}" BackgroundColor="Transparent" />
                     <!--UpVote Button-->
                     <FlexLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" AlignItems="Center" JustifyContent="SpaceBetween" HorizontalOptions="CenterAndExpand"
-                                Direction="Row" Margin="16, 0" >
+                                Direction="Row" Margin="16, 0" Wrap="Wrap">
                         <StackLayout Orientation="Horizontal">
                             <controls:ColorSingleToggleButton
                                 IsBrightened="{Binding Question.AlreadyUpvoted}"
@@ -91,9 +91,9 @@
                                     </VisualStateGroup>
                                 </VisualStateManager.VisualStateGroups>
                             </controls:ColorSingleToggleButton>
-                            <Label Text="{xct:Translate UpvoteDisplayCardButtonText}"
-                                   Style="{StaticResource QuestionButtonText}" 
-                                   TextColor="{AppThemeBinding Light={StaticResource TextColorGray}, Dark=White}"/>
+                            <!-- <Label Text="{xct:Translate UpvoteDisplayCardButtonText}" -->
+                            <!--        Style="{StaticResource QuestionButtonText}"  -->
+                            <!--        TextColor="{AppThemeBinding Light={StaticResource TextColorGray}, Dark=White}"/> -->
                         </StackLayout>
                         <!--Share Button-->
                         <!-- TODO: Commented until better times
@@ -134,7 +134,7 @@
                                          AutomationProperties.IsInAccessibleTree="True"
                                          AutomationProperties.Name="{xct:Translate QuestionFrameFlagButtonAccessibilityName}"
                                          AutomationProperties.HelpText="{xct:Translate QuestionFrameFlagButtonAccessibilityTextRed}" />
-                            <Label Text="Flag" Style="{StaticResource QuestionButtonText}" TextColor="{AppThemeBinding Light={StaticResource TextColorGray}, Dark=White}"/>
+                            <Label Text="{xct:Translate ReportDisplayCardButtonText}" Style="{StaticResource QuestionButtonText}" TextColor="{AppThemeBinding Light={StaticResource TextColorGray}, Dark=White}"/>
                         </StackLayout>
                     </FlexLayout>
                     
