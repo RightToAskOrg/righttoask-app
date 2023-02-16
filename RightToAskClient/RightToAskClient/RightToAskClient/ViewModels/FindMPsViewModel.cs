@@ -564,6 +564,7 @@ namespace RightToAskClient.ViewModels
         private void OnStatePickerSelectedIndexChanged()
         {
             (_stateKnown, SelectedStateEnum) = _registration.UpdateStateStorePreferences(SelectedStateAsInt);
+            _registration.Electorates = ParliamentData.FindAllRelevantElectorates(SelectedStateEnum, "", "");
                 
             if (_stateKnown)
             {
