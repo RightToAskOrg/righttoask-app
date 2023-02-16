@@ -507,15 +507,17 @@ namespace RightToAskClient.ViewModels
                 // actually show the map in real time
                 ShowMapFrame = true;
                 ShowMapOfElectorate(FederalElectorates[SelectedFederalElectorate]);
-                
+
+                var stateElectorate = _registration.SelectedStateAsEnum == ParliamentData.StateEnum.TAS
+                    ? StateUpperHouseElectorate : StateLowerHouseElectorate;
                 // TODO Consider whether electorates should be readonly and instead have a function that updates them
                 // given this info.
                 _registration.Electorates
-                        = ParliamentData.FindAllRelevantElectorates(SelectedStateEnum, "", FederalElectorates[SelectedFederalElectorate]);
+                        = ParliamentData.FindAllRelevantElectorates(SelectedStateEnum, stateElectorate, FederalElectorates[SelectedFederalElectorate]);
                 // For Tasmania, we need your federal electorate to infer your state Legislative Assembly electorate.
                 if (SelectedStateEnum == ParliamentData.StateEnum.TAS)
                 {
-                    UpdateElectorateInferencesFromStateAndCommElectorate(SelectedStateEnum, "", FederalElectorates[SelectedFederalElectorate]);
+                    UpdateElectorateInferencesFromStateAndCommElectorate(SelectedStateEnum, stateElectorate, FederalElectorates[SelectedFederalElectorate]);
                 }
                 RevealNextStepAndCommunicateIfElectoratesKnown();
             }
