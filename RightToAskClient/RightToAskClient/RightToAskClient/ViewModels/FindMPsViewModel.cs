@@ -203,31 +203,22 @@ namespace RightToAskClient.ViewModels
                 _signUpFlow = true;
                 _registration = registration;
             }
-            StateChoosableElectorateHeader
-                =  _registration.SelectedStateAsEnum == ParliamentData.StateEnum.TAS
-                    ? $"State Legislative Council Electorate: {StateUpperHouseElectorate:F0}"
-                    : $"State Legislative Assembly Electorate: {StateLowerHouseElectorate:F0}";
 
-
-            StateChoosableElectorate
-                = "Select: " + 
-                  (_registration.SelectedStateAsEnum == ParliamentData.StateEnum.TAS
-                      ? StateUpperHouseElectorate
-                      : StateLowerHouseElectorate);
-
-            StateInferredElectorateHeader
-                =  _registration.SelectedStateAsEnum == ParliamentData.StateEnum.TAS
-                    ? "State Legislative Assembly Electorate: " : "State Legislative Council Electorate: ";
-    
-    
-            StateInferredElectorate
-                =  _registration.SelectedStateAsEnum == ParliamentData.StateEnum.TAS
-                    ? StateLowerHouseElectorate 
-                    : StateUpperHouseElectorate;
-    
-    
-            FederalElectoratePickerTitle =
-                $"Select: {CommonwealthElectorate:F0}";
+            if (_registration.SelectedStateAsEnum == ParliamentData.StateEnum.TAS)
+            {
+                StateChoosableElectorateHeader = $"State Legislative Council Electorate: {StateUpperHouseElectorate:F0}";
+                StateChoosableElectorate = "Select: " + StateUpperHouseElectorate;
+                StateInferredElectorateHeader = "State Legislative Assembly Electorate: ";
+                StateInferredElectorate = StateLowerHouseElectorate;
+            }
+            else
+            {
+                StateChoosableElectorateHeader = $"State Legislative Assembly Electorate: {StateLowerHouseElectorate:F0}";
+                StateChoosableElectorate = "Select: " + StateLowerHouseElectorate;
+                StateInferredElectorateHeader = "State Legislative Council Electorate: ";
+                StateInferredElectorate =  StateUpperHouseElectorate;
+            }
+            FederalElectoratePickerTitle = $"Select: {CommonwealthElectorate:F0}";
             
             PopupLabelText = AppResources.FindMPsPopupText;
             ShowAddressStack = false;
