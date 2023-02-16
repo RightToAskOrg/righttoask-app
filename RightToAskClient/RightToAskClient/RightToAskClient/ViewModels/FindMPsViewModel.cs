@@ -134,10 +134,7 @@ namespace RightToAskClient.ViewModels
 
         public ObservableCollection<string> AllStateChoosableElectorates { get; } = new ObservableCollection<string>();
 
-        private string _stateChoosableElectorateHeader 
-            =  IndividualParticipant.getInstance().ProfileData.RegistrationInfo.SelectedStateAsEnum == ParliamentData.StateEnum.TAS
-            ? $"State Legislative Council Electorate: {IndividualParticipant.getInstance().ProfileData.StateUpperHouseElectorate:F0}"
-            : $"State Legislative Assembly Electorate: {IndividualParticipant.getInstance().ProfileData.StateLowerHouseElectorate:F0}";
+        private string _stateChoosableElectorateHeader ;
 
         public string StateChoosableElectorateHeader
         {
@@ -145,11 +142,7 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _stateChoosableElectorateHeader, value);
             }
 
-        private string _stateChoosableElectorate
-            = "Select: " + 
-            (IndividualParticipant.getInstance().ProfileData.RegistrationInfo.SelectedStateAsEnum == ParliamentData.StateEnum.TAS
-                    ? IndividualParticipant.getInstance().ProfileData.StateUpperHouseElectorate
-                    : IndividualParticipant.getInstance().ProfileData.StateLowerHouseElectorate);
+        private string _stateChoosableElectorate;
 
         public string StateChoosableElectorate
         {
@@ -158,9 +151,7 @@ namespace RightToAskClient.ViewModels
             // OnStateChoosableElectoratePickerSelectedIndexChanged();
         }
 
-        private string _stateInferredElectorateHeader  
-            =  IndividualParticipant.getInstance().ProfileData.RegistrationInfo.SelectedStateAsEnum == ParliamentData.StateEnum.TAS
-            ? "State Legislative Assembly Electorate: " : "State Legislative Council Electorate: ";
+        private string _stateInferredElectorateHeader;
         
         public string StateInferredElectorateHeader
         {
@@ -168,10 +159,7 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _stateInferredElectorateHeader, value);
         }
         
-        private string _stateInferredElectorate  
-            =  IndividualParticipant.getInstance().ProfileData.RegistrationInfo.SelectedStateAsEnum == ParliamentData.StateEnum.TAS
-            ? IndividualParticipant.getInstance().ProfileData.StateLowerHouseElectorate 
-            : IndividualParticipant.getInstance().ProfileData.StateUpperHouseElectorate;
+        private string _stateInferredElectorate;
         
         public string StateInferredElectorate
         {
@@ -179,8 +167,7 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _stateInferredElectorate, value);
         }
         
-        private string _federalElectoratePickerTitle =
-            $"Select: {IndividualParticipant.getInstance().ProfileData.CommonwealthElectorate:F0}";
+        private string _federalElectoratePickerTitle;
         public string FederalElectoratePickerTitle
         {
             get => _federalElectoratePickerTitle;
@@ -205,13 +192,43 @@ namespace RightToAskClient.ViewModels
         #endregion
 
         // constructor
-        public FindMPsViewModel(Registration registration) : this()
+        public FindMPsViewModel() : this(null)
         {
-            _signUpFlow = true;
-            _registration = registration;
+            
         }
-        public FindMPsViewModel()
+        public FindMPsViewModel(Registration? registration = null)
         {
+            if (registration != null)
+            {
+                _signUpFlow = true;
+                _registration = registration;
+            }
+            StateChoosableElectorateHeader
+                =  _registration.SelectedStateAsEnum == ParliamentData.StateEnum.TAS
+                    ? $"State Legislative Council Electorate: {StateUpperHouseElectorate:F0}"
+                    : $"State Legislative Assembly Electorate: {StateLowerHouseElectorate:F0}";
+
+
+            StateChoosableElectorate
+                = "Select: " + 
+                  (_registration.SelectedStateAsEnum == ParliamentData.StateEnum.TAS
+                      ? StateUpperHouseElectorate
+                      : StateLowerHouseElectorate);
+
+            StateInferredElectorateHeader
+                =  _registration.SelectedStateAsEnum == ParliamentData.StateEnum.TAS
+                    ? "State Legislative Assembly Electorate: " : "State Legislative Council Electorate: ";
+    
+    
+            StateInferredElectorate
+                =  _registration.SelectedStateAsEnum == ParliamentData.StateEnum.TAS
+                    ? StateLowerHouseElectorate 
+                    : StateUpperHouseElectorate;
+    
+    
+            FederalElectoratePickerTitle =
+                $"Select: {CommonwealthElectorate:F0}";
+            
             PopupLabelText = AppResources.FindMPsPopupText;
             ShowAddressStack = false;
             ShowKnowElectoratesFrame = false;
@@ -228,19 +245,19 @@ namespace RightToAskClient.ViewModels
                 SelectedStateAsInt = (int)SelectedStateEnum;
                 
                 var choosableStateElectorate = (SelectedStateEnum == ParliamentData.StateEnum.TAS )
-                   ? IndividualParticipant.getInstance().ProfileData.StateUpperHouseElectorate
-                   : IndividualParticipant.getInstance().ProfileData.StateLowerHouseElectorate;
+                   ? StateUpperHouseElectorate
+                   : StateLowerHouseElectorate;
                 UpdateElectorateInferencesFromStateAndCommElectorate(SelectedStateEnum,
                     choosableStateElectorate,
-                    IndividualParticipant.getInstance().ProfileData.CommonwealthElectorate);
+                    CommonwealthElectorate);
             }
 
-            if (!string.IsNullOrEmpty(IndividualParticipant.getInstance().ProfileData.CommonwealthElectorate))
+            if (!string.IsNullOrEmpty(CommonwealthElectorate))
             {
                 ShowMapFrame = true;
                 var electorateString = ParliamentData.ConvertGeoscapeElectorateToStandard(
                     _registration.State, 
-                    IndividualParticipant.getInstance().ProfileData.CommonwealthElectorate);
+                    CommonwealthElectorate);
                 ShowMapOfElectorate(electorateString);
             }
 
@@ -413,9 +430,9 @@ namespace RightToAskClient.ViewModels
 
                 electoratePopupTitle = "Electorates Found!";
                 electoratePopupText = ("Federal electorate: " +
-                                       IndividualParticipant.getInstance().ProfileData.CommonwealthElectorate +
+                                       CommonwealthElectorate +
                                        "\nState lower house electorate: " + 
-                                       IndividualParticipant.getInstance().ProfileData.StateLowerHouseElectorate);
+                                       StateLowerHouseElectorate);
 
                 // just save the address all the time now if it returned a valid electorate
                 SaveAddress();
@@ -423,13 +440,12 @@ namespace RightToAskClient.ViewModels
             await ShowOneButtonPopup(electoratePopupTitle, electoratePopupText, AppResources.OKText);
             
             // display the map if we stored the Federal Electorate properly
-            if (!string.IsNullOrEmpty(IndividualParticipant.getInstance().ProfileData.CommonwealthElectorate))
+            if (!string.IsNullOrEmpty(CommonwealthElectorate))
             {
                 ShowMapFrame = true;
                 ShowKnowElectoratesFrame = false;
                 ShowAddressStack = false;
-                var electorateString = ParliamentData.ConvertGeoscapeElectorateToStandard(state,
-                    IndividualParticipant.getInstance().ProfileData.CommonwealthElectorate);
+                var electorateString = ParliamentData.ConvertGeoscapeElectorateToStandard(state, CommonwealthElectorate);
                 ShowMapOfElectorate(electorateString);
             }
         }
@@ -474,10 +490,10 @@ namespace RightToAskClient.ViewModels
                 var state = _registration.SelectedStateAsEnum;
                 _registration.Electorates
                     = ParliamentData.FindAllRelevantElectorates(state,
-                        chosenElectorate, IndividualParticipant.getInstance().ProfileData.CommonwealthElectorate);
+                        chosenElectorate, CommonwealthElectorate);
                 (_, _, StateInferredElectorate) 
                     = ParliamentData.InferOtherChamberInfoGivenOneRegion(SelectedStateEnum, chosenElectorate, 
-                        IndividualParticipant.getInstance().ProfileData.CommonwealthElectorate);
+                        CommonwealthElectorate);
             }
             RevealNextStepAndCommunicateIfElectoratesKnown();
         }
@@ -669,5 +685,37 @@ namespace RightToAskClient.ViewModels
             }
         }
         #endregion
+        
+        
+        
+        /* Many states don't have an upper house, so this just returns ""
+         */
+        private string StateUpperHouseElectorate
+        {
+            get
+            {
+                return ParliamentData.FindOneElectorateGivenPredicate(_registration.Electorates.ToList(), 
+                    c => ParliamentData.IsUpperHouseChamber(c.chamber));
+            }
+        }
+		
+
+        private string CommonwealthElectorate
+        {
+            get
+            {
+                return ParliamentData.FindOneElectorateGivenPredicate(_registration.Electorates.ToList(), 
+                    chamberPair => chamberPair.chamber == ParliamentData.Chamber.Australian_House_Of_Representatives);
+            }
+        }
+
+        private string StateLowerHouseElectorate
+        {
+            get
+            {
+                return ParliamentData.FindOneElectorateGivenPredicate(_registration.Electorates.ToList(),
+                    chamberPair => ParliamentData.IsLowerHouseChamber(chamberPair.chamber)); 
+            }
+        }
     }
 }
