@@ -577,101 +577,44 @@ namespace RightToAskClient.ViewModels
             {
                 case ParliamentData.StateEnum.ACT:
                     int.TryParse(Address.Postcode, out var postcode);
-                    if((postcode >= 2600 && postcode <= 2618) 
-                        || (postcode >= 2900 && postcode <= 2920))
-                    {
-                        PostcodeIsValid = true;
-                    }
-                    else
-                    {
-                        PostcodeIsValid = false;
-                    }
+                    PostcodeIsValid = (postcode >= 2600 && postcode <= 2618) || (postcode >= 2900 && postcode <= 2920);
                     break;
                 // NSW
                 case ParliamentData.StateEnum.NSW:
                     int.TryParse(Address.Postcode, out postcode);
-                    if ((postcode >= 2000 && postcode <= 2599)
-                        || (postcode >= 2619 && postcode <= 2898)
-                        || (postcode >= 2921 && postcode <= 2999))
-                    {
-                        PostcodeIsValid = true;
-                    }
-                    else
-                    {
-                        PostcodeIsValid = false;
-                    }
+                    PostcodeIsValid = ((postcode >= 2000 && postcode <= 2599)
+                                       || (postcode >= 2619 && postcode <= 2898)
+                                       || (postcode >= 2921 && postcode <= 2999));
                     break;
                 // NT
                 case ParliamentData.StateEnum.NT:
                     int.TryParse(Address.Postcode, out postcode);
-                    if (postcode >= 0800 && postcode <= 0899)
-                    {
-                        PostcodeIsValid = true;
-                    }
-                    else
-                    {
-                        PostcodeIsValid = false;
-                    }
+                    PostcodeIsValid = postcode >= 0800 && postcode <= 0899;
                     break;
                 // QLD
                 case ParliamentData.StateEnum.QLD:
                     int.TryParse(Address.Postcode, out postcode);
-                    if (postcode >= 4000 && postcode <= 4999)
-                    {
-                        PostcodeIsValid = true;
-                    }
-                    else
-                    {
-                        PostcodeIsValid = false;
-                    }
+                    PostcodeIsValid = postcode >= 4000 && postcode <= 4999;
                     break;
                 // SA
                 case ParliamentData.StateEnum.SA:
                     int.TryParse(Address.Postcode, out postcode);
-                    if (postcode >= 5000 && postcode <= 5799)
-                    {
-                        PostcodeIsValid = true;
-                    }
-                    else
-                    {
-                        PostcodeIsValid = false;
-                    }
+                    PostcodeIsValid = postcode >= 5000 && postcode <= 5799;
                     break;
                 // TAS
                 case ParliamentData.StateEnum.TAS:
                     int.TryParse(Address.Postcode, out postcode);
-                    if (postcode >= 7000 && postcode <= 7799)
-                    {
-                        PostcodeIsValid = true;
-                    }
-                    else
-                    {
-                        PostcodeIsValid = false;
-                    }
+                    PostcodeIsValid = postcode >= 7000 && postcode <= 7799;
                     break;
                 // VIC
                 case ParliamentData.StateEnum.VIC:
                     int.TryParse(Address.Postcode, out postcode);
-                    if (postcode >= 3000 && postcode <= 3999)
-                    {
-                        PostcodeIsValid = true;
-                    }
-                    else
-                    {
-                        PostcodeIsValid = false;
-                    }
+                    PostcodeIsValid = postcode >= 3000 && postcode <= 3999;
                     break;
                 // WA
                 case ParliamentData.StateEnum.WA:
                     int.TryParse(Address.Postcode, out postcode);
-                    if (postcode >= 6000 && postcode <= 6797)
-                    {
-                        PostcodeIsValid = true;
-                    }
-                    else
-                    {
-                        PostcodeIsValid = false;
-                    }
+                    PostcodeIsValid = postcode >= 6000 && postcode <= 6797;
                     break;
                 default:
                     PostcodeIsValid = false;
