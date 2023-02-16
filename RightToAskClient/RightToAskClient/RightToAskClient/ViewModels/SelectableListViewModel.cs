@@ -105,7 +105,7 @@ namespace RightToAskClient.ViewModels
 			AskingPage,
 			ReadingPage,
 			ReadingPageWithSingleQuestionWriter,
-			MetadataPage,
+			QuestionDetailPage,
 			RegisterMPAccount,
 			AdvancedSearchPage	
 		}
@@ -226,10 +226,10 @@ namespace RightToAskClient.ViewModels
 				_nextPage = NextPageInstructions.ReadingPageWithSingleQuestionWriter;
 				MessagingCenter.Unsubscribe<FilterViewModel>(this, "GoToReadingPageWithSingleQuestionWriter");
 			});
-			MessagingCenter.Subscribe<QuestionViewModel>(this, Constants.GoToMetadataPageNext, (sender) =>
+			MessagingCenter.Subscribe<QuestionViewModel>(this, Constants.GoToQuestionDetailPageNext, (sender) =>
 			{
-				_nextPage = NextPageInstructions.MetadataPage;
-				MessagingCenter.Unsubscribe<QuestionViewModel>(this, Constants.GoToMetadataPageNext);
+				_nextPage = NextPageInstructions.QuestionDetailPage;
+				MessagingCenter.Unsubscribe<QuestionViewModel>(this, Constants.GoToQuestionDetailPageNext);
 			});
 			MessagingCenter.Subscribe<QuestionViewModel>(this, Constants.GoToAskingPageNext, (sender) =>
 			{
@@ -300,8 +300,8 @@ namespace RightToAskClient.ViewModels
 					});
 					break;
 				
-				case NextPageInstructions.MetadataPage:
-					await Shell.Current.GoToAsync(nameof(MetadataPage));
+				case NextPageInstructions.QuestionDetailPage:
+					await Shell.Current.GoToAsync(nameof(QuestionDetailPage));
 					break;
 				
 				case NextPageInstructions.RegisterMPAccount:

@@ -33,57 +33,60 @@
 				</StackLayout>
 				<Editor x:Name="QuestionTextEditor" Text="{Binding Question.QuestionText}"
 				        IsReadOnly="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}" />
-				<StackLayout Orientation="Horizontal">
-					<!-- Up-vote button -->
-					<controls:ColorSingleToggleButton 
-					                                  IsBrightened="{Binding Question.AlreadyUpvoted}"
-					                                  Padding="5"
-					                                  HeightRequest="{x:OnPlatform Android=27, iOS=42}"
-					                                  BackgroundColor="Transparent" Command="{Binding UpvoteCommand}"
-					                                  HorizontalOptions="Start"
-					                                  AutomationProperties.IsInAccessibleTree="True"
-					                                  AutomationProperties.Name="{xct:Translate QuestionFrameThumbsUpAccessibilityName}"
-					                                  AutomationProperties.HelpText="{xct:Translate QuestionFrameThumbsUpAccessibilityText}">
-						<VisualStateManager.VisualStateGroups>
-							<VisualStateGroup Name="BrightenedStates">
-								<VisualState Name="NotBrightened">
-									<VisualState.Setters>
-										<Setter Property="Source" Value="{AppThemeBinding Light={helpers:ImageResource RightToAskClient.Images.thumb_up_light.png}, Dark={helpers:ImageResource RightToAskClient.Images.thumb_up_dark.png} }"/>
-									</VisualState.Setters>
-								</VisualState>
-								<VisualState Name="Brightened">
-									<VisualState.Setters>
-										<Setter Property="Source" Value="{helpers:ImageResource RightToAskClient.Images.thumb_up_filled.png}"/>
-									</VisualState.Setters>
-								</VisualState>
-							</VisualStateGroup>
-						</VisualStateManager.VisualStateGroups>
-					</controls:ColorSingleToggleButton>
-					<Label Text="{Binding UpVotes, StringFormat='{0:F0}   '}" Style="{StaticResource NormalText}" Margin="0" Padding="0"/>	
-                    <!-- Down-vote button -->
-                    <controls:ColorSingleToggleButton 
-                             BackgroundColor="Transparent" Command="{Binding DownvoteCommand}" Padding="5"
-                             IsBrightened="{Binding Question.AlreadyDownvoted}"
-                             HorizontalOptions="Start"
-                             HeightRequest="{x:OnPlatform Android=27, iOS=42}"
-                             AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{xct:Translate QuestionFrameThumbsDownAccessibilityName}"
-                             AutomationProperties.HelpText="{xct:Translate QuestionFrameThumbsDownAccessibilityText}">
-	                    <VisualStateManager.VisualStateGroups>
-		                    <VisualStateGroup Name="BrightenedStates">
-			                    <VisualState Name="NotBrightened">
-				                    <VisualState.Setters>
-					                    <Setter Property="Source" Value="{AppThemeBinding Light={helpers:ImageResource RightToAskClient.Images.thumb_down_light.png}, Dark={helpers:ImageResource RightToAskClient.Images.thumb_down_dark.png} }"/>
-				                    </VisualState.Setters>
-			                    </VisualState>
-			                    <VisualState Name="Brightened">
-				                    <VisualState.Setters>
-					                    <Setter Property="Source" Value="{helpers:ImageResource RightToAskClient.Images.thumb_down_filled.png}"/>
-				                    </VisualState.Setters>
-			                    </VisualState>
-		                    </VisualStateGroup>
-	                    </VisualStateManager.VisualStateGroups>
-	                    </controls:ColorSingleToggleButton>
-					<Label Text="{Binding DownVotes, StringFormat='{0:F0}'}" Style="{StaticResource NormalText}" Margin="0" Padding="0"/>	
+				<FlexLayout AlignItems="Center" JustifyContent="SpaceBetween" HorizontalOptions="CenterAndExpand"
+				            Direction="Row" Margin="16, 0">
+					<StackLayout Orientation="Horizontal">
+						<!-- Up-vote button -->
+						<controls:ColorSingleToggleButton 
+						                                  IsBrightened="{Binding Question.AlreadyUpvoted}"
+						                                  Padding="5"
+						                                  HeightRequest="{x:OnPlatform Android=27, iOS=42}"
+						                                  BackgroundColor="Transparent" Command="{Binding UpvoteCommand}"
+						                                  HorizontalOptions="Start"
+						                                  AutomationProperties.IsInAccessibleTree="True"
+						                                  AutomationProperties.Name="{xct:Translate QuestionFrameThumbsUpAccessibilityName}"
+						                                  AutomationProperties.HelpText="{xct:Translate QuestionFrameThumbsUpAccessibilityText}">
+							<VisualStateManager.VisualStateGroups>
+								<VisualStateGroup Name="BrightenedStates">
+									<VisualState Name="NotBrightened">
+										<VisualState.Setters>
+											<Setter Property="Source" Value="{AppThemeBinding Light={helpers:ImageResource RightToAskClient.Images.thumb_up_light.png}, Dark={helpers:ImageResource RightToAskClient.Images.thumb_up_dark.png} }"/>
+										</VisualState.Setters>
+									</VisualState>
+									<VisualState Name="Brightened">
+										<VisualState.Setters>
+											<Setter Property="Source" Value="{helpers:ImageResource RightToAskClient.Images.thumb_up_filled.png}"/>
+										</VisualState.Setters>
+									</VisualState>
+								</VisualStateGroup>
+							</VisualStateManager.VisualStateGroups>
+						</controls:ColorSingleToggleButton>
+						<Label Text="{Binding UpVotes, StringFormat='{0:F0}'}" Style="{StaticResource NormalText}" Margin="0" Padding="0" VerticalOptions="CenterAndExpand"/>	
+	                    <!-- Down-vote button -->
+	                    <controls:ColorSingleToggleButton 
+	                             BackgroundColor="Transparent" Command="{Binding DownvoteCommand}" Padding="5"
+	                             IsBrightened="{Binding Question.AlreadyDownvoted}"
+	                             HorizontalOptions="Start"
+	                             HeightRequest="{x:OnPlatform Android=27, iOS=42}"
+	                             AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{xct:Translate QuestionFrameThumbsDownAccessibilityName}"
+	                             AutomationProperties.HelpText="{xct:Translate QuestionFrameThumbsDownAccessibilityText}">
+		                    <VisualStateManager.VisualStateGroups>
+			                    <VisualStateGroup Name="BrightenedStates">
+				                    <VisualState Name="NotBrightened">
+					                    <VisualState.Setters>
+						                    <Setter Property="Source" Value="{AppThemeBinding Light={helpers:ImageResource RightToAskClient.Images.thumb_down_light.png}, Dark={helpers:ImageResource RightToAskClient.Images.thumb_down_dark.png} }"/>
+					                    </VisualState.Setters>
+				                    </VisualState>
+				                    <VisualState Name="Brightened">
+					                    <VisualState.Setters>
+						                    <Setter Property="Source" Value="{helpers:ImageResource RightToAskClient.Images.thumb_down_filled.png}"/>
+					                    </VisualState.Setters>
+				                    </VisualState>
+			                    </VisualStateGroup>
+		                    </VisualStateManager.VisualStateGroups>
+		                    </controls:ColorSingleToggleButton>
+						<Label Text="{Binding DownVotes, StringFormat='{0:F0}'}" Style="{StaticResource NormalText}" Margin="0" Padding="0" VerticalOptions="CenterAndExpand"/>	
+					</StackLayout>
 					<StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
 						<!-- report/flag button -->
 						<controls:ColorSingleToggleButton Padding="5" 
@@ -113,10 +116,10 @@
 						<Label Text="Flag" Style="{StaticResource QuestionButtonText}" TextColor="{AppThemeBinding Light={StaticResource TextColorGray}, Dark=White}"/>
 					</StackLayout>
 					
-				</StackLayout>
+				</FlexLayout>
 				<Label Text="{xct:Translate WhoShouldAnswerTitle}" Style="{StaticResource Header2}" />
 				<Label Text="{Binding QuestionAnswerers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
-				<StackLayout Orientation="Horizontal" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
+				<StackLayout Orientation="Horizontal">
 					<Label Text="{xct:Translate AnswererPermissions}" Style="{StaticResource Header2}" />
 					<CheckBox IsChecked="{Binding OthersCanAddQuestionAnswerers}" />
 				</StackLayout>
@@ -125,8 +128,7 @@
 					<Label Text="{xct:Translate OptionBText4}" Style="{StaticResource Header2}" />
 					<Label Text="{Binding QuestionAskers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
 					<!-- Ask the user whether they allow other users to add QuestionAskers. (Y/N) -->
-					<StackLayout Orientation="Horizontal"
-					             IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
+					<StackLayout Orientation="Horizontal">
 						<Label Text="{xct:Translate AskerPermissions}" Style="{StaticResource Header2}" />
 						<CheckBox IsChecked="{Binding OthersCanAddQuestionAskers}" />
 					</StackLayout>

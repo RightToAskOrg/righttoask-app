@@ -21,7 +21,6 @@ namespace RightToAskClient.Views
             Routing.RegisterRoute(nameof(MPRegistrationVerificationPage), typeof(MPRegistrationVerificationPage));
             Routing.RegisterRoute(nameof(HowAnsweredOptionPage), typeof(HowAnsweredOptionPage));
             Routing.RegisterRoute(nameof(QuestionBackgroundPage), typeof(QuestionBackgroundPage));
-            Routing.RegisterRoute(nameof(MetadataPage), typeof(MetadataPage));
             Routing.RegisterRoute(nameof(SelectableListPage), typeof(SelectableListPage));
             Routing.RegisterRoute(nameof(WriteQuestionPage), typeof(WriteQuestionPage));
             Routing.RegisterRoute(nameof(ReportQuestionPage), typeof(ReportQuestionPage));
