@@ -28,7 +28,7 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _address, value);
         }
 
-        private bool _signUpFlow = false;
+        private bool _signUpFlow;
         private bool _showFindMPsButton;
         public bool ShowFindMPsButton
         {
@@ -356,7 +356,7 @@ namespace RightToAskClient.ViewModels
         {
             // see if we should prompt first
             int.TryParse(Address.Postcode, out var postcode);
-            Postcode.Check(SelectedStateEnum, postcode);
+            PostcodeIsValid = Postcode.IsValid(SelectedStateEnum, postcode);
             
             if (!PostcodeIsValid)
             {

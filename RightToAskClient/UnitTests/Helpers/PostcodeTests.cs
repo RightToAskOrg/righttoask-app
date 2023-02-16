@@ -9,14 +9,14 @@ namespace UnitTests.Helpers
         [Fact]
         public void CheckingIfPostcodeIsValidForNT()
         {
-            var result = Postcode.Check(ParliamentData.StateEnum.NT, 2000);
+            var result = Postcode.IsValid(ParliamentData.StateEnum.NT, 2000);
             Assert.False(result);
         }
         
         [Fact]
         public void CheckingIfPostcodeIsValidForNSW()
         {
-            var result = Postcode.Check(ParliamentData.StateEnum.NSW, 2900);
+            var result = Postcode.IsValid(ParliamentData.StateEnum.NSW, 2900);
             Assert.False(result);
         }
     }

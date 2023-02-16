@@ -4,7 +4,7 @@ namespace RightToAskClient.Helpers
 {
     public class Postcode
     {
-        public static bool Check(ParliamentData.StateEnum selectedStateEnum, int postcode)
+        public static bool IsValid(ParliamentData.StateEnum selectedStateEnum, int postcode)
         {
             switch (selectedStateEnum)
             {
