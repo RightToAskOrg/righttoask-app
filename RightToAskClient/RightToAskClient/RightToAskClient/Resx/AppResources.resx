@@ -1310,4 +1310,10 @@ We are still learning about how people use Right To Ask. These rules may change 
   <data name="TermsAndConditionsMarkdown" xml:space="preserve">
   <value>By tapping "Agree and Continue", you agree to our [Privacy Policy](https://righttoask.democracydevelopers.org.au/privacy-policy/) and [Terms and Conditions](https://righttoask.democracydevelopers.org.au/).</value>
   </data>
+  <data name="TermsAndConditionsHelpTextAndroid" xml:space="preserve">
+  <value>By tapping Agree and Continue, you agree to our Privacy Policy and Terms and Conditions, double tap to activate to read the Privacy Policy or Terms and Conditions</value>
+  </data>
+  <data name="TermsAndConditionsHelpTextIOS" xml:space="preserve">
+  <value>By tapping Agree and Continue, you agree to our Privacy Policy, link, and Terms and Conditions, link</value>
+  </data>
 </root>

@@ -2324,5 +2324,17 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("TermsAndConditionsMarkdown", resourceCulture);
             }
         }
+        
+        internal static string TermsAndConditionsHelpTextAndroid {
+            get {
+                return ResourceManager.GetString("TermsAndConditionsHelpTextAndroid", resourceCulture);
+            }
+        }
+        
+        internal static string TermsAndConditionsHelpTextIOS {
+            get {
+                return ResourceManager.GetString("TermsAndConditionsHelpTextIOS", resourceCulture);
+            }
+        }
     }
 }
