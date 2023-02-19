@@ -34,36 +34,6 @@ namespace RightToAskClient.Models
 				OnPropertyChanged();
 			}
 		}
-        
-        /* Many states don't have an upper house, so this just returns ""
-         */
-        public string StateUpperHouseElectorate
-        {
-	        get
-	        {
-				return ParliamentData.FindOneElectorateGivenPredicate(RegistrationInfo.Electorates.ToList(), 
-					c => ParliamentData.IsUpperHouseChamber(c.chamber));
-	        }
-        }
-		
-
-        public string CommonwealthElectorate
-        {
-	        get
-	        {
-		        return ParliamentData.FindOneElectorateGivenPredicate(RegistrationInfo.Electorates.ToList(), 
-			        chamberPair => chamberPair.chamber == ParliamentData.Chamber.Australian_House_Of_Representatives);
-	        }
-        }
-
-        public string StateLowerHouseElectorate
-        {
-	        get
-	        {
-		        return ParliamentData.FindOneElectorateGivenPredicate(RegistrationInfo.Electorates.ToList(),
-			        chamberPair => ParliamentData.IsLowerHouseChamber(chamberPair.chamber)); 
-	        }
-        }
 
         public Address Address
         {
