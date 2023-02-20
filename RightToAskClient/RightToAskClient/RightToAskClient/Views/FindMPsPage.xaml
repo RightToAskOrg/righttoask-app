@@ -3,10 +3,17 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:local="clr-namespace:RightToAskClient"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels;assembly=RightToAskClient"
-             xmlns:views="clr-namespace:RightToAskClient.Views;assembly=RightToAskClient"
+             xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
              x:Class="RightToAskClient.Views.FindMPsPage"
              x:DataType="vm:FindMPsViewModel">
+    <!-- <ContentPage.ToolbarItems> -->
+    <!--     <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel" -->
+    <!--                  IconImageSource="{helpers:ImageResource RightToAskClient.Images.home4.png}"/> -->
+    <!--     <ToolbarItem Text="{xct:Translate InfoPopupButtonText}" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel"  -->
+    <!--                  IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}"/> -->
+    <!-- </ContentPage.ToolbarItems> -->
     <ContentPage.BindingContext>
         <vm:FindMPsViewModel />
     </ContentPage.BindingContext>
@@ -24,62 +31,77 @@
                 <FlexLayout
                     Direction="Row" JustifyContent="Center" AlignItems="Center" Margin="16,20,16,0">
                     <StackLayout Orientation="Vertical">
-                        <Button x:Name="SelectEleButton" Clicked="SelectEleButton_OnClicked" Text="Select electorates" BackgroundColor="Transparent" FontSize="Medium" FontAttributes="Bold"
+                        <Button Text="Select electorates" BackgroundColor="Transparent" FontSize="Medium"
                                 TextColor="{StaticResource ButtonColor}" Command="{Binding KnowElectoratesCommand}"
                                 HorizontalOptions="End" />
-                        <BoxView x:Name="SelectEleButtonUnderLine" VerticalOptions="End" HeightRequest="2"/>
+                        <BoxView VerticalOptions="End" HeightRequest="2" BackgroundColor="{StaticResource ButtonColor}"/>
                     </StackLayout>
                     <BoxView WidthRequest="25" BackgroundColor="Transparent" HeightRequest="0"/>
                     <StackLayout Orientation="Vertical">
-                        <Button x:Name="TypeAddButton" Clicked="TypeAddButton_OnClicked" Text="Enter an address" BackgroundColor="Transparent" FontSize="Medium" FontAttributes="Bold"
-                                TextColor="{StaticResource PopupTextColor}" Command="{Binding LookupElectoratesCommand}"
+                        <Button Text="Enter an address" BackgroundColor="Transparent" FontSize="Medium"
+                                TextColor="{StaticResource ButtonColor}" Command="{Binding LookupElectoratesCommand}"
                                 HorizontalOptions="End" />
-                        <BoxView x:Name="TypeAddButtonUnderLine" VerticalOptions="End" HeightRequest="2" Color="Transparent"/>
+                        <BoxView VerticalOptions="End" HeightRequest="2" BackgroundColor="{StaticResource ButtonColor}"/>
                     </StackLayout>
                 </FlexLayout>
                 <!--Map Display-->
-                <Frame Margin="0" Padding="0" WidthRequest="150">
-                    <Grid Margin="0" Padding="0">
+                <Frame Margin="0" Padding="0" IsVisible="{Binding ShowMapFrame}" WidthRequest="150">
+                    <StackLayout Margin="0" Padding="0">
                         <!--Webview has default padding in its underlying html that is proving difficult to remove-->
                         <WebView Source="{Binding MapURL}" WidthRequest="300" HeightRequest="250" Margin="0" />
-                        <Label Text="Map will show" FontSize="Medium"
-                               FontAttributes="Bold" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center"
-                               TextColor="Black" VerticalTextAlignment="Center"
-                               Margin="16,0" IsVisible="{Binding ShowMapFrame, Converter={StaticResource Key=cnvInvert}}"  />
-                    </Grid>
+                    </StackLayout>
                 </Frame>
                 <!--Known Electorates Section-->
-                <StackLayout Style="{StaticResource SubtleFrame}" BackgroundColor="{AppThemeBinding Light=White, Dark=Black}"
-                       IsVisible="{Binding ShowKnowElectoratesFrame}">
-                    <StackLayout  Margin="10" >
+                <Frame Style="{StaticResource SubtleFrame}" BackgroundColor="{StaticResource SelectionPanelBgColor}"
+                       CornerRadius="0" IsVisible="{Binding ShowKnowElectoratesFrame}">
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="*,Auto,*,Auto,*,*" Margin="10" RowSpacing="0">
                         <!--State Selector/Picker-->
-                        <views:LabeledPicker Grid.Row="0" BindingContext="{Binding StatePickerModel}" />
-
+                        <Label Grid.Row="0" Grid.Column="0" Text="{xct:Translate ChooseStateOrTerritory}"
+                               HorizontalOptions="Start" HorizontalTextAlignment="Start" VerticalOptions="Center"
+                               Style="{StaticResource PaleButtonText}"
+                               TextColor="{StaticResource SelectionPanelTextColor}" />
+                        <Picker Grid.Row="0" Grid.Column="1" Title="{Binding StatePickerTitle}"
+                                ItemsSource="{Binding StatePicker}"
+                                Style="{StaticResource CenterFramePicker}" HorizontalOptions="FillAndExpand"
+                                SelectedIndex="{Binding SelectedStateAsInt}" />
                         <Label Grid.Row="1" Text="Federal electorate" FontSize="Medium"
                                FontAttributes="Bold" HorizontalOptions="Start" HorizontalTextAlignment="Start"
                                TextColor="Black" VerticalTextAlignment="Center"
                                Margin="0,10, 0,5"/>
-                        <views:LabeledPicker Grid.Row="2" BindingContext="{Binding FederalPickerModel}" />
-                        
+
+                        <Label Grid.Row="2" Grid.Column="0" Text="{xct:Translate FederalElectoratePickerTitle}"
+                               HorizontalTextAlignment="Start" VerticalOptions="Center"
+                               Style="{StaticResource PaleButtonText}"
+                               TextColor="{StaticResource SelectionPanelTextColor}" />
+                        <Picker Grid.Row="2" Grid.Column="1" Margin="0" Style="{StaticResource CenterFramePicker}"
+                                IsVisible="{Binding ShowStateOnly, Converter={StaticResource Key=cnvInvert}}"
+                                Title="{Binding FederalElectoratePickerTitle}"
+                                ItemsSource="{Binding FederalElectorates}"
+                                SelectedIndex="{Binding SelectedFederalElectorate}" MinimumWidthRequest="200"
+                                HorizontalOptions="Fill" HorizontalTextAlignment="Start" />
+                        <!-- Everywhere but Tasmania, the electorate you choose is your Legislative Assembly Electorate. In Tas, it's your Legislative Council Electorate.
+                                Along with your House of Representatives electorate, this is enough to infer all your other electorates. -->
+
                         <Label Grid.Row="3" Text="State electorate" FontSize="Medium"
                                FontAttributes="Bold" HorizontalOptions="Start" HorizontalTextAlignment="Start"
                                TextColor="Black" VerticalTextAlignment="Center"
                                Margin="0,10, 0,5"/>
-                        <views:LabeledPicker Grid.Row="4" BindingContext="{Binding StateElectoratePickerModel}" />
-                        
-                        <StackLayout Grid.Row="5">
-                            <Label Text="House of Assembly Electorate"
-                                   Style="{StaticResource PickerTitle}"/>
-                            <Grid Margin="0,0,0,8">
-                                <BoxView Style="{StaticResource ButtonSeparator}" VerticalOptions="End" />
-                                <Label Text="{Binding StateInferredElectorateHeader}" Padding="8,8,0,6"
-                                       Style="{StaticResource TransparentBgPicker}" HorizontalOptions="FillAndExpand"
-                                       VerticalOptions="Center" />
-                            </Grid>
-                        </StackLayout>
-                        
-                    </StackLayout>
-                </StackLayout>
+
+                        <Label Grid.Row="4" Grid.Column="0" Text="{Binding StateChoosableElectorateHeader}"
+                               HorizontalTextAlignment="Start" Style="{StaticResource PaleButtonText}"
+                               TextColor="{StaticResource SelectionPanelTextColor}" />
+                        <Picker Grid.Row="4" Grid.Column="1" Margin="0" Style="{StaticResource CenterFramePicker}"
+                                HorizontalOptions="Fill" ItemsSource="{Binding AllStateChoosableElectorates}"
+                                Title="{Binding StateChoosableElectorate}"
+                                SelectedIndex="{Binding SelectedStateElectorateIndex}" />
+                        <Label Grid.Row="5" Grid.Column="0" Text="{Binding StateInferredElectorateHeader}"
+                               Style="{StaticResource PaleButtonText}" HorizontalTextAlignment="Start"
+                               TextColor="{StaticResource SelectionPanelTextColor}" />
+                        <Label Grid.Row="5" Grid.Column="1" Text="{Binding StateInferredElectorate}"
+                               Style="{StaticResource PaleButtonText}" HorizontalTextAlignment="Start"
+                               TextColor="{StaticResource SelectionPanelTextColor}" />
+                    </Grid>
+                </Frame>
                 <!--Address Lookup Stack-->
                 <Frame Style="{StaticResource SubtleFrame}" IsVisible="{Binding ShowAddressStack}">
                     <StackLayout Margin="2" Spacing="0">
@@ -89,7 +111,7 @@
                                    VerticalOptions="Center" Style="{StaticResource PaleButtonText}" />
                             <Picker Title="{Binding StatePickerTitle}" ItemsSource="{Binding StatePicker}"
                                     Style="{StaticResource CenterFramePicker}"
-                                    SelectedIndex="{Binding StatePickerModel.SelectedIndex}" />
+                                    SelectedIndex="{Binding SelectedStateAsInt}" />
                         </StackLayout>
                         <StackLayout Margin="0" Padding="0" Spacing="0">
                             <Label Text="{xct:Translate StreetHeaderText}" Style="{StaticResource LeftFrameText}"
@@ -113,14 +135,14 @@
                         </StackLayout>
                     </StackLayout>
                 </Frame>
-                <!-- <BoxView Style="{StaticResource Separator}" Margin="0, 16"/> -->
                 <!--Done Button-->
-                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Margin="16">
-                    <Button Style="{StaticResource NormalButton}"
+                <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
+                    <Button HorizontalOptions="End"
+                            Style="{StaticResource DoneButton}"
                             x:Name="DoneButton"
                             Text="{xct:Translate SaveButtonText}"
                             Command="{Binding SaveMPsButtonCommand}"
-                            IsEnabled="{Binding EnableFindMPsButton}" />
+                            IsVisible="{Binding ShowFindMPsButton}" />
                 </StackLayout>
             </StackLayout>
         </ScrollView>
