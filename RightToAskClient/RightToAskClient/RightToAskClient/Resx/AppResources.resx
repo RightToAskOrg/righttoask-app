@@ -1301,4 +1301,11 @@ We are still learning about how people use Right To Ask. These rules may change 
   <data name="TermsAndConditionsHelpTextIOS" xml:space="preserve">
   <value>By tapping Agree and Continue, you agree to our Privacy Policy, link, and Terms and Conditions, link</value>
   </data>
+
+  <data name="ContinueButtonHint" xml:space="preserve">
+  <value>Continue to next page</value>
+  </data>
+  <data name="ContinueButtonDescription" xml:space="preserve">
+  <value>Continue</value>
+  </data>
 </root>

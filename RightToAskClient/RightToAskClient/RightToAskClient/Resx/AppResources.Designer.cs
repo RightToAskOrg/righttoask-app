@@ -2306,5 +2306,17 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("TermsAndConditionsHelpTextIOS", resourceCulture);
             }
         }
+        
+        internal static string ContinueButtonHint {
+            get {
+                return ResourceManager.GetString("ContinueButtonHint", resourceCulture);
+            }
+        }
+        
+        internal static string ContinueButtonDescription {
+            get {
+                return ResourceManager.GetString("ContinueButtonDescription", resourceCulture);
+            }
+        }
     }
 }

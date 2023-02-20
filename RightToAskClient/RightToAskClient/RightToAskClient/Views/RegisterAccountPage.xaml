@@ -10,38 +10,43 @@
              x:Class="RightToAskClient.Views.RegisterAccountPage"
              x:DataType="vm:RegistrationViewModel"
              Title="{Binding Title}">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
-                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.home4.png}"/>
-        <ToolbarItem Text="{xct:Translate InfoPopupButtonText}" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
-                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}"/>
-    </ContentPage.ToolbarItems>
     <ContentPage.BindingContext>
         <vm:RegistrationViewModel />
     </ContentPage.BindingContext>
 	<ContentPage.Content >
-        <StackLayout Margin="20">
-            <Grid RowDefinitions="Auto, Auto, Auto"
-                  ColumnDefinitions="*, 2*">
-                <Label Text="{xct:Translate UserNameHeaderText}" Style="{StaticResource Header2}" />
-                <!-- Styled in code-behind according to whether this is permitted edits. -->
-                <Entry x:Name="UIDEntry" Grid.Column="1" Text="{Binding UserId}" Placeholder="{xct:Translate UIDPlaceholderText}" />
-                <Label Grid.Row="1" Text="{xct:Translate DisplayNameHeaderText}" Style="{StaticResource Header2}" />
-                <Entry Grid.Row="1" Grid.Column="1" Text="{Binding DisplayName}"
-                       Placeholder="{xct:Translate DisplayNamePlaceholderText}"
-                       Style="{StaticResource NormalEntry}" />
-                <Label Grid.Row="2" Text="{xct:Translate StateHeaderText}" Style="{StaticResource Header2}" />
-                <Picker Grid.Row="2" Grid.Column="1" Title="{Binding State,  StringFormat='{0:F0}'}"
-                        ItemsSource="{Binding StateList}"
-                        Style="{StaticResource LeftPicker}"
-                        SelectedIndex="{Binding SelectedStateAsIndex}" />
-            </Grid>
-            <Label x:Name="ReportLabel" Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}"/>
-            <StackLayout Orientation="Vertical" VerticalOptions="Center">
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                    <Button Text="{xct:Translate Continue}" Style="{StaticResource DoneButton}" Command="{Binding DoneButtonCommand}" HorizontalOptions="Center"/>
+        <StackLayout Orientation="Vertical"
+                     VerticalOptions="Fill"
+                     HorizontalOptions="Fill">
+            <ScrollView VerticalOptions="FillAndExpand" Padding="16">
+                <StackLayout>
+                    <Grid RowDefinitions="Auto, Auto, Auto"
+                          ColumnDefinitions="*, 2*">
+                    <Label Text="{xct:Translate UserNameHeaderText}" Style="{StaticResource Header2}" />
+                    <!-- Styled in code-behind according to whether this is permitted edits. -->
+                    <Entry x:Name="UIDEntry" Grid.Column="1" Text="{Binding UserId}" Placeholder="{xct:Translate UIDPlaceholderText}" />
+                    <Label Grid.Row="1" Text="{xct:Translate DisplayNameHeaderText}" Style="{StaticResource Header2}" />
+                    <Entry Grid.Row="1" Grid.Column="1" Text="{Binding DisplayName}"
+                           Placeholder="{xct:Translate DisplayNamePlaceholderText}"
+                           Style="{StaticResource NormalEntry}" />
+                    </Grid>
+                
+                    <Label x:Name="ReportLabel" Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}"/>
                 </StackLayout>
-            </StackLayout>
+            </ScrollView>
+                <BoxView Style="{StaticResource ButtonSeparator}"/>
+                <StackLayout Orientation="Vertical"
+                             VerticalOptions="End"
+                             HorizontalOptions="Fill"
+                             Padding="16">
+                    <Button Text="{xct:Translate Continue}"
+                            Command="{Binding DoneButtonCommand}"
+                            xct:SemanticEffect.Hint="{xct:Translate ContinueButtonHint}"
+                            xct:SemanticEffect.Description="{xct:Translate ContinueButtonDescription}"
+                            Style="{StaticResource NormalButton}"
+                            CornerRadius="5"/>
+                            <!-- IsEnabled="{Binding AbleToFinish}" /> -->
+                </StackLayout>
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
