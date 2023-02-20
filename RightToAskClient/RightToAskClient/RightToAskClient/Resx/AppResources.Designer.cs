@@ -207,6 +207,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string NamePrivacyNote {
+            get {
+                return ResourceManager.GetString("NamePrivacyNote", resourceCulture);
+            }
+        }
+        
         internal static string DMButtonText {
             get {
                 return ResourceManager.GetString("DMButtonText", resourceCulture);
@@ -1020,6 +1026,12 @@ namespace RightToAskClient.Resx {
         internal static string UserName {
             get {
                 return ResourceManager.GetString("UserName", resourceCulture);
+            }
+        }
+        
+        internal static string UsernamePrivacyNote {
+            get {
+                return ResourceManager.GetString("UsernamePrivacyNote", resourceCulture);
             }
         }
         

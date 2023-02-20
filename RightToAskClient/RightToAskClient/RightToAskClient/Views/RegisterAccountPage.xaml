@@ -18,18 +18,14 @@
                      VerticalOptions="Fill"
                      HorizontalOptions="Fill">
             <ScrollView VerticalOptions="FillAndExpand" Padding="16">
-                <StackLayout>
-                    <Grid RowDefinitions="Auto, Auto, Auto"
-                          ColumnDefinitions="*, 2*">
+                <StackLayout Orientation="Vertical">
+                    <Label Text="{xct:Translate DisplayNameHeaderText}" Style="{StaticResource Header2}" />
+                    <Entry Text="{Binding DisplayName}"
+                           Placeholder="{xct:Translate DisplayNamePlaceholderText}"/>
+                    <Label Text="{xct:Translate NamePrivacyNote}" Style="{StaticResource TextFieldDescription}" />
                     <Label Text="{xct:Translate UserNameHeaderText}" Style="{StaticResource Header2}" />
-                    <!-- Styled in code-behind according to whether this is permitted edits. -->
-                    <Entry x:Name="UIDEntry" Grid.Column="1" Text="{Binding UserId}" Placeholder="{xct:Translate UIDPlaceholderText}" />
-                    <Label Grid.Row="1" Text="{xct:Translate DisplayNameHeaderText}" Style="{StaticResource Header2}" />
-                    <Entry Grid.Row="1" Grid.Column="1" Text="{Binding DisplayName}"
-                           Placeholder="{xct:Translate DisplayNamePlaceholderText}"
-                           Style="{StaticResource NormalEntry}" />
-                    </Grid>
-                
+                    <Entry x:Name="UIDEntry" Text="{Binding UserId}" Placeholder="{xct:Translate UIDPlaceholderText}" />
+                    <Label Text="{xct:Translate UsernamePrivacyNote}" Style="{StaticResource TextFieldDescription}" />
                     <Label x:Name="ReportLabel" Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}"/>
                 </StackLayout>
             </ScrollView>
