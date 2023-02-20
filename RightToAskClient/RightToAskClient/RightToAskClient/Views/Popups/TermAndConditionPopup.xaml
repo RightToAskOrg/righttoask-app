@@ -24,6 +24,7 @@
                 <StackLayout
                     BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource PopupDarkModeBgColor}}">
                     <Button Text="{xct:Translate AgreeAndContinueButton}" HorizontalOptions="Center"
+                            FontSize="Small"
                             VerticalOptions="End" Clicked="okButton_Clicked"
                             xct:SemanticEffect.Hint="{xct:Translate TCContinueButtonHint}"
                             xct:SemanticEffect.Description="{xct:Translate AgreeAndContinueButton}"
