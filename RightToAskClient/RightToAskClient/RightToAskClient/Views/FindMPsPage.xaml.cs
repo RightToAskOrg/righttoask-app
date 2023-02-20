@@ -1,3 +1,4 @@
+using System;
 using RightToAskClient.Models;
 using RightToAskClient.Resx;
 using RightToAskClient.ViewModels;
@@ -29,6 +30,9 @@ namespace RightToAskClient.Views
         {
             InitializeComponent();
             _doneButtonText = AppResources.SaveButtonText;
+            
+            HighlightText(SelectEleButton, SelectEleButtonUnderLine);
+            UnHighlightText(TypeAddButton, TypeAddButtonUnderLine);
         }
         public FindMPsPage(Registration registration)
         {
@@ -40,6 +44,29 @@ namespace RightToAskClient.Views
         protected override void OnAppearing()
         {
             DoneButton.Text = _doneButtonText;
+        }
+
+        private void SelectEleButton_OnClicked(object sender, EventArgs e)
+        {
+            HighlightText(SelectEleButton, SelectEleButtonUnderLine);
+            UnHighlightText(TypeAddButton, TypeAddButtonUnderLine);
+        }
+
+        private void TypeAddButton_OnClicked(object sender, EventArgs e)
+        {
+            UnHighlightText(SelectEleButton,SelectEleButtonUnderLine);
+            HighlightText(TypeAddButton, TypeAddButtonUnderLine);
+        }
+
+        private void HighlightText(Button btn, BoxView bv)
+        {
+            btn.TextColor = (Color)Application.Current.Resources["ButtonColor"];
+            bv.Color = (Color)Application.Current.Resources["ButtonColor"];
+        }
+        private void UnHighlightText(Button btn, BoxView bv)
+        {
+            btn.TextColor = (Color)Application.Current.Resources["PopupTextColor"];
+            bv.Color = Color.Transparent;
         }
     }
 }

@@ -76,7 +76,6 @@
                         effects:SemanticEffect.Hint="{effects:Translate SaveAndFinishHint}"
                         effects:SemanticEffect.Description="{effects:Translate SaveAndFinish}"
                         Style="{StaticResource NormalButton}"
-                        CornerRadius="5"
                         IsEnabled="{Binding AbleToFinish}" />
             </StackLayout>
 

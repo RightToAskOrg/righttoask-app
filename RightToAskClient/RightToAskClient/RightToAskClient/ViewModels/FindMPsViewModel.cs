@@ -296,6 +296,7 @@ namespace RightToAskClient.ViewModels
                 ShowAddressStack = false;
                 ShowElectoratesFrame = false;
             });
+            KnowElectoratesCommand.Execute(true);
 
         }
 
