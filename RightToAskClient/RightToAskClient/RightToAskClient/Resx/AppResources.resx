@@ -342,6 +342,15 @@
   <data name="MPsHeaderText1" xml:space="preserve">
     <value>Choose or search for your electorates</value>
   </data>
+  <data name="FindMyElectorateTitle" xml:space="preserve">
+    <value>What's your electorate?</value>
+  </data>
+  <data name="FindMyElectorateContentPartOne" xml:space="preserve">
+    <value>Your electorate info will not be shared with others unless you choose to.</value>
+  </data>
+  <data name="FindMyElectorateContentPartTwo" xml:space="preserve">
+    <value>This helps us find which MPs are yours.</value>
+  </data>
   <data name="MPsHeaderText2" xml:space="preserve">
     <value>I live in </value>
   </data>

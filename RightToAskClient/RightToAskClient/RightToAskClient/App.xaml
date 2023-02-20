@@ -74,6 +74,9 @@
 
             <Color x:Key="PopupDarkModeBgColor">#262626</Color>
             <Color x:Key="PopupDarkModeTextColor">#B3B3B3</Color>
+            <Color x:Key="SelectionPanelBgColor">#C1DFAC</Color>
+            <Color x:Key="SelectionPanelTextColor">#2D5C30</Color>
+            <Color x:Key="PickerBgColor">#539047</Color>
             <!--Generic Styles-->
             <Style TargetType="Label">
                 <Setter Property="TextColor"
@@ -561,8 +564,9 @@
                 <Setter Property="TextColor" Value="{StaticResource TextColorDark}" />
                 <Setter Property="TitleColor" Value="{StaticResource TextColorDark}" />
                 <Setter Property="FontSize" Value="Medium" />
+                <Setter Property="MinimumHeightRequest" Value="60" />
                 <Setter Property="HorizontalOptions" Value="Center" />
-                <Setter Property="BackgroundColor" Value="{StaticResource ButtonColor}" />
+                <Setter Property="BackgroundColor" Value="{StaticResource PickerBgColor}" />
             </Style>
             <Style x:Key="TransparentBgPicker" TargetType="Picker">
                 <Setter Property="TextColor"
