@@ -31,17 +31,17 @@
                 <FlexLayout
                     Direction="Row" JustifyContent="Center" AlignItems="Center" Margin="16,20,16,0">
                     <StackLayout Orientation="Vertical">
-                        <Button Text="Select electorates" BackgroundColor="Transparent" FontSize="Medium"
+                        <Button x:Name="SelectEleButton" Clicked="SelectEleButton_OnClicked" Text="Select electorates" BackgroundColor="Transparent" FontSize="Medium" FontAttributes="Bold"
                                 TextColor="{StaticResource ButtonColor}" Command="{Binding KnowElectoratesCommand}"
                                 HorizontalOptions="End" />
-                        <BoxView VerticalOptions="End" HeightRequest="2" BackgroundColor="{StaticResource ButtonColor}"/>
+                        <BoxView x:Name="SelectEleButtonUnderLine" VerticalOptions="End" HeightRequest="2"/>
                     </StackLayout>
                     <BoxView WidthRequest="25" BackgroundColor="Transparent" HeightRequest="0"/>
                     <StackLayout Orientation="Vertical">
-                        <Button Text="Enter an address" BackgroundColor="Transparent" FontSize="Medium"
-                                TextColor="{StaticResource ButtonColor}" Command="{Binding LookupElectoratesCommand}"
+                        <Button x:Name="TypeAddButton" Clicked="TypeAddButton_OnClicked" Text="Enter an address" BackgroundColor="Transparent" FontSize="Medium" FontAttributes="Bold"
+                                TextColor="{StaticResource PopupTextColor}" Command="{Binding LookupElectoratesCommand}"
                                 HorizontalOptions="End" />
-                        <BoxView VerticalOptions="End" HeightRequest="2" BackgroundColor="{StaticResource ButtonColor}"/>
+                        <BoxView x:Name="TypeAddButtonUnderLine" VerticalOptions="End" HeightRequest="2" Color="Transparent"/>
                     </StackLayout>
                 </FlexLayout>
                 <!--Map Display-->
@@ -49,11 +49,11 @@
                     <StackLayout Margin="0" Padding="0">
                         <!--Webview has default padding in its underlying html that is proving difficult to remove-->
                         <WebView Source="{Binding MapURL}" WidthRequest="300" HeightRequest="250" Margin="0" />
-                    </StackLayout>
+                    </StackLayout>         
                 </Frame>
                 <!--Known Electorates Section-->
-                <Frame Style="{StaticResource SubtleFrame}" BackgroundColor="{StaticResource SelectionPanelBgColor}"
-                       CornerRadius="0" IsVisible="{Binding ShowKnowElectoratesFrame}">
+                <StackLayout Style="{StaticResource SubtleFrame}" BackgroundColor="{StaticResource SelectionPanelBgColor}"
+                       IsVisible="{Binding ShowKnowElectoratesFrame}">
                     <Grid ColumnDefinitions="*,*" RowDefinitions="*,Auto,*,Auto,*,*" Margin="10" RowSpacing="0">
                         <!--State Selector/Picker-->
                         <Label Grid.Row="0" Grid.Column="0" Text="{xct:Translate ChooseStateOrTerritory}"
@@ -101,7 +101,7 @@
                                Style="{StaticResource PaleButtonText}" HorizontalTextAlignment="Start"
                                TextColor="{StaticResource SelectionPanelTextColor}" />
                     </Grid>
-                </Frame>
+                </StackLayout>
                 <!--Address Lookup Stack-->
                 <Frame Style="{StaticResource SubtleFrame}" IsVisible="{Binding ShowAddressStack}">
                     <StackLayout Margin="2" Spacing="0">
@@ -135,14 +135,14 @@
                         </StackLayout>
                     </StackLayout>
                 </Frame>
+                <BoxView Style="{StaticResource ButtonSeparator}" Margin="0, 16"/>
                 <!--Done Button-->
-                <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
-                    <Button HorizontalOptions="End"
-                            Style="{StaticResource DoneButton}"
+                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Margin="16">
+                    <Button Style="{StaticResource NormalButton}"
                             x:Name="DoneButton"
                             Text="{xct:Translate SaveButtonText}"
                             Command="{Binding SaveMPsButtonCommand}"
-                            IsVisible="{Binding ShowFindMPsButton}" />
+                            IsEnabled="{Binding ShowFindMPsButton}" />
                 </StackLayout>
             </StackLayout>
         </ScrollView>
