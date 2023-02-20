@@ -16,7 +16,8 @@ namespace RightToAskClient.ViewModels
             PopupLabelText = "TestText";
             HomeButtonCommand = new AsyncCommand(async () =>
             {
-                var popup = new TwoButtonPopup(AppResources.GoHomePopupTitle, AppResources.GoHomePopupText, AppResources.CancelButtonText, AppResources.GoHomeButtonText, false);
+                var popup = new TwoButtonPopup(AppResources.GoHomePopupTitle, AppResources.GoHomePopupText,
+                    AppResources.CancelButtonText, AppResources.GoHomeButtonText, false);
                 var popupResult = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
                 if (popup.HasApproved(popupResult))
                 {
@@ -37,6 +38,7 @@ namespace RightToAskClient.ViewModels
         }
 
         private string _title = string.Empty;
+
         public string Title
         {
             get => _title;
@@ -44,13 +46,15 @@ namespace RightToAskClient.ViewModels
         }
 
         private string _popupHeaderText = "";
+
         public string PopupHeaderText
         {
             get => _popupHeaderText;
             set => SetProperty(ref _popupHeaderText, value);
         }
-        
+
         private string _popupLabelText = "";
+
         public string PopupLabelText
         {
             get => _popupLabelText;
@@ -58,6 +62,7 @@ namespace RightToAskClient.ViewModels
         }
 
         private string _reportLabelText = "";
+
         public string ReportLabelText
         {
             get => _reportLabelText;
