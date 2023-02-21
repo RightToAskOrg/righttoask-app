@@ -141,7 +141,7 @@
                             x:Name="DoneButton"
                             Text="{xct:Translate SaveButtonText}"
                             Command="{Binding SaveMPsButtonCommand}"
-                            IsEnabled="{Binding ShowFindMPsButton}" />
+                            IsEnabled="{Binding EnableFindMPsButton}" />
                 </StackLayout>
             </StackLayout>
         </ScrollView>
