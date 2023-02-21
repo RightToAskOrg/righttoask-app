@@ -2331,15 +2331,21 @@ namespace RightToAskClient.Resx {
             }
         }
         
-        internal static string EmptyDisplayNameMessage {
+        internal static string EmptyFieldMessage {
             get {
-                return ResourceManager.GetString("EmptyDisplayNameMessage", resourceCulture);
+                return ResourceManager.GetString("EmptyFieldMessage", resourceCulture);
             }
         }
         
         internal static string MaxCharDisplayNameMessage {
             get {
                 return ResourceManager.GetString("MaxCharDisplayNameMessage", resourceCulture);
+            }
+        }
+        
+        internal static string UsernameRegexMessage {
+            get {
+                return ResourceManager.GetString("UsernameRegexMessage", resourceCulture);
             }
         }
     }

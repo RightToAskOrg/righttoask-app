@@ -1315,10 +1315,13 @@ We are still learning about how people use Right To Ask. These rules may change 
   <value>Continue</value>
   </data>
   
-  <data name="EmptyDisplayNameMessage" xml:space="preserve">
-  <value>Display name must not be empty.</value>
+  <data name="EmptyFieldMessage" xml:space="preserve">
+  <value>{0} must not be empty.</value>
   </data>
   <data name="MaxCharDisplayNameMessage" xml:space="preserve">
   <value>The maximum character limit is {0}.</value>
+  </data>
+  <data name="UsernameRegexMessage" xml:space="preserve">
+  <value>Please use only letters (a-z), numbers (0-9), hyphen (-), underscore (_), and dot (.) without spaces.</value>
   </data>
 </root>

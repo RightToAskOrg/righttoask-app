@@ -9,4 +9,6 @@ fileignoreconfig:
   checksum: c537441313f24c3e4f405cd6fb5ab3643c511fc66f7031fa3b6376f505588c59
 - filename: RightToAskClient/RightToAskClient/RightToAskClient/Views/QuestionDisplayCard.xaml
   checksum: 0a6d88a09a8472ef1f4da73393246851d9b162ac7b9da793c26ec8d8acb595a6
+- filename: RightToAskClient/UnitTests/Models/RegistrationTests.cs
+  checksum: a3317bc6bae2a742faccf5056a1cfb37d19cf2e6ee5f6c3d3ea81475bd7e0418
 version: "1.0"
