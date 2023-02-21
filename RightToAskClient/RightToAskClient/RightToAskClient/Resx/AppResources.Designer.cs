@@ -2330,5 +2330,17 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("ContinueButtonDescription", resourceCulture);
             }
         }
+        
+        internal static string EmptyDisplayNameMessage {
+            get {
+                return ResourceManager.GetString("EmptyDisplayNameMessage", resourceCulture);
+            }
+        }
+        
+        internal static string MaxCharDisplayNameMessage {
+            get {
+                return ResourceManager.GetString("MaxCharDisplayNameMessage", resourceCulture);
+            }
+        }
     }
 }

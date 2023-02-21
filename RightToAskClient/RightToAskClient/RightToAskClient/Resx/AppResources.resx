@@ -1314,4 +1314,11 @@ We are still learning about how people use Right To Ask. These rules may change 
   <data name="ContinueButtonDescription" xml:space="preserve">
   <value>Continue</value>
   </data>
+  
+  <data name="EmptyDisplayNameMessage" xml:space="preserve">
+  <value>Display name must not be empty.</value>
+  </data>
+  <data name="MaxCharDisplayNameMessage" xml:space="preserve">
+  <value>The maximum character limit is {0}.</value>
+  </data>
 </root>

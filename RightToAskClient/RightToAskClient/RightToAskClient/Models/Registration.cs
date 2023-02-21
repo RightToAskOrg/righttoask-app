@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using RightToAskClient.Helpers;
 using RightToAskClient.Models.ServerCommsData;
+using RightToAskClient.Resx;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
 
@@ -29,14 +30,6 @@ namespace RightToAskClient.Models
         All = StateOrTerritory | FederalElectorate | StateElectorate,
     }
 
-    [Flags]
-    public enum InvalidNameReason
-    {
-        Valid = 0,
-        Empty = 1,
-        MaxChar = 2,
-    }
-    
     public class Registration : ObservableObject
     {
         private const int MaxDisplayNameChar = 60;
@@ -267,12 +260,12 @@ namespace RightToAskClient.Models
             if (string.IsNullOrEmpty(display_name))
             {
                 isValid = false;
-                validationErrMessage = "Display name must not be empty.";
+                validationErrMessage = AppResources.EmptyDisplayNameMessage;
             }
             else if (display_name.Length > MaxDisplayNameChar)
             {
                 isValid = false;
-                validationErrMessage = "The maximum character limit is 60.";
+                validationErrMessage = String.Format(AppResources.MaxCharDisplayNameMessage, MaxDisplayNameChar);
             }
             return (isValid, validationErrMessage);
         }
