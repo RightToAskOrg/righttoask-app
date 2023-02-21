@@ -249,6 +249,20 @@ namespace RightToAskClient.Models
             return isValid;
         }
 
+        public bool ValidateName()
+        {
+            var isValid = true;
+            if (string.IsNullOrEmpty(display_name))
+            {
+                isValid = false;
+            }
+            else if (display_name.Length > 60)
+            {
+                isValid = false;
+            }
+            return isValid;
+        }
+
         // Note that this will *not* update if the person doesn't select anything.
         public (bool success, ParliamentData.StateEnum state) UpdateStateStorePreferences(int selectedStateAsInt)
         {
