@@ -14,12 +14,13 @@ namespace UnitTests.Models
             registration.display_name = "0123456789012345678901234567890123456789012345678901234567890";
 
             // act
-            bool validName = registration.ValidateName();
+            var (validName, validationErrMessage) = registration.ValidateName();
 
             // assert
             Assert.False(validName);
+            Assert.Equal("The maximum character limit is 60.", validationErrMessage);
         }
-        
+
         [Fact]
         public void ShouldReturnFalseWhenNameIsEmpty()
         {
@@ -28,24 +29,25 @@ namespace UnitTests.Models
             registration.display_name = "";
 
             // act
-            bool validName = registration.ValidateName();
+            var (validName, validationErrMessage) = registration.ValidateName();
 
             // assert
             Assert.False(validName);
+            Assert.Equal("Display name must not be empty.", validationErrMessage);
         }
-        
+
         [Fact]
         public void ShouldReturnTrueWhenNameIsValid()
         {
             // arrange
             var registration = new Registration();
             registration.display_name = "012345678901234567890123456789012345678901234567890123456789";
-
             // act
-            bool validName = registration.ValidateName();
+            var (validName, validationErrMessage) = registration.ValidateName();
 
             // assert
             Assert.True(validName);
+            Assert.Empty(validationErrMessage);
         }
     }
 }

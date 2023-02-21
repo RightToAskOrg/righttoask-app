@@ -28,8 +28,19 @@ namespace RightToAskClient.Models
         StateElectorateAndState = StateOrTerritory | StateElectorate,
         All = StateOrTerritory | FederalElectorate | StateElectorate,
     }
+
+    [Flags]
+    public enum InvalidNameReason
+    {
+        Valid = 0,
+        Empty = 1,
+        MaxChar = 2,
+    }
+    
     public class Registration : ObservableObject
     {
+        private const int MaxDisplayNameChar = 60;
+
         // By default it's another person. So we need only worry about the current user registration.
         public RegistrationStatus registrationStatus { get; set; } = RegistrationStatus.AnotherPerson;
         public bool IsRegistered
@@ -249,18 +260,21 @@ namespace RightToAskClient.Models
             return isValid;
         }
 
-        public bool ValidateName()
+        public (bool isValid, string validationErrMessage) ValidateName()
         {
             var isValid = true;
+            var validationErrMessage = "";
             if (string.IsNullOrEmpty(display_name))
             {
                 isValid = false;
+                validationErrMessage = "Display name must not be empty.";
             }
-            else if (display_name.Length > 60)
+            else if (display_name.Length > MaxDisplayNameChar)
             {
                 isValid = false;
+                validationErrMessage = "The maximum character limit is 60.";
             }
-            return isValid;
+            return (isValid, validationErrMessage);
         }
 
         // Note that this will *not* update if the person doesn't select anything.
