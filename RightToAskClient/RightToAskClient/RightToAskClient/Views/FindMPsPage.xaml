@@ -74,7 +74,6 @@
                                Style="{StaticResource PaleButtonText}"
                                TextColor="{StaticResource SelectionPanelTextColor}" />
                         <Picker Grid.Row="2" Grid.Column="1" Margin="0" Style="{StaticResource CenterFramePicker}"
-                                IsVisible="{Binding ShowStateOnly, Converter={StaticResource Key=cnvInvert}}"
                                 Title="{Binding FederalElectoratePickerTitle}"
                                 ItemsSource="{Binding FederalElectorates}"
                                 SelectedIndex="{Binding SelectedFederalElectorate}" MinimumWidthRequest="200"

@@ -41,12 +41,8 @@ namespace RightToAskClient.ViewModels
             get => _showMapFrame;
             set => SetProperty(ref _showMapFrame, value);
         }
-        private bool _showStateOnly = true;
-        public bool ShowStateOnly
-        {
-            get => _showStateOnly;
-            set => SetProperty(ref _showStateOnly, value);
-        }
+
+
         private bool _showElectoratesFrame;
         public bool ShowElectoratesFrame
         {
@@ -567,7 +563,6 @@ namespace RightToAskClient.ViewModels
                 UpdateElectorateInferencesFromStateAndCommElectorate(SelectedStateEnum, "", "");
                 (StateChoosableElectorateHeader, StateInferredElectorateHeader, StateInferredElectorate)
                     = ParliamentData.InferOtherChamberInfoGivenOneRegion(SelectedStateEnum, "", "");
-                ShowStateOnly = false;
                 ShowFindMPsButton = true;
             }
         }
