@@ -29,11 +29,11 @@ namespace RightToAskClient.ViewModels
         }
 
         private bool _signUpFlow;
-        private bool _showFindMPsButton;
-        public bool ShowFindMPsButton
+        private bool _enableFindMPsButton;
+        public bool EnableFindMPsButton
         {
-            get => _showFindMPsButton;
-            set => SetProperty(ref _showFindMPsButton, value);
+            get => _enableFindMPsButton;
+            set => SetProperty(ref _enableFindMPsButton, value);
         }
         private bool _showMapFrame;
         public bool ShowMapFrame
@@ -414,7 +414,7 @@ namespace RightToAskClient.ViewModels
             if (!string.IsNullOrEmpty(bestAddress.Properties?.CommonwealthElectorate?.ToString()))
             {
                 AddElectorates(bestAddress);
-                ShowFindMPsButton = true;
+                EnableFindMPsButton = true;
                 ReportLabelText = "";
 
                 electoratePopupTitle = "Electorates Found!";
@@ -516,7 +516,7 @@ namespace RightToAskClient.ViewModels
         {
             if (!string.IsNullOrEmpty(StateChoosableElectorate) || SelectedFederalElectorate != -1)
             {
-                ShowFindMPsButton = true;
+                EnableFindMPsButton = true;
                 CommunicateElectoratesKnown();
             }
         }
@@ -563,7 +563,7 @@ namespace RightToAskClient.ViewModels
                 UpdateElectorateInferencesFromStateAndCommElectorate(SelectedStateEnum, "", "");
                 (StateChoosableElectorateHeader, StateInferredElectorateHeader, StateInferredElectorate)
                     = ParliamentData.InferOtherChamberInfoGivenOneRegion(SelectedStateEnum, "", "");
-                ShowFindMPsButton = true;
+                EnableFindMPsButton = true;
             }
         }
         
