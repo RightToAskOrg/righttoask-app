@@ -60,7 +60,6 @@
                                TextColor="Black" VerticalTextAlignment="Center"
                                Margin="0,10, 0,5"/>
                         <views:LabeledPicker Grid.Row="2" BindingContext="{Binding FederalPickerModel}" />
-                        
                         <Label Grid.Row="3" Text="State electorate" FontSize="Medium"
                                FontAttributes="Bold" HorizontalOptions="Start" HorizontalTextAlignment="Start"
                                TextColor="Black" VerticalTextAlignment="Center"
