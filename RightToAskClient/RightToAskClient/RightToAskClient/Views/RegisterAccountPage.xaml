@@ -13,20 +13,43 @@
     <ContentPage.BindingContext>
         <vm:RegistrationViewModel />
     </ContentPage.BindingContext>
-	<ContentPage.Content >
+    <ContentPage.Content>
         <StackLayout Orientation="Vertical"
                      VerticalOptions="Fill"
                      HorizontalOptions="Fill">
             <ScrollView VerticalOptions="FillAndExpand" Padding="16">
                 <StackLayout Orientation="Vertical">
                     <Label Text="{xct:Translate DisplayNameHeaderText}" Style="{StaticResource Header2}" />
-                    <Entry Text="{Binding DisplayName}"
-                           Placeholder="{xct:Translate DisplayNamePlaceholderText}"/>
+                    <ContentView>
+                        <StackLayout Orientation="Vertical"
+                                     Spacing="0">
+                            <Entry Text="{Binding DisplayName}"
+                                   Placeholder="{xct:Translate DisplayNamePlaceholderText}"
+                                   Style="{StaticResource TextInput}" />
+                            <BoxView HeightRequest="1"
+                                     HorizontalOptions="FillAndExpand"
+                                     VerticalOptions="EndAndExpand"
+                                     Color="{StaticResource FrameColor}" />
+                        </StackLayout>
+                    </ContentView>
                     <Label Text="{xct:Translate NamePrivacyNote}" Style="{StaticResource TextFieldDescription}" />
+
+
                     <Label Text="{xct:Translate UserNameHeaderText}" Style="{StaticResource Header2}" />
-                    <Entry x:Name="UIDEntry" Text="{Binding UserId}" Placeholder="{xct:Translate UIDPlaceholderText}" />
+                    <ContentView>
+                        <StackLayout Orientation="Vertical"
+                                     Spacing="0">
+                            <Entry x:Name="UIDEntry" Text="{Binding UserId}"
+                                   Placeholder="{xct:Translate UIDPlaceholderText}"
+                                   Style="{StaticResource TextInput}" />
+                            <BoxView HeightRequest="1"
+                                     HorizontalOptions="FillAndExpand"
+                                     VerticalOptions="EndAndExpand"
+                                     Color="{StaticResource FrameColor}" />
+                        </StackLayout>
+                    </ContentView>
                     <Label Text="{xct:Translate UsernamePrivacyNote}" Style="{StaticResource TextFieldDescription}" />
-                    <Label x:Name="ReportLabel" Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}"/>
+                    <Label x:Name="ReportLabel" Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}" />
                 </StackLayout>
             </ScrollView>
                 <BoxView Style="{StaticResource ButtonSeparator}"/>

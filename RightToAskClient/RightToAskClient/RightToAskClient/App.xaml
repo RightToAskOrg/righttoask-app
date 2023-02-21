@@ -868,6 +868,9 @@
                 <Setter Property="CharacterSpacing" Value="1" />
                 <Setter Property="VerticalOptions" Value="Center" />
             </Style>
+            <Style x:Key="TextInput" TargetType="Entry">
+                <Setter Property="FontSize" Value="Medium" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
