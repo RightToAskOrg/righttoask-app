@@ -1324,4 +1324,7 @@ We are still learning about how people use Right To Ask. These rules may change 
   <data name="UsernameRegexMessage" xml:space="preserve">
   <value>Please use only letters (a-z), numbers (0-9), hyphen (-), underscore (_), and dot (.) without spaces.</value>
   </data>
+  <data name="CreateAccountTitle" xml:space="preserve">
+  <value>Create your account</value>
+  </data>
 </root>

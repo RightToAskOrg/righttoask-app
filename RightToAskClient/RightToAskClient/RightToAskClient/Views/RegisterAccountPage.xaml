@@ -19,7 +19,11 @@
                      HorizontalOptions="Fill">
             <ScrollView VerticalOptions="FillAndExpand" Padding="16">
                 <StackLayout Orientation="Vertical">
-                    <Label Text="{xct:Translate DisplayNameHeaderText}" Style="{StaticResource Header2}" />
+                    <Label Text="{xct:Translate CreateAccountTitle}"
+                           Style="{StaticResource RegistrationTitle}" ></Label>
+                    <Label Text="{xct:Translate DisplayNameHeaderText}" 
+                           Style="{StaticResource PickerTitle}" 
+                           IsVisible="{Binding DisplayName.Length}"/>
                     <ContentView>
                         <StackLayout Orientation="Vertical"
                                      Spacing="0">
@@ -33,7 +37,8 @@
                                      Color="{StaticResource FrameColor}" />
                         </StackLayout>
                     </ContentView>
-                    <Label Text="{xct:Translate NamePrivacyNote}" Style="{StaticResource TextFieldDescription}" />
+                    <Label Text="{xct:Translate NamePrivacyNote}" 
+                           Style="{StaticResource TextFieldDescription}" />
                     <StackLayout Orientation="Horizontal" IsVisible="{Binding NameLabelText.Length}">
                         <Image Source="{helpers:ImageResource RightToAskClient.Images.error.png}"
                                xct:IconTintColorEffect.TintColor="{AppThemeBinding 
@@ -45,7 +50,9 @@
                                VerticalOptions="Start"/>
                         <Label Text="{Binding NameLabelText}" Style="{StaticResource ErrorLabel}" />
                     </StackLayout>
-                    <Label Text="{xct:Translate UserNameHeaderText}" Style="{StaticResource Header2}" />
+                    <Label Text="{xct:Translate UserNameHeaderText}" 
+                           Style="{StaticResource PickerTitle}" 
+                           IsVisible="{Binding UserId.Length}"/>
                     <ContentView>
                         <StackLayout Orientation="Vertical"
                                      Spacing="0">

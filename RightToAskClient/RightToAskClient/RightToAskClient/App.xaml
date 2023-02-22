@@ -798,6 +798,13 @@
                 <Setter Property="HorizontalOptions" Value="Center" />
                 <Setter Property="TextColor" Value="{AppThemeBinding Light=Black,  Dark=White}" />
             </Style>
+            <Style x:Key="RegistrationTitle" TargetType="Label">
+                <Setter Property="FontSize" Value="Large" />
+                <Setter Property="Margin" Value="0, 0, 0, 32" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="HorizontalOptions" Value="Start" />
+                <Setter Property="TextColor" Value="{AppThemeBinding Light=Black,  Dark=White}" />
+            </Style>
             <Style x:Key="SignUpBody" TargetType="Label">
                 <Setter Property="FontSize" Value="Medium" />
                 <Setter Property="Margin" Value="0, 0, 0, 24" />
