@@ -58,6 +58,8 @@
 
             <Color x:Key="TextColor">black</Color>
             <Color x:Key="TextColorGreen">#36642f</Color>
+            <Color x:Key="TextColorRed">#B0162C</Color>
+            <Color x:Key="TextColorBrightRed">#FF0033</Color>
             <Color x:Key="UnselectedOptionButtonColor">Gray</Color>
             <Color x:Key="TextColorGray">Gray</Color>
             <Color x:Key="TextColorDark">#f2f2f7</Color>
@@ -621,6 +623,14 @@
                 <Setter Property="TextColor"
                         Value="{AppThemeBinding Light={StaticResource TextColorGreen}, 
                    Dark={StaticResource TextColorDark}}" />
+                <Setter Property="FontSize" Value="Small" />
+            </Style>
+            <Style x:Key="ErrorLabel" TargetType="Label">
+                <Setter Property="TextColor"
+                        Value="{AppThemeBinding 
+                            Light={StaticResource TextColorRed}, 
+                            Dark={StaticResource TextColorBrightRed}
+                }" />
                 <Setter Property="FontSize" Value="Small" />
             </Style>
             <Style x:Key="VertStack" TargetType="StackLayout">
