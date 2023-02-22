@@ -25,7 +25,8 @@
                                      Spacing="0">
                             <Entry Text="{Binding DisplayName}"
                                    Placeholder="{xct:Translate DisplayNamePlaceholderText}"
-                                   Style="{StaticResource TextInput}" />
+                                   Style="{StaticResource TextInput}" 
+                                   Unfocused="VisualElement_OnUnfocused"/>
                             <BoxView HeightRequest="1"
                                      HorizontalOptions="FillAndExpand"
                                      VerticalOptions="EndAndExpand"
@@ -33,6 +34,7 @@
                         </StackLayout>
                     </ContentView>
                     <Label Text="{xct:Translate NamePrivacyNote}" Style="{StaticResource TextFieldDescription}" />
+                    <Label Text="{Binding NameLabelText}" Style="{StaticResource ReportLabel}" />
 
 
                     <Label Text="{xct:Translate UserNameHeaderText}" Style="{StaticResource Header2}" />
@@ -41,7 +43,8 @@
                                      Spacing="0">
                             <Entry x:Name="UIDEntry" Text="{Binding UserId}"
                                    Placeholder="{xct:Translate UIDPlaceholderText}"
-                                   Style="{StaticResource TextInput}" />
+                                   Style="{StaticResource TextInput}" 
+                                   Unfocused="UIDEntry_OnUnfocused"/>
                             <BoxView HeightRequest="1"
                                      HorizontalOptions="FillAndExpand"
                                      VerticalOptions="EndAndExpand"
@@ -49,7 +52,7 @@
                         </StackLayout>
                     </ContentView>
                     <Label Text="{xct:Translate UsernamePrivacyNote}" Style="{StaticResource TextFieldDescription}" />
-                    <Label x:Name="ReportLabel" Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}" />
+                    <Label Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}" />
                 </StackLayout>
             </ScrollView>
                 <BoxView Style="{StaticResource ButtonSeparator}"/>
@@ -62,8 +65,8 @@
                             xct:SemanticEffect.Hint="{xct:Translate ContinueButtonHint}"
                             xct:SemanticEffect.Description="{xct:Translate ContinueButtonDescription}"
                             Style="{StaticResource NormalButton}"
-                            CornerRadius="5"/>
-                            <!-- IsEnabled="{Binding AbleToFinish}" /> -->
+                            CornerRadius="5"
+                            IsEnabled="{Binding AbleToContinue}" />
                 </StackLayout>
             
         </StackLayout>

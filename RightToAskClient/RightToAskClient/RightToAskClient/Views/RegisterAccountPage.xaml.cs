@@ -39,5 +39,23 @@ namespace RightToAskClient.Views
                 viewModel.SetUserEmail(((Editor)sender).Text);
             }
         }
+
+        private void UIDEntry_OnUnfocused(object sender, FocusEventArgs e)
+        {
+            var viewModel = BindingContext as RegistrationViewModel;
+            if (viewModel != null)
+            {
+                viewModel.ValidateUsername();
+            }
+        }
+
+        private void VisualElement_OnUnfocused(object sender, FocusEventArgs e)
+        {
+            var viewModel = BindingContext as RegistrationViewModel;
+            if (viewModel != null)
+            {
+                viewModel.ValidateName();
+            }
+        }
     }
 }

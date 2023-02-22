@@ -121,5 +121,62 @@ namespace UnitTests
             Assert.True(vm.ShowRegisterMPButton);
             Assert.False(vm.ShowDoneButton);
         }
+
+        [Theory]
+        [InlineData("valid_uid", "Valid Name", "", "", true)]
+        [InlineData("valid_uid", "", "", "Name must not be empty.", false)]
+        [InlineData("", "Valid Name", "", "", false)]
+        [InlineData("", "", "", "Name must not be empty.", false)]
+        [InlineData("valid_uid", "Invalid Name because it is tooooooooooooooooooooooooooooo long", "", "The maximum character limit is 60.", false)]
+        [InlineData("valid=uid", "Valid Name", "", "", false)]
+        public void ContinueButtonAndReport_ValidateName(
+            string uid, 
+            string name,
+            string usernameReport,
+            string nameReport, 
+            bool enabled)
+        {
+            // arrange
+            RegistrationViewModel vm = new RegistrationViewModel(createRegistration());
+            vm.UserId = uid;
+            vm.DisplayName = name;
+
+            // act
+            vm.ValidateName();
+
+            // assert
+            Assert.Equal(usernameReport, vm.ReportLabelText);
+            Assert.Equal(nameReport, vm.NameLabelText);
+            Assert.Equal(enabled, vm.AbleToContinue);
+        }
+
+        [Theory]
+        [InlineData("valid_uid", "Valid Name", "", "", true)]
+        [InlineData("valid_uid", "", "", "", false)]
+        [InlineData("", "Valid Name", "Username must not be empty.", "", false)]
+        [InlineData("", "", "Username must not be empty.", "", false)]
+        [InlineData("valid_uid", "Invalid Name because it is tooooooooooooooooooooooooooooo long", "", "", false)]
+        [InlineData("valid=uid", "Valid Name", "Please use only letters (a-z), numbers (0-9), hyphen (-), underscore (_), and dot (.) without spaces.", "", false)]
+        [InlineData("valid_uid-valid_uid-valid_uid-valid_uid-", "Valid Name", "The maximum character limit is 30.", "", false)]
+        public void ContinueButtonAndReport_ValidateUsername(
+            string uid, 
+            string name,
+            string usernameReport,
+            string nameReport, 
+            bool enabled)
+        {
+            // arrange
+            RegistrationViewModel vm = new RegistrationViewModel(createRegistration());
+            vm.UserId = uid;
+            vm.DisplayName = name;
+
+            // act
+            vm.ValidateUsername();
+
+            // assert
+            Assert.Equal(usernameReport, vm.ReportLabelText);
+            Assert.Equal(nameReport, vm.NameLabelText);
+            Assert.Equal(enabled, vm.AbleToContinue);
+        }
     }
 }

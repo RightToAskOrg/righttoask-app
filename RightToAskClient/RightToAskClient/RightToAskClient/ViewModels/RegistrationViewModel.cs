@@ -187,6 +187,13 @@ namespace RightToAskClient.ViewModels
             get => _showDMButton;
             set => SetProperty(ref _showDMButton, value);
         }
+        
+        private string _nameLabelText = "";
+        public string NameLabelText
+        {
+            get => _nameLabelText;
+            set => SetProperty(ref _nameLabelText, value);
+        }
 
         private string _dmButtonText = "";
         public string DMButtonText
@@ -207,6 +214,14 @@ namespace RightToAskClient.ViewModels
         {
             get => _seeQuestionsButtonText;
             set => SetProperty(ref _seeQuestionsButtonText, value);
+        }
+
+        private bool _ableToContinue = false;
+
+        public bool AbleToContinue
+        {
+            get => _ableToContinue;
+            set => SetProperty(ref _ableToContinue, value);
         }
 
         private bool _showFollowButton;
@@ -562,6 +577,33 @@ namespace RightToAskClient.ViewModels
         public void SetUserEmail(string email)
         {
             // TODO: SetUserEmail
+        }
+
+        public void ValidateUsername()
+        {
+            var (isValid, errMessage) = _registration.ValidateUsername();
+            CheckIfAbleToContinue(null, isValid);
+            ReportLabelText = errMessage;
+        }
+
+        public void ValidateName()
+        {
+            var (isValid, errMessage) = _registration.ValidateName();
+            CheckIfAbleToContinue(isValid, null);
+            NameLabelText = errMessage;
+        }
+
+        private void CheckIfAbleToContinue(bool? nameIsValid, bool? uidIsValid)
+        {
+            if (nameIsValid == null)
+            {
+                (nameIsValid, _) = _registration.ValidateName();
+            }
+            if (uidIsValid == null)
+            {
+                (uidIsValid, _) = _registration.ValidateUsername();
+            }
+            AbleToContinue = nameIsValid.Value && uidIsValid.Value;
         }
     }
 }
