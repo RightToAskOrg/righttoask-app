@@ -34,10 +34,17 @@
                         </StackLayout>
                     </ContentView>
                     <Label Text="{xct:Translate NamePrivacyNote}" Style="{StaticResource TextFieldDescription}" />
-                    <StackLayout Orientation="Horizontal">
+                    <StackLayout Orientation="Horizontal" IsVisible="{Binding NameLabelText.Length}">
+                        <Image Source="{helpers:ImageResource RightToAskClient.Images.error.png}"
+                               xct:IconTintColorEffect.TintColor="{AppThemeBinding 
+                               Dark={StaticResource TextColorBrightRed}, 
+                               Light={StaticResource TextColorRed}}"
+                               WidthRequest="13"
+                               HeightRequest="13"
+                               HorizontalOptions="Start" 
+                               VerticalOptions="Start"/>
                         <Label Text="{Binding NameLabelText}" Style="{StaticResource ErrorLabel}" />
                     </StackLayout>
-
                     <Label Text="{xct:Translate UserNameHeaderText}" Style="{StaticResource Header2}" />
                     <ContentView>
                         <StackLayout Orientation="Vertical"
@@ -53,7 +60,15 @@
                         </StackLayout>
                     </ContentView>
                     <Label Text="{xct:Translate UsernamePrivacyNote}" Style="{StaticResource TextFieldDescription}" />
-                    <StackLayout Orientation="Horizontal">
+                    <StackLayout Orientation="Horizontal" IsVisible="{Binding ReportLabelText.Length}">
+                        <Image Source="{helpers:ImageResource RightToAskClient.Images.error.png}"
+                               xct:IconTintColorEffect.TintColor="{AppThemeBinding 
+                               Dark={StaticResource TextColorBrightRed}, 
+                               Light={StaticResource TextColorRed}}"
+                               WidthRequest="13"
+                               HeightRequest="13"
+                               HorizontalOptions="Start" 
+                               VerticalOptions="Start"/>
                         <Label Text="{Binding ReportLabelText}" Style="{StaticResource ErrorLabel}" />
                     </StackLayout>
                 </StackLayout>
