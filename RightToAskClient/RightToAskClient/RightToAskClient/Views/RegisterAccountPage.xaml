@@ -19,7 +19,7 @@
                      HorizontalOptions="Fill">
             <ScrollView VerticalOptions="FillAndExpand" Padding="16">
                 <StackLayout Orientation="Vertical">
-                    <Label Text="{xct:Translate CreateAccountTitle}"
+                    <Label Text="{xct:Translate AccountTitle}"
                            Style="{StaticResource RegistrationTitle}" ></Label>
                     <Label Text="{xct:Translate DisplayNameHeaderText}" 
                            Style="{StaticResource PickerTitle}" 

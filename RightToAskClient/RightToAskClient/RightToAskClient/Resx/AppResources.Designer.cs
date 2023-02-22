@@ -2348,5 +2348,11 @@ namespace RightToAskClient.Resx {
                 return ResourceManager.GetString("UsernameRegexMessage", resourceCulture);
             }
         }
+        
+        internal static string AccountTitle {
+            get {
+                return ResourceManager.GetString("AccountTitle", resourceCulture);
+            }
+        }
     }
 }
