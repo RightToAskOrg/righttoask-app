@@ -1,28 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<StackLayout
+<Frame
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:RightToAskClient.Views;assembly=RightToAskClient"
     xmlns:extensions="http://xamarin.com/schemas/2020/toolkit"
-    xmlns:viewModels="clr-namespace:RightToAskClient.ViewModels;assembly=RightToAskClient"
     x:Class="RightToAskClient.Views.LabeledPicker"
-    x:DataType="viewModels:LabeledPickerViewModel"
-    BackgroundColor="Transparent"
-    VerticalOptions="Start"
-    x:Name="This" HorizontalOptions="Fill">
-    <Label Text="{Binding Title}"
-           Style="{StaticResource PickerTitle}"
-           IsVisible="{Binding ShowTitle}"/>
-    <Grid Margin="0,0,0,8">
-        <BoxView Style="{StaticResource ButtonSeparator}" VerticalOptions="End" />
+    CornerRadius="5"
+    BorderColor="{AppThemeBinding Light={StaticResource FadedButtonColor}, Dark={StaticResource SeparatorDarkModeColor}}"
+    Padding="16"
+    BackgroundColor="{AppThemeBinding Light=White, Dark=Black}"
+    x:Name="This"
+    Margin="0 ,8"
+    HasShadow="False">
+    <StackLayout Orientation="Vertical"
+                 VerticalOptions="Start"
+                 Padding="0">
+        <Label Text="{extensions:Translate SharingElectorateInfoPickerTitle}"
+               Style="{StaticResource PickerTitle}"
+               IsVisible="{Binding AbleToFinish}">
+        </Label>
+        <Grid Margin="0,0,0,16">
+            <BoxView Style="{StaticResource Separator}" VerticalOptions="End" />
 
-        <Image Source="{extensions:ImageResource RightToAskClient.Images.expand_48.png }"
-               extensions:IconTintColorEffect.TintColor="{AppThemeBinding Light={StaticResource TextColor} ,Dark={StaticResource TextColorDark}}"
-               HorizontalOptions="End" VerticalOptions="Center" WidthRequest="10" HeightRequest="10" />
-        <Picker 
-            Title="{Binding Title}" 
-            ItemsSource="{Binding Items}"
-            Style="{StaticResource TransparentBgPicker}" HorizontalOptions="FillAndExpand"
-            SelectedIndex="{Binding SelectedIndex}"/>
-    </Grid>
-</StackLayout>
+            <Image Source="{extensions:ImageResource RightToAskClient.Images.expand_48.png }"
+                   extensions:IconTintColorEffect.TintColor="{AppThemeBinding Light={StaticResource TextColor} ,Dark={StaticResource TextColorDark}}"
+                   HorizontalOptions="End" VerticalOptions="Center" WidthRequest="10" HeightRequest="10" />
+
+            <Picker Title="{extensions:Translate SharingElectorateInfoPickerTitle}"
+                    ItemsSource="{Binding SharingElectorateInfoOptionValues}"
+                    Style="{StaticResource TransparentBgPicker}" HorizontalOptions="FillAndExpand"
+                    SelectedIndex="{Binding SelectedIndexValue}" VerticalOptions="Center" />
+        </Grid>
+    </StackLayout>
+</Frame>
