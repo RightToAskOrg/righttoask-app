@@ -172,6 +172,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Remove="CustomControls\**" />
+    <Compile Update="Views\LabeledPicker.xaml.cs">
+      <DependentUpon>LabeledPicker.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Views\SecondPage_old.xaml" />
