@@ -89,51 +89,49 @@ namespace RightToAskClient.ViewModels
         private List<SharingElectorateInfoOptions> _availableOptions;
 
         private int _selectedIndexValue = -1;
-        
+
         public int SelectedIndexValue
         {
             get => _selectedIndexValue;
             set
             {
                 SetProperty(ref _selectedIndexValue, value);
-                OnIndexSelected(value);
+                if (_registration == null)
+                {
+                    return;
+                }
+
+                _registration.SharingElectorateInfoOption = _availableOptions[value];
+                IsStatePublic = false;
+                IsFederalElectoratePublic = false;
+                IsStateElectoratePublic = false;
+                switch (_registration.SharingElectorateInfoOption)
+                {
+                    case SharingElectorateInfoOptions.StateOrTerritory:
+                        IsStatePublic = true;
+                        break;
+                    case SharingElectorateInfoOptions.FederalElectorateAndState:
+                        IsStatePublic = true;
+                        IsFederalElectoratePublic = true;
+                        break;
+                    case SharingElectorateInfoOptions.StateElectorateAndState:
+                        IsStatePublic = true;
+                        IsStateElectoratePublic = true;
+                        break;
+                    case SharingElectorateInfoOptions.All:
+                        IsStatePublic = true;
+                        IsFederalElectoratePublic = true;
+                        IsStateElectoratePublic = true;
+                        break;
+                }
+
+                AbleToFinish = true;
+
+                ElectorateInfo.SelectedIndex = value;
+                ElectorateInfo.ShowTitle = true;
             }
         }
 
-        private void OnIndexSelected (int value)
-        {
-            if (_registration == null)
-            {
-                return;
-            }
-
-            _registration.SharingElectorateInfoOption = _availableOptions[value];
-            IsStatePublic = false;
-            IsFederalElectoratePublic = false;
-            IsStateElectoratePublic = false;
-            switch (_registration.SharingElectorateInfoOption)
-            {
-                case SharingElectorateInfoOptions.StateOrTerritory:
-                    IsStatePublic = true;
-                    break;
-                case SharingElectorateInfoOptions.FederalElectorateAndState:
-                    IsStatePublic = true;
-                    IsFederalElectoratePublic = true;
-                    break;
-                case SharingElectorateInfoOptions.StateElectorateAndState:
-                    IsStatePublic = true;
-                    IsStateElectoratePublic = true;
-                    break;
-                case SharingElectorateInfoOptions.All:
-                    IsStatePublic = true;
-                    IsFederalElectoratePublic = true;
-                    IsStateElectoratePublic = true;
-                    break;
-            }
-
-            AbleToFinish = true;
-        }
-        
         private bool _isStatePublic;
 
         public bool IsStatePublic
@@ -251,13 +249,10 @@ namespace RightToAskClient.ViewModels
             ElectorateInfo = new LabeledPickerViewModel()
             {
                 Items = SharingElectorateInfoOptionValues,
-                Title = AppResources.SharingElectorateInfoPickerTitle,
+                Title = AppResources.SharingElectorateInfoPickerTitle
             };
-
-            ElectorateInfo.OnSelectedCallback += OnIndexSelected;    
         }
 
-        
         public SharingElectorateInfoViewModel()
         {
             BackCommand = new AsyncCommand(async () => { await Application.Current.MainPage.Navigation.PopAsync(); });
