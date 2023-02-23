@@ -281,7 +281,7 @@
             </Style>
             <Style x:Key="PickerTitle" TargetType="Label" ApplyToDerivedTypes="True">
                 <Setter Property="TextColor"
-                        Value="{AppThemeBinding Light={StaticResource Purple}, Dark={StaticResource DarkModePurple}}" />
+                        Value="{AppThemeBinding Light={StaticResource TextColorGray}, Dark={StaticResource TextColorGray}}" />
                 <Setter Property="FontSize" Value="Small"></Setter>
             </Style>
             <Style x:Key="GreenSearchBar" TargetType="SearchBar">
@@ -574,7 +574,6 @@
                 <Setter Property="TitleColor"
                         Value="{AppThemeBinding Light={StaticResource PopupTextColor} ,Dark=#A6A6A6}" />
                 <Setter Property="FontSize" Value="Medium" />
-                <Setter Property="HorizontalOptions" Value="Center" />
                 <Setter Property="BackgroundColor" Value="Transparent" />
             </Style>
             <Style x:Key="LeftPicker" TargetType="Picker">

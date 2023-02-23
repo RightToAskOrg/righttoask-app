@@ -154,8 +154,8 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _stateInferredElectorateHeader, value);
         }
         
-        private string _stateInferredElectorate;
-        
+        private string _stateInferredElectorate = AppResources.LegislativeCouncilText;
+
         public string StateInferredElectorate
         {
             get => _stateInferredElectorate;
@@ -184,6 +184,25 @@ namespace RightToAskClient.ViewModels
         }
 
         private bool _stateKnown;
+
+        private LabeledPickerViewModel _statePickerModel;
+        public LabeledPickerViewModel StatePickerModel{
+            get => _statePickerModel;
+            set => SetProperty(ref _statePickerModel, value);
+        }
+        
+        private LabeledPickerViewModel _federalPickerModel;
+        public LabeledPickerViewModel FederalPickerModel{
+            get => _federalPickerModel;
+            set => SetProperty(ref _federalPickerModel, value);
+        }
+        
+        private LabeledPickerViewModel _stateElectoratePickerModel;
+        public LabeledPickerViewModel StateElectoratePickerModel{
+            get => _stateElectoratePickerModel;
+            set => SetProperty(ref _stateElectoratePickerModel, value);
+        }
+
         #endregion
 
         // constructor
@@ -294,6 +313,26 @@ namespace RightToAskClient.ViewModels
             });
             KnowElectoratesCommand.Execute(true);
 
+            StatePickerModel = new LabeledPickerViewModel()
+            {
+                Items = StatePicker,
+                Title = AppResources.ChooseStateOrTerritory,
+            };
+            StatePickerModel.SelectedIndex = SelectedStateAsInt;
+            
+            FederalPickerModel = new LabeledPickerViewModel()
+            {
+                Items = FederalElectorates,
+                Title = AppResources.FederalElectoratePickerTitle,
+            };
+            FederalPickerModel.SelectedIndex = SelectedFederalElectorate;
+            
+            StateElectoratePickerModel = new LabeledPickerViewModel()
+            {
+                Items = AllStateChoosableElectorates.ToList(),
+                Title = "Legislative Assembly",
+            };
+            StateElectoratePickerModel.SelectedIndex = SelectedStateElectorateIndex;
         }
 
         // commands
