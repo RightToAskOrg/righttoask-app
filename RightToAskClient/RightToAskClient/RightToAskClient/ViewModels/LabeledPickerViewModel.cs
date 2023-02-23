@@ -26,11 +26,19 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _items, value);
         }
 
-        private int _selectedIndex;
+        private int _selectedIndex = -1;
         public int SelectedIndex
         {
             get => _selectedIndex;
-            set => SetProperty(ref _selectedIndex, value);
+            set
+            {
+                SetProperty(ref _selectedIndex, value);
+                OnSelectedCallback?.Invoke(value);
+                ShowTitle = true;
+            }
         }
+
+        public delegate void SelectIndex(int index);
+        public event SelectIndex OnSelectedCallback;
     }
 }
