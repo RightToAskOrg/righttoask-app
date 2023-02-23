@@ -13,7 +13,7 @@
            Style="{StaticResource PickerTitle}"
            IsVisible="{Binding ShowTitle}"/>
     <Grid Margin="0,0,0,16">
-        <BoxView Style="{StaticResource Separator}" VerticalOptions="End" />
+        <BoxView Style="{StaticResource ButtonSeparator}" VerticalOptions="End" />
 
         <Image Source="{extensions:ImageResource RightToAskClient.Images.expand_48.png }"
                extensions:IconTintColorEffect.TintColor="{AppThemeBinding Light={StaticResource TextColor} ,Dark={StaticResource TextColorDark}}"
