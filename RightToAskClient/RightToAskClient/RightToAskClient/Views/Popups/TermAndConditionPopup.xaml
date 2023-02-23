@@ -8,7 +8,7 @@
            IsLightDismissEnabled="False"
            Color="Transparent">
     <Frame CornerRadius="5" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="0"
-           BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource PopupDarkModeBgColor}}">
+           BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource VeryDarkGray}}">
         <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent">
 
             <StackLayout Orientation="Vertical"
