@@ -20,26 +20,27 @@
             <ScrollView VerticalOptions="FillAndExpand" Padding="16">
                 <StackLayout Orientation="Vertical">
                     <Label Text="{xct:Translate AccountTitle}"
-                           Style="{StaticResource RegistrationTitle}" ></Label>
-                    <Label x:Name="NameEntry"
-                           Text="{xct:Translate DisplayNameHeaderText}" 
-                           Style="{StaticResource PickerTitle}" 
-                           IsVisible="{Binding DisplayName.Length}"/>
+                           Style="{StaticResource RegistrationTitle}">
+                    </Label>
+                    <Label x:Name="NameLabel"
+                           Text="{xct:Translate DisplayNameHeaderText}"
+                           Style="{StaticResource PickerTitle}"
+                           IsVisible="{Binding DisplayName.Length}" />
                     <ContentView>
                         <StackLayout Orientation="Vertical"
                                      Spacing="0">
-                            <Entry Text="{Binding DisplayName}"
-                                   Placeholder="{xct:Translate DisplayNamePlaceholderText}"
-                                   Style="{StaticResource TextInput}"
-                                   Unfocused="VisualElement_OnUnfocused" 
-                                   Focused="VisualElement_OnFocused"/>
-                            <BoxView HeightRequest="1"
-                                     HorizontalOptions="FillAndExpand"
-                                     VerticalOptions="EndAndExpand"
-                                     Color="{StaticResource FrameColor}" />
+                            <Entry
+                                Text="{Binding DisplayName}"
+                                Placeholder="{xct:Translate DisplayNamePlaceholderText}"
+                                Style="{StaticResource TextInput}"
+                                Unfocused="NameEntry_OnUnfocused"
+                                Focused="NameEntry_OnFocused" />
+                            <BoxView
+                                x:Name="NameEntryBorder"
+                                Style="{StaticResource EntryBorder}" />
                         </StackLayout>
                     </ContentView>
-                    <Label Text="{xct:Translate NamePrivacyNote}" 
+                    <Label Text="{xct:Translate NamePrivacyNote}"
                            Style="{StaticResource TextFieldDescription}" />
                     <StackLayout Orientation="Horizontal" IsVisible="{Binding NameLabelText.Length}">
                         <Image Source="{helpers:ImageResource RightToAskClient.Images.error.png}"
@@ -48,26 +49,25 @@
                                Light={StaticResource TextColorRed}}"
                                WidthRequest="13"
                                HeightRequest="13"
-                               HorizontalOptions="Start" 
-                               VerticalOptions="Start"/>
+                               HorizontalOptions="Start"
+                               VerticalOptions="Start" />
                         <Label Text="{Binding NameLabelText}" Style="{StaticResource ErrorLabel}" />
                     </StackLayout>
-                    <Label x:Name="UsernameEntry" 
-                           Text="{xct:Translate UserNameHeaderText}" 
-                           Style="{StaticResource PickerTitle}" 
-                           IsVisible="{Binding UserId.Length}"/>
+                    <Label x:Name="UsernameLabel"
+                           Text="{xct:Translate UserNameHeaderText}"
+                           Style="{StaticResource PickerTitle}"
+                           IsVisible="{Binding UserId.Length}" />
                     <ContentView>
                         <StackLayout Orientation="Vertical"
                                      Spacing="0">
-                            <Entry x:Name="UIDEntry" Text="{Binding UserId}"
+                            <Entry Text="{Binding UserId}"
                                    Placeholder="{xct:Translate UIDPlaceholderText}"
                                    Style="{StaticResource TextInput}"
-                                   Unfocused="UIDEntry_OnUnfocused" 
-                                   Focused="UIDEntry_OnFocused"/>
-                            <BoxView HeightRequest="1"
-                                     HorizontalOptions="FillAndExpand"
-                                     VerticalOptions="EndAndExpand"
-                                     Color="{StaticResource FrameColor}" />
+                                   Unfocused="UIDEntry_OnUnfocused"
+                                   Focused="UIDEntry_OnFocused" />
+                            <BoxView
+                                x:Name="UsernameEntryBorder"
+                                Style="{StaticResource EntryBorder}" />
                         </StackLayout>
                     </ContentView>
                     <Label Text="{xct:Translate UsernamePrivacyNote}" Style="{StaticResource TextFieldDescription}" />
@@ -78,8 +78,8 @@
                                Light={StaticResource TextColorRed}}"
                                WidthRequest="13"
                                HeightRequest="13"
-                               HorizontalOptions="Start" 
-                               VerticalOptions="Start"/>
+                               HorizontalOptions="Start"
+                               VerticalOptions="Start" />
                         <Label Text="{Binding ReportLabelText}" Style="{StaticResource ErrorLabel}" />
                     </StackLayout>
                 </StackLayout>

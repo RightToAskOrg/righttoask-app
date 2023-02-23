@@ -193,7 +193,7 @@
     <value>Dismiss</value>
   </data>
   <data name="DisplayNameHeaderText" xml:space="preserve">
-    <value>Display Name</value>
+    <value>Name</value>
   </data>
   <data name="DisplayNamePlaceholderText" xml:space="preserve">
     <value>Name</value>

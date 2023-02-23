@@ -43,32 +43,30 @@ namespace RightToAskClient.Views
 
         private void UIDEntry_OnUnfocused(object sender, FocusEventArgs e)
         {
-            UsernameEntry.Style = Application.Current.Resources["PickerTitle"] as Style;
+            UsernameLabel.Style = Application.Current.Resources["PickerTitle"] as Style;
+            UsernameEntryBorder.Style = Application.Current.Resources["EntryBorder"] as Style;
             var viewModel = BindingContext as RegistrationViewModel;
-            if (viewModel != null)
-            {
-                viewModel.ValidateUsername();
-            }
+            viewModel?.ValidateUsername();
         }
 
-        private void VisualElement_OnUnfocused(object sender, FocusEventArgs e)
+        private void NameEntry_OnUnfocused(object sender, FocusEventArgs e)
         {
-            NameEntry.Style = Application.Current.Resources["PickerTitle"] as Style;
+            NameLabel.Style = Application.Current.Resources["PickerTitle"] as Style;
+            NameEntryBorder.Style = Application.Current.Resources["EntryBorder"] as Style;
             var viewModel = BindingContext as RegistrationViewModel;
-            if (viewModel != null)
-            {
-                viewModel.ValidateName();
-            }
+            viewModel?.ValidateName();
         }
 
-        private void VisualElement_OnFocused(object sender, FocusEventArgs e)
+        private void NameEntry_OnFocused(object sender, FocusEventArgs e)
         {
-            NameEntry.Style = Application.Current.Resources["PickerTitleSelected"] as Style;
+            NameLabel.Style = Application.Current.Resources["PickerTitleSelected"] as Style;
+            NameEntryBorder.Style = Application.Current.Resources["EntryBorderSelected"] as Style;
         }
 
         private void UIDEntry_OnFocused(object sender, FocusEventArgs e)
         {
-            UsernameEntry.Style = Application.Current.Resources["PickerTitleSelected"] as Style;
+            UsernameLabel.Style = Application.Current.Resources["PickerTitleSelected"] as Style;
+            UsernameEntryBorder.Style = Application.Current.Resources["EntryBorderSelected"] as Style;
         }
     }
 }
