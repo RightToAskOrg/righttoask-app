@@ -1,5 +1,6 @@
 using System;
 using RightToAskClient.Models;
+using RightToAskClient.Resx;
 using RightToAskClient.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -42,6 +43,7 @@ namespace RightToAskClient.Views
 
         private void UIDEntry_OnUnfocused(object sender, FocusEventArgs e)
         {
+            UsernameEntry.Style = Application.Current.Resources["PickerTitle"] as Style;
             var viewModel = BindingContext as RegistrationViewModel;
             if (viewModel != null)
             {
@@ -51,11 +53,22 @@ namespace RightToAskClient.Views
 
         private void VisualElement_OnUnfocused(object sender, FocusEventArgs e)
         {
+            NameEntry.Style = Application.Current.Resources["PickerTitle"] as Style;
             var viewModel = BindingContext as RegistrationViewModel;
             if (viewModel != null)
             {
                 viewModel.ValidateName();
             }
+        }
+
+        private void VisualElement_OnFocused(object sender, FocusEventArgs e)
+        {
+            NameEntry.Style = Application.Current.Resources["PickerTitleSelected"] as Style;
+        }
+
+        private void UIDEntry_OnFocused(object sender, FocusEventArgs e)
+        {
+            UsernameEntry.Style = Application.Current.Resources["PickerTitleSelected"] as Style;
         }
     }
 }

@@ -21,7 +21,8 @@
                 <StackLayout Orientation="Vertical">
                     <Label Text="{xct:Translate AccountTitle}"
                            Style="{StaticResource RegistrationTitle}" ></Label>
-                    <Label Text="{xct:Translate DisplayNameHeaderText}" 
+                    <Label x:Name="NameEntry"
+                           Text="{xct:Translate DisplayNameHeaderText}" 
                            Style="{StaticResource PickerTitle}" 
                            IsVisible="{Binding DisplayName.Length}"/>
                     <ContentView>
@@ -30,7 +31,8 @@
                             <Entry Text="{Binding DisplayName}"
                                    Placeholder="{xct:Translate DisplayNamePlaceholderText}"
                                    Style="{StaticResource TextInput}"
-                                   Unfocused="VisualElement_OnUnfocused" />
+                                   Unfocused="VisualElement_OnUnfocused" 
+                                   Focused="VisualElement_OnFocused"/>
                             <BoxView HeightRequest="1"
                                      HorizontalOptions="FillAndExpand"
                                      VerticalOptions="EndAndExpand"
@@ -50,7 +52,8 @@
                                VerticalOptions="Start"/>
                         <Label Text="{Binding NameLabelText}" Style="{StaticResource ErrorLabel}" />
                     </StackLayout>
-                    <Label Text="{xct:Translate UserNameHeaderText}" 
+                    <Label x:Name="UsernameEntry" 
+                           Text="{xct:Translate UserNameHeaderText}" 
                            Style="{StaticResource PickerTitle}" 
                            IsVisible="{Binding UserId.Length}"/>
                     <ContentView>
@@ -59,7 +62,8 @@
                             <Entry x:Name="UIDEntry" Text="{Binding UserId}"
                                    Placeholder="{xct:Translate UIDPlaceholderText}"
                                    Style="{StaticResource TextInput}"
-                                   Unfocused="UIDEntry_OnUnfocused" />
+                                   Unfocused="UIDEntry_OnUnfocused" 
+                                   Focused="UIDEntry_OnFocused"/>
                             <BoxView HeightRequest="1"
                                      HorizontalOptions="FillAndExpand"
                                      VerticalOptions="EndAndExpand"
