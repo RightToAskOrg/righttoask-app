@@ -21,6 +21,14 @@ namespace RightToAskClient.ViewModels
     {
         private List<string> _sharingElectorateInfoOptionValues;
 
+        private LabeledPickerViewModel _electorateInfo;
+
+        public LabeledPickerViewModel ElectorateInfo
+        {
+            get => _electorateInfo;
+            set => SetProperty(ref _electorateInfo, value);
+        }
+        
         public List<string> SharingElectorateInfoOptionValues
         {
             get => _sharingElectorateInfoOptionValues;
@@ -118,6 +126,9 @@ namespace RightToAskClient.ViewModels
                 }
 
                 AbleToFinish = true;
+
+                ElectorateInfo.SelectedIndex = value;
+                ElectorateInfo.ShowTitle = true;
             }
         }
 
@@ -172,7 +183,8 @@ namespace RightToAskClient.ViewModels
                         break;
                 }
             }
-            
+
+
             string fedElectorateTitle;
             string terStateElectorateTitle;
             string allElectorateTitle;
@@ -233,6 +245,12 @@ namespace RightToAskClient.ViewModels
             {
                 StateElectorate = String.Join(", ", stateElectorates);
             }
+
+            ElectorateInfo = new LabeledPickerViewModel()
+            {
+                Items = SharingElectorateInfoOptionValues,
+                Title = AppResources.SharingElectorateInfoPickerTitle
+            };
         }
 
         public SharingElectorateInfoViewModel()

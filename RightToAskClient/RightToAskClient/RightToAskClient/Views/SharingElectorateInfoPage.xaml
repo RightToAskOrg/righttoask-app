@@ -31,6 +31,8 @@
                            HorizontalOptions="StartAndExpand" />
 
                     <!-- TODO: extract to a reusable component -->
+                    <views:LabeledPicker BindingContext="{Binding ElectorateInfo}" />
+                    
                     <Label Text="{effects:Translate SharingElectorateInfoPickerTitle}"
                            Style="{StaticResource PickerTitle}"
                            IsVisible="{Binding AbleToFinish}">
