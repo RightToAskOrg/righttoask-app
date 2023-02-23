@@ -254,7 +254,7 @@ namespace RightToAskClient.ViewModels
                 Title = AppResources.SharingElectorateInfoPickerTitle,
             };
 
-            ElectorateInfo.OnSelectedCallback += OnIndexSelected;    
+            ElectorateInfo.OnSelectedCallback += OnIndexSelected;
         }
 
         
