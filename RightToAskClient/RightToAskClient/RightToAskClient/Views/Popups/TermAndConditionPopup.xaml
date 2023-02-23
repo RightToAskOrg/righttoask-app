@@ -8,7 +8,7 @@
            IsLightDismissEnabled="False"
            Color="Transparent">
     <Frame CornerRadius="5" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="0"
-           BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource VeryDarkGray}}">
+           BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource BackgroundDarkGray}}">
         <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent">
 
             <StackLayout Orientation="Vertical"
@@ -22,7 +22,7 @@
                          BackgroundColor="{AppThemeBinding Light={StaticResource FadedButtonColor}, Dark={StaticResource SeparatorDarkModeColor}}">
                 <!--Acknowledge/Dismiss Button Bottom Right-->
                 <StackLayout
-                    BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource PopupDarkModeBgColor}}">
+                    BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource BackgroundDarkGray}}">
                     <Button Text="{xct:Translate AgreeAndContinueButton}" HorizontalOptions="Center"
                             FontSize="Small"
                             VerticalOptions="End" Clicked="okButton_Clicked"
