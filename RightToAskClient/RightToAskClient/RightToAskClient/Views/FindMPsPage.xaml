@@ -55,6 +55,7 @@
                         <!--State Selector/Picker-->
                         <views:LabeledPicker Grid.Row="0" BindingContext="{Binding StatePickerModel}" />
 
+
                         <Label Grid.Row="1" Text="Federal electorate" FontSize="Medium"
                                FontAttributes="Bold" HorizontalOptions="Start" HorizontalTextAlignment="Start"
                                TextColor="Black" VerticalTextAlignment="Center"
@@ -112,7 +113,7 @@
                         </StackLayout>
                     </StackLayout>
                 </Frame>
-                <BoxView Style="{StaticResource ButtonSeparator}" Margin="0, 16"/>
+                <!-- <BoxView Style="{StaticResource Separator}" Margin="0, 16"/> -->
                 <!--Done Button-->
                 <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Margin="16">
                     <Button Style="{StaticResource NormalButton}"

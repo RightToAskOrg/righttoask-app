@@ -281,8 +281,7 @@ namespace RightToAskClient.ViewModels
                 ShowElectoratesFrame = false;
             });
             KnowElectoratesCommand.Execute(true);
-
-            // picker view models
+            
             StatePickerModel = new LabeledPickerViewModel()
             {
                 Items = StatePicker,
