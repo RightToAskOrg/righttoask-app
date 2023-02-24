@@ -127,7 +127,7 @@
                                    VerticalOptions="Center" Style="{StaticResource PaleButtonText}" />
                             <Picker Title="{Binding StatePickerTitle}" ItemsSource="{Binding StatePicker}"
                                     Style="{StaticResource CenterFramePicker}"
-                                    SelectedIndex="{Binding SelectedStateAsInt}" />
+                                    SelectedIndex="{Binding StatePickerModel.SelectedIndex}" />
                         </StackLayout>
                         <StackLayout Margin="0" Padding="0" Spacing="0">
                             <Label Text="{xct:Translate StreetHeaderText}" Style="{StaticResource LeftFrameText}"
