@@ -93,7 +93,7 @@ namespace RightToAskClient.ViewModels
             private set => SetProperty(ref _selectedStateEnum, value);
         }
 
-        public List<string> FederalElectorates => ParliamentData.HouseOfRepsElectorates(SelectedStateEnum.ToString());
+        public List<string> FederalElectorates;
 
         public ObservableCollection<string> AllStateChoosableElectorates { get; } = new ObservableCollection<string>();
 
@@ -582,6 +582,12 @@ namespace RightToAskClient.ViewModels
                 UpdateElectorateInferencesFromStateAndCommElectorate(SelectedStateEnum, "", "");
                 (StateChoosableElectorateHeader, StateInferredElectorateHeader, StateInferredElectorate)
                     = ParliamentData.InferOtherChamberInfoGivenOneRegion(SelectedStateEnum, "", "");
+
+                FederalElectorates = ParliamentData.HouseOfRepsElectorates(SelectedStateEnum.ToString());
+                if(FederalPickerModel != null)
+                    FederalPickerModel.Items = FederalElectorates;
+                if(StateElectoratePickerModel != null)
+                    StateElectoratePickerModel.Items = AllStateChoosableElectorates.ToList();
                 EnableFindMPsButton = true;
             }
         }
