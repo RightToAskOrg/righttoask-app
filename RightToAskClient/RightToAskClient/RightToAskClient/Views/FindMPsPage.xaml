@@ -54,8 +54,6 @@
                     <StackLayout  Margin="10" >
                         <!--State Selector/Picker-->
                         <views:LabeledPicker Grid.Row="0" BindingContext="{Binding StatePickerModel}" />
-
-
                         <Label Grid.Row="1" Text="Federal electorate" FontSize="Medium"
                                FontAttributes="Bold" HorizontalOptions="Start" HorizontalTextAlignment="Start"
                                TextColor="Black" VerticalTextAlignment="Center"
