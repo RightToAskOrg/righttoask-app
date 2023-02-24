@@ -227,14 +227,14 @@ namespace RightToAskClient.ViewModels
                     CommonwealthElectorate);
             }
 
-            if (!string.IsNullOrEmpty(CommonwealthElectorate))
-            {
+            // if (!string.IsNullOrEmpty(CommonwealthElectorate))
+            // {
                 ShowMapFrame = true;
                 var electorateString = ParliamentData.ConvertGeoscapeElectorateToStandard(
                     _registration.State, 
                     CommonwealthElectorate);
                 ShowMapOfElectorate(electorateString);
-            }
+            // }
 
             // commands
             SaveMPsButtonCommand = new AsyncCommand(async () =>
@@ -457,7 +457,10 @@ namespace RightToAskClient.ViewModels
 
         private void ShowMapOfElectorate(string electorateString)
         {
-            MapURL = string.Format(Constants.MapBaseURL, electorateString);
+            if (!string.IsNullOrEmpty(electorateString))
+                MapURL = string.Format(Constants.MapBaseURL, electorateString);
+            else
+                MapURL = "https://api.maptiler.com/maps/basic-v2/?key=8S4F5oRLxWyMrMlLhOWb#2.24/-25.01/135.81";
         }
 
         private void AddElectorates(GeoscapeAddressFeature addressData)

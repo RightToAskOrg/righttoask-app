@@ -38,7 +38,7 @@
                     </StackLayout>
                 </FlexLayout>
                 <!--Map Display-->
-                <Frame Margin="0" Padding="0" IsVisible="{Binding ShowMapFrame}" WidthRequest="150">
+                <Frame Margin="0" Padding="0" WidthRequest="150">
                     <StackLayout Margin="0" Padding="0">
                         <!--Webview has default padding in its underlying html that is proving difficult to remove-->
                         <WebView Source="{Binding MapURL}" WidthRequest="300" HeightRequest="250" Margin="0" />
@@ -47,7 +47,7 @@
                 <!--Known Electorates Section-->
                 <StackLayout Style="{StaticResource SubtleFrame}" BackgroundColor="{AppThemeBinding Light=White, Dark=Black}"
                        IsVisible="{Binding ShowKnowElectoratesFrame}">
-                    <Grid ColumnDefinitions="*" RowDefinitions="*,Auto,*,Auto,*,*" Margin="10" RowSpacing="0">
+                    <StackLayout  Margin="10" >
                         <!--State Selector/Picker-->
                         <views:LabeledPicker Grid.Row="0" BindingContext="{Binding StatePickerModel}" />
 
@@ -66,15 +66,15 @@
                         <StackLayout Grid.Row="5">
                             <Label Text="House of Assembly Electorate"
                                    Style="{StaticResource PickerTitle}"/>
-                            <Grid Margin="0,0,0,16">
+                            <Grid Margin="0,0,0,8">
                                 <BoxView Style="{StaticResource ButtonSeparator}" VerticalOptions="End" />
-                                <Label Text="{Binding StateInferredElectorateHeader}"
+                                <Label Text="{Binding StateInferredElectorateHeader}" Padding="8,8,0,6"
                                        Style="{StaticResource TransparentBgPicker}" HorizontalOptions="FillAndExpand"
                                        VerticalOptions="Center" />
                             </Grid>
                         </StackLayout>
                         
-                    </Grid>
+                    </StackLayout>
                 </StackLayout>
                 <!--Address Lookup Stack-->
                 <Frame Style="{StaticResource SubtleFrame}" IsVisible="{Binding ShowAddressStack}">
