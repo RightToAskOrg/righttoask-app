@@ -64,14 +64,13 @@
                         <views:LabeledPicker Grid.Row="4" BindingContext="{Binding StateElectoratePickerModel}" />
                         
                         <StackLayout Grid.Row="5">
-                            <Label Text="Legislative Assembly"
+                            <Label Text="House of Assembly Electorate"
                                    Style="{StaticResource PickerTitle}"/>
                             <Grid Margin="0,0,0,16">
                                 <BoxView Style="{StaticResource ButtonSeparator}" VerticalOptions="End" />
-                                <!-- Text="{Binding StateInferredElectorate}" -->
-                                <Label Text="Eastern Metropolitan"
+                                <Label Text="{Binding StateInferredElectorateHeader}"
                                        Style="{StaticResource TransparentBgPicker}" HorizontalOptions="FillAndExpand"
-                                       TextColor="{StaticResource SelectionPanelTextColor}" VerticalOptions="Center" />
+                                       VerticalOptions="Center" />
                             </Grid>
                         </StackLayout>
                         
