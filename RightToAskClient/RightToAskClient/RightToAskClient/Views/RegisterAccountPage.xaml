@@ -15,7 +15,7 @@
                HorizontalOptions="Center"
                VerticalOptions="Start" />
     </Shell.TitleView>
-    
+
     <ContentPage.BindingContext>
         <vm:RegistrationViewModel />
     </ContentPage.BindingContext>
@@ -57,7 +57,10 @@
                                HeightRequest="13"
                                HorizontalOptions="Start"
                                VerticalOptions="Start" />
-                        <Label Text="{Binding NameLabelText}" Style="{StaticResource ErrorLabel}" />
+                        <Label Text="{Binding NameLabelText}" Style="{StaticResource ErrorLabel}"
+                               AutomationProperties.IsInAccessibleTree="True"
+                               AutomationProperties.Name="Name input error"
+                               AutomationProperties.HelpText="{Binding NameLabelText}" />
                     </StackLayout>
                     <Label x:Name="UsernameLabel"
                            Text="{xct:Translate UserNameHeaderText}"
@@ -86,7 +89,10 @@
                                HeightRequest="13"
                                HorizontalOptions="Start"
                                VerticalOptions="Start" />
-                        <Label Text="{Binding ReportLabelText}" Style="{StaticResource ErrorLabel}" />
+                        <Label Text="{Binding ReportLabelText}" Style="{StaticResource ErrorLabel}"
+                               AutomationProperties.IsInAccessibleTree="True"
+                               AutomationProperties.Name="Username input error"
+                               AutomationProperties.HelpText="{Binding ReportLabelText}" />
                     </StackLayout>
                 </StackLayout>
             </ScrollView>

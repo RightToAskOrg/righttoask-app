@@ -431,12 +431,6 @@ namespace RightToAskClient.ViewModels
         // public key and uid. Electorates are optional.
         private async void OnSaveButtonClicked()
         {
-            if (UserId.IsNullOrEmpty() || DisplayName.IsNullOrEmpty())
-            {
-                ReportLabelText = AppResources.EmptyNameMessage;
-                return;
-            }
-            
             try
             {
                 var userIdExists = await RTAClient.CheckUserIdExists(UserId);
