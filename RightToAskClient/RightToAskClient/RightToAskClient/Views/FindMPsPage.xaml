@@ -39,10 +39,14 @@
                 </FlexLayout>
                 <!--Map Display-->
                 <Frame Margin="0" Padding="0" WidthRequest="150">
-                    <StackLayout Margin="0" Padding="0">
+                    <Grid Margin="0" Padding="0">
                         <!--Webview has default padding in its underlying html that is proving difficult to remove-->
                         <WebView Source="{Binding MapURL}" WidthRequest="300" HeightRequest="250" Margin="0" />
-                    </StackLayout>         
+                        <Label Text="Map will show" FontSize="Medium"
+                               FontAttributes="Bold" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center"
+                               TextColor="Black" VerticalTextAlignment="Center"
+                               Margin="16,0" IsVisible="{Binding ShowMapFrame, Converter={StaticResource Key=cnvInvert}}"  />
+                    </Grid>
                 </Frame>
                 <!--Known Electorates Section-->
                 <StackLayout Style="{StaticResource SubtleFrame}" BackgroundColor="{AppThemeBinding Light=White, Dark=Black}"

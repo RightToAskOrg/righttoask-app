@@ -229,7 +229,6 @@ namespace RightToAskClient.ViewModels
 
             // if (!string.IsNullOrEmpty(CommonwealthElectorate))
             // {
-                ShowMapFrame = true;
                 var electorateString = ParliamentData.ConvertGeoscapeElectorateToStandard(
                     _registration.State, 
                     CommonwealthElectorate);
@@ -459,8 +458,6 @@ namespace RightToAskClient.ViewModels
         {
             if (!string.IsNullOrEmpty(electorateString))
                 MapURL = string.Format(Constants.MapBaseURL, electorateString);
-            else
-                MapURL = "https://api.maptiler.com/maps/basic-v2/?key=8S4F5oRLxWyMrMlLhOWb#2.24/-25.01/135.81";
         }
 
         private void AddElectorates(GeoscapeAddressFeature addressData)
