@@ -38,6 +38,7 @@
                         <StackLayout Orientation="Vertical"
                                      Spacing="0">
                             <controls:BorderlessEntry
+                                AutomationProperties.Name= "{xct:Translate DisplayNamePlaceholderText}"
                                 Text="{Binding DisplayName}"
                                 Placeholder="{xct:Translate DisplayNamePlaceholderText}"
                                 Style="{StaticResource TextInput}"
@@ -74,6 +75,7 @@
                                      Spacing="0"
                                      Margin="0,8,0,0">
                             <controls:BorderlessEntry
+                                AutomationProperties.Name= "{xct:Translate UIDPlaceholderText}"
                                 Text="{Binding UserId}"
                                 Placeholder="{xct:Translate UIDPlaceholderText}"
                                 Style="{StaticResource TextInput}"
