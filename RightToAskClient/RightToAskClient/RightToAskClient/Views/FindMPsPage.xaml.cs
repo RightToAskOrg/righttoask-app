@@ -45,6 +45,7 @@ namespace RightToAskClient.Views
         {
             AutomationProperties.SetIsInAccessibleTree(DoneButton, true);
             AutomationProperties.SetHelpText(DoneButton, _doneButtonText);
+            
             DoneButton.Text = _doneButtonText;
         }
 
