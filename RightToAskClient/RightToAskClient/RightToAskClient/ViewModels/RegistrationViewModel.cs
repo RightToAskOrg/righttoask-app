@@ -236,7 +236,7 @@ namespace RightToAskClient.ViewModels
 
 
         private Accessibility.AccessibilityTrait _continueButtonAccessibilityTrait =
-            Accessibility.AccessibilityTrait.None;
+            Accessibility.AccessibilityTrait.Disabled;
 
         public Accessibility.AccessibilityTrait ContinueButtonAccessibilityTrait
         {
