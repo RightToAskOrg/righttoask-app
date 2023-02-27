@@ -258,6 +258,7 @@
     <EmbeddedResource Include="Images\flags_dark.png" />
     <EmbeddedResource Include="Images\flags_filled_light.png" />
     <EmbeddedResource Include="Images\flags_filled_dark.png" />
+    <EmbeddedResource Include="Images\map.png" />
     <EmbeddedResource Include="Resources\Fonts\DancingScript-VariableFont_wght.ttf" />
     <EmbeddedResource Include="Resources\Fonts\Roboto-Black.ttf" />
     <EmbeddedResource Include="Resources\VicLegislativeAssemblymembers.csv" />
