@@ -44,12 +44,6 @@
                                 Unfocused="NameEntry_OnUnfocused"
                                 Focused="NameEntry_OnFocused" 
                             />
-                            <!-- <Entry -->
-                            <!--     Text="{Binding DisplayName}" -->
-                            <!--     Placeholder="{xct:Translate DisplayNamePlaceholderText}" -->
-                            <!--     Style="{StaticResource TextInput}" -->
-                            <!--     Unfocused="NameEntry_OnUnfocused" -->
-                            <!--     Focused="NameEntry_OnFocused" /> -->
                             <BoxView
                                 x:Name="NameEntryBorder"
                                 Style="{StaticResource EntryBorder}" />
@@ -77,12 +71,15 @@
                            IsVisible="{Binding UserId.Length}" />
                     <ContentView>
                         <StackLayout Orientation="Vertical"
-                                     Spacing="0">
-                            <Entry Text="{Binding UserId}"
-                                   Placeholder="{xct:Translate UIDPlaceholderText}"
-                                   Style="{StaticResource TextInput}"
-                                   Unfocused="UIDEntry_OnUnfocused"
-                                   Focused="UIDEntry_OnFocused" />
+                                     Spacing="0"
+                                     Margin="0,8,0,0">
+                            <controls:BorderlessEntry
+                                Text="{Binding UserId}"
+                                Placeholder="{xct:Translate UIDPlaceholderText}"
+                                Style="{StaticResource TextInput}"
+                                Unfocused="UIDEntry_OnUnfocused"
+                                Focused="UIDEntry_OnFocused"
+                            />
                             <BoxView
                                 x:Name="UsernameEntryBorder"
                                 Style="{StaticResource EntryBorder}" />
@@ -118,7 +115,7 @@
                         Style="{StaticResource NormalButton}"
                         CornerRadius="5"
                         IsEnabled="{Binding AbleToContinue}"
-                        controls:Accessibility.AccessibilityTraits="{Binding ContinueButtonAccessibilityTrait}" />
+                        controls:Accessibility.AccessibilityTraits="{Binding ContinueButtonAccessibilityTrait}" /> 
             </StackLayout>
 
         </StackLayout>
