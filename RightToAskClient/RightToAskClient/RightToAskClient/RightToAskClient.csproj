@@ -202,6 +202,7 @@
     <EmbeddedResource Include="Images\edit_note_48.png" />
     <EmbeddedResource Include="Images\emu_75.png" />
     <EmbeddedResource Include="Images\emu_tall.PNG" />
+    <EmbeddedResource Include="Images\error.png" />
     <EmbeddedResource Include="Images\expand.png" />
     <EmbeddedResource Include="Images\expand_48.png" />
     <EmbeddedResource Include="Images\expand_96.png" />

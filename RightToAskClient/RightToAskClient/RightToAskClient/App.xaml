@@ -35,7 +35,6 @@
             <Color x:Key="LightPurple">#D05DFF</Color>
             <Color x:Key="PalePurple">#c470e5</Color>
             <Color x:Key="TransparentPurple">#229141B2</Color>
-            <Color x:Key="ClickableLinkColor">#600c82</Color>
             <Color x:Key="ClickableLinkColorDark">#c470e5</Color>
 
             <!-- Highlight / Alert colors -->
@@ -58,6 +57,8 @@
 
             <Color x:Key="TextColor">black</Color>
             <Color x:Key="TextColorGreen">#36642f</Color>
+            <Color x:Key="TextColorRed">#B0162C</Color>
+            <Color x:Key="TextColorBrightRed">#FF0033</Color>
             <Color x:Key="UnselectedOptionButtonColor">Gray</Color>
             <Color x:Key="TextColorGray">Gray</Color>
             <Color x:Key="TextColorDark">#f2f2f7</Color>
@@ -68,12 +69,12 @@
             <Color x:Key="LightGreen">#F1F2ED</Color>
             <Color x:Key="DarkGreen">#556035</Color>
             <Color x:Key="LightGray">#E3E3E4</Color>
-            <Color x:Key="PopupTextColor">#595959</Color>
-            <Color x:Key="UrlTextColorLightMode">#0C1C9A</Color>
-            <Color x:Key="UrlTextColorDarkMode">#A5BBFC</Color>
-
-            <Color x:Key="PopupDarkModeBgColor">#262626</Color>
-            <Color x:Key="PopupDarkModeTextColor">#B3B3B3</Color>
+            <Color x:Key="MediumDarkShadeOfGray">#595959</Color>
+            <Color x:Key="MediumLightShadeOfGray">#A6A6A6</Color>
+            <Color x:Key="UrlDarkBlue">#0C1C9A</Color>
+            <Color x:Key="UrlLightBlue">#A5BBFC</Color>
+            <Color x:Key="BackgroundDarkGray">#262626</Color>
+            <Color x:Key="MediumGray">#B3B3B3</Color>
             <!--Generic Styles-->
             <Style TargetType="Label">
                 <Setter Property="TextColor"
@@ -83,7 +84,7 @@
             </Style>
             <Style x:Key="InstructionText" TargetType="Label" ApplyToDerivedTypes="True">
                 <Setter Property="TextColor"
-                        Value="{AppThemeBinding Light={StaticResource ClickableLinkColor}, 
+                        Value="{AppThemeBinding Light={StaticResource DarkPurple}, 
                    Dark={StaticResource ClickableLinkColorDark}}" />
             </Style>
             <Style TargetType="Entry">
@@ -228,7 +229,7 @@
             <Style x:Key="PopupCancelButton" BasedOn="{StaticResource PopupButton}" TargetType="Button"
                    ApplyToDerivedTypes="True">
                 <Setter Property="TextColor"
-                        Value="{AppThemeBinding Light={StaticResource PopupTextColor}, Dark={StaticResource PopupDarkModeTextColor}}" />
+                        Value="{AppThemeBinding Light={StaticResource MediumDarkShadeOfGray}, Dark={StaticResource MediumGray}}" />
                 <Setter Property="FontSize" Value="14" />
                 <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=White, Dark=Black}" />
             </Style>
@@ -276,10 +277,29 @@
                 <Setter Property="BackgroundColor" Value="{StaticResource FadedButtonColor}" />
                 <Setter Property="TextColor" Value="{StaticResource TextColor}" />
             </Style>
-            <Style x:Key="PickerTitle" TargetType="Label" ApplyToDerivedTypes="True">
+            <Style x:Key="PickerTitleSelected" TargetType="Label" ApplyToDerivedTypes="True">
                 <Setter Property="TextColor"
                         Value="{AppThemeBinding Light={StaticResource Purple}, Dark={StaticResource DarkModePurple}}" />
                 <Setter Property="FontSize" Value="Small"></Setter>
+            </Style>
+            <Style x:Key="PickerTitle" TargetType="Label" ApplyToDerivedTypes="True">
+                <Setter Property="TextColor"
+                        Value="{AppThemeBinding Light={StaticResource MediumDarkShadeOfGray}, Dark={StaticResource MediumLightShadeOfGray}}" />
+                <Setter Property="FontSize" Value="Small"></Setter>
+            </Style>
+            <Style x:Key="EntryBorderSelected" TargetType="BoxView" ApplyToDerivedTypes="True">
+                <Setter Property="HeightRequest" Value="1"></Setter>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"></Setter>
+                <Setter Property="VerticalOptions" Value="EndAndExpand"></Setter>
+                <Setter Property="Color"
+                        Value="{AppThemeBinding Light={StaticResource Purple}, Dark={StaticResource DarkModePurple}}" />
+            </Style>
+            <Style x:Key="EntryBorder" TargetType="BoxView" ApplyToDerivedTypes="True">
+                <Setter Property="HeightRequest" Value="1"></Setter>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"></Setter>
+                <Setter Property="VerticalOptions" Value="EndAndExpand"></Setter>
+                <Setter Property="Color"
+                        Value="{AppThemeBinding Light={StaticResource FrameColor}, Dark={StaticResource SeparatorDarkModeColor}}" />
             </Style>
             <Style x:Key="GreenSearchBar" TargetType="SearchBar">
                 <Setter Property="BackgroundColor" Value="{StaticResource FrameColor}" />
@@ -310,7 +330,7 @@
             </Style>
             <Style x:Key="ClickableFrame" TargetType="Frame">
                 <Setter Property="BorderColor"
-                        Value="{AppThemeBinding Light={StaticResource ClickableLinkColor}, 
+                        Value="{AppThemeBinding Light={StaticResource DarkPurple}, 
                                                                               Dark={StaticResource ClickableLinkColorDark}}" />
                 <Setter Property="CornerRadius" Value="10" />
                 <Setter Property="BackgroundColor"
@@ -368,7 +388,7 @@
             </Style>
             <Style x:Key="PopupText" TargetType="Label">
                 <Setter Property="TextColor"
-                        Value="{AppThemeBinding Light={StaticResource PopupTextColor}, 
+                        Value="{AppThemeBinding Light={StaticResource MediumDarkShadeOfGray}, 
                    Dark={StaticResource TextColorDark}}" />
                 <Setter Property="BackgroundColor" Value="Transparent" />
                 <Setter Property="FontSize" Value="14" />
@@ -410,9 +430,20 @@
                 <Setter Property="HorizontalOptions" Value="Start" />
                 <Setter Property="Margin" Value="0, 10, 0, 0" />
             </Style>
+            <Style x:Key="TextFieldDescription" TargetType="Label">
+                <Setter Property="TextColor"
+                        Value="{AppThemeBinding Light={StaticResource MediumDarkShadeOfGray}, 
+                   Dark={StaticResource TextColorDark}}" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="FontSize" Value="Small" />
+                <!-- <Setter Property="HorizontalTextAlignment" Value="Center" /> -->
+                <!-- <Setter Property="HorizontalOptions" Value="Center" /> -->
+                <Setter Property="LineHeight" Value="1.3" />
+                <!-- <Setter Property="Margin" Value="16,0,16,0" /> -->
+            </Style>
             <Style x:Key="ClickableHeader" TargetType="Label">
                 <Setter Property="TextColor"
-                        Value="{AppThemeBinding Light={StaticResource ClickableLinkColor}, Dark={StaticResource ClickableLinkColorDark}}" />
+                        Value="{AppThemeBinding Light={StaticResource DarkPurple}, Dark={StaticResource ClickableLinkColorDark}}" />
                 <Setter Property="FontSize" Value="Medium" />
                 <Setter Property="FontAttributes" Value="Bold" />
                 <Setter Property="TextDecorations" Value="Underline" />
@@ -568,7 +599,7 @@
                 <Setter Property="TextColor"
                         Value="{AppThemeBinding Light={StaticResource TextColor} ,Dark={StaticResource TextColorDark}}" />
                 <Setter Property="TitleColor"
-                        Value="{AppThemeBinding Light={StaticResource PopupTextColor} ,Dark=#A6A6A6}" />
+                        Value="{AppThemeBinding Light={StaticResource MediumDarkShadeOfGray} ,Dark={StaticResource MediumLightShadeOfGray}}" />
                 <Setter Property="FontSize" Value="Medium" />
                 <Setter Property="HorizontalOptions" Value="Center" />
                 <Setter Property="BackgroundColor" Value="Transparent" />
@@ -610,6 +641,14 @@
                 <Setter Property="TextColor"
                         Value="{AppThemeBinding Light={StaticResource TextColorGreen}, 
                    Dark={StaticResource TextColorDark}}" />
+                <Setter Property="FontSize" Value="Small" />
+            </Style>
+            <Style x:Key="ErrorLabel" TargetType="Label">
+                <Setter Property="TextColor"
+                        Value="{AppThemeBinding 
+                            Light={StaticResource TextColorRed}, 
+                            Dark={StaticResource TextColorBrightRed}
+                }" />
                 <Setter Property="FontSize" Value="Small" />
             </Style>
             <Style x:Key="VertStack" TargetType="StackLayout">
@@ -759,13 +798,15 @@
             </Style>
             <Style x:Key="ReportReasonDetails" TargetType="Label">
                 <Setter Property="FontSize" Value="Small" />
-                <Setter Property="TextColor" Value="{AppThemeBinding Light=#595959,  Dark=#A6A6A6}" />
+                <Setter Property="TextColor"
+                        Value="{AppThemeBinding Light={StaticResource MediumDarkShadeOfGray}, Dark={StaticResource MediumGray}}" />
                 <Setter Property="HorizontalOptions" Value="Fill" />
                 <Setter Property="VerticalOptions" Value="End" />
             </Style>
             <Style x:Key="ShareElectoralInfoValue" TargetType="Label">
                 <Setter Property="FontSize" Value="Medium" />
-                <Setter Property="TextColor" Value="{AppThemeBinding Light=#595959,  Dark=#A6A6A6}" />
+                <Setter Property="TextColor"
+                        Value="{AppThemeBinding Light={StaticResource MediumDarkShadeOfGray}, Dark={StaticResource MediumGray}}" />
                 <Setter Property="HorizontalOptions" Value="Fill" />
                 <Setter Property="VerticalOptions" Value="End" />
             </Style>
@@ -775,6 +816,13 @@
                 <Setter Property="Margin" Value="0, 0, 0, 16" />
                 <Setter Property="FontAttributes" Value="Bold" />
                 <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="TextColor" Value="{AppThemeBinding Light=Black,  Dark=White}" />
+            </Style>
+            <Style x:Key="RegistrationTitle" TargetType="Label">
+                <Setter Property="FontSize" Value="Large" />
+                <Setter Property="Margin" Value="0, 0, 0, 32" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="HorizontalOptions" Value="Start" />
                 <Setter Property="TextColor" Value="{AppThemeBinding Light=Black,  Dark=White}" />
             </Style>
             <Style x:Key="SignUpBody" TargetType="Label">
@@ -856,6 +904,9 @@
                 <Setter Property="FontAttributes" Value="Bold" />
                 <Setter Property="CharacterSpacing" Value="1" />
                 <Setter Property="VerticalOptions" Value="Center" />
+            </Style>
+            <Style x:Key="TextInput" TargetType="Entry">
+                <Setter Property="FontSize" Value="Medium" />
             </Style>
         </ResourceDictionary>
     </Application.Resources>

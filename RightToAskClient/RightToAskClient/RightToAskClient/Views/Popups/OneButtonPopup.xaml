@@ -9,7 +9,7 @@
            IsLightDismissEnabled="True"
            Color="Transparent">
     <Frame CornerRadius="5" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="0"
-               BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource PopupDarkModeBgColor}}">
+               BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource BackgroundDarkGray}}">
         <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent"  >
             <Label x:Name="mainTitle" VerticalOptions="StartAndExpand" VerticalTextAlignment="Center" 
                    HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource PopupHeaderText}" />
@@ -22,7 +22,7 @@
                           <RowDefinition Height="1"/>
                           <RowDefinition Height="Auto"/>
                    </Grid.RowDefinitions>
-                   <StackLayout Grid.Row="1" Grid.Column="0" HorizontalOptions="FillAndExpand" Orientation="Horizontal" BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource PopupDarkModeBgColor}}" >
+                   <StackLayout Grid.Row="1" Grid.Column="0" HorizontalOptions="FillAndExpand" Orientation="Horizontal" BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource BackgroundDarkGray}}" >
                           <!--Emu Bottom Left-->
                           <Image x:Name="EmuImage" Source="{helpers:ImageResource RightToAskClient.Images.emu_tall.PNG}"
                                  WidthRequest="100" HeightRequest="100" Rotation="0" VerticalOptions="End" BackgroundColor="Transparent"/>
