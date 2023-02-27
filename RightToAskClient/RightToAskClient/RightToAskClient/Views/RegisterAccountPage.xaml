@@ -47,6 +47,7 @@
                                 Focused="NameEntry_OnFocused" />
                             <BoxView
                                 x:Name="NameEntryBorder"
+                                Margin="0,8,0,0"
                                 Style="{StaticResource EntryBorder}" />
                         </StackLayout>
                     </ContentView>
@@ -84,6 +85,7 @@
                                 Focused="UIDEntry_OnFocused" />
                             <BoxView
                                 x:Name="UsernameEntryBorder"
+                                Margin="0,8,0,0"
                                 Style="{StaticResource EntryBorder}" />
                         </StackLayout>
                     </ContentView>
@@ -114,6 +116,7 @@
                         Command="{Binding DoneButtonCommand}"
                         xct:SemanticEffect.Hint="{xct:Translate ContinueButtonHint}"
                         xct:SemanticEffect.Description="{xct:Translate ContinueButtonDescription}"
+                        Margin="0,0,0,16"
                         Style="{StaticResource NormalButton}"
                         CornerRadius="5"
                         IsEnabled="{Binding AbleToContinue}"
