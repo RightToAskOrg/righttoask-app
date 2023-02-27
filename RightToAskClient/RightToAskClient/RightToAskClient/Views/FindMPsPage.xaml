@@ -81,11 +81,11 @@
                         <views:LabeledPicker BindingContext="{Binding StateElectoratePickerModel}" />
                         
                         <StackLayout>
-                            <Label Text="{xct:Translate TasLowerHouseElectorateText}"
+                            <Label Text="{Binding StateInferredElectorateHeader}"
                                    Style="{StaticResource PickerTitle}"/>
                             <Grid Margin="0,0,0,8">
                                 <BoxView Style="{StaticResource ButtonSeparator}" VerticalOptions="End" />
-                                <Label Text="{Binding StateInferredElectorateHeader}" Padding="8,8,0,6"
+                                <Label Text="{Binding StateInferredElectorate}" Padding="8,8,0,6"
                                        Style="{StaticResource TransparentBgPicker}" HorizontalOptions="FillAndExpand"
                                        VerticalOptions="Center" />
                             </Grid>
