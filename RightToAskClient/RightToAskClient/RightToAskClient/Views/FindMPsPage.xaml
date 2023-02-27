@@ -107,6 +107,7 @@
                                        Text="{Binding Address.StreetNumberAndName}"
                                        Style="{StaticResource LeftFrameEntry}"
                                        PlaceholderColor="{AppThemeBinding Light=Black, Dark=White}"
+                                       TextColor="{AppThemeBinding Light=Black, Dark=White}"
                                        Margin="0" />
                             </Grid>
                         </StackLayout>
@@ -118,6 +119,7 @@
                                 <Entry Placeholder="{xct:Translate CitySuburbHeaderText}"
                                        Text="{Binding Address.CityOrSuburb}" Style="{StaticResource LeftFrameEntry}"
                                        PlaceholderColor="{AppThemeBinding Light=Black, Dark=White}"
+                                       TextColor="{AppThemeBinding Light=Black, Dark=White}"
                                        Margin="0" />
                             </Grid>
                         </StackLayout>
@@ -130,6 +132,7 @@
                                 <Entry Placeholder="{xct:Translate PostcodeHeaderText}"
                                        Text="{Binding Address.Postcode}" Style="{StaticResource LeftFrameEntry}"
                                        PlaceholderColor="{AppThemeBinding Light=Black, Dark=White}"
+                                       TextColor="{AppThemeBinding Light=Black, Dark=White}"
                                        Margin="0" />
                             </Grid>
                         </StackLayout>
