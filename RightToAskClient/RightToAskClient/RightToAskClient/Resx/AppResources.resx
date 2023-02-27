@@ -610,7 +610,7 @@
     <value>Username</value>
   </data>
   <data name="UsernamePrivacyNote" xml:space="preserve">
-    <value>You don’t have to display your real name, but your MPs are more likely to listen to you if you do.</value>
+    <value>Your username is unique and public. This cannot be changed later.</value>
   </data>
   <data name="UserProfileTitle" xml:space="preserve">
     <value>User Profile</value>
