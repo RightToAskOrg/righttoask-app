@@ -23,7 +23,7 @@ namespace RightToAskClient.iOS
             if (args.PropertyName == Views.Controls.Accessibility.AccessibilityTraitsProperty.PropertyName)
             {
                 AddAccessibilityTraits();
-            }   
+            }
             else
             {
                 base.OnElementPropertyChanged(args);
@@ -38,9 +38,9 @@ namespace RightToAskClient.iOS
 
             if ((newTraits & Views.Controls.Accessibility.AccessibilityTrait.Header) > 0)
                 traits |= UIAccessibilityTrait.Header;
-            if ((newTraits & Views.Controls.Accessibility.AccessibilityTrait.Disabled) > 0)
+            else if ((newTraits & Views.Controls.Accessibility.AccessibilityTrait.Disabled) > 0)
                 traits |= UIAccessibilityTrait.NotEnabled;
-            if ((newTraits & Views.Controls.Accessibility.AccessibilityTrait.Enabled) > 0)
+            else
                 traits &= ~UIAccessibilityTrait.NotEnabled;
 
             Control.AccessibilityTraits = traits;

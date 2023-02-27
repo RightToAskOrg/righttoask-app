@@ -236,7 +236,7 @@ namespace RightToAskClient.ViewModels
 
 
         private Accessibility.AccessibilityTrait _continueButtonAccessibilityTrait =
-            Accessibility.AccessibilityTrait.Disabled;
+            Accessibility.AccessibilityTrait.None;
 
         public Accessibility.AccessibilityTrait ContinueButtonAccessibilityTrait
         {
@@ -253,9 +253,8 @@ namespace RightToAskClient.ViewModels
             {
                 SetProperty(ref _ableToContinue, value);
                 ContinueButtonAccessibilityTrait = _ableToContinue
-                    ? Accessibility.AccessibilityTrait.Enabled
+                    ? Accessibility.AccessibilityTrait.None
                     : Accessibility.AccessibilityTrait.Disabled;
-                OnPropertyChanged("ContinueButton");
             }
         }
 

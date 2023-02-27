@@ -9,10 +9,9 @@ namespace RightToAskClient.Views.Controls
         [Flags]
         public enum AccessibilityTrait
         {
-            None = 0,
-            Header = 1,
-            Enabled = 2,
-            Disabled = 4
+            None = 0, // remove UIKit.AccessibilityTrait.NotEnabled
+            Header = 1, // add UIKit.AccessibilityTrait.Header
+            Disabled = 2, // add UIKit.AccessibilityTrait.NotEnabled
         }
 
         public static readonly BindableProperty AccessibilityTraitsProperty =

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using RightToAskClient.Models;
+using RightToAskClient.Views.Controls;
 using Xunit;
 
 namespace UnitTests
@@ -20,6 +21,7 @@ namespace UnitTests
             registration.StateKnown = true;
             return registration;
         }
+
         [Fact]
         public void ConstructorIsRegisteredTest()
         {
@@ -35,7 +37,7 @@ namespace UnitTests
             Assert.True(validReg);
             Assert.True(vm.ShowUpdateAccountButton);
             Assert.False(vm.CanEditUid);
-            
+
             Assert.False(vm.ShowDMButton);
             Assert.False(vm.ShowSeeQuestionsButton);
             Assert.False(vm.ShowFollowButton);
@@ -127,13 +129,14 @@ namespace UnitTests
         [InlineData("valid_uid", "", "", "Name must not be empty.", false)]
         [InlineData("", "Valid Name", "", "", false)]
         [InlineData("", "", "", "Name must not be empty.", false)]
-        [InlineData("valid_uid", "Invalid Name because it is tooooooooooooooooooooooooooooo long", "", "The maximum character limit is 60.", false)]
+        [InlineData("valid_uid", "Invalid Name because it is tooooooooooooooooooooooooooooo long", "",
+            "The maximum character limit is 60.", false)]
         [InlineData("valid=uid", "Valid Name", "", "", false)]
         public void ContinueButtonAndReport_ValidateName(
-            string uid, 
+            string uid,
             string name,
             string usernameReport,
-            string nameReport, 
+            string nameReport,
             bool enabled)
         {
             // arrange
@@ -148,6 +151,8 @@ namespace UnitTests
             Assert.Equal(usernameReport, vm.ReportLabelText);
             Assert.Equal(nameReport, vm.NameLabelText);
             Assert.Equal(enabled, vm.AbleToContinue);
+            Assert.Equal(enabled ? Accessibility.AccessibilityTrait.None : Accessibility.AccessibilityTrait.Disabled,
+                vm.ContinueButtonAccessibilityTrait);
         }
 
         [Theory]
@@ -156,13 +161,16 @@ namespace UnitTests
         [InlineData("", "Valid Name", "Username must not be empty.", "", false)]
         [InlineData("", "", "Username must not be empty.", "", false)]
         [InlineData("valid_uid", "Invalid Name because it is tooooooooooooooooooooooooooooo long", "", "", false)]
-        [InlineData("valid=uid", "Valid Name", "Please use only letters (a-z), numbers (0-9), hyphen (-), underscore (_), and dot (.) without spaces.", "", false)]
-        [InlineData("valid_uid-valid_uid-valid_uid-valid_uid-", "Valid Name", "The maximum character limit is 30.", "", false)]
+        [InlineData("valid=uid", "Valid Name",
+            "Please use only letters (a-z), numbers (0-9), hyphen (-), underscore (_), and dot (.) without spaces.", "",
+            false)]
+        [InlineData("valid_uid-valid_uid-valid_uid-valid_uid-", "Valid Name", "The maximum character limit is 30.", "",
+            false)]
         public void ContinueButtonAndReport_ValidateUsername(
-            string uid, 
+            string uid,
             string name,
             string usernameReport,
-            string nameReport, 
+            string nameReport,
             bool enabled)
         {
             // arrange
@@ -177,6 +185,8 @@ namespace UnitTests
             Assert.Equal(usernameReport, vm.ReportLabelText);
             Assert.Equal(nameReport, vm.NameLabelText);
             Assert.Equal(enabled, vm.AbleToContinue);
+            Assert.Equal(enabled ? Accessibility.AccessibilityTrait.None : Accessibility.AccessibilityTrait.Disabled,
+                vm.ContinueButtonAccessibilityTrait);
         }
     }
 }
