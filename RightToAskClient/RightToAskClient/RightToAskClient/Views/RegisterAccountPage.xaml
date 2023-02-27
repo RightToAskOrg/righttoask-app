@@ -37,12 +37,19 @@
                     <ContentView>
                         <StackLayout Orientation="Vertical"
                                      Spacing="0">
-                            <Entry
+                            <controls:BorderlessEntry
                                 Text="{Binding DisplayName}"
                                 Placeholder="{xct:Translate DisplayNamePlaceholderText}"
                                 Style="{StaticResource TextInput}"
                                 Unfocused="NameEntry_OnUnfocused"
-                                Focused="NameEntry_OnFocused" />
+                                Focused="NameEntry_OnFocused" 
+                            />
+                            <!-- <Entry -->
+                            <!--     Text="{Binding DisplayName}" -->
+                            <!--     Placeholder="{xct:Translate DisplayNamePlaceholderText}" -->
+                            <!--     Style="{StaticResource TextInput}" -->
+                            <!--     Unfocused="NameEntry_OnUnfocused" -->
+                            <!--     Focused="NameEntry_OnFocused" /> -->
                             <BoxView
                                 x:Name="NameEntryBorder"
                                 Style="{StaticResource EntryBorder}" />
