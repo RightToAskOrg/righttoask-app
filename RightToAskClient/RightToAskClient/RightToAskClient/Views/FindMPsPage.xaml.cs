@@ -43,6 +43,9 @@ namespace RightToAskClient.Views
 
         protected override void OnAppearing()
         {
+            AutomationProperties.SetIsInAccessibleTree(DoneButton, true);
+            AutomationProperties.SetHelpText(DoneButton, _doneButtonText);
+            
             DoneButton.Text = _doneButtonText;
         }
 
