@@ -7,6 +7,7 @@
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:local="clr-namespace:RightToAskClient"
              xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
+             xmlns:controls="clr-namespace:RightToAskClient.Views.Controls;assembly=RightToAskClient"
              x:Class="RightToAskClient.Views.RegisterAccountPage"
              x:DataType="vm:RegistrationViewModel"
              Title="{Binding Title}">
@@ -26,7 +27,8 @@
             <ScrollView VerticalOptions="FillAndExpand" Padding="16">
                 <StackLayout Orientation="Vertical">
                     <Label Text="{xct:Translate AccountTitle}"
-                           Style="{StaticResource RegistrationTitle}">
+                           Style="{StaticResource RegistrationTitle}"
+                           controls:Accessibility.AccessibilityTraits="Header">
                     </Label>
                     <Label x:Name="NameLabel"
                            Text="{xct:Translate DisplayNameHeaderText}"
@@ -101,13 +103,15 @@
                          VerticalOptions="End"
                          HorizontalOptions="Fill"
                          Padding="16">
-                <Button Text="{xct:Translate Continue}"
+                <Button x:Name="ContinueButton"
+                        Text="{xct:Translate Continue}"
                         Command="{Binding DoneButtonCommand}"
                         xct:SemanticEffect.Hint="{xct:Translate ContinueButtonHint}"
                         xct:SemanticEffect.Description="{xct:Translate ContinueButtonDescription}"
                         Style="{StaticResource NormalButton}"
                         CornerRadius="5"
-                        IsEnabled="{Binding AbleToContinue}" />
+                        IsEnabled="{Binding AbleToContinue}"
+                        controls:Accessibility.AccessibilityTraits="{Binding ContinueButtonAccessibilityTrait}" />
             </StackLayout>
 
         </StackLayout>

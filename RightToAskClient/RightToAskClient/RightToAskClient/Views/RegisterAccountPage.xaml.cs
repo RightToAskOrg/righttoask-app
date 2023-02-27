@@ -1,7 +1,9 @@
 using System;
+using System.ComponentModel;
 using RightToAskClient.Models;
 using RightToAskClient.Resx;
 using RightToAskClient.ViewModels;
+using RightToAskClient.Views.Controls;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
