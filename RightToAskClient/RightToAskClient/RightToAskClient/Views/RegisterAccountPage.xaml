@@ -30,21 +30,21 @@
                            Style="{StaticResource RegistrationTitle}"
                            controls:Accessibility.AccessibilityTraits="Header">
                     </Label>
-                    <Label x:Name="NameLabel"
-                           Text="{xct:Translate DisplayNameHeaderText}"
-                           Style="{StaticResource PickerTitle}"
-                           IsVisible="{Binding DisplayName.Length}" />
+
                     <ContentView>
                         <StackLayout Orientation="Vertical"
                                      Spacing="0">
+                            <Label x:Name="NameLabel"
+                                   Text="{xct:Translate DisplayNameHeaderText}"
+                                   Style="{StaticResource PickerTitle}"
+                                   IsVisible="{Binding DisplayName.Length}" />
                             <controls:BorderlessEntry
-                                AutomationProperties.Name= "{xct:Translate DisplayNamePlaceholderText}"
+                                AutomationProperties.Name="{xct:Translate DisplayNamePlaceholderText}"
                                 Text="{Binding DisplayName}"
                                 Placeholder="{xct:Translate DisplayNamePlaceholderText}"
                                 Style="{StaticResource TextInput}"
                                 Unfocused="NameEntry_OnUnfocused"
-                                Focused="NameEntry_OnFocused" 
-                            />
+                                Focused="NameEntry_OnFocused" />
                             <BoxView
                                 x:Name="NameEntryBorder"
                                 Style="{StaticResource EntryBorder}" />
@@ -66,22 +66,22 @@
                                AutomationProperties.Name="Name input error"
                                AutomationProperties.HelpText="{Binding NameLabelText}" />
                     </StackLayout>
-                    <Label x:Name="UsernameLabel"
-                           Text="{xct:Translate UserNameHeaderText}"
-                           Style="{StaticResource PickerTitle}"
-                           IsVisible="{Binding UserId.Length}" />
+
                     <ContentView>
                         <StackLayout Orientation="Vertical"
                                      Spacing="0"
-                                     Margin="0,8,0,0">
+                                     Margin="0,16,0,0">
+                            <Label x:Name="UsernameLabel"
+                                   Text="{xct:Translate UserNameHeaderText}"
+                                   Style="{StaticResource PickerTitle}"
+                                   IsVisible="{Binding UserId.Length}" />
                             <controls:BorderlessEntry
-                                AutomationProperties.Name= "{xct:Translate UIDPlaceholderText}"
+                                AutomationProperties.Name="{xct:Translate UIDPlaceholderText}"
                                 Text="{Binding UserId}"
                                 Placeholder="{xct:Translate UIDPlaceholderText}"
                                 Style="{StaticResource TextInput}"
                                 Unfocused="UIDEntry_OnUnfocused"
-                                Focused="UIDEntry_OnFocused"
-                            />
+                                Focused="UIDEntry_OnFocused" />
                             <BoxView
                                 x:Name="UsernameEntryBorder"
                                 Style="{StaticResource EntryBorder}" />
@@ -117,7 +117,7 @@
                         Style="{StaticResource NormalButton}"
                         CornerRadius="5"
                         IsEnabled="{Binding AbleToContinue}"
-                        controls:Accessibility.AccessibilityTraits="{Binding ContinueButtonAccessibilityTrait}" /> 
+                        controls:Accessibility.AccessibilityTraits="{Binding ContinueButtonAccessibilityTrait}" />
             </StackLayout>
 
         </StackLayout>
