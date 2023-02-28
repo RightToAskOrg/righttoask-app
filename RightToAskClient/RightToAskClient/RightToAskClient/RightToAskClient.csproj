@@ -172,6 +172,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Remove="CustomControls\**" />
+    <Compile Update="Views\LabeledPicker.xaml.cs">
+      <DependentUpon>LabeledPicker.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Views\SecondPage_old.xaml" />
@@ -255,6 +259,7 @@
     <EmbeddedResource Include="Images\flags_dark.png" />
     <EmbeddedResource Include="Images\flags_filled_light.png" />
     <EmbeddedResource Include="Images\flags_filled_dark.png" />
+    <EmbeddedResource Include="Images\map.png" />
     <EmbeddedResource Include="Resources\Fonts\DancingScript-VariableFont_wght.ttf" />
     <EmbeddedResource Include="Resources\Fonts\Roboto-Black.ttf" />
     <EmbeddedResource Include="Resources\VicLegislativeAssemblymembers.csv" />

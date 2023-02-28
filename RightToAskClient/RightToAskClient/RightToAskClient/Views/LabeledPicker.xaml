@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<StackLayout
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:extensions="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:viewModels="clr-namespace:RightToAskClient.ViewModels;assembly=RightToAskClient"
+    x:Class="RightToAskClient.Views.LabeledPicker"
+    x:DataType="viewModels:LabeledPickerViewModel"
+    BackgroundColor="Transparent"
+    VerticalOptions="Start"
+    x:Name="This" HorizontalOptions="Fill">
+    <Label Text="{Binding Title}"
+           Style="{StaticResource PickerTitle}"
+           IsVisible="{Binding ShowTitle}"/>
+    <Grid Margin="0,0,0,8">
+        <BoxView Style="{StaticResource ButtonSeparator}" VerticalOptions="End" />
+
+        <Image Source="{extensions:ImageResource RightToAskClient.Images.expand_48.png }"
+               extensions:IconTintColorEffect.TintColor="{AppThemeBinding Light={StaticResource TextColor} ,Dark={StaticResource TextColorDark}}"
+               HorizontalOptions="End" VerticalOptions="Center" WidthRequest="10" HeightRequest="10" />
+        <Picker 
+            Title="{Binding Title}" 
+            ItemsSource="{Binding Items}"
+            extensions:SemanticEffect.Hint="{Binding Title}"
+            extensions:SemanticEffect.Description="{Binding Title}"
+            Style="{StaticResource TransparentBgPicker}" HorizontalOptions="FillAndExpand"
+            SelectedIndex="{Binding SelectedIndex}"/>
+    </Grid>
+</StackLayout>

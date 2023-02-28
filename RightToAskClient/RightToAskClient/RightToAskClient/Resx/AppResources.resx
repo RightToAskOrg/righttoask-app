@@ -217,7 +217,7 @@
     <value>Edit Your Account</value>
   </data>
   <data name="FederalElectoratePickerTitle" xml:space="preserve">
-    <value>House of Representatives electorate</value>
+    <value>House of Representatives</value>
   </data>
   <data name="SelectElectorate" xml:space="preserve">
     <value>Select Electorate</value>
@@ -1072,7 +1072,7 @@
     <value>Committee</value>
   </data>
   <data name="ChooseStateOrTerritory" xml:space="preserve">
-    <value>State or Territory</value>
+    <value>State or Territory*</value>
   </data>
   <data name="OtherUserInfoText" xml:space="preserve">
     <value>Information about another Right To Ask participant</value>
@@ -1306,6 +1306,22 @@ We are still learning about how people use Right To Ask. These rules may change 
   </data>
   <data name="TermsAndConditionsHelpTextIOS" xml:space="preserve">
   <value>By tapping Agree and Continue, you agree to our Privacy Policy, link, and Terms and Conditions, link</value>
+  </data>
+  <data name="LegislativeCouncilText" xml:space="preserve">
+  <value>Legislative Council</value>
+  </data>
+  <data name="FindMyElectorateTitle" xml:space="preserve">
+  <value>What’s your electorate?</value>
+  </data>
+  <data name="FindMyElectorateContentPartOne" xml:space="preserve">
+  <value>Your electorate info will not be shared with others unless you choose to. </value>
+  </data>
+  <data name="FindMyElectorateContentPartTwo" xml:space="preserve">
+  <value>This helps us find which MPs are yours.</value>
+  </data>
+
+  <data name="MapPlaceholderText" xml:space="preserve">
+  <value>A map of your Federal electorate will appear here</value>
   </data>
 
   <data name="ContinueButtonHint" xml:space="preserve">

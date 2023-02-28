@@ -31,22 +31,7 @@
                            HorizontalOptions="StartAndExpand" />
 
                     <!-- TODO: extract to a reusable component -->
-                    <Label Text="{effects:Translate SharingElectorateInfoPickerTitle}"
-                           Style="{StaticResource PickerTitle}"
-                           IsVisible="{Binding AbleToFinish}">
-                    </Label>
-                    <Grid Margin="0,0,0,16">
-                        <BoxView Style="{StaticResource Separator}" VerticalOptions="End" />
-
-                        <Image Source="{helpers:ImageResource RightToAskClient.Images.expand_48.png }"
-                               effects:IconTintColorEffect.TintColor="{AppThemeBinding Light={StaticResource TextColor} ,Dark={StaticResource TextColorDark}}"
-                               HorizontalOptions="End" VerticalOptions="Center" WidthRequest="10" HeightRequest="10" />
-
-                        <Picker Title="{effects:Translate SharingElectorateInfoPickerTitle}"
-                                ItemsSource="{Binding SharingElectorateInfoOptionValues}"
-                                Style="{StaticResource TransparentBgPicker}" HorizontalOptions="FillAndExpand"
-                                SelectedIndex="{Binding SelectedIndexValue}" VerticalOptions="Center" />
-                    </Grid>
+                    <views:LabeledPicker BindingContext="{Binding ElectorateInfo}" />
 
                     <views:ShareElectorateInfoPanel
                         Title="{Binding StateOrTerritoryTitle}"
@@ -76,7 +61,6 @@
                         effects:SemanticEffect.Hint="{effects:Translate SaveAndFinishHint}"
                         effects:SemanticEffect.Description="{effects:Translate SaveAndFinish}"
                         Style="{StaticResource NormalButton}"
-                        CornerRadius="5"
                         IsEnabled="{Binding AbleToFinish}" />
             </StackLayout>
 

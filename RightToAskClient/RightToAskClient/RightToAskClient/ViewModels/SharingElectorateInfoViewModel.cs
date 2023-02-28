@@ -21,6 +21,14 @@ namespace RightToAskClient.ViewModels
     {
         private List<string> _sharingElectorateInfoOptionValues;
 
+        private LabeledPickerViewModel _electorateInfo;
+
+        public LabeledPickerViewModel ElectorateInfo
+        {
+            get => _electorateInfo;
+            set => SetProperty(ref _electorateInfo, value);
+        }
+        
         public List<string> SharingElectorateInfoOptionValues
         {
             get => _sharingElectorateInfoOptionValues;
@@ -81,46 +89,51 @@ namespace RightToAskClient.ViewModels
         private List<SharingElectorateInfoOptions> _availableOptions;
 
         private int _selectedIndexValue = -1;
-
+        
         public int SelectedIndexValue
         {
             get => _selectedIndexValue;
             set
             {
                 SetProperty(ref _selectedIndexValue, value);
-                if (_registration == null)
-                {
-                    return;
-                }
-
-                _registration.SharingElectorateInfoOption = _availableOptions[value];
-                IsStatePublic = false;
-                IsFederalElectoratePublic = false;
-                IsStateElectoratePublic = false;
-                switch (_registration.SharingElectorateInfoOption)
-                {
-                    case SharingElectorateInfoOptions.StateOrTerritory:
-                        IsStatePublic = true;
-                        break;
-                    case SharingElectorateInfoOptions.FederalElectorateAndState:
-                        IsStatePublic = true;
-                        IsFederalElectoratePublic = true;
-                        break;
-                    case SharingElectorateInfoOptions.StateElectorateAndState:
-                        IsStatePublic = true;
-                        IsStateElectoratePublic = true;
-                        break;
-                    case SharingElectorateInfoOptions.All:
-                        IsStatePublic = true;
-                        IsFederalElectoratePublic = true;
-                        IsStateElectoratePublic = true;
-                        break;
-                }
-
-                AbleToFinish = true;
+                OnIndexSelected(value);
             }
         }
 
+        private void OnIndexSelected (int value)
+        {
+            if (_registration == null)
+            {
+                return;
+            }
+
+            _registration.SharingElectorateInfoOption = _availableOptions[value];
+            IsStatePublic = false;
+            IsFederalElectoratePublic = false;
+            IsStateElectoratePublic = false;
+            switch (_registration.SharingElectorateInfoOption)
+            {
+                case SharingElectorateInfoOptions.StateOrTerritory:
+                    IsStatePublic = true;
+                    break;
+                case SharingElectorateInfoOptions.FederalElectorateAndState:
+                    IsStatePublic = true;
+                    IsFederalElectoratePublic = true;
+                    break;
+                case SharingElectorateInfoOptions.StateElectorateAndState:
+                    IsStatePublic = true;
+                    IsStateElectoratePublic = true;
+                    break;
+                case SharingElectorateInfoOptions.All:
+                    IsStatePublic = true;
+                    IsFederalElectoratePublic = true;
+                    IsStateElectoratePublic = true;
+                    break;
+            }
+
+            AbleToFinish = true;
+        }
+        
         private bool _isStatePublic;
 
         public bool IsStatePublic
@@ -172,7 +185,8 @@ namespace RightToAskClient.ViewModels
                         break;
                 }
             }
-            
+
+
             string fedElectorateTitle;
             string terStateElectorateTitle;
             string allElectorateTitle;
@@ -233,8 +247,17 @@ namespace RightToAskClient.ViewModels
             {
                 StateElectorate = String.Join(", ", stateElectorates);
             }
+
+            ElectorateInfo = new LabeledPickerViewModel()
+            {
+                Items = SharingElectorateInfoOptionValues,
+                Title = AppResources.SharingElectorateInfoPickerTitle,
+            };
+
+            ElectorateInfo.OnSelectedCallback += OnIndexSelected;
         }
 
+        
         public SharingElectorateInfoViewModel()
         {
             BackCommand = new AsyncCommand(async () => { await Application.Current.MainPage.Navigation.PopAsync(); });

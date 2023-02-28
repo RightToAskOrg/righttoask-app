@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-
+<?xml version="1.0" encoding="utf-8" ?>
 <xct:Popup xmlns="http://xamarin.com/schemas/2014/forms"
-           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"    
            xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
            x:Class="RightToAskClient.Views.Popups.TermAndConditionPopup"
            Size="300,160"
@@ -31,6 +30,7 @@
                             Style="{StaticResource PopupOKButton}" BackgroundColor="Transparent" />
                 </StackLayout>
             </StackLayout>
+            
         </StackLayout>
     </Frame>
 </xct:Popup>

@@ -592,6 +592,7 @@
                 <Setter Property="TextColor" Value="{StaticResource TextColorDark}" />
                 <Setter Property="TitleColor" Value="{StaticResource TextColorDark}" />
                 <Setter Property="FontSize" Value="Medium" />
+                <Setter Property="MinimumHeightRequest" Value="60" />
                 <Setter Property="HorizontalOptions" Value="Center" />
                 <Setter Property="BackgroundColor" Value="{StaticResource ButtonColor}" />
             </Style>
@@ -601,7 +602,6 @@
                 <Setter Property="TitleColor"
                         Value="{AppThemeBinding Light={StaticResource MediumDarkShadeOfGray} ,Dark={StaticResource MediumLightShadeOfGray}}" />
                 <Setter Property="FontSize" Value="Medium" />
-                <Setter Property="HorizontalOptions" Value="Center" />
                 <Setter Property="BackgroundColor" Value="Transparent" />
             </Style>
             <Style x:Key="LeftPicker" TargetType="Picker">
@@ -758,6 +758,7 @@
                 <Setter Property="Padding" Value="16" />
                 <Setter Property="FontSize" Value="Small" />
                 <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="CornerRadius" Value="5" />
                 <Setter Property="VisualStateManager.VisualStateGroups">
                     <VisualStateGroupList>
                         <VisualStateGroup x:Name="CommonStates">
