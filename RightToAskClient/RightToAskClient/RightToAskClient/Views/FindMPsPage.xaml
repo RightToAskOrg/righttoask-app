@@ -33,7 +33,7 @@
                     <BoxView WidthRequest="25" BackgroundColor="Transparent" HeightRequest="0"/>
                     <StackLayout Orientation="Vertical">
                         <Button x:Name="TypeAddButton" Clicked="TypeAddButton_OnClicked" Text="Enter an address" BackgroundColor="Transparent" FontSize="Medium" FontAttributes="Bold"
-                                TextColor="{StaticResource PopupTextColor}" Command="{Binding LookupElectoratesCommand}"
+                                TextColor="{StaticResource MediumDarkShadeOfGray}" Command="{Binding LookupElectoratesCommand}"
                                 HorizontalOptions="End" />
                         <BoxView x:Name="TypeAddButtonUnderLine" VerticalOptions="End" HeightRequest="2" Color="Transparent"/>
                     </StackLayout>
