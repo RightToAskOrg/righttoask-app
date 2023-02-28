@@ -445,7 +445,8 @@ namespace RightToAskClient.HttpClients
                 throw new Exception("Something went wrong");
             }
 
-            return !userListResponse.Data.IsNullOrEmpty() && userListResponse.Data.Any(user => user.uid.Equals(userId));
+            return !userListResponse.Data.IsNullOrEmpty() && 
+                   userListResponse.Data.Any(user => user.uid.ToLower().Equals(userId.ToLower()));
         }
 
     }

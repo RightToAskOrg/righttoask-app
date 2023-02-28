@@ -207,6 +207,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string NamePrivacyNote {
+            get {
+                return ResourceManager.GetString("NamePrivacyNote", resourceCulture);
+            }
+        }
+        
         internal static string DMButtonText {
             get {
                 return ResourceManager.GetString("DMButtonText", resourceCulture);
@@ -1020,6 +1026,12 @@ namespace RightToAskClient.Resx {
         internal static string UserName {
             get {
                 return ResourceManager.GetString("UserName", resourceCulture);
+            }
+        }
+        
+        internal static string UsernamePrivacyNote {
+            get {
+                return ResourceManager.GetString("UsernamePrivacyNote", resourceCulture);
             }
         }
         
@@ -2334,6 +2346,42 @@ namespace RightToAskClient.Resx {
         internal static string MapPlaceholderText {
             get {
                 return ResourceManager.GetString("MapPlaceholderText", resourceCulture);
+            }
+        }
+        
+        internal static string ContinueButtonHint {
+            get {
+                return ResourceManager.GetString("ContinueButtonHint", resourceCulture);
+            }
+        }
+        
+        internal static string ContinueButtonDescription {
+            get {
+                return ResourceManager.GetString("ContinueButtonDescription", resourceCulture);
+            }
+        }
+        
+        internal static string EmptyFieldMessage {
+            get {
+                return ResourceManager.GetString("EmptyFieldMessage", resourceCulture);
+            }
+        }
+        
+        internal static string MaxCharDisplayNameMessage {
+            get {
+                return ResourceManager.GetString("MaxCharDisplayNameMessage", resourceCulture);
+            }
+        }
+        
+        internal static string UsernameRegexMessage {
+            get {
+                return ResourceManager.GetString("UsernameRegexMessage", resourceCulture);
+            }
+        }
+        
+        internal static string AccountTitle {
+            get {
+                return ResourceManager.GetString("AccountTitle", resourceCulture);
             }
         }
     }

@@ -7,7 +7,7 @@
            IsLightDismissEnabled="True"
            Color="Transparent">
     <Frame CornerRadius="5" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="0"
-               BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource PopupDarkModeBgColor}}">
+               BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource BackgroundDarkGray}}">
         <StackLayout VerticalOptions="FillAndExpand" BackgroundColor="Transparent">
             <ScrollView VerticalOptions="FillAndExpand">
                 <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent">
@@ -25,9 +25,9 @@
                     <RowDefinition Height="1"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Button Grid.Row="1" Grid.Column="0" x:Name="cancelButton" Clicked="CancelButtonClicked" BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource PopupDarkModeBgColor}}" 
+                <Button Grid.Row="1" Grid.Column="0" x:Name="cancelButton" Clicked="CancelButtonClicked" BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource BackgroundDarkGray}}" 
                         Style="{StaticResource PopupCancelButton}"/>
-                <Button Grid.Row="1" Grid.Column="1" x:Name="approveButton" Clicked="ApproveButtonClicked" BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource PopupDarkModeBgColor}}" 
+                <Button Grid.Row="1" Grid.Column="1" x:Name="approveButton" Clicked="ApproveButtonClicked" BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource BackgroundDarkGray}}" 
                         Style="{StaticResource PopupOKButton}"/>
             </Grid>
             <Grid x:Name="modelButtons" ColumnDefinitions="*,*" VerticalOptions="End" BackgroundColor="Transparent">

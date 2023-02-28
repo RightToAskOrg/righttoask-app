@@ -193,10 +193,13 @@
     <value>Dismiss</value>
   </data>
   <data name="DisplayNameHeaderText" xml:space="preserve">
-    <value>Display Name</value>
+    <value>Name</value>
   </data>
   <data name="DisplayNamePlaceholderText" xml:space="preserve">
-    <value>Enter display name</value>
+    <value>Name</value>
+  </data>
+  <data name="NamePrivacyNote" xml:space="preserve">
+    <value>You don’t have to display your real name, but your MPs are more likely to listen to you if you do.</value>
   </data>
   <data name="DMButtonText" xml:space="preserve">
     <value>Send Direct Message to {0}</value>
@@ -562,7 +565,7 @@
     <value>UID</value>
   </data>
   <data name="UIDPlaceholderText" xml:space="preserve">
-    <value>Enter UserID</value>
+    <value>Username</value>
   </data>
   <data name="UpdateAccountButtonText" xml:space="preserve">
     <value>Update Account</value>
@@ -605,6 +608,9 @@
   </data>
   <data name="UserName" xml:space="preserve">
     <value>Username</value>
+  </data>
+  <data name="UsernamePrivacyNote" xml:space="preserve">
+    <value>Your username is unique and public. This cannot be changed later.</value>
   </data>
   <data name="UserProfileTitle" xml:space="preserve">
     <value>User Profile</value>
@@ -1316,5 +1322,25 @@ We are still learning about how people use Right To Ask. These rules may change 
 
   <data name="MapPlaceholderText" xml:space="preserve">
   <value>A map of your Federal electorate will appear here</value>
+  </data>
+
+  <data name="ContinueButtonHint" xml:space="preserve">
+  <value>Continue to next page</value>
+  </data>
+  <data name="ContinueButtonDescription" xml:space="preserve">
+  <value>Continue</value>
+  </data>
+  
+  <data name="EmptyFieldMessage" xml:space="preserve">
+  <value>{0} must not be empty.</value>
+  </data>
+  <data name="MaxCharDisplayNameMessage" xml:space="preserve">
+  <value>The maximum character limit is {0}.</value>
+  </data>
+  <data name="UsernameRegexMessage" xml:space="preserve">
+  <value>Please use only letters (a-z), numbers (0-9), hyphen (-), underscore (_), and dot (.) without spaces.</value>
+  </data>
+  <data name="AccountTitle" xml:space="preserve">
+  <value>Create your account</value>
   </data>
 </root>

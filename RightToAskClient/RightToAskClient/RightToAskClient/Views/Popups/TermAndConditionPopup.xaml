@@ -7,75 +7,28 @@
            IsLightDismissEnabled="False"
            Color="Transparent">
     <Frame CornerRadius="5" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="0"
-               BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource PopupDarkModeBgColor}}">
+           BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource BackgroundDarkGray}}">
         <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent">
-            <OnPlatform x:TypeArguments="View">
-                <On Platform="iOS">
-            <Label  VerticalOptions="StartAndExpand"
-                    HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource PopupText}" Margin="24,24,24,0">
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span Text="{xct:Translate TermAndConditionPlainText}"/>
-                        <Span Text="{xct:Translate TermAndConditionPlainText2}"/>
-                        <Span Text=" "/>
-                        <Span Text="{xct:Translate PrivacyPolicy}"
-                              TextColor="{AppThemeBinding Light={StaticResource UrlTextColorLightMode}, Dark={StaticResource UrlTextColorDarkMode}}"
-                              TextDecorations="Underline">
-                            <Span.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="PrivacyPolicy_OnTapped"
-                                                      xct:SemanticEffect.Hint="{xct:Translate TCPolicyHint}"
-                                                      xct:SemanticEffect.Description="{xct:Translate PrivacyPolicy}"/>
-                            </Span.GestureRecognizers>
-                        </Span>
-                        <Span Text=" "/>
-                        <Span Text="{xct:Translate and}"/>
-                        <Span Text=" "/>
-                        <Span Text="{xct:Translate TermAndCondition}"
-                              TextColor="{AppThemeBinding Light={StaticResource UrlTextColorLightMode}, Dark={StaticResource UrlTextColorDarkMode}}"
-                              TextDecorations="Underline">
-                            <Span.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="TermAndCondition_OnTapped"
-                                                      xct:SemanticEffect.Hint="{xct:Translate TCHint}"
-                                                      xct:SemanticEffect.Description="{xct:Translate TermAndCondition}"/>
-                            </Span.GestureRecognizers>
-                        </Span>
-                    </FormattedString>
-                </Label.FormattedText>
-            </Label>
-                </On>
-            
-            <On Platform="Android">
-                    <StackLayout HorizontalOptions="Center" Margin="24,16,24,16" Orientation="Vertical">
-                        <Label Text="{xct:Translate TermAndConditionPlainText}"/>
-                        <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
-                            <Label Text="{xct:Translate TermAndConditionPlainText2}"/>
-                            <Button Text="{xct:Translate PrivacyPolicy}" BackgroundColor="Transparent"
-                                    TextColor="{AppThemeBinding Light={StaticResource UrlTextColorLightMode}, Dark={StaticResource UrlTextColorDarkMode}}"
-                                    Clicked="PrivacyPolicy_OnTapped"
-                                    xct:SemanticEffect.Hint="{xct:Translate TCPolicyHint}"
-                                    xct:SemanticEffect.Description="{xct:Translate PrivacyPolicy}"/>
-                            <Label Text="{xct:Translate and}"/>
-                        </StackLayout>
-                        <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
-                            <Button Text="{xct:Translate TermAndCondition}" BackgroundColor="Transparent"
-                                    TextColor="{AppThemeBinding Light={StaticResource UrlTextColorLightMode}, Dark={StaticResource UrlTextColorDarkMode}}"
-                                    Clicked="TermAndCondition_OnTapped"
-                                    xct:SemanticEffect.Hint="{xct:Translate TCHint}"
-                                    xct:SemanticEffect.Description="{xct:Translate TermAndCondition}"/>
-                        </StackLayout>
-                    </StackLayout>
-                    
-                </On>
-            </OnPlatform>
-            
-            <StackLayout Padding="0,1,0,0" BackgroundColor="{AppThemeBinding Light={StaticResource FadedButtonColor}, Dark={StaticResource SeparatorDarkModeColor}}">
-                   <!--Acknowledge/Dismiss Button Bottom Right-->
-                   <StackLayout BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource PopupDarkModeBgColor}}">
-                   <Button Text="{xct:Translate AgreeAndContinueButton}" HorizontalOptions="Center" VerticalOptions="End" Clicked="okButton_Clicked" 
-                           xct:SemanticEffect.Hint="{xct:Translate TCContinueButtonHint}"
-                           xct:SemanticEffect.Description="{xct:Translate AgreeAndContinueButton}"
-                           Style="{StaticResource PopupOKButton}" BackgroundColor="Transparent"/>
-                   </StackLayout>
+
+            <StackLayout Orientation="Vertical"
+                         VerticalOptions="CenterAndExpand"
+                         HorizontalOptions="CenterAndExpand"
+                         x:Name="MarkdownView"
+                         Margin="16, 0">
+            </StackLayout>
+
+            <StackLayout Padding="0,1,0,0"
+                         BackgroundColor="{AppThemeBinding Light={StaticResource FadedButtonColor}, Dark={StaticResource SeparatorDarkModeColor}}">
+                <!--Acknowledge/Dismiss Button Bottom Right-->
+                <StackLayout
+                    BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource BackgroundDarkGray}}">
+                    <Button Text="{xct:Translate AgreeAndContinueButton}" HorizontalOptions="Center"
+                            FontSize="Small"
+                            VerticalOptions="End" Clicked="okButton_Clicked"
+                            xct:SemanticEffect.Hint="{xct:Translate TCContinueButtonHint}"
+                            xct:SemanticEffect.Description="{xct:Translate AgreeAndContinueButton}"
+                            Style="{StaticResource PopupOKButton}" BackgroundColor="Transparent" />
+                </StackLayout>
             </StackLayout>
             
         </StackLayout>
