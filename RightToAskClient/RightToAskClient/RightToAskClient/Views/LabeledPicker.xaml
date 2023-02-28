@@ -22,6 +22,8 @@
         <Picker 
             Title="{Binding Title}" 
             ItemsSource="{Binding Items}"
+            extensions:SemanticEffect.Hint="{Binding Title}"
+            extensions:SemanticEffect.Description="{Binding Title}"
             Style="{StaticResource TransparentBgPicker}" HorizontalOptions="FillAndExpand"
             SelectedIndex="{Binding SelectedIndex}"/>
     </Grid>
