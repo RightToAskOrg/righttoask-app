@@ -495,24 +495,6 @@ namespace RightToAskClient.Resx {
             }
         }
         
-        internal static string FindMyElectorateTitle {
-            get {
-                return ResourceManager.GetString("FindMyElectorateTitle", resourceCulture);
-            }
-        }
-        
-        internal static string FindMyElectorateContentPartOne {
-            get {
-                return ResourceManager.GetString("FindMyElectorateContentPartOne", resourceCulture);
-            }
-        }
-        
-        internal static string FindMyElectorateContentPartTwo {
-            get {
-                return ResourceManager.GetString("FindMyElectorateContentPartTwo", resourceCulture);
-            }
-        }
-        
         internal static string MPsHeaderText2 {
             get {
                 return ResourceManager.GetString("MPsHeaderText2", resourceCulture);
@@ -2328,6 +2310,30 @@ namespace RightToAskClient.Resx {
         internal static string LegislativeCouncilText {
             get {
                 return ResourceManager.GetString("LegislativeCouncilText", resourceCulture);
+            }
+        }
+        
+        internal static string FindMyElectorateTitle {
+            get {
+                return ResourceManager.GetString("FindMyElectorateTitle", resourceCulture);
+            }
+        }
+        
+        internal static string FindMyElectorateContentPartOne {
+            get {
+                return ResourceManager.GetString("FindMyElectorateContentPartOne", resourceCulture);
+            }
+        }
+        
+        internal static string FindMyElectorateContentPartTwo {
+            get {
+                return ResourceManager.GetString("FindMyElectorateContentPartTwo", resourceCulture);
+            }
+        }
+        
+        internal static string MapPlaceholderText {
+            get {
+                return ResourceManager.GetString("MapPlaceholderText", resourceCulture);
             }
         }
     }
