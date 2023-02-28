@@ -75,6 +75,9 @@
             <Color x:Key="UrlLightBlue">#A5BBFC</Color>
             <Color x:Key="BackgroundDarkGray">#262626</Color>
             <Color x:Key="MediumGray">#B3B3B3</Color>
+            
+            <Color x:Key="UrlTextColorLightMode">#0C1C9A</Color>
+            <Color x:Key="UrlTextColorDarkMode">#A5BBFC</Color>
             <!--Generic Styles-->
             <Style TargetType="Label">
                 <Setter Property="TextColor"

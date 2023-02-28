@@ -68,7 +68,7 @@ namespace RightToAskClient.Views
         }
         private void UnHighlightText(Button btn, BoxView bv)
         {
-            btn.TextColor = (Color)Application.Current.Resources["PopupTextColor"];
+            btn.TextColor = (Color)Application.Current.Resources["MediumDarkShadeOfGray"];
             bv.Color = Color.Transparent;
         }
     }
