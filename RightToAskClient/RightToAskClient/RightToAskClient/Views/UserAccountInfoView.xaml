@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:models="clr-namespace:RightToAskClient.Models"
@@ -10,48 +11,65 @@
         <StackLayout>
             <Grid RowDefinitions="Auto, Auto, Auto"
                   ColumnDefinitions="*, 2*">
-            <Label Text="{xct:Translate UserNameHeaderText}" Style="{StaticResource Header2}" />
+                <Label Text="{xct:Translate UserNameHeaderText}" 
+                       Style="{StaticResource Header2}" />
                 <!-- Styled in code-behind according to whether this is permitted edits. -->
-                <Entry x:Name="UIDEntry" Grid.Column="1" Text="{Binding UserId}" Placeholder="{xct:Translate UIDPlaceholderText}" />
-            <Label Grid.Row="1" Text="{xct:Translate DisplayNameHeaderText}" Style="{StaticResource Header2}" />
-            <Entry Grid.Row="1" Grid.Column="1" Text="{Binding DisplayName}"
-                   Placeholder="{xct:Translate DisplayNamePlaceholderText}"
-                   Style="{StaticResource NormalEntry}" />
-            <Label Grid.Row="2" Text="{xct:Translate StateHeaderText}" Style="{StaticResource Header2}" />
-            <Picker Grid.Row="2" Grid.Column="1" Title="{Binding State,  StringFormat='{0:F0}'}"
-                    ItemsSource="{Binding StateList}"
-                    Style="{StaticResource LeftPicker}"
-                    SelectedIndex="{Binding SelectedStateAsIndex}" />
+                <Entry Grid.Column="1"
+                       x:Name="UIDEntry" 
+                       Text="{Binding UserId}"
+                       Placeholder="{xct:Translate UIDPlaceholderText}"
+                       IsReadOnly="True" />
+                <Label Grid.Row="1" 
+                       Text="{xct:Translate DisplayNameHeaderText}" 
+                       Style="{StaticResource Header2}" />
+                <Entry Grid.Row="1" Grid.Column="1" 
+                       Text="{Binding DisplayName}"
+                       Placeholder="{xct:Translate DisplayNamePlaceholderText}"
+                       Style="{StaticResource NormalEntry}"/>
+                <Label Grid.Row="2" 
+                       Text="{xct:Translate StateHeaderText}" 
+                       Style="{StaticResource Header2}" />
+                <Picker Grid.Row="2" Grid.Column="1" 
+                        Title="{Binding State,  StringFormat='{0:F0}'}"
+                        ItemsSource="{Binding StateList}"
+                        Style="{StaticResource LeftPicker}"
+                        SelectedIndex="{Binding SelectedStateAsIndex}" />
             </Grid>
             <Label Text="{Binding BadgesSummary, StringFormat='Registered MP account for {0}'}"
-                   IsVisible="{Binding IsVerifiedMPAccount}"  Style="{StaticResource NormalText}" />
+                   IsVisible="{Binding IsVerifiedMPAccount}" 
+                   Style="{StaticResource NormalText}" />
             <!-- <Label Text="Verified staffer" IsVisible="{Binding IsVerifiedStafferAccount}" Style="{StaticResource NormalText}" /> -->
-            <Label Text="{xct:Translate EditableElectoratesHeaderText}" Style="{StaticResource Header2}"/>
+            <Label Text="{xct:Translate EditableElectoratesHeaderText}" 
+                   Style="{StaticResource Header2}" />
             <!-- The height request is a kludge because otherwise the CollectionView takes up all the rest of the page -->
             <!-- rather than resizing to fit just the number of elements it has -->
             <!-- TODO Change to stacklayout as in QuestionDetailPage -->
-            <CollectionView ItemsSource="{Binding Electorates}" HeightRequest="280" 
-                            SelectionMode="Single" SelectedItem="{Binding SelectedElectorateWithChamber}">
+            <CollectionView ItemsSource="{Binding Electorates}" HeightRequest="280"
+                            SelectionMode="Single" 
+                            SelectedItem="{Binding SelectedElectorateWithChamber}">
                 <!-- <CollectionView ItemsSource="{Binding Registration.electorates}" SelectionMode="Single" SelectedItem="{Binding SelectedElectorateWithChamber}">-->
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:ElectorateWithChamber">
                         <StackLayout HorizontalOptions="StartAndExpand">
-                            <Label Text="{Binding chamber}" Style="{StaticResource ClickableHeader}"/>
-                            <Label Text="{Binding region}" Style="{StaticResource NormalText}" />
+                            <Label Text="{Binding chamber}" 
+                                   Style="{StaticResource ClickableHeader}" />
+                            <Label Text="{Binding region}" 
+                                   Style="{StaticResource NormalText}" />
                             <!-- <Label Text="{Binding chamber}" Style="{StaticResource ListViewTextVertCenter}"/>
                             <Label Text="{Binding region}" Style="{StaticResource ListViewTextVertCenter}" /> -->
-                <VisualStateManager.VisualStateGroups>
-                    <VisualStateGroup Name="CommonStates">
-                        <VisualState Name="Normal" />
-                        <VisualState Name="Selected">
-                            <VisualState.Setters>
-                                <Setter Property="Background" Value="{AppThemeBinding  Light={StaticResource WindowBackgroundColor}, 
-                                Dark={StaticResource WindowBackgroundColorDark}}"/>
-                            </VisualState.Setters>
-                        </VisualState>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup Name="CommonStates">
+                                    <VisualState Name="Normal" />
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="Background"
+                                                    Value="{AppThemeBinding  Light={StaticResource WindowBackgroundColor}, 
+                                Dark={StaticResource WindowBackgroundColorDark}}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
 
-                    </VisualStateGroup>
-                </VisualStateManager.VisualStateGroups>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
                         </StackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
