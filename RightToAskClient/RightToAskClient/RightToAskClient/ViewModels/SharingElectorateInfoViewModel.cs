@@ -336,6 +336,7 @@ namespace RightToAskClient.ViewModels
             // filter value according to private information
             var httpResponse = await RTAClient.UpdateExistingUser(new ServerUser(IndividualParticipant.getInstance().ProfileData.RegistrationInfo), _registration.uid);
             var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
+            ReportLabelText = httpValidation.errorMessage;
             if (httpValidation.isValid)
             {
                 var navigation = Application.Current.MainPage.Navigation;
