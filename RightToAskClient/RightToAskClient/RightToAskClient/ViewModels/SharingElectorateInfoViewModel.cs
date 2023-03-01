@@ -266,7 +266,6 @@ namespace RightToAskClient.ViewModels
             SaveAndFinishCommand = new AsyncCommand(async () =>
             {
                 RegistrationViewModel.SaveRegistrationToPreferences(_registration);
-                Debug.Assert(_registration.registrationStatus == RegistrationStatus.NotRegistered);
 
                 _registration.public_key = ClientSignatureGenerationService.MyPublicKey;
 
