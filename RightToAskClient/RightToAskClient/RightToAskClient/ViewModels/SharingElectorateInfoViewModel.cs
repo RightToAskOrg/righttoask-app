@@ -9,6 +9,7 @@ using RightToAskClient.CryptoUtils;
 using RightToAskClient.Helpers;
 using RightToAskClient.HttpClients;
 using RightToAskClient.Models;
+using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Resx;
 using RightToAskClient.Views.Popups;
 using Xamarin.CommunityToolkit.Extensions;
@@ -265,7 +266,6 @@ namespace RightToAskClient.ViewModels
             SaveAndFinishCommand = new AsyncCommand(async () =>
             {
                 RegistrationViewModel.SaveRegistrationToPreferences(_registration);
-                Debug.Assert(_registration.registrationStatus == RegistrationStatus.NotRegistered);
 
                 _registration.public_key = ClientSignatureGenerationService.MyPublicKey;
 
@@ -273,7 +273,10 @@ namespace RightToAskClient.ViewModels
                 var regTest = _registration.IsValid();
                 if (regTest.Success)
                 {
-                    await SendNewUserToServer();
+                    if (!_registration.IsRegistered)
+                        await SendNewUserToServer();
+                    else
+                        await SendUpdateUserToServer();
                 }
                 // If registration info is invalid, prompt the user to fix it up.
                 else
@@ -323,6 +326,21 @@ namespace RightToAskClient.ViewModels
                 // code of conduct view
                 navigation.RemovePage(navigation.NavigationStack[navigation.NavigationStack.Count - 2]);
                 navigation.RemovePage(navigation.NavigationStack[navigation.NavigationStack.Count - 2]);
+                navigation.RemovePage(navigation.NavigationStack[navigation.NavigationStack.Count - 2]);
+                await navigation.PopAsync();
+            }
+        }
+        
+        private async Task SendUpdateUserToServer()
+        {
+            // filter value according to private information
+            var httpResponse = await RTAClient.UpdateExistingUser(new ServerUser(IndividualParticipant.getInstance().ProfileData.RegistrationInfo), _registration.uid);
+            var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
+            ReportLabelText = httpValidation.errorMessage;
+            if (httpValidation.isValid)
+            {
+                var navigation = Application.Current.MainPage.Navigation;
+
                 navigation.RemovePage(navigation.NavigationStack[navigation.NavigationStack.Count - 2]);
                 await navigation.PopAsync();
             }

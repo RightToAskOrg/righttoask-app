@@ -62,8 +62,11 @@
                         effects:SemanticEffect.Description="{effects:Translate SaveAndFinish}"
                         Style="{StaticResource NormalButton}"
                         IsEnabled="{Binding AbleToFinish}" />
+            <Label Text="{Binding ReportLabelText}" Style="{StaticResource ErrorLabel}"
+                AutomationProperties.IsInAccessibleTree="True"
+                AutomationProperties.Name="Username input error"
+                AutomationProperties.HelpText="{Binding ReportLabelText}" />
             </StackLayout>
-
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

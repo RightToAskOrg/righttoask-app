@@ -44,19 +44,18 @@
             <!-- The height request is a kludge because otherwise the CollectionView takes up all the rest of the page -->
             <!-- rather than resizing to fit just the number of elements it has -->
             <!-- TODO Change to stacklayout as in QuestionDetailPage -->
-            <CollectionView ItemsSource="{Binding Electorates}" HeightRequest="280"
-                            SelectionMode="Single" 
+            <CollectionView ItemsSource="{Binding Electorates}"
+                            HeightRequest="280"
+                            SelectionMode="Single"
                             SelectedItem="{Binding SelectedElectorateWithChamber}">
                 <!-- <CollectionView ItemsSource="{Binding Registration.electorates}" SelectionMode="Single" SelectedItem="{Binding SelectedElectorateWithChamber}">-->
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:ElectorateWithChamber">
                         <StackLayout HorizontalOptions="StartAndExpand">
-                            <Label Text="{Binding chamber}" 
+                            <Label Text="{Binding chamber}"
                                    Style="{StaticResource ClickableHeader}" />
-                            <Label Text="{Binding region}" 
+                            <Label Text="{Binding region}"
                                    Style="{StaticResource NormalText}" />
-                            <!-- <Label Text="{Binding chamber}" Style="{StaticResource ListViewTextVertCenter}"/>
-                            <Label Text="{Binding region}" Style="{StaticResource ListViewTextVertCenter}" /> -->
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup Name="CommonStates">
                                     <VisualState Name="Normal" />
@@ -64,10 +63,9 @@
                                         <VisualState.Setters>
                                             <Setter Property="Background"
                                                     Value="{AppThemeBinding  Light={StaticResource WindowBackgroundColor}, 
-                                Dark={StaticResource WindowBackgroundColorDark}}" />
+                                                    Dark={StaticResource WindowBackgroundColorDark}}" />
                                         </VisualState.Setters>
                                     </VisualState>
-
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
                         </StackLayout>

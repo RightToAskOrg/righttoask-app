@@ -15,7 +15,7 @@ namespace RightToAskClient.Views
         public RegisterAccountPage(Registration registration)
         {
             InitializeComponent();
-            BindingContext = new RegistrationViewModel(registration);
+            BindingContext = new RegistrationViewModel();
             var reg = BindingContext as RegistrationViewModel;
             reg.ReinitRegistrationUpdates();
         }
