@@ -568,7 +568,7 @@
     <value>Username</value>
   </data>
   <data name="UpdateAccountButtonText" xml:space="preserve">
-    <value>Update Account</value>
+    <value>Update Name</value>
   </data>
   <data name="ReportSubmitHint" xml:space="preserve">
     <value>Submits report</value>
