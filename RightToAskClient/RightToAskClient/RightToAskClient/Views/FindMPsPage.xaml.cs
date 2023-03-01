@@ -30,7 +30,7 @@ namespace RightToAskClient.Views
         {
             InitializeComponent();
             _doneButtonText = AppResources.SaveButtonText;
-            
+
             HighlightText(SelectEleButton, SelectEleButtonUnderLine);
             UnHighlightText(TypeAddButton, TypeAddButtonUnderLine);
         }
@@ -70,6 +70,11 @@ namespace RightToAskClient.Views
         {
             btn.TextColor = (Color)Application.Current.Resources["MediumDarkShadeOfGray"];
             bv.Color = Color.Transparent;
+        }
+
+        private void SelectEleButton_OnSizeChanged(object sender, EventArgs e)
+        {
+            MapView.Margin = new Thickness(0, SelectEleButton.Height / 2);
         }
     }
 }
