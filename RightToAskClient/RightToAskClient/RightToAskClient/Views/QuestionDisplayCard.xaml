@@ -91,6 +91,11 @@
                                     </VisualStateGroup>
                                 </VisualStateManager.VisualStateGroups>
                             </controls:ColorSingleToggleButton>
+                            <Label Text="{Binding DownVotes, StringFormat='{0:F0}'}"
+                                   Style="{StaticResource QuestionButtonText}" 
+                                   Margin="0" 
+                                   Padding="0" 
+                                   TextColor="{AppThemeBinding Light={StaticResource TextColorGray}, Dark=White}"/>
                             <!-- <Label Text="{xct:Translate UpvoteDisplayCardButtonText}" -->
                             <!--        Style="{StaticResource QuestionButtonText}"  -->
                             <!--        TextColor="{AppThemeBinding Light={StaticResource TextColorGray}, Dark=White}"/> -->
