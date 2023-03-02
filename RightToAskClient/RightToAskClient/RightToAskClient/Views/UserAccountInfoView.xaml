@@ -26,14 +26,6 @@
                        Text="{Binding DisplayName}"
                        Placeholder="{xct:Translate DisplayNamePlaceholderText}"
                        Style="{StaticResource NormalEntry}"/>
-                <Label Grid.Row="2" 
-                       Text="{xct:Translate StateHeaderText}" 
-                       Style="{StaticResource Header2}" />
-                <Picker Grid.Row="2" Grid.Column="1" 
-                        Title="{Binding State,  StringFormat='{0:F0}'}"
-                        ItemsSource="{Binding StateList}"
-                        Style="{StaticResource LeftPicker}"
-                        SelectedIndex="{Binding SelectedStateAsIndex}" />
             </Grid>
             <Label Text="{Binding BadgesSummary, StringFormat='Registered MP account for {0}'}"
                    IsVisible="{Binding IsVerifiedMPAccount}" 
