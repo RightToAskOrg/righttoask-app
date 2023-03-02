@@ -265,8 +265,6 @@ namespace RightToAskClient.ViewModels
 
             SaveAndFinishCommand = new AsyncCommand(async () =>
             {
-                RegistrationViewModel.SaveRegistrationToPreferences(_registration);
-
                 _registration.public_key = ClientSignatureGenerationService.MyPublicKey;
 
                 // Check that the registration info we're about to send to the server is valid.
@@ -278,6 +276,7 @@ namespace RightToAskClient.ViewModels
                     else
                         await SendUpdateUserToServer();
                 }
+                
                 // If registration info is invalid, prompt the user to fix it up.
                 else
                 {
@@ -305,6 +304,7 @@ namespace RightToAskClient.ViewModels
             ReportLabelText = httpValidation.errorMessage;
             if (httpValidation.isValid)
             {
+                RegistrationViewModel.SaveRegistrationToPreferences(_registration);
                 _registration.registrationStatus = RegistrationStatus.Registered;
                 XamarinPreferences.shared.Set(Constants.IsRegistered, _registration.IsRegistered);
 
@@ -339,6 +339,7 @@ namespace RightToAskClient.ViewModels
             ReportLabelText = httpValidation.errorMessage;
             if (httpValidation.isValid)
             {
+                RegistrationViewModel.SaveRegistrationToPreferences(_registration);
                 var navigation = Application.Current.MainPage.Navigation;
 
                 navigation.RemovePage(navigation.NavigationStack[navigation.NavigationStack.Count - 2]);
