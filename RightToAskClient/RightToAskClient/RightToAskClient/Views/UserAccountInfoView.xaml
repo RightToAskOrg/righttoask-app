@@ -5,28 +5,35 @@
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:models="clr-namespace:RightToAskClient.Models"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
+             xmlns:controls="clr-namespace:RightToAskClient.Views.Controls;assembly=RightToAskClient"
              x:Class="RightToAskClient.Views.UserAccountInfoView"
              x:DataType="vm:RegistrationViewModel">
     <ContentView.Content>
-        <StackLayout>
-            <Grid RowDefinitions="Auto, Auto, Auto"
-                  ColumnDefinitions="*, 2*">
+        <StackLayout Orientation="Vertical"
+                     VerticalOptions="Fill"
+                     HorizontalOptions="Fill">
+                <Label Text= "{xct:Translate DisplayNameHeaderText}"
+                       Style="{StaticResource PickerTitle}"/>
+                <controls:BorderlessEntry
+                    Text="{Binding DisplayName}"
+                    Placeholder="{xct:Translate DisplayNamePlaceholderText}"
+                    Style="{StaticResource TextInput}"/>
+                <BoxView
+                    Margin="0,8,0,0"
+                    Style="{StaticResource EntryBorder}" />
+                <!-- <Button Text="{xct:Translate UpdateAccountButtonText}" Command="{Binding UpdateAccountButtonCommand}" -->
+                <!--         Style="{StaticResource DoneButton}" IsVisible="{Binding ShowUpdateAccountButton}" /> -->
                 <Label Text="{xct:Translate UserNameHeaderText}" 
-                       Style="{StaticResource Header2}" />
-                <!-- Styled in code-behind according to whether this is permitted edits. -->
-                <Entry Grid.Column="1"
-                       x:Name="UIDEntry" 
-                       Text="{Binding UserId}"
-                       Placeholder="{xct:Translate UIDPlaceholderText}"
-                       IsReadOnly="True" />
-                <Label Grid.Row="1" 
-                       Text="{xct:Translate DisplayNameHeaderText}" 
-                       Style="{StaticResource Header2}" />
-                <Entry Grid.Row="1" Grid.Column="1" 
-                       Text="{Binding DisplayName}"
-                       Placeholder="{xct:Translate DisplayNamePlaceholderText}"
-                       Style="{StaticResource NormalEntry}"/>
-            </Grid>
+                       Style="{StaticResource PickerTitle}" />
+                <controls:BorderlessEntry
+                    x:Name="UIDEntry"
+                    Text="{Binding UserId}"
+                    Placeholder="{xct:Translate UIDPlaceholderText}"
+                    Style="{StaticResource TextInputReadOnly}"
+                    IsReadOnly="True"/>
+                <BoxView
+                    Margin="0,8,0,0"
+                    Style="{StaticResource EntryBorder}" />
             <Label Text="{Binding BadgesSummary, StringFormat='Registered MP account for {0}'}"
                    IsVisible="{Binding IsVerifiedMPAccount}" 
                    Style="{StaticResource NormalText}" />

@@ -201,7 +201,11 @@
             </Style>
             <Style x:Key="DoneButton" TargetType="Button" BasedOn="{StaticResource GreenButton}"
                    ApplyToDerivedTypes="True">
-                <Setter Property="BackgroundColor" Value="{StaticResource DarkButtonColor}" />
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="TextColor" 
+                        Value="{AppThemeBinding Light={StaticResource DarkPurple}, Dark={StaticResource ClickableLinkColorDark}}" />
+                <Setter Property="BorderColor"
+                        Value="{AppThemeBinding Light={StaticResource DarkPurple}, Dark={StaticResource ClickableLinkColorDark}}" />
                 <Setter Property="Text" Value="{xct:Translate DoneButtonText}" />
                 <Setter Property="HorizontalOptions" Value="End" />
             </Style>
@@ -916,6 +920,11 @@
             </Style>
             <Style x:Key="TextInput" TargetType="Entry">
                 <Setter Property="FontSize" Value="Medium" />
+            </Style>
+            <Style x:Key="TextInputReadOnly" TargetType="Entry">
+                <Setter Property="FontSize" Value="Medium" />
+                <Setter Property="TextColor"
+                        Value="{AppThemeBinding Light={StaticResource MediumDarkShadeOfGray}, Dark={StaticResource MediumGray}}" />
             </Style>
         </ResourceDictionary>
     </Application.Resources>

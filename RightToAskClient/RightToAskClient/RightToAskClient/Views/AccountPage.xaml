@@ -24,8 +24,7 @@
             <StackLayout Margin="20" VerticalOptions="Start">
                 <views:UserAccountInfoView />
                 <Label Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}" />
-                <Button Text="{xct:Translate UpdateAccountButtonText}" Command="{Binding UpdateAccountButtonCommand}"
-                        Style="{StaticResource DoneButton}" IsVisible="{Binding ShowUpdateAccountButton}" />
+                
                 <StackLayout Orientation="Vertical">
                     <!-- TODO Unfortunately I think this is getting drawn, then made invisible, hence creating a lot of whitespace -->
                     <StackLayout Orientation="Vertical" VerticalOptions="Center">
