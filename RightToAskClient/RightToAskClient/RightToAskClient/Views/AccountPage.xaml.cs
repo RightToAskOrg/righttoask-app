@@ -24,6 +24,7 @@ namespace RightToAskClient.Views
         protected override void OnAppearing()
         {
             IndividualParticipant.getInstance().Init();
+            AccountPageExchanger.Registration = IndividualParticipant.getInstance().ProfileData.RegistrationInfo;
             if (AccountPageExchanger.Registration != null)
             {
                 BindingContext = new RegistrationViewModel(AccountPageExchanger.Registration);
