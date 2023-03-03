@@ -326,6 +326,7 @@ namespace RightToAskClient.ViewModels
                     PopupLabelText = AppResources.EditAccountPopupText;
                     Title = AppResources.EditYourAccountTitle;
                     ShowTheRightButtonsForOwnAccount();
+                    SetElectorate();
                     break;
                 case RegistrationStatus.NotRegistered:
                     IsNotRegistered = true;
@@ -346,6 +347,37 @@ namespace RightToAskClient.ViewModels
             _registrationUpdates.uid = _registration.uid;
             _oldElectorates = _registration.Electorates;
             _selectableMPList = new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
+        }
+        
+        private bool _isStatePublic;
+
+        public bool IsStatePublic
+        {
+            get => _isStatePublic;
+            set => SetProperty(ref _isStatePublic, value);
+        }
+        
+        private bool _isFederalElectoratePublic;
+
+        public bool IsFederalElectoratePublic
+        {
+            get => _isFederalElectoratePublic;
+            set => SetProperty(ref _isFederalElectoratePublic, value);
+        }
+        
+        private bool _isStateElectoratePublic;
+
+        public bool IsStateElectoratePublic
+        {
+            get => _isStateElectoratePublic;
+            set => SetProperty(ref _isStateElectoratePublic, value);
+        }
+        
+        private void SetElectorate()
+        {
+            var IsStatePublic = XamarinPreferences.shared.Get("isStatePublic", false);
+            var IsFederalElectoratePublic = XamarinPreferences.shared.Get("isStatePublic", false);
+            var IsStateElectoratePublic = XamarinPreferences.shared.Get("isStatePublic", false);
         }
 
         // Parameterless constructor sets defaults assuming it's a new registration for this app user, i.e ThisParticipant.

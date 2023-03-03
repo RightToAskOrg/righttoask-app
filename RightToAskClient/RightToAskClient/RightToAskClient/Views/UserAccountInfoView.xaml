@@ -5,9 +5,12 @@
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:models="clr-namespace:RightToAskClient.Models"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
+             xmlns:controls="clr-namespace:RightToAskClient.Views.Controls;assembly=RightToAskClient"
+             xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
              x:Class="RightToAskClient.Views.UserAccountInfoView"
              x:DataType="vm:RegistrationViewModel">
     <ContentView.Content>
+        <ScrollView>
         <StackLayout Orientation="Vertical">
                 <Label Text="{xct:Translate UserNameHeaderText}" 
                        Style="{StaticResource SmallGreyHeader}" />
@@ -22,7 +25,7 @@
                 <Label
                        Text="{xct:Translate DisplayNameHeaderText}" 
                        Style="{StaticResource SmallGreyHeader}" />
-                <Entry 
+                <controls:BorderlessEntry
                      Text="{Binding DisplayName}"
                      TextColor="{AppThemeBinding Light=Black, Dark=White}"
                      Placeholder="{xct:Translate DisplayNamePlaceholderText}"/>
@@ -35,12 +38,17 @@
                         Style="{StaticResource OutlineButton}" HorizontalOptions="End" 
                         IsVisible="{Binding ShowUpdateAccountButton}" />
                 
-            <Label Text="{Binding BadgesSummary, StringFormat='Registered MP account for {0}'}"
-                   IsVisible="{Binding IsVerifiedMPAccount}" 
-                   Style="{StaticResource NormalText}" />
+                <Label Text="{Binding BadgesSummary, StringFormat='Registered MP account for {0}'}"
+                       IsVisible="{Binding IsVerifiedMPAccount}" 
+                       Style="{StaticResource NormalText}" />
             <!-- <Label Text="Verified staffer" IsVisible="{Binding IsVerifiedStafferAccount}" Style="{StaticResource NormalText}" /> -->
-            <Label Text="{xct:Translate EditableElectoratesHeaderText}" 
-                   Style="{StaticResource Header2}" />
+            <FlexLayout Direction="Row" HorizontalOptions="Fill" JustifyContent="SpaceBetween" AlignItems="End">
+                <Label Text="{xct:Translate MyElectoratesHeaderText}" 
+                       Style="{StaticResource Header2}" VerticalOptions="Center"/>
+                <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.account_edit.png}" 
+                             BackgroundColor="Transparent" WidthRequest="20" HeightRequest="20" HorizontalOptions="End"/>
+            </FlexLayout>
+                <BoxView Style="{StaticResource ButtonSeparator}"/>
             <!-- The height request is a kludge because otherwise the CollectionView takes up all the rest of the page -->
             <!-- rather than resizing to fit just the number of elements it has -->
             <!-- TODO Change to stacklayout as in QuestionDetailPage -->
@@ -73,5 +81,6 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </StackLayout>
+        </ScrollView>
     </ContentView.Content>
 </ContentView>

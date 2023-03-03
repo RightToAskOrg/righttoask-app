@@ -297,7 +297,7 @@
             <Style x:Key="SmallGreyText" TargetType="Label" ApplyToDerivedTypes="True">
                 <Setter Property="TextColor"
                         Value="{AppThemeBinding Light={StaticResource MediumDarkShadeOfGray}, Dark={StaticResource MediumLightShadeOfGray}}" />
-                <Setter Property="FontSize" Value="Small"/>
+                <Setter Property="FontSize" Value="Medium"/>
             </Style>
             <Style x:Key="EntryBorderSelected" TargetType="BoxView" ApplyToDerivedTypes="True">
                 <Setter Property="HeightRequest" Value="1"></Setter>

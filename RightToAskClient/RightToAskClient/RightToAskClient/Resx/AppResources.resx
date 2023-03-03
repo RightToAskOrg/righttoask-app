@@ -228,6 +228,9 @@
   <data name="ElectoratesHeaderText" xml:space="preserve">
     <value>Electorates</value>
   </data>
+  <data name="MyElectoratesHeaderText" xml:space="preserve">
+    <value>My Electorate Info</value>
+  </data>
   <data name="ElectoratesKnownHeaderText" xml:space="preserve">
     <value>Select</value>
   </data>

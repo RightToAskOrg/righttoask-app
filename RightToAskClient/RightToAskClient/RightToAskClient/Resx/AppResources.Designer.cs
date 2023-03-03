@@ -267,6 +267,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string MyElectoratesHeaderText {
+            get {
+                return ResourceManager.GetString("MyElectoratesHeaderText", resourceCulture);
+            }
+        }
+        
         internal static string ElectoratesKnownHeaderText {
             get {
                 return ResourceManager.GetString("ElectoratesKnownHeaderText", resourceCulture);
