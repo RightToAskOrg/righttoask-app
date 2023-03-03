@@ -45,7 +45,7 @@ namespace RightToAskClient.Views
 
         private void UIDEntry_OnUnfocused(object sender, FocusEventArgs e)
         {
-            UsernameLabel.Style = Application.Current.Resources["PickerTitle"] as Style;
+            UsernameLabel.Style = Application.Current.Resources["SmallGreyHeader"] as Style;
             UsernameEntryBorder.Style = Application.Current.Resources["EntryBorder"] as Style;
             var viewModel = BindingContext as RegistrationViewModel;
             viewModel?.ValidateUsername();
@@ -53,7 +53,7 @@ namespace RightToAskClient.Views
 
         private void NameEntry_OnUnfocused(object sender, FocusEventArgs e)
         {
-            NameLabel.Style = Application.Current.Resources["PickerTitle"] as Style;
+            NameLabel.Style = Application.Current.Resources["SmallGreyHeader"] as Style;
             NameEntryBorder.Style = Application.Current.Resources["EntryBorder"] as Style;
             var viewModel = BindingContext as RegistrationViewModel;
             viewModel?.ValidateName();
