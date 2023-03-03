@@ -8,25 +8,33 @@
              x:Class="RightToAskClient.Views.UserAccountInfoView"
              x:DataType="vm:RegistrationViewModel">
     <ContentView.Content>
-        <StackLayout>
-            <Grid RowDefinitions="Auto, Auto, Auto"
-                  ColumnDefinitions="*, 2*">
+        <StackLayout Orientation="Vertical">
                 <Label Text="{xct:Translate UserNameHeaderText}" 
-                       Style="{StaticResource Header2}" />
+                       Style="{StaticResource SmallGreyHeader}" />
                 <!-- Styled in code-behind according to whether this is permitted edits. -->
-                <Entry Grid.Column="1"
-                       x:Name="UIDEntry" 
+                <!-- username -->
+                <Label 
                        Text="{Binding UserId}"
-                       Placeholder="{xct:Translate UIDPlaceholderText}"
-                       IsReadOnly="True" />
-                <Label Grid.Row="1" 
+                       Style="{StaticResource SmallGreyText}" />
+                <BoxView Style="{StaticResource ButtonSeparator}"/>
+                
+                <!-- name -->
+                <Label
                        Text="{xct:Translate DisplayNameHeaderText}" 
-                       Style="{StaticResource Header2}" />
-                <Entry Grid.Row="1" Grid.Column="1" 
-                       Text="{Binding DisplayName}"
-                       Placeholder="{xct:Translate DisplayNamePlaceholderText}"
-                       Style="{StaticResource NormalEntry}"/>
-            </Grid>
+                       Style="{StaticResource SmallGreyHeader}" />
+                <Entry 
+                     Text="{Binding DisplayName}"
+                     TextColor="{AppThemeBinding Light=Black, Dark=White}"
+                     Placeholder="{xct:Translate DisplayNamePlaceholderText}"/>
+                
+                <BoxView Style="{StaticResource ButtonSeparator}"/>
+                
+                <!-- update button -->
+                <Label Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}" />
+                <Button Text="{xct:Translate UpdateAccountButtonText}" Command="{Binding UpdateAccountButtonCommand}"
+                        Style="{StaticResource OutlineButton}" HorizontalOptions="End" 
+                        IsVisible="{Binding ShowUpdateAccountButton}" />
+                
             <Label Text="{Binding BadgesSummary, StringFormat='Registered MP account for {0}'}"
                    IsVisible="{Binding IsVerifiedMPAccount}" 
                    Style="{StaticResource NormalText}" />
