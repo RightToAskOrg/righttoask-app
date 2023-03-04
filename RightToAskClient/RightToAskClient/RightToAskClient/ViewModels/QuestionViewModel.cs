@@ -50,18 +50,20 @@ namespace RightToAskClient.ViewModels
         // Convenient views of things stored in the Question.
         public List<Answer> QuestionAnswers => Question.Answers;
 
-        public string QuestionAnswerers =>  
+        public string QuestionAnswerers =>
             Extensions.JoinFilter(", ",
-                string.Join(", ",Question.Filters.SelectedAnsweringMPsNotMine.Select(mp => mp.ShortestName)),
-                string.Join(", ",Question.Filters.SelectedAnsweringMPsMine.Select(mp => mp.ShortestName)),
-                string.Join(", ",Question.Filters.SelectedAuthorities.Select(a => a.ShortestName)));
+                string.Join(", ", Question.Filters.SelectedAnsweringMPsNotMine.Select(mp => mp.ShortestName)),
+                string.Join(", ", Question.Filters.SelectedAnsweringMPsMine.Select(mp => mp.ShortestName)),
+                string.Join(", ", Question.Filters.SelectedAuthorities.Select(a => a.ShortestName)))
+                .NullToEmptyMessage(AppResources.Blank);
 
         // The MPs or committee who are meant to ask the question
         public string QuestionAskers =>
             Extensions.JoinFilter(", ",
                 string.Join(", ", Question.Filters.SelectedAskingMPsNotMine.Select(mp => mp.ShortestName)), 
                 string.Join(", ", Question.Filters.SelectedAskingMPsMine.Select(mp => mp.ShortestName)), 
-                string.Join(",", Question.Filters.SelectedCommittees.Select(com => com.ShortestName)));
+                string.Join(",", Question.Filters.SelectedCommittees.Select(com => com.ShortestName)))
+                .NullToEmptyMessage(AppResources.Blank);
 
         private string? _newHansardLink; 
         public string NewHansardLink 

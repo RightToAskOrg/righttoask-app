@@ -157,8 +157,8 @@
 				    <Editor x:Name="LinkToAnswerEditor" Placeholder="{xct:Translate LinkPlaceholderText}" Completed="Link_Entered"
 				            Style="{StaticResource NormalEditor}" />
 				    <!-- Answers, visible if there are any -->
-				    <Label Text="{xct:Translate AnswerHeaderText}" Style="{StaticResource Header2}"/>
-				    <StackLayout BindableLayout.ItemsSource="{Binding QuestionAnswers}">
+				    <Label x:Name="AnswerLabel" Text="{xct:Translate AnswerHeaderText}" Style="{StaticResource Header2}"/>
+				    <StackLayout x:Name="ExisitingAnswers" BindableLayout.ItemsSource="{Binding QuestionAnswers}">
 					    <BindableLayout.ItemTemplate>
 						    <DataTemplate x:DataType="models:Answer">
 							    <views:AnswerDisplayCard />

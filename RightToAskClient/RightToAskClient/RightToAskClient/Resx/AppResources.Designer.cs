@@ -87,6 +87,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string Blank {
+            get {
+                return ResourceManager.GetString("Blank", resourceCulture);
+            }
+        }
+        
         internal static string AnswerQuestionHeaderText {
             get {
                 return ResourceManager.GetString("AnswerQuestionHeaderText", resourceCulture);

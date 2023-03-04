@@ -73,17 +73,22 @@ namespace RightToAskClient.Views
                 QuestionTextEditor.Style = disabledEditorStyle;
             }
 
-            BackgroundEditor.Style =
-                questionVM.CanEditBackground ? normalEditorStyle : disabledEditorStyle;
+            // You can add background to your own question.
+            var backgroundBlank = string.IsNullOrWhiteSpace(questionVM.Question.Background);
+            var backgroundPermission = questionVM.CanEditBackground;
+            BackgroundEditor.Style = backgroundPermission && backgroundBlank ? normalEditorStyle : disabledEditorStyle;
             // Don't bother displaying it if it has no content and you can't edit it.
-            BackgroundEditor.IsVisible = questionVM.CanEditBackground ||
-                                         !string.IsNullOrWhiteSpace(questionVM.Question.Background);
+            BackgroundEditor.IsVisible = backgroundPermission || !backgroundBlank;
             BackgroundLabel.IsVisible = BackgroundEditor.IsVisible;
 
-            // Only MPs can answer questions.
+            // Show the existing answers if there are any.
+            // Only MPs can answer questions, so show the answer edit box only to them.
             var isMP = questionVM.IsVerifiedMpAccount;
-            AnswerEditor.Style = isMP ? normalEditorStyle : disabledEditorStyle;
+            AnswerEditor.Style = normalEditorStyle;
             AnswerEditor.IsEnabled = isMP;
+            AnswerEditor.IsVisible = isMP;
+            ExisitingAnswers.IsVisible = questionVM.Question.HasAnswer;
+            AnswerLabel.IsVisible = AnswerEditor.IsVisible || ExisitingAnswers.IsVisible;
         }
 
         private void Answer_Entered(object sender, EventArgs e)

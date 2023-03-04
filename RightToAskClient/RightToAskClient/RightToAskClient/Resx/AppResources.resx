@@ -138,6 +138,9 @@
   <data name="AnswererPermissions" xml:space="preserve">
     <value>Allow other users to add more people to answer the question?</value>
   </data>
+  <data name="Blank" xml:space="preserve">
+    <value>[blank]</value>
+  </data>
   <data name="AnswerQuestionHeaderText" xml:space="preserve">
     <value>Who should answer your question?</value>
   </data>
