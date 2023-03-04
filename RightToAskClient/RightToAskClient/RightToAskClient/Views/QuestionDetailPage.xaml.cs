@@ -73,6 +73,10 @@ namespace RightToAskClient.Views
                 QuestionTextEditor.Style = disabledEditorStyle;
             }
 
+            AnswerPermissionCheckbox.IsVisible = questionVM.IsNewQuestion;
+            AskerPermissionCheckbox.IsVisible = questionVM.IsNewQuestion;
+            QuestionAskerStack.IsVisible = !questionVM.IsNewQuestion || questionVM.HowAnswered == HowAnsweredOptions.InParliament; 
+
             // You can add background to your own question.
             var backgroundBlank = string.IsNullOrWhiteSpace(questionVM.Question.Background);
             var backgroundPermission = questionVM.CanEditBackground;
@@ -81,14 +85,22 @@ namespace RightToAskClient.Views
             BackgroundEditor.IsVisible = backgroundPermission || !backgroundBlank;
             BackgroundLabel.IsVisible = BackgroundEditor.IsVisible;
 
-            // Show the existing answers if there are any.
-            // Only MPs can answer questions, so show the answer edit box only to them.
-            var isMP = questionVM.IsVerifiedMpAccount;
-            AnswerEditor.Style = normalEditorStyle;
-            AnswerEditor.IsEnabled = isMP;
-            AnswerEditor.IsVisible = isMP;
-            ExisitingAnswers.IsVisible = questionVM.Question.HasAnswer;
-            AnswerLabel.IsVisible = AnswerEditor.IsVisible || ExisitingAnswers.IsVisible;
+            if (questionVM.IsNewQuestion)
+            {
+                AnswerEditor.IsVisible = false;
+                ExisitingAnswers.IsVisible = false;
+                AnswerLabel.IsVisible = false;
+            }
+            else
+            {
+                // Show the existing answers if there are any.
+                // Only MPs can answer questions, so show the answer edit box only to them.
+                var isMP = questionVM.IsVerifiedMpAccount;
+                AnswerEditor.IsEnabled = isMP;
+                AnswerEditor.IsVisible = isMP;
+                ExisitingAnswers.IsVisible = questionVM.Question.HasAnswer;
+                AnswerLabel.IsVisible = AnswerEditor.IsVisible || ExisitingAnswers.IsVisible;
+            }
         }
 
         private void Answer_Entered(object sender, EventArgs e)

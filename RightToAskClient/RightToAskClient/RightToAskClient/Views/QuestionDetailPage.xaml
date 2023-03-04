@@ -119,16 +119,16 @@
 				</FlexLayout>
 				<Label Text="{xct:Translate WhoShouldAnswerTitle}" Style="{StaticResource Header2}" />
 				<Label Text="{Binding QuestionAnswerers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
-				<StackLayout Orientation="Horizontal">
+				<StackLayout x:Name="AnswerPermissionCheckbox" Orientation="Horizontal">
 					<Label Text="{xct:Translate AnswererPermissions}" Style="{StaticResource Header2}" />
 					<CheckBox IsChecked="{Binding OthersCanAddQuestionAnswerers}" />
 				</StackLayout>
 				<!--Question Askers/Option B things-->
-				<StackLayout IsVisible="{Binding HowAnswered, Converter = {StaticResource Key=isInParliament}}">
+				<StackLayout x:Name="QuestionAskerStack"> 
 					<Label Text="{xct:Translate OptionBText4}" Style="{StaticResource Header2}" />
 					<Label Text="{Binding QuestionAskers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
 					<!-- Ask the user whether they allow other users to add QuestionAskers. (Y/N) -->
-					<StackLayout Orientation="Horizontal">
+					<StackLayout x:Name="AskerPermissionCheckbox" Orientation="Horizontal">
 						<Label Text="{xct:Translate AskerPermissions}" Style="{StaticResource Header2}" />
 						<CheckBox IsChecked="{Binding OthersCanAddQuestionAskers}" />
 					</StackLayout>
@@ -165,8 +165,7 @@
 						    </DataTemplate>
 					    </BindableLayout.ItemTemplate>
 				    </StackLayout>
-				    <Editor x:Name="AnswerEditor" Placeholder="{xct:Translate AnswerPlaceholderText}" Completed="Answer_Entered" />
-				    <Label Text="{xct:Translate ApproveAnswerText}" />
+				    <Editor x:Name="AnswerEditor" Placeholder="{xct:Translate AnswerPlaceholderText}" Style = "{StaticResource NormalEditor}" Completed="Answer_Entered" />
 			    </StackLayout>
 			    <Button Text="{xct:Translate EditQuestionButtonText}" Style="{StaticResource SaveButton}"
 			            Command="{Binding EditAnswerCommand}" HorizontalOptions="Center" 
