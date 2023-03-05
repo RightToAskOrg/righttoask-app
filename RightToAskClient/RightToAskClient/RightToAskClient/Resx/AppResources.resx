@@ -448,7 +448,7 @@
     <value>Questions</value>
   </data>
   <data name="RegisterMPAccountButtonText" xml:space="preserve">
-    <value>Register as an MP</value>
+    <value>Register as an MP or staffer account</value>
   </data>
   <data name="RegisterOrganisationAccountButtonText" xml:space="preserve">
     <value>Register Organisation Account</value>

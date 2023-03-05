@@ -125,6 +125,35 @@ namespace RightToAskClient.ViewModels
             }
         }
 
+        public List<ElectorateOption> ElectoratesOptions
+        {
+            get
+            {
+                List<ElectorateOption> list = new List<ElectorateOption>();
+                int len = _registration.Electorates.Count;
+                if (len >= 3)
+                {
+                    var isStatePublic = XamarinPreferences.shared.Get("isStatePublic", false);
+                    var isFederalElectoratePublic = XamarinPreferences.shared.Get("isFederalElectoratePublic", false);
+                    var isStateElectoratePublic = XamarinPreferences.shared.Get("isStateElectoratePublic", false);
+                    
+                    ElectorateWithChamber stateChamber = _registration.Electorates[2];
+                    ElectorateOption stateOption = new ElectorateOption("State", stateChamber.region, isStatePublic);
+                    list.Add(stateOption);
+                    
+                    ElectorateWithChamber federalChamber = _registration.Electorates[0];
+                    ElectorateOption federalOption = new ElectorateOption("Federal electorate", federalChamber.region, isFederalElectoratePublic);
+                    list.Add(federalOption);
+                    
+                    ElectorateWithChamber stateElectorateChamber = _registration.Electorates[1];
+                    ElectorateOption stateElectoratelOption = new ElectorateOption("State electorate", stateElectorateChamber.region, isStateElectoratePublic);
+                    list.Add(stateElectoratelOption);
+                }
+                
+                return list;
+            }
+        }
+
         public string BadgesSummary => string.Join(",", _registration.Badges.Select(b => b.ToString()).ToList());
 
         // This is for selecting MPs if you're registering as an MP or staffer account
@@ -326,7 +355,6 @@ namespace RightToAskClient.ViewModels
                     PopupLabelText = AppResources.EditAccountPopupText;
                     Title = AppResources.EditYourAccountTitle;
                     ShowTheRightButtonsForOwnAccount();
-                    SetElectorate();
                     break;
                 case RegistrationStatus.NotRegistered:
                     IsNotRegistered = true;
@@ -348,37 +376,6 @@ namespace RightToAskClient.ViewModels
             _oldElectorates = _registration.Electorates;
             _selectableMPList = new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
         }
-        
-        private bool _isStatePublic;
-
-        public bool IsStatePublic
-        {
-            get => _isStatePublic;
-            set => SetProperty(ref _isStatePublic, value);
-        }
-        
-        private bool _isFederalElectoratePublic;
-
-        public bool IsFederalElectoratePublic
-        {
-            get => _isFederalElectoratePublic;
-            set => SetProperty(ref _isFederalElectoratePublic, value);
-        }
-        
-        private bool _isStateElectoratePublic;
-
-        public bool IsStateElectoratePublic
-        {
-            get => _isStateElectoratePublic;
-            set => SetProperty(ref _isStateElectoratePublic, value);
-        }
-        
-        private void SetElectorate()
-        {
-            var IsStatePublic = XamarinPreferences.shared.Get("isStatePublic", false);
-            var IsFederalElectoratePublic = XamarinPreferences.shared.Get("isStatePublic", false);
-            var IsStateElectoratePublic = XamarinPreferences.shared.Get("isStatePublic", false);
-        }
 
         // Parameterless constructor sets defaults assuming it's a new registration for this app user, i.e ThisParticipant.
         public RegistrationViewModel() : this(false)
@@ -394,6 +391,7 @@ namespace RightToAskClient.ViewModels
         {
             ChooseMPToRegisterButtonCommand = new AsyncCommand(async () => { SelectMPForRegistration(); });
             DoneButtonCommand = new Command(() => { OnSaveButtonClicked(); });
+            EditElectoratesCommand =  new Command(() => { NavigateToFindMPsPage(); });
             UpdateAccountButtonCommand = new Command(() =>
             {
                 SaveRegistrationToPreferences(_registration);
@@ -435,6 +433,7 @@ namespace RightToAskClient.ViewModels
 
         // commands
         public Command DoneButtonCommand { get; }
+        public Command EditElectoratesCommand { get; }
         public Command UpdateAccountButtonCommand { get; }
         public AsyncCommand ChooseMPToRegisterButtonCommand { get; }
         public Command UpdateMPsButtonCommand { get; }

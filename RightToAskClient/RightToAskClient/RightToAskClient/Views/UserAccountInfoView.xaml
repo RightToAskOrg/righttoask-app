@@ -7,6 +7,7 @@
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              xmlns:controls="clr-namespace:RightToAskClient.Views.Controls;assembly=RightToAskClient"
              xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
+             xmlns:views="clr-namespace:RightToAskClient.Views;assembly=RightToAskClient"
              x:Class="RightToAskClient.Views.UserAccountInfoView"
              x:DataType="vm:RegistrationViewModel">
     <ContentView.Content>
@@ -33,37 +34,43 @@
                 <BoxView Style="{StaticResource ButtonSeparator}"/>
                 
                 <!-- update button -->
-                <Label Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}" />
                 <Button Text="{xct:Translate UpdateAccountButtonText}" Command="{Binding UpdateAccountButtonCommand}"
                         Style="{StaticResource OutlineButton}" HorizontalOptions="End" 
-                        IsVisible="{Binding ShowUpdateAccountButton}" />
+                        IsVisible="{Binding ShowUpdateAccountButton}" Margin="0,4,0,0"/>
+                <Label Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}" />
                 
                 <Label Text="{Binding BadgesSummary, StringFormat='Registered MP account for {0}'}"
                        IsVisible="{Binding IsVerifiedMPAccount}" 
                        Style="{StaticResource NormalText}" />
             <!-- <Label Text="Verified staffer" IsVisible="{Binding IsVerifiedStafferAccount}" Style="{StaticResource NormalText}" /> -->
-            <FlexLayout Direction="Row" HorizontalOptions="Fill" JustifyContent="SpaceBetween" AlignItems="End">
+            <FlexLayout Direction="Row" HorizontalOptions="Fill" JustifyContent="SpaceBetween" AlignItems="End" Margin="0,12,0,0">
                 <Label Text="{xct:Translate MyElectoratesHeaderText}" 
-                       Style="{StaticResource Header2}" VerticalOptions="Center"/>
-                <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.account_edit.png}" 
+                       Style="{StaticResource SmallGreyHeader}" VerticalOptions="Center"/>
+                <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.account_edit.png}" Command="{Binding EditElectoratesCommand}"
                              BackgroundColor="Transparent" WidthRequest="20" HeightRequest="20" HorizontalOptions="End"/>
             </FlexLayout>
-                <BoxView Style="{StaticResource ButtonSeparator}"/>
+                <BoxView Style="{StaticResource ButtonSeparator}" Margin="0"/>
             <!-- The height request is a kludge because otherwise the CollectionView takes up all the rest of the page -->
             <!-- rather than resizing to fit just the number of elements it has -->
+            
             <!-- TODO Change to stacklayout as in QuestionDetailPage -->
-            <CollectionView ItemsSource="{Binding Electorates}"
+            <CollectionView ItemsSource="{Binding ElectoratesOptions}"
                             HeightRequest="280"
                             SelectionMode="Single"
                             SelectedItem="{Binding SelectedElectorateWithChamber}">
                 <!-- <CollectionView ItemsSource="{Binding Registration.electorates}" SelectionMode="Single" SelectedItem="{Binding SelectedElectorateWithChamber}">-->
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:ElectorateWithChamber">
+                    <DataTemplate x:DataType="models:ElectorateOption">
                         <StackLayout HorizontalOptions="StartAndExpand">
-                            <Label Text="{Binding chamber}"
-                                   Style="{StaticResource ClickableHeader}" />
-                            <Label Text="{Binding region}"
-                                   Style="{StaticResource NormalText}" />
+                            <FlexLayout Direction="Row" HorizontalOptions="Fill" Wrap="Wrap" AlignItems="End">
+                                <Label Text="{Binding ElectorateTitle}" Style="{StaticResource NormalText}" />
+                                <views:PublicPrivateLabel IsPublic="{Binding IsPublic}" Margin="10, 0"/>
+                            </FlexLayout>
+                            
+                            <Label Text="{Binding ElectorateValue}"
+                                   Style="{StaticResource SmallGreyText}" 
+                                   FontSize="Medium"/>
+                            <BoxView Style="{StaticResource ButtonSeparator}" Margin="0,0,0,8"/>
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup Name="CommonStates">
                                     <VisualState Name="Normal" />
@@ -80,6 +87,7 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+            
         </StackLayout>
         </ScrollView>
     </ContentView.Content>

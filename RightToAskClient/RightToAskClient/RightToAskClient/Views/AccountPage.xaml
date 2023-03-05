@@ -40,14 +40,24 @@
             <Label Text="{Binding RegisteredMP.ShortestName, StringFormat='Registered MP account for {0}'}"
                    IsVisible="{Binding ShowExistingMPRegistrationLabel}" Style="{StaticResource NormalText}" />
             <Label Text="Verified staffer" IsVisible="{Binding ShowStafferLabel}" Style="{StaticResource NormalText}" /> -->
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                        <Label Text="{xct:Translate MPRegistrationOptionText}" Style="{StaticResource NormalText}"
-                               VerticalOptions="Center" />
+                    <!-- <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand"> -->
+                    <!--     <Label Text="{xct:Translate MPRegistrationOptionText}" Style="{StaticResource NormalText}" -->
+                    <!--            VerticalOptions="Center" /> -->
+                    <!--     <Button Text="{Binding RegisterMPButtonText}" -->
+                    <!--             Command="{Binding ChooseMPToRegisterButtonCommand}" -->
+                    <!--             IsVisible="{Binding ShowRegisterMPButton}" Style="{StaticResource DoneButton}" -->
+                    <!--             HorizontalOptions="Center" /> -->
+                    <!-- </StackLayout> -->
+                    <BoxView Style="{StaticResource ButtonSeparator}"/>
+                    <FlexLayout Direction="Row" HorizontalOptions="Fill" JustifyContent="SpaceBetween" AlignItems="End" Margin="0,8">
                         <Button Text="{Binding RegisterMPButtonText}"
                                 Command="{Binding ChooseMPToRegisterButtonCommand}"
-                                IsVisible="{Binding ShowRegisterMPButton}" Style="{StaticResource DoneButton}"
-                                HorizontalOptions="Center" />
-                    </StackLayout>
+                                IsVisible="{Binding ShowRegisterMPButton}" Style="{StaticResource EditorProceed}"
+                                HorizontalOptions="Start" />
+                        <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.arrow_forward.png}" 
+                                     BackgroundColor="Transparent" WidthRequest="20" HeightRequest="20" HorizontalOptions="End"/>
+                    </FlexLayout>
+                    <BoxView Style="{StaticResource ButtonSeparator}"/>
                 </StackLayout>
 
 
