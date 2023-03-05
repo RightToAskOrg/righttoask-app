@@ -88,7 +88,7 @@ namespace RightToAskClient.Views
             if (questionVM.IsNewQuestion)
             {
                 AnswerEditor.IsVisible = false;
-                ExisitingAnswers.IsVisible = false;
+                ExistingAnswers.IsVisible = false;
                 AnswerLabel.IsVisible = false;
             }
             else
@@ -98,8 +98,8 @@ namespace RightToAskClient.Views
                 var isMP = questionVM.IsVerifiedMpAccount;
                 AnswerEditor.IsEnabled = isMP;
                 AnswerEditor.IsVisible = isMP;
-                ExisitingAnswers.IsVisible = questionVM.Question.HasAnswer;
-                AnswerLabel.IsVisible = AnswerEditor.IsVisible || ExisitingAnswers.IsVisible;
+                ExistingAnswers.IsVisible = questionVM.Question.HasAnswer;
+                AnswerLabel.IsVisible = AnswerEditor.IsVisible || ExistingAnswers.IsVisible;
             }
         }
 

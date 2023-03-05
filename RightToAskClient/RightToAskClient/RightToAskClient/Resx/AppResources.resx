@@ -634,10 +634,10 @@
     <value>Update MPs</value>
   </data>
   <data name="EditQuestionButtonText" xml:space="preserve">
-    <value>Edit Question</value>
+    <value>Update</value>
   </data>
   <data name="QuestionEditSuccessfulPopupText" xml:space="preserve">
-    <value>Question was edited successfully.</value>
+    <value>Question was updated successfully.</value>
   </data>
   <data name="DraftMyQuestionTitle" xml:space="preserve">
     <value>Draft a Question</value>
@@ -913,7 +913,7 @@
     <value>Electorates were not found.</value>
   </data>
   <data name="QuestionEditSuccessfulPopupTitle" xml:space="preserve">
-    <value>Question Edited!</value>
+    <value>Question Updated!</value>
   </data>
   <data name="RegistrationIncompleteTitleText" xml:space="preserve">
     <value>Registration incomplete</value>

@@ -158,7 +158,7 @@
 				            Style="{StaticResource NormalEditor}" />
 				    <!-- Answers, visible if there are any -->
 				    <Label x:Name="AnswerLabel" Text="{xct:Translate AnswerHeaderText}" Style="{StaticResource Header2}"/>
-				    <StackLayout x:Name="ExisitingAnswers" BindableLayout.ItemsSource="{Binding QuestionAnswers}">
+				    <StackLayout x:Name="ExistingAnswers" BindableLayout.ItemsSource="{Binding QuestionAnswers}">
 					    <BindableLayout.ItemTemplate>
 						    <DataTemplate x:DataType="models:Answer">
 							    <views:AnswerDisplayCard />

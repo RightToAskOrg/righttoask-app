@@ -174,12 +174,7 @@ namespace RightToAskClient.Models
             set => SetProperty(ref _alreadyReported, value);
         }
 
-        private bool _hasAnswer;
-        public bool HasAnswer
-        {
-            get => _hasAnswer;
-            set => SetProperty(ref _hasAnswer, value);
-        }
+        public bool HasAnswer => Answers.Any();
 
         // Explicit empty constructor, for use in the case we're generating our own question.
         public Question()
