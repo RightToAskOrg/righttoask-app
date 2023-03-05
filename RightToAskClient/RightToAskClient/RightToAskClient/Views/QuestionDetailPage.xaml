@@ -117,6 +117,17 @@
 					</StackLayout>
 					
 				</FlexLayout>
+				<!-- Answers, visible if there are any -->
+				<Label x:Name="AnswerLabel" Text="{xct:Translate AnswerHeaderText}" Style="{StaticResource Header2}" />
+				<StackLayout x:Name="ExistingAnswers" BindableLayout.ItemsSource="{Binding QuestionAnswers}">
+					<BindableLayout.ItemTemplate>
+						<DataTemplate x:DataType="models:Answer">
+							<views:AnswerDisplayCard />
+						</DataTemplate>
+					</BindableLayout.ItemTemplate>
+				</StackLayout>
+				<Editor x:Name="AnswerEditor" Placeholder="{xct:Translate AnswerPlaceholderText}"
+				        Style="{StaticResource NormalEditor}" Completed="Answer_Entered" />
 				<Label Text="{xct:Translate WhoShouldAnswerTitle}" Style="{StaticResource Header2}" />
 				<Label Text="{Binding QuestionAnswerers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
 				<StackLayout x:Name="AnswerPermissionCheckbox" Orientation="Horizontal">
@@ -156,16 +167,6 @@
 				    <Label Text="{xct:Translate LinkForAnswerHeaderText}" Style="{StaticResource Header2}"/>
 				    <Editor x:Name="LinkToAnswerEditor" Placeholder="{xct:Translate LinkPlaceholderText}" Completed="Link_Entered"
 				            Style="{StaticResource NormalEditor}" />
-				    <!-- Answers, visible if there are any -->
-				    <Label x:Name="AnswerLabel" Text="{xct:Translate AnswerHeaderText}" Style="{StaticResource Header2}"/>
-				    <StackLayout x:Name="ExistingAnswers" BindableLayout.ItemsSource="{Binding QuestionAnswers}">
-					    <BindableLayout.ItemTemplate>
-						    <DataTemplate x:DataType="models:Answer">
-							    <views:AnswerDisplayCard />
-						    </DataTemplate>
-					    </BindableLayout.ItemTemplate>
-				    </StackLayout>
-				    <Editor x:Name="AnswerEditor" Placeholder="{xct:Translate AnswerPlaceholderText}" Style = "{StaticResource NormalEditor}" Completed="Answer_Entered" />
 			    </StackLayout>
 			    <Button Text="{xct:Translate EditQuestionButtonText}" Style="{StaticResource SaveButton}"
 			            Command="{Binding EditAnswerCommand}" HorizontalOptions="Center" 
