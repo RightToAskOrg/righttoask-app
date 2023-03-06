@@ -1,1166 +1,1165 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-    <xsd:element name="root" msdata:IsDataSet="true">
-      <xsd:complexType>
-        <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
+    <!-- 
+      Microsoft ResX Schema 
+      
+      Version 2.0
+      
+      The primary goals of this format is to allow a simple XML format 
+      that is mostly human readable. The generation and parsing of the 
+      various data types are done through the TypeConverter classes 
+      associated with the data types.
+      
+      Example:
+      
+      ... ado.net/XML headers & schema ...
+      <resheader name="resmimetype">text/microsoft-resx</resheader>
+      <resheader name="version">2.0</resheader>
+      <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+      <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+      <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+      <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+      <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+          <value>[base64 mime encoded serialized .NET Framework object]</value>
+      </data>
+      <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+          <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+          <comment>This is a comment</comment>
+      </data>
+                  
+      There are any number of "resheader" rows that contain simple 
+      name/value pairs.
+      
+      Each data row contains a name, and value. The row also contains a 
+      type or mimetype. Type corresponds to a .NET class that support 
+      text/value conversion through the TypeConverter architecture. 
+      Classes that don't support this are serialized and stored with the 
+      mimetype set.
+      
+      The mimetype is used for serialized objects, and tells the 
+      ResXResourceReader how to depersist the object. This is currently not 
+      extensible. For a given mimetype the value must be set accordingly:
+      
+      Note - application/x-microsoft.net.object.binary.base64 is the format 
+      that the ResXResourceWriter will generate, however the reader can 
+      read any of the formats listed below.
+      
+      mimetype: application/x-microsoft.net.object.binary.base64
+      value   : The object must be serialized with 
+              : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+              : and then encoded with base64 encoding.
+      
+      mimetype: application/x-microsoft.net.object.soap.base64
+      value   : The object must be serialized with 
+              : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+              : and then encoded with base64 encoding.
+  
+      mimetype: application/x-microsoft.net.object.bytearray.base64
+      value   : The object must be serialized into a byte array 
+              : using a System.ComponentModel.TypeConverter
+              : and then encoded with base64 encoding.
+      -->
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+        <xsd:element name="root" msdata:IsDataSet="true">
             <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+                <xsd:choice maxOccurs="unbounded">
+                    <xsd:element name="metadata">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                            </xsd:sequence>
+                            <xsd:attribute name="name" use="required" type="xsd:string"/>
+                            <xsd:attribute name="type" type="xsd:string"/>
+                            <xsd:attribute name="mimetype" type="xsd:string"/>
+                            <xsd:attribute ref="xml:space"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="assembly">
+                        <xsd:complexType>
+                            <xsd:attribute name="alias" type="xsd:string"/>
+                            <xsd:attribute name="name" type="xsd:string"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="data">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                            </xsd:sequence>
+                            <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+                            <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+                            <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+                            <xsd:attribute ref="xml:space"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="resheader">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                            </xsd:sequence>
+                            <xsd:attribute name="name" type="xsd:string" use="required"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:choice>
             </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="data">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="resheader">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
-            </xsd:complexType>
-          </xsd:element>
-        </xsd:choice>
-      </xsd:complexType>
-    </xsd:element>
-  </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <data name="AccountUpdateSigningError" xml:space="preserve">
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>2.0</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </resheader>
+    <data name="AccountUpdateSigningError" xml:space="preserve">
     <value>Failed to sign user update message</value>
   </data>
-  <data name="AddBackgroundPlaceholderText" xml:space="preserve">
+    <data name="AddBackgroundPlaceholderText" xml:space="preserve">
     <value>(Optional) links or background</value>
   </data>
-  <data name="AdvancedSearchOptions" xml:space="preserve">
+    <data name="AdvancedSearchOptions" xml:space="preserve">
     <value>Advanced Search Options</value>
   </data>
-  <data name="AdvancedSearchButtonText" xml:space="preserve">
+    <data name="AdvancedSearchButtonText" xml:space="preserve">
     <value>Advanced Search</value>
   </data>
-  <data name="AnotherMPButtonText" xml:space="preserve">
+    <data name="AnotherMPButtonText" xml:space="preserve">
     <value>Another MP</value>
   </data>
-  <data name="AnotherUserButtonText" xml:space="preserve">
+    <data name="AnotherUserButtonText" xml:space="preserve">
     <value>Another RightToAsk User</value>
   </data>
-  <data name="AnswererPermissions" xml:space="preserve">
+    <data name="AnswererPermissions" xml:space="preserve">
     <value>Allow other users to add more people to answer the question?</value>
   </data>
-  <data name="AnswerQuestionHeaderText" xml:space="preserve">
+    <data name="AnswerQuestionHeaderText" xml:space="preserve">
     <value>Who should answer your question?</value>
   </data>
-  <data name="ApproveAnswerText" xml:space="preserve">
+    <data name="ApproveAnswerText" xml:space="preserve">
     <value>Approve this answer?</value>
   </data>
-  <data name="ApplicationTitle" xml:space="preserve">
+    <data name="ApplicationTitle" xml:space="preserve">
     <value>Right To Ask</value>
   </data>
-  <data name="AskerPermissions" xml:space="preserve">
+    <data name="AskerPermissions" xml:space="preserve">
     <value>Allow other users to add more people to raise the question?</value>
   </data>
-  <data name="AuthorityLabel" xml:space="preserve">
+    <data name="AuthorityLabel" xml:space="preserve">
     <value>Public Authority</value>
   </data>
-  <data name="AuthorityFilterLabelText" xml:space="preserve">
+    <data name="AuthorityFilterLabelText" xml:space="preserve">
     <value>Authorities who should answer the question</value>
   </data>
-  <data name="BackgroundHeaderText" xml:space="preserve">
+    <data name="BackgroundHeaderText" xml:space="preserve">
     <value>Do you want to add more information to explain the question?</value>
   </data>
-  <data name="CancelButtonText" xml:space="preserve">
+    <data name="CancelButtonText" xml:space="preserve">
     <value>Cancel</value>
   </data>
-  <data name="ChooseParticipantsText" xml:space="preserve">
+    <data name="ChooseParticipantsText" xml:space="preserve">
     <value>Search Right To Ask Participants</value>
   </data>
-  <data name="ChooseParliamentaryEmailDomain" xml:space="preserve">
+    <data name="ChooseParliamentaryEmailDomain" xml:space="preserve">
     <value>Parliamentary email domain</value>
   </data>
-  <data name="CitySuburbHeaderText" xml:space="preserve">
+    <data name="CitySuburbHeaderText" xml:space="preserve">
     <value>City or suburb</value>
   </data>
-  <data name="ClickForFiltersText" xml:space="preserve">
+    <data name="ClickForFiltersText" xml:space="preserve">
     <value>Click to show Filters</value>
   </data>
-  <data name="CouldNotFindUser" xml:space="preserve">
+    <data name="CouldNotFindUser" xml:space="preserve">
     <value>Could not find user on the server: </value>
   </data>
-  <data name="CompleteAccountCreationButtonText" xml:space="preserve">
+    <data name="CompleteAccountCreationButtonText" xml:space="preserve">
     <value>Complete Account Creation</value>
   </data>
-  <data name="CreateAccountTitle" xml:space="preserve">
+    <data name="CreateAccountTitle" xml:space="preserve">
     <value>Create Account</value>
   </data>
-  <data name="DirectMyQuestionTitle" xml:space="preserve">
+    <data name="DirectMyQuestionTitle" xml:space="preserve">
     <value>Directing the question</value>
   </data>
-  <data name="DiscardDraftButtonText" xml:space="preserve">
+    <data name="DiscardDraftButtonText" xml:space="preserve">
     <value>Discard</value>
   </data>
-  <data name="DismissText" xml:space="preserve">
+    <data name="DismissText" xml:space="preserve">
     <value>Dismiss</value>
   </data>
-  <data name="DisplayNameHeaderText" xml:space="preserve">
+    <data name="DisplayNameHeaderText" xml:space="preserve">
     <value>Name</value>
   </data>
-  <data name="DisplayNamePlaceholderText" xml:space="preserve">
+    <data name="DisplayNamePlaceholderText" xml:space="preserve">
     <value>Name</value>
   </data>
-  <data name="NamePrivacyNote" xml:space="preserve">
+    <data name="NamePrivacyNote" xml:space="preserve">
     <value>You don’t have to display your real name, but your MPs are more likely to listen to you if you do.</value>
   </data>
-  <data name="DMButtonText" xml:space="preserve">
+    <data name="DMButtonText" xml:space="preserve">
     <value>Send Direct Message to {0}</value>
   </data>
-  <data name="DoneButtonText" xml:space="preserve">
+    <data name="DoneButtonText" xml:space="preserve">
     <value>Done</value>
   </data>
-  <data name="DraftQuestionPlaceholderText" xml:space="preserve">
+    <data name="DraftQuestionPlaceholderText" xml:space="preserve">
     <value>Enter your question here </value>
   </data>
-  <data name="EditProfileButtonText" xml:space="preserve">
+    <data name="EditProfileButtonText" xml:space="preserve">
     <value>Edit Your Profile</value>
   </data>
-  <data name="EditYourAccountTitle" xml:space="preserve">
+    <data name="EditYourAccountTitle" xml:space="preserve">
     <value>Edit Your Account</value>
   </data>
-  <data name="FederalElectoratePickerTitle" xml:space="preserve">
+    <data name="FederalElectoratePickerTitle" xml:space="preserve">
     <value>House of Representatives</value>
   </data>
-  <data name="SelectElectorate" xml:space="preserve">
+    <data name="SelectElectorate" xml:space="preserve">
     <value>Select Electorate</value>
   </data>
-  <data name="EditableElectoratesHeaderText" xml:space="preserve">
+    <data name="EditableElectoratesHeaderText" xml:space="preserve">
     <value>Electorates</value>
   </data>
-  <data name="ElectoratesHeaderText" xml:space="preserve">
+    <data name="ElectoratesHeaderText" xml:space="preserve">
     <value>Electorates</value>
   </data>
-  <data name="ElectoratesKnownHeaderText" xml:space="preserve">
+    <data name="ElectoratesKnownHeaderText" xml:space="preserve">
     <value>Select</value>
   </data>
-  <data name="EmailEntry" xml:space="preserve">
+    <data name="EmailEntry" xml:space="preserve">
     <value>Please enter the MP's official email address for validation</value>
   </data>
-  <data name="EmailTitle" xml:space="preserve">
+    <data name="EmailTitle" xml:space="preserve">
     <value>Email</value>
   </data>
-  <data name="ErrorFindingAddress" xml:space="preserve">
+    <data name="ErrorFindingAddress" xml:space="preserve">
     <value>Error finding address</value>
   </data>
-  <data name="ExpiringSoonButtonText" xml:space="preserve">
+    <data name="ExpiringSoonButtonText" xml:space="preserve">
     <value>Expiring Soon</value>
   </data>
-  <data name="FailedToUpdateAccountText" xml:space="preserve">
+    <data name="FailedToUpdateAccountText" xml:space="preserve">
     <value>Server Error: Your account details could not be changed at this time.</value>
   </data>
-  <data name="FederalParliamentText" xml:space="preserve">
+    <data name="FederalParliamentText" xml:space="preserve">
     <value>Parliament of Australia</value>
   </data>
-  <data name="FindCommitteeButtonText" xml:space="preserve">
+    <data name="FindCommitteeButtonText" xml:space="preserve">
     <value>A Committee</value>
   </data>
-  <data name="FindElectoratesButtonText" xml:space="preserve">
+    <data name="FindElectoratesButtonText" xml:space="preserve">
     <value>Next: Find Your Electorates</value>
   </data>
-  <data name="FindMyElectoratesButtonText" xml:space="preserve">
+    <data name="FindMyElectoratesButtonText" xml:space="preserve">
     <value>Find My Electorates</value>
   </data>
-  <data name="FindQuestionsTitle" xml:space="preserve">
+    <data name="FindQuestionsTitle" xml:space="preserve">
     <value>Find Questions</value>
   </data>
-  <data name="FocusSupportInstructionReadingOnly" xml:space="preserve">
+    <data name="FocusSupportInstructionReadingOnly" xml:space="preserve">
     <value>Support questions you care about</value>
   </data>
-  <data name="FocusSupportInstructionQuestionDrafting" xml:space="preserve">
+    <data name="FocusSupportInstructionQuestionDrafting" xml:space="preserve">
     <value>Is a similar question here already? Focus support by up-voting it, not publishing a new one</value>
   </data>
-  <data name="FocusSupportReport" xml:space="preserve">
+    <data name="FocusSupportReport" xml:space="preserve">
     <value>You saved time and focused support by upvoting a similar question</value>
   </data>
-  <data name="FollowButtonText" xml:space="preserve">
+    <data name="FollowButtonText" xml:space="preserve">
     <value>Follow {0}</value>
   </data>
-  <data name="For" xml:space="preserve">
+    <data name="For" xml:space="preserve">
     <value>for</value>
   </data>
-  <data name="HomeButtonText" xml:space="preserve">
+    <data name="HomeButtonText" xml:space="preserve">
     <value>Home</value>
   </data>
-  <data name="IAmAStaffer" xml:space="preserve">
+    <data name="IAmAStaffer" xml:space="preserve">
     <value>I am their staffer</value>
   </data>
-  <data name="InAppHeaderText" xml:space="preserve">
-    <value>In the app</value>
-  </data>
-  <data name="InAppExplText" xml:space="preserve">
-    <value>Get an answer here in the app. This works best if you asked your own MP.</value>
-  </data>
-  <data name="InParliamentHeaderText" xml:space="preserve">
+    <data name="InParliamentHeaderText" xml:space="preserve">
     <value>Get your question raised in Parliament. Choose who should raise it.</value>
   </data>
-  <data name="IncludeAnsweredQuestions" xml:space="preserve">
+    <data name="IncludeAnsweredQuestions" xml:space="preserve">
     <value>Include answered questions?</value>
   </data>
-  <data name="IncludeUnansweredQuestions" xml:space="preserve">
+    <data name="IncludeUnansweredQuestions" xml:space="preserve">
     <value>Include questions with no answer? </value>
   </data>
-  <data name="InvalidAddress" xml:space="preserve">
+    <data name="InvalidAddress" xml:space="preserve">
     <value>Invalid address</value>
   </data>
-  <data name="InvalidHansardLink" xml:space="preserve">
+    <data name="InvalidHansardLink" xml:space="preserve">
     <value>Invalid Hansard Link</value>
   </data>
-  <data name="InvalidRegistration" xml:space="preserve">
+    <data name="InvalidRegistration" xml:space="preserve">
     <value>Invalid registration</value>
   </data>
-  <data name="KeepQuestionButtonText" xml:space="preserve">
+    <data name="KeepQuestionButtonText" xml:space="preserve">
     <value>Publish</value>
   </data>
-  <data name="KeywordEntryPlaceholderText" xml:space="preserve">
+    <data name="KeywordEntryPlaceholderText" xml:space="preserve">
     <value>Keyword</value>
   </data>
-  <data name="LinkForAnswerHeaderText" xml:space="preserve">
+    <data name="LinkForAnswerHeaderText" xml:space="preserve">
     <value>Link to answer in Hansard:</value>
   </data>
-  <data name="LinkAnswerPlaceholderText" xml:space="preserve">
+    <data name="LinkAnswerPlaceholderText" xml:space="preserve">
     <value>Add an answer or a Hansard link to an answer</value>
   </data>
-  <data name="LookupElectoratesHeaderText" xml:space="preserve">
+    <data name="LookupElectoratesHeaderText" xml:space="preserve">
     <value>I need to look them up</value>
   </data>
-  <data name="MainPageHeader2Text" xml:space="preserve">
+    <data name="MainPageHeader2Text" xml:space="preserve">
     <value>Write a question</value>
   </data>
-  <data name="MetadataHeaderText" xml:space="preserve">
+    <data name="MetadataHeaderText" xml:space="preserve">
     <value>Review your directions</value>
   </data>
-  <data name="MainPageHeaderText" xml:space="preserve">
+    <data name="MainPageHeaderText" xml:space="preserve">
     <value>Read and vote on questions</value>
   </data>
-  <data name="MPAnswerFilterLabelText" xml:space="preserve">
+    <data name="MPAnswerFilterLabelText" xml:space="preserve">
     <value>My MPs who should answer the question</value>
   </data>
-  <data name="MPDataStillInitializing" xml:space="preserve">
+    <data name="MPDataStillInitializing" xml:space="preserve">
     <value>MP Data is still being initialized.</value>
   </data>
-  <data name="MPRaiseFilterLabelText" xml:space="preserve">
+    <data name="MPRaiseFilterLabelText" xml:space="preserve">
     <value>My MPs who should raise the question in Parliament</value>
   </data>
-  <data name="MPRegistrationOptionText" xml:space="preserve">
+    <data name="MPRegistrationOptionText" xml:space="preserve">
     <value>Are you an MP or staffer?</value>
   </data>
-  <data name="MPsHeaderText1" xml:space="preserve">
+    <data name="MPsHeaderText1" xml:space="preserve">
     <value>Choose or search for your electorates</value>
   </data>
-  <data name="MPsHeaderText2" xml:space="preserve">
+    <data name="MPsHeaderText2" xml:space="preserve">
     <value>I live in </value>
   </data>
-  <data name="MPSelectionText" xml:space="preserve">
+    <data name="MPSelectionText" xml:space="preserve">
     <value>Select the MP you represent</value>
   </data>
-  <data name="MyMPButtonText" xml:space="preserve">
+    <data name="MyMPButtonText" xml:space="preserve">
     <value>My MP</value>
   </data>
-  <data name="MyQuestionPlaceholderText" xml:space="preserve">
+    <data name="MyQuestionPlaceholderText" xml:space="preserve">
     <value>Enter your Question</value>
   </data>
-  <data name="MyQuestionCharLimitText" xml:space="preserve">
+    <data name="MyQuestionCharLimitText" xml:space="preserve">
     <value>Up to 280 characters</value>
   </data>
-  <data name="MyQuestionTitleText" xml:space="preserve">
+    <data name="MyQuestionTitleText" xml:space="preserve">
     <value>My question</value>
   </data>
-  <data name="NavigateOKText" xml:space="preserve">
+    <data name="NavigateOKText" xml:space="preserve">
     <value>Open in web browser</value>
   </data>
-  <data name="NoneDefaultText" xml:space="preserve">
+    <data name="NoneDefaultText" xml:space="preserve">
     <value>None</value>
   </data>
-  <data name="NextButtonText" xml:space="preserve">
+    <data name="NextButtonText" xml:space="preserve">
     <value>Next</value>
   </data>
-  <data name="NoParticipantsFoundText" xml:space="preserve">
+    <data name="NoParticipantsFoundText" xml:space="preserve">
     <value>No matching identities or names</value>
   </data>
-  <data name="NotSureButtonText" xml:space="preserve">
+    <data name="NotSureButtonText" xml:space="preserve">
     <value>Not Sure</value>
   </data>
-  <data name="NoUpperHousePickerTitle" xml:space="preserve">
+    <data name="NoUpperHousePickerTitle" xml:space="preserve">
     <value>{0} has no Upper House</value>
   </data>
-  <data name="OKText" xml:space="preserve">
+    <data name="OKText" xml:space="preserve">
     <value>OK</value>
   </data>
-  <data name="OrHeaderText" xml:space="preserve">
+    <data name="OrHeaderText" xml:space="preserve">
     <value>Or</value>
   </data>
-  <data name="OtherMP" xml:space="preserve">
+    <data name="OtherMP" xml:space="preserve">
     <value>Other MPs</value>
   </data>
-  <data name="OtherMPAnswerFilterLabelText" xml:space="preserve">
+    <data name="OtherMPAnswerFilterLabelText" xml:space="preserve">
     <value>Other MPs who should answer the question</value>
   </data>
-  <data name="OtherMPRaiseFilterLabelText" xml:space="preserve">
+    <data name="OtherMPRaiseFilterLabelText" xml:space="preserve">
     <value>Other MPs who should raise the question in Parliament</value>
   </data>
-  <data name="OtherUserProfileTitle" xml:space="preserve">
+    <data name="OtherUserProfileTitle" xml:space="preserve">
     <value>{0}'s Profile</value>
   </data>
-  <data name="ParticipantPopupText" xml:space="preserve">
+    <data name="ParticipantPopupText" xml:space="preserve">
     <value>Search for other participants by ID or name</value>
   </data>
-  <data name="ParticipantText" xml:space="preserve">
+    <data name="ParticipantText" xml:space="preserve">
     <value>Right To Ask participants</value>
   </data>
-  <data name="PostcodeHeaderText" xml:space="preserve">
+    <data name="PostcodeHeaderText" xml:space="preserve">
     <value>Postcode</value>
   </data>
-  <data name="PublicAuthorityButtonText" xml:space="preserve">
+    <data name="PublicAuthorityButtonText" xml:space="preserve">
     <value>A Public Authority</value>
   </data>
-  <data name="PublishQuestionButtonText" xml:space="preserve">
+    <data name="PublishQuestionButtonText" xml:space="preserve">
     <value>Publish New Question!</value>
   </data>
-  <data name="QuestionErrorTypeDescription" xml:space="preserve">
+    <data name="QuestionErrorTypeDescription" xml:space="preserve">
     <value>question</value>
   </data>
-  <data name="QuestionDetailsTitle" xml:space="preserve">
+    <data name="QuestionDetailsTitle" xml:space="preserve">
     <value>Question Details</value>
   </data>
-  <data name="QuestionReviewHeaderText" xml:space="preserve">
+    <data name="QuestionReviewHeaderText" xml:space="preserve">
     <value>Review your question</value>
   </data>
-  <data name="QuestionHeaderText" xml:space="preserve">
+    <data name="QuestionHeaderText" xml:space="preserve">
     <value>Question: </value>
   </data>
-  <data name="QuestionWriterReadingPageHeaderText" xml:space="preserve">
+    <data name="QuestionWriterReadingPageHeaderText" xml:space="preserve">
     <value>Questions by</value>
   </data>
-  <data name="QuestionWriterHeaderText" xml:space="preserve">
+    <data name="QuestionWriterHeaderText" xml:space="preserve">
     <value>Question Writer:</value>
   </data>
-  <data name="ReadingPageHeader1" xml:space="preserve">
+    <data name="ReadingPageHeader1" xml:space="preserve">
     <value>&#x2022; Up-vote good questions&#x0a;&#x2022; Tap for more detail &#x0a;&#x2022; Swipe left to dismiss</value>
   </data>
-  <data name="ReadingPageQuestionDraftingHeader1" xml:space="preserve">
+    <data name="ReadingPageQuestionDraftingHeader1" xml:space="preserve">
     <value>Up-vote good questions, or tap for more detail. Swipe left to discard uninteresting ones.</value>
   </data>
-  <data name="ReadQuestionsTitle" xml:space="preserve">
+    <data name="ReadQuestionsTitle" xml:space="preserve">
     <value>Read Questions</value>
   </data>
-  <data name="RecentQuestionsTitle" xml:space="preserve">
+    <data name="RecentQuestionsTitle" xml:space="preserve">
     <value>Questions</value>
   </data>
-  <data name="RegisterMPAccountButtonText" xml:space="preserve">
+    <data name="RegisterMPAccountButtonText" xml:space="preserve">
     <value>Register as an MP</value>
   </data>
-  <data name="RegisterOrganisationAccountButtonText" xml:space="preserve">
+    <data name="RegisterOrganisationAccountButtonText" xml:space="preserve">
     <value>Register Organisation Account</value>
   </data>
-  <data name="ReviewQuestionDetailsTitle" xml:space="preserve">
+    <data name="ReviewQuestionDetailsTitle" xml:space="preserve">
     <value>Review Question</value>
   </data>
-  <data name="SaveAnswerButtonText" xml:space="preserve">
+    <data name="SaveAnswerButtonText" xml:space="preserve">
     <value>Save Answer</value>
   </data>
-  <data name="SaveButtonText" xml:space="preserve">
+    <data name="SaveButtonText" xml:space="preserve">
     <value>Save</value>
   </data>
-  <data name="ParticipantSearchBarPlaceholderText" xml:space="preserve">
+    <data name="ParticipantSearchBarPlaceholderText" xml:space="preserve">
     <value>Name or ID</value>
   </data>
-  <data name="SearchBarPlaceholderText" xml:space="preserve">
+    <data name="SearchBarPlaceholderText" xml:space="preserve">
     <value>Search for keyword</value>
   </data>
-  <data name="SeeQuestionsButtonText" xml:space="preserve">
+    <data name="SeeQuestionsButtonText" xml:space="preserve">
     <value>Read questions from {0}</value>
   </data>
-  <data name="SelectButtonText" xml:space="preserve">
+    <data name="SelectButtonText" xml:space="preserve">
     <value>Select</value>
   </data>
-  <data name="SelectedButtonText" xml:space="preserve">
+    <data name="SelectedButtonText" xml:space="preserve">
     <value>Selected!</value>
   </data>
-  <data name="SelectMPToAnswerText" xml:space="preserve">
+    <data name="SelectMPToAnswerText" xml:space="preserve">
     <value>Select MP(s) to answer</value>
   </data>
-  <data name="SelectMPToRaiseText" xml:space="preserve">
+    <data name="SelectMPToRaiseText" xml:space="preserve">
     <value>Select MP(s) to raise your question in Parliament</value>
   </data>
-  <data name="SelectStateWarningText" xml:space="preserve">
+    <data name="SelectStateWarningText" xml:space="preserve">
     <value>Please choose a state</value>
   </data>
-  <data name="SendVerificationPIN" xml:space="preserve">
+    <data name="SendVerificationPIN" xml:space="preserve">
     <value>Email verification code</value>
   </data>
-  <data name="ServerConfigErrorRecommendation" xml:space="preserve">
+    <data name="ServerConfigErrorRecommendation" xml:space="preserve">
     <value>Check your serverconfig.json file.</value>
   </data>
-  <data name="ServerConfigErrorText" xml:space="preserve">
+    <data name="ServerConfigErrorText" xml:space="preserve">
     <value>Server configuration error.</value>
   </data>
-  <data name="SimilarQuestionsInstructionText" xml:space="preserve">
+    <data name="SimilarQuestionsInstructionText" xml:space="preserve">
     <value>Up-voted questions are more likely to get an answer. Up-vote an existing question instead of asking a similar question.</value>
   </data>
-  <data name="SimilarQuestionsTitle" xml:space="preserve">
+    <data name="SimilarQuestionsTitle" xml:space="preserve">
     <value>Similar Questions</value>
   </data>
-  <data name="SkipStepButton" xml:space="preserve">
+    <data name="SkipStepButton" xml:space="preserve">
     <value>Skip this step</value>
   </data>
-  <data name="StartDraftingButtonText" xml:space="preserve">
+    <data name="StartDraftingButtonText" xml:space="preserve">
     <value>Start Drafting</value>
   </data>
-  <data name="StateHeaderText" xml:space="preserve">
+    <data name="StateHeaderText" xml:space="preserve">
     <value>State</value>
   </data>
-  <data name="Step2BodyText1" xml:space="preserve">
+    <data name="Step2BodyText1" xml:space="preserve">
     <value>Now we'll help you direct your question to where it might get answered</value>
   </data>
-  <data name="Step2BodyText2" xml:space="preserve">
+    <data name="Step2BodyText2" xml:space="preserve">
     <value>Should it be raised by...</value>
   </data>
-  <data name="InParliamentExplText" xml:space="preserve">
+    <data name="InParliamentExplText" xml:space="preserve">
     <value>e.g., Senate Estimates. Ideal if the Committee is holding a relevant inquiry.</value>
   </data>
-  <data name="MyMPExplText" xml:space="preserve">
+    <data name="MyMPExplText" xml:space="preserve">
     <value>A good choice if you are not sure.</value>
   </data>
-  <data name="Step2BodyText5" xml:space="preserve">
+    <data name="Step2BodyText5" xml:space="preserve">
     <value>or by some other MP?</value>
   </data>
-  <data name="OtherMPRaiseExplText" xml:space="preserve">
+    <data name="OtherMPRaiseExplText" xml:space="preserve">
     <value>Choose one interested in the issue.</value>
   </data>
-  <data name="Step2BodyText6" xml:space="preserve">
+    <data name="Step2BodyText6" xml:space="preserve">
     <value>a journalist or other RightToAsk participant?</value>
   </data>
-  <data name="DontKnowTitle" xml:space="preserve">
+    <data name="DontKnowTitle" xml:space="preserve">
     <value>Don't know</value>
   </data>
-  <data name="LeaveBlankExplText" xml:space="preserve">
+    <data name="LeaveBlankExplText" xml:space="preserve">
     <value>Leave Blank. You can ask other Right To Ask participants to direct it.</value>
   </data>
-  <data name="OR" xml:space="preserve">
+    <data name="OR" xml:space="preserve">
     <value>Or</value>
   </data>
-  <data name="RaiseQuestionTitle" xml:space="preserve">
+    <data name="RaiseQuestionTitle" xml:space="preserve">
     <value>Raise My Question</value>
   </data>
-  <data name="StreetHeaderText" xml:space="preserve">
+    <data name="StreetHeaderText" xml:space="preserve">
     <value>Street number and name</value>
   </data>
-  <data name="SuccessfullyUpdatedAccountText" xml:space="preserve">
+    <data name="SuccessfullyUpdatedAccountText" xml:space="preserve">
     <value>Your account details were successfully updated.</value>
   </data>
-  <data name="TapToEditText" xml:space="preserve">
+    <data name="TapToEditText" xml:space="preserve">
     <value>Tap to edit</value>
   </data>
-  <data name="TapToEditFiltersText" xml:space="preserve">
+    <data name="TapToEditFiltersText" xml:space="preserve">
     <value>Filters - Tap to edit</value>
   </data>
-  <data name="ToBeAnsweredByText" xml:space="preserve">
+    <data name="ToBeAnsweredByText" xml:space="preserve">
     <value>Answered by</value>
   </data>
-  <data name="ThatsMe" xml:space="preserve">
+    <data name="ThatsMe" xml:space="preserve">
     <value>That's me</value>
   </data>
-  <data name="TrendingButtonText" xml:space="preserve">
+    <data name="TrendingButtonText" xml:space="preserve">
     <value>Trending</value>
   </data>
-  <data name="UIDHeaderText" xml:space="preserve">
+    <data name="UIDHeaderText" xml:space="preserve">
     <value>UID</value>
   </data>
-  <data name="UIDPlaceholderText" xml:space="preserve">
+    <data name="UIDPlaceholderText" xml:space="preserve">
     <value>Username</value>
   </data>
-  <data name="UpdateAccountButtonText" xml:space="preserve">
+    <data name="UpdateAccountButtonText" xml:space="preserve">
     <value>Update Name</value>
   </data>
-  <data name="ReportSubmitHint" xml:space="preserve">
+    <data name="ReportSubmitHint" xml:space="preserve">
     <value>Submits report</value>
   </data>
-  <data name="ReportSubmit" xml:space="preserve">
+    <data name="ReportSubmit" xml:space="preserve">
     <value>Submit</value>
   </data>
-  <data name="AgreeText" xml:space="preserve">
+    <data name="AgreeText" xml:space="preserve">
     <value>Agree</value>
   </data>
-  <data name="AgreeHint" xml:space="preserve">
+    <data name="AgreeHint" xml:space="preserve">
     <value>Accepts Code of Conduct</value>
   </data>
-  <data name="DisagreeText" xml:space="preserve">
+    <data name="DisagreeText" xml:space="preserve">
     <value>Disagree</value>
   </data>
-  <data name="DisagreeHint" xml:space="preserve">
+    <data name="DisagreeHint" xml:space="preserve">
     <value>Rejects Code of Conduct</value>
   </data>
-  <data name="UpperHouseElectorateText" xml:space="preserve">
+    <data name="UpperHouseElectorateText" xml:space="preserve">
     <value>Legislative Council electorate</value>
   </data>
-  <data name="UpperHouseIsSingleElectorateText" xml:space="preserve">
+    <data name="UpperHouseIsSingleElectorateText" xml:space="preserve">
     <value>In {0} the Legislative Council is one electorate</value>
   </data>
-  <data name="UpperHouseWANotWorkingText" xml:space="preserve">
+    <data name="UpperHouseWANotWorkingText" xml:space="preserve">
     <value>WA Legislative Council not implemented</value>
   </data>
-  <data name="UpvoteButtonText" xml:space="preserve">
+    <data name="UpvoteButtonText" xml:space="preserve">
     <value>+1</value>
   </data>
-  <data name="UpvotedButtonText" xml:space="preserve">
+    <data name="UpvotedButtonText" xml:space="preserve">
     <value>Undo Up-vote</value>
   </data>
-  <data name="UpvotesHeaderText" xml:space="preserve">
+    <data name="UpvotesHeaderText" xml:space="preserve">
     <value>Up-votes: </value>
   </data>
-  <data name="UserName" xml:space="preserve">
+    <data name="UserName" xml:space="preserve">
     <value>Username</value>
   </data>
-  <data name="UsernamePrivacyNote" xml:space="preserve">
+    <data name="UsernamePrivacyNote" xml:space="preserve">
     <value>Your username is unique and public. This cannot be changed later.</value>
   </data>
-  <data name="UserProfileTitle" xml:space="preserve">
+    <data name="UserProfileTitle" xml:space="preserve">
     <value>User Profile</value>
   </data>
-  <data name="ViewOtherUserProfile" xml:space="preserve">
+    <data name="ViewOtherUserProfile" xml:space="preserve">
     <value>View {0}'s profile</value>
   </data>
-  <data name="WebNavigationWarning" xml:space="preserve">
+    <data name="WebNavigationWarning" xml:space="preserve">
     <value>This link is outside Right To Ask </value>
   </data>
-  <data name="YouHaveChosen" xml:space="preserve">
+    <data name="YouHaveChosen" xml:space="preserve">
     <value>You have chosen</value>
   </data>
-  <data name="WebNavigationRequest" xml:space="preserve">
+    <data name="WebNavigationRequest" xml:space="preserve">
     <value>Do you want to open it in a web browser?</value>
   </data>
-  <data name="UpdateMPsButtonText" xml:space="preserve">
+    <data name="UpdateMPsButtonText" xml:space="preserve">
     <value>Update MPs</value>
   </data>
-  <data name="EditQuestionButtonText" xml:space="preserve">
+    <data name="EditQuestionButtonText" xml:space="preserve">
     <value>Edit Question</value>
   </data>
-  <data name="QuestionEditSuccessfulPopupText" xml:space="preserve">
+    <data name="QuestionEditSuccessfulPopupText" xml:space="preserve">
     <value>Question was edited successfully.</value>
   </data>
-  <data name="DraftMyQuestionTitle" xml:space="preserve">
+    <data name="DraftMyQuestionTitle" xml:space="preserve">
     <value>Draft a Question</value>
   </data>
-  <data name="MyMPAnswerExplText" xml:space="preserve">
+    <data name="MyMPAnswerExplText" xml:space="preserve">
     <value>We will help you find yours if you do not know who they are.</value>
   </data>
-  <data name="OtherMPAnswerExplText" xml:space="preserve">
+    <data name="OtherMPAnswerExplText" xml:space="preserve">
     <value>For example, the Premier, Prime Minister or relevant minister.</value>
   </data>
-  <data name="AuthorityAnswerExplText" xml:space="preserve">
+    <data name="AuthorityAnswerExplText" xml:space="preserve">
     <value>For example, the ABS, a government department,  or the Murray-Darling Basin Authority.</value>
   </data>
-  <data name="RaiseQuestionHeaderText" xml:space="preserve">
+    <data name="RaiseQuestionHeaderText" xml:space="preserve">
     <value>Now direct your question to where it might get answered.</value>
   </data>
-  <data name="OptionAText1" xml:space="preserve">
+    <data name="OptionAText1" xml:space="preserve">
     <value>Get an answer in the app</value>
   </data>
-  <data name="OptionAText2" xml:space="preserve">
+    <data name="OptionAText2" xml:space="preserve">
     <value>Ask an MP directly and publicly</value>
   </data>
-  <data name="OptionAText3" xml:space="preserve">
+    <data name="OptionAText3" xml:space="preserve">
     <value>Who should answer the question?</value>
   </data>
-  <data name="OptionAText4" xml:space="preserve">
+    <data name="OptionAText4" xml:space="preserve">
     <value>MP (mainly)</value>
   </data>
-  <data name="OptionBText1" xml:space="preserve">
+    <data name="OptionBText1" xml:space="preserve">
     <value>Get an answer in Parliament</value>
   </data>
-  <data name="OptionBText2" xml:space="preserve">
+    <data name="OptionBText2" xml:space="preserve">
     <value>in committees or question time</value>
   </data>
-  <data name="OptionBText3" xml:space="preserve">
+    <data name="OptionBText3" xml:space="preserve">
     <value>Who should answer the question?</value>
   </data>
-  <data name="OptionBText4" xml:space="preserve">
+    <data name="OptionBText4" xml:space="preserve">
     <value>Who should raise it?</value>
   </data>
-  <data name="WhoShouldAnswerTitle" xml:space="preserve">
+    <data name="WhoShouldAnswerTitle" xml:space="preserve">
     <value>Who answers</value>
   </data>
-  <data name="DraftImageAccessibilityHelpText" xml:space="preserve">
+    <data name="DraftImageAccessibilityHelpText" xml:space="preserve">
     <value>This image is to help show that you draft your questions by clicking here.</value>
   </data>
-  <data name="DraftImageAccessibilityNameText" xml:space="preserve">
+    <data name="DraftImageAccessibilityNameText" xml:space="preserve">
     <value>Image of a piece of paper with writing on it and a pencil pointing at and touching part of that page.</value>
   </data>
-  <data name="LegislativeAssemblyText" xml:space="preserve">
+    <data name="LegislativeAssemblyText" xml:space="preserve">
     <value>Legislative Assembly electorate</value>
   </data>
-  <data name="TasLowerHouseElectorateText" xml:space="preserve">
+    <data name="TasLowerHouseElectorateText" xml:space="preserve">
     <value>House of Assembly electorate</value>
   </data>
-  <data name="MainPageSubheader1Text" xml:space="preserve">
+    <data name="MainPageSubheader1Text" xml:space="preserve">
     <value>Read and up-vote questions</value>
   </data>
-  <data name="MainPageSubheader2Text" xml:space="preserve">
+    <data name="MainPageSubheader2Text" xml:space="preserve">
     <value>Write your own questions</value>
   </data>
-  <data name="MainPageSubheader3Text" xml:space="preserve">
+    <data name="MainPageSubheader3Text" xml:space="preserve">
     <value>Help other people direct their questions</value>
   </data>
-  <data name="MainPageInMyElectorateAccessibilityLabelHelpText" xml:space="preserve">
+    <data name="MainPageInMyElectorateAccessibilityLabelHelpText" xml:space="preserve">
     <value>This Trending Now header applies only to things trending in their electorate.</value>
   </data>
-  <data name="MainPageTrendingNowInMyElectorateAccessibilityLabelName" xml:space="preserve">
+    <data name="MainPageTrendingNowInMyElectorateAccessibilityLabelName" xml:space="preserve">
     <value>Trending in my electorate frame heading text.</value>
   </data>
-  <data name="MainPageTrendingNowAccessibilityLabelHelpText" xml:space="preserve">
+    <data name="MainPageTrendingNowAccessibilityLabelHelpText" xml:space="preserve">
     <value>This is the Trending Now header for this frame/bubble that is meant to indicate that clicking on this area of the screen will bring the user to a reading page filled with questions in the app that are currently trending based on a filtered search.</value>
   </data>
-  <data name="MainPageTrendingNowAccessibilityLabelName" xml:space="preserve">
+    <data name="MainPageTrendingNowAccessibilityLabelName" xml:space="preserve">
     <value>Trending now frame heading text.</value>
   </data>
-  <data name="ReadAndUpvoteFrameSubtext" xml:space="preserve">
+    <data name="ReadAndUpvoteFrameSubtext" xml:space="preserve">
     <value>Read and Up-vote</value>
   </data>
-  <data name="ReadAndUpvoteImageAccessibilityHelpText" xml:space="preserve">
+    <data name="ReadAndUpvoteImageAccessibilityHelpText" xml:space="preserve">
     <value>The image of glasses is to convey the act of reading questions while the image of the checkbox is to show that you can also up-vote questions after reading them if you choose to go to this section of the app.</value>
   </data>
-  <data name="ReadAndUpvoteImageAccessibilityNameText" xml:space="preserve">
+    <data name="ReadAndUpvoteImageAccessibilityNameText" xml:space="preserve">
     <value>Image of Glasses on the left and a checkmark in a box to the right.</value>
   </data>
-  <data name="SearchBarTitle" xml:space="preserve">
+    <data name="SearchBarTitle" xml:space="preserve">
     <value>Search</value>
   </data>
-  <data name="SearchButtonText" xml:space="preserve">
+    <data name="SearchButtonText" xml:space="preserve">
     <value>Search</value>
   </data>
-  <data name="YourQuestionTitleText" xml:space="preserve">
+    <data name="YourQuestionTitleText" xml:space="preserve">
     <value>Your Question</value>
   </data>
-  <data name="CreateAccountPopUpText" xml:space="preserve">
+    <data name="CreateAccountPopUpText" xml:space="preserve">
     <value>You need to make an account to publish or vote on questions</value>
   </data>
-  <data name="MakeAccountQuestionText" xml:space="preserve">
+    <data name="MakeAccountQuestionText" xml:space="preserve">
     <value>Make an account?</value>
   </data>
-  <data name="SortByText" xml:space="preserve">
+    <data name="SortByText" xml:space="preserve">
     <value>Sort by</value>
   </data>
-  <data name="MyElectorateOnlyText" xml:space="preserve">
+    <data name="MyElectorateOnlyText" xml:space="preserve">
     <value>My electorate only</value>
   </data>
-  <data name="DateText" xml:space="preserve">
+    <data name="DateText" xml:space="preserve">
     <value>Date</value>
   </data>
-  <data name="UpVotesText" xml:space="preserve">
+    <data name="UpVotesText" xml:space="preserve">
     <value>Up-votes</value>
   </data>
-  <data name="SurpriseMeText" xml:space="preserve">
+    <data name="SurpriseMeText" xml:space="preserve">
     <value>Surprise me</value>
   </data>
-  <data name="NotNowAnswerText" xml:space="preserve">
+    <data name="NotNowAnswerText" xml:space="preserve">
     <value>Not now</value>
   </data>
-  <data name="MyQuestionsTitle" xml:space="preserve">
+    <data name="MyQuestionsTitle" xml:space="preserve">
     <value>My Questions</value>
   </data>
-  <data name="EmptyMatchingQuestionCollectionViewString" xml:space="preserve">
+    <data name="EmptyMatchingQuestionCollectionViewString" xml:space="preserve">
     <value>No Similar Questions Found.</value>
   </data>
-  <data name="NoPostedQuestionCollectionViewString" xml:space="preserve">
+    <data name="NoPostedQuestionCollectionViewString" xml:space="preserve">
     <value>You haven't posted any questions.</value>
   </data>
-  <data name="EmptyQuestionCollectionViewString" xml:space="preserve">
+    <data name="EmptyQuestionCollectionViewString" xml:space="preserve">
     <value>Unable to Connect to Server or No Questions Available.</value>
   </data>
-  <data name="NoQuestionFound" xml:space="preserve">
+    <data name="NoQuestionFound" xml:space="preserve">
     <value>No similar questions found, consider proceeding with a new question!</value>
   </data>
-  <data name="NoNetwork" xml:space="preserve">
+    <data name="NoNetwork" xml:space="preserve">
     <value>We couldn’t reach the server, please check your internet connection</value>
   </data>
-  <data name="SearchFrameSubtext" xml:space="preserve">
+    <data name="SearchFrameSubtext" xml:space="preserve">
     <value>by keyword or other filters</value>
   </data>
-  <data name="QuestionFrameAnswerButtonAccessibilityName" xml:space="preserve">
+    <data name="QuestionFrameAnswerButtonAccessibilityName" xml:space="preserve">
     <value>Shows an icon of a historical looking building, such as a government building.</value>
   </data>
-  <data name="QuestionFrameAnswerButtonAccessibilityText" xml:space="preserve">
+    <data name="QuestionFrameAnswerButtonAccessibilityText" xml:space="preserve">
     <value>This button indicates that you can answer the question by clicking here. There is no checkmark on this icon, which means that there are no other answers to this question yet. The icon is also not highlighted, which means you have not yet answered this question.</value>
   </data>
-  <data name="QuestionFrameFlagButtonAccessibilityName" xml:space="preserve">
+    <data name="QuestionFrameFlagButtonAccessibilityName" xml:space="preserve">
     <value>Report button</value>
   </data>
-  <data name="QuestionFrameFlagButtonAccessibilityText" xml:space="preserve">
+    <data name="QuestionFrameFlagButtonAccessibilityText" xml:space="preserve">
     <value>This button indicates that you can report the question by clicking here. It is currently not highlighted, which means you have not chosen to report this question.</value>
   </data>
-  <data name="QuestionFrameFlagButtonAccessibilityTextRed" xml:space="preserve">
+    <data name="QuestionFrameFlagButtonAccessibilityTextRed" xml:space="preserve">
     <value>Reports question</value>
   </data>
-  <data name="QuestionFrameShareButtonAccessibilityName" xml:space="preserve">
+    <data name="QuestionFrameShareButtonAccessibilityName" xml:space="preserve">
     <value>Share button image. Visually represented by 3 dots connected by 2 lines forming a less than sign pointing towards the left.</value>
   </data>
-  <data name="QuestionFrameShareButtonAccessibilityText" xml:space="preserve">
+    <data name="QuestionFrameShareButtonAccessibilityText" xml:space="preserve">
     <value>This button is to indicate that you can share this question on social media or with other people through messaging applications on your device by copying the text through this share feature.</value>
   </data>
-  <data name="QuestionFrameThumbsUpAccessibilityName" xml:space="preserve">
+    <data name="QuestionFrameThumbsUpAccessibilityName" xml:space="preserve">
     <value>Thumbs Up Icon or Up-vote Button.</value>
   </data>
-  <data name="QuestionFrameThumbsDownAccessibilityName" xml:space="preserve">
+    <data name="QuestionFrameThumbsDownAccessibilityName" xml:space="preserve">
     <value>Thumbs Down Icon or down-vote Button.</value>
   </data>
-  <data name="QuestionFrameThumbsUpAccessibilityText" xml:space="preserve">
+    <data name="QuestionFrameThumbsUpAccessibilityText" xml:space="preserve">
     <value>Shows an image of a thumbs up icon that is highlighted green if you have already liked this question, or is not highlighted if you have not up-voted it. There is a tally number of total number of up-votes this question has to the right of this icon.</value>
   </data>
-  <data name="QuestionFrameThumbsDownAccessibilityText" xml:space="preserve">
+    <data name="QuestionFrameThumbsDownAccessibilityText" xml:space="preserve">
     <value>Shows an image of a thumbs down icon that is highlighted green if you have already down-voted this question, or is not highlighted if you have not down-voted it. </value>
   </data>
-  <data name="QuestionDraftingPagePopupText" xml:space="preserve">
+    <data name="QuestionDraftingPagePopupText" xml:space="preserve">
     <value>New Popup Test for Drafting Question</value>
   </data>
-  <data name="AboutPagePopupText" xml:space="preserve">
+    <data name="AboutPagePopupText" xml:space="preserve">
     <value>AboutPagePopupText</value>
   </data>
-  <data name="AnswerQuestionOptionsPopupText" xml:space="preserve">
+    <data name="AnswerQuestionOptionsPopupText" xml:space="preserve">
     <value>AnswerQuestionOptionsPopupText</value>
   </data>
-  <data name="CreateNewAccountPopupText" xml:space="preserve">
+    <data name="CreateNewAccountPopupText" xml:space="preserve">
     <value>CreateNewAccountPopupText</value>
   </data>
-  <data name="EditAccountPopupText" xml:space="preserve">
+    <data name="EditAccountPopupText" xml:space="preserve">
     <value>EditAccountPopupText</value>
   </data>
-  <data name="FiltersPopupText" xml:space="preserve">
+    <data name="FiltersPopupText" xml:space="preserve">
     <value>FiltersPopupText</value>
   </data>
-  <data name="FindMPsPopupText" xml:space="preserve">
+    <data name="FindMPsPopupText" xml:space="preserve">
     <value>Your MPs are defined by where you live.</value>
   </data>
-  <data name="InfoPopupButtonText" xml:space="preserve">
+    <data name="InfoPopupButtonText" xml:space="preserve">
     <value>Information Popup Button</value>
   </data>
-  <data name="MainPageHeadingText" xml:space="preserve">
+    <data name="MainPageHeadingText" xml:space="preserve">
     <value>Make your political questions have an impact</value>
   </data>
-  <data name="MainPagePopupText" xml:space="preserve">
+    <data name="MainPagePopupText" xml:space="preserve">
     <value>MainPagePopupText</value>
   </data>
-  <data name="OptionsTitleText" xml:space="preserve">
+    <data name="OptionsTitleText" xml:space="preserve">
     <value>How answered?</value>
   </data>
-  <data name="OptionsHeaderText" xml:space="preserve">
+    <data name="OptionsHeaderText" xml:space="preserve">
     <value>How do you want your question answered?</value>
   </data>
-  <data name="OtherUserProfilePopupText" xml:space="preserve">
+    <data name="OtherUserProfilePopupText" xml:space="preserve">
     <value>OtherUserProfilePopupText</value>
   </data>
-  <data name="QuestionAskerPopupText" xml:space="preserve">
+    <data name="QuestionAskerPopupText" xml:space="preserve">
     <value>QuestionAskerPopupText</value>
   </data>
-  <data name="QuestionDetailPopupText" xml:space="preserve">
+    <data name="QuestionDetailPopupText" xml:space="preserve">
     <value>QuestionDetailPopupText</value>
   </data>
-  <data name="SelectableListAuthoritiesPopupText" xml:space="preserve">
+    <data name="SelectableListAuthoritiesPopupText" xml:space="preserve">
     <value>SelectableListAuthoritiesPopupText</value>
   </data>
-  <data name="SelectableListMPsPopupText" xml:space="preserve">
+    <data name="SelectableListMPsPopupText" xml:space="preserve">
     <value>SelectableListMPsPopupText</value>
   </data>
-  <data name="SubmitPINButtonText" xml:space="preserve">
+    <data name="SubmitPINButtonText" xml:space="preserve">
     <value>Enter the 6-digit code that was sent to their official email address</value>
   </data>
-  <data name="AccountUpdateSuccessResponseText" xml:space="preserve">
+    <data name="AccountUpdateSuccessResponseText" xml:space="preserve">
     <value>Your account was successfully updated!</value>
   </data>
-  <data name="NoAccountChangesDetectedAlertText" xml:space="preserve">
+    <data name="NoAccountChangesDetectedAlertText" xml:space="preserve">
     <value>No Changes were made and thus there are no changes to update on your account.</value>
   </data>
-  <data name="NoAccountChangesDetectedTitle" xml:space="preserve">
+    <data name="NoAccountChangesDetectedTitle" xml:space="preserve">
     <value>No Changes Found</value>
   </data>
-  <data name="AccountCreationSuccessResponseText" xml:space="preserve">
+    <data name="AccountCreationSuccessResponseText" xml:space="preserve">
     <value>Your account was created successfully!</value>
   </data>
-  <data name="GoHomeButtonText" xml:space="preserve">
+    <data name="GoHomeButtonText" xml:space="preserve">
     <value>Home</value>
   </data>
-  <data name="QuestionPublishedPopupDetailText" xml:space="preserve">
+    <data name="QuestionPublishedPopupDetailText" xml:space="preserve">
     <value>Do you want to write another with the same tags, or clear them and go home?</value>
   </data>
-  <data name="QuestionPublishedPopupText" xml:space="preserve">
+    <data name="QuestionPublishedPopupText" xml:space="preserve">
     <value>Question successfully published!</value>
   </data>
-  <data name="WriteAnotherQuestionButtonText" xml:space="preserve">
+    <data name="WriteAnotherQuestionButtonText" xml:space="preserve">
     <value>Write Another</value>
   </data>
-  <data name="GoButtonText" xml:space="preserve">
+    <data name="GoButtonText" xml:space="preserve">
     <value>Go</value>
   </data>
-  <data name="UserNameHeaderText" xml:space="preserve">
+    <data name="UserNameHeaderText" xml:space="preserve">
     <value>Username</value>
   </data>
-  <data name="NoSearchResultsFoundText" xml:space="preserve">
+    <data name="NoSearchResultsFoundText" xml:space="preserve">
     <value>No results found for the entered keyword.</value>
   </data>
-  <data name="DraftDiscardedPopupTitle" xml:space="preserve">
+    <data name="DraftDiscardedPopupTitle" xml:space="preserve">
     <value>Draft discarded.</value>
   </data>
-  <data name="EditQuestionErrorText" xml:space="preserve">
+    <data name="EditQuestionErrorText" xml:space="preserve">
     <value>Error editing question: {0}</value>
   </data>
-  <data name="ElectoratesAlreadySelectedText" xml:space="preserve">
+    <data name="ElectoratesAlreadySelectedText" xml:space="preserve">
     <value>You have already selected your electorates - you can change them if you like</value>
   </data>
-  <data name="ElectoratesAlreadySelectedTitle" xml:space="preserve">
+    <data name="ElectoratesAlreadySelectedTitle" xml:space="preserve">
     <value>Electorates already selected.</value>
   </data>
-  <data name="ElectoratesNotFoundErrorText" xml:space="preserve">
+    <data name="ElectoratesNotFoundErrorText" xml:space="preserve">
     <value>Electorates were not found.</value>
   </data>
-  <data name="QuestionEditSuccessfulPopupTitle" xml:space="preserve">
+    <data name="QuestionEditSuccessfulPopupTitle" xml:space="preserve">
     <value>Question Edited!</value>
   </data>
-  <data name="RegistrationIncompleteTitleText" xml:space="preserve">
+    <data name="RegistrationIncompleteTitleText" xml:space="preserve">
     <value>Registration incomplete</value>
   </data>
-  <data name="RelatedQuestionsButtonText" xml:space="preserve">
+    <data name="RelatedQuestionsButtonText" xml:space="preserve">
     <value>Related Questions</value>
   </data>
-  <data name="StayOnCurrentPageButtonText" xml:space="preserve">
+    <data name="StayOnCurrentPageButtonText" xml:space="preserve">
     <value>Stay</value>
   </data>
-  <data name="GoHomePopupText" xml:space="preserve">
+    <data name="GoHomePopupText" xml:space="preserve">
     <value>Are you sure you want to go home? You will lose any unsaved questions.</value>
   </data>
-  <data name="GoHomePopupTitle" xml:space="preserve">
+    <data name="GoHomePopupTitle" xml:space="preserve">
     <value>Return to Homepage?</value>
   </data>
-  <data name="ImSureButtonText" xml:space="preserve">
+    <data name="ImSureButtonText" xml:space="preserve">
     <value>Yes</value>
   </data>
-  <data name="MPsPopupText" xml:space="preserve">
+    <data name="MPsPopupText" xml:space="preserve">
     <value>Would you like to find your MPs? You can always change them later.</value>
   </data>
-  <data name="MPsPopupTitle" xml:space="preserve">
+    <data name="MPsPopupTitle" xml:space="preserve">
     <value>Find your MPs?</value>
   </data>
-  <data name="NavigationPopupTitle" xml:space="preserve">
+    <data name="NavigationPopupTitle" xml:space="preserve">
     <value>You are navigating away from RightToAsk.</value>
   </data>
-  <data name="SkipButtonText" xml:space="preserve">
+    <data name="SkipButtonText" xml:space="preserve">
     <value>Skip for now.</value>
   </data>
-  <data name="YesButtonText" xml:space="preserve">
+    <data name="YesButtonText" xml:space="preserve">
     <value>Yes</value>
   </data>
-  <data name="BackgroundPageTitle" xml:space="preserve">
+    <data name="BackgroundPageTitle" xml:space="preserve">
     <value>Background</value>
   </data>
-  <data name="LocateButtonText" xml:space="preserve">
+    <data name="LocateButtonText" xml:space="preserve">
     <value>Locate</value>
   </data>
-  <data name="InvalidPostcodePopupText" xml:space="preserve">
+    <data name="InvalidPostcodePopupText" xml:space="preserve">
     <value>This postcode seems invalid for this area. Would you like to proceed anyways?</value>
   </data>
-  <data name="InvalidPostcodePopupTitle" xml:space="preserve">
+    <data name="InvalidPostcodePopupTitle" xml:space="preserve">
     <value>Invalid Postcode</value>
   </data>
-  <data name="HowToHeaderText" xml:space="preserve">
+    <data name="HowToHeaderText" xml:space="preserve">
     <value>How to Publish Your Question in 5 easy steps:</value>
   </data>
-  <data name="HowToPageTitle" xml:space="preserve">
+    <data name="HowToPageTitle" xml:space="preserve">
     <value>How To Publish</value>
   </data>
-  <data name="HowToStep1" xml:space="preserve">
+    <data name="HowToStep1" xml:space="preserve">
     <value>your question.</value>
   </data>
-  <data name="HowToStep1Bold" xml:space="preserve">
+    <data name="HowToStep1Bold" xml:space="preserve">
     <value>Write </value>
   </data>
-  <data name="HowToStep1Number" xml:space="preserve">
+    <data name="HowToStep1Number" xml:space="preserve">
     <value>1. </value>
   </data>
-  <data name="HowToStep2" xml:space="preserve">
+    <data name="HowToStep2" xml:space="preserve">
     <value>your question</value>
   </data>
-  <data name="HowToStep2abold" xml:space="preserve">
+    <data name="HowToStep2abold" xml:space="preserve">
     <value>Ask a specific MP to answer </value>
   </data>
-  <data name="HowToStep2a" xml:space="preserve">
+    <data name="HowToStep2a" xml:space="preserve">
     <value>within the App, or </value>
   </data>
-  <data name="HowToStep2aLetter" xml:space="preserve">
+    <data name="HowToStep2aLetter" xml:space="preserve">
     <value>* </value>
   </data>
-  <data name="HowToStep2b" xml:space="preserve">
+    <data name="HowToStep2b" xml:space="preserve">
     <value>Ask for it to be </value>
   </data>
-  <data name="HowToStep2bbold" xml:space="preserve">
+    <data name="HowToStep2bbold" xml:space="preserve">
     <value>raised in Parliament. </value>
   </data>
-  <data name="HowToStep2bend" xml:space="preserve">
+    <data name="HowToStep2bend" xml:space="preserve">
     <value>Choose who should answer, and which Committee or MP should raise it. </value>
   </data>
-  <data name="HowToStep2bLetter" xml:space="preserve">
+    <data name="HowToStep2bLetter" xml:space="preserve">
     <value>* </value>
   </data>
-  <data name="HowToStep2Bold1" xml:space="preserve">
+    <data name="HowToStep2Bold1" xml:space="preserve">
     <value>Direct </value>
   </data>
-  <data name="HowToStep2Or" xml:space="preserve">
+    <data name="HowToStep2Or" xml:space="preserve">
     <value>or </value>
   </data>
-  <data name="HowToStep2Number" xml:space="preserve">
+    <data name="HowToStep2Number" xml:space="preserve">
     <value>2. </value>
   </data>
-  <data name="HowToStep3" xml:space="preserve">
+    <data name="HowToStep3" xml:space="preserve">
     <value>Don’t duplicate the same question!  Focus support, if you can, by up-voting an existing question instead.</value>
   </data>
-  <data name="HowToStep3Bold" xml:space="preserve">
+    <data name="HowToStep3Bold" xml:space="preserve">
     <value>Review </value>
   </data>
-  <data name="HowToStep3part2" xml:space="preserve">
+    <data name="HowToStep3part2" xml:space="preserve">
     <value>Existing Similar Questions. </value>
   </data>
-  <data name="HowToStep3Number" xml:space="preserve">
+    <data name="HowToStep3Number" xml:space="preserve">
     <value>3. </value>
   </data>
-  <data name="HowToStep4" xml:space="preserve">
+    <data name="HowToStep4" xml:space="preserve">
     <value>Provide </value>
   </data>
-  <data name="HowToStep4Bold" xml:space="preserve">
+    <data name="HowToStep4Bold" xml:space="preserve">
     <value>background </value>
   </data>
-  <data name="HowToStep4Part2" xml:space="preserve">
+    <data name="HowToStep4Part2" xml:space="preserve">
     <value>(optional)</value>
   </data>
-  <data name="HowToStep4Number" xml:space="preserve">
+    <data name="HowToStep4Number" xml:space="preserve">
     <value>4. </value>
   </data>
-  <data name="HowToStep5" xml:space="preserve">
+    <data name="HowToStep5" xml:space="preserve">
     <value>your Question!</value>
   </data>
-  <data name="HowToStep5Bold" xml:space="preserve">
+    <data name="HowToStep5Bold" xml:space="preserve">
     <value>Publish </value>
   </data>
-  <data name="HowToStep5Number" xml:space="preserve">
+    <data name="HowToStep5Number" xml:space="preserve">
     <value>5. </value>
   </data>
-  <data name="AnswerDisplayCardButtonText" xml:space="preserve">
+    <data name="AnswerDisplayCardButtonText" xml:space="preserve">
     <value>Answer</value>
   </data>
-  <data name="ReportDisplayCardButtonText" xml:space="preserve">
+    <data name="ReportDisplayCardButtonText" xml:space="preserve">
     <value>Report</value>
   </data>
-  <data name="ShareDisplayCardButtonText" xml:space="preserve">
+    <data name="ShareDisplayCardButtonText" xml:space="preserve">
     <value>Share</value>
   </data>
-  <data name="UpvoteDisplayCardButtonText" xml:space="preserve">
+    <data name="UpvoteDisplayCardButtonText" xml:space="preserve">
     <value>Up-vote</value>
   </data>
-  <data name="DontShowAgainText" xml:space="preserve">
+    <data name="DontShowAgainText" xml:space="preserve">
     <value>Don't show this again: </value>
   </data>
-  <data name="QuestionsForMeTitleText" xml:space="preserve">
+    <data name="QuestionsForMeTitleText" xml:space="preserve">
     <value>Questions for me</value>
   </data>
-  <data name="MyQuestionsTitleText" xml:space="preserve">
+    <data name="MyQuestionsTitleText" xml:space="preserve">
     <value>My questions</value>
   </data>
-  <data name="InMyElectorateText" xml:space="preserve">
+    <data name="InMyElectorateText" xml:space="preserve">
     <value>Trending in my electorate</value>
   </data>
-  <data name="SelectableListCommitteePopupText" xml:space="preserve">
+    <data name="SelectableListCommitteePopupText" xml:space="preserve">
     <value>Choose a committee</value>
   </data>
-  <data name="ParliamentaryCommitteeText" xml:space="preserve">
+    <data name="ParliamentaryCommitteeText" xml:space="preserve">
     <value>Parliamentary Committee</value>
   </data>
-  <data name="CommitteeText" xml:space="preserve">
+    <data name="CommitteeText" xml:space="preserve">
     <value>Committee</value>
   </data>
-  <data name="ChooseStateOrTerritory" xml:space="preserve">
+    <data name="ChooseStateOrTerritory" xml:space="preserve">
     <value>State or Territory*</value>
   </data>
-  <data name="OtherUserInfoText" xml:space="preserve">
+    <data name="OtherUserInfoText" xml:space="preserve">
     <value>Information about another Right To Ask participant</value>
   </data>
-  <data name="LinkNotWellFormedErrorText" xml:space="preserve">
+    <data name="LinkNotWellFormedErrorText" xml:space="preserve">
     <value>The link is not a valid url</value>
   </data>
-  <data name="LinkPlaceholderText" xml:space="preserve">
+    <data name="LinkPlaceholderText" xml:space="preserve">
     <value>Parliamentary url</value>
   </data>
-  <data name="AnswerPlaceholderText" xml:space="preserve">
+    <data name="AnswerPlaceholderText" xml:space="preserve">
     <value>Answer</value>
   </data>
-  <data name="ParliamentaryURLErrorText" xml:space="preserve">
+    <data name="ParliamentaryURLErrorText" xml:space="preserve">
     <value>URLs must have a valid Australian Parliamentary domain</value>
   </data>
-  <data name="AnswerHeaderText" xml:space="preserve">
+    <data name="AnswerHeaderText" xml:space="preserve">
     <value>Answer</value>
   </data>
-  
-  <data name="WriteQuestionEditorHint" xml:space="preserve">
+
+    <data name="WriteQuestionEditorHint" xml:space="preserve">
     <value>Your question editor</value>
   </data>
-  <data name="WriteQuestionEditorDescription" xml:space="preserve">
+    <data name="WriteQuestionEditorDescription" xml:space="preserve">
     <value>QuestionField</value>
   </data>
-  <data name="BackHint" xml:space="preserve">
+    <data name="BackHint" xml:space="preserve">
     <value>Returns on previous screen</value>
   </data>
-  <data name="BackDescription" xml:space="preserve">
+    <data name="BackDescription" xml:space="preserve">
     <value>Back</value>
   </data>
-  <data name="ReadingPageWriteHint" xml:space="preserve">
+    <data name="ReadingPageWriteHint" xml:space="preserve">
     <value>Starts writing question process</value>
   </data>
-  <data name="ReadingPageWriteDescription" xml:space="preserve">
+    <data name="ReadingPageWriteDescription" xml:space="preserve">
     <value>WriteQuestion</value>
   </data>
-  <data name="ClearButtonHint" xml:space="preserve">
+    <data name="ClearButtonHint" xml:space="preserve">
     <value>Clears input field</value>
   </data>
-  <data name="ClearButtonDescription" xml:space="preserve">
+    <data name="ClearButtonDescription" xml:space="preserve">
     <value>Clear</value>
   </data>
-  <data name="ReturnHomeHint" xml:space="preserve">
+    <data name="ReturnHomeHint" xml:space="preserve">
     <value>Returns to home page</value>
   </data>
-  <data name="ReturnHomeButtonDescription" xml:space="preserve">
+    <data name="ReturnHomeButtonDescription" xml:space="preserve">
     <value>ReturnHome</value>
   </data>
-  <data name="EditorProceedHint" xml:space="preserve">
+    <data name="EditorProceedHint" xml:space="preserve">
     <value>Proceed with this question</value>
   </data>
-  <data name="EditorProceedButtonDescription" xml:space="preserve">
+    <data name="EditorProceedButtonDescription" xml:space="preserve">
     <value>Proceed</value>
   </data>
-  <data name="TCContinueButtonHint" xml:space="preserve">
+    <data name="TCContinueButtonHint" xml:space="preserve">
     <value>Agree with the Privacy Policy and Terms and Conditions</value>
   </data>
-  <data name="TCPolicyHint" xml:space="preserve">
+    <data name="TCPolicyHint" xml:space="preserve">
     <value>Check out privacy policy</value>
   </data>
-  <data name="TCHint" xml:space="preserve">
+    <data name="TCHint" xml:space="preserve">
     <value>Check out terms and conditions</value>
   </data>
-  
-  <data name="ReportTitle" xml:space="preserve">
+
+    <data name="ReportTitle" xml:space="preserve">
     <value>Thanks for reporting</value>
   </data>
-  <data name="ReportMessage" xml:space="preserve">
+    <data name="ReportMessage" xml:space="preserve">
     <value>Your report is in our queue.
 To improve your experience, this question will be hidden from your view in the mean time.</value>
   </data>
-  <data name="ReportTitleError" xml:space="preserve">
+    <data name="ReportTitleError" xml:space="preserve">
     <value>Error submitting report </value>
   </data>
-  <data name="ReportMessageError" xml:space="preserve">
+    <data name="ReportMessageError" xml:space="preserve">
     <value>
       We couldn’t reach the server, please try again. 
     </value>
   </data>
-  <data name="DisplayCardHiddenQuestionTitle" xml:space="preserve">
+    <data name="DisplayCardHiddenQuestionTitle" xml:space="preserve">
     <value>Hidden question</value>
   </data>
-  <data name="DisplayCardHiddenQuestionBody" xml:space="preserve">
+    <data name="DisplayCardHiddenQuestionBody" xml:space="preserve">
     <value>You reported this question</value>
   </data>
-  <data name="CodeOfConductCopy" xml:space="preserve">
+    <data name="CodeOfConductCopy" xml:space="preserve">
     <value>
 Democracy demands civil exchange of differing views.
       
@@ -1209,138 +1208,138 @@ We are still learning about how people use Right To Ask. These rules may change 
 **If you disagree with the code of conduct, you may still read Right To Ask questions freely. To participate actively (including writing questions), click “Agree”.**
     </value>
   </data>
-  
-  <data name="DisagreeCodeOfConductPopText" xml:space="preserve">
+
+    <data name="DisagreeCodeOfConductPopText" xml:space="preserve">
   <value>Because you disagreed with our Code of Conduct, you can only read questions.</value>
   </data>
 
-  <data name="SignUpTitleText" xml:space="preserve">
+    <data name="SignUpTitleText" xml:space="preserve">
   <value>Sign up to Right To Ask</value>
   </data>
-  <data name="SignUpBodyText" xml:space="preserve">
+    <data name="SignUpBodyText" xml:space="preserve">
   <value>You haven’t created an account yet</value>
   </data>
-  <data name="UserIDAlreadyExists" xml:space="preserve">
+    <data name="UserIDAlreadyExists" xml:space="preserve">
   <value>This username isn’t available. Please try another.</value>
   </data>
-  <data name="Continue" xml:space="preserve">
+    <data name="Continue" xml:space="preserve">
   <value>Continue</value>
   </data>
-  <data name="SaveAndFinish" xml:space="preserve">
+    <data name="SaveAndFinish" xml:space="preserve">
   <value>Save and Finish</value>
   </data>
-  <data name="SaveAndFinishHint" xml:space="preserve">
+    <data name="SaveAndFinishHint" xml:space="preserve">
   <value>Saves registration data to server and locally.</value>
   </data>
-  <data name="SharingElectorateInfoHeaderText" xml:space="preserve">
+    <data name="SharingElectorateInfoHeaderText" xml:space="preserve">
     <value>Show your electorate on your public profile?</value>
   </data>
-  <data name="SharingElectorateInfoParagraph" xml:space="preserve">
+    <data name="SharingElectorateInfoParagraph" xml:space="preserve">
     <value>Select what to show on your profile. If you choose to make this public, your MP is more likely to answer your question.</value>
   </data>
-  <data name="PublicLabel" xml:space="preserve">
+    <data name="PublicLabel" xml:space="preserve">
     <value>Public</value>
   </data>
-  <data name="PrivateLabel" xml:space="preserve">
+    <data name="PrivateLabel" xml:space="preserve">
     <value>Private</value>
   </data>
-  <data name="EmptyNameMessage" xml:space="preserve">
+    <data name="EmptyNameMessage" xml:space="preserve">
     <value>User ID and displayed name must not be empty.</value>
   </data>
-  <data name="NoneSelected" xml:space="preserve">
+    <data name="NoneSelected" xml:space="preserve">
     <value>None selected</value>
   </data>
-  <data name="SharingElectorateInfoPickerTitle" xml:space="preserve">
+    <data name="SharingElectorateInfoPickerTitle" xml:space="preserve">
     <value>Electorate info on your profile</value>
   </data>
     <data name="AgreeAndContinueButton" xml:space="preserve">
   <value>Agree and continue</value>
   </data>
-  <data name="FederalElectorate" xml:space="preserve">
+    <data name="FederalElectorate" xml:space="preserve">
   <value>Federal Electorate</value>
   </data>
-  <data name="StateTitle" xml:space="preserve">
+    <data name="StateTitle" xml:space="preserve">
   <value>State</value>
   </data>
-  <data name="TerritoryTitle" xml:space="preserve">
+    <data name="TerritoryTitle" xml:space="preserve">
   <value>Territory</value>
   </data>
-  <data name="StateOrTerritoryTitle" xml:space="preserve">
+    <data name="StateOrTerritoryTitle" xml:space="preserve">
   <value>State/ Territory</value>
   </data>
-  <data name="StateOrTerritoryElectorateTitle" xml:space="preserve">
+    <data name="StateOrTerritoryElectorateTitle" xml:space="preserve">
   <value>State/ Territory Electorate</value>
   </data>
-  <data name="Nothing" xml:space="preserve">
+    <data name="Nothing" xml:space="preserve">
   <value>Nothing</value>
   </data>
-  <data name="TerritoryElectorate" xml:space="preserve">
+    <data name="TerritoryElectorate" xml:space="preserve">
   <value>Territory Electorate</value>
   </data>
-  <data name="StateElectorate" xml:space="preserve">
+    <data name="StateElectorate" xml:space="preserve">
   <value>State Electorate</value>
   </data>
-  <data name="FedElectorateTerritory" xml:space="preserve">
+    <data name="FedElectorateTerritory" xml:space="preserve">
   <value>Federal Electorate and territory</value>
   </data>
-  <data name="FedElectorateState" xml:space="preserve">
+    <data name="FedElectorateState" xml:space="preserve">
   <value>Federal Electorate and state</value>
   </data>
-  <data name="TerElectorateTerritory" xml:space="preserve">
+    <data name="TerElectorateTerritory" xml:space="preserve">
   <value>Territory Electorate and territory</value>
   </data>
-  <data name="StateElectorateState" xml:space="preserve">
+    <data name="StateElectorateState" xml:space="preserve">
   <value>State Electorate and state</value>
   </data>
-  <data name="AllElectorateTerritory" xml:space="preserve">
+    <data name="AllElectorateTerritory" xml:space="preserve">
   <value>Federal Electorate, Territory Electorate and territory</value>
   </data>
-  <data name="AllElectorateState" xml:space="preserve">
+    <data name="AllElectorateState" xml:space="preserve">
   <value>Federal Electorate, State Electorate and state</value>
   </data>
-  <data name="TermsAndConditionsMarkdown" xml:space="preserve">
+    <data name="TermsAndConditionsMarkdown" xml:space="preserve">
   <value>By tapping "Agree and Continue", you agree to our [Privacy Policy](https://righttoask.democracydevelopers.org.au/privacy-policy/) and [Terms and Conditions](https://righttoask.democracydevelopers.org.au/).</value>
   </data>
-  <data name="TermsAndConditionsHelpTextAndroid" xml:space="preserve">
+    <data name="TermsAndConditionsHelpTextAndroid" xml:space="preserve">
   <value>By tapping Agree and Continue, you agree to our Privacy Policy and Terms and Conditions, double tap to activate to read the Privacy Policy or Terms and Conditions</value>
   </data>
-  <data name="TermsAndConditionsHelpTextIOS" xml:space="preserve">
+    <data name="TermsAndConditionsHelpTextIOS" xml:space="preserve">
   <value>By tapping Agree and Continue, you agree to our Privacy Policy, link, and Terms and Conditions, link</value>
   </data>
-  <data name="LegislativeCouncilText" xml:space="preserve">
+    <data name="LegislativeCouncilText" xml:space="preserve">
   <value>Legislative Council</value>
   </data>
-  <data name="FindMyElectorateTitle" xml:space="preserve">
+    <data name="FindMyElectorateTitle" xml:space="preserve">
   <value>What’s your electorate?</value>
   </data>
-  <data name="FindMyElectorateContentPartOne" xml:space="preserve">
+    <data name="FindMyElectorateContentPartOne" xml:space="preserve">
   <value>Your electorate info will not be shared with others unless you choose to. </value>
   </data>
-  <data name="FindMyElectorateContentPartTwo" xml:space="preserve">
+    <data name="FindMyElectorateContentPartTwo" xml:space="preserve">
   <value>This helps us find which MPs are yours.</value>
   </data>
 
-  <data name="MapPlaceholderText" xml:space="preserve">
+    <data name="MapPlaceholderText" xml:space="preserve">
   <value>A map of your Federal electorate will appear here</value>
   </data>
 
-  <data name="ContinueButtonHint" xml:space="preserve">
+    <data name="ContinueButtonHint" xml:space="preserve">
   <value>Continue to next page</value>
   </data>
-  <data name="ContinueButtonDescription" xml:space="preserve">
+    <data name="ContinueButtonDescription" xml:space="preserve">
   <value>Continue</value>
   </data>
-  
-  <data name="EmptyFieldMessage" xml:space="preserve">
+
+    <data name="EmptyFieldMessage" xml:space="preserve">
   <value>{0} must not be empty.</value>
   </data>
-  <data name="MaxCharDisplayNameMessage" xml:space="preserve">
+    <data name="MaxCharDisplayNameMessage" xml:space="preserve">
   <value>The maximum character limit is {0}.</value>
   </data>
-  <data name="UsernameRegexMessage" xml:space="preserve">
+    <data name="UsernameRegexMessage" xml:space="preserve">
   <value>Please use only letters (a-z), numbers (0-9), hyphen (-), underscore (_), and dot (.) without spaces.</value>
   </data>
-  <data name="AccountTitle" xml:space="preserve">
+    <data name="AccountTitle" xml:space="preserve">
   <value>Create your account</value>
   </data>
 </root>
