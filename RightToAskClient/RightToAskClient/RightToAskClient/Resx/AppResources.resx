@@ -231,6 +231,12 @@
   <data name="MyElectoratesHeaderText" xml:space="preserve">
     <value>My Electorate Info</value>
   </data>
+  <data name="EditElectoratesButtonHint" xml:space="preserve">
+    <value>Goes to the page to edit electorates</value>
+  </data>
+  <data name="EditElectoratesButtonDescription" xml:space="preserve">
+    <value>Edit electorates</value>
+  </data>
   <data name="ElectoratesKnownHeaderText" xml:space="preserve">
     <value>Select</value>
   </data>
@@ -572,6 +578,9 @@
   </data>
   <data name="UpdateAccountButtonText" xml:space="preserve">
     <value>Update Name</value>
+  </data>
+  <data name="UpdateAccountButtonHint" xml:space="preserve">
+    <value>Update Name Button</value>
   </data>
   <data name="ReportSubmitHint" xml:space="preserve">
     <value>Submits report</value>
@@ -1216,7 +1225,12 @@ We are still learning about how people use Right To Ask. These rules may change 
   <data name="DisagreeCodeOfConductPopText" xml:space="preserve">
   <value>Because you disagreed with our Code of Conduct, you can only read questions.</value>
   </data>
-
+  <data name="RegisterMPButtonHint" xml:space="preserve">
+  <value>Goes to the page to register MP or staffer account</value>
+  </data>
+  <data name="SignUpButtonHint" xml:space="preserve">
+  <value>Starts sign up flow</value>
+  </data>
   <data name="SignUpTitleText" xml:space="preserve">
   <value>Sign up to Right To Ask</value>
   </data>

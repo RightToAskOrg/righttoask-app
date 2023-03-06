@@ -35,7 +35,9 @@
                 <!-- update button -->
                 <Button Text="{xct:Translate UpdateAccountButtonText}" Command="{Binding UpdateAccountButtonCommand}"
                         Style="{StaticResource OutlineButton}" HorizontalOptions="End" 
-                        IsVisible="{Binding ShowUpdateAccountButton}" Margin="0,4,0,0"/>
+                        IsVisible="{Binding ShowUpdateAccountButton}" Margin="0,4,0,0"
+                        xct:SemanticEffect.Hint="{xct:Translate UpdateAccountButtonText}"
+                        xct:SemanticEffect.Description="{xct:Translate UpdateAccountButtonText}"/>
                 <Label Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}" />
                 
                 <Label Text="{Binding BadgesSummary, StringFormat='Registered MP account for {0}'}"
@@ -46,7 +48,9 @@
                 <Label Text="{xct:Translate MyElectoratesHeaderText}" 
                        Style="{StaticResource SmallGreyHeader}" VerticalOptions="Center"/>
                 <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.account_edit.png}" Command="{Binding EditElectoratesCommand}"
-                             BackgroundColor="Transparent" WidthRequest="20" HeightRequest="20" HorizontalOptions="End"/>
+                             BackgroundColor="Transparent" WidthRequest="20" HeightRequest="20" HorizontalOptions="End"
+                             xct:SemanticEffect.Hint="{xct:Translate EditElectoratesButtonHint}"
+                             xct:SemanticEffect.Description="{xct:Translate EditElectoratesButtonDescription}"/>
             </FlexLayout>
                 <BoxView Style="{StaticResource ButtonSeparator}" Margin="0"/>
             <!-- The height request is a kludge because otherwise the CollectionView takes up all the rest of the page -->

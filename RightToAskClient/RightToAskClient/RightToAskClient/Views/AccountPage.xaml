@@ -54,7 +54,9 @@
                             <Button Text="{Binding RegisterMPButtonText}"
                                     Command="{Binding ChooseMPToRegisterButtonCommand}"
                                     IsVisible="{Binding ShowRegisterMPButton}" Style="{StaticResource EditorProceed}"
-                                    HorizontalOptions="Start" />
+                                    HorizontalOptions="Start"
+                                    xct:SemanticEffect.Hint="{xct:Translate RegisterMPButtonHint}"
+                                    xct:SemanticEffect.Description="{xct:Translate RegisterMPButtonText}"/>
                             <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.arrow_forward.png}" 
                                          BackgroundColor="Transparent" WidthRequest="20" HeightRequest="20" HorizontalOptions="End"/>
                         </FlexLayout>
@@ -76,7 +78,9 @@
                         <Button Text="Sign up"
                                 Margin="70, 0"
                                 Style="{StaticResource NormalButton}"
-                                Command="{Binding DoRegistrationCommand}"/>
+                                Command="{Binding DoRegistrationCommand}"
+                                xct:SemanticEffect.Hint="{xct:Translate SignUpButtonHint}"
+                                xct:SemanticEffect.Description="{xct:Translate SignUpTitleText}"/>
                     </StackLayout>
                 </StackLayout>
             </StackLayout>
