@@ -140,7 +140,7 @@ namespace RightToAskClient.Models
         }
 
         // A list of existing answers, specifying who gave the answer in the role of representing which MP.
-        public List<Answer>? _answers { get; set; } 
+        public List<Answer> _answers { get; set; } = new List<Answer>();
         
         public List<Answer> Answers => _answers;
 

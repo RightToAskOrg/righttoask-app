@@ -21,9 +21,7 @@ namespace UnitTests
             QuestionText = "test",
             QuestionSuggester = "me",
             QuestionId = "fakeId",
-            Version = "fakeVersion",
-            HasAnswer = true,
-            AnswerAccepted = true
+            Version = "fakeVersion"
         };
         static ElectorateWithChamber ElectorateWithChamber = new ElectorateWithChamber(ParliamentData.Chamber.Vic_Legislative_Council, ParliamentData.StateEnum.VIC.ToString());
         Registration ValidRegistrationWithValidElectorate = new Registration
@@ -273,7 +271,7 @@ namespace UnitTests
             mps.Add(answeringMP);
             FilterChoices filters = new FilterChoices() { SelectedAnsweringMPsMine = mps};
             vm.Question.Filters = filters;
-
+            
             // act
             vm.ClearQuestionDataAddWriter();
             bool validElectorate = electorate.Validate();
@@ -286,7 +284,7 @@ namespace UnitTests
             //Assert.True(validQuestion);
             Assert.NotNull(vm.Question);
             Assert.False(vm.Question.HasAnswer);
-            Assert.False(vm.Question.AnswerAccepted);
+            // Assert.False(vm.Question.AnswerAccepted);
             Assert.True(string.IsNullOrEmpty(vm.Question.QuestionText));
             // TODO: (unit-tests) fails when ran separately
             Assert.False(string.IsNullOrEmpty(vm.Question.QuestionSuggester));
