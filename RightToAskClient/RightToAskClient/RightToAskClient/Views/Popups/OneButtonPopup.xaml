@@ -6,7 +6,7 @@
            xmlns:local="clr-namespace:RightToAskClient"
            xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
            x:Class="RightToAskClient.Views.Popups.OneButtonPopup"
-           Size="300,220"
+           Size="300,300"
            IsLightDismissEnabled="True"
            Color="Transparent">
     <Frame CornerRadius="5" 
