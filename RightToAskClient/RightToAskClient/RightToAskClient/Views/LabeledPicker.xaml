@@ -11,7 +11,7 @@
     VerticalOptions="Start"
     x:Name="This" HorizontalOptions="Fill">
     <Label Text="{Binding Title}"
-           Style="{StaticResource PickerTitle}"
+           Style="{StaticResource SmallGreyHeader}"
            IsVisible="{Binding ShowTitle}"/>
     <Grid Margin="0,0,0,8">
         <BoxView Style="{StaticResource ButtonSeparator}" VerticalOptions="End" />

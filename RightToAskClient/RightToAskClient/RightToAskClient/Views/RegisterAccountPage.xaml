@@ -36,7 +36,7 @@
                                      Spacing="0">
                             <Label x:Name="NameLabel"
                                    Text="{xct:Translate DisplayNameHeaderText}"
-                                   Style="{StaticResource PickerTitle}"
+                                   Style="{StaticResource SmallGreyHeader}"
                                    IsVisible="{Binding DisplayName.Length}" />
                             <controls:BorderlessEntry
                                 AutomationProperties.Name="{xct:Translate DisplayNamePlaceholderText}"
@@ -74,7 +74,7 @@
                                      Margin="0,16,0,0">
                             <Label x:Name="UsernameLabel"
                                    Text="{xct:Translate UserNameHeaderText}"
-                                   Style="{StaticResource PickerTitle}"
+                                   Style="{StaticResource SmallGreyHeader}"
                                    IsVisible="{Binding UserId.Length}" />
                             <controls:BorderlessEntry
                                 AutomationProperties.Name="{xct:Translate UIDPlaceholderText}"
