@@ -393,18 +393,6 @@ namespace RightToAskClient.Resx {
             }
         }
         
-        internal static string InAppHeaderText {
-            get {
-                return ResourceManager.GetString("InAppHeaderText", resourceCulture);
-            }
-        }
-        
-        internal static string InAppExplText {
-            get {
-                return ResourceManager.GetString("InAppExplText", resourceCulture);
-            }
-        }
-        
         internal static string InParliamentHeaderText {
             get {
                 return ResourceManager.GetString("InParliamentHeaderText", resourceCulture);
