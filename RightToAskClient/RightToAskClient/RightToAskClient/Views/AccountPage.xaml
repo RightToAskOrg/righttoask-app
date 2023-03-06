@@ -56,7 +56,7 @@
                                     IsVisible="{Binding ShowRegisterMPButton}" Style="{StaticResource EditorProceed}"
                                     HorizontalOptions="Start"
                                     xct:SemanticEffect.Hint="{xct:Translate RegisterMPButtonHint}"
-                                    xct:SemanticEffect.Description="{xct:Translate RegisterMPButtonText}"/>
+                                    xct:SemanticEffect.Description="{Binding RegisterMPButtonText}"/>
                             <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.arrow_forward.png}" 
                                          BackgroundColor="Transparent" WidthRequest="20" HeightRequest="20" HorizontalOptions="End"/>
                         </FlexLayout>
