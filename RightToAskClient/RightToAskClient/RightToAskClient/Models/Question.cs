@@ -227,7 +227,7 @@ namespace RightToAskClient.Models
             {
                 foreach (var link in serverQuestion.hansard_link)
                 {
-                    var possibleUrl = ParliamentData.StringToValidParliamentaryUrl(link?.url ?? "");
+                    var possibleUrl = ParliamentaryURICreator.StringToValidParliamentaryUrl(link?.url ?? "");
                     if (possibleUrl.Success)
                     {
                         HansardLink.Add(possibleUrl.Data);

@@ -71,7 +71,7 @@ namespace RightToAskClient.ViewModels
             get => _newHansardLink;
             set
             {
-                var urlResult = ParliamentData.StringToValidParliamentaryUrl(value);
+                var urlResult = ParliamentaryURICreator.StringToValidParliamentaryUrl(value);
                 if (urlResult.Success)
                 {
                     SetProperty(ref _newHansardLink, value);

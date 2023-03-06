@@ -1977,6 +1977,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string LinkHttpErrorText {
+            get {
+                return ResourceManager.GetString("LinkHttpErrorText", resourceCulture);
+            }
+        }
+        
         internal static string LinkPlaceholderText {
             get {
                 return ResourceManager.GetString("LinkPlaceholderText", resourceCulture);

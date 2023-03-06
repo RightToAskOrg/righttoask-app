@@ -1,3 +1,4 @@
+using RightToAskClient.Helpers;
 using RightToAskClient.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -13,7 +14,7 @@ namespace RightToAskClient.Views
         {
             InitializeComponent();
 
-            DomainPicker.ItemsSource = ParliamentData.Domains;
+            DomainPicker.ItemsSource = ParliamentaryURICreator.ValidParliamentaryDomains;
         }
     }
 }

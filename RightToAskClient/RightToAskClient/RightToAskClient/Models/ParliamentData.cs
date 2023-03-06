@@ -527,9 +527,6 @@ namespace RightToAskClient.Models
 		    return state == StateEnum.NSW || state == StateEnum.SA;
 	    }
 
-	    public static readonly List<string> Domains =
-		    new List<string>(((Enum.GetValues(typeof(Chamber)) as IEnumerable<Chamber>))
-			    .Select(c => GetDomain(c)).Distinct());
 	    public static string GetDomain(Chamber electorateChamber) => electorateChamber switch
 	    {
 		    Chamber.ACT_Legislative_Assembly => "parliament.act.gov.au",
@@ -649,29 +646,6 @@ namespace RightToAskClient.Models
         }
 
         
-        public static JOSResult<Uri> StringToValidParliamentaryUrl(string value)
-        {
-            try
-            {
-                var link = new Uri(value);
-                // Valid url, but not one of the allowed ones.
-                if (!link.IsWellFormedOriginalString())
-                {
-	                return new ErrorResult<Uri>(AppResources.LinkNotWellFormedErrorText);
-                }
-                if (!Domains.Contains(link.Host))
-                {
-	                return new ErrorResult<Uri>(AppResources.ParliamentaryURLErrorText);
-                }
-                
-                return new SuccessResult<Uri>(link);
-            }
-            // Not a valid url 
-            catch (Exception e)
-            {
-	            return new ErrorResult<Uri>(e.Message);
-            }
-        }
 
         // See if we can find the registered MP in our existing list.
         // Using field-equality operator.

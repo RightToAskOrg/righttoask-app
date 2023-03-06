@@ -1083,6 +1083,9 @@
   <data name="LinkNotWellFormedErrorText" xml:space="preserve">
     <value>The link is not a valid url</value>
   </data>
+  <data name="LinkHttpErrorText" xml:space="preserve">
+    <value>Link must start with "http://" or "https://"</value>
+  </data>
   <data name="LinkPlaceholderText" xml:space="preserve">
     <value>Parliamentary url</value>
   </data>

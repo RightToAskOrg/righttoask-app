@@ -111,8 +111,8 @@ namespace RightToAskClient.ViewModels
         
         private async void SendMPRegistrationToServer()
         {
-            _domain = _parliamentaryDomainIndex >= 0  && _parliamentaryDomainIndex < ParliamentData.Domains.Count
-                ? ParliamentData.Domains[_parliamentaryDomainIndex] : "";
+            _domain = _parliamentaryDomainIndex >= 0  && _parliamentaryDomainIndex < ParliamentaryURICreator.ValidParliamentaryDomains.Count
+                ? ParliamentaryURICreator.ValidParliamentaryDomains[_parliamentaryDomainIndex] : "";
             var message = new RequestEmailValidationMessage()
             {
                 why = new EmailValidationReason() { AsMP = !IsStaffer },
