@@ -11,7 +11,6 @@
              x:Class="RightToAskClient.Views.UserAccountInfoView"
              x:DataType="vm:RegistrationViewModel">
     <ContentView.Content>
-        <ScrollView>
         <StackLayout Orientation="Vertical">
                 <Label Text="{xct:Translate UserNameHeaderText}" 
                        Style="{StaticResource SmallGreyHeader}" />
@@ -52,43 +51,42 @@
                 <BoxView Style="{StaticResource ButtonSeparator}" Margin="0"/>
             <!-- The height request is a kludge because otherwise the CollectionView takes up all the rest of the page -->
             <!-- rather than resizing to fit just the number of elements it has -->
-            
-            <!-- TODO Change to stacklayout as in QuestionDetailPage -->
-            <CollectionView ItemsSource="{Binding ElectoratesOptions}"
-                            HeightRequest="280"
-                            SelectionMode="Single"
-                            SelectedItem="{Binding SelectedElectorateWithChamber}">
-                <!-- <CollectionView ItemsSource="{Binding Registration.electorates}" SelectionMode="Single" SelectedItem="{Binding SelectedElectorateWithChamber}">-->
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:ElectorateOption">
-                        <StackLayout HorizontalOptions="StartAndExpand">
-                            <FlexLayout Direction="Row" HorizontalOptions="Fill" Wrap="Wrap" AlignItems="End">
-                                <Label Text="{Binding ElectorateTitle}" Style="{StaticResource NormalText}" />
-                                <views:PublicPrivateLabel IsPublic="{Binding IsPublic}" Margin="10, 0"/>
-                            </FlexLayout>
-                            
-                            <Label Text="{Binding ElectorateValue}"
-                                   Style="{StaticResource SmallGreyText}" 
-                                   FontSize="Medium"/>
-                            <BoxView Style="{StaticResource ButtonSeparator}" Margin="0,0,0,8"/>
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup Name="CommonStates">
-                                    <VisualState Name="Normal" />
-                                    <VisualState Name="Selected">
-                                        <VisualState.Setters>
-                                            <Setter Property="Background"
-                                                    Value="{AppThemeBinding  Light={StaticResource WindowBackgroundColor}, 
-                                                    Dark={StaticResource WindowBackgroundColorDark}}" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                        </StackLayout>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+             
+            <!-- state -->
+            <FlexLayout Direction="Row" HorizontalOptions="Fill" Wrap="Wrap" AlignItems="End">
+                <Label Text="{Binding StateOption.ElectorateTitle}" Style="{StaticResource NormalText}" />
+                <views:PublicPrivateLabel IsPublic="{Binding StateOption.IsPublic}" Margin="10, 0"/>
+            </FlexLayout>
+                        
+            <Label Text="{Binding StateOption.ElectorateValue}"
+                   Style="{StaticResource SmallGreyText}" 
+                   FontSize="Medium"/>
+            <BoxView Style="{StaticResource ButtonSeparator}" Margin="0,0,0,8"/>
+           
+            <!-- Federal electorate -->
+            <FlexLayout Direction="Row" HorizontalOptions="Fill" Wrap="Wrap" AlignItems="End">
+                <Label Text="{Binding FederalElectorateOption.ElectorateTitle}" Style="{StaticResource NormalText}" />
+                <views:PublicPrivateLabel IsPublic="{Binding FederalElectorateOption.IsPublic}" Margin="10, 0"/>
+            </FlexLayout>
+                    
+            <Label Text="{Binding FederalElectorateOption.ElectorateValue}"
+                   Style="{StaticResource SmallGreyText}" 
+                   FontSize="Medium"/>
+            <BoxView Style="{StaticResource ButtonSeparator}" Margin="0,0,0,8"/>
+              
+                
+            <!-- state electorate -->
+            <FlexLayout Direction="Row" HorizontalOptions="Fill" Wrap="Wrap" AlignItems="End">
+                <Label Text="{Binding StateElectorateOption.ElectorateTitle}" Style="{StaticResource NormalText}" />
+                <views:PublicPrivateLabel IsPublic="{Binding StateElectorateOption.IsPublic}" Margin="10, 0"/>
+            </FlexLayout>
+                
+            <Label Text="{Binding StateElectorateOption.ElectorateValue}"
+                   Style="{StaticResource SmallGreyText}" 
+                   FontSize="Medium"/>
+            <BoxView Style="{StaticResource ButtonSeparator}" Margin="0,0,0,32"/>
+                
             
         </StackLayout>
-        </ScrollView>
     </ContentView.Content>
 </ContentView>

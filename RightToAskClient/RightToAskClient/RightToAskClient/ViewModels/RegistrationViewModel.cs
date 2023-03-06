@@ -125,32 +125,68 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        public List<ElectorateOption> ElectoratesOptions
+        public ElectorateOption StateOption
         {
             get
             {
-                List<ElectorateOption> list = new List<ElectorateOption>();
-                int len = _registration.Electorates.Count;
-                if (len >= 3)
+                ElectorateOption stateOption = null;
+                foreach (var electorate in _registration.Electorates)
                 {
-                    var isStatePublic = XamarinPreferences.shared.Get("isStatePublic", false);
-                    var isFederalElectoratePublic = XamarinPreferences.shared.Get("isFederalElectoratePublic", false);
-                    var isStateElectoratePublic = XamarinPreferences.shared.Get("isStateElectoratePublic", false);
-                    
-                    ElectorateWithChamber stateChamber = _registration.Electorates[2];
-                    ElectorateOption stateOption = new ElectorateOption("State", stateChamber.region, isStatePublic);
-                    list.Add(stateOption);
-                    
-                    ElectorateWithChamber federalChamber = _registration.Electorates[0];
-                    ElectorateOption federalOption = new ElectorateOption("Federal electorate", federalChamber.region, isFederalElectoratePublic);
-                    list.Add(federalOption);
-                    
-                    ElectorateWithChamber stateElectorateChamber = _registration.Electorates[1];
-                    ElectorateOption stateElectoratelOption = new ElectorateOption("State electorate", stateElectorateChamber.region, isStateElectoratePublic);
-                    list.Add(stateElectoratelOption);
+                    if (electorate.chamber == ParliamentData.Chamber.Australian_Senate)
+                    {
+                        var isStatePublic = XamarinPreferences.shared.Get("isStatePublic", false);
+                        stateOption = new ElectorateOption("State", electorate.region, isStatePublic);
+                    }
                 }
-                
-                return list;
+
+                return stateOption;
+            }
+        }
+
+        public ElectorateOption FederalElectorateOption
+        {
+            get
+            {
+                ElectorateOption federalElectorateOption = null;
+                foreach (var electorate in _registration.Electorates)
+                {
+                    if (electorate.chamber == ParliamentData.Chamber.Australian_House_Of_Representatives)
+                    {
+                        var isFederalElectoratePublic = XamarinPreferences.shared.Get("isFederalElectoratePublic", false);
+                        federalElectorateOption = new ElectorateOption("Federal electorate", electorate.region, isFederalElectoratePublic);
+                     
+                    }
+                }
+
+                return federalElectorateOption;
+            }
+        }
+        
+        public ElectorateOption StateElectorateOption
+        {
+            get
+            {
+                ElectorateOption stateElectorateOption = null;
+                List<string> stateElectorates = new List<string>(); 
+                foreach (var electorate in _registration.Electorates)
+                {
+                    if (electorate.chamber != ParliamentData.Chamber.Australian_House_Of_Representatives 
+                        && electorate.chamber != ParliamentData.Chamber.Australian_Senate)
+                    {
+                        if (!electorate.region.IsNullOrEmpty())
+                        {
+                            stateElectorates.Add(electorate.region); 
+                        }
+                     
+                    }
+                }
+                if (!stateElectorates.IsNullOrEmpty())
+                {
+                    string stateElectorate = String.Join(", ", stateElectorates);
+                    var isStateElectoratePublic = XamarinPreferences.shared.Get("isStateElectoratePublic", false);
+                    stateElectorateOption = new ElectorateOption("State electorate", stateElectorate, isStateElectoratePublic);
+                }
+                return stateElectorateOption;
             }
         }
 
