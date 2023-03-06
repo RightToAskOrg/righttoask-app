@@ -21,7 +21,7 @@
             <StackLayout x:Name="questionAsker" VerticalOptions="FillAndExpand" Margin="10">
                 <Label Text="{xct:Translate RaiseQuestionHeaderText}" Style="{StaticResource Header1}"
                        HorizontalTextAlignment="Center" VerticalOptions="Start" />
-                <Grid RowDefinitions="*,auto,*,*,*,*,auto,*" ColumnDefinitions="*,2*" HorizontalOptions="FillAndExpand"
+                <Grid RowDefinitions="*,*,*,*,*,*,auto,*" ColumnDefinitions="*,2*" HorizontalOptions="FillAndExpand"
                       VerticalOptions="FillAndExpand" RowSpacing="10" ColumnSpacing="10" Margin="10">
                     <Label Grid.Row="0" Grid.ColumnSpan="2" Text="{xct:Translate InParliamentHeaderText}"
                            Style="{StaticResource Header2}" HorizontalTextAlignment="Center" />
