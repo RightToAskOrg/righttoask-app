@@ -25,7 +25,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>RightToAskClient</string>
 	<key>CFBundleIdentifier</key>
-	<string>au.org.democracydevelopers.RightToAskClient-Marzia</string>
+	<string>au.org.democracydevelopers.RightToAskClient</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>UILaunchStoryboardName</key>
