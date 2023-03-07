@@ -268,12 +268,12 @@ namespace RightToAskClient.ViewModels
             KnowElectoratesCommand.Execute(true);
 
             if(_registration.IsRegistered)
-                initialiseElectoratesPicker();
+                InitialiseElectoratesPickerWithRegisteredElectorates();
             else
-                initialiseElectoratesPickerWithoutRigistration();
+                InitialiseElectoratesPickerForSignupFlow();
         }
 
-        private void initialiseElectoratesPickerWithoutRigistration()
+        private void InitialiseElectoratesPickerForSignupFlow()
         {
             StatePickerModel = new LabeledPickerViewModel
             {
@@ -281,12 +281,14 @@ namespace RightToAskClient.ViewModels
                 Title = AppResources.ChooseStateOrTerritory,
             };
             StatePickerModel.OnSelectedCallback += OnStateSelected;
+
             FederalPickerModel = new LabeledPickerViewModel
             {
                 Items = FederalElectorates,
                 Title = AppResources.FederalElectoratePickerTitle,
             };
             FederalPickerModel.OnSelectedCallback += OnFederalElectoratePickerSelectedIndexChanged;
+
             StateElectoratePickerModel = new LabeledPickerViewModel()
             {
                 Items = AllStateChoosableElectorates.ToList(),
@@ -296,22 +298,19 @@ namespace RightToAskClient.ViewModels
             
         }
 
-        private void initialiseElectoratesPicker()
+        private void InitialiseElectoratesPickerWithRegisteredElectorates()
         {
             ParliamentData.StateEnum stateToSelect;
-            Enum.TryParse(State, out stateToSelect);
+            var isStateAvailable = Enum.TryParse(State, out stateToSelect);
 
             // initialize the selection of State picker
             StatePickerModel = new LabeledPickerViewModel
             {
                 Items = StatePicker,
                 Title = AppResources.ChooseStateOrTerritory,
-                
+                SelectedIndex = isStateAvailable ? (int)stateToSelect : -1
             };
-            if (_registration.IsRegistered)
-            {
-                StatePickerModel.SelectedIndex = _stateKnown ? (int)stateToSelect : -1;
-            }
+            StatePickerModel.OnSelectedCallback += OnStateSelected;
 
             // initialize the selection of Federal picker
             FederalElectorates = ParliamentData.HouseOfRepsElectorates(State);
@@ -321,6 +320,7 @@ namespace RightToAskClient.ViewModels
                 Title = AppResources.FederalElectoratePickerTitle,
                 SelectedIndex = CommonwealthElectorate.IsNullOrEmpty() ? -1 : FederalElectorates.IndexOf(CommonwealthElectorate)
             };
+            FederalPickerModel.OnSelectedCallback += OnFederalElectoratePickerSelectedIndexChanged;
 
             var stateElectorate = (stateToSelect == ParliamentData.StateEnum.TAS)
                 ? StateUpperHouseElectorate
@@ -336,9 +336,6 @@ namespace RightToAskClient.ViewModels
                     ? -1
                     : AllStateChoosableElectorates.IndexOf(stateElectorate),
             };
-            
-            StatePickerModel.OnSelectedCallback += OnStateSelected;
-            FederalPickerModel.OnSelectedCallback += OnFederalElectoratePickerSelectedIndexChanged;
             StateElectoratePickerModel.OnSelectedCallback += OnStateChoosableElectoratePickerSelectedIndexChanged;
 
         }
@@ -609,6 +606,7 @@ namespace RightToAskClient.ViewModels
                 if (selectedState == SelectedStateEnum)  
                     return;
             }
+
             (_stateKnown, SelectedStateEnum) = _registration.UpdateStateStorePreferences(StatePickerModel.SelectedIndex);
             _registration.Electorates = ParliamentData.FindAllRelevantElectorates(SelectedStateEnum, "", "");
             if (_stateKnown)
