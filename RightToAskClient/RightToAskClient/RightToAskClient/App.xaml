@@ -747,7 +747,14 @@
                     </VisualStateGroupList>
                 </Setter>
             </Style>
-            <Style x:Key="SearchButton" TargetType="ImageButton">
+            <Style x:Key="SearchIcon" TargetType="ImageButton">
+                <Setter Property="BackgroundColor" Value="{StaticResource Transparent}" />
+                <Setter Property="Padding" Value="2" />
+                <Setter Property="Margin" Value="0" />
+                <Setter Property="WidthRequest" Value="20" />
+                <Setter Property="HeightRequest" Value="20" />
+            </Style>
+            <Style x:Key="ClearButtonGreen" TargetType="ImageButton">
                 <Setter Property="BackgroundColor" Value="{StaticResource ButtonColor}" />
                 <Setter Property="Padding" Value="2" />
                 <Setter Property="Margin" Value="0" />
