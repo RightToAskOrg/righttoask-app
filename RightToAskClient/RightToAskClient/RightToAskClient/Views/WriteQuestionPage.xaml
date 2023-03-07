@@ -6,7 +6,6 @@
              x:Name="AskQuestionPageName"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
-             xmlns:local="clr-namespace:RightToAskClient"
              xmlns:views="clr-namespace:RightToAskClient.Views;assembly=RightToAskClient"
              xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
              Title="Write question" 
@@ -97,24 +96,24 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="24" />
                         </Grid.ColumnDefinitions>
-                        <Entry Placeholder="{xct:Translate DraftQuestionPlaceholderText}"
-                                VerticalOptions="EndAndExpand"
-                                HorizontalOptions="Fill"
-                                Style="{StaticResource KeyboardEditor}"
-                                BackgroundColor="Transparent"
-                                x:Name="KeywordEntry"
-                                Keyboard="Chat"
-                                MaxLength="280"
-                                Focused="KeywordEntry_FocusedChange"
-                                Unfocused="KeywordEntry_FocusedChange"
-                                TextChanged="KeywordEntry_OnTextChanged"
-                                xct:CornerRadiusEffect.CornerRadius="5"
-                                xct:SemanticEffect.Hint="{xct:Translate WriteQuestionEditorHint}"
-                                xct:SemanticEffect.Description="{xct:Translate WriteQuestionEditorDescription}"
-                                Grid.Row="0"
-                                Grid.Column="0"
-                                Margin="0">
-                        </Entry>
+                        <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}"
+                                                  VerticalOptions="FillAndExpand"
+                                                  HorizontalOptions="FillAndExpand"
+                                                  Style="{StaticResource KeyboardEditor}"
+                                                  BackgroundColor="Transparent"
+                                                  x:Name="KeywordEntry"
+                                                  Keyboard="Chat"
+                                                  MaxLength="280"
+                                                  Focused="KeywordEntry_FocusedChange"
+                                                  Unfocused="KeywordEntry_FocusedChange"
+                                                  TextChanged="KeywordEntry_OnTextChanged"
+                                                  xct:CornerRadiusEffect.CornerRadius="5"
+                                                  xct:SemanticEffect.Hint="{xct:Translate WriteQuestionEditorHint}"
+                                                  xct:SemanticEffect.Description="{xct:Translate WriteQuestionEditorDescription}"
+                                                  Grid.Row="0"
+                                                  Grid.Column="0"
+                                                  Margin="0">
+                        </Editor>
                         <StackLayout
                             Orientation="Vertical"
                             VerticalOptions="Center"

@@ -1,8 +1,6 @@
 using System;
-using RightToAskClient.Models;
 using RightToAskClient.Resx;
 using RightToAskClient.ViewModels;
-using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace RightToAskClient.Views
@@ -42,10 +40,14 @@ namespace RightToAskClient.Views
             ClearButton.IsVisible = false;
         }
 
-        private void KeywordEntry_OnTextChanged(object sender, TextChangedEventArgs e)
+        private ReadingPageViewModel? GetViewModel()
         {
-            int length = e.NewTextValue.Length;
-            ClearButton.IsVisible = length > 0;
+            return BindingContext as ReadingPageViewModel;
+        }
+
+        private void KeywordEntry_OnCompleted(object sender, EventArgs e)
+        {
+            GetViewModel().RefreshCommand.ExecuteAsync();
         }
     }
 }
