@@ -1,3 +1,4 @@
+using System;
 using RightToAskClient.Models;
 using RightToAskClient.Resx;
 using RightToAskClient.ViewModels;
@@ -34,6 +35,17 @@ namespace RightToAskClient.Views
             // clear the selected item
             QuestionList.SelectedItem = null;
             base.OnDisappearing();
+        }
+        private void ClearButton_OnClicked(object sender, EventArgs e)
+        {
+            KeywordEntry.Text = "";
+            ClearButton.IsVisible = false;
+        }
+
+        private void KeywordEntry_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            int length = e.NewTextValue.Length;
+            ClearButton.IsVisible = length > 0;
         }
     }
 }

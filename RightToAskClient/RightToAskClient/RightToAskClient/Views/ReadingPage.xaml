@@ -24,29 +24,91 @@
     <ContentPage.Content>
         <StackLayout x:Name="WholePage" HorizontalOptions="Center" VerticalOptions="FillAndExpand" Spacing="0">
             <BoxView />
-            <!--Search Frame-->
-            <Frame Style="{StaticResource AppThemeGreenFrame}" Margin="0" Padding="0" IsVisible="{Binding ShowSearchFrame}">
-                <StackLayout>
-                    <Grid ColumnDefinitions="*,*,*,auto" MinimumHeightRequest="30">
-                        <SearchBar Grid.Column="0" Grid.ColumnSpan="3" Placeholder="{xct:Translate SearchBarPlaceholderText}" Text="{Binding Keyword}"
-                           Style="{StaticResource GreenSearchBar}" HorizontalOptions="Start" 
-                           SearchCommand="{Binding RefreshCommand}"
-                           Margin="0" />
-                        <Grid ColumnDefinitions="auto, auto" Grid.Column="3" Padding="0" Margin="0">
-                            <Label Grid.Column="0" Style="{StaticResource CenterSmall}" FontSize="Micro" Text="{xct:Translate AdvancedSearchButtonText}" 
-                                   Padding="0" Margin="0" VerticalOptions="Center" VerticalTextAlignment="Center" WidthRequest="60" LineBreakMode="WordWrap">
-                                <!-- I was hoping LineBreakMode="WordWrap" would solve the text-wrapping problem on iOS, but it didn't so I used a widthrequest.-->
-                                <Label.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding ShowFiltersCommand}"/>
-                                </Label.GestureRecognizers>
-                            </Label>
-                            <ImageButton Grid.Column="1" Source="{helpers:ImageResource RightToAskClient.Images.filter_sliders_48.png}" 
-                                         Command="{Binding ShowFiltersCommand}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
-                                         WidthRequest="40" Padding="0" Margin="0" BackgroundColor="{StaticResource ButtonColor}"/>
-                        </Grid>
+            <Frame Style="{StaticResource AppThemeGreenFrame}" 
+                   Margin="0" Padding="0" 
+                   IsVisible="{Binding ShowSearchFrame}">
+                <StackLayout Style="{StaticResource EditorContainer}"
+                             Padding="0"
+                             x:Name="EditorArea"
+                             VerticalOptions="EndAndExpand">
+                    <Grid ColumnSpacing="8"
+                          RowSpacing="0"
+                          BackgroundColor="{AppThemeBinding 
+                          Light={StaticResource EditorBackground}, 
+                          Dark={StaticResource EditorBackgroundDark}}"
+                          Padding="8,0,0,0"
+                          xct:CornerRadiusEffect.CornerRadius="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="24" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="24" />
+                            <ColumnDefinition Width="40" />
+                        </Grid.ColumnDefinitions>
+                        <StackLayout
+                            Orientation="Vertical"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            Grid.Row="0"
+                            Grid.Column="0">
+                            <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.Search_Gray.png}"
+                                         Style="{StaticResource SearchIcon}"
+                                         xct:CornerRadiusEffect.CornerRadius="8"
+                                         xct:SemanticEffect.Hint="{xct:Translate SearchButtonText}"
+                                         xct:SemanticEffect.Description="{xct:Translate SearchButtonText}">
+                            </ImageButton>
+                        </StackLayout>
+                        <Editor Placeholder="{xct:Translate SearchBarPlaceholderText}"
+                                Text="{Binding Keyword}"
+                                VerticalOptions="EndAndExpand"
+                                HorizontalOptions="FillAndExpand"
+                                Style="{StaticResource KeyboardEditor}"
+                                BackgroundColor="Transparent"
+                                x:Name="KeywordEntry"
+                                Keyboard="Chat"
+                                MaxLength="280"
+                                TextChanged="KeywordEntry_OnTextChanged"
+                                xct:CornerRadiusEffect.CornerRadius="5"
+                                xct:SemanticEffect.Hint="{xct:Translate DraftQuestionPlaceholderText}"
+                                Margin="0"
+                                Grid.Row="0"
+                                Grid.Column="1">
+                        </Editor>
+                        <StackLayout
+                            Orientation="Vertical"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            Grid.Row="0"
+                            Grid.Column="2">
+                            <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.close.png}"
+                                         Style="{StaticResource ClearButtonGreen}"
+                                         xct:CornerRadiusEffect.CornerRadius="8"
+                                         xct:SemanticEffect.Hint="{xct:Translate ClearButtonHint}"
+                                         xct:SemanticEffect.Description="{xct:Translate ClearButtonDescription}"
+                                         Clicked="ClearButton_OnClicked"
+                                         x:Name="ClearButton">
+                            </ImageButton>
+                        </StackLayout>
+                        <StackLayout
+                            Orientation="Vertical"
+                            VerticalOptions="FillAndExpand"
+                            HorizontalOptions="FillAndExpand"
+                            Grid.Row="0"
+                            Grid.Column="3">
+                            <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.filter_sliders_48.png}"
+                                         Style="{StaticResource ClearButtonGreen}"
+                                         Command="{Binding ShowFiltersCommand}"
+                                         WidthRequest="40"
+                                         HeightRequest="40">
+                            </ImageButton>
+                        </StackLayout>
                     </Grid>
                 </StackLayout>
-            </Frame>
+                </Frame>
+            
+            
             <!--Questions Scroll View with Floating Draft Button-->
             <Grid RowDefinitions="*,*" ColumnDefinitions="*,*" VerticalOptions="FillAndExpand">
                 <RefreshView Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="2" IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
