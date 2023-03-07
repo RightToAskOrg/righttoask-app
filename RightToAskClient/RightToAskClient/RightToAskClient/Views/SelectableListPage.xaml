@@ -13,19 +13,84 @@
                      Command="{Binding SearchToolbarCommand}"/>
         <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
                      IconImageSource="{helpers:ImageResource RightToAskClient.Images.home4.png}"/>
-        <ToolbarItem Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
+        <ToolbarItem Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel"
                      IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
 		<StackLayout x:Name="MainLayout" x:FieldModifier="protected" HorizontalOptions="Center" VerticalOptions="Start">
-            <!--Search Frame-->
             <Frame Style="{StaticResource AppThemeGreenFrame}" Margin="0" Padding="0" IsVisible="{Binding ShowSearchFrame}">
-                <StackLayout>
-                    <SearchBar Placeholder="{xct:Translate SearchBarPlaceholderText}" Text="{Binding Keyword}"
-                           Style="{StaticResource GreenSearchBar}" HorizontalOptions="FillAndExpand" 
-                           Margin="0"/>
+                <StackLayout Style="{StaticResource EditorContainer}"
+                             Padding="0"
+                             xct:ShadowEffect.Color="{AppThemeBinding 
+                                             Light={StaticResource EditorBackgroundDark},
+                                             Dark={StaticResource EditorBackground}}"
+                             xct:ShadowEffect.OffsetY="-2"
+                             xct:ShadowEffect.Radius="5"
+                             VerticalOptions="EndAndExpand"
+                             x:Name="EditorArea">
+                    <Grid ColumnSpacing="8"
+                          RowSpacing="0"
+                          Margin="16, 8, 16, 8"
+                          BackgroundColor="{AppThemeBinding 
+                          Light={StaticResource EditorBackground}, 
+                          Dark={StaticResource EditorBackgroundDark}}"
+                          Padding="8,0,8,0"
+                          xct:CornerRadiusEffect.CornerRadius="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="42" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="24" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="24" />
+                        </Grid.ColumnDefinitions>
+                        <StackLayout
+                            Orientation="Vertical"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            Grid.Row="0"
+                            Grid.Column="0">
+                            <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.search_75.png}"
+                                         Style="{StaticResource SearchButton}"
+                                         xct:CornerRadiusEffect.CornerRadius="8"
+                                         xct:SemanticEffect.Hint="{xct:Translate SearchButtonText}"
+                                         xct:SemanticEffect.Description="{xct:Translate SearchButtonText}">
+                            </ImageButton>
+                        </StackLayout>
+                        <Editor Placeholder="{xct:Translate SearchBarPlaceholderText}"
+                                Text="{Binding Keyword}"
+                                VerticalOptions="EndAndExpand"
+                                HorizontalOptions="FillAndExpand"
+                                Style="{StaticResource KeyboardEditor}"
+                                BackgroundColor="Transparent"
+                                x:Name="KeywordEntry"
+                                Keyboard="Chat"
+                                MaxLength="280"
+                                TextChanged="KeywordEntry_OnTextChanged"
+                                xct:CornerRadiusEffect.CornerRadius="5"
+                                xct:SemanticEffect.Hint="{xct:Translate DraftQuestionPlaceholderText}"
+                                Margin="0"
+                                Grid.Row="0"
+                                Grid.Column="1">
+                        </Editor>
+                        <StackLayout
+                            Orientation="Vertical"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            Grid.Row="0"
+                            Grid.Column="2">
+                            <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.close.png}"
+                                         Style="{StaticResource SearchButton}"
+                                         xct:CornerRadiusEffect.CornerRadius="8"
+                                         xct:SemanticEffect.Hint="{xct:Translate ClearButtonHint}"
+                                         xct:SemanticEffect.Description="{xct:Translate ClearButtonDescription}"
+                                         Clicked="ClearButton_OnClicked"
+                                         x:Name="ClearButton">
+                            </ImageButton>
+                        </StackLayout>
+                    </Grid>
                 </StackLayout>
-            </Frame>
+                </Frame>
             <Label x:Name="IntroText" Text = "{Binding IntroText}" Style="{StaticResource Header1}"/>
             <ScrollView x:Name="ParentScrollView">
                 <ListView x:Name="EntityListView" ItemsSource="{Binding FilteredSelectableEntities}"
@@ -34,6 +99,6 @@
 					ItemTemplate="{StaticResource SelectableDataTemplate }" />
             </ScrollView>
             <Button Text="{Binding DoneButtonText}" Command="{Binding DoneButtonCommand}" Style="{StaticResource DoneButton}" /> 
-		</StackLayout>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

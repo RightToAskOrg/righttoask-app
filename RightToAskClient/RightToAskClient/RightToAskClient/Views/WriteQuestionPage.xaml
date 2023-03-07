@@ -27,7 +27,6 @@
     <ContentPage.Content>
         <ScrollView VerticalScrollBarVisibility="Never">
             <StackLayout>
-
                 <StackLayout x:Name="QuestionsArea"
                              VerticalOptions="Fill">
                     <RefreshView IsRefreshing="{Binding IsRefreshing}" VerticalOptions="FillAndExpand"

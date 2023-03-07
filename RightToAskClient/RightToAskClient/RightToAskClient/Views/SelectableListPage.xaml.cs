@@ -1,6 +1,10 @@
+using System;
 using RightToAskClient.Models;
 using RightToAskClient.ViewModels;
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
+
 
 /*
  * Inputs a list of tags to be displayed in a way that allows the user
@@ -59,6 +63,17 @@ namespace RightToAskClient.Views
 			{
 				tag.Toggle();
 			}
+		}
+		private void ClearButton_OnClicked(object sender, EventArgs e)
+		{
+			KeywordEntry.Text = "";
+			ClearButton.IsVisible = false;
+		}
+
+		private void KeywordEntry_OnTextChanged(object sender, TextChangedEventArgs e)
+		{
+			int length = e.NewTextValue.Length;
+			ClearButton.IsVisible = length > 0;
 		}
 	}
 }
