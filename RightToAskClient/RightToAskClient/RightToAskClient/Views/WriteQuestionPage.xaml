@@ -97,7 +97,7 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="24" />
                         </Grid.ColumnDefinitions>
-                        <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}"
+                        <Entry Placeholder="{xct:Translate DraftQuestionPlaceholderText}"
                                 VerticalOptions="EndAndExpand"
                                 HorizontalOptions="Fill"
                                 Style="{StaticResource KeyboardEditor}"
@@ -114,10 +114,7 @@
                                 Grid.Row="0"
                                 Grid.Column="0"
                                 Margin="0">
-                            <Editor.Effects>
-                                <xct:LifecycleEffect Loaded="LifecycleEffect_OnLoaded" />
-                            </Editor.Effects>
-                        </Editor>
+                        </Entry>
                         <StackLayout
                             Orientation="Vertical"
                             VerticalOptions="Center"

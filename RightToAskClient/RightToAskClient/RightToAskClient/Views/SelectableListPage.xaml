@@ -58,7 +58,7 @@
                                          xct:SemanticEffect.Description="{xct:Translate SearchButtonText}">
                             </ImageButton>
                         </StackLayout>
-                        <Editor Placeholder="{xct:Translate SearchBarPlaceholderText}"
+                        <Entry Placeholder="{xct:Translate SearchBarPlaceholderText}"
                                 Text="{Binding Keyword}"
                                 VerticalOptions="EndAndExpand"
                                 HorizontalOptions="FillAndExpand"
@@ -73,7 +73,7 @@
                                 Margin="0"
                                 Grid.Row="0"
                                 Grid.Column="1">
-                        </Editor>
+                        </Entry>
                         <StackLayout
                             Orientation="Vertical"
                             VerticalOptions="Center"

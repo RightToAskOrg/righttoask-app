@@ -698,7 +698,7 @@
                         Dark={StaticResource WindowBackgroundColorDark}}" />
                 <Setter Property="CornerRadius" Value="2 2 0 0 " />
             </Style>
-            <Style x:Key="KeyboardEditor" BasedOn="{StaticResource DisabledEditor}" TargetType="Editor"
+            <Style x:Key="KeyboardEditor" TargetType="Entry"
                    ApplyToDerivedTypes="True">
                 <Setter Property="BackgroundColor"
                         Value="{AppThemeBinding Light={StaticResource EditorBackground}, 
