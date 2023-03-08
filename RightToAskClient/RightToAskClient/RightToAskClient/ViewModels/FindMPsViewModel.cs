@@ -49,6 +49,7 @@ namespace RightToAskClient.ViewModels
             get => _showElectoratesFrame;
             set => SetProperty(ref _showElectoratesFrame, value);
         }
+
         private bool _showKnowElectoratesFrame;
         public bool ShowKnowElectoratesFrame
         {
@@ -82,7 +83,7 @@ namespace RightToAskClient.ViewModels
 
         private void OnStateSelected(int value)
         {
-            OnStatePickerSelectedIndexChanged();
+            OnStatePickerSelectedIndexChanged(value);
             OnPropertyChanged("FederalElectorates");
         }
 
@@ -207,33 +208,17 @@ namespace RightToAskClient.ViewModels
             }
 
             InitUILabels(_registration);
-
+            
             PopupLabelText = AppResources.FindMPsPopupText;
             ShowAddressStack = false;
             ShowKnowElectoratesFrame = false;
             ShowMapFrame = false;
 
             _stateKnown = _registration.StateKnown;
-            
-            // set the pickers to update their content lists here if state was already indicated elsewhere in the application
-            if(_stateKnown) 
-            {
-                SelectedStateEnum = _registration.SelectedStateAsEnum;
-                var choosableStateElectorate = (SelectedStateEnum == ParliamentData.StateEnum.TAS )
-                   ? StateUpperHouseElectorate
-                   : StateLowerHouseElectorate;
-                UpdateElectorateInferencesFromStateAndCommElectorate(SelectedStateEnum,
-                    choosableStateElectorate,
-                    CommonwealthElectorate);
-            }
-
-            // if (!string.IsNullOrEmpty(CommonwealthElectorate))
-            // {
-                var electorateString = ParliamentData.ConvertGeoscapeElectorateToStandard(
-                    _registration.State, 
-                    CommonwealthElectorate);
-                ShowMapOfElectorate(electorateString);
-            // }
+            var electorateString = ParliamentData.ConvertGeoscapeElectorateToStandard(
+                _registration.State, 
+                CommonwealthElectorate);
+            ShowMapOfElectorate(electorateString);
 
             // commands
             SaveMPsButtonCommand = new AsyncCommand(async () =>
@@ -281,32 +266,77 @@ namespace RightToAskClient.ViewModels
                 ShowElectoratesFrame = false;
             });
             KnowElectoratesCommand.Execute(true);
-            
-            StatePickerModel = new LabeledPickerViewModel()
+
+            if(_registration.ElectoratesKnown)
+                InitialisePickersWithElectorates();
+            else
+                InitialisePickers();
+        }
+
+        private void InitialisePickers()
+        {
+            StatePickerModel = new LabeledPickerViewModel
             {
                 Items = StatePicker,
                 Title = AppResources.ChooseStateOrTerritory,
             };
             StatePickerModel.OnSelectedCallback += OnStateSelected;
 
-            if (_stateKnown)
-            {
-                SelectedStateEnum = _registration.SelectedStateAsEnum;
-                StatePickerModel.SelectedIndex = (int)SelectedStateEnum;
-            }
-            
-            FederalPickerModel = new LabeledPickerViewModel()
+            FederalPickerModel = new LabeledPickerViewModel
             {
                 Items = FederalElectorates,
                 Title = AppResources.FederalElectoratePickerTitle,
             };
             FederalPickerModel.OnSelectedCallback += OnFederalElectoratePickerSelectedIndexChanged;
-            
+
             StateElectoratePickerModel = new LabeledPickerViewModel()
             {
                 Items = AllStateChoosableElectorates.ToList(),
                 Title = "Legislative Assembly",
             };
+            StateElectoratePickerModel.OnSelectedCallback += OnStateChoosableElectoratePickerSelectedIndexChanged;
+            
+        }
+
+        private void InitialisePickersWithElectorates()
+        {
+            ParliamentData.StateEnum stateToSelect;
+            Enum.TryParse(State, out stateToSelect);
+
+            // initialize the selection of State picker
+            StatePickerModel = new LabeledPickerViewModel
+            {
+                Items = StatePicker,
+                Title = AppResources.ChooseStateOrTerritory,
+                SelectedIndex = _stateKnown ? (int)stateToSelect : -1
+            };
+
+            // initialize the selection of Federal picker
+            FederalElectorates = ParliamentData.HouseOfRepsElectorates(State);
+            FederalPickerModel = new LabeledPickerViewModel
+            {
+                Items = FederalElectorates,
+                Title = AppResources.FederalElectoratePickerTitle,
+                SelectedIndex = CommonwealthElectorate.IsNullOrEmpty() ? -1 : FederalElectorates.IndexOf(CommonwealthElectorate)
+            };
+
+            var stateElectorate = (stateToSelect == ParliamentData.StateEnum.TAS)
+                ? StateUpperHouseElectorate
+                : StateLowerHouseElectorate;
+            UpdateElectorateInferencesFromStateAndCommElectorate(stateToSelect,
+                stateElectorate,
+                CommonwealthElectorate);
+            StateElectoratePickerModel = new LabeledPickerViewModel()
+            {
+                Items = AllStateChoosableElectorates.ToList(),
+                Title = "Legislative Assembly",
+                SelectedIndex = stateElectorate.IsNullOrEmpty()
+                    ? -1
+                    : AllStateChoosableElectorates.IndexOf(stateElectorate),
+            };
+            
+            FederalPickerModel.OnSelectedCallback += OnFederalElectoratePickerSelectedIndexChanged;
+            StatePickerModel.OnSelectedCallback += OnStateSelected;
             StateElectoratePickerModel.OnSelectedCallback += OnStateChoosableElectoratePickerSelectedIndexChanged;
         }
 
@@ -516,8 +546,6 @@ namespace RightToAskClient.ViewModels
 
                 var stateElectorate = _registration.SelectedStateAsEnum == ParliamentData.StateEnum.TAS
                     ? StateUpperHouseElectorate : StateLowerHouseElectorate;
-                // TODO Consider whether electorates should be readonly and instead have a function that updates them
-                // given this info.
                 _registration.Electorates
                         = ParliamentData.FindAllRelevantElectorates(SelectedStateEnum, stateElectorate, FederalElectorates[selectedFederalElectorateIndex]);
                 // For Tasmania, we need your federal electorate to infer your state Legislative Assembly electorate.
@@ -570,11 +598,17 @@ namespace RightToAskClient.ViewModels
                     = ParliamentData.InferOtherChamberInfoGivenOneRegion(state, stateElectorate, commElectorate);
         }
 
-        private void OnStatePickerSelectedIndexChanged()
+        private void OnStatePickerSelectedIndexChanged(int value)
         {
+            if (_registration.ElectoratesKnown)
+            {
+                var selectedState = (ParliamentData.StateEnum)Enum.ToObject(typeof(ParliamentData.StateEnum), value);
+                if (selectedState == SelectedStateEnum)  
+                    return;
+            }
+
             (_stateKnown, SelectedStateEnum) = _registration.UpdateStateStorePreferences(StatePickerModel.SelectedIndex);
             _registration.Electorates = ParliamentData.FindAllRelevantElectorates(SelectedStateEnum, "", "");
-                
             if (_stateKnown)
             {
                 // This will give us the right message about the upper-house electorate and a blank inferred electorate.
@@ -613,6 +647,15 @@ namespace RightToAskClient.ViewModels
                     chamberPair => chamberPair.chamber == ParliamentData.Chamber.Australian_House_Of_Representatives);
             }
         }
+        
+        private string State
+        {
+            get
+            {
+                return ParliamentData.FindOneElectorateGivenPredicate(_registration.Electorates.ToList(), 
+                    chamberPair => chamberPair.chamber == ParliamentData.Chamber.Australian_Senate);
+            }
+        }
 
         private string StateLowerHouseElectorate
         {
@@ -622,5 +665,6 @@ namespace RightToAskClient.ViewModels
                     chamberPair => ParliamentData.IsLowerHouseChamber(chamberPair.chamber)); 
             }
         }
+        
     }
 }
