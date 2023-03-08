@@ -26,8 +26,10 @@
                      Spacing="0">
             <BoxView />
             <Frame Style="{StaticResource AppThemeGreenFrame}" 
-                   Margin="0" Padding="0" 
-                   IsVisible="{Binding ShowSearchFrame}">
+                   Margin="8,8" Padding="0" 
+                   IsVisible="{Binding ShowSearchFrame}"
+                   xct:CornerRadiusEffect.CornerRadius="5"
+                   BackgroundColor="Transparent">
                 <StackLayout Style="{StaticResource EditorContainer}"
                              Padding="0"
                              x:Name="EditorArea"
@@ -46,7 +48,7 @@
                             <ColumnDefinition Width="24" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="24" />
-                            <ColumnDefinition Width="40" />
+                            <ColumnDefinition Width="56" />
                         </Grid.ColumnDefinitions>
                         <StackLayout
                             Orientation="Vertical"
@@ -100,9 +102,11 @@
                             Grid.Column="3">
                             <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.filter_sliders_48.png}"
                                          Style="{StaticResource ClearButtonGreen}"
+                                         xct:CornerRadiusEffect.CornerRadius="5"
                                          Command="{Binding ShowFiltersCommand}"
                                          WidthRequest="40"
-                                         HeightRequest="40">
+                                         HeightRequest="40"
+                                         Margin="8,0,0,0">
                             </ImageButton>
                         </StackLayout>
                     </Grid>

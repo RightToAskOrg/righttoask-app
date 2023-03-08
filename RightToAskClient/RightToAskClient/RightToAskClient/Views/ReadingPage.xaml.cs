@@ -47,6 +47,9 @@ namespace RightToAskClient.Views
 
         private void KeywordEntry_OnCompleted(object sender, EventArgs e)
         {
+            // int length = e.NewTextValue.Length;
+            // ClearButton.IsVisible = length > 0;
+            
             GetViewModel().RefreshCommand.ExecuteAsync();
         }
     }
