@@ -64,7 +64,21 @@ namespace RightToAskClient.ViewModels
                 string.Join(", ", Question.Filters.SelectedAskingMPsMine.Select(mp => mp.ShortestName)), 
                 string.Join(",", Question.Filters.SelectedCommittees.Select(com => com.ShortestName)))
                 .NullToEmptyMessage(AppResources.Blank);
-
+        
+        public bool HasAskers
+        {
+            get => Question.Filters.SelectedAskingMPsNotMine.Count != 0 ||
+                       Question.Filters.SelectedAskingMPsMine.Count != 0 ||
+                       Question.Filters.SelectedCommittees.Count != 0;
+        }
+        
+        public bool HasAnswerers
+        {
+            get => Question.Filters.SelectedAnsweringMPsNotMine.Count != 0 ||
+                       Question.Filters.SelectedAnsweringMPsMine.Count != 0 ||
+                       Question.Filters.SelectedAuthorities.Count != 0;
+        }
+        
         private string? _newHansardLink; 
         public string NewHansardLink 
         { 

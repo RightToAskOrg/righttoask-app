@@ -1,5 +1,4 @@
 using System;
-using RightToAskClient.Models;
 using RightToAskClient.ViewModels;
 using Xamarin.Forms;
 using RightToAskClient.Resx;
@@ -75,7 +74,14 @@ namespace RightToAskClient.Views
 
             AnswerPermissionCheckbox.IsVisible = questionVM.IsNewQuestion;
             AskerPermissionCheckbox.IsVisible = questionVM.IsNewQuestion;
-            QuestionAskerStack.IsVisible = !questionVM.IsNewQuestion || questionVM.HowAnswered == HowAnsweredOptions.InParliament; 
+
+            if (questionVM.IsNewQuestion)
+            {
+                AnswerCheckBox.IsChecked = true;
+                RaiseCheckBox.IsChecked = true;
+                AnswerCheckBox.IsEnabled = questionVM.HasAnswerers;
+                RaiseCheckBox.IsEnabled = questionVM.HasAskers;
+            }
 
             // You can add background to your own question.
             var backgroundBlank = string.IsNullOrWhiteSpace(questionVM.Question.Background);

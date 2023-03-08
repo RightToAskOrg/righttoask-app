@@ -139,7 +139,7 @@
     <value>Allow other users to add more people to answer the question?</value>
   </data>
   <data name="Blank" xml:space="preserve">
-    <value>[blank]</value>
+    <value>You haven't made a selection</value>
   </data>
   <data name="AnswerQuestionHeaderText" xml:space="preserve">
     <value>Who should answer your question?</value>
@@ -415,7 +415,7 @@
     <value>A Public Authority</value>
   </data>
   <data name="PublishQuestionButtonText" xml:space="preserve">
-    <value>Publish New Question!</value>
+    <value>Publish New Question</value>
   </data>
   <data name="QuestionErrorTypeDescription" xml:space="preserve">
     <value>question</value>
@@ -635,6 +635,9 @@
   </data>
   <data name="EditQuestionButtonText" xml:space="preserve">
     <value>Update</value>
+  </data>
+  <data name="EditQuestionButtonHint" xml:space="preserve">
+    <value>Updates my question</value>
   </data>
   <data name="QuestionEditSuccessfulPopupText" xml:space="preserve">
     <value>Question was updated successfully.</value>

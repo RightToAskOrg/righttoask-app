@@ -1083,6 +1083,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string EditQuestionButtonHint {
+            get {
+                return ResourceManager.GetString("EditQuestionButtonHint", resourceCulture);
+            }
+        }
+        
         internal static string QuestionEditSuccessfulPopupText {
             get {
                 return ResourceManager.GetString("QuestionEditSuccessfulPopupText", resourceCulture);
