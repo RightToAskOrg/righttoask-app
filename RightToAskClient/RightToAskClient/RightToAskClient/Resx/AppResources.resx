@@ -433,7 +433,7 @@
     <value>Questions by</value>
   </data>
   <data name="QuestionWriterHeaderText" xml:space="preserve">
-    <value>Question Writer:</value>
+    <value>Question Writer </value>
   </data>
   <data name="ReadingPageHeader1" xml:space="preserve">
     <value>&#x2022; Up-vote good questions&#x0a;&#x2022; Tap for more detail &#x0a;&#x2022; Swipe left to dismiss</value>
@@ -952,7 +952,7 @@
     <value>Yes</value>
   </data>
   <data name="BackgroundPageTitle" xml:space="preserve">
-    <value>Background</value>
+    <value>Supporting information</value>
   </data>
   <data name="LocateButtonText" xml:space="preserve">
     <value>Locate</value>

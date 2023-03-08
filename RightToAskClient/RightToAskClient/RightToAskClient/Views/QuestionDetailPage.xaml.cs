@@ -1,4 +1,5 @@
 using System;
+using RightToAskClient.Models;
 using RightToAskClient.ViewModels;
 using Xamarin.Forms;
 using RightToAskClient.Resx;
@@ -81,6 +82,9 @@ namespace RightToAskClient.Views
                 RaiseCheckBox.IsChecked = true;
                 AnswerCheckBox.IsEnabled = questionVM.HasAnswerers;
                 RaiseCheckBox.IsEnabled = questionVM.HasAskers;
+                
+                WriterNameLabel.Text = IndividualParticipant.getInstance().ProfileData.RegistrationInfo.display_name 
+                                       + " @" + questionVM.Question.QuestionSuggester;
             }
 
             // You can add background to your own question.
