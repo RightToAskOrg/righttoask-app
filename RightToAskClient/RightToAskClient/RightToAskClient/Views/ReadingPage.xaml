@@ -37,20 +37,35 @@
                     <Grid ColumnSpacing="8"
                           RowSpacing="0"
                           BackgroundColor="{AppThemeBinding 
-                          Light={StaticResource EditorBackground}, 
+                          Light={StaticResource Transparent}, 
                           Dark={StaticResource EditorBackgroundDark}}"
-                          Padding="8,0,0,0"
+                          Padding="8,0,8,0"
                           xct:CornerRadiusEffect.CornerRadius="5">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="40" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="24" />
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="24" />
                             <ColumnDefinition Width="56" />
                         </Grid.ColumnDefinitions>
-                        <StackLayout
+                    <StackLayout Grid.Row="0"
+                        Grid.Column="0">
+                        <Grid ColumnSpacing="8"
+                              RowSpacing="0"
+                              BackgroundColor="{AppThemeBinding 
+                            Light={StaticResource EditorBackground}, 
+                            Dark={StaticResource EditorBackgroundDark}}"
+                              xct:CornerRadiusEffect.CornerRadius="5"
+                              Padding="8,0,8,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="24" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="24" />
+                            </Grid.ColumnDefinitions>
+                            <StackLayout
                             Orientation="Vertical"
                             VerticalOptions="Center"
                             HorizontalOptions="Center"
@@ -84,7 +99,8 @@
                             VerticalOptions="Center"
                             HorizontalOptions="Center"
                             Grid.Row="0"
-                            Grid.Column="2">
+                            Grid.Column="2" 
+                            >
                             <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.close.png}"
                                          Style="{StaticResource ClearButtonGreen}"
                                          xct:CornerRadiusEffect.CornerRadius="8"
@@ -94,21 +110,37 @@
                                          x:Name="ClearButton">
                             </ImageButton>
                         </StackLayout>
+                        </Grid>
+                    </StackLayout>
+                    <StackLayout Grid.Row="0"
+                        Grid.Column="1">
+                    <Grid BackgroundColor="{AppThemeBinding 
+                          Light={StaticResource Transparent}, 
+                          Dark={StaticResource EditorBackgroundDark}}"
+                          xct:CornerRadiusEffect.CornerRadius="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="56" />
+                        </Grid.ColumnDefinitions>
                         <StackLayout
                             Orientation="Vertical"
                             VerticalOptions="FillAndExpand"
                             HorizontalOptions="FillAndExpand"
                             Grid.Row="0"
-                            Grid.Column="3">
+                            Grid.Column="0">
                             <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.filter_sliders_48.png}"
                                          Style="{StaticResource ClearButtonGreen}"
                                          xct:CornerRadiusEffect.CornerRadius="5"
                                          Command="{Binding ShowFiltersCommand}"
                                          WidthRequest="40"
                                          HeightRequest="40"
-                                         Margin="8,0,0,0">
+                                         Margin="3,0,0,0">
                             </ImageButton>
                         </StackLayout>
+                    </Grid>
+                    </StackLayout>
                     </Grid>
                 </StackLayout>
                 </Frame>
