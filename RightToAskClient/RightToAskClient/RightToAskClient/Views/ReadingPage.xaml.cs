@@ -1,7 +1,6 @@
-using RightToAskClient.Models;
+using System;
 using RightToAskClient.Resx;
 using RightToAskClient.ViewModels;
-using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace RightToAskClient.Views
@@ -34,6 +33,27 @@ namespace RightToAskClient.Views
             // clear the selected item
             QuestionList.SelectedItem = null;
             base.OnDisappearing();
+        }
+        private void ClearButton_OnClicked(object sender, EventArgs e)
+        {
+            KeywordEntry.Text = "";
+            ClearButton.IsVisible = false;
+        }
+
+        private ReadingPageViewModel? GetViewModel()
+        {
+            return BindingContext as ReadingPageViewModel;
+        }
+
+        private void KeywordEntry_OnCompleted(object sender, EventArgs e)
+        {
+            GetViewModel().RefreshCommand.ExecuteAsync();
+        }
+
+        private void KeywordEntry_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            int length = e.NewTextValue.Length;
+            ClearButton.IsVisible = length > 0;
         }
     }
 }

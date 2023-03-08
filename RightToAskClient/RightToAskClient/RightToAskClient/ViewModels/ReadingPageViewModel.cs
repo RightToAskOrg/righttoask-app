@@ -75,8 +75,8 @@ namespace RightToAskClient.ViewModels
             set
             {
                 FilterChoices.SearchKeyword = value;
-                OnPropertyChanged();
             }
+            
         }
         
         private string _writerOnlyUid = string.Empty;
