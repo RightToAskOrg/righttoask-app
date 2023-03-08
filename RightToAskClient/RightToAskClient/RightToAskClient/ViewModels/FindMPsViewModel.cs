@@ -267,13 +267,13 @@ namespace RightToAskClient.ViewModels
             });
             KnowElectoratesCommand.Execute(true);
 
-            if(_registration.IsRegistered)
-                InitialiseElectoratesPickerWithRegisteredElectorates();
+            if(_registration.ElectoratesKnown)
+                InitialisePickersWithElectorates();
             else
-                InitialiseElectoratesPickerForSignupFlow();
+                InitialisePickers();
         }
 
-        private void InitialiseElectoratesPickerForSignupFlow()
+        private void InitialisePickers()
         {
             StatePickerModel = new LabeledPickerViewModel
             {
@@ -298,7 +298,7 @@ namespace RightToAskClient.ViewModels
             
         }
 
-        private void InitialiseElectoratesPickerWithRegisteredElectorates()
+        private void InitialisePickersWithElectorates()
         {
             ParliamentData.StateEnum stateToSelect;
             Enum.TryParse(State, out stateToSelect);
@@ -600,7 +600,7 @@ namespace RightToAskClient.ViewModels
 
         private void OnStatePickerSelectedIndexChanged(int value)
         {
-            if (_registration.IsRegistered)
+            if (_registration.ElectoratesKnown)
             {
                 var selectedState = (ParliamentData.StateEnum)Enum.ToObject(typeof(ParliamentData.StateEnum), value);
                 if (selectedState == SelectedStateEnum)  
