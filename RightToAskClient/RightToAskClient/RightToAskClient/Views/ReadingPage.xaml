@@ -29,7 +29,8 @@
                    Margin="8,8" Padding="0" 
                    IsVisible="{Binding ShowSearchFrame}"
                    xct:CornerRadiusEffect.CornerRadius="5"
-                   BackgroundColor="Transparent">
+                   BackgroundColor="Transparent"
+                   BorderColor="Transparent">
                 <StackLayout Style="{StaticResource EditorContainer}"
                              Padding="0"
                              x:Name="EditorArea"
