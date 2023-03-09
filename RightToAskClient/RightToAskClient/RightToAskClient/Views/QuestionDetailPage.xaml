@@ -178,14 +178,15 @@
 				    <Editor x:Name="LinkToAnswerEditor" Placeholder="{xct:Translate LinkPlaceholderText}" Completed="Link_Entered"
 				            Style="{StaticResource NormalEditor}" />
 			    </StackLayout>
-			    <Button x:Name="UpdateButton"
-						Text="{xct:Translate EditQuestionButtonText}" Style="{StaticResource SaveButton}"
-			            Command="{Binding EditAnswerCommand}" HorizontalOptions="Center" 
-						IsVisible="{Binding IsUpdateButtonVisible}"
+			    <Button Text="{xct:Translate EditQuestionButtonText}" Style="{StaticResource SaveButton}"
+			            Command="{Binding EditAnswerCommand}" 
+			            HorizontalOptions="Center" 
+						IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}"
 						xct:SemanticEffect.Hint="{xct:Translate EditQuestionButtonHint}"
 			            xct:SemanticEffect.Description="{xct:Translate EditQuestionButtonText}"/>
 			    <Button Text="{xct:Translate PublishQuestionButtonText}" Style="{StaticResource DoneButton}"
-			            Command="{Binding SaveQuestionCommand}" HorizontalOptions="Center" IsVisible="{Binding IsNewQuestion}" 
+			            Command="{Binding SaveQuestionCommand}" HorizontalOptions="Center" 
+			            IsVisible="{Binding IsNewQuestion}" 
 			            xct:SemanticEffect.Hint="{xct:Translate PublishQuestionButtonText}"
 			            xct:SemanticEffect.Description="{xct:Translate PublishQuestionButtonText}"/>
                 <Label x:Name="ReportLabel" Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}"

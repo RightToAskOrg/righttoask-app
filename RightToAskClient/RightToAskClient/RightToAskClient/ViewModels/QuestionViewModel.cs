@@ -52,11 +52,6 @@ namespace RightToAskClient.ViewModels
                 .RegistrationInfo.uid);
         }
 
-        public bool IsUpdateButtonVisible
-        {
-            get => IsMyQuestion && !IsNewQuestion;
-        }
-        
         public bool IsRaiseLayoutVisible
         {
             get => (IsMyQuestion && !IsNewQuestion) || (IsAnswerInApp && IsNewQuestion) || IsMyQuestion;
