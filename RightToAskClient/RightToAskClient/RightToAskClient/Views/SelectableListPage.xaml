@@ -2,7 +2,6 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             xmlns:local="clr-namespace:RightToAskClient"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels;assembly=RightToAskClient"
              xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
              xmlns:controls="clr-namespace:RightToAskClient.Views.Controls;assembly=RightToAskClient"
@@ -12,7 +11,7 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="{xct:Translate SearchButtonText}" 
                      IconImageSource="{helpers:ImageResource RightToAskClient.Images.search_75.png}"
-                     Command="{Binding SearchToolbarCommand}"/>
+                     Clicked="MenuItem_OnClicked"/>
         <ToolbarItem Text="{xct:Translate HomeButtonText}" 
                      Command="{Binding HomeButtonCommand}" 
                      x:DataType="vm:BaseViewModel"
@@ -22,12 +21,17 @@
                      IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-		<StackLayout x:Name="MainLayout" 
-                     x:FieldModifier="protected" 
-                     HorizontalOptions="Center" VerticalOptions="Start">
-            <Frame Style="{StaticResource AppThemeGreenFrame}" 
-                   Margin="0" Padding="0" 
-                   IsVisible="{Binding ShowSearchFrame}">
+		<StackLayout x:FieldModifier="protected" 
+                     HorizontalOptions="Center" 
+                     VerticalOptions="Start">
+            <Frame x:Name="SearchFrame"
+                   Style="{StaticResource AppThemeGreenFrame}" 
+                   Margin="8,8" 
+                   Padding="0" 
+                   BackgroundColor="Transparent"
+                   BorderColor="Transparent"
+                   xct:CornerRadiusEffect.CornerRadius="5"
+                   HasShadow="False">
                 <StackLayout Style="{StaticResource EditorContainer}"
                              Padding="0"
                              VerticalOptions="EndAndExpand">
@@ -92,16 +96,15 @@
                         </StackLayout>
                     </Grid>
                 </StackLayout>
-                </Frame>
-            <Label x:Name="IntroText" 
-                   Text = "{Binding IntroText}" 
+            </Frame>
+            <Label Text = "{Binding IntroText}" 
                    Style="{StaticResource Header1}"/>
-            <ScrollView x:Name="ParentScrollView">
-                <ListView x:Name="EntityListView" 
-                          Margin="16,8,8,16"
+            <ScrollView FocusChangeRequested="ParentScrollView_OnFocusChangeRequested">
+                <ListView Margin="8"
                           ItemsSource="{Binding FilteredSelectableEntities}"
                           x:FieldModifier="protected" 
-                          VerticalOptions="FillAndExpand" SelectionMode="None" 
+                          VerticalOptions="FillAndExpand" 
+                          SelectionMode="None" 
                           HasUnevenRows="True" 
                           ItemTapped="OnEntity_Selected" 
                           ItemTemplate="{StaticResource SelectableDataTemplate }"/>
