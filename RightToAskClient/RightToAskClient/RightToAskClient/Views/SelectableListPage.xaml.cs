@@ -73,5 +73,10 @@ namespace RightToAskClient.Views
 			int length = e.NewTextValue.Length;
 			ClearButton.IsVisible = length > 0;
 		}
+
+		private void ParentScrollView_OnFocusChangeRequested(object sender, FocusRequestArgs e)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

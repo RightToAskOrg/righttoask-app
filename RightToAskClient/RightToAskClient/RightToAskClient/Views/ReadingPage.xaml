@@ -24,7 +24,7 @@
         <StackLayout HorizontalOptions="Center" 
                      VerticalOptions="FillAndExpand" 
                      Spacing="0">
-            <BoxView />
+            <BoxView/>
             <Frame Style="{StaticResource AppThemeGreenFrame}" 
                    Margin="8,8" Padding="0" 
                    IsVisible="{Binding ShowSearchFrame}"
