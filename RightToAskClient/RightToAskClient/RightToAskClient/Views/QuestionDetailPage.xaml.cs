@@ -62,29 +62,24 @@ namespace RightToAskClient.Views
             var normalEditorStyle = Application.Current.Resources["NormalEditor"] as Style;
             var disabledEditorStyle = Application.Current.Resources["DisabledEditor"] as Style;
             
+            
+
+            AnswerPermissionCheckbox.IsVisible = questionVM.IsNewQuestion || questionVM.IsMyQuestion;
+            AskerPermissionCheckbox.IsVisible = questionVM.IsNewQuestion || questionVM.IsMyQuestion;
+
             if (questionVM.IsNewQuestion)
             {
                 Title = AppResources.ReviewQuestionDetailsTitle;
                 QuestionTextEditor.Style = normalEditorStyle;
+                AnswerCheckBox.IsChecked = true;
+                RaiseCheckBox.IsChecked = true;
+                WriterNameLabel.Text = IndividualParticipant.getInstance().ProfileData.RegistrationInfo.display_name 
+                                       + " @" + questionVM.Question.QuestionSuggester;
             }
             else
             {
                 Title = AppResources.QuestionDetailsTitle;
                 QuestionTextEditor.Style = disabledEditorStyle;
-            }
-
-            AnswerPermissionCheckbox.IsVisible = questionVM.IsNewQuestion;
-            AskerPermissionCheckbox.IsVisible = questionVM.IsNewQuestion;
-
-            if (questionVM.IsNewQuestion)
-            {
-                AnswerCheckBox.IsChecked = true;
-                RaiseCheckBox.IsChecked = true;
-                AnswerCheckBox.IsEnabled = questionVM.HasAnswerers;
-                RaiseCheckBox.IsEnabled = questionVM.HasAskers;
-                
-                WriterNameLabel.Text = IndividualParticipant.getInstance().ProfileData.RegistrationInfo.display_name 
-                                       + " @" + questionVM.Question.QuestionSuggester;
             }
 
             // You can add background to your own question.

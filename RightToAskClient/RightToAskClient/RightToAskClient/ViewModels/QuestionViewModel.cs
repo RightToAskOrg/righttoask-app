@@ -45,17 +45,31 @@ namespace RightToAskClient.ViewModels
                 OnPropertyChanged();
             }
         }
-        
 
+        public bool IsMyQuestion
+        {
+            get => Question.QuestionSuggester.Equals(IndividualParticipant.getInstance().ProfileData
+                .RegistrationInfo.uid);
+        }
+
+        public bool IsUpdateButtonVisible
+        {
+            get => IsMyQuestion && !IsNewQuestion;
+        }
+        
+        public bool IsRaiseLayoutVisible
+        {
+            get => (IsMyQuestion && !IsNewQuestion) || (IsAnswerInApp && IsNewQuestion) || IsMyQuestion;
+        }
         // Convenient views of things stored in the Question.
         public List<Answer> QuestionAnswers => Question.Answers;
 
-        public string QuestionAnswerers =>
+        public string QuestionAnswerers => 
             Extensions.JoinFilter(", ",
                 string.Join(", ", Question.Filters.SelectedAnsweringMPsNotMine.Select(mp => mp.ShortestName)),
                 string.Join(", ", Question.Filters.SelectedAnsweringMPsMine.Select(mp => mp.ShortestName)),
                 string.Join(", ", Question.Filters.SelectedAuthorities.Select(a => a.ShortestName)))
-                .NullToEmptyMessage(AppResources.Blank);
+                .NullToEmptyMessage(IsNewQuestion ? AppResources.HasNotMadeSelection : AppResources.NoSelections);
 
         // The MPs or committee who are meant to ask the question
         public string QuestionAskers =>
@@ -63,7 +77,7 @@ namespace RightToAskClient.ViewModels
                 string.Join(", ", Question.Filters.SelectedAskingMPsNotMine.Select(mp => mp.ShortestName)), 
                 string.Join(", ", Question.Filters.SelectedAskingMPsMine.Select(mp => mp.ShortestName)), 
                 string.Join(",", Question.Filters.SelectedCommittees.Select(com => com.ShortestName)))
-                .NullToEmptyMessage(AppResources.Blank);
+                .NullToEmptyMessage(IsNewQuestion ? AppResources.HasNotMadeSelection : AppResources.NoSelections);
         
         public bool HasAskers
         {
@@ -441,6 +455,11 @@ namespace RightToAskClient.ViewModels
                 }));
                 await Application.Current.MainPage.Navigation.PushAsync(nextPage);
             });
+        }
+
+        public bool IsAnswerInApp
+        {
+            get => _howAnswered == HowAnsweredOptions.InApp;
         }
 
         private Command? _findCommitteeCommand;

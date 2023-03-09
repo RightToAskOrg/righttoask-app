@@ -132,16 +132,23 @@
 				<Label Text="{Binding QuestionAnswerers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
 				<StackLayout x:Name="AnswerPermissionCheckbox" Orientation="Horizontal">
 					<Label Text="{xct:Translate AnswererPermissions}" Style="{StaticResource Header2}" />
-					<CheckBox x:Name="AnswerCheckBox" IsChecked="{Binding OthersCanAddQuestionAnswerers}" Style="{StaticResource CheckBoxStyle}"/>
+					<CheckBox x:Name="AnswerCheckBox" 
+					          IsChecked="{Binding OthersCanAddQuestionAnswerers}" 
+					          Style="{StaticResource CheckBoxStyle}"
+					          IsEnabled="{Binding HasAnswerers}"/>
 				</StackLayout>
 				<!--Question Askers/Option B things-->
-				<StackLayout x:Name="QuestionAskerStack"> 
+				<StackLayout x:Name="RaiseLayout" IsVisible="{Binding IsRaiseLayoutVisible}">
+					<!-- who should raise it -->
 					<Label Text="{xct:Translate OptionBText4}" Style="{StaticResource Header2}" />
 					<Label Text="{Binding QuestionAskers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
 					<!-- Ask the user whether they allow other users to add QuestionAskers. (Y/N) -->
 					<StackLayout x:Name="AskerPermissionCheckbox" Orientation="Horizontal">
 						<Label Text="{xct:Translate AskerPermissions}" Style="{StaticResource Header2}" />
-						<CheckBox x:Name="RaiseCheckBox" IsChecked="{Binding OthersCanAddQuestionAskers}"  Style="{StaticResource CheckBoxStyle}"/>
+						<CheckBox x:Name="RaiseCheckBox" 
+						          IsChecked="{Binding OthersCanAddQuestionAskers}"  
+						          Style="{StaticResource CheckBoxStyle}"
+						          IsEnabled="{Binding HasAskers}"/>
 					</StackLayout>
 				</StackLayout>
 				<!-- question writer -->
@@ -171,10 +178,11 @@
 				    <Editor x:Name="LinkToAnswerEditor" Placeholder="{xct:Translate LinkPlaceholderText}" Completed="Link_Entered"
 				            Style="{StaticResource NormalEditor}" />
 			    </StackLayout>
-			    <Button Text="{xct:Translate EditQuestionButtonText}" Style="{StaticResource SaveButton}"
+			    <Button x:Name="UpdateButton"
+						Text="{xct:Translate EditQuestionButtonText}" Style="{StaticResource SaveButton}"
 			            Command="{Binding EditAnswerCommand}" HorizontalOptions="Center" 
-			            IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}" 
-			            xct:SemanticEffect.Hint="{xct:Translate EditQuestionButtonHint}"
+						IsVisible="{Binding IsUpdateButtonVisible}"
+						xct:SemanticEffect.Hint="{xct:Translate EditQuestionButtonHint}"
 			            xct:SemanticEffect.Description="{xct:Translate EditQuestionButtonText}"/>
 			    <Button Text="{xct:Translate PublishQuestionButtonText}" Style="{StaticResource DoneButton}"
 			            Command="{Binding SaveQuestionCommand}" HorizontalOptions="Center" IsVisible="{Binding IsNewQuestion}" 

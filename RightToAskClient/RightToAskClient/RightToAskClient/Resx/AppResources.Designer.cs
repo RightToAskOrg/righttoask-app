@@ -87,9 +87,15 @@ namespace RightToAskClient.Resx {
             }
         }
         
-        internal static string Blank {
+        internal static string HasNotMadeSelection {
             get {
-                return ResourceManager.GetString("Blank", resourceCulture);
+                return ResourceManager.GetString("HasNotMadeSelection", resourceCulture);
+            }
+        }
+        
+        internal static string NoSelections {
+            get {
+                return ResourceManager.GetString("NoSelections", resourceCulture);
             }
         }
         
