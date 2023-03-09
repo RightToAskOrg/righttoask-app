@@ -167,7 +167,7 @@ namespace RightToAskClient.ViewModels
                 var thisUser =  IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid;
                 var questionWriter = _question.QuestionSuggester;
                 return IsNewQuestion || 
-                       (!string.IsNullOrEmpty(thisUser) && !string.IsNullOrEmpty(questionWriter) && thisUser == questionWriter);
+                       (!string.IsNullOrEmpty(thisUser) && !string.IsNullOrEmpty(questionWriter) && thisUser == questionWriter) && _question.Background.IsNullOrEmpty();
             }
         }
 
