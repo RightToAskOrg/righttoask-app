@@ -129,6 +129,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string YouAskTitle {
+            get {
+                return ResourceManager.GetString("YouAskTitle", resourceCulture);
+            }
+        }
+        
         internal static string CancelButtonText {
             get {
                 return ResourceManager.GetString("CancelButtonText", resourceCulture);
@@ -1716,6 +1722,12 @@ namespace RightToAskClient.Resx {
         internal static string BackgroundPageTitle {
             get {
                 return ResourceManager.GetString("BackgroundPageTitle", resourceCulture);
+            }
+        }
+        
+        internal static string SupportingPageTitle {
+            get {
+                return ResourceManager.GetString("SupportingPageTitle", resourceCulture);
             }
         }
         

@@ -126,7 +126,7 @@
     <value>Failed to sign user update message</value>
   </data>
     <data name="AddBackgroundPlaceholderText" xml:space="preserve">
-    <value>(Optional) links or background</value>
+    <value>Your supporting information, this could be a link to a news article or report (optional)</value>
   </data>
     <data name="AdvancedSearchOptions" xml:space="preserve">
     <value>Advanced Search Options</value>
@@ -163,6 +163,9 @@
   </data>
     <data name="BackgroundHeaderText" xml:space="preserve">
     <value>Do you want to add more information to explain the question?</value>
+  </data>
+  <data name="YouAskTitle" xml:space="preserve">
+    <value>You asked</value>
   </data>
     <data name="CancelButtonText" xml:space="preserve">
     <value>Cancel</value>
@@ -958,6 +961,9 @@
   </data>
     <data name="BackgroundPageTitle" xml:space="preserve">
     <value>Background</value>
+  </data>
+  <data name="SupportingPageTitle" xml:space="preserve">
+    <value>Supporting information</value>
   </data>
     <data name="LocateButtonText" xml:space="preserve">
     <value>Locate</value>

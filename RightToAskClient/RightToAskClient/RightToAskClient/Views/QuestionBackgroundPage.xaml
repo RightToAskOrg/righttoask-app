@@ -7,25 +7,54 @@
              xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
              x:Class="RightToAskClient.Views.QuestionBackgroundPage"
              x:DataType="vm:QuestionViewModel"
-             Title="{xct:Translate BackgroundPageTitle}">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
-                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.home4.png}"/>
-        <ToolbarItem Text="{xct:Translate InfoPopupButtonText}" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
-                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}"/>
-    </ContentPage.ToolbarItems>
+             Title="{xct:Translate SupportingPageTitle}">
     <ContentPage.Content>
-        <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" Padding="10">
-            <Label Text="{xct:Translate BackgroundHeaderText}" Style="{StaticResource Header1}" />
-            <BoxView />
-            <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Padding="20">
-                <Editor MaxLength="280" HeightRequest="200" WidthRequest="320" IsEnabled="{Binding CanEditBackground, Mode=OneWay}"
-                        Style="{StaticResource NormalEditor}" Text="{Binding Question.Background}" Placeholder="{xct:Translate AddBackgroundPlaceholderText}" />
-                <Label Style="{StaticResource ReportLabel}" Text="{xct:Translate MyQuestionCharLimitText}" />
-                <StackLayout Orientation="Horizontal" HorizontalOptions="End" VerticalOptions="End" Margin="0,40,0,0" >
-                    <Button Text="{xct:Translate NextButtonText}" Style="{StaticResource DoneButton}"  Command="{Binding ToHowAnsweredOptionPageCommand}" HorizontalOptions="End"/>
+        <ScrollView VerticalScrollBarVisibility="Never">
+            <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="Fill">
+                
+                <StackLayout VerticalOptions="Fill">
+                    <StackLayout Padding="16, 16, 16, 0">
+                        <Label Text="{xct:Translate YouAskTitle}" Style="{StaticResource SmallGreyHeader}"/>
+                        <Label Text="{Binding Question.QuestionText}" FontSize="Medium" LineHeight="1.3"/>
+                        <BoxView Style="{StaticResource ButtonSeparator}" Margin="0, 8, 0, 0"/>
+                    </StackLayout>
+                    
+                    <StackLayout
+                        Margin="16, 8, 16, 8"
+                          BackgroundColor="{AppThemeBinding 
+                          Light={StaticResource EditorBackground}, 
+                          Dark={StaticResource EditorBackgroundDark}}"
+                          Padding="0,0,8,0"
+                          xct:CornerRadiusEffect.CornerRadius="5">
+                        <Editor x:Name="SupportingInfoEditor" HeightRequest="250" 
+                                Keyboard="Default"
+                                MaxLength="280" IsEnabled="{Binding CanEditBackground, Mode=OneWay}"
+                                BackgroundColor="Transparent" Text="{Binding Question.Background}"
+                                Placeholder="{xct:Translate AddBackgroundPlaceholderText}" PlaceholderColor="Gray" FontSize="Medium"
+                                TextChanged="InputView_OnTextChanged"/>
+                    </StackLayout>
+                    
+                </StackLayout>
+                
+                <StackLayout Style="{StaticResource EditorContainer}"
+                             Padding="0, 8" VerticalOptions="EndAndExpand" >
+                    <BoxView Style="{StaticResource ButtonSeparator}" />
+                    <StackLayout Margin="10, 0" HorizontalOptions="End" Orientation="Horizontal" >
+                        <Label 
+                            Padding="8, 0"
+                            Style="{StaticResource EditorTextNumber}"
+                            x:Name="EditorTextNumber"
+                            VerticalOptions="Center" />
+                        
+                        <Button Text="Next" 
+                                Padding="16, 8"
+                                Style="{StaticResource NormalButton}"
+                                Command="{Binding ToHowAnsweredOptionPageCommand}"
+                                xct:SemanticEffect.Hint="{xct:Translate EditorProceedHint}"
+                                xct:SemanticEffect.Description="{xct:Translate EditorProceedButtonDescription}" />
+                    </StackLayout>
                 </StackLayout>
             </StackLayout>
-        </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

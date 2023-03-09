@@ -10,39 +10,95 @@
              x:Class="RightToAskClient.Views.HowAnsweredOptionPage"
              x:DataType="vm:QuestionViewModel"
              Title="{xct:Translate OptionsTitleText}">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}"
-                     x:DataType="vm:BaseViewModel"
-                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.home4.png}" />
-        <ToolbarItem Text="{xct:Translate InfoPopupButtonText}" Command="{Binding InfoPopupCommand}"
-                     x:DataType="vm:BaseViewModel"
-                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}" />
-    </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand"
-                     Padding="10">
-            <Label Text="{xct:Translate OptionsHeaderText}" Style="{StaticResource Header1}" />
-            <BoxView />
-            <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"
-                         Padding="20"
-                         RadioButtonGroup.GroupName="OptionsTest">
-                <StackLayout.Resources>
-                    <helpers:BoolEnumConverter x:Key="BoolEnumConverter" />
-                </StackLayout.Resources>
-                <RadioButton Style="{StaticResource DefaultRadioButton}"
-                             Content="Answered by MPs in the Right To Ask app"
-                             IsChecked="{Binding Path=HowAnswered, Converter={StaticResource BoolEnumConverter}, 
+        <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="Fill"
+                     Padding="0, 10">
+            <StackLayout.Resources>
+                <helpers:BoolEnumConverter x:Key="BoolEnumConverter" />
+            </StackLayout.Resources>
+            <StackLayout Orientation="Vertical"
+                         VerticalOptions="Fill"
+                         HorizontalOptions="Fill">
+                <Label Text="{xct:Translate OptionsHeaderText}" Style="{StaticResource Header1}" 
+                       HorizontalTextAlignment="Start" Margin="16, 0"/>
+                <BoxView Margin="16, 0"/>
+                <Grid VerticalOptions="StartAndExpand" HorizontalOptions="Fill" RowSpacing="25"
+                      Margin="8, 16" Grid.RowDefinitions="Auto,Auto,Auto">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="28" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <!-- answered in the app -->
+                        <RadioButton 
+                            Grid.Row="0"
+                            xct:SemanticEffect.Hint=""
+                            xct:SemanticEffect.Description=""
+                            VerticalOptions="StartAndExpand"
+                            HorizontalOptions="Fill"
+                            x:Name="InAppRadioButton"
+                            Style="{StaticResource DefaultRadioButton}"
+                            IsChecked="{Binding Path=HowAnswered, Converter={StaticResource BoolEnumConverter}, 
                             ConverterParameter={x:Static models:HowAnsweredOptions.InApp}}" />
-                <RadioButton Style="{StaticResource DefaultRadioButton}" Content="Raised in Parliament"
-                             IsChecked="{Binding Path=HowAnswered, Converter={StaticResource BoolEnumConverter}, 
-                            ConverterParameter={x:Static models:HowAnsweredOptions.InParliament}}" />
-                <RadioButton Style="{StaticResource DefaultRadioButton}" Content="Don't know"
-                             IsChecked="{Binding Path=HowAnswered, Converter={StaticResource BoolEnumConverter}, 
-                            ConverterParameter={x:Static models:HowAnsweredOptions.DontKnow}}" />
+                        <StackLayout Orientation="Vertical" VerticalOptions="StartAndExpand"
+                                     HorizontalOptions="Fill" Grid.Column="1" Margin="12, 0, 0, 0">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="InApp_OnTapped" />
+                            </StackLayout.GestureRecognizers>
+                            <Label Text="Answered by MPs in the Right To Ask app"
+                                   Style="{StaticResource ReportReasonTitle}" />
+                            <Label Text="This is the simplest way to get your question answered."
+                                   Style="{StaticResource ReportReasonDetails}"/>
+                        </StackLayout>
+                        
+                        <!-- raise to parliament -->
+                        <RadioButton Grid.Row="1" Grid.Column="0"
+                                     xct:SemanticEffect.Hint=""
+                                     xct:SemanticEffect.Description=""
+                                     x:Name="InParliamentRadioButton"
+                                     VerticalOptions="StartAndExpand"
+                                     HorizontalOptions="Fill"
+                                     Style="{StaticResource DefaultRadioButton}"
+                                     IsChecked="{Binding Path=HowAnswered, Converter={StaticResource BoolEnumConverter}, 
+                                     ConverterParameter={x:Static models:HowAnsweredOptions.InParliament}}" />
+                        <StackLayout Orientation="Vertical" VerticalOptions="StartAndExpand"
+                                     HorizontalOptions="Fill" Grid.Row="1" Grid.Column="1" Margin="12, 0, 0, 0">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="InParliament_OnTapped"/>
+                            </StackLayout.GestureRecognizers>
+                            <Label Text="I want my question voiced in Parliament"
+                                   Style="{StaticResource ReportReasonTitle}" />
+                            <Label Text="Choose this option if you want to ask a question of a public authority such as The ATO. You need to choose an MP or committee to ask your question and MPs or public authorities to answer it."
+                                   Style="{StaticResource ReportReasonDetails}"/>
+                        </StackLayout>
+                        
+                        <!-- I dont know -->
+                        <RadioButton Grid.Row="2" Grid.Column="0"
+                                     xct:SemanticEffect.Hint=""
+                                     xct:SemanticEffect.Description=""
+                                     x:Name="DontKnowRadioButton"
+                                     VerticalOptions="StartAndExpand"
+                                     HorizontalOptions="Fill"
+                                     Style="{StaticResource DefaultRadioButton}"
+                                     IsChecked="{Binding Path=HowAnswered, Converter={StaticResource BoolEnumConverter}, 
+                                     ConverterParameter={x:Static models:HowAnsweredOptions.DontKnow}}" />
+                        <StackLayout Orientation="Vertical" VerticalOptions="StartAndExpand"
+                                     HorizontalOptions="Fill" Grid.Row="2" Grid.Column="1" Margin="12, 0, 0, 0">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="DontKnow_OnTapped"/>
+                            </StackLayout.GestureRecognizers>
+                            <Label Text="I don’t know"
+                                   Style="{StaticResource ReportReasonTitle}" />
+                            <Label Text="Not sure who or how to ask? Let other Right To Ask users direct your question for you."
+                                   Style="{StaticResource ReportReasonDetails}"/>
+                        </StackLayout>
+                    </Grid>
             </StackLayout>
-            <StackLayout Orientation="Horizontal" HorizontalOptions="End" VerticalOptions="End" Margin="0,40,0,0">
-                <Button Text="{xct:Translate NextButtonText}" Style="{StaticResource DoneButton}"
-                        Command="{Binding ToAnswererPageWithHowAnsweredSelectionCommand}" HorizontalOptions="End" />
+            <StackLayout Padding="0, 8" VerticalOptions="EndAndExpand" >
+                <BoxView Style="{StaticResource ButtonSeparator}" Margin="0, 12"/>
+                <Button Text="{xct:Translate NextButtonText}" Style="{StaticResource NormalButton}"
+                        Command="{Binding ToAnswererPageWithHowAnsweredSelectionCommand}"
+                        Padding="16, 12"
+                        Margin="16, 0"/>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>
