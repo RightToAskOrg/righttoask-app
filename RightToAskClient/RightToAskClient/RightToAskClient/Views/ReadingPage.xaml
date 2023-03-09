@@ -1,39 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
-			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:views="clr-namespace:RightToAskClient.Views"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
              xmlns:controls="clr-namespace:RightToAskClient.Views.Controls;assembly=RightToAskClient"
              x:Class="RightToAskClient.Views.ReadingPage"
-			 x:Name="ReadingPageName"
+             x:Name="ReadingPageName"
              Shell.FlyoutBehavior="Flyout"
              Title="{Binding Title}"
              x:DataType="vm:ReadingPageViewModel">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="{xct:Translate SearchButtonText}" IconImageSource="{helpers:ImageResource RightToAskClient.Images.search_75.png}"
-                     Command="{Binding SearchToolbarCommand}"/>
-        <ToolbarItem Text="{xct:Translate InfoPopupButtonText}" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
-                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}"/>
+        <ToolbarItem Text="{xct:Translate SearchButtonText}"
+                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.search_75.png}"
+                     Clicked="MenuItem_OnClicked" />
+        <ToolbarItem Text="{xct:Translate InfoPopupButtonText}"
+                     Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel"
+                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}" />
     </ContentPage.ToolbarItems>
     <ContentPage.BindingContext>
-        <vm:ReadingPageViewModel/>
+        <vm:ReadingPageViewModel />
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <StackLayout HorizontalOptions="Center" 
-                     VerticalOptions="FillAndExpand" 
+        <StackLayout HorizontalOptions="Center"
+                     VerticalOptions="FillAndExpand"
                      Spacing="0">
-            <BoxView/>
-            <Frame Style="{StaticResource AppThemeGreenFrame}" 
-                   Margin="8,8" Padding="0" 
-                   IsVisible="{Binding ShowSearchFrame}"
+            <BoxView />
+            <Frame x:Name="SearchFrame"
+                   Style="{StaticResource AppThemeGreenFrame}"
+                   Margin="8,8" Padding="0"
                    xct:CornerRadiusEffect.CornerRadius="5"
                    BackgroundColor="Transparent"
                    BorderColor="Transparent">
                 <StackLayout Style="{StaticResource EditorContainer}"
                              Padding="0"
-                             x:Name="EditorArea"
                              VerticalOptions="EndAndExpand">
                     <Grid ColumnSpacing="8"
                           RowSpacing="0"
@@ -49,136 +51,139 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="48" />
                         </Grid.ColumnDefinitions>
-                    <StackLayout Grid.Row="0"
-                        Grid.Column="0">
-                        <Grid ColumnSpacing="8"
-                              RowSpacing="0"
-                              BackgroundColor="{AppThemeBinding 
+                        <StackLayout Grid.Row="0"
+                                     Grid.Column="0">
+                            <Grid ColumnSpacing="8"
+                                  RowSpacing="0"
+                                  BackgroundColor="{AppThemeBinding 
                             Light={StaticResource EditorBackground}, 
                             Dark={StaticResource EditorBackgroundDark}}"
-                              xct:CornerRadiusEffect.CornerRadius="5"
-                              Padding="8,0,8,0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="40" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="24" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="24" />
-                            </Grid.ColumnDefinitions>
-                            <StackLayout
-                            Orientation="Vertical"
-                            VerticalOptions="Center"
-                            HorizontalOptions="Center"
-                            Grid.Row="0"
-                            Grid.Column="0">
-                            <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.Search_Gray.png}"
-                                         Style="{StaticResource SearchIcon}"
-                                         xct:CornerRadiusEffect.CornerRadius="8"
-                                         xct:SemanticEffect.Hint="{xct:Translate SearchButtonText}"
-                                         xct:SemanticEffect.Description="{xct:Translate SearchButtonText}">
-                            </ImageButton>
+                                  xct:CornerRadiusEffect.CornerRadius="5"
+                                  Padding="8,0,8,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="40" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="24" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="24" />
+                                </Grid.ColumnDefinitions>
+                                <StackLayout
+                                    Orientation="Vertical"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center"
+                                    Grid.Row="0"
+                                    Grid.Column="0">
+                                    <ImageButton
+                                        Source="{helpers:ImageResource RightToAskClient.Images.Search_Gray.png}"
+                                        Style="{StaticResource SearchIcon}"
+                                        xct:CornerRadiusEffect.CornerRadius="8"
+                                        xct:SemanticEffect.Hint="{xct:Translate SearchButtonText}"
+                                        xct:SemanticEffect.Description="{xct:Translate SearchButtonText}" />
+                                </StackLayout>
+                                <controls:BorderlessEntry Placeholder="{xct:Translate SearchBarPlaceholderText}"
+                                                          Text="{Binding Keyword}"
+                                                          VerticalOptions="FillAndExpand"
+                                                          HorizontalOptions="FillAndExpand"
+                                                          Style="{StaticResource SearchEntry}"
+                                                          BackgroundColor="Transparent"
+                                                          x:Name="KeywordEntry"
+                                                          Keyboard="Chat"
+                                                          MaxLength="280"
+                                                          Completed="KeywordEntry_OnCompleted"
+                                                          TextChanged="KeywordEntry_OnTextChanged"
+                                                          xct:CornerRadiusEffect.CornerRadius="5"
+                                                          xct:SemanticEffect.Hint="{xct:Translate DraftQuestionPlaceholderText}"
+                                                          Margin="0"
+                                                          Grid.Row="0"
+                                                          Grid.Column="1" />
+                                <StackLayout
+                                    Orientation="Vertical"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center"
+                                    Grid.Row="0"
+                                    Grid.Column="2">
+                                    <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.close.png}"
+                                                 Style="{StaticResource ClearButtonGreen}"
+                                                 xct:CornerRadiusEffect.CornerRadius="8"
+                                                 xct:SemanticEffect.Hint="{xct:Translate ClearButtonHint}"
+                                                 xct:SemanticEffect.Description="{xct:Translate ClearButtonDescription}"
+                                                 Clicked="ClearButton_OnClicked"
+                                                 x:Name="ClearButton" />
+                                </StackLayout>
+                            </Grid>
                         </StackLayout>
-                        <controls:BorderlessEntry Placeholder="{xct:Translate SearchBarPlaceholderText}"
-                                                  Text="{Binding Keyword}"
-                                                  VerticalOptions="FillAndExpand"
-                                                  HorizontalOptions="FillAndExpand"
-                                                  Style="{StaticResource SearchEntry}"
-                                                  BackgroundColor="Transparent"
-                                                  x:Name="KeywordEntry"
-                                                  Keyboard="Chat"
-                                                  MaxLength="280"
-                                                  Completed="KeywordEntry_OnCompleted"
-                                                  TextChanged="KeywordEntry_OnTextChanged"
-                                                  xct:CornerRadiusEffect.CornerRadius="5"
-                                                  xct:SemanticEffect.Hint="{xct:Translate DraftQuestionPlaceholderText}"
-                                                  Margin="0"
-                                                  Grid.Row="0"
-                                                  Grid.Column="1">
-                        </controls:BorderlessEntry>
-                        <StackLayout
-                            Orientation="Vertical"
-                            VerticalOptions="Center"
-                            HorizontalOptions="Center"
-                            Grid.Row="0"
-                            Grid.Column="2" 
-                            >
-                            <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.close.png}"
-                                         Style="{StaticResource ClearButtonGreen}"
-                                         xct:CornerRadiusEffect.CornerRadius="8"
-                                         xct:SemanticEffect.Hint="{xct:Translate ClearButtonHint}"
-                                         xct:SemanticEffect.Description="{xct:Translate ClearButtonDescription}"
-                                         Clicked="ClearButton_OnClicked"
-                                         x:Name="ClearButton">
-                            </ImageButton>
+                        <StackLayout Grid.Row="0"
+                                     Grid.Column="1">
+                            <Grid BackgroundColor="{AppThemeBinding 
+                                        Light={StaticResource Transparent}, 
+                                        Dark={StaticResource EditorBackgroundDark}}"
+                                        xct:CornerRadiusEffect.CornerRadius="5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="40" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48" />
+                                </Grid.ColumnDefinitions>
+                                <StackLayout
+                                    Orientation="Vertical"
+                                    VerticalOptions="FillAndExpand"
+                                    HorizontalOptions="FillAndExpand"
+                                    Grid.Row="0"
+                                    Grid.Column="0">
+                                    <ImageButton
+                                        Source="{helpers:ImageResource RightToAskClient.Images.filter_sliders_48.png}"
+                                        Style="{StaticResource ClearButtonGreen}"
+                                        xct:CornerRadiusEffect.CornerRadius="5"
+                                        Command="{Binding ShowFiltersCommand}"
+                                        WidthRequest="40"
+                                        HeightRequest="40"
+                                        Margin="3,0,0,0" />
+                                </StackLayout>
+                            </Grid>
                         </StackLayout>
-                        </Grid>
-                    </StackLayout>
-                    <StackLayout Grid.Row="0"
-                        Grid.Column="1">
-                    <Grid BackgroundColor="{AppThemeBinding 
-                          Light={StaticResource Transparent}, 
-                          Dark={StaticResource EditorBackgroundDark}}"
-                          xct:CornerRadiusEffect.CornerRadius="5">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="40" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="48" />
-                        </Grid.ColumnDefinitions>
-                        <StackLayout
-                            Orientation="Vertical"
-                            VerticalOptions="FillAndExpand"
-                            HorizontalOptions="FillAndExpand"
-                            Grid.Row="0"
-                            Grid.Column="0">
-                            <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.filter_sliders_48.png}"
-                                         Style="{StaticResource ClearButtonGreen}"
-                                         xct:CornerRadiusEffect.CornerRadius="5"
-                                         Command="{Binding ShowFiltersCommand}"
-                                         WidthRequest="40"
-                                         HeightRequest="40"
-                                         Margin="3,0,0,0">
-                            </ImageButton>
-                        </StackLayout>
-                    </Grid>
-                    </StackLayout>
                     </Grid>
                 </StackLayout>
-                </Frame>
-            
-            
+            </Frame>
             <!--Questions Scroll View with Floating Draft Button-->
             <Grid RowDefinitions="*,*" ColumnDefinitions="*,*" VerticalOptions="FillAndExpand">
-                <RefreshView Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="2" IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
+                <RefreshView Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="2"
+                             IsRefreshing="{Binding IsRefreshing}"
+                             Command="{Binding RefreshCommand}">
                     <ScrollView VerticalOptions="FillAndExpand">
                         <StackLayout><!--Heading text moved inside of the scrollview to have it scroll off the page-->
-                            <CollectionView x:Name="QuestionList" ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None" 
-                                        SelectedItem="{Binding SelectedQuestion}" VerticalOptions="FillAndExpand">  
-                            <!-- <CollectionView x:Name="QuestionList" ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None" 
+                            <CollectionView x:Name="QuestionList"
+                                            ItemsSource="{Binding QuestionsToDisplay}"
+                                            SelectionMode="None"
+                                            SelectedItem="{Binding SelectedQuestion}"
+                                            VerticalOptions="FillAndExpand">
+                                <!-- <CollectionView x:Name="QuestionList" ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None" 
                                         VerticalOptions="FillAndExpand"> -->
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate x:DataType="vm:QuestionDisplayCardViewModel">
                                         <SwipeView VerticalOptions="FillAndExpand" BackgroundColor="Transparent">
                                             <SwipeView.RightItems>
-                                                <SwipeItem Text="Dismiss" IconImageSource="{helpers:ImageResource RightToAskClient.Images.trash_delete_48.png}" 
-                                                       BackgroundColor="{StaticResource AlertColor}"
-                                                       Command="{Binding Path=BindingContext.RemoveQuestionCommand, Source={x:Reference ReadingPageName}}" 
-                                                       CommandParameter="{Binding .}"/>
+                                                <SwipeItem Text="Dismiss"
+                                                           IconImageSource="{helpers:ImageResource RightToAskClient.Images.trash_delete_48.png}"
+                                                           BackgroundColor="{StaticResource AlertColor}"
+                                                           Command="{Binding Path=BindingContext.RemoveQuestionCommand, Source={x:Reference ReadingPageName}}"
+                                                           CommandParameter="{Binding .}" />
                                             </SwipeView.RightItems>
-                                            <views:QuestionDisplayCard/>
+                                            <views:QuestionDisplayCard />
                                         </SwipeView>
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
                                 <CollectionView.EmptyView>
-                                    <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="0, 100 ,0 ,0">
+                                    <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                                                 Padding="0, 100 ,0 ,0">
                                         <Image Source="{Binding ListEmptyViewIcon}"
                                                Style="{StaticResource ListErrorIcon}"
                                                xct:IconTintColorEffect.TintColor="{AppThemeBinding 
                                                Light=Black, 
                                                Dark=White}" />
-                                        <Label Text="{Binding EmptyViewLabelText}" Style="{StaticResource ListErrorText}" 
-                                               VerticalOptions="Start"/>
+                                        <Label Text="{Binding EmptyViewLabelText}"
+                                               Style="{StaticResource ListErrorText}"
+                                               VerticalOptions="Start" />
                                     </StackLayout>
                                 </CollectionView.EmptyView>
                             </CollectionView>
@@ -186,20 +191,20 @@
                     </ScrollView>
                 </RefreshView>
                 <ImageButton Grid.Row="1"
-                             Grid.Column="1" 
-                             VerticalOptions="End" 
-                             HorizontalOptions="End" 
-                             Margin="10" 
-                             Source="{helpers:ImageResource RightToAskClient.Images.edit.png}" 
+                             Grid.Column="1"
+                             VerticalOptions="End"
+                             HorizontalOptions="End"
+                             Margin="10"
+                             Source="{helpers:ImageResource RightToAskClient.Images.edit.png}"
                              WidthRequest="70"
                              HeightRequest="70"
                              CornerRadius="35"
-                             Padding="20" 
+                             Padding="20"
                              Aspect="AspectFit"
-                             BackgroundColor="{StaticResource Purple}" 
-                             Command="{Binding DraftCommand}" 
+                             BackgroundColor="{StaticResource Purple}"
+                             Command="{Binding DraftCommand}"
                              xct:SemanticEffect.Hint="{xct:Translate ReadingPageWriteHint}"
-                             xct:SemanticEffect.Description="{xct:Translate ReadingPageWriteDescription}"/>
+                             xct:SemanticEffect.Description="{xct:Translate ReadingPageWriteDescription}" />
             </Grid>
         </StackLayout>
     </ContentPage.Content>

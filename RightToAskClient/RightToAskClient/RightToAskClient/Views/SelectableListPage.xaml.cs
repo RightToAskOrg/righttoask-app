@@ -78,5 +78,14 @@ namespace RightToAskClient.Views
 		{
 			throw new NotImplementedException();
 		}
+
+		private void MenuItem_OnClicked(object sender, EventArgs e)
+		{
+			SearchFrame.IsVisible = !SearchFrame.IsVisible;
+			if (!SearchFrame.IsVisible)
+				KeywordEntry.Unfocus();
+			else
+				KeywordEntry.Focus();
+		}
 	}
 }
