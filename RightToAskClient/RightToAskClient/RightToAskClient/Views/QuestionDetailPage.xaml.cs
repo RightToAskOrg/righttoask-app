@@ -73,8 +73,6 @@ namespace RightToAskClient.Views
                 QuestionTextEditor.Style = normalEditorStyle;
                 AnswerCheckBox.IsChecked = true;
                 RaiseCheckBox.IsChecked = true;
-                WriterNameLabel.Text = IndividualParticipant.getInstance().ProfileData.RegistrationInfo.display_name 
-                                       + " @" + questionVM.Question.QuestionSuggester;
             }
             else
             {

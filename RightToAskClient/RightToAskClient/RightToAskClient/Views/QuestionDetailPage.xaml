@@ -137,6 +137,11 @@
 					          Style="{StaticResource CheckBoxStyle}"
 					          IsEnabled="{Binding HasAnswerers}"/>
 				</StackLayout>
+				
+				<Label x:Name="LinkLabel" Text="Hansard Links" Style="{StaticResource Header2}" />
+				<StackLayout BindableLayout.ItemsSource="{Binding Foo}">
+					<Label Text="{Binding}" />
+				</StackLayout>
 				<!--Question Askers/Option B things-->
 				<StackLayout x:Name="RaiseLayout" IsVisible="{Binding IsRaiseLayoutVisible}">
 					<!-- who should raise it -->
