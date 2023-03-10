@@ -3,130 +3,109 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             xmlns:local="clr-namespace:RightToAskClient"
-             xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
-             xmlns:models="clr-namespace:RightToAskClient.Models;assembly=RightToAskClient"
              x:Class="RightToAskClient.Views.QuestionAnswererPage"
              Title="{xct:Translate WhoShouldAnswerTitle}" 
              x:DataType="vm:QuestionViewModel">
     <ContentPage.Content>        
         <StackLayout VerticalOptions="FillAndExpand">
-            <StackLayout VerticalOptions="Fill">
-                <Label Text="{xct:Translate AnswerQuestionHeaderText}" Style="{StaticResource Header1}" 
-                       HorizontalTextAlignment="Start" VerticalOptions="Start" Margin="16, 16, 16, 0"/>
-                <BoxView Margin="16, 0"/>
-            <!-- <Grid RowDefinitions="auto,auto,auto,auto"  ColumnDefinitions="2*,3*" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="10"> -->
-            <!--             <Button Grid.Row="0" Grid.Column="0" Text="{xct:Translate MyMPButtonText}" Style="{StaticResource TallGreenButton}" -->
-            <!--                     Command="{Binding AnsweredByMyMPCommand}" Margin="10"/> -->
-            <!--             <Label Grid.Row="0" Grid.Column="1" Text="{xct:Translate MyMPAnswerExplText}" Style="{StaticResource NormalText}" VerticalTextAlignment="Center"/> -->
-            <!--             <Button Grid.Row="1" Grid.Column="0" Text="{xct:Translate AnotherMPButtonText}" Style="{StaticResource TallGreenButton}" -->
-            <!--                     Command="{Binding AnsweredByOtherMPCommandOptionB}" Margin="10"/> -->
-            <!--             <Label Grid.Row="1" Grid.Column="1" Text="{xct:Translate OtherMPAnswerExplText}" Style="{StaticResource NormalText}" VerticalTextAlignment="Center"/> -->
-            <!--             ~1~ Public authority button is hidden if 'answer in app' option chosen @1@ -->
-            <!--             <Button Grid.Row="2" Grid.Column="0" Text="{xct:Translate PublicAuthorityButtonText}" Style="{StaticResource TallGreenButton}" -->
-            <!--                     Command="{Binding OtherPublicAuthorityButtonCommand}" Margin="10" -->
-            <!--                     IsVisible="{Binding Path=HowAnswered, Converter={StaticResource BoolEnumConverter}, -->
-            <!--                     ConverterParameter={x:Static models:HowAnsweredOptions.InApp}}" /> -->
-            <!--             <Label Grid.Row="2" Grid.Column="1" Text="{xct:Translate AuthorityAnswerExplText}" Style="{StaticResource NormalText}" VerticalTextAlignment="Center" -->
-            <!--                     IsVisible="{Binding Path=HowAnswered, Converter={StaticResource BoolEnumConverter}, -->
-            <!--                     ConverterParameter={x:Static models:HowAnsweredOptions.InApp}}" /> -->
-            <!--             <Button Grid.Row="3" Grid.Column="0" Text="{xct:Translate DontKnowTitle}" Style="{StaticResource TallGreenButton}" -->
-            <!--                     Command="{Binding LeaveAnswererBlankButtonCommand}" Margin="10"/> -->
-            <!--             <Label Grid.Row="3" Grid.Column="1" Text="{xct:Translate LeaveBlankExplText}" Style="{StaticResource NormalText}" VerticalTextAlignment="Center"/> -->
-            <!-- </Grid> -->
-            
-                <Grid VerticalOptions="StartAndExpand" HorizontalOptions="Fill" RowSpacing="0"
-                      Margin="8, 16" Grid.RowDefinitions="Auto,Auto,Auto,Auto" RadioButtonGroup.GroupName="WhoAnswerOptions">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="28" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <!-- my mp -->
-                    <RadioButton 
-                        Grid.Row="0" Grid.Column="0"
-                        xct:SemanticEffect.Hint=""
-                        xct:SemanticEffect.Description=""
-                        VerticalOptions="StartAndExpand"
-                        HorizontalOptions="Fill"
-                        x:Name="MyMpRadioButton"
-                        Style="{StaticResource DefaultRadioButton}"/>
-                    <StackLayout Orientation="Vertical" VerticalOptions="StartAndExpand"
-                                 HorizontalOptions="Fill" Grid.Column="1" Margin="12, 0, 0, 0">
-                        <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="MyMpRadioButton_OnTapped"/>
-                        </StackLayout.GestureRecognizers>
-                        <Label Text="My MP"
-                               Style="{StaticResource ReportReasonTitle}" />
-                        <Label Text="{xct:Translate MyMPAnswerExplText}"
-                               Style="{StaticResource ReportReasonDetails}"/>
-                    </StackLayout>
-                    
-                    <!-- another mp -->
-                    <RadioButton 
-                        Margin="0, 24, 0,0"
-                        Grid.Row="1" Grid.Column="0"
-                        xct:SemanticEffect.Hint=""
-                        xct:SemanticEffect.Description=""
-                        VerticalOptions="StartAndExpand"
-                        HorizontalOptions="Fill"
-                        x:Name="AnotherMpRadioButton"
-                        Style="{StaticResource DefaultRadioButton}"/>
-                    <StackLayout Orientation="Vertical" VerticalOptions="StartAndExpand"
-                                 HorizontalOptions="Fill" Grid.Row="1" Grid.Column="1" Margin="12, 24, 0, 0">
-                        <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="AnotherMpRadioButton_OnTapped"/>
-                        </StackLayout.GestureRecognizers>
-                        <Label Text="Other MPs"
-                               Style="{StaticResource ReportReasonTitle}" />
-                        <Label Text="{xct:Translate OtherMPAnswerExplText}"
-                               Style="{StaticResource ReportReasonDetails}"/>
-                    </StackLayout>
-                    
-                    <!-- a public authority-->
-                    <RadioButton 
-                        Margin="0, 24, 0,0"
-                        Grid.Row="2" Grid.Column="0"
-                        xct:SemanticEffect.Hint=""
-                        xct:SemanticEffect.Description=""
-                        VerticalOptions="StartAndExpand"
-                        HorizontalOptions="Fill"
-                        x:Name="PublicAuthorityRadioButton"
-                        IsVisible="{Binding IsShowPublicAuthority}" 
-                        Style="{StaticResource DefaultRadioButton}"/>
-                    <StackLayout Orientation="Vertical" VerticalOptions="StartAndExpand"
-                                 HorizontalOptions="Fill"  Grid.Row="2" Grid.Column="1" Margin="12, 24, 0, 0"
-                                 IsVisible="{Binding IsShowPublicAuthority}">
-                        <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="PublicAuthorityRadioButton_OnTapped"/>
-                        </StackLayout.GestureRecognizers>
-                        <Label Text="A Public Authority"
-                               Style="{StaticResource ReportReasonTitle}" />
-                        <Label Text="{xct:Translate AuthorityAnswerExplText}"
-                               Style="{StaticResource ReportReasonDetails}"/>
-                    </StackLayout>
-                    
-                    <!-- dont know -->
-                    <RadioButton 
-                        Margin="0, 24, 0,0"
-                        Grid.Row="3" Grid.Column="0"
-                        xct:SemanticEffect.Hint=""
-                        xct:SemanticEffect.Description=""
-                        VerticalOptions="StartAndExpand"
-                        HorizontalOptions="Fill"
-                        x:Name="DontKnowRadioButton"
-                        Style="{StaticResource DefaultRadioButton}"/>
-                    <StackLayout Orientation="Vertical" VerticalOptions="StartAndExpand"
-                                 HorizontalOptions="Fill"  Grid.Row="3" Grid.Column="1" Margin="12, 24, 0, 0">
-                        <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="DontKnowRadioButton_OnTapped"/>
-                        </StackLayout.GestureRecognizers>
-                        <Label Text="I Don't Know"
-                               Style="{StaticResource ReportReasonTitle}" />
-                        <Label Text="{xct:Translate LeaveBlankExplText}"
-                               Style="{StaticResource ReportReasonDetails}"/>
-                    </StackLayout>
-                </Grid>
-            </StackLayout>
+            <ScrollView>
+                <StackLayout VerticalOptions="Fill">
+                    <Label Text="{xct:Translate AnswerQuestionHeaderText}" Style="{StaticResource Header1}" 
+                           HorizontalTextAlignment="Start" VerticalOptions="Start" Margin="16, 16, 16, 0"/>
+                    <BoxView Margin="16, 0"/>
+                        <Grid VerticalOptions="StartAndExpand" HorizontalOptions="Fill" RowSpacing="0"
+                          Margin="8, 16" Grid.RowDefinitions="Auto,Auto,Auto,Auto" RadioButtonGroup.GroupName="WhoAnswerOptions">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="28" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <!-- my mp -->
+                        <RadioButton 
+                            Grid.Row="0" Grid.Column="0"
+                            xct:SemanticEffect.Hint=""
+                            xct:SemanticEffect.Description=""
+                            VerticalOptions="StartAndExpand"
+                            HorizontalOptions="Fill"
+                            x:Name="MyMpRadioButton"
+                            Style="{StaticResource DefaultRadioButton}"/>
+                        <StackLayout Orientation="Vertical" VerticalOptions="StartAndExpand"
+                                     HorizontalOptions="Fill" Grid.Column="1" Margin="12, 0, 0, 0">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="MyMpRadioButton_OnTapped"/>
+                            </StackLayout.GestureRecognizers>
+                            <Label Text="{xct:Translate MyMp}"
+                                   Style="{StaticResource ReportReasonTitle}" />
+                            <Label Text="{xct:Translate MyMPAnswerExplText}"
+                                   Style="{StaticResource ReportReasonDetails}"/>
+                        </StackLayout>
+                        
+                        <!-- another mp -->
+                        <RadioButton 
+                            Margin="0, 24, 0,0"
+                            Grid.Row="1" Grid.Column="0"
+                            xct:SemanticEffect.Hint=""
+                            xct:SemanticEffect.Description=""
+                            VerticalOptions="StartAndExpand"
+                            HorizontalOptions="Fill"
+                            x:Name="AnotherMpRadioButton"
+                            Style="{StaticResource DefaultRadioButton}"/>
+                        <StackLayout Orientation="Vertical" VerticalOptions="StartAndExpand"
+                                     HorizontalOptions="Fill" Grid.Row="1" Grid.Column="1" Margin="12, 24, 0, 0">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="AnotherMpRadioButton_OnTapped"/>
+                            </StackLayout.GestureRecognizers>
+                            <Label Text="{xct:Translate OtherMp}"
+                                   Style="{StaticResource ReportReasonTitle}" />
+                            <Label Text="{xct:Translate OtherMPAnswerExplText}"
+                                   Style="{StaticResource ReportReasonDetails}"/>
+                        </StackLayout>
+                        
+                        <!-- a public authority-->
+                        <RadioButton 
+                            Margin="0, 24, 0,0"
+                            Grid.Row="2" Grid.Column="0"
+                            xct:SemanticEffect.Hint=""
+                            xct:SemanticEffect.Description=""
+                            VerticalOptions="StartAndExpand"
+                            HorizontalOptions="Fill"
+                            x:Name="PublicAuthorityRadioButton"
+                            IsVisible="{Binding IsShowPublicAuthority}" 
+                            Style="{StaticResource DefaultRadioButton}"/>
+                        <StackLayout Orientation="Vertical" VerticalOptions="StartAndExpand"
+                                     HorizontalOptions="Fill"  Grid.Row="2" Grid.Column="1" Margin="12, 24, 0, 0"
+                                     IsVisible="{Binding IsShowPublicAuthority}">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="PublicAuthorityRadioButton_OnTapped"/>
+                            </StackLayout.GestureRecognizers>
+                            <Label Text="{xct:Translate PublicAuthority}"
+                                   Style="{StaticResource ReportReasonTitle}" />
+                            <Label Text="{xct:Translate AuthorityAnswerExplText}"
+                                   Style="{StaticResource ReportReasonDetails}"/>
+                        </StackLayout>
+                        
+                        <!-- dont know -->
+                        <RadioButton 
+                            Margin="0, 24, 0,0"
+                            Grid.Row="3" Grid.Column="0"
+                            xct:SemanticEffect.Hint=""
+                            xct:SemanticEffect.Description=""
+                            VerticalOptions="StartAndExpand"
+                            HorizontalOptions="Fill"
+                            x:Name="DontKnowRadioButton"
+                            Style="{StaticResource DefaultRadioButton}"/>
+                        <StackLayout Orientation="Vertical" VerticalOptions="StartAndExpand"
+                                     HorizontalOptions="Fill"  Grid.Row="3" Grid.Column="1" Margin="12, 24, 0, 0">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="DontKnowRadioButton_OnTapped"/>
+                            </StackLayout.GestureRecognizers>
+                            <Label Text="{xct:Translate DontKnowOption}"
+                                   Style="{StaticResource ReportReasonTitle}" />
+                            <Label Text="{xct:Translate LeaveBlankExplText}"
+                                   Style="{StaticResource ReportReasonDetails}"/>
+                        </StackLayout>
+                    </Grid>
+                </StackLayout>
+            </ScrollView>
             
             <StackLayout Padding="0, 8" VerticalOptions="EndAndExpand" Margin="0,0,0, 10">
                 <BoxView Style="{StaticResource ButtonSeparator}" Margin="0, 12"/>

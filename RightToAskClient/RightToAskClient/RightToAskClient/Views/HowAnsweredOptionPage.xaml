@@ -16,6 +16,7 @@
             <StackLayout.Resources>
                 <helpers:BoolEnumConverter x:Key="BoolEnumConverter" />
             </StackLayout.Resources>
+            <ScrollView>
             <StackLayout Orientation="Vertical"
                          VerticalOptions="Fill"
                          HorizontalOptions="Fill">
@@ -44,9 +45,9 @@
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="InApp_OnTapped" />
                             </StackLayout.GestureRecognizers>
-                            <Label Text="Answered by MPs in the Right To Ask app"
+                            <Label Text="{xct:Translate AnswerByMp}"
                                    Style="{StaticResource ReportReasonTitle}" />
-                            <Label Text="This is the simplest way to get your question answered."
+                            <Label Text="{xct:Translate AnswerByMpDescription}"
                                    Style="{StaticResource ReportReasonDetails}"/>
                         </StackLayout>
                         
@@ -65,9 +66,9 @@
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="InParliament_OnTapped"/>
                             </StackLayout.GestureRecognizers>
-                            <Label Text="I want my question voiced in Parliament"
+                            <Label Text="{xct:Translate VoiceInParliament}"
                                    Style="{StaticResource ReportReasonTitle}" />
-                            <Label Text="Choose this option if you want to ask a question of a public authority such as The ATO. You need to choose an MP or committee to ask your question and MPs or public authorities to answer it."
+                            <Label Text="{xct:Translate VoiceInParliamentDescription}"
                                    Style="{StaticResource ReportReasonDetails}"/>
                         </StackLayout>
                         
@@ -86,13 +87,14 @@
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="DontKnow_OnTapped"/>
                             </StackLayout.GestureRecognizers>
-                            <Label Text="I don’t know"
+                            <Label Text="{xct:Translate DontKnowOption}"
                                    Style="{StaticResource ReportReasonTitle}" />
-                            <Label Text="Not sure who or how to ask? Let other Right To Ask users direct your question for you."
+                            <Label Text="{xct:Translate DontKnowOptionDescription}"
                                    Style="{StaticResource ReportReasonDetails}"/>
                         </StackLayout>
                     </Grid>
-            </StackLayout>
+                </StackLayout>
+            </ScrollView>
             <StackLayout Padding="0, 8" VerticalOptions="EndAndExpand" >
                 <BoxView Style="{StaticResource ButtonSeparator}" Margin="0, 12"/>
                 <Button Text="{xct:Translate NextButtonText}" Style="{StaticResource NormalButton}"
