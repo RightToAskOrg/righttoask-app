@@ -870,16 +870,13 @@
     <value>Choose this option if you want to ask a question of a public authority such as The ATO. You need to choose an MP or committee to ask your question and MPs or public authorities to answer it.</value>
   </data>
   <data name="DontKnowOption" xml:space="preserve">
-    <value>"I don’t know"</value>
+    <value>I don’t know</value>
   </data>
   <data name="DontKnowOptionDescription" xml:space="preserve">
     <value>Not sure who or how to ask? Let other Right To Ask users direct your question for you.</value>
   </data>
   <data name="MyMp" xml:space="preserve">
     <value>My MP</value>
-  </data>
-  <data name="OtherMp" xml:space="preserve">
-    <value>Other MPs</value>
   </data>
   <data name="PublicAuthority" xml:space="preserve">
     <value>A Public Authority</value>

@@ -20,8 +20,7 @@
             <StackLayout Orientation="Vertical"
                          VerticalOptions="Fill"
                          HorizontalOptions="Fill">
-                <Label Text="{xct:Translate OptionsHeaderText}" Style="{StaticResource Header1}" 
-                       HorizontalTextAlignment="Start" Margin="16, 0"/>
+                <Label Text="{xct:Translate OptionsHeaderText}" Style="{StaticResource Header1}" Margin="16, 0"/>
                 <BoxView Margin="16, 0"/>
                 <Grid VerticalOptions="StartAndExpand" HorizontalOptions="Fill" RowSpacing="25"
                       Margin="8, 16" Grid.RowDefinitions="Auto,Auto,Auto">
@@ -32,12 +31,11 @@
                         <!-- answered in the app -->
                         <RadioButton 
                             Grid.Row="0"
-                            xct:SemanticEffect.Hint=""
-                            xct:SemanticEffect.Description=""
+                            xct:SemanticEffect.Hint="{xct:Translate AnswerByMpDescription}"
+                            xct:SemanticEffect.Description="{xct:Translate AnswerByMp}"
                             VerticalOptions="StartAndExpand"
                             HorizontalOptions="Fill"
                             x:Name="InAppRadioButton"
-                            Style="{StaticResource DefaultRadioButton}"
                             IsChecked="{Binding Path=HowAnswered, Converter={StaticResource BoolEnumConverter}, 
                             ConverterParameter={x:Static models:HowAnsweredOptions.InApp}}" />
                         <StackLayout Orientation="Vertical" VerticalOptions="StartAndExpand"
@@ -53,12 +51,11 @@
                         
                         <!-- raise to parliament -->
                         <RadioButton Grid.Row="1" Grid.Column="0"
-                                     xct:SemanticEffect.Hint=""
-                                     xct:SemanticEffect.Description=""
+                                     xct:SemanticEffect.Hint="{xct:Translate VoiceInParliamentDescription}"
+                                     xct:SemanticEffect.Description="{xct:Translate VoiceInParliament}"
                                      x:Name="InParliamentRadioButton"
                                      VerticalOptions="StartAndExpand"
                                      HorizontalOptions="Fill"
-                                     Style="{StaticResource DefaultRadioButton}"
                                      IsChecked="{Binding Path=HowAnswered, Converter={StaticResource BoolEnumConverter}, 
                                      ConverterParameter={x:Static models:HowAnsweredOptions.InParliament}}" />
                         <StackLayout Orientation="Vertical" VerticalOptions="StartAndExpand"
@@ -74,12 +71,11 @@
                         
                         <!-- I dont know -->
                         <RadioButton Grid.Row="2" Grid.Column="0"
-                                     xct:SemanticEffect.Hint=""
-                                     xct:SemanticEffect.Description=""
+                                     xct:SemanticEffect.Hint="{xct:Translate DontKnowOptionDescription}"
+                                     xct:SemanticEffect.Description="{xct:Translate DontKnowOption}"
                                      x:Name="DontKnowRadioButton"
                                      VerticalOptions="StartAndExpand"
                                      HorizontalOptions="Fill"
-                                     Style="{StaticResource DefaultRadioButton}"
                                      IsChecked="{Binding Path=HowAnswered, Converter={StaticResource BoolEnumConverter}, 
                                      ConverterParameter={x:Static models:HowAnsweredOptions.DontKnow}}" />
                         <StackLayout Orientation="Vertical" VerticalOptions="StartAndExpand"
@@ -99,6 +95,8 @@
                 <BoxView Style="{StaticResource ButtonSeparator}" Margin="0, 12"/>
                 <Button Text="{xct:Translate NextButtonText}" Style="{StaticResource NormalButton}"
                         Command="{Binding ToAnswererPageWithHowAnsweredSelectionCommand}"
+                        xct:SemanticEffect.Hint="{xct:Translate NextButtonText}"
+                        xct:SemanticEffect.Description="{xct:Translate NextButtonText}"
                         Padding="16, 12"
                         Margin="16, 0"/>
             </StackLayout>

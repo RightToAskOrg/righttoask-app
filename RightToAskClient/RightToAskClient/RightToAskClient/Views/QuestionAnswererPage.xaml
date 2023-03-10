@@ -10,8 +10,7 @@
         <StackLayout VerticalOptions="FillAndExpand">
             <ScrollView>
                 <StackLayout VerticalOptions="Fill">
-                    <Label Text="{xct:Translate AnswerQuestionHeaderText}" Style="{StaticResource Header1}" 
-                           HorizontalTextAlignment="Start" VerticalOptions="Start" Margin="16, 16, 16, 0"/>
+                    <Label Text="{xct:Translate AnswerQuestionHeaderText}" Style="{StaticResource Header1}" VerticalOptions="Start" Margin="16, 16, 16, 0"/>
                     <BoxView Margin="16, 0"/>
                         <Grid VerticalOptions="StartAndExpand" HorizontalOptions="Fill" RowSpacing="0"
                           Margin="8, 16" Grid.RowDefinitions="Auto,Auto,Auto,Auto" RadioButtonGroup.GroupName="WhoAnswerOptions">
@@ -22,8 +21,8 @@
                         <!-- my mp -->
                         <RadioButton 
                             Grid.Row="0" Grid.Column="0"
-                            xct:SemanticEffect.Hint=""
-                            xct:SemanticEffect.Description=""
+                            xct:SemanticEffect.Hint="{xct:Translate MyMPAnswerExplText}"
+                            xct:SemanticEffect.Description="{xct:Translate MyMp}"
                             VerticalOptions="StartAndExpand"
                             HorizontalOptions="Fill"
                             x:Name="MyMpRadioButton"
@@ -43,8 +42,8 @@
                         <RadioButton 
                             Margin="0, 24, 0,0"
                             Grid.Row="1" Grid.Column="0"
-                            xct:SemanticEffect.Hint=""
-                            xct:SemanticEffect.Description=""
+                            xct:SemanticEffect.Hint="{xct:Translate OtherMPAnswerExplText}"
+                            xct:SemanticEffect.Description="{xct:Translate AnotherMPButtonText}"
                             VerticalOptions="StartAndExpand"
                             HorizontalOptions="Fill"
                             x:Name="AnotherMpRadioButton"
@@ -54,7 +53,7 @@
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="AnotherMpRadioButton_OnTapped"/>
                             </StackLayout.GestureRecognizers>
-                            <Label Text="{xct:Translate OtherMp}"
+                            <Label Text="{xct:Translate AnotherMPButtonText}"
                                    Style="{StaticResource ReportReasonTitle}" />
                             <Label Text="{xct:Translate OtherMPAnswerExplText}"
                                    Style="{StaticResource ReportReasonDetails}"/>
@@ -64,8 +63,8 @@
                         <RadioButton 
                             Margin="0, 24, 0,0"
                             Grid.Row="2" Grid.Column="0"
-                            xct:SemanticEffect.Hint=""
-                            xct:SemanticEffect.Description=""
+                            xct:SemanticEffect.Hint="{xct:Translate AuthorityAnswerExplText}"
+                            xct:SemanticEffect.Description="{xct:Translate PublicAuthority}"
                             VerticalOptions="StartAndExpand"
                             HorizontalOptions="Fill"
                             x:Name="PublicAuthorityRadioButton"
@@ -87,8 +86,8 @@
                         <RadioButton 
                             Margin="0, 24, 0,0"
                             Grid.Row="3" Grid.Column="0"
-                            xct:SemanticEffect.Hint=""
-                            xct:SemanticEffect.Description=""
+                            xct:SemanticEffect.Hint="{xct:Translate LeaveBlankExplText}"
+                            xct:SemanticEffect.Description="{xct:Translate DontKnowOption}"
                             VerticalOptions="StartAndExpand"
                             HorizontalOptions="Fill"
                             x:Name="DontKnowRadioButton"
@@ -112,6 +111,8 @@
                 <Button Text="{xct:Translate NextButtonText}" Style="{StaticResource NormalButton}"
                         Padding="16, 12"
                         Margin="16, 0"
+                        xct:SemanticEffect.Hint="{xct:Translate NextButtonText}"
+                        xct:SemanticEffect.Description="{xct:Translate NextButtonText}"
                         Clicked="NextButton_OnClicked"/>
             </StackLayout>
         </StackLayout>

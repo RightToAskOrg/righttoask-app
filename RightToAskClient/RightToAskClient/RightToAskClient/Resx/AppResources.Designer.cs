@@ -1551,6 +1551,18 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string MyMp {
+            get {
+                return ResourceManager.GetString("MyMp", resourceCulture);
+            }
+        }
+        
+        internal static string PublicAuthority {
+            get {
+                return ResourceManager.GetString("PublicAuthority", resourceCulture);
+            }
+        }
+        
         internal static string OtherUserProfilePopupText {
             get {
                 return ResourceManager.GetString("OtherUserProfilePopupText", resourceCulture);

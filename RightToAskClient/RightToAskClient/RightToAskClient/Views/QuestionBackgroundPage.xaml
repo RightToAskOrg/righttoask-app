@@ -31,7 +31,8 @@
                                 MaxLength="280" IsEnabled="{Binding CanEditBackground, Mode=OneWay}"
                                 BackgroundColor="Transparent" Text="{Binding Question.Background}"
                                 Placeholder="{xct:Translate AddBackgroundPlaceholderText}" PlaceholderColor="Gray" FontSize="Medium"
-                                TextChanged="InputView_OnTextChanged"/>
+                                TextChanged="InputView_OnTextChanged"
+                                TextColor="{AppThemeBinding Light=Black, Dark=White}"/>
                     </StackLayout>
                     
                 </StackLayout>
