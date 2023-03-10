@@ -14,6 +14,7 @@ namespace RightToAskClient.Views
             InitializeComponent();
             BindingContext = QuestionViewModel.Instance;
             QuestionViewModel.Instance.PopupLabelText = AppResources.QuestionAskerPopupText;
+            CommitteeRadioButton.IsChecked = true;
         }
 
         private void CommitteeRadioButton_OnTapped(object sender, EventArgs e)
