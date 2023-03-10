@@ -54,8 +54,9 @@ namespace RightToAskClient.ViewModels
 
         public bool IsRaiseLayoutVisible
         {
-            get => (IsMyQuestion && !IsNewQuestion) || (IsAnswerInApp && IsNewQuestion) || IsMyQuestion;
+            get => HasAskers || IsMyQuestion;
         }
+
         // Convenient views of things stored in the Question.
         public List<Answer> QuestionAnswers => Question.Answers;
 
