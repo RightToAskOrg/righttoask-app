@@ -129,6 +129,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string YouAskTitle {
+            get {
+                return ResourceManager.GetString("YouAskTitle", resourceCulture);
+            }
+        }
+        
         internal static string CancelButtonText {
             get {
                 return ResourceManager.GetString("CancelButtonText", resourceCulture);
@@ -1509,6 +1515,54 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string AnswerByMp {
+            get {
+                return ResourceManager.GetString("AnswerByMp", resourceCulture);
+            }
+        }
+        
+        internal static string AnswerByMpDescription {
+            get {
+                return ResourceManager.GetString("AnswerByMpDescription", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceInParliament {
+            get {
+                return ResourceManager.GetString("VoiceInParliament", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceInParliamentDescription {
+            get {
+                return ResourceManager.GetString("VoiceInParliamentDescription", resourceCulture);
+            }
+        }
+        
+        internal static string DontKnowOption {
+            get {
+                return ResourceManager.GetString("DontKnowOption", resourceCulture);
+            }
+        }
+        
+        internal static string DontKnowOptionDescription {
+            get {
+                return ResourceManager.GetString("DontKnowOptionDescription", resourceCulture);
+            }
+        }
+        
+        internal static string MyMp {
+            get {
+                return ResourceManager.GetString("MyMp", resourceCulture);
+            }
+        }
+        
+        internal static string PublicAuthority {
+            get {
+                return ResourceManager.GetString("PublicAuthority", resourceCulture);
+            }
+        }
+        
         internal static string OtherUserProfilePopupText {
             get {
                 return ResourceManager.GetString("OtherUserProfilePopupText", resourceCulture);
@@ -1716,6 +1770,12 @@ namespace RightToAskClient.Resx {
         internal static string BackgroundPageTitle {
             get {
                 return ResourceManager.GetString("BackgroundPageTitle", resourceCulture);
+            }
+        }
+        
+        internal static string SupportingPageTitle {
+            get {
+                return ResourceManager.GetString("SupportingPageTitle", resourceCulture);
             }
         }
         
