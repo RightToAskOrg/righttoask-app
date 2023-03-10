@@ -22,6 +22,12 @@ namespace RightToAskClient.Views
             SupportingInfoEditor.Focus();
         }
 
+        protected override void OnDisappearing()
+        {
+            SupportingInfoEditor.Unfocus();
+            base.OnDisappearing();
+        }
+
         private void InputView_OnTextChanged(object sender, TextChangedEventArgs e)
         {
             int length = e.NewTextValue.Length;

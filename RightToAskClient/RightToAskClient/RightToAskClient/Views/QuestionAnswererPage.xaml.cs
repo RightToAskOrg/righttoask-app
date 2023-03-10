@@ -15,6 +15,8 @@ namespace RightToAskClient.Views
 
             BindingContext = QuestionViewModel.Instance;
             QuestionViewModel.Instance.PopupLabelText = AppResources.AnswerQuestionOptionsPopupText;
+
+            MyMpRadioButton.IsChecked = true;
         }
 
         private void NextButton_OnClicked(object sender, EventArgs e)

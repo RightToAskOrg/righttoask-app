@@ -35,7 +35,7 @@
             <!--             <Label Grid.Row="3" Grid.Column="1" Text="{xct:Translate LeaveBlankExplText}" Style="{StaticResource NormalText}" VerticalTextAlignment="Center"/> -->
             <!-- </Grid> -->
             
-                <Grid VerticalOptions="StartAndExpand" HorizontalOptions="Fill" RowSpacing="25"
+                <Grid VerticalOptions="StartAndExpand" HorizontalOptions="Fill" RowSpacing="0"
                       Margin="8, 16" Grid.RowDefinitions="Auto,Auto,Auto,Auto" RadioButtonGroup.GroupName="WhoAnswerOptions">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="28" />
@@ -63,6 +63,7 @@
                     
                     <!-- another mp -->
                     <RadioButton 
+                        Margin="0, 24, 0,0"
                         Grid.Row="1" Grid.Column="0"
                         xct:SemanticEffect.Hint=""
                         xct:SemanticEffect.Description=""
@@ -71,7 +72,7 @@
                         x:Name="AnotherMpRadioButton"
                         Style="{StaticResource DefaultRadioButton}"/>
                     <StackLayout Orientation="Vertical" VerticalOptions="StartAndExpand"
-                                 HorizontalOptions="Fill" Grid.Row="1" Grid.Column="1" Margin="12, 0, 0, 0">
+                                 HorizontalOptions="Fill" Grid.Row="1" Grid.Column="1" Margin="12, 24, 0, 0">
                         <StackLayout.GestureRecognizers>
                             <TapGestureRecognizer Tapped="AnotherMpRadioButton_OnTapped"/>
                         </StackLayout.GestureRecognizers>
@@ -83,15 +84,18 @@
                     
                     <!-- a public authority-->
                     <RadioButton 
+                        Margin="0, 24, 0,0"
                         Grid.Row="2" Grid.Column="0"
                         xct:SemanticEffect.Hint=""
                         xct:SemanticEffect.Description=""
                         VerticalOptions="StartAndExpand"
                         HorizontalOptions="Fill"
                         x:Name="PublicAuthorityRadioButton"
+                        IsVisible="{Binding IsShowPublicAuthority}" 
                         Style="{StaticResource DefaultRadioButton}"/>
                     <StackLayout Orientation="Vertical" VerticalOptions="StartAndExpand"
-                                 HorizontalOptions="Fill"  Grid.Row="2" Grid.Column="1" Margin="12, 0, 0, 0">
+                                 HorizontalOptions="Fill"  Grid.Row="2" Grid.Column="1" Margin="12, 24, 0, 0"
+                                 IsVisible="{Binding IsShowPublicAuthority}">
                         <StackLayout.GestureRecognizers>
                             <TapGestureRecognizer Tapped="PublicAuthorityRadioButton_OnTapped"/>
                         </StackLayout.GestureRecognizers>
@@ -103,6 +107,7 @@
                     
                     <!-- dont know -->
                     <RadioButton 
+                        Margin="0, 24, 0,0"
                         Grid.Row="3" Grid.Column="0"
                         xct:SemanticEffect.Hint=""
                         xct:SemanticEffect.Description=""
@@ -111,7 +116,7 @@
                         x:Name="DontKnowRadioButton"
                         Style="{StaticResource DefaultRadioButton}"/>
                     <StackLayout Orientation="Vertical" VerticalOptions="StartAndExpand"
-                                 HorizontalOptions="Fill"  Grid.Row="3" Grid.Column="1" Margin="12, 0, 0, 0">
+                                 HorizontalOptions="Fill"  Grid.Row="3" Grid.Column="1" Margin="12, 24, 0, 0">
                         <StackLayout.GestureRecognizers>
                             <TapGestureRecognizer Tapped="DontKnowRadioButton_OnTapped"/>
                         </StackLayout.GestureRecognizers>
@@ -123,7 +128,7 @@
                 </Grid>
             </StackLayout>
             
-            <StackLayout Padding="0, 8" VerticalOptions="EndAndExpand" >
+            <StackLayout Padding="0, 8" VerticalOptions="EndAndExpand" Margin="0,0,0, 10">
                 <BoxView Style="{StaticResource ButtonSeparator}" Margin="0, 12"/>
                 <Button Text="{xct:Translate NextButtonText}" Style="{StaticResource NormalButton}"
                         Padding="16, 12"
