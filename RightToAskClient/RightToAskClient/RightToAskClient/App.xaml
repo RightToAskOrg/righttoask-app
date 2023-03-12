@@ -944,6 +944,15 @@
                 <Setter Property="FontSize" Value="Medium" />
             </Style>
             
+            <Style x:Key="CheckBoxStyle" TargetType="CheckBox">
+                <Setter Property="Color" Value="{StaticResource ButtonColor}"/>
+                <Style.Triggers>
+                    <Trigger TargetType="CheckBox" Property="IsEnabled" Value="False">
+                        <Setter Property="Color" Value="Gray"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            
         </ResourceDictionary>
     </Application.Resources>
 </Application>

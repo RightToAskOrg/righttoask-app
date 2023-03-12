@@ -93,6 +93,18 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string HasNotMadeSelection {
+            get {
+                return ResourceManager.GetString("HasNotMadeSelection", resourceCulture);
+            }
+        }
+        
+        internal static string NoSelections {
+            get {
+                return ResourceManager.GetString("NoSelections", resourceCulture);
+            }
+        }
+        
         internal static string ApproveAnswerText {
             get {
                 return ResourceManager.GetString("ApproveAnswerText", resourceCulture);
@@ -1095,6 +1107,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string EditQuestionButtonHint {
+            get {
+                return ResourceManager.GetString("EditQuestionButtonHint", resourceCulture);
+            }
+        }
+        
         internal static string QuestionEditSuccessfulPopupText {
             get {
                 return ResourceManager.GetString("QuestionEditSuccessfulPopupText", resourceCulture);
@@ -1773,12 +1791,6 @@ namespace RightToAskClient.Resx {
             }
         }
         
-        internal static string SupportingPageTitle {
-            get {
-                return ResourceManager.GetString("SupportingPageTitle", resourceCulture);
-            }
-        }
-        
         internal static string LocateButtonText {
             get {
                 return ResourceManager.GetString("LocateButtonText", resourceCulture);
@@ -2043,6 +2055,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string LinkHttpErrorText {
+            get {
+                return ResourceManager.GetString("LinkHttpErrorText", resourceCulture);
+            }
+        }
+        
         internal static string LinkPlaceholderText {
             get {
                 return ResourceManager.GetString("LinkPlaceholderText", resourceCulture);
@@ -2202,18 +2220,6 @@ namespace RightToAskClient.Resx {
         internal static string DisagreeCodeOfConductPopText {
             get {
                 return ResourceManager.GetString("DisagreeCodeOfConductPopText", resourceCulture);
-            }
-        }
-        
-        internal static string RegisterMPButtonHint {
-            get {
-                return ResourceManager.GetString("RegisterMPButtonHint", resourceCulture);
-            }
-        }
-        
-        internal static string SignUpButtonHint {
-            get {
-                return ResourceManager.GetString("SignUpButtonHint", resourceCulture);
             }
         }
         

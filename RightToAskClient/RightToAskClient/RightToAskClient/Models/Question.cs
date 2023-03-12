@@ -140,7 +140,7 @@ namespace RightToAskClient.Models
         }
 
         // A list of existing answers, specifying who gave the answer in the role of representing which MP.
-        public List<Answer>? _answers { get; set; } 
+        public List<Answer> _answers { get; set; } = new List<Answer>();
         
         public List<Answer> Answers => _answers;
 
@@ -174,12 +174,7 @@ namespace RightToAskClient.Models
             set => SetProperty(ref _alreadyReported, value);
         }
 
-        private bool _hasAnswer;
-        public bool HasAnswer
-        {
-            get => _hasAnswer;
-            set => SetProperty(ref _hasAnswer, value);
-        }
+        public bool HasAnswer => Answers.Any();
 
         // Explicit empty constructor, for use in the case we're generating our own question.
         public Question()
@@ -232,7 +227,7 @@ namespace RightToAskClient.Models
             {
                 foreach (var link in serverQuestion.hansard_link)
                 {
-                    var possibleUrl = ParliamentData.StringToValidParliamentaryUrl(link?.url ?? "");
+                    var possibleUrl = ParliamentaryURICreator.StringToValidParliamentaryUrl(link?.url ?? "");
                     if (possibleUrl.Success)
                     {
                         HansardLink.Add(possibleUrl.Data);

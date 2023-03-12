@@ -21,8 +21,7 @@
                      IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-		<StackLayout x:FieldModifier="protected" 
-                     HorizontalOptions="Center" 
+		<StackLayout HorizontalOptions="Center" 
                      VerticalOptions="Start">
             <Frame x:Name="SearchFrame"
                    Style="{StaticResource AppThemeGreenFrame}" 
@@ -102,7 +101,6 @@
             <ScrollView FocusChangeRequested="ParentScrollView_OnFocusChangeRequested">
                 <ListView Margin="8"
                           ItemsSource="{Binding FilteredSelectableEntities}"
-                          x:FieldModifier="protected" 
                           VerticalOptions="FillAndExpand" 
                           SelectionMode="None" 
                           HasUnevenRows="True" 

@@ -45,31 +45,57 @@ namespace RightToAskClient.ViewModels
                 OnPropertyChanged();
             }
         }
-        
+
+        public bool IsMyQuestion
+        {
+            get => Question.QuestionSuggester.Equals(IndividualParticipant.getInstance().ProfileData
+                .RegistrationInfo.uid);
+        }
+
+        public bool IsRaiseLayoutVisible
+        {
+            get => HasAskers || IsMyQuestion;
+        }
 
         // Convenient views of things stored in the Question.
         public List<Answer> QuestionAnswers => Question.Answers;
 
-        public string QuestionAnswerers =>  
+        public string QuestionAnswerers => 
             Extensions.JoinFilter(", ",
-                string.Join(", ",Question.Filters.SelectedAnsweringMPsNotMine.Select(mp => mp.ShortestName)),
-                string.Join(", ",Question.Filters.SelectedAnsweringMPsMine.Select(mp => mp.ShortestName)),
-                string.Join(", ",Question.Filters.SelectedAuthorities.Select(a => a.ShortestName)));
+                string.Join(", ", Question.Filters.SelectedAnsweringMPsNotMine.Select(mp => mp.ShortestName)),
+                string.Join(", ", Question.Filters.SelectedAnsweringMPsMine.Select(mp => mp.ShortestName)),
+                string.Join(", ", Question.Filters.SelectedAuthorities.Select(a => a.ShortestName)))
+                .NullToEmptyMessage(IsNewQuestion ? AppResources.HasNotMadeSelection : AppResources.NoSelections);
 
         // The MPs or committee who are meant to ask the question
         public string QuestionAskers =>
             Extensions.JoinFilter(", ",
                 string.Join(", ", Question.Filters.SelectedAskingMPsNotMine.Select(mp => mp.ShortestName)), 
                 string.Join(", ", Question.Filters.SelectedAskingMPsMine.Select(mp => mp.ShortestName)), 
-                string.Join(",", Question.Filters.SelectedCommittees.Select(com => com.ShortestName)));
-
+                string.Join(",", Question.Filters.SelectedCommittees.Select(com => com.ShortestName)))
+                .NullToEmptyMessage(IsNewQuestion ? AppResources.HasNotMadeSelection : AppResources.NoSelections);
+        
+        public bool HasAskers
+        {
+            get => Question.Filters.SelectedAskingMPsNotMine.Count != 0 ||
+                       Question.Filters.SelectedAskingMPsMine.Count != 0 ||
+                       Question.Filters.SelectedCommittees.Count != 0;
+        }
+        
+        public bool HasAnswerers
+        {
+            get => Question.Filters.SelectedAnsweringMPsNotMine.Count != 0 ||
+                       Question.Filters.SelectedAnsweringMPsMine.Count != 0 ||
+                       Question.Filters.SelectedAuthorities.Count != 0;
+        }
+        
         private string? _newHansardLink; 
         public string NewHansardLink 
         { 
             get => _newHansardLink;
             set
             {
-                var urlResult = ParliamentData.StringToValidParliamentaryUrl(value);
+                var urlResult = ParliamentaryURICreator.StringToValidParliamentaryUrl(value);
                 if (urlResult.Success)
                 {
                     SetProperty(ref _newHansardLink, value);
@@ -142,7 +168,7 @@ namespace RightToAskClient.ViewModels
                 var thisUser =  IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid;
                 var questionWriter = _question.QuestionSuggester;
                 return IsNewQuestion || 
-                       (!string.IsNullOrEmpty(thisUser) && !string.IsNullOrEmpty(questionWriter) && thisUser == questionWriter);
+                       (!string.IsNullOrEmpty(thisUser) && !string.IsNullOrEmpty(questionWriter) && thisUser == questionWriter) && _question.Background.IsNullOrEmpty();
             }
         }
 
@@ -430,6 +456,11 @@ namespace RightToAskClient.ViewModels
                 }));
                 await Application.Current.MainPage.Navigation.PushAsync(nextPage);
             });
+        }
+
+        public bool IsAnswerInApp
+        {
+            get => _howAnswered == HowAnsweredOptions.InApp;
         }
 
         private Command? _findCommitteeCommand;

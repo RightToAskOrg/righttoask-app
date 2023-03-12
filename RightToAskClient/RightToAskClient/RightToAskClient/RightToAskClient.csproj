@@ -177,6 +177,7 @@
       <DependentUpon>LabeledPicker.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Remove="Helpers\StringConverters.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Views\SecondPage_old.xaml" />
