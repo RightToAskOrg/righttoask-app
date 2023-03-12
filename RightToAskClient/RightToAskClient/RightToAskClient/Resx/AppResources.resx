@@ -1,142 +1,150 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-    <xsd:element name="root" msdata:IsDataSet="true">
-      <xsd:complexType>
-        <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
+    <!-- 
+      Microsoft ResX Schema 
+      
+      Version 2.0
+      
+      The primary goals of this format is to allow a simple XML format 
+      that is mostly human readable. The generation and parsing of the 
+      various data types are done through the TypeConverter classes 
+      associated with the data types.
+      
+      Example:
+      
+      ... ado.net/XML headers & schema ...
+      <resheader name="resmimetype">text/microsoft-resx</resheader>
+      <resheader name="version">2.0</resheader>
+      <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+      <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+      <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+      <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+      <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+          <value>[base64 mime encoded serialized .NET Framework object]</value>
+      </data>
+      <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+          <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+          <comment>This is a comment</comment>
+      </data>
+                  
+      There are any number of "resheader" rows that contain simple 
+      name/value pairs.
+      
+      Each data row contains a name, and value. The row also contains a 
+      type or mimetype. Type corresponds to a .NET class that support 
+      text/value conversion through the TypeConverter architecture. 
+      Classes that don't support this are serialized and stored with the 
+      mimetype set.
+      
+      The mimetype is used for serialized objects, and tells the 
+      ResXResourceReader how to depersist the object. This is currently not 
+      extensible. For a given mimetype the value must be set accordingly:
+      
+      Note - application/x-microsoft.net.object.binary.base64 is the format 
+      that the ResXResourceWriter will generate, however the reader can 
+      read any of the formats listed below.
+      
+      mimetype: application/x-microsoft.net.object.binary.base64
+      value   : The object must be serialized with 
+              : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+              : and then encoded with base64 encoding.
+      
+      mimetype: application/x-microsoft.net.object.soap.base64
+      value   : The object must be serialized with 
+              : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+              : and then encoded with base64 encoding.
+  
+      mimetype: application/x-microsoft.net.object.bytearray.base64
+      value   : The object must be serialized into a byte array 
+              : using a System.ComponentModel.TypeConverter
+              : and then encoded with base64 encoding.
+      -->
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+        <xsd:element name="root" msdata:IsDataSet="true">
             <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+                <xsd:choice maxOccurs="unbounded">
+                    <xsd:element name="metadata">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                            </xsd:sequence>
+                            <xsd:attribute name="name" use="required" type="xsd:string"/>
+                            <xsd:attribute name="type" type="xsd:string"/>
+                            <xsd:attribute name="mimetype" type="xsd:string"/>
+                            <xsd:attribute ref="xml:space"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="assembly">
+                        <xsd:complexType>
+                            <xsd:attribute name="alias" type="xsd:string"/>
+                            <xsd:attribute name="name" type="xsd:string"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="data">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                            </xsd:sequence>
+                            <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+                            <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+                            <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+                            <xsd:attribute ref="xml:space"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="resheader">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                            </xsd:sequence>
+                            <xsd:attribute name="name" type="xsd:string" use="required"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:choice>
             </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="data">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="resheader">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
-            </xsd:complexType>
-          </xsd:element>
-        </xsd:choice>
-      </xsd:complexType>
-    </xsd:element>
-  </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <data name="AccountUpdateSigningError" xml:space="preserve">
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>2.0</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </resheader>
+    <data name="AccountUpdateSigningError" xml:space="preserve">
     <value>Failed to sign user update message</value>
   </data>
-  <data name="AddBackgroundPlaceholderText" xml:space="preserve">
-    <value>(Optional) links or background</value>
+    <data name="AddBackgroundPlaceholderText" xml:space="preserve">
+    <value>Your supporting information, this could be a link to a news article or report (optional)</value>
   </data>
-  <data name="AdvancedSearchOptions" xml:space="preserve">
+    <data name="AdvancedSearchOptions" xml:space="preserve">
     <value>Advanced Search Options</value>
   </data>
-  <data name="AdvancedSearchButtonText" xml:space="preserve">
+    <data name="AdvancedSearchButtonText" xml:space="preserve">
     <value>Advanced Search</value>
   </data>
-  <data name="AnotherMPButtonText" xml:space="preserve">
+    <data name="AnotherMPButtonText" xml:space="preserve">
     <value>Another MP</value>
   </data>
-  <data name="AnotherUserButtonText" xml:space="preserve">
+    <data name="AnotherUserButtonText" xml:space="preserve">
     <value>Another RightToAsk User</value>
   </data>
-  <data name="AnswererPermissions" xml:space="preserve">
+    <data name="AnswererPermissions" xml:space="preserve">
     <value>Allow other users to add more people to answer the question?</value>
+  </data>
+    <data name="AnswerQuestionHeaderText" xml:space="preserve">
+    <value>Who should answer your question?</value>
   </data>
   <data name="HasNotMadeSelection" xml:space="preserve">
     <value>You haven't made a selection</value>
@@ -147,46 +155,49 @@
   <data name="AnswerQuestionHeaderText" xml:space="preserve">
     <value>Who should answer your question?</value>
   </data>
-  <data name="ApproveAnswerText" xml:space="preserve">
+    <data name="ApproveAnswerText" xml:space="preserve">
     <value>Approve this answer?</value>
   </data>
-  <data name="ApplicationTitle" xml:space="preserve">
+    <data name="ApplicationTitle" xml:space="preserve">
     <value>Right To Ask</value>
   </data>
-  <data name="AskerPermissions" xml:space="preserve">
+    <data name="AskerPermissions" xml:space="preserve">
     <value>Allow other users to add more people to raise the question?</value>
   </data>
-  <data name="AuthorityLabel" xml:space="preserve">
+    <data name="AuthorityLabel" xml:space="preserve">
     <value>Public Authority</value>
   </data>
-  <data name="AuthorityFilterLabelText" xml:space="preserve">
+    <data name="AuthorityFilterLabelText" xml:space="preserve">
     <value>Authorities who should answer the question</value>
   </data>
-  <data name="BackgroundHeaderText" xml:space="preserve">
+    <data name="BackgroundHeaderText" xml:space="preserve">
     <value>Do you want to add more information to explain the question?</value>
   </data>
-  <data name="CancelButtonText" xml:space="preserve">
+  <data name="YouAskTitle" xml:space="preserve">
+    <value>You asked</value>
+  </data>
+    <data name="CancelButtonText" xml:space="preserve">
     <value>Cancel</value>
   </data>
-  <data name="ChooseParticipantsText" xml:space="preserve">
+    <data name="ChooseParticipantsText" xml:space="preserve">
     <value>Search Right To Ask Participants</value>
   </data>
-  <data name="ChooseParliamentaryEmailDomain" xml:space="preserve">
+    <data name="ChooseParliamentaryEmailDomain" xml:space="preserve">
     <value>Parliamentary email domain</value>
   </data>
-  <data name="CitySuburbHeaderText" xml:space="preserve">
+    <data name="CitySuburbHeaderText" xml:space="preserve">
     <value>City or suburb</value>
   </data>
-  <data name="ClickForFiltersText" xml:space="preserve">
+    <data name="ClickForFiltersText" xml:space="preserve">
     <value>Click to show Filters</value>
   </data>
-  <data name="CouldNotFindUser" xml:space="preserve">
+    <data name="CouldNotFindUser" xml:space="preserve">
     <value>Could not find user on the server: </value>
   </data>
-  <data name="CompleteAccountCreationButtonText" xml:space="preserve">
+    <data name="CompleteAccountCreationButtonText" xml:space="preserve">
     <value>Complete Account Creation</value>
   </data>
-  <data name="CreateAccountTitle" xml:space="preserve">
+    <data name="CreateAccountTitle" xml:space="preserve">
     <value>Create Account</value>
   </data>
   <data name="DirectMyQuestionTitle" xml:space="preserve">
@@ -233,6 +244,15 @@
   </data>
   <data name="ElectoratesHeaderText" xml:space="preserve">
     <value>Electorates</value>
+  </data>
+  <data name="MyElectoratesHeaderText" xml:space="preserve">
+    <value>My Electorate Info</value>
+  </data>
+  <data name="EditElectoratesButtonHint" xml:space="preserve">
+    <value>Goes to the page to edit electorates</value>
+  </data>
+  <data name="EditElectoratesButtonDescription" xml:space="preserve">
+    <value>Edit electorates</value>
   </data>
   <data name="ElectoratesKnownHeaderText" xml:space="preserve">
     <value>Select</value>
@@ -288,13 +308,7 @@
   <data name="IAmAStaffer" xml:space="preserve">
     <value>I am their staffer</value>
   </data>
-  <data name="InAppHeaderText" xml:space="preserve">
-    <value>In the app</value>
-  </data>
-  <data name="InAppExplText" xml:space="preserve">
-    <value>Get an answer here in the app. This works best if you asked your own MP.</value>
-  </data>
-  <data name="InParliamentHeaderText" xml:space="preserve">
+    <data name="InParliamentHeaderText" xml:space="preserve">
     <value>Get your question raised in Parliament. Choose who should raise it.</value>
   </data>
   <data name="IncludeAnsweredQuestions" xml:space="preserve">
@@ -417,7 +431,7 @@
   <data name="PublicAuthorityButtonText" xml:space="preserve">
     <value>A Public Authority</value>
   </data>
-  <data name="PublishQuestionButtonText" xml:space="preserve">
+    <data name="PublishQuestionButtonText" xml:space="preserve">
     <value>Publish New Question</value>
   </data>
   <data name="QuestionErrorTypeDescription" xml:space="preserve">
@@ -435,8 +449,8 @@
   <data name="QuestionWriterReadingPageHeaderText" xml:space="preserve">
     <value>Questions by</value>
   </data>
-  <data name="QuestionWriterHeaderText" xml:space="preserve">
-    <value>Question Writer </value>
+    <data name="QuestionWriterHeaderText" xml:space="preserve">
+    <value>Question Writer:</value>
   </data>
   <data name="ReadingPageHeader1" xml:space="preserve">
     <value>&#x2022; Up-vote good questions&#x0a;&#x2022; Tap for more detail &#x0a;&#x2022; Swipe left to dismiss</value>
@@ -573,7 +587,10 @@
   <data name="UIDPlaceholderText" xml:space="preserve">
     <value>Username</value>
   </data>
-  <data name="UpdateAccountButtonText" xml:space="preserve">
+    <data name="UpdateAccountButtonText" xml:space="preserve">
+    <value>Update Name</value>
+  </data>
+  <data name="UpdateAccountButtonHint" xml:space="preserve">
     <value>Update Name</value>
   </data>
   <data name="ReportSubmitHint" xml:space="preserve">
@@ -852,7 +869,31 @@
   <data name="OptionsHeaderText" xml:space="preserve">
     <value>How do you want your question answered?</value>
   </data>
-  <data name="OtherUserProfilePopupText" xml:space="preserve">
+  <data name="AnswerByMp" xml:space="preserve">
+    <value>Answered by MPs in the Right To Ask app</value>
+  </data>
+  <data name="AnswerByMpDescription" xml:space="preserve">
+    <value>This is the simplest way to get your question answered.</value>
+  </data>
+  <data name="VoiceInParliament" xml:space="preserve">
+    <value>I want my question voiced in Parliament</value>
+  </data>
+  <data name="VoiceInParliamentDescription" xml:space="preserve">
+    <value>Choose this option if you want to ask a question of a public authority such as The ATO. You need to choose an MP or committee to ask your question and MPs or public authorities to answer it.</value>
+  </data>
+  <data name="DontKnowOption" xml:space="preserve">
+    <value>I don’t know</value>
+  </data>
+  <data name="DontKnowOptionDescription" xml:space="preserve">
+    <value>Not sure who or how to ask? Let other Right To Ask users direct your question for you.</value>
+  </data>
+  <data name="MyMp" xml:space="preserve">
+    <value>My MP</value>
+  </data>
+  <data name="PublicAuthority" xml:space="preserve">
+    <value>A Public Authority</value>
+  </data>
+    <data name="OtherUserProfilePopupText" xml:space="preserve">
     <value>OtherUserProfilePopupText</value>
   </data>
   <data name="QuestionAskerPopupText" xml:space="preserve">

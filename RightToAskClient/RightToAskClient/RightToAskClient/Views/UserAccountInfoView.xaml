@@ -5,65 +5,96 @@
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:models="clr-namespace:RightToAskClient.Models"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
+             xmlns:controls="clr-namespace:RightToAskClient.Views.Controls;assembly=RightToAskClient"
+             xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
+             xmlns:views="clr-namespace:RightToAskClient.Views;assembly=RightToAskClient"
              x:Class="RightToAskClient.Views.UserAccountInfoView"
              x:DataType="vm:RegistrationViewModel">
     <ContentView.Content>
-        <StackLayout>
-            <Grid RowDefinitions="Auto, Auto, Auto"
-                  ColumnDefinitions="*, 2*">
-                <Label Text="{xct:Translate UserNameHeaderText}" 
-                       Style="{StaticResource Header2}" />
-                <!-- Styled in code-behind according to whether this is permitted edits. -->
-                <Entry Grid.Column="1"
-                       x:Name="UIDEntry" 
-                       Text="{Binding UserId}"
-                       Placeholder="{xct:Translate UIDPlaceholderText}"
-                       IsReadOnly="True" />
-                <Label Grid.Row="1" 
-                       Text="{xct:Translate DisplayNameHeaderText}" 
-                       Style="{StaticResource Header2}" />
-                <Entry Grid.Row="1" Grid.Column="1" 
-                       Text="{Binding DisplayName}"
-                       Placeholder="{xct:Translate DisplayNamePlaceholderText}"
-                       Style="{StaticResource NormalEntry}"/>
-            </Grid>
+        <StackLayout Orientation="Vertical">
             <Label Text="{Binding BadgesSummary, StringFormat='Registered MP account for {0}'}"
-                   IsVisible="{Binding IsVerifiedMPAccount}" 
+                   IsVisible="{Binding IsVerifiedMPAccount}"
                    Style="{StaticResource NormalText}" />
+            <BoxView Style="{StaticResource ButtonSeparator}" IsVisible="{Binding IsVerifiedMPAccount}"/>
+
+            <Label Text="{xct:Translate UserNameHeaderText}"
+                   Style="{StaticResource SmallGreyHeader}" />
+            <!-- Styled in code-behind according to whether this is permitted edits. -->
+            <!-- username -->
+            <Label
+                Text="{Binding UserId}"
+                Style="{StaticResource SmallGreyText}" />
+            <BoxView Style="{StaticResource ButtonSeparator}" />
+
+            <!-- name -->
+            <Label
+                Text="{xct:Translate DisplayNameHeaderText}"
+                Style="{StaticResource SmallGreyHeader}" />
+            <controls:BorderlessEntry
+                Text="{Binding DisplayName}"
+                TextColor="{AppThemeBinding Light=Black, Dark=White}"
+                Placeholder="{xct:Translate DisplayNamePlaceholderText}" />
+
+            <BoxView Style="{StaticResource ButtonSeparator}" />
+
+            <!-- update button -->
+            <Button Text="{xct:Translate UpdateAccountButtonText}" Command="{Binding UpdateAccountButtonCommand}"
+                    Style="{StaticResource OutlineButton}" HorizontalOptions="End"
+                    IsVisible="{Binding ShowUpdateAccountButton}" Margin="0,4,0,0"
+                    xct:SemanticEffect.Hint="{xct:Translate UpdateAccountButtonText}"
+                    xct:SemanticEffect.Description="{xct:Translate UpdateAccountButtonText}" />
+            <Label Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}" />
+
             <!-- <Label Text="Verified staffer" IsVisible="{Binding IsVerifiedStafferAccount}" Style="{StaticResource NormalText}" /> -->
-            <Label Text="{xct:Translate EditableElectoratesHeaderText}" 
-                   Style="{StaticResource Header2}" />
+            <FlexLayout Direction="Row" HorizontalOptions="Fill" JustifyContent="SpaceBetween" AlignItems="End"
+                        Margin="0,12,0,0">
+                <Label Text="{xct:Translate MyElectoratesHeaderText}"
+                       Style="{StaticResource SmallGreyHeader}" VerticalOptions="Center" />
+                <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.account_edit.png}"
+                             Command="{Binding EditElectoratesCommand}"
+                             BackgroundColor="Transparent" WidthRequest="20" HeightRequest="20" HorizontalOptions="End"
+                             xct:SemanticEffect.Hint="{xct:Translate EditElectoratesButtonHint}"
+                             xct:SemanticEffect.Description="{xct:Translate EditElectoratesButtonDescription}" />
+            </FlexLayout>
+            <BoxView Style="{StaticResource ButtonSeparator}" Margin="0" />
             <!-- The height request is a kludge because otherwise the CollectionView takes up all the rest of the page -->
             <!-- rather than resizing to fit just the number of elements it has -->
-            <!-- TODO Change to stacklayout as in QuestionDetailPage -->
-            <CollectionView ItemsSource="{Binding Electorates}"
-                            HeightRequest="280"
-                            SelectionMode="Single"
-                            SelectedItem="{Binding SelectedElectorateWithChamber}">
-                <!-- <CollectionView ItemsSource="{Binding Registration.electorates}" SelectionMode="Single" SelectedItem="{Binding SelectedElectorateWithChamber}">-->
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:ElectorateWithChamber">
-                        <StackLayout HorizontalOptions="StartAndExpand">
-                            <Label Text="{Binding chamber}"
-                                   Style="{StaticResource ClickableHeader}" />
-                            <Label Text="{Binding region}"
-                                   Style="{StaticResource NormalText}" />
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup Name="CommonStates">
-                                    <VisualState Name="Normal" />
-                                    <VisualState Name="Selected">
-                                        <VisualState.Setters>
-                                            <Setter Property="Background"
-                                                    Value="{AppThemeBinding  Light={StaticResource WindowBackgroundColor}, 
-                                                    Dark={StaticResource WindowBackgroundColorDark}}" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                        </StackLayout>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+
+            <!-- state -->
+            <FlexLayout Direction="Row" HorizontalOptions="Fill" Wrap="Wrap" AlignItems="End">
+                <Label Text="{Binding StateOption.ElectorateTitle}" Style="{StaticResource NormalText}" />
+                <views:PublicPrivateLabel IsPublic="{Binding StateOption.IsPublic}" Margin="10, 0" />
+            </FlexLayout>
+
+            <Label Text="{Binding StateOption.ElectorateValue}"
+                   Style="{StaticResource SmallGreyText}"
+                   FontSize="Medium" />
+            <BoxView Style="{StaticResource ButtonSeparator}" Margin="0,0,0,8" />
+
+            <!-- Federal electorate -->
+            <FlexLayout Direction="Row" HorizontalOptions="Fill" Wrap="Wrap" AlignItems="End">
+                <Label Text="{Binding FederalElectorateOption.ElectorateTitle}" Style="{StaticResource NormalText}" />
+                <views:PublicPrivateLabel IsPublic="{Binding FederalElectorateOption.IsPublic}" Margin="10, 0" />
+            </FlexLayout>
+
+            <Label Text="{Binding FederalElectorateOption.ElectorateValue}"
+                   Style="{StaticResource SmallGreyText}"
+                   FontSize="Medium" />
+            <BoxView Style="{StaticResource ButtonSeparator}" Margin="0,0,0,8" />
+
+
+            <!-- state electorate -->
+            <FlexLayout Direction="Row" HorizontalOptions="Fill" Wrap="Wrap" AlignItems="End">
+                <Label Text="{Binding StateElectorateOption.ElectorateTitle}" Style="{StaticResource NormalText}" />
+                <views:PublicPrivateLabel IsPublic="{Binding StateElectorateOption.IsPublic}" Margin="10, 0" />
+            </FlexLayout>
+
+            <Label Text="{Binding StateElectorateOption.ElectorateValue}"
+                   Style="{StaticResource SmallGreyText}"
+                   FontSize="Medium" />
+            <BoxView Style="{StaticResource ButtonSeparator}" Margin="0,0,0,32" />
+
+
         </StackLayout>
     </ContentView.Content>
 </ContentView>

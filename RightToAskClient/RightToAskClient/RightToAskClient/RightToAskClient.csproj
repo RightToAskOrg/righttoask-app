@@ -90,6 +90,7 @@
     <None Remove="Images\school_house.png" />
     <None Remove="Images\search.png" />
     <None Remove="Images\search_75.png" />
+    <None Remove="Images\Search_Gray.png" />
     <None Remove="Images\SettingsGear.png" />
     <None Remove="Images\settings_gear.png" />
     <None Remove="Images\share_48.png" />
@@ -238,6 +239,7 @@
     <EmbeddedResource Include="Images\school_house.png" />
     <EmbeddedResource Include="Images\search.png" />
     <EmbeddedResource Include="Images\search_75.png" />
+    <EmbeddedResource Include="Images\Search_Gray.png" />
     <EmbeddedResource Include="Images\sentiment_very_dissatisfied.png" />
     <EmbeddedResource Include="Images\settings_gear.png" />
     <EmbeddedResource Include="Images\share_48.png" />
@@ -261,6 +263,8 @@
     <EmbeddedResource Include="Images\flags_filled_light.png" />
     <EmbeddedResource Include="Images\flags_filled_dark.png" />
     <EmbeddedResource Include="Images\map.png" />
+    <EmbeddedResource Include="Images\account_edit.png" />
+    <EmbeddedResource Include="Images\arrow_forward.png" />
     <EmbeddedResource Include="Resources\Fonts\DancingScript-VariableFont_wght.ttf" />
     <EmbeddedResource Include="Resources\Fonts\Roboto-Black.ttf" />
     <EmbeddedResource Include="Resources\VicLegislativeAssemblymembers.csv" />

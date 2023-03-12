@@ -85,8 +85,7 @@ namespace RightToAskClient
 
                 var nameLabel = new Label { FontAttributes = FontAttributes.Bold };
                 var selectedToggle = new CheckBox();
-
-                // nameLabel.SetBinding(Label.TextProperty, "TagEntity.NickName");
+                
                 nameLabel.SetBinding(Label.TextProperty, "TagEntity");
                 selectedToggle.SetBinding(CheckBox.IsCheckedProperty, "Selected");
                 selectedToggle.HorizontalOptions = LayoutOptions.End;

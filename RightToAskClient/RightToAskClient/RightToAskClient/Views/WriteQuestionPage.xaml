@@ -6,7 +6,6 @@
              x:Name="AskQuestionPageName"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
-             xmlns:local="clr-namespace:RightToAskClient"
              xmlns:views="clr-namespace:RightToAskClient.Views;assembly=RightToAskClient"
              xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
              Title="Write question" 
@@ -27,7 +26,6 @@
     <ContentPage.Content>
         <ScrollView VerticalScrollBarVisibility="Never">
             <StackLayout>
-
                 <StackLayout x:Name="QuestionsArea"
                              VerticalOptions="Fill">
                     <RefreshView IsRefreshing="{Binding IsRefreshing}" VerticalOptions="FillAndExpand"
@@ -99,25 +97,22 @@
                             <ColumnDefinition Width="24" />
                         </Grid.ColumnDefinitions>
                         <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}"
-                                VerticalOptions="EndAndExpand"
-                                HorizontalOptions="Fill"
-                                Style="{StaticResource KeyboardEditor}"
-                                BackgroundColor="Transparent"
-                                x:Name="KeywordEntry"
-                                Keyboard="Chat"
-                                MaxLength="280"
-                                Focused="KeywordEntry_FocusedChange"
-                                Unfocused="KeywordEntry_FocusedChange"
-                                TextChanged="KeywordEntry_OnTextChanged"
-                                xct:CornerRadiusEffect.CornerRadius="5"
-                                xct:SemanticEffect.Hint="{xct:Translate WriteQuestionEditorHint}"
-                                xct:SemanticEffect.Description="{xct:Translate WriteQuestionEditorDescription}"
-                                Grid.Row="0"
-                                Grid.Column="0"
-                                Margin="0">
-                            <Editor.Effects>
-                                <xct:LifecycleEffect Loaded="LifecycleEffect_OnLoaded" />
-                            </Editor.Effects>
+                                                  VerticalOptions="FillAndExpand"
+                                                  HorizontalOptions="FillAndExpand"
+                                                  Style="{StaticResource KeyboardEditor}"
+                                                  BackgroundColor="Transparent"
+                                                  x:Name="KeywordEntry"
+                                                  Keyboard="Chat"
+                                                  MaxLength="280"
+                                                  Focused="KeywordEntry_FocusedChange"
+                                                  Unfocused="KeywordEntry_FocusedChange"
+                                                  TextChanged="KeywordEntry_OnTextChanged"
+                                                  xct:CornerRadiusEffect.CornerRadius="5"
+                                                  xct:SemanticEffect.Hint="{xct:Translate WriteQuestionEditorHint}"
+                                                  xct:SemanticEffect.Description="{xct:Translate WriteQuestionEditorDescription}"
+                                                  Grid.Row="0"
+                                                  Grid.Column="0"
+                                                  Margin="0">
                         </Editor>
                         <StackLayout
                             Orientation="Vertical"
@@ -135,27 +130,31 @@
                             </ImageButton>
                         </StackLayout>
                     </Grid>
-                    <FlexLayout AlignItems="Center" JustifyContent="SpaceBetween" HorizontalOptions="CenterAndExpand" Direction="Row" Margin="16,0,16,12">
-                        <Label Text="0/280" 
-                               Style="{StaticResource EditorTextNumber}" 
-                               x:Name="EditorTextNumber" />
+
+                    <FlexLayout AlignItems="Center" JustifyContent="SpaceBetween" Margin="16,0,16,12">
                         <Button Text="Return home"
-                                Style="{StaticResource EditorProceed}" 
+                                Style="{StaticResource EditorProceed}"
                                 Command="{Binding BackCommand}"
                                 xct:SemanticEffect.Hint="{xct:Translate ReturnHomeHint}"
-                                xct:SemanticEffect.Description="{xct:Translate ReturnHomeButtonDescription}"/>
-                        <StackLayout VerticalOptions="CenterAndExpand"
-                                     HorizontalOptions="CenterAndExpand">
-                            <BoxView BackgroundColor="{StaticResource FadedButtonColor}" 
-                                     VerticalOptions="CenterAndExpand" 
-                                     HeightRequest="24"
-                                     WidthRequest="1" />
+                                xct:SemanticEffect.Description="{xct:Translate ReturnHomeButtonDescription}" />
+
+                        <StackLayout Margin="0" HorizontalOptions="End" Orientation="Horizontal">
+                            <Label Text="0/280"
+                                   Padding="8, 0"
+                                   Style="{StaticResource EditorTextNumber}"
+                                   x:Name="EditorTextNumber"
+                                   VerticalOptions="Center" />
+                            <BoxView Color="{StaticResource FadedButtonColor}"
+                                     VerticalOptions="CenterAndExpand"
+                                     HeightRequest="22"
+                                     WidthRequest="2" />
+                            <Button Text="Next" x:Name="EditorProceedButton"
+                                    Padding="8, 0, 16, 0"
+                                    Style="{StaticResource EditorProceed}"
+                                    Command="{Binding ProceedButtonCommand}"
+                                    xct:SemanticEffect.Hint="{xct:Translate EditorProceedHint}"
+                                    xct:SemanticEffect.Description="{xct:Translate EditorProceedButtonDescription}" />
                         </StackLayout>
-                        <Button Text="Proceed with this question" x:Name="EditorProceedButton"
-                                Style="{StaticResource EditorProceed}" 
-                                Command="{Binding ProceedButtonCommand}"
-                                xct:SemanticEffect.Hint="{xct:Translate EditorProceedHint}"
-                                xct:SemanticEffect.Description="{xct:Translate EditorProceedButtonDescription}"/>
                     </FlexLayout>
                 </StackLayout>
             </StackLayout>

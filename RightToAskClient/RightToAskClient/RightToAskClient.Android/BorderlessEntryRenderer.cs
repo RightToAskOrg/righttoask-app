@@ -21,6 +21,7 @@ namespace RightToAskClient.Droid.UI.Renderers
             if(Control != null)
             {
                 Control.Background = null;
+                Control.SetPadding(0, 0, 0, 0);
             }
 
             // Configure Entry properties

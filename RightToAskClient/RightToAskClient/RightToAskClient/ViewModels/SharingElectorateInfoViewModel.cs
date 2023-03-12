@@ -1,9 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using RightToAskClient.CryptoUtils;
 using RightToAskClient.Helpers;
@@ -295,7 +291,7 @@ namespace RightToAskClient.ViewModels
             FederalElectorate = AppResources.NoneSelected;
             StateElectorate = AppResources.NoneSelected;
         }
-
+        
         private async Task SendNewUserToServer()
         {
             // filter value according to private information
@@ -305,6 +301,7 @@ namespace RightToAskClient.ViewModels
             if (httpValidation.isValid)
             {
                 RegistrationViewModel.SaveRegistrationToPreferences(_registration);
+                SavePrivacyOptionsToPreferences();
                 _registration.registrationStatus = RegistrationStatus.Registered;
                 XamarinPreferences.shared.Set(Constants.IsRegistered, _registration.IsRegistered);
 
@@ -340,11 +337,20 @@ namespace RightToAskClient.ViewModels
             if (httpValidation.isValid)
             {
                 RegistrationViewModel.SaveRegistrationToPreferences(_registration);
+                SavePrivacyOptionsToPreferences();
                 var navigation = Application.Current.MainPage.Navigation;
 
                 navigation.RemovePage(navigation.NavigationStack[navigation.NavigationStack.Count - 2]);
                 await navigation.PopAsync();
             }
         }
+        
+        private void SavePrivacyOptionsToPreferences()
+        {
+            XamarinPreferences.shared.Set("isStatePublic", IsStatePublic);
+            XamarinPreferences.shared.Set("isFederalElectoratePublic", IsFederalElectoratePublic);
+            XamarinPreferences.shared.Set("isStateElectoratePublic", IsStateElectoratePublic);
+        }
     }
+
 }

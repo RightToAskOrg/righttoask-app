@@ -136,6 +136,11 @@ namespace RightToAskClient.ViewModels
             get => _howAnswered;
             set => SetProperty(ref _howAnswered, value);
         }
+        
+        public bool IsShowPublicAuthority
+        {
+            get => _howAnswered != HowAnsweredOptions.InApp;
+        }
 
         // These buttons are disabled if for some reason we're unable to read MP data.
         private bool _enableMyMPShouldRaiseButton;

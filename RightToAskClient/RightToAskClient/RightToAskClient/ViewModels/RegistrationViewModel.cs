@@ -125,6 +125,71 @@ namespace RightToAskClient.ViewModels
             }
         }
 
+        public ElectorateOption StateOption
+        {
+            get
+            {
+                ElectorateOption stateOption = null;
+                foreach (var electorate in _registration.Electorates)
+                {
+                    if (electorate.chamber == ParliamentData.Chamber.Australian_Senate)
+                    {
+                        var isStatePublic = XamarinPreferences.shared.Get("isStatePublic", false);
+                        stateOption = new ElectorateOption("State", electorate.region, isStatePublic);
+                    }
+                }
+
+                return stateOption;
+            }
+        }
+
+        public ElectorateOption FederalElectorateOption
+        {
+            get
+            {
+                ElectorateOption federalElectorateOption = null;
+                foreach (var electorate in _registration.Electorates)
+                {
+                    if (electorate.chamber == ParliamentData.Chamber.Australian_House_Of_Representatives)
+                    {
+                        var isFederalElectoratePublic = XamarinPreferences.shared.Get("isFederalElectoratePublic", false);
+                        federalElectorateOption = new ElectorateOption("Federal electorate", electorate.region, isFederalElectoratePublic);
+                     
+                    }
+                }
+
+                return federalElectorateOption;
+            }
+        }
+        
+        public ElectorateOption StateElectorateOption
+        {
+            get
+            {
+                ElectorateOption stateElectorateOption = null;
+                List<string> stateElectorates = new List<string>(); 
+                foreach (var electorate in _registration.Electorates)
+                {
+                    if (electorate.chamber != ParliamentData.Chamber.Australian_House_Of_Representatives 
+                        && electorate.chamber != ParliamentData.Chamber.Australian_Senate)
+                    {
+                        if (!electorate.region.IsNullOrEmpty())
+                        {
+                            stateElectorates.Add(electorate.region); 
+                        }
+                     
+                    }
+                }
+                if (!stateElectorates.IsNullOrEmpty())
+                {
+                    string stateElectorate = String.Join(", ", stateElectorates);
+                    var isStateElectoratePublic = XamarinPreferences.shared.Get("isStateElectoratePublic", false);
+                    stateElectorateOption = new ElectorateOption("State electorate", stateElectorate, isStateElectoratePublic);
+                }
+                return stateElectorateOption;
+            }
+        }
+
         public string BadgesSummary => string.Join(",", _registration.Badges.Select(b => b.ToString()).ToList());
 
         // This is for selecting MPs if you're registering as an MP or staffer account
@@ -362,6 +427,7 @@ namespace RightToAskClient.ViewModels
         {
             ChooseMPToRegisterButtonCommand = new AsyncCommand(async () => { SelectMPForRegistration(); });
             DoneButtonCommand = new Command(() => { OnSaveButtonClicked(); });
+            EditElectoratesCommand =  new Command(() => { NavigateToFindMPsPage(); });
             UpdateAccountButtonCommand = new Command(() =>
             {
                 SaveRegistrationToPreferences(_registration);
@@ -403,6 +469,7 @@ namespace RightToAskClient.ViewModels
 
         // commands
         public Command DoneButtonCommand { get; }
+        public Command EditElectoratesCommand { get; }
         public Command UpdateAccountButtonCommand { get; }
         public AsyncCommand ChooseMPToRegisterButtonCommand { get; }
         public Command UpdateMPsButtonCommand { get; }
