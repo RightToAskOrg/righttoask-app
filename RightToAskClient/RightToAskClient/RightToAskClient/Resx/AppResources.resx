@@ -176,16 +176,16 @@
   <data name="YouAskTitle" xml:space="preserve">
     <value>You asked</value>
   </data>
-    <data name="CancelButtonText" xml:space="preserve">
+  <data name="CancelButtonText" xml:space="preserve">
     <value>Cancel</value>
   </data>
-    <data name="ChooseParticipantsText" xml:space="preserve">
+  <data name="ChooseParticipantsText" xml:space="preserve">
     <value>Search Right To Ask Participants</value>
   </data>
-    <data name="ChooseParliamentaryEmailDomain" xml:space="preserve">
+  <data name="ChooseParliamentaryEmailDomain" xml:space="preserve">
     <value>Parliamentary email domain</value>
   </data>
-    <data name="CitySuburbHeaderText" xml:space="preserve">
+  <data name="CitySuburbHeaderText" xml:space="preserve">
     <value>City or suburb</value>
   </data>
     <data name="ClickForFiltersText" xml:space="preserve">
