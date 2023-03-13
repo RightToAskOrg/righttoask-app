@@ -7,7 +7,7 @@
              xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
              x:Class="RightToAskClient.Views.QuestionBackgroundPage"
              x:DataType="vm:QuestionViewModel"
-             Title="{xct:Translate SupportingPageTitle}">
+             Title="{xct:Translate BackgroundPageTitle}">
     <ContentPage.Content>
         <ScrollView VerticalScrollBarVisibility="Never">
             <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="Fill">

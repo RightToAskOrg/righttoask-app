@@ -177,6 +177,9 @@
 				    <Label Text="{xct:Translate LinkForAnswerHeaderText}" Style="{StaticResource Header2}"/>
 				    <Editor x:Name="LinkToAnswerEditor" Placeholder="{xct:Translate LinkPlaceholderText}" Completed="Link_Entered"
 				            Style="{StaticResource NormalEditor}" />
+				    <StackLayout BindableLayout.ItemsSource="{Binding Foo}">
+					    <Label Text="{Binding}" />
+				    </StackLayout>
 			    </StackLayout>
 			    <Button Text="{xct:Translate EditQuestionButtonText}" Style="{StaticResource SaveButton}"
 			            Command="{Binding EditAnswerCommand}" 

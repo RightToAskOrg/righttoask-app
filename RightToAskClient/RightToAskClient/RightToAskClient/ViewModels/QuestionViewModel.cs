@@ -59,6 +59,7 @@ namespace RightToAskClient.ViewModels
 
         // Convenient views of things stored in the Question.
         public List<Answer> QuestionAnswers => Question.Answers;
+        public List<Uri> Foo => Question.HansardLink;
 
         public string QuestionAnswerers => 
             Extensions.JoinFilter(", ",
