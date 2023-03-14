@@ -933,6 +933,18 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string SuccessfullyUpdatedAccountTitle {
+            get {
+                return ResourceManager.GetString("SuccessfullyUpdatedAccountTitle", resourceCulture);
+            }
+        }
+        
+        internal static string FailedUpdatedAccountTitle {
+            get {
+                return ResourceManager.GetString("FailedUpdatedAccountTitle", resourceCulture);
+            }
+        }
+        
         internal static string TapToEditText {
             get {
                 return ResourceManager.GetString("TapToEditText", resourceCulture);

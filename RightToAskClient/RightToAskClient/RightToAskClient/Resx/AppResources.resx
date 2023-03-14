@@ -566,6 +566,12 @@
   <data name="SuccessfullyUpdatedAccountText" xml:space="preserve">
     <value>Your account details were successfully updated.</value>
   </data>
+  <data name="SuccessfullyUpdatedAccountTitle" xml:space="preserve">
+    <value>Account update</value>
+  </data>
+  <data name="FailedUpdatedAccountTitle" xml:space="preserve">
+    <value>Account update error</value>
+  </data>
   <data name="TapToEditText" xml:space="preserve">
     <value>Tap to edit</value>
   </data>
@@ -915,7 +921,7 @@
     <value>Your account was successfully updated!</value>
   </data>
   <data name="NoAccountChangesDetectedAlertText" xml:space="preserve">
-    <value>No Changes were made and thus there are no changes to update on your account.</value>
+    <value>No Changes were made thus there are no changes to update on your account.</value>
   </data>
   <data name="NoAccountChangesDetectedTitle" xml:space="preserve">
     <value>No Changes Found</value>

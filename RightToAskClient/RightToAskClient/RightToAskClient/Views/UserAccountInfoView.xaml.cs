@@ -7,6 +7,7 @@ namespace RightToAskClient.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class UserAccountInfoView : ContentView
     {
+        private RegistrationViewModel? vm;
         public UserAccountInfoView()
         {
             InitializeComponent();

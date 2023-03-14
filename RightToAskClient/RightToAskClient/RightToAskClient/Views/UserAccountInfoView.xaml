@@ -3,7 +3,6 @@
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             xmlns:models="clr-namespace:RightToAskClient.Models"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              xmlns:controls="clr-namespace:RightToAskClient.Views.Controls;assembly=RightToAskClient"
              xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
@@ -40,11 +39,11 @@
 
             <!-- update button -->
             <Button Text="{xct:Translate UpdateAccountButtonText}" Command="{Binding UpdateAccountButtonCommand}"
-                    Style="{StaticResource OutlineButton}" HorizontalOptions="End"
-                    IsVisible="{Binding IsMyAccount}" Margin="0,4,0,0"
-                    xct:SemanticEffect.Hint="{xct:Translate UpdateAccountButtonText}"
-                    xct:SemanticEffect.Description="{xct:Translate UpdateAccountButtonText}" />
-            <Label Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}" />
+                Style="{StaticResource OutlineButton}" HorizontalOptions="End"
+                IsVisible="{Binding IsMyAccount}" Margin="0,4,0,0"
+                xct:SemanticEffect.Hint="{xct:Translate UpdateAccountButtonText}"
+                xct:SemanticEffect.Description="{xct:Translate UpdateAccountButtonText}"/>
+            <Label Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}"/>
 
             <!-- <Label Text="Verified staffer" IsVisible="{Binding IsVerifiedStafferAccount}" Style="{StaticResource NormalText}" /> -->
             <FlexLayout Direction="Row" HorizontalOptions="Fill" JustifyContent="SpaceBetween" AlignItems="End"

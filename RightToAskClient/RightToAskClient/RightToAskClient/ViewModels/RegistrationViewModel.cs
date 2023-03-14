@@ -73,10 +73,10 @@ namespace RightToAskClient.ViewModels
         // the display name of an existing registration.
         public string DisplayName
         {
-            get => _registration.display_name;
+            get => _registrationUpdates.display_name;
             set
             {
-                _registration.display_name = value;
+                // _registration.display_name = value;
                 _registrationUpdates.display_name = value;
                 OnPropertyChanged();
             }
@@ -409,6 +409,7 @@ namespace RightToAskClient.ViewModels
 
             // uid should still be sent in the 'update' even though it doesn't change.
             _registrationUpdates.uid = _registration.uid;
+            _registrationUpdates.display_name = _registration.display_name;
             _oldElectorates = _registration.Electorates;
             _selectableMPList = new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
         }
@@ -430,7 +431,6 @@ namespace RightToAskClient.ViewModels
             EditElectoratesCommand =  new Command(() => { NavigateToFindMPsPage(); });
             UpdateAccountButtonCommand = new Command(() =>
             {
-                SaveRegistrationToPreferences(_registration);
                 SendUpdatedUserToServer();
             });
             UpdateMPsButtonCommand = new Command(() =>
@@ -601,12 +601,10 @@ namespace RightToAskClient.ViewModels
             }
 
             // if display name, state, electorates, or badges were changed, send the update
-            if (_registrationUpdates.display_name != null
-                || _registrationUpdates.state != null
-                || _registrationUpdates.electorates != null
-                || _registrationUpdates.badges != null)
+            if (_registrationUpdates.display_name != null && !_registrationUpdates.display_name.Equals(_registration.display_name))
             {
                 hasChanges = true;
+                _registration.display_name = DisplayName;
             }
 
             // displays an alert if no changes were found on the user's account via the _registrationUpdates object
@@ -617,26 +615,43 @@ namespace RightToAskClient.ViewModels
                     _registrationUpdates,
                     _registration.uid);
                 var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
-                ReportLabelText = httpValidation.errorMessage;
+                // ReportLabelText = httpValidation.errorMessage;
                 if (httpValidation.isValid)
                 {
                     // if the response seemed successful, put it in more common terms for the user.
                     if (ReportLabelText.Contains("Success"))
                     {
                         ReportLabelText = AppResources.AccountUpdateSuccessResponseText;
+                        
                     }
-
+                    SaveRegistrationToPreferences(_registration);
                     UpdateLocalRegistrationInfo();
+                    
+                    // add popup to show user update message
+                    var popup = new OneButtonPopup(
+                        AppResources.SuccessfullyUpdatedAccountTitle,
+                        AppResources.SuccessfullyUpdatedAccountText,
+                        AppResources.OKText);
+                    popup.Size = new Size(300, 200);
+                    _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
                 }
                 else
                 {
                     // IsRegistered flags in both Readingcontext and Preferences default to false.
                     Debug.WriteLine("HttpValidationError: " + httpValidation.errorMessage);
+                    var popup = new OneButtonPopup(
+                        AppResources.FailedUpdatedAccountTitle,
+                        httpValidation.errorMessage,
+                        AppResources.OKText);
+                    popup.Size = new Size(300, 230);
+                    _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
                 }
             }
             else
             {
-                var popup = new OneButtonPopup(AppResources.NoAccountChangesDetectedAlertText, AppResources.OKText);
+                var popup = new OneButtonPopup(AppResources.NoAccountChangesDetectedTitle,
+                    AppResources.NoAccountChangesDetectedAlertText, AppResources.OKText);
+                popup.Size = new Size(300, 200);
                 await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
             }
         }
