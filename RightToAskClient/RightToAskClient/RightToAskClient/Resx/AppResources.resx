@@ -143,9 +143,6 @@
     <data name="AnswererPermissions" xml:space="preserve">
     <value>Allow other users to add more people to answer the question?</value>
   </data>
-    <data name="AnswerQuestionHeaderText" xml:space="preserve">
-    <value>Who should answer your question?</value>
-  </data>
   <data name="HasNotMadeSelection" xml:space="preserve">
     <value>You haven't made a selection</value>
   </data>
@@ -328,6 +325,9 @@
   </data>
   <data name="KeywordEntryPlaceholderText" xml:space="preserve">
     <value>Keyword</value>
+  </data>
+  <data name="HansardLinksTitle" xml:space="preserve">
+    <value>Hansard Links</value>
   </data>
   <data name="LinkForAnswerHeaderText" xml:space="preserve">
     <value>Link to answer in Hansard:</value>

@@ -3,6 +3,7 @@ using RightToAskClient.Models;
 using RightToAskClient.ViewModels;
 using Xamarin.Forms;
 using RightToAskClient.Resx;
+using Xamarin.Essentials;
 
 // This sets slightly different things to be visible depending on how we 
 // arrived here.
@@ -116,5 +117,12 @@ namespace RightToAskClient.Views
         {
             vm.NewHansardLink = ((Editor)sender).Text;
         }
+
+        private async void LinkTapped(object sender, EventArgs e)
+        {
+            Label? linkLabel = sender as Label;
+            await Browser.OpenAsync(linkLabel.Text, BrowserLaunchMode.SystemPreferred);
+        }
+
     }
 }

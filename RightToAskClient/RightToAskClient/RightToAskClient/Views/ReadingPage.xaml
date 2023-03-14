@@ -27,7 +27,6 @@
         <StackLayout HorizontalOptions="Center"
                      VerticalOptions="FillAndExpand"
                      Spacing="0">
-            <BoxView />
             <Frame x:Name="SearchFrame"
                    Style="{StaticResource AppThemeGreenFrame}"
                    Margin="8,8" Padding="0"

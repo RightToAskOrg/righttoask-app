@@ -87,12 +87,6 @@ namespace RightToAskClient.Resx {
             }
         }
         
-        internal static string AnswerQuestionHeaderText {
-            get {
-                return ResourceManager.GetString("AnswerQuestionHeaderText", resourceCulture);
-            }
-        }
-        
         internal static string HasNotMadeSelection {
             get {
                 return ResourceManager.GetString("HasNotMadeSelection", resourceCulture);
@@ -102,6 +96,12 @@ namespace RightToAskClient.Resx {
         internal static string NoSelections {
             get {
                 return ResourceManager.GetString("NoSelections", resourceCulture);
+            }
+        }
+        
+        internal static string AnswerQuestionHeaderText {
+            get {
+                return ResourceManager.GetString("AnswerQuestionHeaderText", resourceCulture);
             }
         }
         
@@ -456,6 +456,12 @@ namespace RightToAskClient.Resx {
         internal static string KeywordEntryPlaceholderText {
             get {
                 return ResourceManager.GetString("KeywordEntryPlaceholderText", resourceCulture);
+            }
+        }
+        
+        internal static string HansardLinksTitle {
+            get {
+                return ResourceManager.GetString("HansardLinksTitle", resourceCulture);
             }
         }
         

@@ -9,6 +9,7 @@
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
              xmlns:controls="clr-namespace:RightToAskClient.Views.Controls;assembly=RightToAskClient"
+             xmlns:system="clr-namespace:System;assembly=netstandard"
              x:Class="RightToAskClient.Views.QuestionDetailPage"
              x:DataType="vm:QuestionViewModel">
 	<ContentPage.ToolbarItems>
@@ -119,13 +120,15 @@
 				</FlexLayout>
 				<!-- Answers, visible if there are any -->
 				<Label x:Name="AnswerLabel" Text="{xct:Translate AnswerHeaderText}" Style="{StaticResource Header2}" />
-				<StackLayout x:Name="ExistingAnswers" BindableLayout.ItemsSource="{Binding QuestionAnswers}">
-					<BindableLayout.ItemTemplate>
+				<StackLayout x:Name="ExistingAnswers"
+				             BindableLayout.ItemsSource="{Binding QuestionAnswers}">
+					<BindableLayout.ItemTemplate >
 						<DataTemplate x:DataType="models:Answer">
 							<views:AnswerDisplayCard />
 						</DataTemplate>
 					</BindableLayout.ItemTemplate>
 				</StackLayout>
+				
 				<Editor x:Name="AnswerEditor" Placeholder="{xct:Translate AnswerPlaceholderText}"
 				        Style="{StaticResource NormalEditor}" Completed="Answer_Entered" />
 				<Label Text="{xct:Translate WhoShouldAnswerTitle}" Style="{StaticResource Header2}" />
@@ -171,27 +174,40 @@
 					        Style="{StaticResource NormalEditor}"
 					        IsReadOnly="{Binding CanEditBackground, Converter={StaticResource Key=cnvInvert}}" />
 				</StackLayout>
-
-			    <!-- Hansard link -->
+				<!-- Hansard link -->
 			    <StackLayout Orientation="Vertical" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
 				    <Label Text="{xct:Translate LinkForAnswerHeaderText}" Style="{StaticResource Header2}"/>
+				    <StackLayout BindableLayout.ItemsSource="{Binding HansardLinks}">
+					    <BindableLayout.ItemTemplate>
+						    <DataTemplate>
+							    <Label x:DataType="system:Uri" Text="{Binding}"
+							           Style="{StaticResource UrlText}">
+								    <Label.GestureRecognizers>
+									    <TapGestureRecognizer Tapped="LinkTapped"/>
+								    </Label.GestureRecognizers>
+							    </Label>
+						    </DataTemplate>
+					    </BindableLayout.ItemTemplate>
+				    </StackLayout>
 				    <Editor x:Name="LinkToAnswerEditor" Placeholder="{xct:Translate LinkPlaceholderText}" Completed="Link_Entered"
 				            Style="{StaticResource NormalEditor}" />
 			    </StackLayout>
-			    <Button Text="{xct:Translate EditQuestionButtonText}" Style="{StaticResource SaveButton}"
-			            Command="{Binding EditAnswerCommand}" 
-			            HorizontalOptions="Center" 
-						IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}"
-						xct:SemanticEffect.Hint="{xct:Translate EditQuestionButtonHint}"
-			            xct:SemanticEffect.Description="{xct:Translate EditQuestionButtonText}"/>
-			    <Button Text="{xct:Translate PublishQuestionButtonText}" Style="{StaticResource DoneButton}"
-			            Command="{Binding SaveQuestionCommand}" HorizontalOptions="Center" 
-			            IsVisible="{Binding IsNewQuestion}" 
-			            xct:SemanticEffect.Hint="{xct:Translate PublishQuestionButtonText}"
-			            xct:SemanticEffect.Description="{xct:Translate PublishQuestionButtonText}"/>
-                <Label x:Name="ReportLabel" Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}"
-/>
-		    </StackLayout>
+				<StackLayout Margin="0,8">
+				    <Button Text="{xct:Translate EditQuestionButtonText}" 
+				            Style="{StaticResource NormalButton}"
+				            Command="{Binding EditAnswerCommand}" 
+							IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}"
+							xct:SemanticEffect.Hint="{xct:Translate EditQuestionButtonHint}"
+				            xct:SemanticEffect.Description="{xct:Translate EditQuestionButtonText}"/>
+				    <Button Text="{xct:Translate PublishQuestionButtonText}" 
+				            Style="{StaticResource NormalButton}"
+				            Command="{Binding SaveQuestionCommand}" 
+				            IsVisible="{Binding IsNewQuestion}" 
+				            xct:SemanticEffect.Hint="{xct:Translate PublishQuestionButtonText}"
+				            xct:SemanticEffect.Description="{xct:Translate PublishQuestionButtonText}"/>
+				</StackLayout>
+				<Label x:Name="ReportLabel" Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}"/>
+			</StackLayout>
 	    </ScrollView>
     </ContentPage.Content>
 </ContentPage>
