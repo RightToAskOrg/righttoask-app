@@ -32,6 +32,7 @@ namespace RightToAskClient
         public static readonly string UpvotedQuestions = "UpvotedQuestions";
         public static readonly string DismissedQuestions = "DismissedQuestions";
         public static readonly string ReportedQuestions = "ReportedQuestions";
+        public static readonly string DeviceID = "DeviceID";
         
         // Default settings for sorted search
         public static readonly int DefaultPageSize = 20;
