@@ -429,7 +429,6 @@ namespace RightToAskClient.ViewModels
             EditElectoratesCommand =  new Command(() => { NavigateToFindMPsPage(); });
             UpdateAccountButtonCommand = new Command(() =>
             {
-                SaveRegistrationToPreferences(_registration);
                 SendUpdatedUserToServer();
             });
             UpdateMPsButtonCommand = new Command(() =>
@@ -627,6 +626,7 @@ namespace RightToAskClient.ViewModels
                     _displayOldName = _registration.display_name;
                     // }
                     UpdateLocalRegistrationInfo();
+                    SaveRegistrationToPreferences(_registration);
                 }
                 else
                 {
