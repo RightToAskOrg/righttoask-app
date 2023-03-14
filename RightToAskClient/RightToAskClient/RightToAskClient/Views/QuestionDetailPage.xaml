@@ -190,16 +190,12 @@
 					        Style="{StaticResource NormalEditor}"
 					        IsReadOnly="{Binding CanEditBackground, Converter={StaticResource Key=cnvInvert}}" />
 				</StackLayout>
-				<BoxView Style="{StaticResource Separator}" 
-				         IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}"/>
 				<!-- Hansard link -->
 			    <StackLayout Orientation="Vertical" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
 				    <Label Text="{xct:Translate LinkForAnswerHeaderText}" Style="{StaticResource Header2}"/>
 				    <Editor x:Name="LinkToAnswerEditor" Placeholder="{xct:Translate LinkPlaceholderText}" Completed="Link_Entered"
 				            Style="{StaticResource NormalEditor}" />
 			    </StackLayout>
-				<Label x:Name="ReportLabel" Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}"/>
-
 				<StackLayout Margin="0,8">
 				    <Button Text="{xct:Translate EditQuestionButtonText}" 
 				            Style="{StaticResource NormalButton}"
@@ -214,7 +210,8 @@
 				            xct:SemanticEffect.Hint="{xct:Translate PublishQuestionButtonText}"
 				            xct:SemanticEffect.Description="{xct:Translate PublishQuestionButtonText}"/>
 				</StackLayout>
-		    </StackLayout>
+				<Label x:Name="ReportLabel" Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}"/>
+			</StackLayout>
 	    </ScrollView>
     </ContentPage.Content>
 </ContentPage>
