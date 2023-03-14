@@ -24,7 +24,6 @@
             <ScrollView>
                 <StackLayout Margin="20" VerticalOptions="Start">
                     <views:UserAccountInfoView />
-                    
                     <StackLayout Orientation="Vertical">
                         <!-- TODO Unfortunately I think this is getting drawn, then made invisible, hence creating a lot of whitespace -->
                         <StackLayout Orientation="Vertical" VerticalOptions="Center">
