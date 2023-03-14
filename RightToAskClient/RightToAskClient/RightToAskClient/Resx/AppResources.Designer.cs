@@ -2223,6 +2223,18 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string RegisterMPButtonHint {
+            get {
+                return ResourceManager.GetString("RegisterMPButtonHint", resourceCulture);
+            }
+        }
+        
+        internal static string SignUpButtonHint {
+            get {
+                return ResourceManager.GetString("SignUpButtonHint", resourceCulture);
+            }
+        }
+        
         internal static string SignUpTitleText {
             get {
                 return ResourceManager.GetString("SignUpTitleText", resourceCulture);
