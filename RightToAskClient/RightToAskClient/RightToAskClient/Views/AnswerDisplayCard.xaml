@@ -5,8 +5,16 @@
              x:Class="RightToAskClient.Views.AnswerDisplayCard"
              x:DataType="models:Answer">
   <ContentView.Content>
-        <Frame Style="{StaticResource AppThemeFrame}" Padding="5" VerticalOptions="FillAndExpand">
-            <Grid RowDefinitions="auto,auto" ColumnDefinitions="*" Padding="0" Margin="0" BackgroundColor="Transparent" RowSpacing="0" ColumnSpacing="0">
+        <Frame Style="{StaticResource AppThemeFrame}" 
+               Padding="5" 
+               VerticalOptions="FillAndExpand">
+            <Grid RowDefinitions="auto,auto" 
+                  ColumnDefinitions="*" 
+                  Padding="0" 
+                  Margin="0" 
+                  BackgroundColor="Transparent" 
+                  RowSpacing="0" 
+                  ColumnSpacing="0">
                 <Grid ColumnDefinitions="*,auto" Grid.Row="0" Grid.Column="0" >
                     <Label Grid.Row="0" Grid.Column="0" Text="{Binding MPAnsweredBy, StringFormat='Answered By: {0}'}" Style="{StaticResource QuestionFrameCardText}" 
                            FontAttributes="Bold"/>

@@ -368,8 +368,8 @@
                 <Setter Property="BackgroundColor"
                         Value="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}" />
                 <Setter Property="CornerRadius" Value="0" />
-                <!-- <Setter Property="BorderColor" Value="{StaticResource FrameColor}" /> -->
                 <Setter Property="Padding" Value="0" />
+                <Setter Property="HasShadow" Value="False" />
             </Style>
             <Style x:Key="TransparentSwipeView" TargetType="SwipeView">
                 <Setter Property="BackgroundColor" Value="Transparent" />
