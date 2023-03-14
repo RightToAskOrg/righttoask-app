@@ -117,13 +117,6 @@ namespace RightToAskClient.ViewModels
             }
         }
         
-        public ICommand ClickLinkCommand => new Command<string>((url) =>
-        {
-            Console.WriteLine(">>>>>>>>  ClickLinkCommand >>>>>>>>>>>");
-            Browser.OpenAsync(new Uri(url), BrowserLaunchMode.SystemPreferred);
-        });
-        
-        
         // A collection of flags describing the state of the question,
         // whether it's a new question, whether you have permission to edit it,
         // etc. The idea is that facts about its status should be set at init,

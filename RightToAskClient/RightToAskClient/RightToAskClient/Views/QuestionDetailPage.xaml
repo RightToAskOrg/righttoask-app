@@ -9,6 +9,7 @@
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
              xmlns:controls="clr-namespace:RightToAskClient.Views.Controls;assembly=RightToAskClient"
+             xmlns:system="clr-namespace:System;assembly=netstandard"
              x:Class="RightToAskClient.Views.QuestionDetailPage"
              x:DataType="vm:QuestionViewModel">
 	<ContentPage.ToolbarItems>
@@ -127,15 +128,19 @@
 					</BindableLayout.ItemTemplate>
 				</StackLayout>
 				
+				<!-- hansard link -->
 				<Label Text="{xct:Translate HansardLinksTitle}" Style="{StaticResource Header2}" />
 				<StackLayout BindableLayout.ItemsSource="{Binding HansardLinks}">
-					<Label Text="{Binding }" >
-						<Label.GestureRecognizers> 
-							<TapGestureRecognizer Tapped="LinkTapped"/>
-						</Label.GestureRecognizers>
-					</Label>
+					<BindableLayout.ItemTemplate>
+						<DataTemplate>
+							<Label x:DataType="system:Uri" Text="{Binding}">
+								<Label.GestureRecognizers>
+									<TapGestureRecognizer Tapped="LinkTapped"/>
+								</Label.GestureRecognizers>
+							</Label>
+						</DataTemplate>
+					</BindableLayout.ItemTemplate>
 				</StackLayout>
-				
 				
 				<Editor x:Name="AnswerEditor" Placeholder="{xct:Translate AnswerPlaceholderText}"
 				        Style="{StaticResource NormalEditor}" Completed="Answer_Entered" />
