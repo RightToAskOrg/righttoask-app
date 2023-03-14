@@ -1263,7 +1263,12 @@ We are still learning about how people use Right To Ask. These rules may change 
   <data name="DisagreeCodeOfConductPopText" xml:space="preserve">
   <value>Because you disagreed with our Code of Conduct, you can only read questions.</value>
   </data>
-
+  <data name="RegisterMPButtonHint" xml:space="preserve">
+  <value>Goes to the page to register MP or staffer account</value>
+  </data>
+  <data name="SignUpButtonHint" xml:space="preserve">
+  <value>Starts sign up flow</value>
+  </data>
   <data name="SignUpTitleText" xml:space="preserve">
   <value>Sign up to Right To Ask</value>
   </data>
