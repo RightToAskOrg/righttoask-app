@@ -129,22 +129,6 @@
 					</BindableLayout.ItemTemplate>
 				</StackLayout>
 				
-				<!-- hansard link -->
-				<Label Text="{xct:Translate HansardLinksTitle}" 
-				       Style="{StaticResource Header2}" 
-				       IsVisible="{Binding HansardLinks.Count}"/>
-				<StackLayout BindableLayout.ItemsSource="{Binding HansardLinks}">
-					<BindableLayout.ItemTemplate>
-						<DataTemplate>
-							<Label x:DataType="system:Uri" Text="{Binding}">
-								<Label.GestureRecognizers>
-									<TapGestureRecognizer Tapped="LinkTapped"/>
-								</Label.GestureRecognizers>
-							</Label>
-						</DataTemplate>
-					</BindableLayout.ItemTemplate>
-				</StackLayout>
-				
 				<Editor x:Name="AnswerEditor" Placeholder="{xct:Translate AnswerPlaceholderText}"
 				        Style="{StaticResource NormalEditor}" Completed="Answer_Entered" />
 				<Label Text="{xct:Translate WhoShouldAnswerTitle}" Style="{StaticResource Header2}" />
@@ -193,6 +177,18 @@
 				<!-- Hansard link -->
 			    <StackLayout Orientation="Vertical" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
 				    <Label Text="{xct:Translate LinkForAnswerHeaderText}" Style="{StaticResource Header2}"/>
+				    <StackLayout BindableLayout.ItemsSource="{Binding HansardLinks}">
+					    <BindableLayout.ItemTemplate>
+						    <DataTemplate>
+							    <Label x:DataType="system:Uri" Text="{Binding}"
+							           Style="{StaticResource UrlText}">
+								    <Label.GestureRecognizers>
+									    <TapGestureRecognizer Tapped="LinkTapped"/>
+								    </Label.GestureRecognizers>
+							    </Label>
+						    </DataTemplate>
+					    </BindableLayout.ItemTemplate>
+				    </StackLayout>
 				    <Editor x:Name="LinkToAnswerEditor" Placeholder="{xct:Translate LinkPlaceholderText}" Completed="Link_Entered"
 				            Style="{StaticResource NormalEditor}" />
 			    </StackLayout>

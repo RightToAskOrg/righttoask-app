@@ -299,6 +299,11 @@
                         Value="{AppThemeBinding Light={StaticResource MediumDarkShadeOfGray}, Dark={StaticResource MediumLightShadeOfGray}}" />
                 <Setter Property="FontSize" Value="Medium"/>
             </Style>
+            <Style x:Key="UrlText" TargetType="Label">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource UrlTextColorLightMode}, 
+                   Dark={StaticResource UrlTextColorDarkMode}}" />
+                <Setter Property="Margin" Value="0,5"></Setter>
+            </Style>
             <Style x:Key="EntryBorderSelected" TargetType="BoxView" ApplyToDerivedTypes="True">
                 <Setter Property="HeightRequest" Value="1"></Setter>
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"></Setter>

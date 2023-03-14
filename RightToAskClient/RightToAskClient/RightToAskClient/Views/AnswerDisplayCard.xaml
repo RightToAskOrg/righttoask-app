@@ -6,7 +6,7 @@
              x:DataType="models:Answer">
   <ContentView.Content>
         <Frame Style="{StaticResource AppThemeFrame}" 
-               Padding="5" 
+               Padding="0,5" 
                VerticalOptions="FillAndExpand">
             <Grid RowDefinitions="auto,auto" 
                   ColumnDefinitions="*" 
