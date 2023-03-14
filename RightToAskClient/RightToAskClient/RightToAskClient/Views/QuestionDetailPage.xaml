@@ -126,6 +126,17 @@
 						</DataTemplate>
 					</BindableLayout.ItemTemplate>
 				</StackLayout>
+				
+				<Label Text="{xct:Translate HansardLinksTitle}" Style="{StaticResource Header2}" />
+				<StackLayout BindableLayout.ItemsSource="{Binding HansardLinks}">
+					<Label Text="{Binding }" >
+						<Label.GestureRecognizers> 
+							<TapGestureRecognizer Tapped="LinkTapped"/>
+						</Label.GestureRecognizers>
+					</Label>
+				</StackLayout>
+				
+				
 				<Editor x:Name="AnswerEditor" Placeholder="{xct:Translate AnswerPlaceholderText}"
 				        Style="{StaticResource NormalEditor}" Completed="Answer_Entered" />
 				<Label Text="{xct:Translate WhoShouldAnswerTitle}" Style="{StaticResource Header2}" />
@@ -177,9 +188,6 @@
 				    <Label Text="{xct:Translate LinkForAnswerHeaderText}" Style="{StaticResource Header2}"/>
 				    <Editor x:Name="LinkToAnswerEditor" Placeholder="{xct:Translate LinkPlaceholderText}" Completed="Link_Entered"
 				            Style="{StaticResource NormalEditor}" />
-				    <StackLayout BindableLayout.ItemsSource="{Binding Foo}">
-					    <Label Text="{Binding}" />
-				    </StackLayout>
 			    </StackLayout>
 			    <Button Text="{xct:Translate EditQuestionButtonText}" Style="{StaticResource SaveButton}"
 			            Command="{Binding EditAnswerCommand}" 

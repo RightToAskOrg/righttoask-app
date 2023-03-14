@@ -459,6 +459,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string HansardLinksTitle {
+            get {
+                return ResourceManager.GetString("HansardLinksTitle", resourceCulture);
+            }
+        }
+        
         internal static string LinkForAnswerHeaderText {
             get {
                 return ResourceManager.GetString("LinkForAnswerHeaderText", resourceCulture);

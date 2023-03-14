@@ -116,5 +116,13 @@ namespace RightToAskClient.Views
         {
             vm.NewHansardLink = ((Editor)sender).Text;
         }
+
+        private void LinkTapped(object sender, EventArgs e)
+        {
+            Console.WriteLine($">>> e {e}");
+            Console.WriteLine($">>> sender {sender}");
+            
+        }
+
     }
 }

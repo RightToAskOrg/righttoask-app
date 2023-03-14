@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using RightToAskClient.Helpers;
 using RightToAskClient.Views.Popups;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -59,7 +60,7 @@ namespace RightToAskClient.ViewModels
 
         // Convenient views of things stored in the Question.
         public List<Answer> QuestionAnswers => Question.Answers;
-        public List<Uri> Foo => Question.HansardLink;
+        public List<Uri> HansardLinks => Question.HansardLink;
 
         public string QuestionAnswerers => 
             Extensions.JoinFilter(", ",
@@ -115,7 +116,14 @@ namespace RightToAskClient.ViewModels
                 }
             }
         }
-
+        
+        public ICommand ClickLinkCommand => new Command<string>((url) =>
+        {
+            Console.WriteLine(">>>>>>>>  ClickLinkCommand >>>>>>>>>>>");
+            Browser.OpenAsync(new Uri(url), BrowserLaunchMode.SystemPreferred);
+        });
+        
+        
         // A collection of flags describing the state of the question,
         // whether it's a new question, whether you have permission to edit it,
         // etc. The idea is that facts about its status should be set at init,

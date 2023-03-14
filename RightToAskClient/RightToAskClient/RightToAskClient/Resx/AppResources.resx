@@ -329,6 +329,9 @@
   <data name="KeywordEntryPlaceholderText" xml:space="preserve">
     <value>Keyword</value>
   </data>
+  <data name="HansardLinksTitle" xml:space="preserve">
+    <value>Hansard Links</value>
+  </data>
   <data name="LinkForAnswerHeaderText" xml:space="preserve">
     <value>Link to answer in Hansard:</value>
   </data>
