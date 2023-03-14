@@ -5,7 +5,6 @@
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:views="clr-namespace:RightToAskClient.Views"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
-             xmlns:local="clr-namespace:RightToAskClient"
              xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
              x:Class="RightToAskClient.Views.AccountPage"
              x:DataType="vm:RegistrationViewModel"
@@ -22,7 +21,9 @@
     <ContentPage.Content>
         <Grid>
             <ScrollView>
+                
                 <StackLayout Margin="20" VerticalOptions="Start">
+                    
                     <views:UserAccountInfoView />
                     
                     <StackLayout Orientation="Vertical">
@@ -55,7 +56,7 @@
                                     Command="{Binding ChooseMPToRegisterButtonCommand}"
                                     IsVisible="{Binding ShowRegisterMPButton}" Style="{StaticResource EditorProceed}"
                                     HorizontalOptions="Start"
-                                    xct:SemanticEffect.Hint="{xct:Translate RegisterMPButtonHint}"
+                                    xct:SemanticEffect.Hint="{Binding RegisterMPButtonText}"
                                     xct:SemanticEffect.Description="{Binding RegisterMPButtonText}"/>
                             <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.arrow_forward.png}" 
                                          BackgroundColor="Transparent" WidthRequest="20" HeightRequest="20" HorizontalOptions="End"/>
@@ -79,7 +80,7 @@
                                 Margin="70, 0"
                                 Style="{StaticResource NormalButton}"
                                 Command="{Binding DoRegistrationCommand}"
-                                xct:SemanticEffect.Hint="{xct:Translate SignUpButtonHint}"
+                                xct:SemanticEffect.Hint="{xct:Translate SignUpTitleText}"
                                 xct:SemanticEffect.Description="{xct:Translate SignUpTitleText}"/>
                     </StackLayout>
                 </StackLayout>
