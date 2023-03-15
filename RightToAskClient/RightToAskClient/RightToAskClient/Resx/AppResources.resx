@@ -239,8 +239,8 @@
   <data name="ElectoratesHeaderText" xml:space="preserve">
     <value>Electorates</value>
   </data>
-  <data name="MyElectoratesHeaderText" xml:space="preserve">
-    <value>My Electorate Info</value>
+  <data name="ElectoratesInfoHeaderText" xml:space="preserve">
+    <value>Electorate Info</value>
   </data>
   <data name="EditElectoratesButtonHint" xml:space="preserve">
     <value>Goes to the page to edit electorates</value>

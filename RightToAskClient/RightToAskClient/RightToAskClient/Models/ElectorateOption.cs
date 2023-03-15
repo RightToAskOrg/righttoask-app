@@ -8,6 +8,13 @@ namespace RightToAskClient.Models
         private string _electorateValue;
         private bool _isPublic;
 
+        public ElectorateOption()
+        {
+            _electorateTitle = "";
+            _electorateValue = "";
+            _isPublic = false;
+        }
+
         public ElectorateOption(string electorateTitle, string electorateValue, bool isPublic)
         {
             _electorateTitle = electorateTitle;

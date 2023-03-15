@@ -31,11 +31,11 @@
                                 <Button Text="{xct:Translate CompleteAccountCreationButtonText}"
                                         Style="{StaticResource DoneButton}" Command="{Binding DoneButtonCommand}"
                                         HorizontalOptions="Center"
-                                        IsVisible="{Binding ShowUpdateAccountButton, Converter={StaticResource Key=cnvInvert}}" />
+                                        IsVisible="{Binding IsMyAccount, Converter={StaticResource Key=cnvInvert}}" />
                             </StackLayout>
                         </StackLayout>
                         <!-- This button seems redundant because you can tap on the electorates to edit -->
-                        <!-- <Button Text="{xct:Translate UpdateMPsButtonText}" Style="{StaticResource DoneButton}" Command="{Binding UpdateMPsButtonCommand}" IsVisible="{Binding ShowUpdateAccountButton}"/> -->
+                        <!-- <Button Text="{xct:Translate UpdateMPsButtonText}" Style="{StaticResource DoneButton}" Command="{Binding UpdateMPsButtonCommand}" IsVisible="{Binding IsMyAccount}"/> -->
                         <!-- 
                 <Label Text="{Binding RegisteredMP.ShortestName, StringFormat='Registered MP account for {0}'}"
                        IsVisible="{Binding ShowExistingMPRegistrationLabel}" Style="{StaticResource NormalText}" />
@@ -48,7 +48,7 @@
                         <!--             IsVisible="{Binding ShowRegisterMPButton}" Style="{StaticResource DoneButton}" -->
                         <!--             HorizontalOptions="Center" /> -->
                         <!-- </StackLayout> -->
-                        <BoxView Style="{StaticResource ButtonSeparator}"/>
+                        <BoxView Style="{StaticResource ButtonSeparator}" Margin="0,24,0,0"/>
                         <FlexLayout Direction="Row" HorizontalOptions="Fill" JustifyContent="SpaceBetween" AlignItems="End" Margin="0,8">
                             <Button Text="{Binding RegisterMPButtonText}"
                                     Command="{Binding ChooseMPToRegisterButtonCommand}"
