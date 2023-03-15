@@ -63,45 +63,44 @@
             <!-- rather than resizing to fit just the number of elements it has -->
 
             <!-- state -->
-            
-            <FlexLayout Direction="Row" HorizontalOptions="Fill" Wrap="Wrap" AlignItems="End">
+            <StackLayout IsVisible="{Binding StateOption.ElectorateValue.Length}">
+                <FlexLayout Direction="Row" HorizontalOptions="Fill" Wrap="Wrap" AlignItems="End">
                 <Label  Text="{Binding StateOption.ElectorateTitle}" Style="{StaticResource NormalText}" />
                 <views:PublicPrivateLabel IsPublic="{Binding StateOption.IsPublic}" Margin="10, 0" 
                                           IsVisible="{Binding IsMyAccount}"/>
-            </FlexLayout>
-
-            <Label Text="{Binding StateOption.ElectorateValue}"
-                   Style="{StaticResource SmallGreyText}"
-                   FontSize="Medium" 
+                </FlexLayout>
+                <Label Text="{Binding StateOption.ElectorateValue}"
+                       Style="{StaticResource SmallGreyText}"
+                       FontSize="Medium" 
                 />
-            <BoxView Style="{StaticResource ButtonSeparator}" Margin="0,0,0,8" 
-                     IsVisible="{Binding StateOption.ElectorateValue.Length}"/>
+                <BoxView Style="{StaticResource ButtonSeparator}" Margin="0,0,0,8" />
+            </StackLayout>
 
             <!-- Federal electorate -->
-            <FlexLayout Direction="Row" HorizontalOptions="Fill" Wrap="Wrap" AlignItems="End">
-                <Label Text="{Binding FederalElectorateOption.ElectorateTitle}" Style="{StaticResource NormalText}" />
-                <views:PublicPrivateLabel IsPublic="{Binding FederalElectorateOption.IsPublic}" Margin="10, 0" 
-                                          IsVisible="{Binding IsMyAccount}"/>
-            </FlexLayout>
-
-            <Label Text="{Binding FederalElectorateOption.ElectorateValue}"
-                   Style="{StaticResource SmallGreyText}"
-                   FontSize="Medium" />
-            <BoxView Style="{StaticResource ButtonSeparator}" Margin="0,0,0,8" 
-                     IsVisible="{Binding FederalElectorateOption.ElectorateValue.Length}"/>
+            <StackLayout IsVisible="{Binding FederalElectorateOption.ElectorateValue.Length}">
+                <FlexLayout Direction="Row" HorizontalOptions="Fill" Wrap="Wrap" AlignItems="End">
+                    <Label Text="{Binding FederalElectorateOption.ElectorateTitle}" Style="{StaticResource NormalText}" />
+                    <views:PublicPrivateLabel IsPublic="{Binding FederalElectorateOption.IsPublic}" Margin="10, 0" 
+                                              IsVisible="{Binding IsMyAccount}"/>
+                </FlexLayout>
+                <Label Text="{Binding FederalElectorateOption.ElectorateValue}"
+                       Style="{StaticResource SmallGreyText}"
+                       FontSize="Medium" />
+                <BoxView Style="{StaticResource ButtonSeparator}" Margin="0,0,0,8"/>
+            </StackLayout>
             
             <!-- state electorate -->
-            <FlexLayout Direction="Row" HorizontalOptions="Fill" Wrap="Wrap" AlignItems="End">
-                <Label Text="{Binding StateElectorateOption.ElectorateTitle}" Style="{StaticResource NormalText}" />
-                <views:PublicPrivateLabel IsPublic="{Binding StateElectorateOption.IsPublic}" Margin="10, 0" 
-                                          IsVisible="{Binding IsMyAccount}"/>
-            </FlexLayout>
-
-            <Label Text="{Binding StateElectorateOption.ElectorateValue}"
-                   Style="{StaticResource SmallGreyText}"
-                   FontSize="Medium" />
-            <BoxView Style="{StaticResource ButtonSeparator}" Margin="0,0,0,32" 
-                     IsVisible="{Binding StateElectorateOption.ElectorateValue.Length}"/>
+            <StackLayout IsVisible="{Binding StateElectorateOption.ElectorateValue.Length}">
+                <FlexLayout Direction="Row" HorizontalOptions="Fill" Wrap="Wrap" AlignItems="End">
+                    <Label Text="{Binding StateElectorateOption.ElectorateTitle}" Style="{StaticResource NormalText}" />
+                    <views:PublicPrivateLabel IsPublic="{Binding StateElectorateOption.IsPublic}" Margin="10, 0" 
+                                              IsVisible="{Binding IsMyAccount}"/>
+                </FlexLayout>
+                <Label Text="{Binding StateElectorateOption.ElectorateValue}"
+                       Style="{StaticResource SmallGreyText}"
+                       FontSize="Medium" />
+                <BoxView Style="{StaticResource ButtonSeparator}" Margin="0,0,0,8" />
+            </StackLayout>
 
         </StackLayout>
     </ContentView.Content>

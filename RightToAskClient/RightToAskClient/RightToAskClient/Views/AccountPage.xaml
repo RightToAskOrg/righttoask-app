@@ -48,7 +48,7 @@
                         <!--             IsVisible="{Binding ShowRegisterMPButton}" Style="{StaticResource DoneButton}" -->
                         <!--             HorizontalOptions="Center" /> -->
                         <!-- </StackLayout> -->
-                        <BoxView Style="{StaticResource ButtonSeparator}"/>
+                        <BoxView Style="{StaticResource ButtonSeparator}" Margin="0,24,0,0"/>
                         <FlexLayout Direction="Row" HorizontalOptions="Fill" JustifyContent="SpaceBetween" AlignItems="End" Margin="0,8">
                             <Button Text="{Binding RegisterMPButtonText}"
                                     Command="{Binding ChooseMPToRegisterButtonCommand}"
