@@ -129,7 +129,7 @@ namespace RightToAskClient.ViewModels
         {
             get
             {
-                ElectorateOption stateOption = null;
+                ElectorateOption stateOption = new ElectorateOption();
                 foreach (var electorate in _registration.Electorates)
                 {
                     if (electorate.chamber == ParliamentData.Chamber.Australian_Senate)
@@ -147,7 +147,7 @@ namespace RightToAskClient.ViewModels
         {
             get
             {
-                ElectorateOption federalElectorateOption = null;
+                ElectorateOption federalElectorateOption = new ElectorateOption();
                 foreach (var electorate in _registration.Electorates)
                 {
                     if (electorate.chamber == ParliamentData.Chamber.Australian_House_Of_Representatives)
@@ -166,7 +166,7 @@ namespace RightToAskClient.ViewModels
         {
             get
             {
-                ElectorateOption stateElectorateOption = null;
+                ElectorateOption stateElectorateOption = new ElectorateOption();
                 List<string> stateElectorates = new List<string>(); 
                 foreach (var electorate in _registration.Electorates)
                 {
@@ -347,12 +347,12 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _canEditUid, value);
         }
 
-        private bool _showUpdateAccountButton;
+        private bool _IsMyAccount;
 
-        public bool ShowUpdateAccountButton
+        public bool IsMyAccount
         {
-            get => _showUpdateAccountButton;
-            set => SetProperty(ref _showUpdateAccountButton, value);
+            get => _IsMyAccount;
+            set => SetProperty(ref _IsMyAccount, value);
         }
 
         public List<string> StateList => ParliamentData.StatesAndTerritories;
@@ -505,7 +505,7 @@ namespace RightToAskClient.ViewModels
 
         public void ShowTheRightButtonsForOwnAccount()
         {
-            ShowUpdateAccountButton = _registration.IsRegistered;
+            IsMyAccount = _registration.IsRegistered;
             ShowRegisterMPButton = _registration.IsRegistered;
             ShowExistingMPRegistrationLabel =
                 _registration.IsVerifiedMPAccount || _registration.IsVerifiedMPStafferAccount;

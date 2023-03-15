@@ -99,12 +99,6 @@ namespace RightToAskClient.Resx {
             }
         }
         
-        internal static string AnswerQuestionHeaderText {
-            get {
-                return ResourceManager.GetString("AnswerQuestionHeaderText", resourceCulture);
-            }
-        }
-        
         internal static string ApproveAnswerText {
             get {
                 return ResourceManager.GetString("ApproveAnswerText", resourceCulture);
@@ -285,9 +279,9 @@ namespace RightToAskClient.Resx {
             }
         }
         
-        internal static string MyElectoratesHeaderText {
+        internal static string ElectoratesInfoHeaderText {
             get {
-                return ResourceManager.GetString("MyElectoratesHeaderText", resourceCulture);
+                return ResourceManager.GetString("ElectoratesInfoHeaderText", resourceCulture);
             }
         }
         
