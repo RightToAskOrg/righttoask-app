@@ -198,6 +198,7 @@
     <EmbeddedResource Include="Images\clipboard.png" />
     <EmbeddedResource Include="Images\close.png" />
     <EmbeddedResource Include="Images\close_button.png" />
+    <EmbeddedResource Include="Images\close_button_dark_48.png" />
     <EmbeddedResource Include="Images\error_48.png" />
     <EmbeddedResource Include="Images\success_48.png" />
     <EmbeddedResource Include="Images\closed_book.png" />
