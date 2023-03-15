@@ -964,11 +964,17 @@
             </Style>
             
             
-            <Style x:Key="ErrorMessageBackGroundColor" TargetType="Grid">
+            <Style x:Key="ErrorMessageBackgroundStyle" TargetType="Grid">
                 <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource RedBgColorLightMode}, Dark={StaticResource RedBgColorDarkMode}}"/>
+                <Setter Property="RowSpacing" Value="0"/>
+                <Setter Property="ColumnSpacing" Value="0"/>
+                <Setter Property="Margin" Value="0, 0, 0,16"/>
             </Style>
-            <Style x:Key="SuccessMessageBackGroundColor" TargetType="Grid">
+            <Style x:Key="SuccessMessageBackgroundStyle" TargetType="Grid">
                 <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource GreenBgColorLightMode}, Dark={StaticResource GreenBgColorDarkMode}}"/>
+                <Setter Property="RowSpacing" Value="0"/>
+                <Setter Property="ColumnSpacing" Value="0"/>
+                <Setter Property="Margin" Value="0, 0, 0,16"/>
             </Style>
         </ResourceDictionary>
     </Application.Resources>

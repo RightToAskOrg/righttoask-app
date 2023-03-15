@@ -49,14 +49,14 @@
                         <!--             HorizontalOptions="Center" /> -->
                         <!-- </StackLayout> -->
                         <BoxView Style="{StaticResource ButtonSeparator}" Margin="0,24,0,0"/>
-                        <FlexLayout Direction="Row" HorizontalOptions="Fill" JustifyContent="SpaceBetween" AlignItems="End" Margin="0,8">
+                        <FlexLayout Direction="Row" HorizontalOptions="Fill" JustifyContent="SpaceBetween" AlignItems="Center" Margin="0,8">
                             <Button Text="{Binding RegisterMPButtonText}"
                                     Command="{Binding ChooseMPToRegisterButtonCommand}"
                                     IsVisible="{Binding ShowRegisterMPButton}" Style="{StaticResource EditorProceed}"
                                     HorizontalOptions="Start"
                                     xct:SemanticEffect.Hint="{xct:Translate RegisterMPButtonHint}"
                                     xct:SemanticEffect.Description="{Binding RegisterMPButtonText}"/>
-                            <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.arrow_forward.png}" 
+                            <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.arrow_forward.png}"
                                          BackgroundColor="Transparent" WidthRequest="20" HeightRequest="20" HorizontalOptions="End"/>
                         </FlexLayout>
                         <BoxView Style="{StaticResource ButtonSeparator}"/>

@@ -12,29 +12,41 @@
     <ContentView.Content>
         <StackLayout Orientation="Vertical" >
             <!-- update failed -->
-            <Grid ColumnDefinitions="3, Auto, *" IsVisible="{Binding IsUpdateErrorShown}"
-                  Style="{StaticResource ErrorMessageBackGroundColor}" 
-                  Padding="0, 0, 10,0" RowSpacing="0" ColumnSpacing="0">
-                <!-- IsVisible="{Binding ReportLabelText.Length}" -->
+            <Grid ColumnDefinitions="3, Auto, *, Auto" IsVisible="{Binding IsUpdateErrorShown}"
+                  Style="{StaticResource ErrorMessageBackgroundStyle}" >
                 <BoxView Grid.Column="0" Color="{StaticResource ColorRed}" WidthRequest="3" VerticalOptions="FillAndExpand" Margin="0"/>
                 <Image Grid.Column="1" Margin="16, 0" Source="{helpers:ImageResource RightToAskClient.Images.error_48.png}"
                        BackgroundColor="{StaticResource ColorRed}" WidthRequest="16" HeightRequest="16" xct:CornerRadiusEffect.CornerRadius="8"
                        VerticalOptions="Center"/>
                 <Label Grid.Column="2" Text="{Binding ReportLabelText}" Padding="0, 12"
                        VerticalOptions="Center" TextColor="{AppThemeBinding Light=Black, Dark=White}"/>
+                <ImageButton Grid.Column="3" Source="{helpers:ImageResource RightToAskClient.Images.close_button.png}"
+                             Style="{StaticResource ClearButton}"
+                             BackgroundColor="Transparent"
+                             VerticalOptions="Center"
+                             WidthRequest="25" HeightRequest="25"
+                             xct:SemanticEffect.Hint="{xct:Translate ClearButtonHint}"
+                             xct:SemanticEffect.Description="{xct:Translate ClearButtonDescription}"
+                             Command="{Binding HideErrorLayoutCommand}" Margin="10, 0"/>
             </Grid>
             
             <!-- update successfully -->
-            <Grid ColumnDefinitions="3, Auto, *" IsVisible="{Binding IsUpdateSuccessShown}"
-                  Style="{StaticResource SuccessMessageBackGroundColor}" 
-                  Padding="0, 0, 10,0" RowSpacing="0" ColumnSpacing="0">
-                <!-- IsVisible="{Binding ReportLabelText.Length}" -->
+            <Grid ColumnDefinitions="3, Auto, *, Auto" IsVisible="{Binding IsUpdateSuccessShown}"
+                  Style="{StaticResource SuccessMessageBackgroundStyle}" >
                 <BoxView Grid.Column="0" Color="Green" WidthRequest="3" VerticalOptions="FillAndExpand" Margin="0"/>
                 <Image Grid.Column="1" Margin="16, 0" Source="{helpers:ImageResource RightToAskClient.Images.success_48.png}"
                        BackgroundColor="Green" WidthRequest="16" HeightRequest="16" xct:CornerRadiusEffect.CornerRadius="8"
                        VerticalOptions="Center"/>
                 <Label Grid.Column="2" Text="{Binding ReportLabelText}" Padding="0, 12"
                        VerticalOptions="Center" TextColor="{AppThemeBinding Light=Black, Dark=White}"/>
+                <ImageButton Grid.Column="3" Source="{helpers:ImageResource RightToAskClient.Images.close_button.png}"
+                             Style="{StaticResource ClearButton}"
+                             BackgroundColor="Transparent"
+                             VerticalOptions="Center"
+                             WidthRequest="25" HeightRequest="25"
+                             xct:SemanticEffect.Hint="{xct:Translate ClearButtonHint}"
+                             xct:SemanticEffect.Description="{xct:Translate ClearButtonDescription}"
+                             Command="{Binding HideSuccessLayoutCommand}" Margin="10, 0"/>
             </Grid>
             
             <Label Text="{Binding BadgesSummary, StringFormat='Registered MP account for {0}'}"

@@ -918,7 +918,7 @@
     <value>Enter the 6-digit code that was sent to their official email address</value>
   </data>
   <data name="AccountUpdateSuccessResponseText" xml:space="preserve">
-    <value>Your display name was successfully updated!</value>
+    <value>Your display name was successfully updated.</value>
   </data>
   <data name="NoAccountChangesDetectedAlertText" xml:space="preserve">
     <value>Your display name was not updated as no changes were made.</value>

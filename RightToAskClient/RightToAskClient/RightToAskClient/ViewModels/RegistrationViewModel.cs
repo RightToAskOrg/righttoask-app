@@ -47,6 +47,9 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _isUpdateSuccessShown, value);
         }
 
+        public Command HideErrorLayoutCommand { get; }
+        public Command HideSuccessLayoutCommand { get; }
+        
         // The updates that have been made to this user's registration on this page
         // Note this is used only for updating an existing registration - new registrations are handled
         // with _registration.
@@ -477,6 +480,9 @@ namespace RightToAskClient.ViewModels
                 var registerAccountFlow = new CodeOfConductPage(_registration);
                 await Application.Current.MainPage.Navigation.PushAsync(registerAccountFlow);
             });
+            HideErrorLayoutCommand = new Command(() => { IsUpdateErrorShown = false; });
+            HideSuccessLayoutCommand = new Command(() => { IsUpdateSuccessShown = false; });
+
         }
 
         // commands
