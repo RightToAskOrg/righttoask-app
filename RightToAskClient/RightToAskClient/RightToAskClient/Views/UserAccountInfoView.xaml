@@ -14,7 +14,7 @@
             <!-- update failed -->
             <Grid ColumnDefinitions="3, Auto, *" IsVisible="{Binding IsUpdateErrorShown}"
                   Style="{StaticResource ErrorMessageBackGroundColor}" 
-                  Padding="0" RowSpacing="0" ColumnSpacing="0">
+                  Padding="0, 0, 10,0" RowSpacing="0" ColumnSpacing="0">
                 <!-- IsVisible="{Binding ReportLabelText.Length}" -->
                 <BoxView Grid.Column="0" Color="{StaticResource ColorRed}" WidthRequest="3" VerticalOptions="FillAndExpand" Margin="0"/>
                 <Image Grid.Column="1" Margin="16, 0" Source="{helpers:ImageResource RightToAskClient.Images.error_48.png}"
@@ -26,7 +26,8 @@
             
             <!-- update successfully -->
             <Grid ColumnDefinitions="3, Auto, *" IsVisible="{Binding IsUpdateSuccessShown}"
-                  Style="{StaticResource SuccessMessageBackGroundColor}" Padding="0" RowSpacing="0" ColumnSpacing="0">
+                  Style="{StaticResource SuccessMessageBackGroundColor}" 
+                  Padding="0, 0, 10,0" RowSpacing="0" ColumnSpacing="0">
                 <!-- IsVisible="{Binding ReportLabelText.Length}" -->
                 <BoxView Grid.Column="0" Color="Green" WidthRequest="3" VerticalOptions="FillAndExpand" Margin="0"/>
                 <Image Grid.Column="1" Margin="16, 0" Source="{helpers:ImageResource RightToAskClient.Images.success_48.png}"
