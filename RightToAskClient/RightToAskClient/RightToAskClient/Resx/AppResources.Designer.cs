@@ -99,6 +99,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string AnswerQuestionHeaderText {
+            get {
+                return ResourceManager.GetString("AnswerQuestionHeaderText", resourceCulture);
+            }
+        }
+        
         internal static string ApproveAnswerText {
             get {
                 return ResourceManager.GetString("ApproveAnswerText", resourceCulture);

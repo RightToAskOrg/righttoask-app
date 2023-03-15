@@ -149,6 +149,9 @@
   <data name="NoSelections" xml:space="preserve">
     <value>No selections</value>
   </data>
+  <data name="AnswerQuestionHeaderText" xml:space="preserve">
+    <value>Who should answer your question?</value>
+  </data>
   <data name="ApproveAnswerText" xml:space="preserve">
     <value>Approve this answer?</value>
   </data>
