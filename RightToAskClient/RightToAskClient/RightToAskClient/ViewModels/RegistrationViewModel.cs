@@ -32,6 +32,20 @@ namespace RightToAskClient.ViewModels
             get => _isNotRegistered;
             set => SetProperty(ref _isNotRegistered, value);
         }
+        
+        private bool _isUpdateErrorShown;
+        public bool IsUpdateErrorShown
+        {
+            get => _isUpdateErrorShown;
+            set => SetProperty(ref _isUpdateErrorShown, value);
+        }
+        
+        private bool _isUpdateSuccessShown;
+        public bool IsUpdateSuccessShown
+        {
+            get => _isUpdateSuccessShown;
+            set => SetProperty(ref _isUpdateSuccessShown, value);
+        }
 
         // The updates that have been made to this user's registration on this page
         // Note this is used only for updating an existing registration - new registrations are handled
@@ -627,12 +641,16 @@ namespace RightToAskClient.ViewModels
                     // }
                     UpdateLocalRegistrationInfo();
                     SaveRegistrationToPreferences(_registration);
+                    IsUpdateErrorShown = false;
+                    IsUpdateSuccessShown = true;
                 }
                 else
                 {
                     // IsRegistered flags in both Readingcontext and Preferences default to false.
                     Debug.WriteLine("HttpValidationError: " + httpValidation.errorMessage);
-                    ReportLabelText = httpValidation.errorMessage;
+                    ReportLabelText = AppResources.UpdateAccountWithServerErrorText;
+                    IsUpdateErrorShown = true;
+                    IsUpdateSuccessShown = false;
                 }
             }
             else
@@ -640,6 +658,8 @@ namespace RightToAskClient.ViewModels
                 // var popup = new OneButtonPopup(AppResources.NoAccountChangesDetectedAlertText, AppResources.OKText);
                 // await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
                 ReportLabelText = AppResources.NoAccountChangesDetectedAlertText;
+                IsUpdateErrorShown = true;
+                IsUpdateSuccessShown = false;
             }
         }
 

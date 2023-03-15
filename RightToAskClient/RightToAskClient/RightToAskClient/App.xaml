@@ -57,6 +57,7 @@
 
             <Color x:Key="TextColor">black</Color>
             <Color x:Key="TextColorGreen">#36642f</Color>
+            <Color x:Key="ColorRed">#B0162C</Color>
             <Color x:Key="TextColorRed">#B0162C</Color>
             <Color x:Key="TextColorBrightRed">#FF0033</Color>
             <Color x:Key="UnselectedOptionButtonColor">Gray</Color>
@@ -78,6 +79,10 @@
             
             <Color x:Key="UrlTextColorLightMode">#0C1C9A</Color>
             <Color x:Key="UrlTextColorDarkMode">#A5BBFC</Color>
+            <Color x:Key="RedBgColorLightMode">#fdecee</Color>
+            <Color x:Key="GreenBgColorLightMode">#E8F3E6</Color>
+            <Color x:Key="RedBgColorDarkMode">#3B2E30</Color>
+            <Color x:Key="GreenBgColorDarkMode">#3B4839</Color>
             <!--Generic Styles-->
             <Style TargetType="Label">
                 <Setter Property="TextColor"
@@ -958,6 +963,13 @@
                 </Style.Triggers>
             </Style>
             
+            
+            <Style x:Key="ErrorMessageBackGroundColor" TargetType="Grid">
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource RedBgColorLightMode}, Dark={StaticResource RedBgColorDarkMode}}"/>
+            </Style>
+            <Style x:Key="SuccessMessageBackGroundColor" TargetType="Grid">
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource GreenBgColorLightMode}, Dark={StaticResource GreenBgColorDarkMode}}"/>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

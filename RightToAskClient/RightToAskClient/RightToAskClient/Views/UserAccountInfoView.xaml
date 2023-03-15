@@ -10,7 +10,32 @@
              x:Class="RightToAskClient.Views.UserAccountInfoView"
              x:DataType="vm:RegistrationViewModel">
     <ContentView.Content>
-        <StackLayout Orientation="Vertical">
+        <StackLayout Orientation="Vertical" >
+            <!-- update failed -->
+            <Grid ColumnDefinitions="3, Auto, *" IsVisible="{Binding IsUpdateErrorShown}"
+                  Style="{StaticResource ErrorMessageBackGroundColor}" 
+                  Padding="0" RowSpacing="0" ColumnSpacing="0">
+                <!-- IsVisible="{Binding ReportLabelText.Length}" -->
+                <BoxView Grid.Column="0" Color="{StaticResource ColorRed}" WidthRequest="3" VerticalOptions="FillAndExpand" Margin="0"/>
+                <Image Grid.Column="1" Margin="16, 0" Source="{helpers:ImageResource RightToAskClient.Images.error_48.png}"
+                       BackgroundColor="{StaticResource ColorRed}" WidthRequest="16" HeightRequest="16" xct:CornerRadiusEffect.CornerRadius="8"
+                       VerticalOptions="Center"/>
+                <Label Grid.Column="2" Text="{Binding ReportLabelText}" Padding="0, 12"
+                       VerticalOptions="Center" TextColor="{AppThemeBinding Light=Black, Dark=White}"/>
+            </Grid>
+            
+            <!-- update successfully -->
+            <Grid ColumnDefinitions="3, Auto, *" IsVisible="{Binding IsUpdateSuccessShown}"
+                  Style="{StaticResource SuccessMessageBackGroundColor}" Padding="0" RowSpacing="0" ColumnSpacing="0">
+                <!-- IsVisible="{Binding ReportLabelText.Length}" -->
+                <BoxView Grid.Column="0" Color="Green" WidthRequest="3" VerticalOptions="FillAndExpand" Margin="0"/>
+                <Image Grid.Column="1" Margin="16, 0" Source="{helpers:ImageResource RightToAskClient.Images.success_48.png}"
+                       BackgroundColor="Green" WidthRequest="16" HeightRequest="16" xct:CornerRadiusEffect.CornerRadius="8"
+                       VerticalOptions="Center"/>
+                <Label Grid.Column="2" Text="{Binding ReportLabelText}" Padding="0, 12"
+                       VerticalOptions="Center" TextColor="{AppThemeBinding Light=Black, Dark=White}"/>
+            </Grid>
+            
             <Label Text="{Binding BadgesSummary, StringFormat='Registered MP account for {0}'}"
                    IsVisible="{Binding IsVerifiedMPAccount}"
                    Style="{StaticResource NormalText}" />
@@ -43,7 +68,7 @@
                 IsVisible="{Binding IsMyAccount}" Margin="0,4,0,0"
                 xct:SemanticEffect.Hint="{xct:Translate UpdateAccountButtonText}"
                 xct:SemanticEffect.Description="{xct:Translate UpdateAccountButtonText}"/>
-            <Label Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}"/>
+            
 
             <!-- <Label Text="Verified staffer" IsVisible="{Binding IsVerifiedStafferAccount}" Style="{StaticResource NormalText}" /> -->
             <FlexLayout Direction="Row" HorizontalOptions="Fill" JustifyContent="SpaceBetween" AlignItems="End"
