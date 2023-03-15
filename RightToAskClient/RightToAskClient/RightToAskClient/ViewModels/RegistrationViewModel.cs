@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
-using RightToAskClient.CryptoUtils;
 using RightToAskClient.Helpers;
 using RightToAskClient.HttpClients;
 using RightToAskClient.Models;
@@ -15,7 +13,6 @@ using RightToAskClient.Views.Controls;
 using RightToAskClient.Views.Popups;
 using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace RightToAskClient.ViewModels
@@ -35,7 +32,24 @@ namespace RightToAskClient.ViewModels
             get => _isNotRegistered;
             set => SetProperty(ref _isNotRegistered, value);
         }
+        
+        private bool _isUpdateErrorShown;
+        public bool IsUpdateErrorShown
+        {
+            get => _isUpdateErrorShown;
+            set => SetProperty(ref _isUpdateErrorShown, value);
+        }
+        
+        private bool _isUpdateSuccessShown;
+        public bool IsUpdateSuccessShown
+        {
+            get => _isUpdateSuccessShown;
+            set => SetProperty(ref _isUpdateSuccessShown, value);
+        }
 
+        public Command HideErrorLayoutCommand { get; }
+        public Command HideSuccessLayoutCommand { get; }
+        
         // The updates that have been made to this user's registration on this page
         // Note this is used only for updating an existing registration - new registrations are handled
         // with _registration.
@@ -71,6 +85,7 @@ namespace RightToAskClient.ViewModels
 
         // Update both _registration and also _registrationUpdates, because the latter may be used if we are updating
         // the display name of an existing registration.
+        private string _displayOldName;
         public string DisplayName
         {
             get => _registration.display_name;
@@ -382,6 +397,7 @@ namespace RightToAskClient.ViewModels
         public RegistrationViewModel(Registration registration) : this(false)
         {
             _registration = registration;
+            _displayOldName = _registration.display_name;
             ReportLabelText = "";
             switch (_registration.registrationStatus)
             {
@@ -430,7 +446,6 @@ namespace RightToAskClient.ViewModels
             EditElectoratesCommand =  new Command(() => { NavigateToFindMPsPage(); });
             UpdateAccountButtonCommand = new Command(() =>
             {
-                SaveRegistrationToPreferences(_registration);
                 SendUpdatedUserToServer();
             });
             UpdateMPsButtonCommand = new Command(() =>
@@ -465,6 +480,9 @@ namespace RightToAskClient.ViewModels
                 var registerAccountFlow = new CodeOfConductPage(_registration);
                 await Application.Current.MainPage.Navigation.PushAsync(registerAccountFlow);
             });
+            HideErrorLayoutCommand = new Command(() => { IsUpdateErrorShown = false; });
+            HideSuccessLayoutCommand = new Command(() => { IsUpdateSuccessShown = false; });
+
         }
 
         // commands
@@ -606,7 +624,8 @@ namespace RightToAskClient.ViewModels
                 || _registrationUpdates.electorates != null
                 || _registrationUpdates.badges != null)
             {
-                hasChanges = true;
+                if(!_displayOldName.Equals(_registration.display_name))
+                    hasChanges = true;
             }
 
             // displays an alert if no changes were found on the user's account via the _registrationUpdates object
@@ -621,31 +640,38 @@ namespace RightToAskClient.ViewModels
                 if (httpValidation.isValid)
                 {
                     // if the response seemed successful, put it in more common terms for the user.
-                    if (ReportLabelText.Contains("Success"))
-                    {
-                        ReportLabelText = AppResources.AccountUpdateSuccessResponseText;
-                    }
-
+                    // if (ReportLabelText.Contains("Success"))
+                    // {
+                    ReportLabelText = AppResources.AccountUpdateSuccessResponseText;
+                    _displayOldName = _registration.display_name;
+                    // }
                     UpdateLocalRegistrationInfo();
+                    SaveRegistrationToPreferences(_registration);
+                    IsUpdateErrorShown = false;
+                    IsUpdateSuccessShown = true;
                 }
                 else
                 {
                     // IsRegistered flags in both Readingcontext and Preferences default to false.
                     Debug.WriteLine("HttpValidationError: " + httpValidation.errorMessage);
+                    ReportLabelText = AppResources.UpdateAccountWithServerErrorText;
+                    IsUpdateErrorShown = true;
+                    IsUpdateSuccessShown = false;
                 }
             }
             else
             {
-                var popup = new OneButtonPopup(AppResources.NoAccountChangesDetectedAlertText, AppResources.OKText);
-                await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                // var popup = new OneButtonPopup(AppResources.NoAccountChangesDetectedAlertText, AppResources.OKText);
+                // await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                ReportLabelText = AppResources.NoAccountChangesDetectedAlertText;
+                IsUpdateErrorShown = true;
+                IsUpdateSuccessShown = false;
             }
         }
 
         private void UpdateLocalRegistrationInfo()
         {
-            XamarinPreferences.shared.Set(
-                Constants.IsRegistered,
-                _registration.IsRegistered);
+            XamarinPreferences.shared.Set(Constants.IsRegistered, _registration.IsRegistered);
         }
 
 

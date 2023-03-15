@@ -933,6 +933,18 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string SuccessfullyUpdatedAccountTitle {
+            get {
+                return ResourceManager.GetString("SuccessfullyUpdatedAccountTitle", resourceCulture);
+            }
+        }
+        
+        internal static string FailedUpdatedAccountTitle {
+            get {
+                return ResourceManager.GetString("FailedUpdatedAccountTitle", resourceCulture);
+            }
+        }
+        
         internal static string TapToEditText {
             get {
                 return ResourceManager.GetString("TapToEditText", resourceCulture);
@@ -1632,6 +1644,12 @@ namespace RightToAskClient.Resx {
         internal static string NoAccountChangesDetectedAlertText {
             get {
                 return ResourceManager.GetString("NoAccountChangesDetectedAlertText", resourceCulture);
+            }
+        }
+        
+        internal static string UpdateAccountWithServerErrorText {
+            get {
+                return ResourceManager.GetString("UpdateAccountWithServerErrorText", resourceCulture);
             }
         }
         

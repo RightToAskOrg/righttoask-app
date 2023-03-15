@@ -3,7 +3,6 @@
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             xmlns:models="clr-namespace:RightToAskClient.Models"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              xmlns:controls="clr-namespace:RightToAskClient.Views.Controls;assembly=RightToAskClient"
              xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
@@ -12,10 +11,52 @@
              x:DataType="vm:RegistrationViewModel">
     <ContentView.Content>
         <StackLayout Orientation="Vertical">
+            <!-- update failed -->
+            <Grid ColumnDefinitions="3, Auto, *, Auto" IsVisible="{Binding IsUpdateErrorShown}"
+                  Style="{StaticResource ErrorMessageBackgroundStyle}">
+                <BoxView Grid.Column="0" Color="{StaticResource ColorRed}" WidthRequest="3" VerticalOptions="FillAndExpand" Margin="0" />
+                <Image Grid.Column="1" Margin="16, 0" Source="{helpers:ImageResource RightToAskClient.Images.error_48.png}"
+                       BackgroundColor="{StaticResource ColorRed}" WidthRequest="24" HeightRequest="24"
+                       xct:CornerRadiusEffect.CornerRadius="12"
+                       VerticalOptions="Center" />
+                <Label Grid.Column="2" Text="{Binding ReportLabelText}" Padding="0, 12"
+                       VerticalOptions="Center" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                <ImageButton Grid.Column="3" Source="{ AppThemeBinding Light={helpers:ImageResource RightToAskClient.Images.close_button.png}, Dark={helpers:ImageResource RightToAskClient.Images.close_button_dark_48.png} }"
+                             Style="{StaticResource ClearButton}"
+                             BackgroundColor="Transparent"
+                             VerticalOptions="Start"
+                             WidthRequest="24" HeightRequest="24"
+                             xct:SemanticEffect.Hint="{xct:Translate ClearButtonHint}"
+                             xct:SemanticEffect.Description="{xct:Translate ClearButtonDescription}"
+                             Command="{Binding HideErrorLayoutCommand}" Margin="10" />
+            </Grid>
+
+            <!-- update successfully -->
+            <Grid ColumnDefinitions="3, Auto, *, Auto" IsVisible="{Binding IsUpdateSuccessShown}"
+                  Style="{StaticResource SuccessMessageBackgroundStyle}">
+                <BoxView Grid.Column="0" Color="Green" WidthRequest="3" VerticalOptions="FillAndExpand" Margin="0" />
+                <Image Grid.Column="1" Margin="16, 0"
+                       Source="{helpers:ImageResource RightToAskClient.Images.success_48.png}"
+                       BackgroundColor="Green" WidthRequest="24" HeightRequest="24"
+                       xct:CornerRadiusEffect.CornerRadius="12"
+                       VerticalOptions="Center" />
+                <Label Grid.Column="2" Text="{Binding ReportLabelText}" Padding="0, 12"
+                       VerticalOptions="Center" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                <ImageButton Grid.Column="3"
+                             Source="{ AppThemeBinding Light={helpers:ImageResource RightToAskClient.Images.close_button.png}, Dark={helpers:ImageResource RightToAskClient.Images.close_button_dark_48.png} }"
+                             Style="{StaticResource ClearButton}"
+                             BackgroundColor="Transparent"
+                             VerticalOptions="Start"
+                             WidthRequest="24" HeightRequest="24"
+                             xct:SemanticEffect.Hint="{xct:Translate ClearButtonHint}"
+                             xct:SemanticEffect.Description="{xct:Translate ClearButtonDescription}"
+                             Command="{Binding HideSuccessLayoutCommand}" Margin="10" />
+            </Grid>
+
             <Label Text="{Binding BadgesSummary, StringFormat='Registered MP account for {0}'}"
                    IsVisible="{Binding IsVerifiedMPAccount}"
                    Style="{StaticResource NormalText}" />
-            <BoxView Style="{StaticResource ButtonSeparator}" IsVisible="{Binding IsVerifiedMPAccount}"/>
+            <BoxView Style="{StaticResource ButtonSeparator}" IsVisible="{Binding IsVerifiedMPAccount}" />
 
             
             <Label Text="{xct:Translate UserNameHeaderText}"
@@ -44,7 +85,6 @@
                     IsVisible="{Binding IsMyAccount}" Margin="0,4,0,0"
                     xct:SemanticEffect.Hint="{xct:Translate UpdateAccountButtonText}"
                     xct:SemanticEffect.Description="{xct:Translate UpdateAccountButtonText}" />
-            <Label Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}" />
 
             <!-- <Label Text="Verified staffer" IsVisible="{Binding IsVerifiedStafferAccount}" Style="{StaticResource NormalText}" /> -->
             <FlexLayout Direction="Row" HorizontalOptions="Fill" JustifyContent="SpaceBetween" AlignItems="End"

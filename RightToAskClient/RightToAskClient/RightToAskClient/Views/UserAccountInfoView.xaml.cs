@@ -1,5 +1,4 @@
-﻿using RightToAskClient.ViewModels;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace RightToAskClient.Views
