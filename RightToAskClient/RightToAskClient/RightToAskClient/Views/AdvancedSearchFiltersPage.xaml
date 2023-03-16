@@ -27,8 +27,7 @@
                     <xct:Expander ForceUpdateSizeCommand="{Binding ForceUpdateSizeCommand}">
                         <xct:Expander.Header>                            
                             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                                <Label Text="{xct:Translate ToBeAnsweredByText}" Style="{StaticResource Header2}"
-                                       Padding ="0,0,0,5" />
+                                <Label Text="{xct:Translate ToBeAnsweredByText}" Style="{StaticResource NestListLabel}"/>
                                 <Image Source="{helpers:ImageResource RightToAskClient.Images.expand_48.png}" xct:IconTintColorEffect.TintColor="{StaticResource Primary}"  HorizontalOptions="EndAndExpand" VerticalOptions="Center">
                                     <Image.Triggers>
                                         <DataTrigger TargetType="Image" Binding="{Binding Source={RelativeSource AncestorType={x:Type xct:Expander}}, Path=IsExpanded}" Value="True">
@@ -60,7 +59,7 @@
                     <xct:Expander>
                         <xct:Expander.Header>
                             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                                <Label Text="{xct:Translate OptionBText4}" Style="{StaticResource Header2}"/>
+                                <Label Text="{xct:Translate OptionBText4}" Style="{StaticResource NestListLabel}" />
                                 <Image Source="{helpers:ImageResource RightToAskClient.Images.expand_48.png}" xct:IconTintColorEffect.TintColor="{StaticResource Primary}"  HorizontalOptions="EndAndExpand" VerticalOptions="Center">
                                     <Image.Triggers>
                                         <DataTrigger TargetType="Image" Binding="{Binding Source={RelativeSource AncestorType={x:Type xct:Expander}}, Path=IsExpanded}" Value="True">
@@ -105,7 +104,10 @@
                     </xct:Expander>
                 </Frame>
                 -->
-                <Button Text="{xct:Translate GoButtonText}" Style="{StaticResource NextButton}" Command="{Binding SearchCommand}"/>
+                <Button Text="{xct:Translate GoButtonText}" 
+                        Style="{StaticResource NormalButton}" 
+                        Margin="8"
+                        Command="{Binding SearchCommand}"/>
                 <Label Text="{Binding ReportLabelText}"/>
             </StackLayout>
         </ScrollView>

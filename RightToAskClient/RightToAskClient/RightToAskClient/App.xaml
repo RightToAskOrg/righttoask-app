@@ -359,13 +359,17 @@
                         Value="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, 
                                                                               Dark={StaticResource WindowBackgroundColorDark}}" />
                 <Setter Property="Padding" Value="0" />
+                <Setter Property="Margin" Value="8, 4" />
+                <Setter Property="HasShadow" Value="False" />
             </Style>
             <Style x:Key="AppThemeFramePadding" TargetType="Frame">
                 <Setter Property="BackgroundColor"
                         Value="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}" />
                 <Setter Property="CornerRadius" Value="0" />
                 <Setter Property="BorderColor" Value="{StaticResource FrameColor}" />
-                <Setter Property="Padding" Value="5" />
+                <Setter Property="Padding" Value="8" />
+                <Setter Property="Margin" Value="8" />
+                <Setter Property="HasShadow" Value="False" />
             </Style>
             <Style x:Key="InvertAppThemeFrame" TargetType="Frame">
                 <Setter Property="BackgroundColor"
@@ -451,6 +455,14 @@
                 <Setter Property="FontAttributes" Value="Bold" />
                 <Setter Property="HorizontalOptions" Value="Start" />
                 <Setter Property="Margin" Value="0, 10, 0, 0" />
+            </Style>
+            <Style x:Key="NestListLabel" TargetType="Label">
+                <Setter Property="TextColor"
+                        Value="{AppThemeBinding Light={StaticResource HeadingTextColor}, Dark={StaticResource HeadingTextColorDark}}" />
+                <Setter Property="FontSize" Value="Medium" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="HorizontalOptions" Value="Start" />
+                <Setter Property="Margin" Value="0, 8" />
             </Style>
             <Style x:Key="TextFieldDescription" TargetType="Label">
                 <Setter Property="TextColor"
