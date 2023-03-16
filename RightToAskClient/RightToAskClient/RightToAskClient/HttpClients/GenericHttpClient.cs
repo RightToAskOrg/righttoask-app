@@ -35,6 +35,7 @@ namespace RightToAskClient.HttpClients
         public GenericHttpClient(JsonSerializerOptions serializerOptions)
         {
             _client = new HttpClient();
+            _client.Timeout = TimeSpan.FromSeconds(3);
             this._serializerOptions = serializerOptions;
             
         }
