@@ -350,18 +350,6 @@
                 <Setter Property="CornerRadius" Value="10" />
                 <Setter Property="Padding" Value="0" />
             </Style>
-            <Style x:Key="ClickableFrame" TargetType="Frame">
-                <Setter Property="BorderColor"
-                        Value="{AppThemeBinding Light={StaticResource DarkPurple}, 
-                                                                              Dark={StaticResource ClickableLinkColorDark}}" />
-                <Setter Property="CornerRadius" Value="10" />
-                <Setter Property="BackgroundColor"
-                        Value="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, 
-                                                                              Dark={StaticResource WindowBackgroundColorDark}}" />
-                <Setter Property="Padding" Value="0" />
-                <Setter Property="Margin" Value="8, 4" />
-                <Setter Property="HasShadow" Value="False" />
-            </Style>
             <Style x:Key="AppThemeFramePadding" TargetType="Frame">
                 <Setter Property="BackgroundColor"
                         Value="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}" />
@@ -480,7 +468,6 @@
                         Value="{AppThemeBinding Light={StaticResource DarkPurple}, Dark={StaticResource ClickableLinkColorDark}}" />
                 <Setter Property="FontSize" Value="Medium" />
                 <Setter Property="FontAttributes" Value="Bold" />
-                <Setter Property="TextDecorations" Value="Underline" />
                 <Setter Property="HorizontalOptions" Value="Start" />
                 <Setter Property="Margin" Value="0, 10, 0, 0" />
             </Style>
