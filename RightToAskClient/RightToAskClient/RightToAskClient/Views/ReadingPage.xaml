@@ -130,8 +130,8 @@
                                     HorizontalOptions="FillAndExpand"
                                     Grid.Row="0"
                                     Grid.Column="0">
-                                    <ImageButton
-                                        Source="{helpers:ImageResource RightToAskClient.Images.filter_sliders_48.png}"
+                                    <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.filter_sliders_48.png}"
+                                        x:Name="FilterButton"
                                         Style="{StaticResource ClearButtonGreen}"
                                         xct:CornerRadiusEffect.CornerRadius="5"
                                         Command="{Binding ShowFiltersCommand}"

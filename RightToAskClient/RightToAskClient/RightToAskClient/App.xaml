@@ -350,22 +350,21 @@
                 <Setter Property="CornerRadius" Value="10" />
                 <Setter Property="Padding" Value="0" />
             </Style>
-            <Style x:Key="ClickableFrame" TargetType="Frame">
-                <Setter Property="BorderColor"
-                        Value="{AppThemeBinding Light={StaticResource DarkPurple}, 
-                                                                              Dark={StaticResource ClickableLinkColorDark}}" />
-                <Setter Property="CornerRadius" Value="10" />
-                <Setter Property="BackgroundColor"
-                        Value="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, 
-                                                                              Dark={StaticResource WindowBackgroundColorDark}}" />
-                <Setter Property="Padding" Value="0" />
-            </Style>
             <Style x:Key="AppThemeFramePadding" TargetType="Frame">
                 <Setter Property="BackgroundColor"
                         Value="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}" />
                 <Setter Property="CornerRadius" Value="0" />
-                <Setter Property="BorderColor" Value="{StaticResource FrameColor}" />
-                <Setter Property="Padding" Value="5" />
+                <Setter Property="BorderColor" Value="{StaticResource Transparent}" />
+                <Setter Property="Padding" Value="8" />
+                <Setter Property="Margin" Value="8" />
+                <Setter Property="HasShadow" Value="False" />
+            </Style>
+            
+            <Style x:Key="NestedListIcon" TargetType="Frame">
+            <Setter Property="xct:IconTintColorEffect.TintColor"
+                    Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource LightGray}}" />
+            <Setter Property="HorizontalOptions" Value="EndAndExpand" />
+            <Setter Property="VerticalOptions" Value="Center" />
             </Style>
             <Style x:Key="InvertAppThemeFrame" TargetType="Frame">
                 <Setter Property="BackgroundColor"
@@ -452,6 +451,14 @@
                 <Setter Property="HorizontalOptions" Value="Start" />
                 <Setter Property="Margin" Value="0, 10, 0, 0" />
             </Style>
+            <Style x:Key="NestedListLabel" TargetType="Label">
+                <Setter Property="TextColor"
+                        Value="{AppThemeBinding Light={StaticResource HeadingTextColor}, Dark={StaticResource HeadingTextColorDark}}" />
+                <Setter Property="FontSize" Value="Medium" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="HorizontalOptions" Value="Start" />
+                <Setter Property="Margin" Value="0, 8" />
+            </Style>
             <Style x:Key="TextFieldDescription" TargetType="Label">
                 <Setter Property="TextColor"
                         Value="{AppThemeBinding Light={StaticResource MediumDarkShadeOfGray}, 
@@ -468,7 +475,6 @@
                         Value="{AppThemeBinding Light={StaticResource DarkPurple}, Dark={StaticResource ClickableLinkColorDark}}" />
                 <Setter Property="FontSize" Value="Medium" />
                 <Setter Property="FontAttributes" Value="Bold" />
-                <Setter Property="TextDecorations" Value="Underline" />
                 <Setter Property="HorizontalOptions" Value="Start" />
                 <Setter Property="Margin" Value="0, 10, 0, 0" />
             </Style>
@@ -799,7 +805,7 @@
             </Style>
             <Style x:Key="NormalButton" TargetType="Button">
                 <Setter Property="HorizontalOptions" Value="FillAndExpand" />
-                <Setter Property="Padding" Value="16" />
+                <Setter Property="Padding" Value="16,0" />
                 <Setter Property="FontSize" Value="Small" />
                 <Setter Property="FontAttributes" Value="Bold" />
                 <Setter Property="CornerRadius" Value="5" />

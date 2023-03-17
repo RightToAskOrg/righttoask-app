@@ -5,24 +5,15 @@
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              x:Class="RightToAskClient.Views.ClickableListView"
              x:DataType="vm:ClickableListViewModel">
-    <Frame Style="{StaticResource ClickableFrame}"> 
-    <!-- <Grid RowDefinitions="auto, auto">  -->
-        <StackLayout Orientation="Vertical" Padding="0"> 
-        <StackLayout Orientation="Horizontal">
+
+    <StackLayout Orientation="Vertical" Padding="0"> 
         <Label Text="{Binding Heading}" Style="{StaticResource ClickableHeader}"
                Margin="0,0,0,0" VerticalOptions="Center" Padding="10" />
-        <Label HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End" Text="{xct:Translate TapToEditText}" 
-               Margin="0,0,10,0" VerticalOptions="Center" Style="{StaticResource InstructionText}" />
-        </StackLayout>
-    <Label Text="{Binding ListDisplayText}" Style="{StaticResource NormalText}"
-           LineBreakMode="WordWrap" Margin="10,0,10,10" />
-    <StackLayout.GestureRecognizers>
+
+        <Label Text="{Binding ListDisplayText}" Style="{StaticResource NormalText}"
+               LineBreakMode="WordWrap" Margin="10,0,10,10" />
+        <StackLayout.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding EditListCommand}" />
             </StackLayout.GestureRecognizers>
     </StackLayout> 
-     <!--   <Grid.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding EditListCommand}" />
-        </Grid.GestureRecognizers>
-    </Grid> -->
-    </Frame> 
 </StackLayout>
