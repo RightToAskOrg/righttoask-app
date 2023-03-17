@@ -1,4 +1,5 @@
 using System;
+using RightToAskClient.Models;
 using RightToAskClient.Resx;
 using RightToAskClient.ViewModels;
 using Xamarin.Forms;
@@ -26,6 +27,11 @@ namespace RightToAskClient.Views
                 vm.Title = AppResources.MyQuestionsTitle;
                 ReadingPageExchanger.ByQuestionWriter = false;
             }
+            
+            var vmReadingPage = BindingContext as ReadingPageViewModel;
+            FilterButton.BackgroundColor = vmReadingPage.HasFilter
+                ? (Color)Application.Current.Resources["Primary"]
+                : (Color)Application.Current.Resources["Purple"];
         }
         
         protected override void OnDisappearing()

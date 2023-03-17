@@ -27,6 +27,15 @@ namespace RightToAskClient.ViewModels
         private static QuestionResponseRecords _thisUsersResponsesToQuestions = new QuestionResponseRecords();
         
         // properties
+        public Boolean HasFilter
+        {
+            get => FilterChoices.SelectedAnsweringMPsNotMine.Count == 0 && 
+                   FilterChoices.SelectedAnsweringMPsMine.Count == 0 &&
+                   FilterChoices.SelectedCommittees.Count == 0 && 
+                   FilterChoices.SelectedAskingMPsMine.Count == 0 && 
+                   FilterChoices.SelectedAskingMPsNotMine.Count == 0 &&
+                   FilterChoices.SelectedAuthorities.Count == 0 ? true : false;
+        }
         private ImageSource _listEmptyViewIcon;
         public ImageSource ListEmptyViewIcon
         {

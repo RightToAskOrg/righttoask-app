@@ -10,14 +10,14 @@
              Title="{Binding Title}"
              x:DataType="vm:FilterViewModel">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
-                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.home4.png}"/>
         <ToolbarItem Text="{xct:Translate InfoPopupButtonText}" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
                      IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}"/>
     </ContentPage.ToolbarItems>
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding BackCommand}"
-                            IconOverride="back.png" />
+                            IconOverride="back.png"
+                            xct:SemanticEffect.Hint="{xct:Translate BackHint}"
+                            xct:SemanticEffect.Description="{xct:Translate BackDescription}" />
     </Shell.BackButtonBehavior>
         <ContentPage.Content>
         <ScrollView>

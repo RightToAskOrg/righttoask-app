@@ -228,7 +228,7 @@ namespace RightToAskClient.ViewModels
             });
             BackCommand = new AsyncCommand(async () =>
             {
-                await App.Current.MainPage.Navigation.PopAsync();
+                SearchCommand.Execute(true);
             });
             ForceUpdateSizeCommand = new Command(() =>
             {
