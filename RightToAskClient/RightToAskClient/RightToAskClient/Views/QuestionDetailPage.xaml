@@ -41,7 +41,7 @@
 						<controls:ColorSingleToggleButton 
 						                                  IsBrightened="{Binding Question.AlreadyUpvoted}"
 						                                  Padding="5"
-						                                  HeightRequest="{x:OnPlatform Android=27, iOS=42}"
+						                                  HeightRequest="{x:OnPlatform Android=27, iOS=44}"
 						                                  BackgroundColor="Transparent" Command="{Binding UpvoteCommand}"
 						                                  HorizontalOptions="Start"
 						                                  AutomationProperties.IsInAccessibleTree="True"
@@ -68,7 +68,7 @@
 	                             BackgroundColor="Transparent" Command="{Binding DownvoteCommand}" Padding="5"
 	                             IsBrightened="{Binding Question.AlreadyDownvoted}"
 	                             HorizontalOptions="Start"
-	                             HeightRequest="{x:OnPlatform Android=27, iOS=42}"
+	                             HeightRequest="{x:OnPlatform Android=27, iOS=44}"
 	                             AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{xct:Translate QuestionFrameThumbsDownAccessibilityName}"
 	                             AutomationProperties.HelpText="{xct:Translate QuestionFrameThumbsDownAccessibilityText}">
 		                    <VisualStateManager.VisualStateGroups>
@@ -92,7 +92,7 @@
 						<!-- report/flag button -->
 						<controls:ColorSingleToggleButton Padding="5" 
 						                                  IsBrightened="{Binding Question.AlreadyReported}"
-						                                  HeightRequest="{x:OnPlatform Android=27, iOS=42}"
+						                                  HeightRequest="{x:OnPlatform Android=27, iOS=44}"
 						                                  IsEnabled="{Binding Question.AlreadyReported, Converter={StaticResource Key=cnvInvert}}"
 						                                  Command="{Binding ReportCommand}"
 						                                  BackgroundColor="Transparent"
