@@ -255,7 +255,7 @@
     <value>Select</value>
   </data>
   <data name="EmailEntry" xml:space="preserve">
-    <value>Please enter the MP's official email address for validation</value>
+    <value>Please enter the MP's official email address for validation: </value>
   </data>
   <data name="EmailTitle" xml:space="preserve">
     <value>Email</value>
@@ -505,6 +505,27 @@
   </data>
   <data name="SendVerificationPIN" xml:space="preserve">
     <value>Email verification code</value>
+  </data>
+  <data name="SendVerificationPINHint" xml:space="preserve">
+    <value>Send email verification code</value>
+  </data>
+  <data name="Verify" xml:space="preserve">
+    <value>Verify</value>
+  </data>
+  <data name="VerifyHint" xml:space="preserve">
+    <value>Verify code</value>
+  </data>
+  <data name="VerificationCodeSent" xml:space="preserve">
+    <value>Verification code has been sent to your email. Please check.</value>
+  </data>
+  <data name="VerifyError" xml:space="preserve">
+    <value>Verify code error. Please try again.</value>
+  </data>
+  <data name="VerifySuccess" xml:space="preserve">
+    <value>Your email was verified successfully.</value>
+  </data>
+  <data name="EmailNotKnown" xml:space="preserve">
+    <value>Email is invalid or unknown. Please check.</value>
   </data>
   <data name="ServerConfigErrorRecommendation" xml:space="preserve">
     <value>Check your serverconfig.json file.</value>
@@ -915,7 +936,7 @@
     <value>SelectableListMPsPopupText</value>
   </data>
   <data name="SubmitPINButtonText" xml:space="preserve">
-    <value>Enter the 6-digit code that was sent to their official email address</value>
+    <value>Enter the 6-digit code that was sent to their official email address: </value>
   </data>
   <data name="AccountUpdateSuccessResponseText" xml:space="preserve">
     <value>Your display name was successfully updated.</value>

@@ -963,7 +963,6 @@
                 </Style.Triggers>
             </Style>
             
-            
             <Style x:Key="ErrorMessageBackgroundStyle" TargetType="Grid">
                 <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource RedBgColorLightMode}, Dark={StaticResource RedBgColorDarkMode}}"/>
                 <Setter Property="RowSpacing" Value="0"/>
@@ -975,6 +974,15 @@
                 <Setter Property="RowSpacing" Value="0"/>
                 <Setter Property="ColumnSpacing" Value="0"/>
                 <Setter Property="Margin" Value="0, 0, 0,16"/>
+            </Style>
+            
+            <Style x:Key="BoxEntry" TargetType="Entry">
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource LightGray}, Dark={StaticResource BackgroundDarkGray}}"/>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light=Black, Dark=White}"/>
+                <Setter Property="Keyboard" Value="Numeric"/>
+                <Setter Property="WidthRequest" Value="40"/>
+                <Setter Property="HeightRequest" Value="40"/>
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
             </Style>
         </ResourceDictionary>
     </Application.Resources>
