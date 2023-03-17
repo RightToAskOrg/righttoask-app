@@ -25,17 +25,26 @@
                 <!--Answered By Frame-->
                 <Frame Style="{StaticResource AppThemeFramePadding}">
                     <xct:Expander ForceUpdateSizeCommand="{Binding ForceUpdateSizeCommand}">
-                        <xct:Expander.Header>                            
+                        <xct:Expander.Header>
+                            <StackLayout Orientation="Vertical">                          
                             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                                <Label Text="{xct:Translate ToBeAnsweredByText}" Style="{StaticResource NestListLabel}"/>
-                                <Image Source="{helpers:ImageResource RightToAskClient.Images.expand_48.png}" xct:IconTintColorEffect.TintColor="{StaticResource Primary}"  HorizontalOptions="EndAndExpand" VerticalOptions="Center">
+                                <Label Text="{xct:Translate ToBeAnsweredByText}" Style="{StaticResource NestedListLabel}"/>
+                                <Image Source="{helpers:ImageResource RightToAskClient.Images.expand_48.png}"  
+                                       Style="{StaticResource NestedListIcon}">
                                     <Image.Triggers>
                                         <DataTrigger TargetType="Image" Binding="{Binding Source={RelativeSource AncestorType={x:Type xct:Expander}}, Path=IsExpanded}" Value="True">
                                             <Setter Property="Source" Value="{helpers:ImageResource RightToAskClient.Images.collapse_48.png}" />
+                                            <Setter Property="Style" Value="{StaticResource NestedListIcon}"/>
                                         </DataTrigger>
                                     </Image.Triggers>
                                 </Image>
                             </StackLayout>
+                                <StackLayout>
+                                    <BoxView
+                                        Margin="0,8,0,0"
+                                        Style="{StaticResource EntryBorder}" />
+                                </StackLayout>
+                            </StackLayout>  
                         </xct:Expander.Header>
                         <xct:Expander.Content>
                             <StackLayout>
@@ -58,15 +67,26 @@
                 <Frame Style="{StaticResource AppThemeFramePadding}">
                     <xct:Expander>
                         <xct:Expander.Header>
-                            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                                <Label Text="{xct:Translate OptionBText4}" Style="{StaticResource NestListLabel}" />
-                                <Image Source="{helpers:ImageResource RightToAskClient.Images.expand_48.png}" xct:IconTintColorEffect.TintColor="{StaticResource Primary}"  HorizontalOptions="EndAndExpand" VerticalOptions="Center">
-                                    <Image.Triggers>
-                                        <DataTrigger TargetType="Image" Binding="{Binding Source={RelativeSource AncestorType={x:Type xct:Expander}}, Path=IsExpanded}" Value="True">
-                                            <Setter Property="Source" Value="{helpers:ImageResource RightToAskClient.Images.collapse_48.png}" />
-                                        </DataTrigger>
-                                    </Image.Triggers>
-                                </Image>
+                            <StackLayout Orientation="Vertical">
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                    <Label Text="{xct:Translate OptionBText4}" Style="{StaticResource NestedListLabel}" />
+                                    <Image Source="{helpers:ImageResource RightToAskClient.Images.expand_48.png}" 
+                                           Style="{StaticResource NestedListIcon}">
+                                        <Image.Triggers>
+                                            <DataTrigger 
+                                                TargetType="Image" 
+                                                Binding="{Binding Source={RelativeSource AncestorType={x:Type xct:Expander}}, Path=IsExpanded}" Value="True">
+                                                <Setter Property="Source" Value="{helpers:ImageResource RightToAskClient.Images.collapse_48.png}" />
+                                                <Setter Property="Style" Value="{StaticResource NestedListIcon}"/>
+                                            </DataTrigger>
+                                        </Image.Triggers>
+                                    </Image>
+                                </StackLayout>
+                                <StackLayout>
+                                    <BoxView
+                                        Margin="0,8,0,0"
+                                        Style="{StaticResource EntryBorder}" />
+                                </StackLayout>
                             </StackLayout>
                         </xct:Expander.Header>
                         <xct:Expander.Content>
@@ -78,36 +98,17 @@
                         </xct:Expander.Content>
                     </xct:Expander>
                 </Frame>
-                <!--Written By Frame-->
-                <!-- Temporarily commented out, but will be re-introduced at some point.
-                <Frame Style="{StaticResource AppThemeFramePadding}">
-                    <xct:Expander>
-                        <xct:Expander.Header>
-                            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                                <Label Text="Written By" Style="{StaticResource Header2}" />
-                                <Image Source="{helpers:ImageResource RightToAskClient.Images.expand_48.png}" xct:IconTintColorEffect.TintColor="{StaticResource Primary}"  HorizontalOptions="EndAndExpand" VerticalOptions="Center">
-                                    <Image.Triggers>
-                                        <DataTrigger TargetType="Image" Binding="{Binding Source={RelativeSource AncestorType={x:Type xct:Expander}}, Path=IsExpanded}" Value="True">
-                                            <Setter Property="Source" Value="{helpers:ImageResource RightToAskClient.Images.collapse_48.png}" />
-                                        </DataTrigger>
-                                    </Image.Triggers>
-                                </Image>
-                            </StackLayout>
-                        </xct:Expander.Header>
-                        <xct:Expander.Content>
-                            <StackLayout Spacing="0" Margin="0" Padding="0" Orientation="Horizontal">
-                                <SearchBar Placeholder="{xct:Translate ParticipantSearchBarPlaceholderText}" Text="{Binding QuestionWriterSearchText}" 
-                                   Style="{StaticResource GreenSearchBar}" SearchCommand="{Binding WrittenByRightToAskUserCommand}"/>
-                                <Button Text="{xct:Translate GoButtonText}" Style="{StaticResource NextButton}" Command="{Binding WrittenByRightToAskUserCommand}"/>
-                            </StackLayout>
-                        </xct:Expander.Content>
-                    </xct:Expander>
-                </Frame>
-                -->
-                <Button Text="{xct:Translate GoButtonText}" 
+                <StackLayout Orientation="Horizontal">
+                <Button Text="{xct:Translate ResetButtonText}" 
+                        Style="{StaticResource OutlineButton}" 
+                        Margin="8,8,4,8"
+                        Command="{Binding ClearSearchCommand}"/>
+                <Button Text="{xct:Translate FilterButtonText}" 
                         Style="{StaticResource NormalButton}" 
-                        Margin="8"
+                        Margin="4,8,8,8"
+                        Padding="26,0"
                         Command="{Binding SearchCommand}"/>
+                </StackLayout>
                 <Label Text="{Binding ReportLabelText}"/>
             </StackLayout>
         </ScrollView>

@@ -1689,9 +1689,15 @@ namespace RightToAskClient.Resx {
             }
         }
         
-        internal static string GoButtonText {
+        internal static string FilterButtonText {
             get {
-                return ResourceManager.GetString("GoButtonText", resourceCulture);
+                return ResourceManager.GetString("FilterButtonText", resourceCulture);
+            }
+        }
+        
+        internal static string ResetButtonText {
+            get {
+                return ResourceManager.GetString("ResetButtonText", resourceCulture);
             }
         }
         

@@ -218,6 +218,14 @@ namespace RightToAskClient.ViewModels
                 ApplyFiltersAndSearch();
                 MessagingCenter.Send(this, Constants.RefreshQuestionList); // Sends this view model
             });
+            ClearSearchCommand = new Command(() =>
+            {
+                FilterChoices.RemoveAllSelections();
+                ReinitData();
+                
+                // ApplyFiltersAndSearch();
+                MessagingCenter.Send(this, Constants.UpdateFilters); // Sends this view model
+            });
             BackCommand = new AsyncCommand(async () =>
             {
                 await App.Current.MainPage.Navigation.PopAsync();
@@ -241,6 +249,7 @@ namespace RightToAskClient.ViewModels
         public AsyncCommand WrittenByRightToAskUserCommand { get; }
         public Command NotSureCommand { get; }
         public Command SearchCommand { get; }
+        public Command ClearSearchCommand { get; }
         public IAsyncCommand BackCommand { get; }
         public Command ForceUpdateSizeCommand { get; }
         public IAsyncCommand ToDetailsPageCommand { get; }
@@ -260,7 +269,7 @@ namespace RightToAskClient.ViewModels
             OnPropertyChanged("SelectedCommittees");
             OnPropertyChanged("QuestionWriter");
             OnPropertyChanged("Keyword");
-            
+            OnPropertyChanged("AskingMPsOther.ListDisplayText");
         }
 
         private async Task EditSelectedAnsweringMPsMineClicked()

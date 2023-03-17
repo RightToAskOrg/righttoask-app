@@ -7,7 +7,6 @@
              x:DataType="vm:ClickableListViewModel">
 
     <StackLayout Orientation="Vertical" Padding="0"> 
-
         <Label Text="{Binding Heading}" Style="{StaticResource ClickableHeader}"
                Margin="0,0,0,0" VerticalOptions="Center" Padding="10" />
 
