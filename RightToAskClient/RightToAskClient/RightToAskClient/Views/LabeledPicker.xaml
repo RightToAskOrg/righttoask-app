@@ -21,6 +21,7 @@
                HorizontalOptions="End" VerticalOptions="Center" WidthRequest="10" HeightRequest="10" />
         <Picker 
             Title="{Binding Title}" 
+            TitleColor="{StaticResource DarkPurple}"
             ItemsSource="{Binding Items}"
             extensions:SemanticEffect.Hint="{Binding Title}"
             extensions:SemanticEffect.Description="{Binding Title}"

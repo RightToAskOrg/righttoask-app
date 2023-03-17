@@ -5,6 +5,7 @@
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels"
              xmlns:local="clr-namespace:RightToAskClient"
              xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
+             xmlns:controls="clr-namespace:RightToAskClient.Views.Controls;assembly=RightToAskClient"
              x:Class="RightToAskClient.Views.MPRegistrationVerificationPage"
              x:DataType="vm:MPRegistrationVerificationViewModel"
              Shell.FlyoutBehavior="Flyout"
@@ -17,28 +18,144 @@
                      IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout Margin="20" VerticalOptions="Start">
-            <Label Text="{Binding MPRepresenting.ShortestName, StringFormat='You Have Chosen {0}'}" />
-            <StackLayout Orientation="Horizontal" HorizontalOptions = "CenterAndExpand">
-                <Label Text="{xct:Translate ThatsMe}"/>
-                <Switch IsToggled="{Binding IsStaffer}" />
-                <Label Text="{xct:Translate IAmAStaffer}"/>
+        <ScrollView>
+            <StackLayout Margin="20, 20, 20, 0" VerticalOptions="FillAndExpand">
+                
+                <!-- error message -->
+                <Grid ColumnDefinitions="3, Auto, *, Auto" 
+                      Style="{StaticResource ErrorMessageBackgroundStyle}" IsVisible="{Binding IsMsgErrorShown}">
+                    <BoxView Grid.Column="0" Color="{StaticResource ColorRed}" WidthRequest="3" VerticalOptions="FillAndExpand" Margin="0" />
+                    <Image Grid.Column="1" Margin="16, 0" Source="{helpers:ImageResource RightToAskClient.Images.error_48.png}"
+                           BackgroundColor="{StaticResource ColorRed}" WidthRequest="24" HeightRequest="24"
+                           xct:CornerRadiusEffect.CornerRadius="12"
+                           VerticalOptions="Center" />
+                    <Label Grid.Column="2" Text="{Binding ReportLabelText}" Padding="0, 12"
+                           VerticalOptions="Center" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                    <ImageButton Grid.Column="3" Source="{ AppThemeBinding Light={helpers:ImageResource RightToAskClient.Images.close_button.png}, Dark={helpers:ImageResource RightToAskClient.Images.close_button_dark_48.png} }"
+                                 Style="{StaticResource ClearButton}"
+                                 BackgroundColor="Transparent"
+                                 VerticalOptions="Start"
+                                 WidthRequest="24" HeightRequest="24"
+                                 xct:SemanticEffect.Hint="{xct:Translate ClearButtonHint}"
+                                 xct:SemanticEffect.Description="{xct:Translate ClearButtonDescription}"
+                                 Command="{Binding HideErrorLayoutCommand}" Margin="10" />
+                </Grid>
+
+                <!-- successful message -->
+                <Grid ColumnDefinitions="3, Auto, *, Auto"
+                      Style="{StaticResource SuccessMessageBackgroundStyle}" 
+                      IsVisible="{Binding IsMsgSuccessShown}">
+                    <BoxView Grid.Column="0" Color="Green" WidthRequest="3" VerticalOptions="FillAndExpand" Margin="0" />
+                    <Image Grid.Column="1" Margin="16, 0"
+                           Source="{helpers:ImageResource RightToAskClient.Images.success_48.png}"
+                           BackgroundColor="Green" WidthRequest="24" HeightRequest="24"
+                           xct:CornerRadiusEffect.CornerRadius="12"
+                           VerticalOptions="Center" />
+                    <Label Grid.Column="2" Text="{Binding ReportLabelText}" Padding="0, 12"
+                           VerticalOptions="Center" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                    <ImageButton Grid.Column="3"
+                                 Source="{AppThemeBinding Light={helpers:ImageResource RightToAskClient.Images.close_button.png}, Dark={helpers:ImageResource RightToAskClient.Images.close_button_dark_48.png} }"
+                                 Style="{StaticResource ClearButton}"
+                                 BackgroundColor="Transparent"
+                                 VerticalOptions="Start"
+                                 WidthRequest="24" HeightRequest="24"
+                                 xct:SemanticEffect.Hint="{xct:Translate ClearButtonHint}"
+                                 xct:SemanticEffect.Description="{xct:Translate ClearButtonDescription}"
+                                 Command="{Binding HideSuccessLayoutCommand}" Margin="10" />
+                </Grid>
+                <FlexLayout Direction="Row" AlignItems="Center" Wrap="Wrap">
+                    <Label Text="You Have Chosen"  Margin="0, 0, 8, 0"/>
+                    <Label Text="{Binding MPRepresenting.ShortestName}" FontAttributes="Bold"/>
+                </FlexLayout>
+                <Grid RowDefinitions="*, *" Margin="0, 10, 0, 0" RadioButtonGroup.GroupName="MpOption">
+                    <FlexLayout Grid.Row="0" Direction="Row" AlignItems="Center" Wrap="Wrap">
+                        <RadioButton x:Name="ThatsMeRadioButton"
+                                     xct:SemanticEffect.Hint="{xct:Translate ThatsMe}"
+                                     xct:SemanticEffect.Description="{xct:Translate ThatsMe}"
+                                     HorizontalOptions="Fill"
+                                     IsChecked="True"/>
+                        <Label Text="{xct:Translate ThatsMe}" VerticalOptions="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="ThatsMeRadioButton_OnTapped"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </FlexLayout>
+                    <FlexLayout Grid.Row="1" Direction="Row" AlignItems="Center" Wrap="Wrap">
+                        <RadioButton x:Name="IAmAStafferRadioButton"
+                                     xct:SemanticEffect.Hint="{xct:Translate IAmAStaffer}"
+                                     xct:SemanticEffect.Description="{xct:Translate IAmAStaffer}"
+                                     HorizontalOptions="Fill"
+                                     IsChecked="{Binding IsStaffer}"/>
+                                     
+                        <Label Text="{xct:Translate IAmAStaffer}" VerticalOptions="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="IAmAStafferRadioButton_OnTapped"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </FlexLayout>
+                </Grid>
+                <Label Text="{xct:Translate EmailEntry}" Margin="0, 10, 0, 0" />
+                <FlexLayout Direction="Row" Margin="0, 8, 0, 0" AlignItems="Center" Wrap="Wrap">
+                    <StackLayout>
+                        <controls:BorderlessEntry 
+                            Placeholder="{xct:Translate UserName}"
+                            Style="{StaticResource TextInput}"
+                            Text="{Binding EmailUsername}" 
+                            IsTextPredictionEnabled="False"
+                            Keyboard="Chat"/>
+                        <BoxView
+                            Color="{StaticResource Purple}" HeightRequest="1"/>
+                    </StackLayout>
+                    <Label Text="@" HorizontalOptions="Center" Margin="5, 0"/>
+                    <!-- <Picker x:Name="DomainPicker" ItemsSource="models:ParliamentData.Domains"></Picker> -->
+                    <Picker x:Name="DomainPicker"
+                            FontSize="Small"
+                            Title="{xct:Translate ChooseParliamentaryEmailDomain}"
+                            TitleColor="{StaticResource DarkPurple}"
+                            SelectedIndex="{Binding ParliamentaryDomainIndex}"
+                            TextColor="{AppThemeBinding Light={StaticResource MediumDarkShadeOfGray}, Dark={StaticResource MediumLightShadeOfGray}}"
+                            HorizontalOptions="End"/>
+                </FlexLayout>
+                
+                <!-- <controls:BorderlessEntry -->
+                <!--     Text="{Binding EmailUsername}" -->
+                <!--     Placeholder="Email" -->
+                <!--     Style="{StaticResource TextInput}"/> -->
+                <!-- <BoxView -->
+                <!--     Color="{StaticResource Purple}"/> -->
+                <!-- <Label Style="{StaticResource SmallGreyText}" FontSize="Small" Text="This is your official address ending with gov.au"/> -->
+                <Button  Margin="0, 10, 0, 0" 
+                         Command ="{Binding SendMPVerificationEmailCommand}" 
+                         Style="{StaticResource NormalButton}" 
+                         Padding="16, 12"
+                         Text="{xct:Translate SendVerificationPIN}" 
+                         xct:SemanticEffect.Hint="{xct:Translate SendVerificationPINHint}"
+                         xct:SemanticEffect.Description="{xct:Translate SendVerificationPIN}"/>
+                <BoxView Style="{StaticResource ButtonSeparator}" Margin="0, 24, 0, 0" />
+                <Label Text="{xct:Translate SubmitPINButtonText}" Margin="0, 10, 0, 0" />
+                <FlexLayout x:Name="CodeLayout" AlignItems="Center" JustifyContent="SpaceBetween" Direction="Row" Margin="32, 24,32,16">
+                    <Entry Style="{StaticResource BoxEntry}"
+                            TextChanged="VerifyCodeEntries_OnTextChanged"/>
+                    <Entry Style="{StaticResource BoxEntry}" 
+                           TextChanged="VerifyCodeEntries_OnTextChanged"/>
+                    <Entry Style="{StaticResource BoxEntry}" 
+                           TextChanged="VerifyCodeEntries_OnTextChanged"/>
+                    <Entry Style="{StaticResource BoxEntry}" 
+                           TextChanged="VerifyCodeEntries_OnTextChanged"/>
+                    <Entry Style="{StaticResource BoxEntry}" 
+                           TextChanged="VerifyCodeEntries_OnTextChanged"/>
+                    <Entry Style="{StaticResource BoxEntry}" 
+                           TextChanged="VerifyCodeEntries_OnTextChanged"/>
+                </FlexLayout>
+                
+                <Button Text="{xct:Translate Verify}" 
+                        Clicked="SubmitButton_OnClicked"
+                        Style="{StaticResource OutlineButton}" 
+                        xct:SemanticEffect.Hint="{xct:Translate VerifyHint}"
+                        xct:SemanticEffect.Description="{xct:Translate Verify}"
+                        HorizontalOptions="FillAndExpand" />
+                
             </StackLayout>
-            <Label Text="{xct:Translate EmailEntry}"/>
-            <StackLayout Orientation="Horizontal">
-                <Entry Placeholder="{xct:Translate UserName}" Text="{Binding EmailUsername}" Style="{StaticResource NormalEntry}" />
-                <Label Text=" @ " HorizontalOptions="Center"/>
-                <!-- <Picker x:Name="DomainPicker" ItemsSource = "models:ParliamentData.Domains"></Picker> -->
-                <Picker x:Name="DomainPicker" Title="{xct:Translate ChooseParliamentaryEmailDomain}" 
-                        SelectedIndex="{Binding ParliamentaryDomainIndex}" />
-            </StackLayout>
-            <Button  Command ="{Binding SendMPVerificationEmailCommand}" Style="{StaticResource GreenButton}" Text="{xct:Translate SendVerificationPIN}" />
-            <Label Text="{Binding ReportLabelText}" IsVisible="{Binding ShowRegisterMPReportLabel}" />
-            <Label Text="{xct:Translate SubmitPINButtonText}"/>
-            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                <Entry Text="{Binding MpRegistrationPin}" Style="{StaticResource NormalEntry}" Placeholder="______" />
-                <Button Command="{Binding SubmitMPRegistrationPinCommand}" Text="{xct:Translate DoneButtonText}" Style="{StaticResource DoneButton}" />
-            </StackLayout>
-        </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

@@ -1,9 +1,11 @@
+using System;
 using System.Text.Json;
 using System.Threading.Tasks;
 using RightToAskClient.Helpers;
 using RightToAskClient.HttpClients;
 using RightToAskClient.Models;
 using RightToAskClient.Models.ServerCommsData;
+using RightToAskClient.Resx;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -52,9 +54,9 @@ namespace RightToAskClient.ViewModels
         private string _mpVerificationHash = "";
         
         // The PIN entered by the user to verify that they read the email.
-        private int _mpRegistrationPin;
+        private string _mpRegistrationPin;
 
-        public int MpRegistrationPin
+        public string MpRegistrationPin
         {
             get => _mpRegistrationPin;
             set => SetProperty(ref _mpRegistrationPin, value);
@@ -64,6 +66,20 @@ namespace RightToAskClient.ViewModels
 
         // The domain of the email, one of 9 hardcoded valid parliamentary email domains.
         private string _domain = "";
+        
+        private bool _isMsgErrorShown;
+        public bool IsMsgErrorShown
+        {
+            get => _isMsgErrorShown;
+            set => SetProperty(ref _isMsgErrorShown, value);
+        }
+        
+        private bool _isMsgSuccessShown;
+        public bool IsMsgSuccessShown
+        {
+            get => _isMsgSuccessShown;
+            set => SetProperty(ref _isMsgSuccessShown, value);
+        }
         
         #endregion
 
@@ -93,21 +109,19 @@ namespace RightToAskClient.ViewModels
                     }
                 }
             });
+            HideErrorLayoutCommand = new Command(() => { IsMsgErrorShown = false; });
+            HideSuccessLayoutCommand = new Command(() => { IsMsgSuccessShown = false; });
         }
         
         // commands
         public Command SendMPVerificationEmailCommand { get; }
         public IAsyncCommand SubmitMPRegistrationPinCommand { get; }
         
+        public Command HideErrorLayoutCommand { get; }
+        public Command HideSuccessLayoutCommand { get; }
+        
         // methods
         public string RegisterMPReportLabelText { get; } = "";
-
-        private bool _showRegisterMPReportLabel;
-        public bool ShowRegisterMPReportLabel
-        {
-            get => _showRegisterMPReportLabel;
-            set => SetProperty(ref _showRegisterMPReportLabel, value);
-        }
         
         private async void SendMPRegistrationToServer()
         {
@@ -126,12 +140,18 @@ namespace RightToAskClient.ViewModels
             if (validation.isValid)
             {
                 _mpVerificationHash = validation.hash;
+                ReportLabelText = AppResources.VerificationCodeSent;
+                IsMsgErrorShown = false;
+                IsMsgSuccessShown = true;
+                
             }
             else
             {
                 // TODO - deal properly with errors e.g. email not known.
-                ShowRegisterMPReportLabel = true;
-                ReportLabelText = validation.errorMsg;
+                // ReportLabelText = validation.errorMsg;
+                ReportLabelText = AppResources.EmailNotKnown;
+                IsMsgErrorShown = true;
+                IsMsgSuccessShown = false;
             }
         }
 
@@ -165,7 +185,7 @@ namespace RightToAskClient.ViewModels
             var msg = new EmailValidationPIN()
             {
                 hash = _mpVerificationHash,
-                code = _mpRegistrationPin
+                code = Int32.Parse(_mpRegistrationPin)
             };
             var httpResponse = await RTAClient.SendEmailValidationPin(
                 msg,
@@ -176,8 +196,16 @@ namespace RightToAskClient.ViewModels
                 // also display a nice success message if applicable.
             if (!validation.isValid)
             {
-                ShowRegisterMPReportLabel = true;
-                ReportLabelText = validation.errorMsg;
+                // ReportLabelText = validation.errorMsg;
+                ReportLabelText = AppResources.VerifyError;
+                IsMsgErrorShown = true;
+                IsMsgSuccessShown = false;
+            }
+            else
+            {
+                ReportLabelText = AppResources.VerifySuccess;
+                IsMsgErrorShown = false;
+                IsMsgSuccessShown = true;
             }
 
             return validation.isValid;

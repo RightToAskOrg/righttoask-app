@@ -813,6 +813,48 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string SendVerificationPINHint {
+            get {
+                return ResourceManager.GetString("SendVerificationPINHint", resourceCulture);
+            }
+        }
+        
+        internal static string Verify {
+            get {
+                return ResourceManager.GetString("Verify", resourceCulture);
+            }
+        }
+        
+        internal static string VerifyHint {
+            get {
+                return ResourceManager.GetString("VerifyHint", resourceCulture);
+            }
+        }
+        
+        internal static string VerificationCodeSent {
+            get {
+                return ResourceManager.GetString("VerificationCodeSent", resourceCulture);
+            }
+        }
+        
+        internal static string VerifyError {
+            get {
+                return ResourceManager.GetString("VerifyError", resourceCulture);
+            }
+        }
+        
+        internal static string VerifySuccess {
+            get {
+                return ResourceManager.GetString("VerifySuccess", resourceCulture);
+            }
+        }
+        
+        internal static string EmailNotKnown {
+            get {
+                return ResourceManager.GetString("EmailNotKnown", resourceCulture);
+            }
+        }
+        
         internal static string ServerConfigErrorRecommendation {
             get {
                 return ResourceManager.GetString("ServerConfigErrorRecommendation", resourceCulture);
