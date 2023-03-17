@@ -42,7 +42,7 @@
                             <controls:ColorSingleToggleButton
                                 IsBrightened="{Binding Question.AlreadyUpvoted}"
                                 Padding="5"
-                                HeightRequest="{x:OnPlatform Android=27, iOS=42}"
+                                HeightRequest="{x:OnPlatform Android=27, iOS=44}"
                                 BackgroundColor="Transparent" Command="{Binding UpvoteCommand}"
                                 HorizontalOptions="Start"
                                 AutomationProperties.IsInAccessibleTree="True"
@@ -71,7 +71,7 @@
                             <!-- Down-vote button -->
                             <controls:ColorSingleToggleButton
                                 Padding="5"
-                                HeightRequest="{x:OnPlatform Android=27, iOS=42}"
+                                HeightRequest="{x:OnPlatform Android=27, iOS=44}"
                                 BackgroundColor="Transparent" Command="{Binding DownvoteCommand}"
                                 HorizontalOptions="Start"
                                 IsBrightened="{Binding Question.AlreadyDownvoted}"
@@ -138,7 +138,7 @@
                             <ImageButton
                                 Source="{AppThemeBinding Light={helpers:ImageResource RightToAskClient.Images.flags_light.png}, Dark={helpers:ImageResource RightToAskClient.Images.flags_dark.png} }"
                                 Padding="5"
-                                HeightRequest="{x:OnPlatform Android=27, iOS=42}"
+                                HeightRequest="{x:OnPlatform Android=27, iOS=44}"
                                 Command="{Binding ReportCommand}"
                                 BackgroundColor="Transparent"
                                 AutomationProperties.IsInAccessibleTree="True"
