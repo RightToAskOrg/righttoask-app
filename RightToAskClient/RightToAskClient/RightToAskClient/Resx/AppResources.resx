@@ -699,7 +699,7 @@
     <value>For example, the Premier, Prime Minister or relevant minister.</value>
   </data>
   <data name="AuthorityAnswerExplText" xml:space="preserve">
-    <value>For example, the ABS, a government department,  or the Murray-Darling Basin Authority.</value>
+    <value>For example, the Australian Bureau of Statistics, a government department,  or the Murray-Darling Basin Authority.</value>
   </data>
   <data name="RaiseQuestionHeaderText" xml:space="preserve">
     <value>Now direct your question to where it might get answered.</value>
@@ -894,25 +894,25 @@
     <value>How answered?</value>
   </data>
   <data name="OptionsHeaderText" xml:space="preserve">
-    <value>How do you want your question answered?</value>
+    <value>What do you want the MP to do with your question?</value>
   </data>
   <data name="AnswerByMp" xml:space="preserve">
-    <value>Answered by MPs in the Right To Ask app</value>
+    <value>Answer it in the app</value>
   </data>
   <data name="AnswerByMpDescription" xml:space="preserve">
-    <value>This is the simplest way to get your question answered.</value>
+    <value>The simplest way to get an answer.</value>
   </data>
   <data name="VoiceInParliament" xml:space="preserve">
-    <value>I want my question voiced in Parliament</value>
+    <value>Ask someone else in Parliament</value>
   </data>
   <data name="VoiceInParliamentDescription" xml:space="preserve">
-    <value>Choose this option if you want to ask a question of a public authority such as The ATO. You need to choose an MP or committee to ask your question and MPs or public authorities to answer it.</value>
+    <value>The best way to get an answer from a minister or public authority such as The Australian Tax Office. You need to choose an MP or committee to ask your question and MPs or public authorities to answer it.</value>
   </data>
   <data name="DontKnowOption" xml:space="preserve">
-    <value>I don’t know</value>
+    <value>Don’t know</value>
   </data>
   <data name="DontKnowOptionDescription" xml:space="preserve">
-    <value>Not sure who or how to ask? Let other Right To Ask users direct your question for you.</value>
+    <value>Not sure who or how to ask? Let the community decide.</value>
   </data>
   <data name="MyMp" xml:space="preserve">
     <value>My MP</value>
