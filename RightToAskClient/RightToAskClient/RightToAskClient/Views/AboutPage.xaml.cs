@@ -14,14 +14,13 @@ namespace RightToAskClient.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AboutPage : ContentPage
     {
-        private static readonly string appDomainString = "https://righttoask.democracydevelopers.org.au/";
-        private static Uri appDomain = new Uri(appDomainString);
         private readonly BaseViewModel baseViewModel;
         public AboutPage()
         {
             InitializeComponent();
             baseViewModel = (BaseViewModel)BindingContext;
             baseViewModel.PopupLabelText = AppResources.AboutPagePopupText;
+            webView.Source = Constants.DDHowItWorksURL;
         }
 
         protected override bool OnBackButtonPressed()
@@ -56,7 +55,7 @@ namespace RightToAskClient.Views
 
         public async void OnWebViewNavigating(object sender, WebNavigatingEventArgs e)
         {
-            if (!e.Url.StartsWith(appDomainString))
+            if (!e.Url.StartsWith(Constants.DDBaseURL))
             {
                 // save the destination url
                 var destination = e.Url;
