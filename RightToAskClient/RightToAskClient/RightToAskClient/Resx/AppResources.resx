@@ -1390,7 +1390,7 @@ We are still learning about how people use Right To Ask. These rules may change 
   <value>Federal Electorate, State Electorate and state</value>
   </data>
   <data name="TermsAndConditionsMarkdown" xml:space="preserve">
-  <value>By tapping "Agree and Continue", you agree to our [Privacy Policy](https://righttoask.democracydevelopers.org.au/privacy-policy/) and [Terms and Conditions](https://righttoask.democracydevelopers.org.au/).</value>
+  <value>By tapping "Agree and Continue", you agree to our [Privacy Policy](https://www.democracydevelopers.org.au/privacy-policy/) and [Terms and Conditions](https://www.democracydevelopers.org.au/terms-conditions).</value>
   </data>
   <data name="TermsAndConditionsHelpTextAndroid" xml:space="preserve">
   <value>By tapping Agree and Continue, you agree to our Privacy Policy and Terms and Conditions, double tap to activate to read the Privacy Policy or Terms and Conditions</value>

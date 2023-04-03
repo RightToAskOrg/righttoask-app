@@ -8,13 +8,17 @@ namespace RightToAskClient
         public static readonly string ServerConfigFile = "serverconfig.json";
         public static readonly string DefaultLocalhostUrl = DeviceInfo.Platform == DevicePlatform.Android
                         ? "http://10.0.2.2:8099" : "http://localhost:8099";
-        // public static readonly string GeoscapeAPIUrl = "https://api.psma.com.au/beta/v2/addresses/geocoder";
         public static readonly string GeoscapeAPIUrl = "https://api.psma.com.au/v2/addresses/geocoder";
         public static readonly string StoredMPDataFile = "MPs.json";
         public static readonly string StoredCommitteeDataFile = "committees.json";
         public static readonly string StoredHearingsDataFile = "hearings.json";
         public static readonly string APIKeyFileName = "GeoscapeAPIKey";
         public static readonly string MapBaseURL = "https://www.abc.net.au/res/sites/news-projects/interactive-electorateboundaries-2/5.0.0/?kml=/dat/news/elections/federal/2022/guide/kml/{0}.kml";
+        
+        // Democracy Developers Website URLs
+        public static readonly string DDBaseURL = "https://www.democracydevelopers.org.au";
+        public static readonly string DDHowItWorksURL = DDBaseURL + "/how";
+        // public static readonly string DDCodeOfConduct = DDBaseURL + "/code-conduct";
         
         // Preferences storage strings
         public static readonly string IsRegistered = "IsRegistered";

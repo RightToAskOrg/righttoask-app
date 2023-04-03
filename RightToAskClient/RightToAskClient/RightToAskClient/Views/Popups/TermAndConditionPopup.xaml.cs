@@ -51,16 +51,18 @@ namespace RightToAskClient.Views.Popups
             Dismiss("Dismissed");
         }
 
+        /*
         private async void PrivacyPolicy_OnTapped(object sender, EventArgs e)
         {
-            await Browser.OpenAsync("https://righttoask.democracydevelopers.org.au/privacy-policy/",
+            await Browser.OpenAsync(Constants.DDPrivacyPolicyURL,
                 BrowserLaunchMode.SystemPreferred);
         }
 
         private async void TermAndCondition_OnTapped(object sender, EventArgs e)
         {
-            await Browser.OpenAsync("https://righttoask.democracydevelopers.org.au/",
+            await Browser.OpenAsync(Constants.DDTermsAndConditionsURL,
                 BrowserLaunchMode.SystemPreferred);
         }
+        */
     }
 }
