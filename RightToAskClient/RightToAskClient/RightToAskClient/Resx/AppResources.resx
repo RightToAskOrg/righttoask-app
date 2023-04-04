@@ -1,142 +1,153 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-    <xsd:element name="root" msdata:IsDataSet="true">
-      <xsd:complexType>
-        <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
+    <!-- 
+      Microsoft ResX Schema 
+      
+      Version 2.0
+      
+      The primary goals of this format is to allow a simple XML format 
+      that is mostly human readable. The generation and parsing of the 
+      various data types are done through the TypeConverter classes 
+      associated with the data types.
+      
+      Example:
+      
+      ... ado.net/XML headers & schema ...
+      <resheader name="resmimetype">text/microsoft-resx</resheader>
+      <resheader name="version">2.0</resheader>
+      <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+      <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+      <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+      <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+      <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+          <value>[base64 mime encoded serialized .NET Framework object]</value>
+      </data>
+      <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+          <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+          <comment>This is a comment</comment>
+      </data>
+                  
+      There are any number of "resheader" rows that contain simple 
+      name/value pairs.
+      
+      Each data row contains a name, and value. The row also contains a 
+      type or mimetype. Type corresponds to a .NET class that support 
+      text/value conversion through the TypeConverter architecture. 
+      Classes that don't support this are serialized and stored with the 
+      mimetype set.
+      
+      The mimetype is used for serialized objects, and tells the 
+      ResXResourceReader how to depersist the object. This is currently not 
+      extensible. For a given mimetype the value must be set accordingly:
+      
+      Note - application/x-microsoft.net.object.binary.base64 is the format 
+      that the ResXResourceWriter will generate, however the reader can 
+      read any of the formats listed below.
+      
+      mimetype: application/x-microsoft.net.object.binary.base64
+      value   : The object must be serialized with 
+              : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+              : and then encoded with base64 encoding.
+      
+      mimetype: application/x-microsoft.net.object.soap.base64
+      value   : The object must be serialized with 
+              : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+              : and then encoded with base64 encoding.
+  
+      mimetype: application/x-microsoft.net.object.bytearray.base64
+      value   : The object must be serialized into a byte array 
+              : using a System.ComponentModel.TypeConverter
+              : and then encoded with base64 encoding.
+      -->
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+        <xsd:element name="root" msdata:IsDataSet="true">
             <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+                <xsd:choice maxOccurs="unbounded">
+                    <xsd:element name="metadata">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                            </xsd:sequence>
+                            <xsd:attribute name="name" use="required" type="xsd:string"/>
+                            <xsd:attribute name="type" type="xsd:string"/>
+                            <xsd:attribute name="mimetype" type="xsd:string"/>
+                            <xsd:attribute ref="xml:space"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="assembly">
+                        <xsd:complexType>
+                            <xsd:attribute name="alias" type="xsd:string"/>
+                            <xsd:attribute name="name" type="xsd:string"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="data">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                            </xsd:sequence>
+                            <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+                            <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+                            <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+                            <xsd:attribute ref="xml:space"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="resheader">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                            </xsd:sequence>
+                            <xsd:attribute name="name" type="xsd:string" use="required"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:choice>
             </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="data">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="resheader">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
-            </xsd:complexType>
-          </xsd:element>
-        </xsd:choice>
-      </xsd:complexType>
-    </xsd:element>
-  </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <data name="AccountUpdateSigningError" xml:space="preserve">
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>2.0</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </resheader>
+    <data name="AccountUpdateSigningError" xml:space="preserve">
     <value>Failed to sign user update message</value>
   </data>
-  <data name="AddBackgroundPlaceholderText" xml:space="preserve">
-    <value>(Optional) links or background</value>
+    <data name="AddBackgroundPlaceholderText" xml:space="preserve">
+    <value>Your supporting information, this could be a link to a news article or report (optional)</value>
   </data>
-  <data name="AdvancedSearchOptions" xml:space="preserve">
+    <data name="AdvancedSearchOptions" xml:space="preserve">
     <value>Advanced Search Options</value>
   </data>
-  <data name="AdvancedSearchButtonText" xml:space="preserve">
+    <data name="AdvancedSearchButtonText" xml:space="preserve">
     <value>Advanced Search</value>
   </data>
-  <data name="AnotherMPButtonText" xml:space="preserve">
+    <data name="AnotherMPButtonText" xml:space="preserve">
     <value>Another MP</value>
   </data>
-  <data name="AnotherUserButtonText" xml:space="preserve">
+    <data name="AnotherUserButtonText" xml:space="preserve">
     <value>Another RightToAsk User</value>
   </data>
-  <data name="AnswererPermissions" xml:space="preserve">
+    <data name="AnswererPermissions" xml:space="preserve">
     <value>Allow other users to add more people to answer the question?</value>
+  </data>
+  <data name="HasNotMadeSelection" xml:space="preserve">
+    <value>You haven't made a selection</value>
+  </data>
+  <data name="NoSelections" xml:space="preserve">
+    <value>No selections</value>
   </data>
   <data name="AnswerQuestionHeaderText" xml:space="preserve">
     <value>Who should answer your question?</value>
@@ -144,20 +155,23 @@
   <data name="ApproveAnswerText" xml:space="preserve">
     <value>Approve this answer?</value>
   </data>
-  <data name="ApplicationTitle" xml:space="preserve">
+    <data name="ApplicationTitle" xml:space="preserve">
     <value>Right To Ask</value>
   </data>
-  <data name="AskerPermissions" xml:space="preserve">
+    <data name="AskerPermissions" xml:space="preserve">
     <value>Allow other users to add more people to raise the question?</value>
   </data>
-  <data name="AuthorityLabel" xml:space="preserve">
+    <data name="AuthorityLabel" xml:space="preserve">
     <value>Public Authority</value>
   </data>
-  <data name="AuthorityFilterLabelText" xml:space="preserve">
+    <data name="AuthorityFilterLabelText" xml:space="preserve">
     <value>Authorities who should answer the question</value>
   </data>
-  <data name="BackgroundHeaderText" xml:space="preserve">
+    <data name="BackgroundHeaderText" xml:space="preserve">
     <value>Do you want to add more information to explain the question?</value>
+  </data>
+  <data name="YouAskTitle" xml:space="preserve">
+    <value>You asked</value>
   </data>
   <data name="CancelButtonText" xml:space="preserve">
     <value>Cancel</value>
@@ -171,16 +185,16 @@
   <data name="CitySuburbHeaderText" xml:space="preserve">
     <value>City or suburb</value>
   </data>
-  <data name="ClickForFiltersText" xml:space="preserve">
+    <data name="ClickForFiltersText" xml:space="preserve">
     <value>Click to show Filters</value>
   </data>
-  <data name="CouldNotFindUser" xml:space="preserve">
+    <data name="CouldNotFindUser" xml:space="preserve">
     <value>Could not find user on the server: </value>
   </data>
-  <data name="CompleteAccountCreationButtonText" xml:space="preserve">
+    <data name="CompleteAccountCreationButtonText" xml:space="preserve">
     <value>Complete Account Creation</value>
   </data>
-  <data name="CreateAccountTitle" xml:space="preserve">
+    <data name="CreateAccountTitle" xml:space="preserve">
     <value>Create Account</value>
   </data>
   <data name="DirectMyQuestionTitle" xml:space="preserve">
@@ -193,10 +207,13 @@
     <value>Dismiss</value>
   </data>
   <data name="DisplayNameHeaderText" xml:space="preserve">
-    <value>Display Name</value>
+    <value>Name</value>
   </data>
   <data name="DisplayNamePlaceholderText" xml:space="preserve">
-    <value>Enter display name</value>
+    <value>Name</value>
+  </data>
+  <data name="NamePrivacyNote" xml:space="preserve">
+    <value>You don’t have to display your real name, but your MPs are more likely to listen to you if you do.</value>
   </data>
   <data name="DMButtonText" xml:space="preserve">
     <value>Send Direct Message to {0}</value>
@@ -214,7 +231,7 @@
     <value>Edit Your Account</value>
   </data>
   <data name="FederalElectoratePickerTitle" xml:space="preserve">
-    <value>House of Representatives electorate</value>
+    <value>House of Representatives</value>
   </data>
   <data name="SelectElectorate" xml:space="preserve">
     <value>Select Electorate</value>
@@ -225,11 +242,20 @@
   <data name="ElectoratesHeaderText" xml:space="preserve">
     <value>Electorates</value>
   </data>
+  <data name="ElectoratesInfoHeaderText" xml:space="preserve">
+    <value>Electorate Info</value>
+  </data>
+  <data name="EditElectoratesButtonHint" xml:space="preserve">
+    <value>Goes to the page to edit electorates</value>
+  </data>
+  <data name="EditElectoratesButtonDescription" xml:space="preserve">
+    <value>Edit electorates</value>
+  </data>
   <data name="ElectoratesKnownHeaderText" xml:space="preserve">
     <value>Select</value>
   </data>
   <data name="EmailEntry" xml:space="preserve">
-    <value>Please enter the MP's official email address for validation</value>
+    <value>Please enter the MP's official email address for validation: </value>
   </data>
   <data name="EmailTitle" xml:space="preserve">
     <value>Email</value>
@@ -279,13 +305,7 @@
   <data name="IAmAStaffer" xml:space="preserve">
     <value>I am their staffer</value>
   </data>
-  <data name="InAppHeaderText" xml:space="preserve">
-    <value>In the app</value>
-  </data>
-  <data name="InAppExplText" xml:space="preserve">
-    <value>Get an answer here in the app. This works best if you asked your own MP.</value>
-  </data>
-  <data name="InParliamentHeaderText" xml:space="preserve">
+    <data name="InParliamentHeaderText" xml:space="preserve">
     <value>Get your question raised in Parliament. Choose who should raise it.</value>
   </data>
   <data name="IncludeAnsweredQuestions" xml:space="preserve">
@@ -308,6 +328,9 @@
   </data>
   <data name="KeywordEntryPlaceholderText" xml:space="preserve">
     <value>Keyword</value>
+  </data>
+  <data name="HansardLinksTitle" xml:space="preserve">
+    <value>Hansard Links</value>
   </data>
   <data name="LinkForAnswerHeaderText" xml:space="preserve">
     <value>Link to answer in Hansard:</value>
@@ -408,8 +431,8 @@
   <data name="PublicAuthorityButtonText" xml:space="preserve">
     <value>A Public Authority</value>
   </data>
-  <data name="PublishQuestionButtonText" xml:space="preserve">
-    <value>Publish New Question!</value>
+    <data name="PublishQuestionButtonText" xml:space="preserve">
+    <value>Publish New Question</value>
   </data>
   <data name="QuestionErrorTypeDescription" xml:space="preserve">
     <value>question</value>
@@ -426,7 +449,7 @@
   <data name="QuestionWriterReadingPageHeaderText" xml:space="preserve">
     <value>Questions by</value>
   </data>
-  <data name="QuestionWriterHeaderText" xml:space="preserve">
+    <data name="QuestionWriterHeaderText" xml:space="preserve">
     <value>Question Writer:</value>
   </data>
   <data name="ReadingPageHeader1" xml:space="preserve">
@@ -482,6 +505,27 @@
   </data>
   <data name="SendVerificationPIN" xml:space="preserve">
     <value>Email verification code</value>
+  </data>
+  <data name="SendVerificationPINHint" xml:space="preserve">
+    <value>Send email verification code</value>
+  </data>
+  <data name="Verify" xml:space="preserve">
+    <value>Verify</value>
+  </data>
+  <data name="VerifyHint" xml:space="preserve">
+    <value>Verify code</value>
+  </data>
+  <data name="VerificationCodeSent" xml:space="preserve">
+    <value>Verification code has been sent to your email. Please check.</value>
+  </data>
+  <data name="VerifyError" xml:space="preserve">
+    <value>Verify code error. Please try again.</value>
+  </data>
+  <data name="VerifySuccess" xml:space="preserve">
+    <value>Your email was verified successfully.</value>
+  </data>
+  <data name="EmailNotKnown" xml:space="preserve">
+    <value>Email is invalid or unknown. Please check.</value>
   </data>
   <data name="ServerConfigErrorRecommendation" xml:space="preserve">
     <value>Check your serverconfig.json file.</value>
@@ -543,6 +587,12 @@
   <data name="SuccessfullyUpdatedAccountText" xml:space="preserve">
     <value>Your account details were successfully updated.</value>
   </data>
+  <data name="SuccessfullyUpdatedAccountTitle" xml:space="preserve">
+    <value>Account update</value>
+  </data>
+  <data name="FailedUpdatedAccountTitle" xml:space="preserve">
+    <value>Account update error</value>
+  </data>
   <data name="TapToEditText" xml:space="preserve">
     <value>Tap to edit</value>
   </data>
@@ -562,10 +612,13 @@
     <value>UID</value>
   </data>
   <data name="UIDPlaceholderText" xml:space="preserve">
-    <value>Enter UserID</value>
+    <value>Username</value>
   </data>
-  <data name="UpdateAccountButtonText" xml:space="preserve">
-    <value>Update Account</value>
+    <data name="UpdateAccountButtonText" xml:space="preserve">
+    <value>Update Name</value>
+  </data>
+  <data name="UpdateAccountButtonHint" xml:space="preserve">
+    <value>Update Name</value>
   </data>
   <data name="ReportSubmitHint" xml:space="preserve">
     <value>Submits report</value>
@@ -606,6 +659,9 @@
   <data name="UserName" xml:space="preserve">
     <value>Username</value>
   </data>
+  <data name="UsernamePrivacyNote" xml:space="preserve">
+    <value>Your username is unique and public. This cannot be changed later.</value>
+  </data>
   <data name="UserProfileTitle" xml:space="preserve">
     <value>User Profile</value>
   </data>
@@ -625,10 +681,13 @@
     <value>Update MPs</value>
   </data>
   <data name="EditQuestionButtonText" xml:space="preserve">
-    <value>Edit Question</value>
+    <value>Update</value>
+  </data>
+  <data name="EditQuestionButtonHint" xml:space="preserve">
+    <value>Updates my question</value>
   </data>
   <data name="QuestionEditSuccessfulPopupText" xml:space="preserve">
-    <value>Question was edited successfully.</value>
+    <value>Question was updated successfully.</value>
   </data>
   <data name="DraftMyQuestionTitle" xml:space="preserve">
     <value>Draft a Question</value>
@@ -640,7 +699,7 @@
     <value>For example, the Premier, Prime Minister or relevant minister.</value>
   </data>
   <data name="AuthorityAnswerExplText" xml:space="preserve">
-    <value>For example, the ABS, a government department,  or the Murray-Darling Basin Authority.</value>
+    <value>For example, the Australian Bureau of Statistics, a government department,  or the Murray-Darling Basin Authority.</value>
   </data>
   <data name="RaiseQuestionHeaderText" xml:space="preserve">
     <value>Now direct your question to where it might get answered.</value>
@@ -775,10 +834,10 @@
     <value>This button indicates that you can answer the question by clicking here. There is no checkmark on this icon, which means that there are no other answers to this question yet. The icon is also not highlighted, which means you have not yet answered this question.</value>
   </data>
   <data name="QuestionFrameFlagButtonAccessibilityName" xml:space="preserve">
-    <value>Flag button</value>
+    <value>Report button</value>
   </data>
   <data name="QuestionFrameFlagButtonAccessibilityText" xml:space="preserve">
-    <value>This button indicates that you can flag or report the question by clicking here. It is currently not highlighted, which means you have not chosen to report this question.</value>
+    <value>This button indicates that you can report the question by clicking here. It is currently not highlighted, which means you have not chosen to report this question.</value>
   </data>
   <data name="QuestionFrameFlagButtonAccessibilityTextRed" xml:space="preserve">
     <value>Reports question</value>
@@ -835,9 +894,33 @@
     <value>How answered?</value>
   </data>
   <data name="OptionsHeaderText" xml:space="preserve">
-    <value>How do you want your question answered?</value>
+    <value>What do you want the MP to do with your question?</value>
   </data>
-  <data name="OtherUserProfilePopupText" xml:space="preserve">
+  <data name="AnswerByMp" xml:space="preserve">
+    <value>Answer it in the app</value>
+  </data>
+  <data name="AnswerByMpDescription" xml:space="preserve">
+    <value>The simplest way to get an answer.</value>
+  </data>
+  <data name="VoiceInParliament" xml:space="preserve">
+    <value>Ask someone else in Parliament</value>
+  </data>
+  <data name="VoiceInParliamentDescription" xml:space="preserve">
+    <value>The best way to get an answer from a minister or public authority such as The Australian Tax Office. You need to choose an MP or committee to ask your question and MPs or public authorities to answer it.</value>
+  </data>
+  <data name="DontKnowOption" xml:space="preserve">
+    <value>Don’t know</value>
+  </data>
+  <data name="DontKnowOptionDescription" xml:space="preserve">
+    <value>Not sure who or how to ask? Let the community decide.</value>
+  </data>
+  <data name="MyMp" xml:space="preserve">
+    <value>My MP</value>
+  </data>
+  <data name="PublicAuthority" xml:space="preserve">
+    <value>A Public Authority</value>
+  </data>
+    <data name="OtherUserProfilePopupText" xml:space="preserve">
     <value>OtherUserProfilePopupText</value>
   </data>
   <data name="QuestionAskerPopupText" xml:space="preserve">
@@ -853,13 +936,16 @@
     <value>SelectableListMPsPopupText</value>
   </data>
   <data name="SubmitPINButtonText" xml:space="preserve">
-    <value>Enter the 6-digit code that was sent to their official email address</value>
+    <value>Enter the 6-digit code that was sent to their official email address: </value>
   </data>
   <data name="AccountUpdateSuccessResponseText" xml:space="preserve">
-    <value>Your account was successfully updated!</value>
+    <value>Your display name was successfully updated.</value>
   </data>
   <data name="NoAccountChangesDetectedAlertText" xml:space="preserve">
-    <value>No Changes were made and thus there are no changes to update on your account.</value>
+    <value>Your display name was not updated as no changes were made.</value>
+  </data>
+  <data name="UpdateAccountWithServerErrorText" xml:space="preserve">
+    <value>Your display name was not updated. Please try again.</value>
   </data>
   <data name="NoAccountChangesDetectedTitle" xml:space="preserve">
     <value>No Changes Found</value>
@@ -879,8 +965,11 @@
   <data name="WriteAnotherQuestionButtonText" xml:space="preserve">
     <value>Write Another</value>
   </data>
-  <data name="GoButtonText" xml:space="preserve">
-    <value>Go</value>
+  <data name="FilterButtonText" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="ResetButtonText" xml:space="preserve">
+    <value>Reset</value>
   </data>
   <data name="UserNameHeaderText" xml:space="preserve">
     <value>Username</value>
@@ -904,7 +993,7 @@
     <value>Electorates were not found.</value>
   </data>
   <data name="QuestionEditSuccessfulPopupTitle" xml:space="preserve">
-    <value>Question Edited!</value>
+    <value>Question Updated!</value>
   </data>
   <data name="RegistrationIncompleteTitleText" xml:space="preserve">
     <value>Registration incomplete</value>
@@ -940,7 +1029,7 @@
     <value>Yes</value>
   </data>
   <data name="BackgroundPageTitle" xml:space="preserve">
-    <value>Background</value>
+    <value>Supporting information</value>
   </data>
   <data name="LocateButtonText" xml:space="preserve">
     <value>Locate</value>
@@ -1036,7 +1125,7 @@
     <value>Answer</value>
   </data>
   <data name="ReportDisplayCardButtonText" xml:space="preserve">
-    <value>Flag</value>
+    <value>Report</value>
   </data>
   <data name="ShareDisplayCardButtonText" xml:space="preserve">
     <value>Share</value>
@@ -1066,13 +1155,16 @@
     <value>Committee</value>
   </data>
   <data name="ChooseStateOrTerritory" xml:space="preserve">
-    <value>State or Territory</value>
+    <value>State or Territory*</value>
   </data>
   <data name="OtherUserInfoText" xml:space="preserve">
     <value>Information about another Right To Ask participant</value>
   </data>
   <data name="LinkNotWellFormedErrorText" xml:space="preserve">
     <value>The link is not a valid url</value>
+  </data>
+  <data name="LinkHttpErrorText" xml:space="preserve">
+    <value>Link must start with "http://" or "https://"</value>
   </data>
   <data name="LinkPlaceholderText" xml:space="preserve">
     <value>Parliamentary url</value>
@@ -1173,7 +1265,7 @@ We encourage real questions.
   Encouraging self-harm or harm to others.
 
 - **Hate**
-  Attacks or threats against an individual or group because of their protected attributes or anything else about them that does not relate to a political issue.
+  Attacks or threats against an individual or group because of their protected attributes or anything else about the person rather than the political issue.
 
 - **Spam**
   Malicious links, fake engagement, or advertisements.
@@ -1181,7 +1273,7 @@ We encourage real questions.
 - **Personal information**
   Sharing other people’s private information without their consent.
       
-- **Insulting someone**
+- **Defamation**
   Accusations or other defamatory statements.
 
 - **Illegal**
@@ -1200,37 +1292,146 @@ There is no guarantee that suspended accounts will be reinstated.
       
 We are still learning about how people use Right To Ask. These rules may change as we improve our understanding.
       
-**If you choose not to accept the code of conduct, you may still read Right To Ask questions freely. To participate actively (including writing questions), click accept here.**
+**If you disagree with the code of conduct, you may still read Right To Ask questions freely. To participate actively (including writing questions), click “Agree”.**
     </value>
   </data>
   
   <data name="DisagreeCodeOfConductPopText" xml:space="preserve">
   <value>Because you disagreed with our Code of Conduct, you can only read questions.</value>
   </data>
-
+  <data name="RegisterMPButtonHint" xml:space="preserve">
+  <value>Goes to the page to register MP or staffer account</value>
+  </data>
+  <data name="SignUpButtonHint" xml:space="preserve">
+  <value>Starts sign up flow</value>
+  </data>
   <data name="SignUpTitleText" xml:space="preserve">
   <value>Sign up to Right To Ask</value>
   </data>
   <data name="SignUpBodyText" xml:space="preserve">
   <value>You haven’t created an account yet</value>
   </data>
-
-  <data name="TermAndConditionPlainText" xml:space="preserve">
-  <value>By tapping “Agree and continue”, </value>
+  <data name="UserIDAlreadyExists" xml:space="preserve">
+  <value>This username isn’t available. Please try another.</value>
   </data>
-    <data name="TermAndConditionPlainText2" xml:space="preserve">
-  <value>you agree to our</value>
+  <data name="Continue" xml:space="preserve">
+  <value>Continue</value>
   </data>
-    <data name="PrivacyPolicy" xml:space="preserve">
-  <value>Privacy Policy</value>
+  <data name="SaveAndFinish" xml:space="preserve">
+  <value>Save and Finish</value>
   </data>
-    <data name="and" xml:space="preserve">
-  <value>and</value>
+  <data name="SaveAndFinishHint" xml:space="preserve">
+  <value>Saves registration data to server and locally.</value>
   </data>
-    <data name="TermAndCondition" xml:space="preserve">
-  <value>Terms and Conditions.</value>
+  <data name="SharingElectorateInfoHeaderText" xml:space="preserve">
+    <value>Show your electorate on your public profile?</value>
+  </data>
+  <data name="SharingElectorateInfoParagraph" xml:space="preserve">
+    <value>Select what to show on your profile. If you choose to make this public, your MP is more likely to answer your question.</value>
+  </data>
+  <data name="PublicLabel" xml:space="preserve">
+    <value>Public</value>
+  </data>
+  <data name="PrivateLabel" xml:space="preserve">
+    <value>Private</value>
+  </data>
+  <data name="EmptyNameMessage" xml:space="preserve">
+    <value>User ID and displayed name must not be empty.</value>
+  </data>
+  <data name="NoneSelected" xml:space="preserve">
+    <value>None selected</value>
+  </data>
+  <data name="SharingElectorateInfoPickerTitle" xml:space="preserve">
+    <value>Electorate info on your profile</value>
   </data>
     <data name="AgreeAndContinueButton" xml:space="preserve">
   <value>Agree and continue</value>
+  </data>
+  <data name="FederalElectorate" xml:space="preserve">
+  <value>Federal Electorate</value>
+  </data>
+  <data name="StateTitle" xml:space="preserve">
+  <value>State</value>
+  </data>
+  <data name="TerritoryTitle" xml:space="preserve">
+  <value>Territory</value>
+  </data>
+  <data name="StateOrTerritoryTitle" xml:space="preserve">
+  <value>State/ Territory</value>
+  </data>
+  <data name="StateOrTerritoryElectorateTitle" xml:space="preserve">
+  <value>State/ Territory Electorate</value>
+  </data>
+  <data name="Nothing" xml:space="preserve">
+  <value>Nothing</value>
+  </data>
+  <data name="TerritoryElectorate" xml:space="preserve">
+  <value>Territory Electorate</value>
+  </data>
+  <data name="StateElectorate" xml:space="preserve">
+  <value>State Electorate</value>
+  </data>
+  <data name="FedElectorateTerritory" xml:space="preserve">
+  <value>Federal Electorate and territory</value>
+  </data>
+  <data name="FedElectorateState" xml:space="preserve">
+  <value>Federal Electorate and state</value>
+  </data>
+  <data name="TerElectorateTerritory" xml:space="preserve">
+  <value>Territory Electorate and territory</value>
+  </data>
+  <data name="StateElectorateState" xml:space="preserve">
+  <value>State Electorate and state</value>
+  </data>
+  <data name="AllElectorateTerritory" xml:space="preserve">
+  <value>Federal Electorate, Territory Electorate and territory</value>
+  </data>
+  <data name="AllElectorateState" xml:space="preserve">
+  <value>Federal Electorate, State Electorate and state</value>
+  </data>
+  <data name="TermsAndConditionsMarkdown" xml:space="preserve">
+  <value>By tapping "Agree and Continue", you agree to our [Privacy Policy](https://www.democracydevelopers.org.au/privacy-policy/) and [Terms and Conditions](https://www.democracydevelopers.org.au/terms-conditions).</value>
+  </data>
+  <data name="TermsAndConditionsHelpTextAndroid" xml:space="preserve">
+  <value>By tapping Agree and Continue, you agree to our Privacy Policy and Terms and Conditions, double tap to activate to read the Privacy Policy or Terms and Conditions</value>
+  </data>
+  <data name="TermsAndConditionsHelpTextIOS" xml:space="preserve">
+  <value>By tapping Agree and Continue, you agree to our Privacy Policy, link, and Terms and Conditions, link</value>
+  </data>
+  <data name="LegislativeCouncilText" xml:space="preserve">
+  <value>Legislative Council</value>
+  </data>
+  <data name="FindMyElectorateTitle" xml:space="preserve">
+  <value>What’s your electorate?</value>
+  </data>
+  <data name="FindMyElectorateContentPartOne" xml:space="preserve">
+  <value>Your electorate info will not be shared with others unless you choose to. </value>
+  </data>
+  <data name="FindMyElectorateContentPartTwo" xml:space="preserve">
+  <value>This helps us find which MPs are yours.</value>
+  </data>
+
+  <data name="MapPlaceholderText" xml:space="preserve">
+  <value>A map of your Federal electorate will appear here</value>
+  </data>
+
+  <data name="ContinueButtonHint" xml:space="preserve">
+  <value>Continue to next page</value>
+  </data>
+  <data name="ContinueButtonDescription" xml:space="preserve">
+  <value>Continue</value>
+  </data>
+  
+  <data name="EmptyFieldMessage" xml:space="preserve">
+  <value>{0} must not be empty.</value>
+  </data>
+  <data name="MaxCharDisplayNameMessage" xml:space="preserve">
+  <value>The maximum character limit is {0}.</value>
+  </data>
+  <data name="UsernameRegexMessage" xml:space="preserve">
+  <value>Please use only letters (a-z), numbers (0-9), hyphen (-), underscore (_), and dot (.) without spaces.</value>
+  </data>
+  <data name="AccountTitle" xml:space="preserve">
+  <value>Create your account</value>
   </data>
 </root>

@@ -30,10 +30,6 @@ namespace RightToAskClient.Helpers
             return set1.SetEquals(list2);
         }
         
-        public static string JoinFilter(string separator, IEnumerable<string> strings)
-        {
-            return string.Join(separator, strings.Where(s => !string.IsNullOrEmpty(s)));
-        }
         public static string JoinFilter(string separator, params string[] str)
         {
             return !str.Any() 
@@ -41,6 +37,8 @@ namespace RightToAskClient.Helpers
                 : string.Join(separator, str.Where(s => !string.IsNullOrEmpty(s)));
         }
         
+        public static string NullToEmptyMessage(this string s, string emptyMessage) =>
+            s.IsNullOrEmpty() ? emptyMessage : s;
         
 		// This only makes sense after checking there is only a single one. If so, it returns it.
         public static T findSelectedOne<T>(IEnumerable<Tag<Entity>> selectableEntities) where T : Entity, new()

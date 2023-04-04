@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using RightToAskClient.Helpers;
 using RightToAskClient.Views.Popups;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -45,31 +46,58 @@ namespace RightToAskClient.ViewModels
                 OnPropertyChanged();
             }
         }
-        
+
+        public bool IsMyQuestion
+        {
+            get => Question.QuestionSuggester.Equals(IndividualParticipant.getInstance().ProfileData
+                .RegistrationInfo.uid);
+        }
+
+        public bool IsRaiseLayoutVisible
+        {
+            get => HasAskers || IsMyQuestion;
+        }
 
         // Convenient views of things stored in the Question.
         public List<Answer> QuestionAnswers => Question.Answers;
+        public List<Uri> HansardLinks => Question.HansardLink;
 
-        public string QuestionAnswerers =>  
+        public string QuestionAnswerers => 
             Extensions.JoinFilter(", ",
-                string.Join(", ",Question.Filters.SelectedAnsweringMPsNotMine.Select(mp => mp.ShortestName)),
-                string.Join(", ",Question.Filters.SelectedAnsweringMPsMine.Select(mp => mp.ShortestName)),
-                string.Join(", ",Question.Filters.SelectedAuthorities.Select(a => a.ShortestName)));
+                string.Join(", ", Question.Filters.SelectedAnsweringMPsNotMine.Select(mp => mp.ShortestName)),
+                string.Join(", ", Question.Filters.SelectedAnsweringMPsMine.Select(mp => mp.ShortestName)),
+                string.Join(", ", Question.Filters.SelectedAuthorities.Select(a => a.ShortestName)))
+                .NullToEmptyMessage(IsNewQuestion ? AppResources.HasNotMadeSelection : AppResources.NoSelections);
 
         // The MPs or committee who are meant to ask the question
         public string QuestionAskers =>
             Extensions.JoinFilter(", ",
                 string.Join(", ", Question.Filters.SelectedAskingMPsNotMine.Select(mp => mp.ShortestName)), 
                 string.Join(", ", Question.Filters.SelectedAskingMPsMine.Select(mp => mp.ShortestName)), 
-                string.Join(",", Question.Filters.SelectedCommittees.Select(com => com.ShortestName)));
-
+                string.Join(",", Question.Filters.SelectedCommittees.Select(com => com.ShortestName)))
+                .NullToEmptyMessage(IsNewQuestion ? AppResources.HasNotMadeSelection : AppResources.NoSelections);
+        
+        public bool HasAskers
+        {
+            get => Question.Filters.SelectedAskingMPsNotMine.Count != 0 ||
+                       Question.Filters.SelectedAskingMPsMine.Count != 0 ||
+                       Question.Filters.SelectedCommittees.Count != 0;
+        }
+        
+        public bool HasAnswerers
+        {
+            get => Question.Filters.SelectedAnsweringMPsNotMine.Count != 0 ||
+                       Question.Filters.SelectedAnsweringMPsMine.Count != 0 ||
+                       Question.Filters.SelectedAuthorities.Count != 0;
+        }
+        
         private string? _newHansardLink; 
         public string NewHansardLink 
         { 
             get => _newHansardLink;
             set
             {
-                var urlResult = ParliamentData.StringToValidParliamentaryUrl(value);
+                var urlResult = ParliamentaryURICreator.StringToValidParliamentaryUrl(value);
                 if (urlResult.Success)
                 {
                     SetProperty(ref _newHansardLink, value);
@@ -88,7 +116,7 @@ namespace RightToAskClient.ViewModels
                 }
             }
         }
-
+        
         // A collection of flags describing the state of the question,
         // whether it's a new question, whether you have permission to edit it,
         // etc. The idea is that facts about its status should be set at init,
@@ -109,6 +137,11 @@ namespace RightToAskClient.ViewModels
         {
             get => _howAnswered;
             set => SetProperty(ref _howAnswered, value);
+        }
+        
+        public bool IsShowPublicAuthority
+        {
+            get => _howAnswered != HowAnsweredOptions.InApp;
         }
 
         // These buttons are disabled if for some reason we're unable to read MP data.
@@ -137,7 +170,7 @@ namespace RightToAskClient.ViewModels
                 var thisUser =  IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid;
                 var questionWriter = _question.QuestionSuggester;
                 return IsNewQuestion || 
-                       (!string.IsNullOrEmpty(thisUser) && !string.IsNullOrEmpty(questionWriter) && thisUser == questionWriter);
+                       (!string.IsNullOrEmpty(thisUser) && !string.IsNullOrEmpty(questionWriter) && thisUser == questionWriter) && _question.Background.IsNullOrEmpty();
             }
         }
 
@@ -271,7 +304,7 @@ namespace RightToAskClient.ViewModels
                     Instance.Question.Filters.AnsweringMPsListsMine).ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, _howAnswered == HowAnsweredOptions.InApp ?
-                        Constants.GoToMetadataPageNext : Constants.GoToAskingPageNext); // Sends this view model
+                        Constants.GoToQuestionDetailPageNext : Constants.GoToAskingPageNext); // Sends this view model
                 });
             });
             AnsweredByOtherMPCommandOptionB = new AsyncCommand(async () =>
@@ -282,7 +315,7 @@ namespace RightToAskClient.ViewModels
                     Instance.Question.Filters.AnsweringMPsListsNotMine).ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, _howAnswered == HowAnsweredOptions.InApp ?
-                        Constants.GoToMetadataPageNext : Constants.GoToAskingPageNext); // Sends this view model
+                        Constants.GoToQuestionDetailPageNext : Constants.GoToAskingPageNext); // Sends this view model
                 });
             });
             UpvoteCommand = new AsyncCommand(async () =>
@@ -396,10 +429,6 @@ namespace RightToAskClient.ViewModels
             {
                 await Shell.Current.GoToAsync($"{nameof(QuestionAnswererPage)}");
             });
-            ToMetadataPageCommand = new AsyncCommand(async () =>
-            {
-                await Shell.Current.GoToAsync($"{nameof(MetadataPage)}");
-            });
             ShareCommand = new AsyncCommand(async() =>
             {
                 await Share.RequestAsync(new ShareTextRequest 
@@ -429,6 +458,11 @@ namespace RightToAskClient.ViewModels
                 }));
                 await Application.Current.MainPage.Navigation.PushAsync(nextPage);
             });
+        }
+
+        public bool IsAnswerInApp
+        {
+            get => _howAnswered == HowAnsweredOptions.InApp;
         }
 
         private Command? _findCommitteeCommand;
@@ -463,7 +497,7 @@ namespace RightToAskClient.ViewModels
         public Command EditAnswerCommand { get; }
         public IAsyncCommand OptionACommand { get; }
         public IAsyncCommand OptionBCommand { get; }
-        public IAsyncCommand ToMetadataPageCommand { get; }
+        
         public IAsyncCommand ToAnswererPageWithHowAnsweredSelectionCommand { get; }
         public IAsyncCommand ToHowAnsweredOptionPageCommand { get; }
         public IAsyncCommand ShareCommand { get; }
@@ -500,7 +534,7 @@ namespace RightToAskClient.ViewModels
                 // RaisedByOptionSelected = true;
                 await NavigationUtils.EditCommitteesClicked(Instance.Question.Filters.CommitteeLists).ContinueWith((_) =>
                 {
-                    MessagingCenter.Send(this, Constants.GoToMetadataPageNext); // Sends this view model
+                    MessagingCenter.Send(this, Constants.GoToQuestionDetailPageNext); // Sends this view model
                 });
             }
         }
@@ -516,7 +550,7 @@ namespace RightToAskClient.ViewModels
                     IndividualParticipant.getInstance().ProfileData.RegistrationInfo.ElectoratesKnown,
                     Instance.Question.Filters.AskingMPsListsMine).ContinueWith((_) =>
                 {
-                    MessagingCenter.Send(this, Constants.GoToMetadataPageNext); // Sends this view model
+                    MessagingCenter.Send(this, Constants.GoToQuestionDetailPageNext); // Sends this view model
                 });
             }
             else
@@ -537,7 +571,7 @@ namespace RightToAskClient.ViewModels
         private async void NotSureWhoShouldRaiseButtonClicked()
         {
             // RaisedByOptionSelected = true;
-            await Shell.Current.GoToAsync(nameof(MetadataPage));
+            await Shell.Current.GoToAsync(nameof(QuestionDetailPage));
         }
 
         // TODO: Implement SearchableListPage constructor for people.
@@ -553,7 +587,7 @@ namespace RightToAskClient.ViewModels
             {
                 await NavigationUtils.PushAskingMPsNotMineSelectableListPageAsync(Instance.Question.Filters.AskingMPsListsNotMine).ContinueWith((_) =>
                 {
-                    MessagingCenter.Send(this, Constants.GoToMetadataPageNext); // Sends this view model
+                    MessagingCenter.Send(this, Constants.GoToQuestionDetailPageNext); // Sends this view model
                 });
             }
             else

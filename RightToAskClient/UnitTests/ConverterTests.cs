@@ -1,23 +1,12 @@
-using RightToAskClient;
 using RightToAskClient.Helpers;
-using RightToAskClient.Models;
-using RightToAskClient.ViewModels;
-using RightToAskClient.Views;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Linq;
-using Xamarin.Forms;
 using Xunit;
 
 namespace UnitTests
 {
-    public class UnitTest1
+    public class ConvertTests
     {
-        // properties 
-        public ValidationTests vTests = new ValidationTests();
-
         // Sample Tests
         #region Sample Tests
         [Fact]

@@ -7,56 +7,122 @@
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:local="clr-namespace:RightToAskClient"
              xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
+             xmlns:controls="clr-namespace:RightToAskClient.Views.Controls;assembly=RightToAskClient"
              x:Class="RightToAskClient.Views.RegisterAccountPage"
              x:DataType="vm:RegistrationViewModel"
              Title="{Binding Title}">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
-                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.home4.png}"/>
-        <ToolbarItem Text="{xct:Translate InfoPopupButtonText}" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
-                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}"/>
-    </ContentPage.ToolbarItems>
+    <Shell.TitleView>
+        <Image Source="{helpers:ImageResource error.png}"
+               HorizontalOptions="Center"
+               VerticalOptions="Start" />
+    </Shell.TitleView>
+
     <ContentPage.BindingContext>
         <vm:RegistrationViewModel />
     </ContentPage.BindingContext>
-	<ContentPage.Content >
-        <StackLayout Margin="20">
-            <views:UserAccountInfoView/>
-            <Label x:Name="ReportLabel" Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}"/>
-            <StackLayout Orientation="Vertical" VerticalOptions="Center">
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                    <Button Text="{xct:Translate CompleteAccountCreationButtonText}" Style="{StaticResource DoneButton}" Command="{Binding DoneButtonCommand}" HorizontalOptions="Center"/>
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical"
+                     VerticalOptions="Fill"
+                     HorizontalOptions="Fill">
+            <ScrollView VerticalOptions="FillAndExpand" Padding="16">
+                <StackLayout Orientation="Vertical">
+                    <Label Text="{xct:Translate AccountTitle}"
+                           Style="{StaticResource RegistrationTitle}"
+                           controls:Accessibility.AccessibilityTraits="Header">
+                    </Label>
+
+                    <ContentView>
+                        <StackLayout Orientation="Vertical"
+                                     Spacing="0">
+                            <Label x:Name="NameLabel"
+                                   Text="{xct:Translate DisplayNameHeaderText}"
+                                   Style="{StaticResource SmallGreyHeader}"
+                                   IsVisible="{Binding DisplayName.Length}" />
+                            <controls:BorderlessEntry
+                                AutomationProperties.Name="{xct:Translate DisplayNamePlaceholderText}"
+                                Text="{Binding DisplayName}"
+                                Placeholder="{xct:Translate DisplayNamePlaceholderText}"
+                                Style="{StaticResource TextInput}"
+                                Unfocused="NameEntry_OnUnfocused"
+                                Focused="NameEntry_OnFocused" />
+                            <BoxView
+                                x:Name="NameEntryBorder"
+                                Margin="0,8,0,0"
+                                Style="{StaticResource EntryBorder}" />
+                        </StackLayout>
+                    </ContentView>
+                    <Label Text="{xct:Translate NamePrivacyNote}"
+                           Style="{StaticResource TextFieldDescription}" />
+                    <StackLayout Orientation="Horizontal" IsVisible="{Binding NameLabelText.Length}">
+                        <Image Source="{helpers:ImageResource RightToAskClient.Images.error.png}"
+                               xct:IconTintColorEffect.TintColor="{AppThemeBinding 
+                               Dark={StaticResource TextColorBrightRed}, 
+                               Light={StaticResource TextColorRed}}"
+                               WidthRequest="13"
+                               HeightRequest="13"
+                               HorizontalOptions="Start"
+                               VerticalOptions="Start" />
+                        <Label Text="{Binding NameLabelText}" Style="{StaticResource ErrorLabel}"
+                               AutomationProperties.IsInAccessibleTree="True"
+                               AutomationProperties.Name="Name input error"
+                               AutomationProperties.HelpText="{Binding NameLabelText}" />
+                    </StackLayout>
+
+                    <ContentView>
+                        <StackLayout Orientation="Vertical"
+                                     Spacing="0"
+                                     Margin="0,16,0,0">
+                            <Label x:Name="UsernameLabel"
+                                   Text="{xct:Translate UserNameHeaderText}"
+                                   Style="{StaticResource SmallGreyHeader}"
+                                   IsVisible="{Binding UserId.Length}" />
+                            <controls:BorderlessEntry
+                                AutomationProperties.Name="{xct:Translate UIDPlaceholderText}"
+                                Text="{Binding UserId}"
+                                Placeholder="{xct:Translate UIDPlaceholderText}"
+                                Style="{StaticResource TextInput}"
+                                Unfocused="UIDEntry_OnUnfocused"
+                                Focused="UIDEntry_OnFocused" />
+                            <BoxView
+                                x:Name="UsernameEntryBorder"
+                                Margin="0,8,0,0"
+                                Style="{StaticResource EntryBorder}" />
+                        </StackLayout>
+                    </ContentView>
+                    <Label Text="{xct:Translate UsernamePrivacyNote}" Style="{StaticResource TextFieldDescription}" />
+                    <StackLayout Orientation="Horizontal" IsVisible="{Binding ReportLabelText.Length}">
+                        <Image Source="{helpers:ImageResource RightToAskClient.Images.error.png}"
+                               xct:IconTintColorEffect.TintColor="{AppThemeBinding 
+                               Dark={StaticResource TextColorBrightRed}, 
+                               Light={StaticResource TextColorRed}}"
+                               WidthRequest="13"
+                               HeightRequest="13"
+                               HorizontalOptions="Start"
+                               VerticalOptions="Start" />
+                        <Label Text="{Binding ReportLabelText}" Style="{StaticResource ErrorLabel}"
+                               AutomationProperties.IsInAccessibleTree="True"
+                               AutomationProperties.Name="Username input error"
+                               AutomationProperties.HelpText="{Binding ReportLabelText}" />
+                    </StackLayout>
                 </StackLayout>
+            </ScrollView>
+            <BoxView Style="{StaticResource ButtonSeparator}" />
+            <StackLayout Orientation="Vertical"
+                         VerticalOptions="End"
+                         HorizontalOptions="Fill"
+                         Padding="16">
+                <Button x:Name="ContinueButton"
+                        Text="{xct:Translate Continue}"
+                        Command="{Binding DoneButtonCommand}"
+                        xct:SemanticEffect.Hint="{xct:Translate ContinueButtonHint}"
+                        xct:SemanticEffect.Description="{xct:Translate ContinueButtonDescription}"
+                        Margin="0,0,0,16"
+                        Style="{StaticResource NormalButton}"
+                        CornerRadius="5"
+                        IsEnabled="{Binding AbleToContinue}"
+                        controls:Accessibility.AccessibilityTraits="{Binding ContinueButtonAccessibilityTrait}" />
             </StackLayout>
-            <StackLayout Orientation="Horizontal" VerticalOptions="Center">
-	            <!-- removing option to register MPs or orgs, except as a second step as part of the account settings.
-	            <Button Text="{Binding RegisterMPButtonText}" Command="{Binding ChooseMPToRegisterButtonCommand}" IsVisible="{Binding ShowRegisterMPButton}" Style="{StaticResource DoneButton}" HorizontalOptions="Center"/>
-                <Button Text="{Binding RegisterOrgButtonText}" Command="{Binding RegisterOrgButtonCommand}" IsVisible="{Binding ShowRegisterOrgButton}" Style="{StaticResource DoneButton}" HorizontalOptions="Center"/>
-                -->
-                <Button Text="{xct:Translate CancelButtonText}" Command="{Binding CancelButtonCommand}" IsVisible="{Binding ShowDoneButton}"/>
-			</StackLayout>
-            <Button Text="{Binding FollowButtonText}" Style="{StaticResource GreenButton}" Command="{Binding FollowButtonCommand}" IsVisible="{Binding ShowFollowButton}" HorizontalOptions="Center"/>
-            <Button Text="{Binding SeeQuestionsButtonText}" Style="{StaticResource GreenButton}"  IsVisible="{Binding ShowSeeQuestionsButton}" Command="{Binding SeeQuestionsButtonCommand}" HorizontalOptions="Center"/>
-            <Button Text="{Binding DMButtonText}" Style="{StaticResource GreenButton}" IsVisible="{Binding ShowDMButton}" Command="{Binding DMButtonCommand}" HorizontalOptions="Center"/>
+
         </StackLayout>
-	<!--
-	</StackLayout>
-        <StackLayout>
-            <Label Text="You need to create an account to publish questions or vote." />
-            <Label x:Name="registerNameInstructions" Text="Enter your name. You can choose a pseudonym but your MP is more likely to listen if you use your real name." />
-            <Editor x:Name="registerNameButton" Placeholder="name" Completed="OnRegisterNameFieldCompleted" StyleClass="NormalEditor" HorizontalOptions="Center"/>
-            <Label Text="Enter your email. This optional for standard accounts but is used to verify MP and Organisational accounts." />
-            <Editor x:Name="registerEmailButton" Placeholder="email (optional)" Completed="OnRegisterEmailFieldCompleted" StyleClass="NormalEditor" HorizontalOptions="Center"/>
-			<StackLayout Orientation="Vertical" VerticalOptions="Center">
-				<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-					<Button x:Name="registerCitizenButton" Clicked="OnRegisterCitizenButtonClicked" Text="Complete Account Creation" StyleClass="DoneButton" HorizontalOptions="Center"/>
-				</StackLayout>
-			</StackLayout>
-			<StackLayout Orientation="Horizontal" VerticalOptions="Center">
-				<Button x:Name="registerMPButton" Text="Register MP Account" Clicked="OnRegisterMPButtonClicked"  StyleClass="DoneButton" HorizontalOptions="Center"/>
-				<Button x:Name="registerOrgButton" Text="Register Organisational Account" Clicked="OnRegisterOrgButtonClicked"  StyleClass="DoneButton" HorizontalOptions="Center"/>
-			</StackLayout>
-        </StackLayout>
-	-->
     </ContentPage.Content>
 </ContentPage>

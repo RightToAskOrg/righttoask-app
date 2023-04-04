@@ -1,7 +1,7 @@
+using System;
 using RightToAskClient.Models;
 using RightToAskClient.Resx;
 using RightToAskClient.ViewModels;
-using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace RightToAskClient.Views
@@ -27,6 +27,11 @@ namespace RightToAskClient.Views
                 vm.Title = AppResources.MyQuestionsTitle;
                 ReadingPageExchanger.ByQuestionWriter = false;
             }
+            
+            var vmReadingPage = BindingContext as ReadingPageViewModel;
+            FilterButton.BackgroundColor = vmReadingPage.HasFilter
+                ? (Color)Application.Current.Resources["Primary"]
+                : (Color)Application.Current.Resources["Purple"];
         }
         
         protected override void OnDisappearing()
@@ -34,6 +39,36 @@ namespace RightToAskClient.Views
             // clear the selected item
             QuestionList.SelectedItem = null;
             base.OnDisappearing();
+        }
+        private void ClearButton_OnClicked(object sender, EventArgs e)
+        {
+            KeywordEntry.Text = "";
+            ClearButton.IsVisible = false;
+        }
+
+        private ReadingPageViewModel? GetViewModel()
+        {
+            return BindingContext as ReadingPageViewModel;
+        }
+
+        private void KeywordEntry_OnCompleted(object sender, EventArgs e)
+        {
+            GetViewModel().RefreshCommand.ExecuteAsync();
+        }
+
+        private void KeywordEntry_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            int length = e.NewTextValue.Length;
+            ClearButton.IsVisible = length > 0;
+        }
+
+        private void MenuItem_OnClicked(object sender, EventArgs e)
+        {
+            SearchFrame.IsVisible = !SearchFrame.IsVisible;
+            if (!SearchFrame.IsVisible)
+                KeywordEntry.Unfocus();
+            else
+                KeywordEntry.Focus();
         }
     }
 }

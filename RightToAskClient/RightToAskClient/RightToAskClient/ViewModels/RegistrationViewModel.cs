@@ -3,18 +3,16 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
-using RightToAskClient.CryptoUtils;
 using RightToAskClient.Helpers;
 using RightToAskClient.HttpClients;
 using RightToAskClient.Models;
 using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Resx;
 using RightToAskClient.Views;
+using RightToAskClient.Views.Controls;
 using RightToAskClient.Views.Popups;
 using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace RightToAskClient.ViewModels
@@ -25,14 +23,32 @@ namespace RightToAskClient.ViewModels
 
         // The complete information about this user's current registration, including any updates that have been made
         // on this page.
-        private readonly Registration _registration = new Registration(); 
-        
+        private readonly Registration _registration = new Registration();
+
         private bool _isNotRegistered;
+
         public bool IsNotRegistered
         {
             get => _isNotRegistered;
             set => SetProperty(ref _isNotRegistered, value);
         }
+        
+        private bool _isUpdateErrorShown;
+        public bool IsUpdateErrorShown
+        {
+            get => _isUpdateErrorShown;
+            set => SetProperty(ref _isUpdateErrorShown, value);
+        }
+        
+        private bool _isUpdateSuccessShown;
+        public bool IsUpdateSuccessShown
+        {
+            get => _isUpdateSuccessShown;
+            set => SetProperty(ref _isUpdateSuccessShown, value);
+        }
+
+        public Command HideErrorLayoutCommand { get; }
+        public Command HideSuccessLayoutCommand { get; }
         
         // The updates that have been made to this user's registration on this page
         // Note this is used only for updating an existing registration - new registrations are handled
@@ -46,6 +62,7 @@ namespace RightToAskClient.ViewModels
             _oldElectorates = new List<ElectorateWithChamber>(_registration.Electorates);
             _registrationUpdates = new ServerUser() { uid = _registration.uid };
         }
+
         // UserID, DisplayName, State, SelectedStateAsInt and Electorates are all just reflections of their 
         // corresponding data in _registration.
         //
@@ -68,6 +85,7 @@ namespace RightToAskClient.ViewModels
 
         // Update both _registration and also _registrationUpdates, because the latter may be used if we are updating
         // the display name of an existing registration.
+        private string _displayOldName;
         public string DisplayName
         {
             get => _registration.display_name;
@@ -87,6 +105,7 @@ namespace RightToAskClient.ViewModels
 
         private bool _stateKnown;
         private int _selectedStateAsIndex = -1;
+
         public int SelectedStateAsIndex
         {
             get => _selectedStateAsIndex;
@@ -95,14 +114,15 @@ namespace RightToAskClient.ViewModels
                 _selectedStateAsIndex = value;
                 ParliamentData.StateEnum selectedState;
                 (_stateKnown, selectedState) = _registration.UpdateStateStorePreferences(SelectedStateAsIndex);
-                
+
                 // Include new state in updates. At the moment, this means that there is no way that
                 // someone who has previously selected a state can
                 // revert to the point where there is no state
                 if (_stateKnown)
                 {
                     _registrationUpdates.state = selectedState.ToString();
-                } 
+                }
+
                 OnPropertyChanged("State");
             }
         }
@@ -120,29 +140,98 @@ namespace RightToAskClient.ViewModels
             }
         }
 
+        public ElectorateOption StateOption
+        {
+            get
+            {
+                ElectorateOption stateOption = new ElectorateOption();
+                foreach (var electorate in _registration.Electorates)
+                {
+                    if (electorate.chamber == ParliamentData.Chamber.Australian_Senate)
+                    {
+                        var isStatePublic = XamarinPreferences.shared.Get("isStatePublic", false);
+                        stateOption = new ElectorateOption("State", electorate.region, isStatePublic);
+                    }
+                }
+
+                return stateOption;
+            }
+        }
+
+        public ElectorateOption FederalElectorateOption
+        {
+            get
+            {
+                ElectorateOption federalElectorateOption = new ElectorateOption();
+                foreach (var electorate in _registration.Electorates)
+                {
+                    if (electorate.chamber == ParliamentData.Chamber.Australian_House_Of_Representatives)
+                    {
+                        var isFederalElectoratePublic = XamarinPreferences.shared.Get("isFederalElectoratePublic", false);
+                        federalElectorateOption = new ElectorateOption("Federal electorate", electorate.region, isFederalElectoratePublic);
+                     
+                    }
+                }
+
+                return federalElectorateOption;
+            }
+        }
+        
+        public ElectorateOption StateElectorateOption
+        {
+            get
+            {
+                ElectorateOption stateElectorateOption = new ElectorateOption();
+                List<string> stateElectorates = new List<string>(); 
+                foreach (var electorate in _registration.Electorates)
+                {
+                    if (electorate.chamber != ParliamentData.Chamber.Australian_House_Of_Representatives 
+                        && electorate.chamber != ParliamentData.Chamber.Australian_Senate)
+                    {
+                        if (!electorate.region.IsNullOrEmpty())
+                        {
+                            stateElectorates.Add(electorate.region); 
+                        }
+                     
+                    }
+                }
+                if (!stateElectorates.IsNullOrEmpty())
+                {
+                    string stateElectorate = String.Join(", ", stateElectorates);
+                    var isStateElectoratePublic = XamarinPreferences.shared.Get("isStateElectoratePublic", false);
+                    stateElectorateOption = new ElectorateOption("State electorate", stateElectorate, isStateElectoratePublic);
+                }
+                return stateElectorateOption;
+            }
+        }
+
         public string BadgesSummary => string.Join(",", _registration.Badges.Select(b => b.ToString()).ToList());
 
         // This is for selecting MPs if you're registering as an MP or staffer account
         private readonly SelectableList<MP> _selectableMPList = new SelectableList<MP>(new List<MP>(), new List<MP>());
-        
-        public bool IsVerifiedMPAccount => _registration.Badges?.Any(b =>  b.badge == BadgeType.MP || b.badge == BadgeType.MPStaff) ?? false;
+
+        public bool IsVerifiedMPAccount =>
+            _registration.Badges?.Any(b => b.badge == BadgeType.MP || b.badge == BadgeType.MPStaff) ?? false;
 
         public bool IsVerifiedStafferAccount => _registration.Badges?.Any(b => b.badge == BadgeType.MPStaff) ?? false;
 
-        public string MPsRepresenting => string.Join(",",_registration.Badges?.Select(b => b.name ?? "") ?? new List<string>());
+        public string MPsRepresenting =>
+            string.Join(",", _registration.Badges?.Select(b => b.name ?? "") ?? new List<string>());
 
         // public MP RegisteredMP { get; }
         public bool ShowStafferLabel { get; set; }
         public bool ShowExistingMPRegistrationLabel { get; set; }
-        
+
         private bool _showRegisterMPReportLabel;
+
         public bool ShowRegisterMPReportLabel
         {
             get => _showRegisterMPReportLabel;
             set => SetProperty(ref _showRegisterMPReportLabel, value);
-        } 
-        
+        }
+
         private bool _showRegisterCitizenButton;
+
         public bool ShowRegisterCitizenButton
         {
             get => _showRegisterCitizenButton;
@@ -150,6 +239,7 @@ namespace RightToAskClient.ViewModels
         }
 
         private string _registerCitizenButtonText = "";
+
         public string RegisterCitizenButtonText
         {
             get => _registerCitizenButtonText;
@@ -157,6 +247,7 @@ namespace RightToAskClient.ViewModels
         }
 
         private bool _showRegisterOrgButton;
+
         public bool ShowRegisterOrgButton
         {
             get => _showRegisterOrgButton;
@@ -166,6 +257,7 @@ namespace RightToAskClient.ViewModels
         public string RegisterOrgButtonText => AppResources.RegisterOrganisationAccountButtonText;
 
         private bool _showRegisterMPButton;
+
         public bool ShowRegisterMPButton
         {
             get => _showRegisterMPButton;
@@ -173,8 +265,9 @@ namespace RightToAskClient.ViewModels
         }
 
         public string RegisterMPButtonText => AppResources.RegisterMPAccountButtonText;
-        
+
         private bool _showDoneButton;
+
         public bool ShowDoneButton
         {
             get => _showDoneButton;
@@ -182,13 +275,23 @@ namespace RightToAskClient.ViewModels
         }
 
         private bool _showDMButton;
+
         public bool ShowDMButton
         {
             get => _showDMButton;
             set => SetProperty(ref _showDMButton, value);
         }
 
+        private string _nameLabelText = "";
+
+        public string NameLabelText
+        {
+            get => _nameLabelText;
+            set => SetProperty(ref _nameLabelText, value);
+        }
+
         private string _dmButtonText = "";
+
         public string DMButtonText
         {
             get => _dmButtonText;
@@ -196,6 +299,7 @@ namespace RightToAskClient.ViewModels
         }
 
         private bool _showSeeQuestionsButton;
+
         public bool ShowSeeQuestionsButton
         {
             get => _showSeeQuestionsButton;
@@ -203,13 +307,39 @@ namespace RightToAskClient.ViewModels
         }
 
         private string _seeQuestionsButtonText = "";
+
         public string SeeQuestionsButtonText
         {
             get => _seeQuestionsButtonText;
             set => SetProperty(ref _seeQuestionsButtonText, value);
         }
 
+
+        private Accessibility.AccessibilityTrait _continueButtonAccessibilityTrait =
+            Accessibility.AccessibilityTrait.Disabled;
+
+        public Accessibility.AccessibilityTrait ContinueButtonAccessibilityTrait
+        {
+            get => _continueButtonAccessibilityTrait;
+            set => SetProperty(ref _continueButtonAccessibilityTrait, value);
+        }
+
+        private bool _ableToContinue = false;
+
+        public bool AbleToContinue
+        {
+            get => _ableToContinue;
+            set
+            {
+                SetProperty(ref _ableToContinue, value);
+                ContinueButtonAccessibilityTrait = _ableToContinue
+                    ? Accessibility.AccessibilityTrait.None
+                    : Accessibility.AccessibilityTrait.Disabled;
+            }
+        }
+
         private bool _showFollowButton;
+
         public bool ShowFollowButton
         {
             get => _showFollowButton;
@@ -217,6 +347,7 @@ namespace RightToAskClient.ViewModels
         }
 
         private string _followButtonText = "";
+
         public string FollowButtonText
         {
             get => _followButtonText;
@@ -224,23 +355,26 @@ namespace RightToAskClient.ViewModels
         }
 
         private bool _canEditUid = true;
+
         public bool CanEditUid
         {
             get => _canEditUid;
             set => SetProperty(ref _canEditUid, value);
         }
 
-        private bool _showUpdateAccountButton;
-        public bool ShowUpdateAccountButton
+        private bool _IsMyAccount;
+
+        public bool IsMyAccount
         {
-            get => _showUpdateAccountButton;
-            set => SetProperty(ref _showUpdateAccountButton, value);
+            get => _IsMyAccount;
+            set => SetProperty(ref _IsMyAccount, value);
         }
 
         public List<string> StateList => ParliamentData.StatesAndTerritories;
 
 
         private ElectorateWithChamber? _selectedElectorateWithChamber;
+
         public ElectorateWithChamber? SelectedElectorateWithChamber
         {
             get => _selectedElectorateWithChamber;
@@ -263,6 +397,7 @@ namespace RightToAskClient.ViewModels
         public RegistrationViewModel(Registration registration) : this(false)
         {
             _registration = registration;
+            _displayOldName = _registration.display_name;
             ReportLabelText = "";
             switch (_registration.registrationStatus)
             {
@@ -293,65 +428,66 @@ namespace RightToAskClient.ViewModels
             _oldElectorates = _registration.Electorates;
             _selectableMPList = new SelectableList<MP>(ParliamentData.AllMPs, new List<MP>());
         }
-        
+
         // Parameterless constructor sets defaults assuming it's a new registration for this app user, i.e ThisParticipant.
         public RegistrationViewModel() : this(false)
         {
             IsNotRegistered = true;
             _registration.registrationStatus = RegistrationStatus.NotRegistered;
         }
-        
+
         // Constructor called by other constructors - sets up commands, even those that aren't used.
         // boolean input isn't used except to distinguish from default/empty constructor.
-        
-            private RegistrationViewModel(bool notUsed)
+
+        private RegistrationViewModel(bool notUsed)
+        {
+            ChooseMPToRegisterButtonCommand = new AsyncCommand(async () => { SelectMPForRegistration(); });
+            DoneButtonCommand = new Command(() => { OnSaveButtonClicked(); });
+            EditElectoratesCommand =  new Command(() => { NavigateToFindMPsPage(); });
+            UpdateAccountButtonCommand = new Command(() =>
             {
-                ChooseMPToRegisterButtonCommand = new AsyncCommand(async () =>
-                {
-                    SelectMPForRegistration();
-                });
-                DoneButtonCommand = new Command(() => { OnSaveButtonClicked(); });
-                UpdateAccountButtonCommand = new Command(() =>
-                {
-                    SaveRegistrationToPreferences(_registration);
-                    SendUpdatedUserToServer();
-                });
-                UpdateMPsButtonCommand = new Command(() =>
-                {
-                    // We need this because we don't necessarily know that the electorates 
-                    // will change just because we go to the find-new-electorates page.
-                    _oldElectorates = new List<ElectorateWithChamber>(_registration.Electorates);
+                SendUpdatedUserToServer();
+            });
+            UpdateMPsButtonCommand = new Command(() =>
+            {
+                // We need this because we don't necessarily know that the electorates 
+                // will change just because we go to the find-new-electorates page.
+                _oldElectorates = new List<ElectorateWithChamber>(_registration.Electorates);
 
-                    NavigateToFindMPsPage();
-                });
-                FollowButtonCommand = new Command(() => { FollowButtonText = "Following not implemented"; });
-                DMButtonCommand = new Command(() => { DMButtonText = "DMs not implemented"; });
-                CancelButtonCommand = new AsyncCommand(async () =>
-                {
-                    //await Navigation.PopAsync();
-                    await Shell.Current.GoToAsync("..");
-                });
-                // At the moment, this pushes a brand new question-reading page,
-                // which is meant to have only questions from this person, but
-                // at the moment just has everything.
-                // 
-                // Think a bit harder about how people will navigate or understand this:
-                // Will they expect to be adding a new stack layer, or popping off old ones?
-                SeeQuestionsButtonCommand = new AsyncCommand(async () =>
-                {
-                    await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
-                });
-                DoRegistrationCommand = new AsyncCommand(async () =>
-                {
-                    // var registerAccountPage = new RegisterAccountPage(_registration);
-                    // await Application.Current.MainPage.Navigation.PushAsync(registerAccountPage);
-                    var registerAccountFlow = new CodeOfConductPage(_registration);
-                    await Application.Current.MainPage.Navigation.PushAsync(registerAccountFlow);
-                });
-            }
+                NavigateToFindMPsPage();
+            });
+            FollowButtonCommand = new Command(() => { FollowButtonText = "Following not implemented"; });
+            DMButtonCommand = new Command(() => { DMButtonText = "DMs not implemented"; });
+            CancelButtonCommand = new AsyncCommand(async () =>
+            {
+                //await Navigation.PopAsync();
+                await Shell.Current.GoToAsync("..");
+            });
+            // At the moment, this pushes a brand new question-reading page,
+            // which is meant to have only questions from this person, but
+            // at the moment just has everything.
+            // 
+            // Think a bit harder about how people will navigate or understand this:
+            // Will they expect to be adding a new stack layer, or popping off old ones?
+            SeeQuestionsButtonCommand = new AsyncCommand(async () =>
+            {
+                await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
+            });
+            DoRegistrationCommand = new AsyncCommand(async () =>
+            {
+                // var registerAccountPage = new RegisterAccountPage(_registration);
+                // await Application.Current.MainPage.Navigation.PushAsync(registerAccountPage);
+                var registerAccountFlow = new CodeOfConductPage(_registration);
+                await Application.Current.MainPage.Navigation.PushAsync(registerAccountFlow);
+            });
+            HideErrorLayoutCommand = new Command(() => { IsUpdateErrorShown = false; });
+            HideSuccessLayoutCommand = new Command(() => { IsUpdateSuccessShown = false; });
 
-            // commands
+        }
+
+        // commands
         public Command DoneButtonCommand { get; }
+        public Command EditElectoratesCommand { get; }
         public Command UpdateAccountButtonCommand { get; }
         public AsyncCommand ChooseMPToRegisterButtonCommand { get; }
         public Command UpdateMPsButtonCommand { get; }
@@ -363,9 +499,11 @@ namespace RightToAskClient.ViewModels
         public IAsyncCommand DoRegistrationCommand { get; }
 
         #region Methods
+
         public async void NavigateToFindMPsPage()
         {
-            await Shell.Current.GoToAsync($"{nameof(FindMPsPage)}");
+            var findMPsPage = new FindMPsPage(_registration);
+            await Application.Current.MainPage.Navigation.PushAsync(findMPsPage);
         }
 
         // Show and label different buttons according to whether we're registering
@@ -385,9 +523,10 @@ namespace RightToAskClient.ViewModels
 
         public void ShowTheRightButtonsForOwnAccount()
         {
-            ShowUpdateAccountButton = _registration.IsRegistered;
+            IsMyAccount = _registration.IsRegistered;
             ShowRegisterMPButton = _registration.IsRegistered;
-            ShowExistingMPRegistrationLabel = _registration.IsVerifiedMPAccount || _registration.IsVerifiedMPStafferAccount;
+            ShowExistingMPRegistrationLabel =
+                _registration.IsVerifiedMPAccount || _registration.IsVerifiedMPStafferAccount;
             ShowStafferLabel = _registration.IsVerifiedMPStafferAccount;
             ShowDMButton = false;
             ShowSeeQuestionsButton = false;
@@ -415,73 +554,23 @@ namespace RightToAskClient.ViewModels
         // public key and uid. Electorates are optional.
         private async void OnSaveButtonClicked()
         {
-            SaveRegistrationToPreferences(_registration);
-            Debug.Assert(_registration.registrationStatus == RegistrationStatus.NotRegistered);
-
-            _registration.public_key = ClientSignatureGenerationService.MyPublicKey; 
-            
-            // Check that the registration info we're about to send to the server is valid.
-            var regTest = _registration.IsValid();
-            if (regTest.Success)
+            try
             {
-                // see if we need to push the electorates page or if we push the server account things
-                if (!_registration.ElectoratesKnown)
+                var userIdExists = await RTAClient.CheckUserIdExists(UserId);
+                if (userIdExists)
                 {
-                    // if MPs have not been found for this user yet, prompt to find them
-                    var popup = new TwoButtonPopup(AppResources.MPsPopupTitle, AppResources.MPsPopupText, AppResources.SkipButtonText, AppResources.YesButtonText, false);
-                    var popupResult = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
-                    if (popup.HasApproved(popupResult))
-                    {
-                        NavigateToFindMPsPage();
-                    }
-                    else
-                    {
-                        await SendNewUserToServer();
-                    }
-                }
-                else
-                {
-                    await SendNewUserToServer();
+                    ReportLabelText = AppResources.UserIDAlreadyExists;
+                    return;
                 }
             }
-            // If registration info is invalid, prompt the user to fix it up.
-            else
+            catch (Exception e)
             {
-                var errorMessage = AppResources.InvalidRegistration;
-                if (regTest is ErrorResult errorResult)
-                {
-                    errorMessage = errorResult.Message;
-                }
-                PromptUser(errorMessage);
+                ReportLabelText = e.Message;
+                return;
             }
-        }
 
-        private async Task SendNewUserToServer()
-        {
-
-            var httpResponse = await RTAClient.RegisterNewUser(_registration);
-            var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
-            ReportLabelText = httpValidation.errorMessage;
-            if (httpValidation.isValid)
-            {
-                _registration.registrationStatus = RegistrationStatus.Registered;
-                UpdateLocalRegistrationInfo();
-                     
-                // if the response seemed successful, put it in more common terms for the user.
-                if (ReportLabelText.Contains("Success"))
-                {
-                    ReportLabelText = AppResources.AccountCreationSuccessResponseText;
-                }
-                // Now we're registered, we can't change our UID - we can only update the other fields.
-                ShowUpdateAccountButton = true;
-                CanEditUid = false;
-                Title = AppResources.EditYourAccountTitle;
-                PopupLabelText = AppResources.EditAccountPopupText;
-                // pop back to the QuestionDetailsPage after the account is created
-                var Navigation = Application.Current.MainPage.Navigation;
-                Navigation.RemovePage(Navigation.NavigationStack[Navigation.NavigationStack.Count - 2]);
-                await Navigation.PopAsync();
-            }
+            ReportLabelText = "";
+            NavigateToFindMPsPage();
         }
 
         // TODO: This may put the app into a problematic state in which the server thinks
@@ -496,7 +585,7 @@ namespace RightToAskClient.ViewModels
             }
             catch (Exception e)
             {
-                Debug.WriteLine("Error storing Registration: "+e.Message); 
+                Debug.WriteLine("Error storing Registration: " + e.Message);
             }
         }
 
@@ -510,7 +599,7 @@ namespace RightToAskClient.ViewModels
             {
                 return;
             }
-            
+
             // Check whether the state has been updated (in the FindMPs page).
             // If it has, update the display on this page and add the new state
             // to _registrationUpdates.
@@ -520,6 +609,7 @@ namespace RightToAskClient.ViewModels
                 SelectedStateAsIndex = (int)_registration.SelectedStateAsEnum;
                 OnPropertyChanged(State);
             }
+
             // Update the electorate-updates that will be sent to the server,
             // based on what was updated by the MP-finding page, if it is actually changed.
             // This will update both _registrationUpdates and _registration.
@@ -527,14 +617,15 @@ namespace RightToAskClient.ViewModels
             {
                 Electorates = _registration.Electorates;
             }
-            
+
             // if display name, state, electorates, or badges were changed, send the update
             if (_registrationUpdates.display_name != null
                 || _registrationUpdates.state != null
                 || _registrationUpdates.electorates != null
                 || _registrationUpdates.badges != null)
             {
-                hasChanges = true;
+                if(!_displayOldName.Equals(_registration.display_name))
+                    hasChanges = true;
             }
 
             // displays an alert if no changes were found on the user's account via the _registrationUpdates object
@@ -549,32 +640,39 @@ namespace RightToAskClient.ViewModels
                 if (httpValidation.isValid)
                 {
                     // if the response seemed successful, put it in more common terms for the user.
-                    if (ReportLabelText.Contains("Success"))
-                    {
-                        ReportLabelText = AppResources.AccountUpdateSuccessResponseText;
-                    }
+                    // if (ReportLabelText.Contains("Success"))
+                    // {
+                    ReportLabelText = AppResources.AccountUpdateSuccessResponseText;
+                    _displayOldName = _registration.display_name;
+                    // }
                     UpdateLocalRegistrationInfo();
+                    SaveRegistrationToPreferences(_registration);
+                    IsUpdateErrorShown = false;
+                    IsUpdateSuccessShown = true;
                 }
                 else
                 {
                     // IsRegistered flags in both Readingcontext and Preferences default to false.
                     Debug.WriteLine("HttpValidationError: " + httpValidation.errorMessage);
+                    ReportLabelText = AppResources.UpdateAccountWithServerErrorText;
+                    IsUpdateErrorShown = true;
+                    IsUpdateSuccessShown = false;
                 }
             }
             else
             {
-                var popup = new OneButtonPopup(AppResources.NoAccountChangesDetectedAlertText, AppResources.OKText);
-                await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                // var popup = new OneButtonPopup(AppResources.NoAccountChangesDetectedAlertText, AppResources.OKText);
+                // await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                ReportLabelText = AppResources.NoAccountChangesDetectedAlertText;
+                IsUpdateErrorShown = true;
+                IsUpdateSuccessShown = false;
             }
         }
 
         private void UpdateLocalRegistrationInfo()
         {
-            XamarinPreferences.shared.Set(
-                Constants.IsRegistered, 
-                _registration.IsRegistered); 
+            XamarinPreferences.shared.Set(Constants.IsRegistered, _registration.IsRegistered);
         }
-
 
 
         // TODO Add email validation as from
@@ -582,12 +680,12 @@ namespace RightToAskClient.ViewModels
         private async void SelectMPForRegistration()
         {
             var pageToSearchMPs
-                    = new SelectableListPage(_selectableMPList, AppResources.MPSelectionText , false, true, true);
+                = new SelectableListPage(_selectableMPList, AppResources.MPSelectionText, false, true, true);
 
             // The user is first sent to pageToSearchMPs, and then on to pageToRegisterSelectedMP.
             // When done, they're popped all the way back here to the Account Page. 
             await Shell.Current.Navigation.PushAsync(pageToSearchMPs);
-                
+
             ShowRegisterMPReportLabel = true;
 
             // TODO: This isn't quite right because if the registration is unsuccessful it will still show.
@@ -600,11 +698,41 @@ namespace RightToAskClient.ViewModels
             var popup = new OneButtonPopup(message, AppResources.OKText);
             _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
         }
+
         #endregion
 
         public void SetUserEmail(string email)
         {
             // TODO: SetUserEmail
+        }
+
+        public void ValidateUsername()
+        {
+            var (isValid, errMessage) = _registration.ValidateUsername();
+            CheckIfAbleToContinue(null, isValid);
+            ReportLabelText = errMessage;
+        }
+
+        public void ValidateName()
+        {
+            var (isValid, errMessage) = _registration.ValidateName();
+            CheckIfAbleToContinue(isValid, null);
+            NameLabelText = errMessage;
+        }
+
+        private void CheckIfAbleToContinue(bool? nameIsValid, bool? uidIsValid)
+        {
+            if (nameIsValid == null)
+            {
+                (nameIsValid, _) = _registration.ValidateName();
+            }
+
+            if (uidIsValid == null)
+            {
+                (uidIsValid, _) = _registration.ValidateUsername();
+            }
+
+            AbleToContinue = nameIsValid.Value && uidIsValid.Value;
         }
     }
 }

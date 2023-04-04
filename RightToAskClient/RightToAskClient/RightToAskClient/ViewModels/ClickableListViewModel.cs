@@ -61,6 +61,10 @@ namespace RightToAskClient.ViewModels
         // For updating the display when the data from the filters has changed.
         private void SubscribeToTheRightMessages()
         {
+            MessagingCenter.Subscribe<FilterViewModel>(this, Constants.UpdateFilters, (sender) =>
+            {
+                ReInitData();
+            });
             
             MessagingCenter.Subscribe<QuestionViewModel>(this, Constants.UpdateFilters, (sender) =>
             {

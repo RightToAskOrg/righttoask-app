@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using RightToAskClient.Models;
+using RightToAskClient.Views.Controls;
 using Xunit;
 
 namespace UnitTests
@@ -20,6 +21,7 @@ namespace UnitTests
             registration.StateKnown = true;
             return registration;
         }
+
         [Fact]
         public void ConstructorIsRegisteredTest()
         {
@@ -33,9 +35,9 @@ namespace UnitTests
 
             // assert
             Assert.True(validReg);
-            Assert.True(vm.ShowUpdateAccountButton);
+            Assert.True(vm.IsMyAccount);
             Assert.False(vm.CanEditUid);
-            
+
             Assert.False(vm.ShowDMButton);
             Assert.False(vm.ShowSeeQuestionsButton);
             Assert.False(vm.ShowFollowButton);
@@ -57,7 +59,7 @@ namespace UnitTests
             RegistrationViewModel vm = new RegistrationViewModel(registration);
 
             // assert
-            Assert.False(vm.ShowUpdateAccountButton);
+            Assert.False(vm.IsMyAccount);
             Assert.True(vm.CanEditUid);
 
             Assert.False(vm.ShowDMButton);
@@ -81,7 +83,7 @@ namespace UnitTests
             RegistrationViewModel vm = new RegistrationViewModel(registration);
 
             // assert
-            Assert.False(vm.ShowUpdateAccountButton);
+            Assert.False(vm.IsMyAccount);
             Assert.True(vm.CanEditUid);
 
             // usure what we want to do with these variables in the case of them not being registered, as it sets the button text but the buttons are hidden.
@@ -108,7 +110,7 @@ namespace UnitTests
 
             // assert
             Assert.True(validReg);
-            Assert.True(vm.ShowUpdateAccountButton);
+            Assert.True(vm.IsMyAccount);
             Assert.False(vm.CanEditUid);
 
             // These might need to be re-enabled in the viewModel for this case, since it looks like they are setting the button text, but aren't being shown.
@@ -120,6 +122,71 @@ namespace UnitTests
             Assert.False(vm.ShowRegisterOrgButton);
             Assert.True(vm.ShowRegisterMPButton);
             Assert.False(vm.ShowDoneButton);
+        }
+
+        [Theory]
+        [InlineData("valid_uid", "Valid Name", "", "", true)]
+        [InlineData("valid_uid", "", "", "Name must not be empty.", false)]
+        [InlineData("", "Valid Name", "", "", false)]
+        [InlineData("", "", "", "Name must not be empty.", false)]
+        [InlineData("valid_uid", "Invalid Name because it is tooooooooooooooooooooooooooooo long", "",
+            "The maximum character limit is 60.", false)]
+        [InlineData("valid=uid", "Valid Name", "", "", false)]
+        public void ContinueButtonAndReport_ValidateName(
+            string uid,
+            string name,
+            string usernameReport,
+            string nameReport,
+            bool enabled)
+        {
+            // arrange
+            RegistrationViewModel vm = new RegistrationViewModel(createRegistration());
+            vm.UserId = uid;
+            vm.DisplayName = name;
+
+            // act
+            vm.ValidateName();
+
+            // assert
+            Assert.Equal(usernameReport, vm.ReportLabelText);
+            Assert.Equal(nameReport, vm.NameLabelText);
+            Assert.Equal(enabled, vm.AbleToContinue);
+            Assert.Equal(enabled ? Accessibility.AccessibilityTrait.None : Accessibility.AccessibilityTrait.Disabled,
+                vm.ContinueButtonAccessibilityTrait);
+        }
+
+        [Theory]
+        [InlineData("valid_uid", "Valid Name", "", "", true)]
+        [InlineData("valid_uid", "", "", "", false)]
+        [InlineData("", "Valid Name", "Username must not be empty.", "", false)]
+        [InlineData("", "", "Username must not be empty.", "", false)]
+        [InlineData("valid_uid", "Invalid Name because it is tooooooooooooooooooooooooooooo long", "", "", false)]
+        [InlineData("valid=uid", "Valid Name",
+            "Please use only letters (a-z), numbers (0-9), hyphen (-), underscore (_), and dot (.) without spaces.", "",
+            false)]
+        [InlineData("valid_uid-valid_uid-valid_uid-valid_uid-", "Valid Name", "The maximum character limit is 30.", "",
+            false)]
+        public void ContinueButtonAndReport_ValidateUsername(
+            string uid,
+            string name,
+            string usernameReport,
+            string nameReport,
+            bool enabled)
+        {
+            // arrange
+            RegistrationViewModel vm = new RegistrationViewModel(createRegistration());
+            vm.UserId = uid;
+            vm.DisplayName = name;
+
+            // act
+            vm.ValidateUsername();
+
+            // assert
+            Assert.Equal(usernameReport, vm.ReportLabelText);
+            Assert.Equal(nameReport, vm.NameLabelText);
+            Assert.Equal(enabled, vm.AbleToContinue);
+            Assert.Equal(enabled ? Accessibility.AccessibilityTrait.None : Accessibility.AccessibilityTrait.Disabled,
+                vm.ContinueButtonAccessibilityTrait);
         }
     }
 }

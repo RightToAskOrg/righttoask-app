@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Text.RegularExpressions;
 using RightToAskClient.Helpers;
 using RightToAskClient.Models.ServerCommsData;
+using RightToAskClient.Resx;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
 
@@ -14,10 +17,28 @@ namespace RightToAskClient.Models
         Registered,
         NotRegistered
     }
+
+    // bitwise approach
+    [Flags]
+    public enum SharingElectorateInfoOptions
+    {
+        Nothing = 0,
+        StateOrTerritory = 1,
+        FederalElectorate = 2,
+        StateElectorate = 4,
+        FederalElectorateAndState = StateOrTerritory | FederalElectorate,
+        StateElectorateAndState = StateOrTerritory | StateElectorate,
+        All = StateOrTerritory | FederalElectorate | StateElectorate,
+    }
+
     public class Registration : ObservableObject
     {
+        private const int MaxNameChar = 60;
+        private const int MaxUsernameChar = 30;
+
         // By default it's another person. So we need only worry about the current user registration.
         public RegistrationStatus registrationStatus { get; set; } = RegistrationStatus.AnotherPerson;
+
         public bool IsRegistered
         {
             get => registrationStatus == RegistrationStatus.Registered;
@@ -32,15 +53,17 @@ namespace RightToAskClient.Models
         public string uid { get; set; } = "";
 
         private int _selectedStateAsIndex = -1;
-        
+
         private bool _stateKnown;
+
         public bool StateKnown
         {
             get => _stateKnown;
             set => SetProperty(ref _stateKnown, value);
-
         }
+
         private bool _electoratesKnown = false;
+
         public bool ElectoratesKnown
         {
             get => _electoratesKnown;
@@ -61,23 +84,25 @@ namespace RightToAskClient.Models
             get => _selectedStateAsEnum;
             set => SetProperty(ref _selectedStateAsEnum, value);
         }
-        
+
         private List<ElectorateWithChamber> _electorates = new List<ElectorateWithChamber>();
 
         // Whenever electorates are updated (by this and by AddElectorateRemoveDuplicates), we need to tell the 
         // Filters to update the list of 'my MPs'.
-        public List<ElectorateWithChamber> Electorates 
+        public List<ElectorateWithChamber> Electorates
         {
-            get => _electorates; 
-            set 
+            get => _electorates;
+            set
             {
                 SetProperty(ref _electorates, value.ToList());
                 FilterChoices.NeedToUpdateMyMpLists(this);
-            } 
+            }
         }
 
         private MP _MPRegisteredAs = new MP();
-        public MP MPRegisteredAs { 
+
+        public MP MPRegisteredAs
+        {
             get => _MPRegisteredAs;
             set
             {
@@ -88,12 +113,12 @@ namespace RightToAskClient.Models
                 // OnPropertyChanged("RegisteredMP");
             }
         }
-        
+
         public bool IsVerifiedMPAccount { get; set; }
         public bool IsVerifiedMPStafferAccount { get; set; }
 
         private List<Badge> _badges = new List<Badge>();
-        
+
         // For the moment, this indicates (only) whether the person is registered as an MP or staffer.
         public List<Badge> Badges
         {
@@ -103,9 +128,16 @@ namespace RightToAskClient.Models
                 SetProperty(ref _badges, value.ToList());
                 foreach (var badge in _badges)
                 {
-                    
                 }
             }
+        }
+
+        private SharingElectorateInfoOptions? _sharingElectorateInfoOption;
+
+        public SharingElectorateInfoOptions? SharingElectorateInfoOption
+        {
+            get => _sharingElectorateInfoOption;
+            set => SetProperty(ref _sharingElectorateInfoOption, value);
         }
 
         // Necesary for java serialisation & deserlialisation.
@@ -128,7 +160,7 @@ namespace RightToAskClient.Models
                 StateKnown = false;
                 SelectedStateAsEnum = default;
             }
-            
+
             uid = input.uid ?? "";
             _electorates = input.electorates ?? new List<ElectorateWithChamber>();
             _badges = input.badges ?? new List<Badge>();
@@ -150,7 +182,8 @@ namespace RightToAskClient.Models
             FilterChoices.NeedToUpdateMyMpLists(this);
         }
 
-        private void Electorates_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void Electorates_CollectionChanged(object sender,
+            System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             throw new NotImplementedException();
         }
@@ -183,6 +216,7 @@ namespace RightToAskClient.Models
             {
                 return Validate();
             }
+
             // if they are not registered, they could still have MPs known if they are in the process of creating their first question
             // before  they have the chance to create an account
             if (ElectoratesKnown)
@@ -202,7 +236,7 @@ namespace RightToAskClient.Models
                 if (Electorates.Any())
                 {
                     var hasInvalidElectorate = false;
-                    foreach(var e in Electorates)
+                    foreach (var e in Electorates)
                     {
                         var validElectorate = e.Validate();
                         if (!validElectorate)
@@ -210,6 +244,7 @@ namespace RightToAskClient.Models
                             hasInvalidElectorate = true;
                         }
                     }
+
                     if (hasInvalidElectorate)
                     {
                         isValid = false;
@@ -224,7 +259,49 @@ namespace RightToAskClient.Models
                     isValid = true;
                 }
             }
+
             return isValid;
+        }
+
+        public (bool isValid, string validationErrMessage) ValidateName()
+        {
+            var isValid = true;
+            var validationErrMessage = "";
+            if (string.IsNullOrEmpty(display_name))
+            {
+                isValid = false;
+                validationErrMessage = String.Format(AppResources.EmptyFieldMessage, "Name");
+            }
+            else if (display_name.Length > MaxNameChar)
+            {
+                isValid = false;
+                validationErrMessage = String.Format(AppResources.MaxCharDisplayNameMessage, MaxNameChar);
+            }
+
+            return (isValid, validationErrMessage);
+        }
+
+        public (bool isValid, string validationErrMessage) ValidateUsername()
+        {
+            var isValid = true;
+            var validationErrMessage = "";
+            if (string.IsNullOrEmpty(uid))
+            {
+                isValid = false;
+                validationErrMessage = String.Format(AppResources.EmptyFieldMessage, "Username");
+            }
+            else if (uid.Length > MaxUsernameChar)
+            {
+                isValid = false;
+                validationErrMessage = String.Format(AppResources.MaxCharDisplayNameMessage, MaxUsernameChar);
+            }
+            else if (!Regex.IsMatch(uid, "^[A-Za-z0-9-._]*$"))
+            {
+                isValid = false;
+                validationErrMessage = String.Format(AppResources.UsernameRegexMessage, MaxUsernameChar);
+            }
+
+            return (isValid, validationErrMessage);
         }
 
         // Note that this will *not* update if the person doesn't select anything.

@@ -44,7 +44,7 @@ namespace RightToAskClient.Views.Popups
             okButton.Text = buttonText;
             EmuImage.IsVisible = isInfoPopup;
             if(isInfoPopup)
-                EmuAndButtonLayout.SetAppThemeColor(BackgroundColorProperty, Color.White, (Color) Application.Current.Resources["PopupDarkModeBgColor"]);
+                EmuAndButtonLayout.SetAppThemeColor(BackgroundColorProperty, Color.White, (Color) Application.Current.Resources["BackgroundDarkGray"]);
         }
     }
 }

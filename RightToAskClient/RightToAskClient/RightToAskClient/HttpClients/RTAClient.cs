@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -110,7 +111,7 @@ namespace RightToAskClient.HttpClients
 
         public static async Task<JOSResult<string>> RegisterNewUser(Registration newReg)
         {
-            var newUserForServer = new ServerUser(newReg);
+            var newUserForServer = new ServerUser(newReg, true);
             return await SendDataToServerVerifySignedResponse(newUserForServer, "user", RegUrl);
         }
 
@@ -371,5 +372,21 @@ namespace RightToAskClient.HttpClients
             // ServerConfigValidInit = true;
             return (key, url);
         }
+        
+        
+        // For the case of not expecting data.
+        public static async Task<bool> CheckUserIdExists(string userId)
+        {
+            var userListResponse = await SearchUser(userId);
+            
+            if (userListResponse.Failure)
+            {
+                throw new Exception("Something went wrong");
+            }
+
+            return !userListResponse.Data.IsNullOrEmpty() && 
+                   userListResponse.Data.Any(user => user.uid.ToLower().Equals(userId.ToLower()));
+        }
+
     }
 }

@@ -87,6 +87,18 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string HasNotMadeSelection {
+            get {
+                return ResourceManager.GetString("HasNotMadeSelection", resourceCulture);
+            }
+        }
+        
+        internal static string NoSelections {
+            get {
+                return ResourceManager.GetString("NoSelections", resourceCulture);
+            }
+        }
+        
         internal static string AnswerQuestionHeaderText {
             get {
                 return ResourceManager.GetString("AnswerQuestionHeaderText", resourceCulture);
@@ -126,6 +138,12 @@ namespace RightToAskClient.Resx {
         internal static string BackgroundHeaderText {
             get {
                 return ResourceManager.GetString("BackgroundHeaderText", resourceCulture);
+            }
+        }
+        
+        internal static string YouAskTitle {
+            get {
+                return ResourceManager.GetString("YouAskTitle", resourceCulture);
             }
         }
         
@@ -207,6 +225,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string NamePrivacyNote {
+            get {
+                return ResourceManager.GetString("NamePrivacyNote", resourceCulture);
+            }
+        }
+        
         internal static string DMButtonText {
             get {
                 return ResourceManager.GetString("DMButtonText", resourceCulture);
@@ -258,6 +282,24 @@ namespace RightToAskClient.Resx {
         internal static string ElectoratesHeaderText {
             get {
                 return ResourceManager.GetString("ElectoratesHeaderText", resourceCulture);
+            }
+        }
+        
+        internal static string ElectoratesInfoHeaderText {
+            get {
+                return ResourceManager.GetString("ElectoratesInfoHeaderText", resourceCulture);
+            }
+        }
+        
+        internal static string EditElectoratesButtonHint {
+            get {
+                return ResourceManager.GetString("EditElectoratesButtonHint", resourceCulture);
+            }
+        }
+        
+        internal static string EditElectoratesButtonDescription {
+            get {
+                return ResourceManager.GetString("EditElectoratesButtonDescription", resourceCulture);
             }
         }
         
@@ -369,18 +411,6 @@ namespace RightToAskClient.Resx {
             }
         }
         
-        internal static string InAppHeaderText {
-            get {
-                return ResourceManager.GetString("InAppHeaderText", resourceCulture);
-            }
-        }
-        
-        internal static string InAppExplText {
-            get {
-                return ResourceManager.GetString("InAppExplText", resourceCulture);
-            }
-        }
-        
         internal static string InParliamentHeaderText {
             get {
                 return ResourceManager.GetString("InParliamentHeaderText", resourceCulture);
@@ -426,6 +456,12 @@ namespace RightToAskClient.Resx {
         internal static string KeywordEntryPlaceholderText {
             get {
                 return ResourceManager.GetString("KeywordEntryPlaceholderText", resourceCulture);
+            }
+        }
+        
+        internal static string HansardLinksTitle {
+            get {
+                return ResourceManager.GetString("HansardLinksTitle", resourceCulture);
             }
         }
         
@@ -777,6 +813,48 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string SendVerificationPINHint {
+            get {
+                return ResourceManager.GetString("SendVerificationPINHint", resourceCulture);
+            }
+        }
+        
+        internal static string Verify {
+            get {
+                return ResourceManager.GetString("Verify", resourceCulture);
+            }
+        }
+        
+        internal static string VerifyHint {
+            get {
+                return ResourceManager.GetString("VerifyHint", resourceCulture);
+            }
+        }
+        
+        internal static string VerificationCodeSent {
+            get {
+                return ResourceManager.GetString("VerificationCodeSent", resourceCulture);
+            }
+        }
+        
+        internal static string VerifyError {
+            get {
+                return ResourceManager.GetString("VerifyError", resourceCulture);
+            }
+        }
+        
+        internal static string VerifySuccess {
+            get {
+                return ResourceManager.GetString("VerifySuccess", resourceCulture);
+            }
+        }
+        
+        internal static string EmailNotKnown {
+            get {
+                return ResourceManager.GetString("EmailNotKnown", resourceCulture);
+            }
+        }
+        
         internal static string ServerConfigErrorRecommendation {
             get {
                 return ResourceManager.GetString("ServerConfigErrorRecommendation", resourceCulture);
@@ -897,6 +975,18 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string SuccessfullyUpdatedAccountTitle {
+            get {
+                return ResourceManager.GetString("SuccessfullyUpdatedAccountTitle", resourceCulture);
+            }
+        }
+        
+        internal static string FailedUpdatedAccountTitle {
+            get {
+                return ResourceManager.GetString("FailedUpdatedAccountTitle", resourceCulture);
+            }
+        }
+        
         internal static string TapToEditText {
             get {
                 return ResourceManager.GetString("TapToEditText", resourceCulture);
@@ -942,6 +1032,12 @@ namespace RightToAskClient.Resx {
         internal static string UpdateAccountButtonText {
             get {
                 return ResourceManager.GetString("UpdateAccountButtonText", resourceCulture);
+            }
+        }
+        
+        internal static string UpdateAccountButtonHint {
+            get {
+                return ResourceManager.GetString("UpdateAccountButtonHint", resourceCulture);
             }
         }
         
@@ -1023,6 +1119,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string UsernamePrivacyNote {
+            get {
+                return ResourceManager.GetString("UsernamePrivacyNote", resourceCulture);
+            }
+        }
+        
         internal static string UserProfileTitle {
             get {
                 return ResourceManager.GetString("UserProfileTitle", resourceCulture);
@@ -1062,6 +1164,12 @@ namespace RightToAskClient.Resx {
         internal static string EditQuestionButtonText {
             get {
                 return ResourceManager.GetString("EditQuestionButtonText", resourceCulture);
+            }
+        }
+        
+        internal static string EditQuestionButtonHint {
+            get {
+                return ResourceManager.GetString("EditQuestionButtonHint", resourceCulture);
             }
         }
         
@@ -1485,6 +1593,54 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string AnswerByMp {
+            get {
+                return ResourceManager.GetString("AnswerByMp", resourceCulture);
+            }
+        }
+        
+        internal static string AnswerByMpDescription {
+            get {
+                return ResourceManager.GetString("AnswerByMpDescription", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceInParliament {
+            get {
+                return ResourceManager.GetString("VoiceInParliament", resourceCulture);
+            }
+        }
+        
+        internal static string VoiceInParliamentDescription {
+            get {
+                return ResourceManager.GetString("VoiceInParliamentDescription", resourceCulture);
+            }
+        }
+        
+        internal static string DontKnowOption {
+            get {
+                return ResourceManager.GetString("DontKnowOption", resourceCulture);
+            }
+        }
+        
+        internal static string DontKnowOptionDescription {
+            get {
+                return ResourceManager.GetString("DontKnowOptionDescription", resourceCulture);
+            }
+        }
+        
+        internal static string MyMp {
+            get {
+                return ResourceManager.GetString("MyMp", resourceCulture);
+            }
+        }
+        
+        internal static string PublicAuthority {
+            get {
+                return ResourceManager.GetString("PublicAuthority", resourceCulture);
+            }
+        }
+        
         internal static string OtherUserProfilePopupText {
             get {
                 return ResourceManager.GetString("OtherUserProfilePopupText", resourceCulture);
@@ -1533,6 +1689,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string UpdateAccountWithServerErrorText {
+            get {
+                return ResourceManager.GetString("UpdateAccountWithServerErrorText", resourceCulture);
+            }
+        }
+        
         internal static string NoAccountChangesDetectedTitle {
             get {
                 return ResourceManager.GetString("NoAccountChangesDetectedTitle", resourceCulture);
@@ -1569,9 +1731,15 @@ namespace RightToAskClient.Resx {
             }
         }
         
-        internal static string GoButtonText {
+        internal static string FilterButtonText {
             get {
-                return ResourceManager.GetString("GoButtonText", resourceCulture);
+                return ResourceManager.GetString("FilterButtonText", resourceCulture);
+            }
+        }
+        
+        internal static string ResetButtonText {
+            get {
+                return ResourceManager.GetString("ResetButtonText", resourceCulture);
             }
         }
         
@@ -1959,6 +2127,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string LinkHttpErrorText {
+            get {
+                return ResourceManager.GetString("LinkHttpErrorText", resourceCulture);
+            }
+        }
+        
         internal static string LinkPlaceholderText {
             get {
                 return ResourceManager.GetString("LinkPlaceholderText", resourceCulture);
@@ -2121,6 +2295,18 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string RegisterMPButtonHint {
+            get {
+                return ResourceManager.GetString("RegisterMPButtonHint", resourceCulture);
+            }
+        }
+        
+        internal static string SignUpButtonHint {
+            get {
+                return ResourceManager.GetString("SignUpButtonHint", resourceCulture);
+            }
+        }
+        
         internal static string SignUpTitleText {
             get {
                 return ResourceManager.GetString("SignUpTitleText", resourceCulture);
@@ -2133,39 +2319,243 @@ namespace RightToAskClient.Resx {
             }
         }
         
-        internal static string TermAndConditionPlainText {
+        internal static string UserIDAlreadyExists {
             get {
-                return ResourceManager.GetString("TermAndConditionPlainText", resourceCulture);
+                return ResourceManager.GetString("UserIDAlreadyExists", resourceCulture);
             }
         }
         
-        internal static string TermAndConditionPlainText2 {
+        internal static string Continue {
             get {
-                return ResourceManager.GetString("TermAndConditionPlainText2", resourceCulture);
+                return ResourceManager.GetString("Continue", resourceCulture);
             }
         }
         
-        internal static string PrivacyPolicy {
+        internal static string SaveAndFinish {
             get {
-                return ResourceManager.GetString("PrivacyPolicy", resourceCulture);
+                return ResourceManager.GetString("SaveAndFinish", resourceCulture);
             }
         }
         
-        internal static string and {
+        internal static string SaveAndFinishHint {
             get {
-                return ResourceManager.GetString("and", resourceCulture);
+                return ResourceManager.GetString("SaveAndFinishHint", resourceCulture);
             }
         }
         
-        internal static string TermAndCondition {
+        internal static string SharingElectorateInfoHeaderText {
             get {
-                return ResourceManager.GetString("TermAndCondition", resourceCulture);
+                return ResourceManager.GetString("SharingElectorateInfoHeaderText", resourceCulture);
+            }
+        }
+        
+        internal static string SharingElectorateInfoParagraph {
+            get {
+                return ResourceManager.GetString("SharingElectorateInfoParagraph", resourceCulture);
+            }
+        }
+        
+        internal static string PublicLabel {
+            get {
+                return ResourceManager.GetString("PublicLabel", resourceCulture);
+            }
+        }
+        
+        internal static string PrivateLabel {
+            get {
+                return ResourceManager.GetString("PrivateLabel", resourceCulture);
+            }
+        }
+        
+        internal static string EmptyNameMessage {
+            get {
+                return ResourceManager.GetString("EmptyNameMessage", resourceCulture);
+            }
+        }
+        
+        internal static string NoneSelected {
+            get {
+                return ResourceManager.GetString("NoneSelected", resourceCulture);
+            }
+        }
+        
+        internal static string SharingElectorateInfoPickerTitle {
+            get {
+                return ResourceManager.GetString("SharingElectorateInfoPickerTitle", resourceCulture);
             }
         }
         
         internal static string AgreeAndContinueButton {
             get {
                 return ResourceManager.GetString("AgreeAndContinueButton", resourceCulture);
+            }
+        }
+        
+        internal static string FederalElectorate {
+            get {
+                return ResourceManager.GetString("FederalElectorate", resourceCulture);
+            }
+        }
+        
+        internal static string StateTitle {
+            get {
+                return ResourceManager.GetString("StateTitle", resourceCulture);
+            }
+        }
+        
+        internal static string TerritoryTitle {
+            get {
+                return ResourceManager.GetString("TerritoryTitle", resourceCulture);
+            }
+        }
+        
+        internal static string StateOrTerritoryTitle {
+            get {
+                return ResourceManager.GetString("StateOrTerritoryTitle", resourceCulture);
+            }
+        }
+        
+        internal static string StateOrTerritoryElectorateTitle {
+            get {
+                return ResourceManager.GetString("StateOrTerritoryElectorateTitle", resourceCulture);
+            }
+        }
+        
+        internal static string Nothing {
+            get {
+                return ResourceManager.GetString("Nothing", resourceCulture);
+            }
+        }
+        
+        internal static string TerritoryElectorate {
+            get {
+                return ResourceManager.GetString("TerritoryElectorate", resourceCulture);
+            }
+        }
+        
+        internal static string StateElectorate {
+            get {
+                return ResourceManager.GetString("StateElectorate", resourceCulture);
+            }
+        }
+        
+        internal static string FedElectorateTerritory {
+            get {
+                return ResourceManager.GetString("FedElectorateTerritory", resourceCulture);
+            }
+        }
+        
+        internal static string FedElectorateState {
+            get {
+                return ResourceManager.GetString("FedElectorateState", resourceCulture);
+            }
+        }
+        
+        internal static string TerElectorateTerritory {
+            get {
+                return ResourceManager.GetString("TerElectorateTerritory", resourceCulture);
+            }
+        }
+        
+        internal static string StateElectorateState {
+            get {
+                return ResourceManager.GetString("StateElectorateState", resourceCulture);
+            }
+        }
+        
+        internal static string AllElectorateTerritory {
+            get {
+                return ResourceManager.GetString("AllElectorateTerritory", resourceCulture);
+            }
+        }
+        
+        internal static string AllElectorateState {
+            get {
+                return ResourceManager.GetString("AllElectorateState", resourceCulture);
+            }
+        }
+        
+        internal static string TermsAndConditionsMarkdown {
+            get {
+                return ResourceManager.GetString("TermsAndConditionsMarkdown", resourceCulture);
+            }
+        }
+        
+        internal static string TermsAndConditionsHelpTextAndroid {
+            get {
+                return ResourceManager.GetString("TermsAndConditionsHelpTextAndroid", resourceCulture);
+            }
+        }
+        
+        internal static string TermsAndConditionsHelpTextIOS {
+            get {
+                return ResourceManager.GetString("TermsAndConditionsHelpTextIOS", resourceCulture);
+            }
+        }
+        
+        internal static string LegislativeCouncilText {
+            get {
+                return ResourceManager.GetString("LegislativeCouncilText", resourceCulture);
+            }
+        }
+        
+        internal static string FindMyElectorateTitle {
+            get {
+                return ResourceManager.GetString("FindMyElectorateTitle", resourceCulture);
+            }
+        }
+        
+        internal static string FindMyElectorateContentPartOne {
+            get {
+                return ResourceManager.GetString("FindMyElectorateContentPartOne", resourceCulture);
+            }
+        }
+        
+        internal static string FindMyElectorateContentPartTwo {
+            get {
+                return ResourceManager.GetString("FindMyElectorateContentPartTwo", resourceCulture);
+            }
+        }
+        
+        internal static string MapPlaceholderText {
+            get {
+                return ResourceManager.GetString("MapPlaceholderText", resourceCulture);
+            }
+        }
+        
+        internal static string ContinueButtonHint {
+            get {
+                return ResourceManager.GetString("ContinueButtonHint", resourceCulture);
+            }
+        }
+        
+        internal static string ContinueButtonDescription {
+            get {
+                return ResourceManager.GetString("ContinueButtonDescription", resourceCulture);
+            }
+        }
+        
+        internal static string EmptyFieldMessage {
+            get {
+                return ResourceManager.GetString("EmptyFieldMessage", resourceCulture);
+            }
+        }
+        
+        internal static string MaxCharDisplayNameMessage {
+            get {
+                return ResourceManager.GetString("MaxCharDisplayNameMessage", resourceCulture);
+            }
+        }
+        
+        internal static string UsernameRegexMessage {
+            get {
+                return ResourceManager.GetString("UsernameRegexMessage", resourceCulture);
+            }
+        }
+        
+        internal static string AccountTitle {
+            get {
+                return ResourceManager.GetString("AccountTitle", resourceCulture);
             }
         }
     }

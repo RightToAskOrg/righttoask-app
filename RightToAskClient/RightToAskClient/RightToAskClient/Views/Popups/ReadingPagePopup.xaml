@@ -12,7 +12,6 @@
 
     <!-- <Frame CornerRadius="10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
            BackgroundColor="Transparent"> -->
-    <ScrollView>
         <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
                      Padding="40"
                      BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}">
@@ -26,6 +25,5 @@
                 </Grid>
             </StackLayout>
         </StackLayout>
-    </ScrollView>
     <!-- </Frame> -->
 </xct:Popup>

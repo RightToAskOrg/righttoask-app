@@ -1,5 +1,4 @@
-﻿using RightToAskClient.ViewModels;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace RightToAskClient.Views
@@ -10,11 +9,6 @@ namespace RightToAskClient.Views
         public UserAccountInfoView()
         {
             InitializeComponent();
-
-            var caneditUID = (BindingContext as RegistrationViewModel)?.CanEditUid ?? false;
-            UIDEntry.Style = caneditUID
-                ? Application.Current.Resources["NormalEntry"] as Style
-                : Application.Current.Resources["DisabledEntry"] as Style;
         }
     }
 }

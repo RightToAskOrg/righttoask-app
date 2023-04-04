@@ -3,86 +3,153 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             xmlns:local="clr-namespace:RightToAskClient"
              xmlns:vm="clr-namespace:RightToAskClient.ViewModels;assembly=RightToAskClient"
+             xmlns:views="clr-namespace:RightToAskClient.Views;assembly=RightToAskClient"
              xmlns:helpers="clr-namespace:RightToAskClient.Helpers;assembly=RightToAskClient"
              x:Class="RightToAskClient.Views.FindMPsPage"
-             Title="Find your MPs"
              x:DataType="vm:FindMPsViewModel">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="{xct:Translate HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
-                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.home4.png}"/>
-        <ToolbarItem Text="{xct:Translate InfoPopupButtonText}" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
-                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}"/>
-    </ContentPage.ToolbarItems>
     <ContentPage.BindingContext>
-        <vm:FindMPsViewModel/>
+        <vm:FindMPsViewModel />
     </ContentPage.BindingContext>
-        <ContentPage.Content>
-	    <ScrollView Margin="0" Padding="0">
+    <ContentPage.Content>
+        <ScrollView Margin="0" Padding="0">
             <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" Spacing="0">
                 <!--<ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"/>-->
                 <!--Label Choice Option Frames-->
-                <Label Text="{xct:Translate MPsHeaderText1}" Style="{StaticResource Header1}" HorizontalTextAlignment="Center" Margin="0,10,0,0"/>
-                <BoxView />
-                <Grid ColumnDefinitions="*,*,*" Margin="0,10,0,0">
-                    <Button Grid.Column="0" Text="{xct:Translate ElectoratesKnownHeaderText}" Style="{StaticResource GreenButton}" Command="{Binding KnowElectoratesCommand}" HorizontalOptions="End"/>
-                    <Label Grid.Column="1" Text="Or" WidthRequest="25" FontSize="Large"
-					       HorizontalOptions="Center" VerticalOptions="Center" />
-                    <Button Grid.Column="2" Text="Look Up" Style="{StaticResource GreenButton}" Command="{Binding LookupElectoratesCommand}" HorizontalOptions="Start"/>
-                </Grid>
-                <!--Map Display-->
-                <Frame Margin="0" Padding="0" IsVisible="{Binding ShowMapFrame}" WidthRequest="150">
-                    <StackLayout Margin="0" Padding="0">
-                        <!--Webview has default padding in its underlying html that is proving difficult to remove-->
-                        <WebView Source="{Binding MapURL}" WidthRequest="300" HeightRequest="250" Margin="0"/>
+                <Label Text="{xct:Translate FindMyElectorateTitle}" Margin="16,16,16,0" FontAttributes="Bold"
+                       FontSize="Large" />
+                <Label Text="{xct:Translate FindMyElectorateContentPartOne}" Margin="16,8,16,0" LineHeight="1.5"
+                       FontSize="Medium" />
+                <Label Text="{xct:Translate FindMyElectorateContentPartTwo}" Margin="16,8,16,0" LineHeight="1.5"
+                       FontSize="Medium" />
+                <FlexLayout
+                    Direction="Row" JustifyContent="Center" AlignItems="Center" Margin="16,20,16,0">
+                    <StackLayout Orientation="Vertical">
+                        <Button x:Name="SelectEleButton" Clicked="SelectEleButton_OnClicked" Text="Select electorates"
+                                TextColor="{StaticResource ButtonColor}" Command="{Binding KnowElectoratesCommand}"
+                                HorizontalOptions="End" Style="{StaticResource TabButton}" SizeChanged="SelectEleButton_OnSizeChanged"/>
+                        <BoxView x:Name="SelectEleButtonUnderLine" VerticalOptions="End" HeightRequest="2"/>
                     </StackLayout>
-                </Frame>
-                <!--Known Electorates Section-->
-                <Frame Style="{StaticResource SubtleFrame}" IsVisible="{Binding ShowKnowElectoratesFrame}">
-                    <Grid ColumnDefinitions="*,*" Margin="10" RowSpacing="10">
-                        <!--State Selector/Picker-->
-                            <Label Grid.Row="0" Grid.Column="0" Text="{xct:Translate ChooseStateOrTerritory}" HorizontalOptions="Start" HorizontalTextAlignment="Start" VerticalOptions="Center" Style="{StaticResource PaleButtonText}" />
-                            <Picker  Grid.Row="0" Grid.Column="1" Title="{Binding StatePickerTitle}" ItemsSource="{Binding StatePicker}" 
-					            Style="{StaticResource CenterFramePicker}" HorizontalOptions="FillAndExpand" SelectedIndex="{Binding SelectedStateAsInt}" />
-                        <Label Grid.Row="1" Grid.Column="0" Text="{xct:Translate FederalElectoratePickerTitle}" HorizontalTextAlignment="Start" VerticalOptions="Center" Style="{StaticResource PaleButtonText}" />
-                            <Picker Grid.Row="1" Grid.Column="1" Margin="0" Style="{StaticResource CenterFramePicker}" IsVisible="{Binding ShowStateOnly, Converter={StaticResource Key=cnvInvert}}" Title="{Binding FederalElectoratePickerTitle}" ItemsSource="{Binding FederalElectorates}"
-                                SelectedIndex="{Binding SelectedFederalElectorate}" MinimumWidthRequest="200" HorizontalOptions="Fill" HorizontalTextAlignment="Start" />
-                        <!-- Everywhere but Tasmania, the electorate you choose is your Legislative Assembly Electorate. In Tas, it's your Legislative Council Electorate.
-                                Along with your House of Representatives electorate, this is enough to infer all your other electorates. -->
-                            <Label Grid.Row="2" Grid.Column="0" Text="{Binding StateChoosableElectorateHeader}" HorizontalTextAlignment="Start" Style="{StaticResource PaleButtonText}"/>
-                            <Picker Grid.Row="2" Grid.Column="1" Margin="0" Style="{StaticResource CenterFramePicker}" HorizontalOptions="Fill" ItemsSource="{Binding AllStateChoosableElectorates}" 
-                                    Title="{Binding StateChoosableElectorate}" SelectedIndex="{Binding SelectedStateElectorateIndex}" />
-                        <Label  Grid.Row="3" Grid.Column="0" Text="{Binding StateInferredElectorateHeader}" Style="{StaticResource PaleButtonText}" HorizontalTextAlignment="Start" />
-                        <Label  Grid.Row="3" Grid.Column="1" Text="{Binding StateInferredElectorate}" Style="{StaticResource PaleButtonText}" HorizontalTextAlignment="Start" />
-                    </Grid>
-                </Frame>
-                <!--Address Lookup Stack-->
-                <Frame Style="{StaticResource SubtleFrame}" IsVisible="{Binding ShowAddressStack}">
-                    <StackLayout Margin="2" Spacing="0">
-                        <!--State Selector/Picker-->
-                        <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Margin="0" Padding="0">
-                            <Label Text="{xct:Translate ChooseStateOrTerritory}" HorizontalTextAlignment="Start" VerticalOptions="Center" Style="{StaticResource PaleButtonText}" />
-                            <Picker Title="{Binding StatePickerTitle}" ItemsSource="{Binding StatePicker}" 
-					        Style="{StaticResource CenterFramePicker}" SelectedIndex="{Binding SelectedStateAsInt}" />
+                    <BoxView WidthRequest="25" BackgroundColor="Transparent" HeightRequest="0"/>
+                    <StackLayout Orientation="Vertical">
+                        <Button x:Name="TypeAddButton" Clicked="TypeAddButton_OnClicked" Text="Enter an address" 
+                                TextColor="{StaticResource MediumDarkShadeOfGray}" Command="{Binding LookupElectoratesCommand}"
+                                HorizontalOptions="End"  Style="{StaticResource TabButton}" SizeChanged="SelectEleButton_OnSizeChanged"/>
+                        <BoxView x:Name="TypeAddButtonUnderLine" VerticalOptions="End" HeightRequest="2" Color="Transparent"/>
+                    </StackLayout>
+                </FlexLayout>
+                <!--Map Display-->
+                <StackLayout x:Name="MapView" Margin="0" Padding="0, 1" WidthRequest="150" 
+                             BackgroundColor="{AppThemeBinding Light={StaticResource FadedButtonColor}, Dark={StaticResource SeparatorDarkModeColor}}">
+                    <Grid Margin="0" Padding="0" >
+                        <!--Webview has default padding in its underlying html that is proving difficult to remove-->
+                        <WebView BackgroundColor="Transparent" Source="{Binding MapURL}" WidthRequest="300" HeightRequest="250" Margin="0" />
+                        <StackLayout IsVisible="{Binding ShowMapFrame, Converter={StaticResource Key=cnvInvert}}"  
+                                     HorizontalOptions="FillAndExpand"
+                                     VerticalOptions="FillAndExpand" 
+                                     BackgroundColor="{StaticResource EditorBackground}">
+                            <StackLayout VerticalOptions="CenterAndExpand">
+                                <Image HeightRequest="30"
+                                       Source="{helpers:ImageResource RightToAskClient.Images.map.png}"
+                                       Style="{StaticResource ListErrorIcon}" 
+                                       Margin="0,0,0,10"/>
+                                <Label Text="{xct:Translate MapPlaceholderText}" FontSize="Small"
+                                       FontAttributes="Bold" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center"
+                                       TextColor="Black" VerticalTextAlignment="Center"
+                                       Margin="16,0" />
+                            </StackLayout>
                         </StackLayout>
-                        <StackLayout Margin="0" Padding="0" Spacing="0">
-                            <Label Text="{xct:Translate StreetHeaderText}" Style="{StaticResource LeftFrameText}" Margin="0" Padding="0"/>
-                            <Entry Placeholder="{xct:Translate StreetHeaderText}" Text="{Binding Address.StreetNumberAndName}" Style="{StaticResource LeftFrameEntry}" Margin="0"/>
-                            <Label Text="{xct:Translate CitySuburbHeaderText}" Style="{StaticResource LeftFrameText}" Margin="0" Padding="0"/>
-                            <Entry Placeholder="{xct:Translate CitySuburbHeaderText}" Text="{Binding Address.CityOrSuburb}" Style="{StaticResource LeftFrameEntry}"/>
-                            <Label Text="{xct:Translate PostcodeHeaderText}" Style="{StaticResource LeftFrameText}" Margin="0" Padding="0"/>
-                            <Grid ColumnDefinitions="*,*">
-                                <Entry Grid.Column="0" Placeholder="{xct:Translate PostcodeHeaderText}" Text="{Binding Address.Postcode}" Style="{StaticResource LeftFrameEntry}"/>
-                                <Button Grid.Column="1" Text="{xct:Translate LocateButtonText}" Style="{StaticResource GreenButton}" Command="{Binding SubmitAddressButtonCommand}"/>
+                    </Grid>
+                </StackLayout>
+                <!--Known Electorates Section-->
+                <StackLayout Style="{StaticResource SubtleFrame}" BackgroundColor="{AppThemeBinding Light=White, Dark=Black}"
+                             IsVisible="{Binding ShowKnowElectoratesFrame}">
+                    <StackLayout  Margin="10" >
+                        <!--State Selector/Picker-->
+                        <views:LabeledPicker BindingContext="{Binding StatePickerModel}" />
+
+                        <Label Text="{xct:Translate FederalElectorate}" FontSize="Medium"
+                               FontAttributes="Bold" HorizontalOptions="Start" HorizontalTextAlignment="Start"
+                               TextColor="{AppThemeBinding Light=Black, Dark=White}" VerticalTextAlignment="Center"
+                               Margin="0, 5"/>
+                        <views:LabeledPicker BindingContext="{Binding FederalPickerModel}" />
+                        
+                        <Label Text="{xct:Translate StateElectorate}" FontSize="Medium"
+                               FontAttributes="Bold" HorizontalOptions="Start" HorizontalTextAlignment="Start"
+                               TextColor="{AppThemeBinding Light=Black, Dark=White}" VerticalTextAlignment="Center"
+                               Margin="0,5"/>
+                        <views:LabeledPicker BindingContext="{Binding StateElectoratePickerModel}" />
+                        
+                        <StackLayout>
+                            <Label Text="{Binding StateInferredElectorateHeader}"
+                                   Style="{StaticResource SmallGreyHeader}"/>
+                            <Grid Margin="0,0,0,8">
+                                <BoxView Style="{StaticResource ButtonSeparator}" VerticalOptions="End" />
+                                <Label Text="{Binding StateInferredElectorate}" Padding="8,8,0,6"
+                                       Style="{StaticResource TransparentBgPicker}" HorizontalOptions="FillAndExpand"
+                                       VerticalOptions="Center" />
                             </Grid>
                         </StackLayout>
+                        
                     </StackLayout>
-                </Frame>
+                </StackLayout>
+                <!--Address Lookup Stack-->
+                <StackLayout IsVisible="{Binding ShowAddressStack}">
+                    <StackLayout Margin="10" Spacing="0">
+                        <!--State Selector/Picker-->
+                        <views:LabeledPicker BindingContext="{Binding StatePickerModel}" />
+                        <StackLayout>
+                            <Label Text="{xct:Translate StreetHeaderText}"
+                                   Style="{StaticResource SmallGreyHeader}" />
+                            <Grid Margin="0,0,0,8">
+                                <BoxView Style="{StaticResource ButtonSeparator}" VerticalOptions="End" />
+                                <Entry Placeholder="{xct:Translate StreetHeaderText}"
+                                       Text="{Binding Address.StreetNumberAndName}"
+                                       Style="{StaticResource LeftFrameEntry}"
+                                       PlaceholderColor="{AppThemeBinding Light=Black, Dark=White}"
+                                       TextColor="{AppThemeBinding Light=Black, Dark=White}"
+                                       Margin="0" />
+                            </Grid>
+                        </StackLayout>
+                        <StackLayout>
+                            <Label Text="{xct:Translate CitySuburbHeaderText}"
+                                   Style="{StaticResource SmallGreyHeader}"/>
+                            <Grid Margin="0,0,0,8">
+                                <BoxView Style="{StaticResource ButtonSeparator}" VerticalOptions="End" />
+                                <Entry Placeholder="{xct:Translate CitySuburbHeaderText}"
+                                       Text="{Binding Address.CityOrSuburb}" Style="{StaticResource LeftFrameEntry}"
+                                       PlaceholderColor="{AppThemeBinding Light=Black, Dark=White}"
+                                       TextColor="{AppThemeBinding Light=Black, Dark=White}"
+                                       Margin="0" />
+                            </Grid>
+                        </StackLayout>
+                        
+                        <StackLayout>
+                            <Label Text="{xct:Translate PostcodeHeaderText}"
+                                   Style="{StaticResource SmallGreyHeader}"/>
+                            <Grid Margin="0,0,0,8">
+                                <BoxView Style="{StaticResource ButtonSeparator}" VerticalOptions="End" />
+                                <Entry Placeholder="{xct:Translate PostcodeHeaderText}"
+                                       Text="{Binding Address.Postcode}" Style="{StaticResource LeftFrameEntry}"
+                                       PlaceholderColor="{AppThemeBinding Light=Black, Dark=White}"
+                                       TextColor="{AppThemeBinding Light=Black, Dark=White}"
+                                       Margin="0" />
+                            </Grid>
+                        </StackLayout>
+                        <Button Margin="8, 12"
+                            Text="{xct:Translate LocateButtonText}" 
+                            Style="{StaticResource OutlineButton}"
+                            Command="{Binding SubmitAddressButtonCommand}" />
+                    </StackLayout>
+                </StackLayout>
+                <BoxView Style="{StaticResource ButtonSeparator}"/>
                 <!--Done Button-->
-                <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
-                    <Button Style="{StaticResource GreenButton}" Text="{xct:Translate SkipStepButton}" Command="{Binding SkipButtonCommand}" IsVisible="{Binding ShowSkipButton}"/>
-                    <Button HorizontalOptions="End" Style="{StaticResource DoneButton}" Text="{xct:Translate SaveButtonText}" Command="{Binding SaveMPsButtonCommand}" IsVisible="{Binding ShowFindMPsButton}" />
+                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Margin="16">
+                    <Button Style="{StaticResource NormalButton}"
+                            x:Name="DoneButton"
+                            Text="{xct:Translate SaveButtonText}"
+                            Command="{Binding SaveMPsButtonCommand}"
+                            IsEnabled="{Binding EnableFindMPsButton}" />
                 </StackLayout>
             </StackLayout>
         </ScrollView>

@@ -90,6 +90,7 @@
     <None Remove="Images\school_house.png" />
     <None Remove="Images\search.png" />
     <None Remove="Images\search_75.png" />
+    <None Remove="Images\Search_Gray.png" />
     <None Remove="Images\SettingsGear.png" />
     <None Remove="Images\settings_gear.png" />
     <None Remove="Images\share_48.png" />
@@ -172,6 +173,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Remove="CustomControls\**" />
+    <Compile Update="Views\LabeledPicker.xaml.cs">
+      <DependentUpon>LabeledPicker.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Remove="Helpers\StringConverters.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Views\SecondPage_old.xaml" />
@@ -191,6 +197,10 @@
     <EmbeddedResource Include="Images\check_box_48.png" />
     <EmbeddedResource Include="Images\clipboard.png" />
     <EmbeddedResource Include="Images\close.png" />
+    <EmbeddedResource Include="Images\close_button.png" />
+    <EmbeddedResource Include="Images\close_button_dark_48.png" />
+    <EmbeddedResource Include="Images\error_48.png" />
+    <EmbeddedResource Include="Images\success_48.png" />
     <EmbeddedResource Include="Images\closed_book.png" />
     <EmbeddedResource Include="Images\collapse.png" />
     <EmbeddedResource Include="Images\collapse_48.png" />
@@ -202,6 +212,7 @@
     <EmbeddedResource Include="Images\edit_note_48.png" />
     <EmbeddedResource Include="Images\emu_75.png" />
     <EmbeddedResource Include="Images\emu_tall.PNG" />
+    <EmbeddedResource Include="Images\error.png" />
     <EmbeddedResource Include="Images\expand.png" />
     <EmbeddedResource Include="Images\expand_48.png" />
     <EmbeddedResource Include="Images\expand_96.png" />
@@ -232,6 +243,7 @@
     <EmbeddedResource Include="Images\school_house.png" />
     <EmbeddedResource Include="Images\search.png" />
     <EmbeddedResource Include="Images\search_75.png" />
+    <EmbeddedResource Include="Images\Search_Gray.png" />
     <EmbeddedResource Include="Images\sentiment_very_dissatisfied.png" />
     <EmbeddedResource Include="Images\settings_gear.png" />
     <EmbeddedResource Include="Images\share_48.png" />
@@ -254,6 +266,9 @@
     <EmbeddedResource Include="Images\flags_dark.png" />
     <EmbeddedResource Include="Images\flags_filled_light.png" />
     <EmbeddedResource Include="Images\flags_filled_dark.png" />
+    <EmbeddedResource Include="Images\map.png" />
+    <EmbeddedResource Include="Images\account_edit.png" />
+    <EmbeddedResource Include="Images\arrow_forward.png" />
     <EmbeddedResource Include="Resources\Fonts\DancingScript-VariableFont_wght.ttf" />
     <EmbeddedResource Include="Resources\Fonts\Roboto-Black.ttf" />
     <EmbeddedResource Include="Resources\VicLegislativeAssemblymembers.csv" />
@@ -332,9 +347,6 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\HowToPublishView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\MetadataPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\OtherUserProfilePage.xaml">
