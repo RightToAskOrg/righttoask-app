@@ -159,11 +159,24 @@ namespace RightToAskClient.HttpClients
             return await SignAndSendDataToServerVerifySignedResponse(newQuestion, AppResources.QuestionErrorTypeDescription, QnUrl,"Error publishing New Question", uid);
         }
 
-        public static async Task<JOSResult<string>> UpdateExistingQuestion(QuestionSendToServer existingQuestion, string uid)
+        public static async Task<JOSResult<string>> UpdateExistingQuestion_Old(QuestionSendToServer existingQuestion, string uid)
         {
             return await SignAndSendDataToServerVerifySignedResponse(existingQuestion, AppResources.QuestionErrorTypeDescription, EditQnUrl, "Error editing question", uid);
         }
         
+        /* Returns the version number if OK */
+        public static async Task<JOSResult<string>> UpdateExistingQuestion(QuestionSendToServer existingQuestion, string uid)
+        {
+            var signedUserMessage = ClientSignatureGenerationService.SignMessage(existingQuestion, uid);
+            if (string.IsNullOrEmpty(signedUserMessage.signature))
+            {
+                Debug.WriteLine(AppResources.QuestionEditErrorText);
+                return new ErrorResult<string>(AppResources.QuestionEditErrorText);    
+            }
+
+            return await SendDataToServerVerifySignedResponse(signedUserMessage, AppResources.QuestionErrorTypeDescription, EditQnUrl);
+        }
+
         public static async Task<JOSResult> SendPlaintextUpvote(PlainTextVoteOnQuestionCommand voteOnQuestion, string uid)
         {
             return await SignAndSendDataToServerExpectNoResponse(voteOnQuestion, AppResources.QuestionErrorTypeDescription, PlaintextVoteQnUrl, "Error voting on question", uid);

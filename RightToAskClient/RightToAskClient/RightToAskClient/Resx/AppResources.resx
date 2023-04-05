@@ -686,6 +686,9 @@
   <data name="EditQuestionButtonHint" xml:space="preserve">
     <value>Updates my question</value>
   </data>
+  <data name="QuestionEditErrorText" xml:space="preserve">
+    <value>Error updating question.</value>
+  </data>
   <data name="QuestionEditSuccessfulPopupText" xml:space="preserve">
     <value>Question was updated successfully.</value>
   </data>
