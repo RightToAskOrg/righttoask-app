@@ -161,7 +161,8 @@ namespace RightToAskClient.HttpClients
 
         public static async Task<JOSResult<string>> UpdateExistingQuestion_Old(QuestionSendToServer existingQuestion, string uid)
         {
-            return await SignAndSendDataToServerVerifySignedResponse(existingQuestion, AppResources.QuestionErrorTypeDescription, EditQnUrl, "Error editing question", uid);
+            return await SignAndSendDataToServerVerifySignedResponse(existingQuestion,
+                AppResources.QuestionErrorTypeDescription, EditQnUrl, "Error editing question", uid);
         }
         
         /* Returns the version number if OK */
@@ -174,7 +175,21 @@ namespace RightToAskClient.HttpClients
                 return new ErrorResult<string>(AppResources.QuestionEditErrorText);    
             }
 
-            return await SendDataToServerVerifySignedResponse(signedUserMessage, AppResources.QuestionErrorTypeDescription, EditQnUrl);
+            var serverResponse = await Client.PostGenericItemAsync<SignedString,ClientSignedUnparsed>(signedUserMessage, EditQnUrl);
+            if (serverResponse.Failure)
+            {
+                var error = serverResponse as ErrorResult<SignedString>;
+                return new ErrorResult<string>(error?.Message ?? "Error sending data to server at " + EditQnUrl);
+            }
+
+            // serverResponse.Success. We got a valid server response - now verify the signature.
+            if (!SignatureVerificationService.VerifySignature(serverResponse.Data, ServerPublicKey)) //  
+            {
+                Debug.WriteLine(@"\t Error registering new " + AppResources.QuestionErrorTypeDescription + ": Signature verification failed");
+                return new ErrorResult<string>("Server signature verification failed");
+            }
+
+            return new SuccessResult<string>(serverResponse.Data.message);
         }
 
         public static async Task<JOSResult> SendPlaintextUpvote(PlainTextVoteOnQuestionCommand voteOnQuestion, string uid)
@@ -260,6 +275,7 @@ namespace RightToAskClient.HttpClients
             return new SuccessResult<string>(serverResponse.Data.message);
         }
 
+        // TODO This isn't necessary.
         private static async Task<JOSResult<TReturn>> SendDataToServerReturnResponse<TUpload,TReturn>(
             TUpload newThing,
             string typeDescription,
