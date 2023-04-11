@@ -984,7 +984,7 @@
     <value>Draft discarded.</value>
   </data>
   <data name="EditQuestionErrorText" xml:space="preserve">
-    <value>Error editing question: {0}</value>
+    <value>Error editing question</value>
   </data>
   <data name="ElectoratesAlreadySelectedText" xml:space="preserve">
     <value>You have already selected your electorates - you can change them if you like</value>

@@ -297,6 +297,7 @@ namespace RightToAskClient.HttpClients
         // errors from question-upload errors.
         // This may also be much more elegantly implementable using other errors in the JOSResult type, rather than
         // the triple now being returned.
+        // TODO Pretty sure this isn't helping and we should just return the JOSResult.
         public static (bool isValid, string errorMessage, T returnedData) ValidateHttpResponse<T>(JOSResult<T> response, string messageTopic) where T : new()
         {
             if (response.Success)

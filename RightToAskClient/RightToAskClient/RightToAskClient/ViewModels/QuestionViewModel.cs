@@ -97,6 +97,8 @@ namespace RightToAskClient.ViewModels
             get => _newHansardLink;
             set
             {
+                //TODO** Now make it enable the 'update' button if there's something valid. Also consider putting the
+                //Reportlabel right under the url box. Is this the only use now?
                 var urlResult = ParliamentaryURICreator.StringToValidParliamentaryUrl(value);
                 if (urlResult.Success)
                 {
@@ -109,7 +111,7 @@ namespace RightToAskClient.ViewModels
                     var errorMessage = AppResources.InvalidHansardLink;
                     if (urlResult is ErrorResult<Uri> errorResult)
                     {
-                        errorMessage += errorResult.Message;
+                        errorMessage += ". " +errorResult.Message;
                     }
                     ReportLabelText = errorMessage; 
                     OnPropertyChanged("ReportLabelText");
@@ -752,10 +754,10 @@ namespace RightToAskClient.ViewModels
             
             if (!successfulSubmission.isValid)
             {
-                var message = string.Format(AppResources.EditQuestionErrorText, successfulSubmission.errorMessage);
-                var popup2 = new OneButtonPopup(message, AppResources.OKText);
+                var message = successfulSubmission.errorMessage ?? "";
+                var popup2 = new OneButtonPopup(AppResources.EditQuestionErrorText, message, AppResources.OKText);
                 _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup2);
-                ReportLabelText = "Error editing question: " + successfulSubmission.errorMessage;
+                // ReportLabelText = "Error editing question: " + successfulSubmission.errorMessage;
                 return;
             }
             
@@ -796,7 +798,7 @@ namespace RightToAskClient.ViewModels
             var httpResponse = await RTAClient.UpdateExistingQuestion(
                 serverQuestionUpdates,
                 IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid);
-            return RTAClient.ValidateHttpResponse(httpResponse, "Question Edit");
+            return RTAClient.ValidateHttpResponse(httpResponse, "");
         }
     }
 }
