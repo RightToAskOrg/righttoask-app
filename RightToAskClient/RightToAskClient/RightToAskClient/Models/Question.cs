@@ -7,6 +7,7 @@ using System.Linq;
 using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Resx;
 using RightToAskClient.Views.Popups;
+using Xamarin.CommunityToolkit.Converters;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -46,6 +47,7 @@ namespace RightToAskClient.Models
             who_should_ask_the_question_permissions = RTAPermissions.NoChange,
             who_should_answer_the_question_permissions = RTAPermissions.NoChange
         };
+
 
         public void ReinitQuestionUpdates()
         {
@@ -194,12 +196,12 @@ namespace RightToAskClient.Models
             
             // question-defining fields
             QuestionSuggester = serverQuestion.author ?? "";
-            QuestionText = serverQuestion.question_text ?? "";
+            _questionText = serverQuestion.question_text ?? "";
             Timestamp =  serverQuestion.timestamp ?? 0;
             
             // bookkeeping fields
-            QuestionId = serverQuestion.question_id ?? "";
-            Version = serverQuestion.version ?? "";
+            _questionId = serverQuestion.question_id ?? "";
+            _version = serverQuestion.version ?? "";
             
             LastModified = serverQuestion.last_modified ?? 0;
             
@@ -208,7 +210,9 @@ namespace RightToAskClient.Models
             NetVotes = serverQuestion.net_votes ?? 0;
             
             // question non-defining fields
-            Background = serverQuestion.background ?? "";
+            // Note this needs to set the private field (_background), not the public one,
+            // because the latter updates the Updates, which is not what we want at this point.
+            _background = serverQuestion.background ?? "";
 
             // Check whether the user has already responded to this question.
             AlreadyUpvoted = questionResponses.IsAlreadyUpvoted(QuestionId);
@@ -217,10 +221,12 @@ namespace RightToAskClient.Models
             
             interpretFilters(serverQuestion);
 
-            WhoShouldAnswerTheQuestionPermissions = serverQuestion.who_should_answer_the_question_permissions;
-            WhoShouldAskTheQuestionPermissions = serverQuestion.who_should_ask_the_question_permissions;
+            _whoShouldAnswerTheQuestionPermissions = serverQuestion.who_should_answer_the_question_permissions;
+            _whoShouldAskTheQuestionPermissions = serverQuestion.who_should_ask_the_question_permissions;
 
+            // Again, needs to be private _answers so that updates aren't set.
             _answers = serverQuestion.answers ?.Select(ans => new Answer(ans)).ToList() ?? new List<Answer>();
+            
             AnswerAccepted = serverQuestion.answer_accepted ?? false;
             HansardLink = new List<Uri>();
             if (serverQuestion.hansard_link != null)
@@ -342,7 +348,7 @@ namespace RightToAskClient.Models
         {
             if (Updates.hansard_link is null)
             {
-            Updates.hansard_link = new List<HansardLink>{new HansardLink(newHansardLink.OriginalString)};
+                Updates.hansard_link = new List<HansardLink>{new HansardLink(newHansardLink.OriginalString)};
             }
             // People may add multiple Hansard links at once.
             else
@@ -388,7 +394,7 @@ namespace RightToAskClient.Models
 
         public bool ValidateUpdateQuestion()
         {
-            return !string.IsNullOrEmpty(QuestionText) && !string.IsNullOrEmpty(QuestionId) &&
+            return !string.IsNullOrEmpty(QuestionId) &&
                            !string.IsNullOrEmpty(Version);
             // needs more fields to update an existing question
         }

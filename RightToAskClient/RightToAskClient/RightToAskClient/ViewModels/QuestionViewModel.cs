@@ -133,6 +133,16 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _isNewQuestion, value);
         }
 
+        // Whether this user has updated this question. Used to 
+        // determine whether the 'update' button is enabled.
+        public bool HasUpdates => 
+            // Note that the updates at this stage includes the existing background.
+            (!string.IsNullOrEmpty(Question.Updates.background) && Question.Updates.background != Question.Background)
+            || Question.Updates.who_should_answer_the_question_permissions != RTAPermissions.NoChange
+            || Question.Updates.who_should_ask_the_question_permissions != RTAPermissions.NoChange
+            || (Question.Updates.hansard_link != null &&  Question.Updates.hansard_link.Any())
+            || (Question.Updates.answers != null && Question.Updates.answers.Any());
+        
         private HowAnsweredOptions _howAnswered = HowAnsweredOptions.DontKnow; 
 
         public HowAnsweredOptions HowAnswered
@@ -183,6 +193,7 @@ namespace RightToAskClient.ViewModels
             {
                 _question.WhoShouldAnswerTheQuestionPermissions = value ? RTAPermissions.Others : RTAPermissions.WriterOnly; 
                 OnPropertyChanged();
+                // OnPropertyChanged("HasUpdates");
             } 
             
         }
@@ -194,6 +205,7 @@ namespace RightToAskClient.ViewModels
             {
                 _question.WhoShouldAskTheQuestionPermissions = value ? RTAPermissions.Others : RTAPermissions.WriterOnly; 
                 OnPropertyChanged();
+                // OnPropertyChanged("HasUpdates");
             }
         }
         
@@ -624,7 +636,6 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        // TODO Consider permissions for question editing.
         private async void EditQuestionButton_OnClicked()
         {
             try
@@ -641,7 +652,6 @@ namespace RightToAskClient.ViewModels
                 // TODO: (unit-tests) is it ok to say "not registered" if we aren't able to check it
                 IndividualParticipant.getInstance().ProfileData.RegistrationInfo.registrationStatus = RegistrationStatus.NotRegistered;
             }
-            //await NavigationUtils.DoRegistrationCheck(AppResources.CancelButtonText);
 
             if (IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
             {
@@ -653,7 +663,6 @@ namespace RightToAskClient.ViewModels
             }
             else
             {
-                // TODO: invent a string for this
                 ReportLabelText = AppResources.InvalidRegistration;
             }
 
@@ -762,6 +771,7 @@ namespace RightToAskClient.ViewModels
             }
             
             // Success - reinitialize question state and make sure we've got the most up to date version.
+            // TODO**: Instead of reinit, refresh from server.
             Question.ReinitQuestionUpdates();
             
             // FIXME at the moment, the version isn't been correctly updated.

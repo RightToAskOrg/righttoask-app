@@ -58,12 +58,15 @@ namespace RightToAskClient.Models.ServerCommsData
         public bool? answer_accepted { get; set; }
         
         [JsonPropertyName("hansard_link")]
-        public List<HansardLink> hansard_link { get; set; } 
+        public List<HansardLink>? hansard_link { get; set; } 
         
         [JsonPropertyName("is_followup_to")]
-        public string? is_followup_to { get; set; } 
-        
-        public QuestionSendToServer () {}
+        public string? is_followup_to { get; set; }
+
+        public QuestionSendToServer()
+        {
+            is_followup_to = "test";
+        }
         
         /* This is only ever used for sending *new* questions to the server, so this constructor ignores elements of
          * question that are not sent during initial upload.

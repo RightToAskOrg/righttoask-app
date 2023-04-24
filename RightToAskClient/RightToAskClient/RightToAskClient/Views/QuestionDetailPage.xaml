@@ -196,6 +196,7 @@
 				    <Button Text="{xct:Translate EditQuestionButtonText}" 
 				            Style="{StaticResource NormalButton}"
 				            Command="{Binding EditAnswerCommand}" 
+				            IsEnabled="{Binding HasUpdates}"
 							IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}"
 							xct:SemanticEffect.Hint="{xct:Translate EditQuestionButtonHint}"
 				            xct:SemanticEffect.Description="{xct:Translate EditQuestionButtonText}"/>
