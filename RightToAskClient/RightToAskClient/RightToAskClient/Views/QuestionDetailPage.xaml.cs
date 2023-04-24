@@ -43,6 +43,12 @@ namespace RightToAskClient.Views
     {
         private QuestionViewModel vm;
 
+        // For use in the detail view of the new question the user is about to post.
+        public QuestionDetailPage() : this(QuestionViewModel.Instance)
+        {
+        }
+        
+        // Detail view of any question, including those downloaded from the server.
         public QuestionDetailPage(QuestionViewModel questionVM)
         {
             InitializeComponent();
