@@ -181,8 +181,8 @@ namespace RightToAskClient.ViewModels
         // determine whether the 'update' button is enabled.
         public bool HasUpdates =>
             // !string.IsNullOrEmpty(Updates.background) || 
-            Updates.who_should_answer_the_question_permissions != RTAPermissions.NoChange
-            || Updates.who_should_ask_the_question_permissions != RTAPermissions.NoChange
+            _question.WhoShouldAnswerTheQuestionPermissions !=  _initialWhoCanAnswerPermissions
+            || _question.WhoShouldAskTheQuestionPermissions != _initialWhoCanAskPermissions 
             || (Updates.hansard_link != null && Updates.hansard_link.Any())
             || (Updates.answers != null && Updates.answers.Any());
 
@@ -228,6 +228,7 @@ namespace RightToAskClient.ViewModels
                        (!string.IsNullOrEmpty(thisUser) && !string.IsNullOrEmpty(questionWriter) && thisUser == questionWriter) && _question.Background.IsNullOrEmpty();
             }
         }
+        
 
         public bool OthersCanAddQuestionAnswerers
         {
@@ -235,7 +236,7 @@ namespace RightToAskClient.ViewModels
             set
             {
                 _question.WhoShouldAnswerTheQuestionPermissions = value ? RTAPermissions.Others : RTAPermissions.WriterOnly;
-                Updates.who_should_answer_the_question_permissions = _question.WhoShouldAnswerTheQuestionPermissions;
+                // Updates.who_should_answer_the_question_permissions = _question.WhoShouldAnswerTheQuestionPermissions;
                 OnPropertyChanged();
                 OnPropertyChanged("HasUpdates");
             } 
@@ -248,7 +249,7 @@ namespace RightToAskClient.ViewModels
             set
             {
                 _question.WhoShouldAskTheQuestionPermissions = value ? RTAPermissions.Others : RTAPermissions.WriterOnly;
-                Updates.who_should_ask_the_question_permissions = _question.WhoShouldAskTheQuestionPermissions;
+                // Updates.who_should_ask_the_question_permissions = _question.WhoShouldAskTheQuestionPermissions;
                 OnPropertyChanged();
                 OnPropertyChanged("HasUpdates");
             }
@@ -309,6 +310,10 @@ namespace RightToAskClient.ViewModels
             OnPropertyChanged("MPButtonsEnabled"); // called by the UpdatableParliamentAndMPData class to update this variable in real time
         }
 
+        // Used for keeping track of whether permissions need to be updated when editing own question.
+        protected RTAPermissions _initialWhoCanAnswerPermissions=RTAPermissions.NoChange;
+
+        protected RTAPermissions _initialWhoCanAskPermissions=RTAPermissions.NoChange;
         // constructor
         // Set up empty question
         // Used when we're generating our own question for upload.
@@ -843,12 +848,26 @@ namespace RightToAskClient.ViewModels
             Updates.question_id = Question.QuestionId;
             Updates.version = Question.Version;
 
+            Updates.who_should_answer_the_question_permissions =
+                doPermissionUpdate(Question.WhoShouldAnswerTheQuestionPermissions, _initialWhoCanAnswerPermissions);
+            Updates.who_should_ask_the_question_permissions =
+                doPermissionUpdate(Question.WhoShouldAskTheQuestionPermissions, _initialWhoCanAskPermissions);
+            
             var httpResponse = await RTAClient.UpdateExistingQuestion(
                 Updates,
                 IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid);
             return RTAClient.ValidateHttpResponse(httpResponse, "");
         }
 
+        private RTAPermissions doPermissionUpdate(RTAPermissions current, RTAPermissions prior)
+        {
+            if (current == prior)
+            {
+                return RTAPermissions.NoChange;
+            }
+
+            return current;
+        }
         public void ReinitQuestionUpdates()
         {
             Updates = new QuestionSendToServer()

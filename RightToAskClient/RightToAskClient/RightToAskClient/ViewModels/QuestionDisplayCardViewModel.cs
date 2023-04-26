@@ -15,6 +15,11 @@ namespace RightToAskClient.ViewModels
         {
             ResponseRecords = questionResponses;
             Question = new Question(question, questionResponses);
+            
+            // Keep track of changes to question asking/answering permission.
+            _initialWhoCanAskPermissions = question.who_should_ask_the_question_permissions;
+            _initialWhoCanAnswerPermissions = question.who_should_answer_the_question_permissions;
+            
             QuestionDetailsCommand = new AsyncCommand(async () =>
             {
                 var questionDetailPage = new QuestionDetailPage(this);
