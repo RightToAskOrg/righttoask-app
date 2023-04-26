@@ -20,6 +20,9 @@ namespace RightToAskClient.ViewModels
             _initialWhoCanAskPermissions = question.who_should_ask_the_question_permissions;
             _initialWhoCanAnswerPermissions = question.who_should_answer_the_question_permissions;
             
+            // Keep track of other Updates/changes
+            Updates = new QuestionUpdates(Question.QuestionId, Question.Version);
+            
             QuestionDetailsCommand = new AsyncCommand(async () =>
             {
                 var questionDetailPage = new QuestionDetailPage(this);

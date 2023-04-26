@@ -55,10 +55,6 @@ namespace RightToAskClient.Views
             vm = questionVM;
             BindingContext = questionVM;
             
-            // Reset the updates to blank/zero so that edits can be captured.
-            // FIXME Suspect this is no longer needed.
-            questionVM.ReinitQuestionUpdates();
-            
             questionVM.PopupLabelText = AppResources.QuestionDetailPopupText;
             
             var normalEditorStyle = Application.Current.Resources["NormalEditor"] as Style;

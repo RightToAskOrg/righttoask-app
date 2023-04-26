@@ -95,6 +95,35 @@ namespace RightToAskClient.Models.ServerCommsData
             }
         }
         
+        
+        /* This is only ever used for sending *new* questions to the server, so this constructor ignores elements of
+         * question that are not sent during initial upload.
+         */
+        public QuestionSendToServer(QuestionUpdates questionUpdates)
+        {
+            question_id = questionUpdates.QuestionID;
+            version = questionUpdates.Version;
+            
+            who_should_answer_the_question_permissions = questionUpdates.WhoShouldAnswerPermissions;
+            who_should_ask_the_question_permissions = questionUpdates.WhoShouldAskPermissions;
+
+            if (questionUpdates.NewAnswers.Any())
+            {
+                answers = questionUpdates.NewAnswers;
+            }
+
+            if (questionUpdates.NewHansardLinks.Any())
+            {
+                hansard_link = questionUpdates.NewHansardLinks;
+            }
+                    
+            if (!string.IsNullOrEmpty(questionUpdates.NewBackground))
+            {
+                background = questionUpdates.NewBackground;
+            }
+        }
+        
+
         public bool ValidateNewQuestion()
         {
             var isValid = false;

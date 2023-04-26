@@ -44,7 +44,7 @@ namespace RightToAskClient.ViewModels
                 if (string.IsNullOrWhiteSpace(value)) return;
 
                 SetProperty(ref _newAnswer, value);
-                Updates.answers = new List<QuestionAnswer>()
+                Updates.NewAnswers = new List<QuestionAnswer>()
                 {
                     new QuestionAnswer()
                     {
@@ -126,15 +126,9 @@ namespace RightToAskClient.ViewModels
                     SetProperty(ref _newHansardLink, value);
                     Question.AddHansardLink(urlResult.Data);
 
-                    if (Updates.hansard_link is null)
-                    {
-                        Updates.hansard_link = new List<HansardLink> { new HansardLink(urlResult.Data.OriginalString) };
-                    }
-                    // People may add multiple Hansard links at once.
-                    else
-                    {
-                        Updates.hansard_link.Add(new HansardLink(urlResult.Data.OriginalString));
-                    }
+                    Updates.NewHansardLinks.Add(new HansardLink(urlResult.Data.OriginalString));
+                        
+                    ReportLabelText = "";
                     OnPropertyChanged("HansardLink");
                     OnPropertyChanged("HasUpdates");
                 }
@@ -147,8 +141,8 @@ namespace RightToAskClient.ViewModels
                     }
 
                     ReportLabelText = errorMessage;
-                    OnPropertyChanged("ReportLabelText");
                 }
+                OnPropertyChanged("ReportLabelText");
             }
         }
 
@@ -168,23 +162,13 @@ namespace RightToAskClient.ViewModels
         }
 
         // Lists the updates that have occurred since construction.
-        // TODO It might actually be more elegant to make this a Question than a QuestionSendToServer
-        public QuestionSendToServer Updates { get; private set; } = new QuestionSendToServer()
-        {
-            // Most updates are simply omitted when not changed, but the Permissions enum needs to send a specific
-            // "no change" value. 
-            who_should_ask_the_question_permissions = RTAPermissions.NoChange,
-            who_should_answer_the_question_permissions = RTAPermissions.NoChange
-        };
+        public QuestionUpdates Updates { get; protected set; } = new QuestionUpdates();
         
         // Whether this user has updated this question. Used to 
         // determine whether the 'update' button is enabled.
-        public bool HasUpdates =>
-            // !string.IsNullOrEmpty(Updates.background) || 
-            _question.WhoShouldAnswerTheQuestionPermissions !=  _initialWhoCanAnswerPermissions
-            || _question.WhoShouldAskTheQuestionPermissions != _initialWhoCanAskPermissions 
-            || (Updates.hansard_link != null && Updates.hansard_link.Any())
-            || (Updates.answers != null && Updates.answers.Any());
+        public bool HasUpdates => Updates.AnyUpdates
+            || Question.WhoShouldAnswerTheQuestionPermissions != _initialWhoCanAnswerPermissions
+            || Question.WhoShouldAskTheQuestionPermissions != _initialWhoCanAskPermissions; 
 
     private HowAnsweredOptions _howAnswered = HowAnsweredOptions.DontKnow; 
 
@@ -816,8 +800,9 @@ namespace RightToAskClient.ViewModels
             }
             
             // Success - reinitialize question state and make sure we've got the most up to date version.
-            // TODO**: Instead of reinit, refresh from server.
-            ReinitQuestionUpdates();
+            // TODO**: Instead of reinit, refresh from server. This might be ok.
+            Question.Version = successfulSubmission.returnedData;
+            Updates = new QuestionUpdates(Question.QuestionId, Question.Version);
             
             // FIXME at the moment, the version isn't been correctly updated.
             // TODO: Here, we'll need to ensure we've got the right version (from the server - get it returned from
@@ -844,13 +829,9 @@ namespace RightToAskClient.ViewModels
 
         private async Task<(bool isValid, string errorMessage, string returnedData)> BuildSignAndUploadQuestionUpdates()
         {
-            // needs these two fields in the message payload for updates, but not for new questions.
-            Updates.question_id = Question.QuestionId;
-            Updates.version = Question.Version;
-
-            Updates.who_should_answer_the_question_permissions =
+            Updates.WhoShouldAnswerPermissions =
                 doPermissionUpdate(Question.WhoShouldAnswerTheQuestionPermissions, _initialWhoCanAnswerPermissions);
-            Updates.who_should_ask_the_question_permissions =
+            Updates.WhoShouldAskPermissions =
                 doPermissionUpdate(Question.WhoShouldAskTheQuestionPermissions, _initialWhoCanAskPermissions);
             
             var httpResponse = await RTAClient.UpdateExistingQuestion(
@@ -867,15 +848,6 @@ namespace RightToAskClient.ViewModels
             }
 
             return current;
-        }
-        public void ReinitQuestionUpdates()
-        {
-            Updates = new QuestionSendToServer()
-            {
-                // Init explicit 'no change' value for permissions.
-                who_should_answer_the_question_permissions = RTAPermissions.NoChange,
-                who_should_ask_the_question_permissions = RTAPermissions.NoChange
-            };
         }
     }
 }

@@ -166,9 +166,10 @@ namespace RightToAskClient.HttpClients
         }
         
         /* Returns the version number if OK */
-        public static async Task<JOSResult<string>> UpdateExistingQuestion(QuestionSendToServer existingQuestion, string uid)
+        public static async Task<JOSResult<string>> UpdateExistingQuestion(QuestionUpdates updates, string uid)
         {
-            var signedUserMessage = ClientSignatureGenerationService.SignMessage(existingQuestion, uid);
+            var updatesForServer = new QuestionSendToServer(updates);
+            var signedUserMessage = ClientSignatureGenerationService.SignMessage(updatesForServer, uid);
             if (string.IsNullOrEmpty(signedUserMessage.signature))
             {
                 Debug.WriteLine(AppResources.QuestionEditErrorText);
@@ -185,7 +186,7 @@ namespace RightToAskClient.HttpClients
             // serverResponse.Success. We got a valid server response - now verify the signature.
             if (!SignatureVerificationService.VerifySignature(serverResponse.Data, ServerPublicKey)) //  
             {
-                Debug.WriteLine(@"\t Error registering new " + AppResources.QuestionErrorTypeDescription + ": Signature verification failed");
+                Debug.WriteLine(@"\t Error updating question" + AppResources.QuestionErrorTypeDescription + ": Signature verification failed");
                 return new ErrorResult<string>("Server signature verification failed");
             }
 
