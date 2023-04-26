@@ -78,13 +78,16 @@ namespace RightToAskClient.Views
                 QuestionTextEditor.Style = disabledEditorStyle;
             }
 
-            // You can add background to your own question.
             var backgroundBlank = string.IsNullOrWhiteSpace(questionVM.Question.Background);
-            var backgroundPermission = questionVM.CanEditBackground;
-            BackgroundEditor.Style = backgroundPermission && backgroundBlank ? normalEditorStyle : disabledEditorStyle;
+            BackgroundEditor.Style = questionVM.IsNewQuestion ? normalEditorStyle : disabledEditorStyle;
             // Don't bother displaying it if it has no content and you can't edit it.
-            BackgroundEditor.IsVisible = backgroundPermission || !backgroundBlank;
-            BackgroundLabel.IsVisible = BackgroundEditor.IsVisible;
+            BackgroundEditor.IsVisible = questionVM.IsNewQuestion || !backgroundBlank;
+            
+            // You can add background to your own question.
+            AddBackgroundLaterEditor.IsVisible = !questionVM.IsNewQuestion && questionVM.CanEditBackground;
+            
+            BackgroundLabel.IsVisible = BackgroundEditor.IsVisible || AddBackgroundLaterEditor.IsVisible;
+            
 
             if (questionVM.IsNewQuestion)
             {

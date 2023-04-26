@@ -56,7 +56,6 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        // FIXME This is being set when the QuestionDetailPage is first generated.
         public string Background
         {
             get => Question.Background;
@@ -64,6 +63,20 @@ namespace RightToAskClient.ViewModels
             {
                 Question.Background = value;
                 OnPropertyChanged();
+            }
+        }
+
+        // For adding background to a question you have already published.
+        private string _newBackground = "";
+
+        public string NewBackground
+        {
+            get => _newBackground;
+            set
+            {
+                Updates.NewBackground = value;
+                SetProperty(ref _newBackground, value);
+                OnPropertyChanged("HasUpdates");
             }
         }
 
@@ -118,8 +131,6 @@ namespace RightToAskClient.ViewModels
             get => _newHansardLink;
             set
             {
-                //TODO** Now make it enable the 'update' button if there's something valid. Also consider putting the
-                //Reportlabel right under the url box. Is this the only use now?
                 var urlResult = ParliamentaryURICreator.StringToValidParliamentaryUrl(value);
                 if (urlResult.Success)
                 {
@@ -201,7 +212,6 @@ namespace RightToAskClient.ViewModels
         // TODO Can we just use this flag everywhere instead of the two above?
         public bool MPButtonsEnabled => ParliamentData.MPAndOtherData.IsInitialised;
 
-        // private bool _canEditBackground;
         public bool CanEditBackground
         {
             get
@@ -220,7 +230,6 @@ namespace RightToAskClient.ViewModels
             set
             {
                 _question.WhoShouldAnswerTheQuestionPermissions = value ? RTAPermissions.Others : RTAPermissions.WriterOnly;
-                // Updates.who_should_answer_the_question_permissions = _question.WhoShouldAnswerTheQuestionPermissions;
                 OnPropertyChanged();
                 OnPropertyChanged("HasUpdates");
             } 
@@ -233,7 +242,6 @@ namespace RightToAskClient.ViewModels
             set
             {
                 _question.WhoShouldAskTheQuestionPermissions = value ? RTAPermissions.Others : RTAPermissions.WriterOnly;
-                // Updates.who_should_ask_the_question_permissions = _question.WhoShouldAskTheQuestionPermissions;
                 OnPropertyChanged();
                 OnPropertyChanged("HasUpdates");
             }

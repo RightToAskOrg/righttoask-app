@@ -26,7 +26,7 @@
                           xct:CornerRadiusEffect.CornerRadius="5">
                         <Editor x:Name="SupportingInfoEditor" HeightRequest="250" 
                                 Keyboard="Default"
-                                MaxLength="280" IsEnabled="{Binding CanEditBackground, Mode=OneWay}"
+                                MaxLength="280" 
                                 BackgroundColor="Transparent" Text="{Binding Question.Background}"
                                 Placeholder="{xct:Translate AddBackgroundPlaceholderText}" PlaceholderColor="Gray" FontSize="Medium"
                                 TextChanged="InputView_OnTextChanged"
