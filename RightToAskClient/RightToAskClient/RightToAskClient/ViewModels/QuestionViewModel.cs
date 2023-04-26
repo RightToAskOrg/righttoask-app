@@ -808,12 +808,10 @@ namespace RightToAskClient.ViewModels
             }
             
             // Success - reinitialize question state and make sure we've got the most up to date version.
-            // TODO**: Instead of reinit, refresh from server. This might be ok.
             Question.Version = successfulSubmission.returnedData;
             Updates = new QuestionUpdates(Question.QuestionId, Question.Version);
             
-            // FIXME at the moment, the version isn't been correctly updated.
-            // TODO: Here, we'll need to ensure we've got the right version (from the server - get it returned from
+            // TODO: Consider a one-button popup and automatic pop of QuestionDetailPage. 
             // BuildSignAndUpload... 
             var popup = new TwoButtonPopup(AppResources.QuestionEditSuccessfulPopupTitle, AppResources.QuestionEditSuccessfulPopupText, AppResources.StayOnCurrentPageButtonText, AppResources.GoHomeButtonText, false);            
             var popupResult = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
