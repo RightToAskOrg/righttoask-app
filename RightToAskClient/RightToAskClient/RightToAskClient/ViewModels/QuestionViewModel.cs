@@ -25,6 +25,7 @@ namespace RightToAskClient.ViewModels
         public static QuestionViewModel Instance => _instance ??= new QuestionViewModel();
 
         private Question _question = new Question();
+
         public Question Question
         {
             get => _question;
@@ -34,15 +35,34 @@ namespace RightToAskClient.ViewModels
         // private FilterChoices _filterChoices = new FilterChoices();
 
         private string _newAnswer = "";
+
         public string NewAnswer
         {
-            get => _newAnswer; 
+            get => _newAnswer;
             set
             {
                 if (string.IsNullOrWhiteSpace(value)) return;
-                
+
                 SetProperty(ref _newAnswer, value);
-                Question.AddAnswer(value);
+                Updates.answers = new List<QuestionAnswer>()
+                {
+                    new QuestionAnswer()
+                    {
+                        mp = new MPId(IndividualParticipant.getInstance().ProfileData.RegistrationInfo.MPRegisteredAs),
+                        answer = value
+                    }
+                };
+                OnPropertyChanged();
+            }
+        }
+
+        // FIXME This is being set when the QuestionDetailPage is first generated.
+        public string Background
+        {
+            get => Question.Background;
+            set
+            {
+                Question.Background = value;
                 OnPropertyChanged();
             }
         }
@@ -62,38 +82,39 @@ namespace RightToAskClient.ViewModels
         public List<Answer> QuestionAnswers => Question.Answers;
         public List<Uri> HansardLinks => Question.HansardLink;
 
-        public string QuestionAnswerers => 
+        public string QuestionAnswerers =>
             Extensions.JoinFilter(", ",
-                string.Join(", ", Question.Filters.SelectedAnsweringMPsNotMine.Select(mp => mp.ShortestName)),
-                string.Join(", ", Question.Filters.SelectedAnsweringMPsMine.Select(mp => mp.ShortestName)),
-                string.Join(", ", Question.Filters.SelectedAuthorities.Select(a => a.ShortestName)))
+                    string.Join(", ", Question.Filters.SelectedAnsweringMPsNotMine.Select(mp => mp.ShortestName)),
+                    string.Join(", ", Question.Filters.SelectedAnsweringMPsMine.Select(mp => mp.ShortestName)),
+                    string.Join(", ", Question.Filters.SelectedAuthorities.Select(a => a.ShortestName)))
                 .NullToEmptyMessage(IsNewQuestion ? AppResources.HasNotMadeSelection : AppResources.NoSelections);
 
         // The MPs or committee who are meant to ask the question
         public string QuestionAskers =>
             Extensions.JoinFilter(", ",
-                string.Join(", ", Question.Filters.SelectedAskingMPsNotMine.Select(mp => mp.ShortestName)), 
-                string.Join(", ", Question.Filters.SelectedAskingMPsMine.Select(mp => mp.ShortestName)), 
-                string.Join(",", Question.Filters.SelectedCommittees.Select(com => com.ShortestName)))
+                    string.Join(", ", Question.Filters.SelectedAskingMPsNotMine.Select(mp => mp.ShortestName)),
+                    string.Join(", ", Question.Filters.SelectedAskingMPsMine.Select(mp => mp.ShortestName)),
+                    string.Join(",", Question.Filters.SelectedCommittees.Select(com => com.ShortestName)))
                 .NullToEmptyMessage(IsNewQuestion ? AppResources.HasNotMadeSelection : AppResources.NoSelections);
-        
+
         public bool HasAskers
         {
             get => Question.Filters.SelectedAskingMPsNotMine.Count != 0 ||
-                       Question.Filters.SelectedAskingMPsMine.Count != 0 ||
-                       Question.Filters.SelectedCommittees.Count != 0;
+                   Question.Filters.SelectedAskingMPsMine.Count != 0 ||
+                   Question.Filters.SelectedCommittees.Count != 0;
         }
-        
+
         public bool HasAnswerers
         {
             get => Question.Filters.SelectedAnsweringMPsNotMine.Count != 0 ||
-                       Question.Filters.SelectedAnsweringMPsMine.Count != 0 ||
-                       Question.Filters.SelectedAuthorities.Count != 0;
+                   Question.Filters.SelectedAnsweringMPsMine.Count != 0 ||
+                   Question.Filters.SelectedAuthorities.Count != 0;
         }
-        
-        private string? _newHansardLink; 
-        public string NewHansardLink 
-        { 
+
+        private string? _newHansardLink;
+
+        public string NewHansardLink
+        {
             get => _newHansardLink;
             set
             {
@@ -104,46 +125,68 @@ namespace RightToAskClient.ViewModels
                 {
                     SetProperty(ref _newHansardLink, value);
                     Question.AddHansardLink(urlResult.Data);
+
+                    if (Updates.hansard_link is null)
+                    {
+                        Updates.hansard_link = new List<HansardLink> { new HansardLink(urlResult.Data.OriginalString) };
+                    }
+                    // People may add multiple Hansard links at once.
+                    else
+                    {
+                        Updates.hansard_link.Add(new HansardLink(urlResult.Data.OriginalString));
+                    }
                     OnPropertyChanged("HansardLink");
+                    OnPropertyChanged("HasUpdates");
                 }
                 else
                 {
                     var errorMessage = AppResources.InvalidHansardLink;
                     if (urlResult is ErrorResult<Uri> errorResult)
                     {
-                        errorMessage += ". " +errorResult.Message;
+                        errorMessage += ". " + errorResult.Message;
                     }
-                    ReportLabelText = errorMessage; 
+
+                    ReportLabelText = errorMessage;
                     OnPropertyChanged("ReportLabelText");
                 }
             }
         }
-        
+
         // A collection of flags describing the state of the question,
         // whether it's a new question, whether you have permission to edit it,
         // etc. The idea is that facts about its status should be set at init,
         // and decisions about what to display in the view model are derived from
         // those facts.
-        
+
         // Whether this is a new question
         private bool _isNewQuestion;
+
         public bool IsNewQuestion
         {
             get => _isNewQuestion;
             set => SetProperty(ref _isNewQuestion, value);
         }
 
+        // Lists the updates that have occurred since construction.
+        // TODO It might actually be more elegant to make this a Question than a QuestionSendToServer
+        public QuestionSendToServer Updates { get; private set; } = new QuestionSendToServer()
+        {
+            // Most updates are simply omitted when not changed, but the Permissions enum needs to send a specific
+            // "no change" value. 
+            who_should_ask_the_question_permissions = RTAPermissions.NoChange,
+            who_should_answer_the_question_permissions = RTAPermissions.NoChange
+        };
+        
         // Whether this user has updated this question. Used to 
         // determine whether the 'update' button is enabled.
-        public bool HasUpdates => 
-            // Note that the updates at this stage includes the existing background.
-            (!string.IsNullOrEmpty(Question.Updates.background) && Question.Updates.background != Question.Background)
-            || Question.Updates.who_should_answer_the_question_permissions != RTAPermissions.NoChange
-            || Question.Updates.who_should_ask_the_question_permissions != RTAPermissions.NoChange
-            || (Question.Updates.hansard_link != null &&  Question.Updates.hansard_link.Any())
-            || (Question.Updates.answers != null && Question.Updates.answers.Any());
-        
-        private HowAnsweredOptions _howAnswered = HowAnsweredOptions.DontKnow; 
+        public bool HasUpdates =>
+            // !string.IsNullOrEmpty(Updates.background) || 
+            Updates.who_should_answer_the_question_permissions != RTAPermissions.NoChange
+            || Updates.who_should_ask_the_question_permissions != RTAPermissions.NoChange
+            || (Updates.hansard_link != null && Updates.hansard_link.Any())
+            || (Updates.answers != null && Updates.answers.Any());
+
+    private HowAnsweredOptions _howAnswered = HowAnsweredOptions.DontKnow; 
 
         public HowAnsweredOptions HowAnswered
         {
@@ -191,9 +234,10 @@ namespace RightToAskClient.ViewModels
             get => _question.WhoShouldAnswerTheQuestionPermissions == RTAPermissions.Others; 
             set
             {
-                _question.WhoShouldAnswerTheQuestionPermissions = value ? RTAPermissions.Others : RTAPermissions.WriterOnly; 
+                _question.WhoShouldAnswerTheQuestionPermissions = value ? RTAPermissions.Others : RTAPermissions.WriterOnly;
+                Updates.who_should_answer_the_question_permissions = _question.WhoShouldAnswerTheQuestionPermissions;
                 OnPropertyChanged();
-                // OnPropertyChanged("HasUpdates");
+                OnPropertyChanged("HasUpdates");
             } 
             
         }
@@ -203,9 +247,10 @@ namespace RightToAskClient.ViewModels
             get => _question.WhoShouldAskTheQuestionPermissions == RTAPermissions.Others; 
             set
             {
-                _question.WhoShouldAskTheQuestionPermissions = value ? RTAPermissions.Others : RTAPermissions.WriterOnly; 
+                _question.WhoShouldAskTheQuestionPermissions = value ? RTAPermissions.Others : RTAPermissions.WriterOnly;
+                Updates.who_should_ask_the_question_permissions = _question.WhoShouldAskTheQuestionPermissions;
                 OnPropertyChanged();
-                // OnPropertyChanged("HasUpdates");
+                OnPropertyChanged("HasUpdates");
             }
         }
         
@@ -525,11 +570,6 @@ namespace RightToAskClient.ViewModels
             Question.QuestionSuggester = IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid;
         }
 
-        public void ReinitQuestionUpdates()
-        {
-            Question.ReinitQuestionUpdates();
-        }
-
         // methods for selecting who will raise your question
         
         // Nobody raises the question - just asking for an answer in the app.
@@ -772,7 +812,7 @@ namespace RightToAskClient.ViewModels
             
             // Success - reinitialize question state and make sure we've got the most up to date version.
             // TODO**: Instead of reinit, refresh from server.
-            Question.ReinitQuestionUpdates();
+            ReinitQuestionUpdates();
             
             // FIXME at the moment, the version isn't been correctly updated.
             // TODO: Here, we'll need to ensure we've got the right version (from the server - get it returned from
@@ -799,16 +839,24 @@ namespace RightToAskClient.ViewModels
 
         private async Task<(bool isValid, string errorMessage, string returnedData)> BuildSignAndUploadQuestionUpdates()
         {
-            var serverQuestionUpdates = Question.Updates;
-            
             // needs these two fields in the message payload for updates, but not for new questions.
-            serverQuestionUpdates.question_id = Question.QuestionId;
-            serverQuestionUpdates.version = Question.Version;
+            Updates.question_id = Question.QuestionId;
+            Updates.version = Question.Version;
 
             var httpResponse = await RTAClient.UpdateExistingQuestion(
-                serverQuestionUpdates,
+                Updates,
                 IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid);
             return RTAClient.ValidateHttpResponse(httpResponse, "");
+        }
+
+        public void ReinitQuestionUpdates()
+        {
+            Updates = new QuestionSendToServer()
+            {
+                // Init explicit 'no change' value for permissions.
+                who_should_answer_the_question_permissions = RTAPermissions.NoChange,
+                who_should_ask_the_question_permissions = RTAPermissions.NoChange
+            };
         }
     }
 }

@@ -65,7 +65,6 @@ namespace RightToAskClient.Models.ServerCommsData
 
         public QuestionSendToServer()
         {
-            is_followup_to = "test";
         }
         
         /* This is only ever used for sending *new* questions to the server, so this constructor ignores elements of

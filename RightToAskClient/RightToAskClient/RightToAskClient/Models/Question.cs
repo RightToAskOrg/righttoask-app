@@ -33,30 +33,8 @@ namespace RightToAskClient.Models
             set
             {
                 SetProperty(ref _questionText, value);
-                Updates.question_text = _questionText;
+        //         Updates.question_text = _questionText;
             }
-        }
-
-        // needed for getting a bool result back from the generic popups
-
-        // Lists the updates that have occurred since construction.
-        public QuestionSendToServer Updates { get; private set; } = new QuestionSendToServer()
-        {
-            // Most updates are simply omitted when not changed, but the Permissions enum needs to send a specific
-            // "no change" value. 
-            who_should_ask_the_question_permissions = RTAPermissions.NoChange,
-            who_should_answer_the_question_permissions = RTAPermissions.NoChange
-        };
-
-
-        public void ReinitQuestionUpdates()
-        {
-            Updates = new QuestionSendToServer()
-            {
-                // Init explicit 'no change' value for permissions.
-                who_should_answer_the_question_permissions = RTAPermissions.NoChange,
-                who_should_ask_the_question_permissions = RTAPermissions.NoChange
-            };
         }
 
         public int Timestamp { get; set; } = 0;
@@ -71,7 +49,6 @@ namespace RightToAskClient.Models
             set
             {
                 SetProperty(ref _background, value);
-                Updates.background = _background;
             }
         }
 
@@ -124,7 +101,6 @@ namespace RightToAskClient.Models
             set 
             {
                 SetProperty(ref _whoShouldAnswerTheQuestionPermissions, value);
-                Updates.who_should_answer_the_question_permissions = value;
             }
         }
 
@@ -137,7 +113,6 @@ namespace RightToAskClient.Models
             set 
             {
                 SetProperty(ref _whoShouldAskTheQuestionPermissions, value);
-                Updates.who_should_ask_the_question_permissions = value;
             }
         }
 
@@ -346,30 +321,11 @@ namespace RightToAskClient.Models
 
         public void AddHansardLink(Uri newHansardLink)
         {
-            if (Updates.hansard_link is null)
-            {
-                Updates.hansard_link = new List<HansardLink>{new HansardLink(newHansardLink.OriginalString)};
-            }
-            // People may add multiple Hansard links at once.
-            else
-            {
-                Updates.hansard_link.Add(new HansardLink(newHansardLink.OriginalString));
-            }
             QuestionViewModel.Instance.Question.HansardLink.Add(newHansardLink);
             OnPropertyChanged("HansardLink");
         }
 
-        public void AddAnswer(string answer)
-        {
-            Updates.answers = new List<QuestionAnswer>()
-            {
-                new QuestionAnswer()
-                {
-                    mp = new MPId(IndividualParticipant.getInstance().ProfileData.RegistrationInfo.MPRegisteredAs),
-                    answer = answer
-                }
-            };
-        }
+
 
         public void ToggleUpvotedStatus()
         {

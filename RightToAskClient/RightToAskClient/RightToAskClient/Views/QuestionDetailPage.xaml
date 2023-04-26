@@ -170,7 +170,7 @@
 				<StackLayout Orientation="Vertical">
 					<Label x:Name="BackgroundLabel" Text="{xct:Translate BackgroundPageTitle}" Style="{StaticResource Header2}" />
 					<Editor x:Name="BackgroundEditor" Placeholder="{xct:Translate AddBackgroundPlaceholderText}"
-					        Text="{Binding Question.Background}"
+					        Text="{Binding Background}"
 					        Style="{StaticResource NormalEditor}"
 					        IsReadOnly="{Binding CanEditBackground, Converter={StaticResource Key=cnvInvert}}" />
 				</StackLayout>
