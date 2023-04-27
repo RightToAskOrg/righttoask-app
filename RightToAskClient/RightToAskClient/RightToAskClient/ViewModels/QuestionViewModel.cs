@@ -53,6 +53,7 @@ namespace RightToAskClient.ViewModels
                     }
                 };
                 OnPropertyChanged();
+                OnPropertyChanged("HasUpdates");
             }
         }
 
