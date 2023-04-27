@@ -23,15 +23,6 @@
 	<ContentPage.Content>
 		<ScrollView>
 			<StackLayout x:Name="WholePage" Margin="20">
-				<StackLayout Orientation="Vertical" IsVisible="{Binding IsNewQuestion}">
-					<Label Text="{xct:Translate QuestionReviewHeaderText}" HorizontalTextAlignment="Center" Style="{StaticResource Header1}"
-					       HorizontalOptions="StartAndExpand" />
-					<BoxView />
-				</StackLayout>
-				<StackLayout Orientation="Horizontal" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
-					<Label Text="{xct:Translate QuestionHeaderText}" Style="{StaticResource Header2}"
-					       HorizontalOptions="StartAndExpand" />
-				</StackLayout>
 				<Editor x:Name="QuestionTextEditor" Text="{Binding Question.QuestionText}"
 				        IsReadOnly="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}" />
 				<FlexLayout AlignItems="Center" JustifyContent="SpaceBetween" HorizontalOptions="CenterAndExpand"
@@ -167,12 +158,17 @@
 					</StackLayout>
 				</StackLayout>
 				<!-- Background -->
+				<!-- At most one editor is visible at once - this visibility is set in the code-behind. -->
 				<StackLayout Orientation="Vertical">
 					<Label x:Name="BackgroundLabel" Text="{xct:Translate BackgroundPageTitle}" Style="{StaticResource Header2}" />
+					<!-- Editor for new questions, and for read-only of questions that already have background. -->
 					<Editor x:Name="BackgroundEditor" Placeholder="{xct:Translate AddBackgroundPlaceholderText}"
 					        Text="{Binding Background}"
-					        Style="{StaticResource NormalEditor}"
 					        IsReadOnly="{Binding CanEditBackground, Converter={StaticResource Key=cnvInvert}}" />
+					<!-- Editor for adding background later to questions you previously uploaded. -->
+					<Editor x:Name="BackgroundLaterEditor" Placeholder="{xct:Translate AddBackgroundLaterPlaceholderText}"
+					        Text="{Binding NewBackground}"
+					        Style="{StaticResource NormalEditor}" />
 				</StackLayout>
 				<!-- Hansard link -->
 			    <StackLayout Orientation="Vertical" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
@@ -191,6 +187,7 @@
 				    </StackLayout>
 				    <Editor x:Name="LinkToAnswerEditor" Placeholder="{xct:Translate LinkPlaceholderText}" Completed="Link_Entered"
 				            Style="{StaticResource NormalEditor}" />
+				<Label x:Name="ReportLabel" Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}"/>
 			    </StackLayout>
 				<StackLayout Margin="0,8">
 				    <Button Text="{xct:Translate EditQuestionButtonText}" 
@@ -207,7 +204,6 @@
 				            xct:SemanticEffect.Hint="{xct:Translate PublishQuestionButtonText}"
 				            xct:SemanticEffect.Description="{xct:Translate PublishQuestionButtonText}"/>
 				</StackLayout>
-				<Label x:Name="ReportLabel" Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}"/>
 			</StackLayout>
 	    </ScrollView>
     </ContentPage.Content>

@@ -84,9 +84,9 @@ namespace RightToAskClient.Views
             BackgroundEditor.IsVisible = questionVM.IsNewQuestion || !backgroundBlank;
             
             // You can add background to your own question.
-            AddBackgroundLaterEditor.IsVisible = !questionVM.IsNewQuestion && questionVM.CanEditBackground;
+            BackgroundLaterEditor.IsVisible = !questionVM.IsNewQuestion && questionVM.CanEditBackground;
             
-            BackgroundLabel.IsVisible = BackgroundEditor.IsVisible || AddBackgroundLaterEditor.IsVisible;
+            BackgroundLabel.IsVisible = BackgroundEditor.IsVisible || BackgroundLaterEditor.IsVisible;
             
 
             if (questionVM.IsNewQuestion)
