@@ -809,7 +809,7 @@ namespace RightToAskClient.ViewModels
             
             // Success - reinitialize question state and make sure we've got the most up to date version.
             Question.Version = successfulSubmission.returnedData;
-            Updates = new QuestionUpdates(Question.QuestionId, Question.Version);
+            ReInitUpdatesAndErrors();
             
             // TODO: Consider a one-button popup and automatic pop of QuestionDetailPage. 
             // BuildSignAndUpload... 
@@ -822,7 +822,6 @@ namespace RightToAskClient.ViewModels
             }
         }
 
-        // TODO: This is where we'll need to record the hash, version, and other server responses.
         private async Task<(bool isValid, string errorMessage, string)> BuildSignAndUploadNewQuestion()
         {
             var serverQuestion = new QuestionSendToServer(Question);
@@ -854,6 +853,23 @@ namespace RightToAskClient.ViewModels
             }
 
             return current;
+        }
+
+        protected void ReInitUpdatesAndErrors()
+        {
+                // Empty updatable fields
+                NewAnswer = "";
+                NewBackground = "";
+                NewHansardLink = "";
+                
+                // Keep track of changes to question asking/answering permission.
+                _initialWhoCanAskPermissions = _question.WhoShouldAskTheQuestionPermissions;
+                _initialWhoCanAnswerPermissions = _question.WhoShouldAnswerTheQuestionPermissions;
+
+                // Keep track of other Updates/changes
+                Updates = new QuestionUpdates(Question.QuestionId, Question.Version);
+
+                ReportLabelText = "";
         }
     }
 }
