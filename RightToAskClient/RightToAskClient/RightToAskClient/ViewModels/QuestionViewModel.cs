@@ -210,9 +210,6 @@ namespace RightToAskClient.ViewModels
             set => SetProperty(ref _enableAnotherMPShouldRaiseButton, value);
         }
         
-        // TODO Can we just use this flag everywhere instead of the two above?
-        public bool MPButtonsEnabled => ParliamentData.MPAndOtherData.IsInitialised;
-
         public bool CanEditBackground
         {
             get
@@ -784,7 +781,7 @@ namespace RightToAskClient.ViewModels
             else 
             {
                 Question.QuestionText = String.Empty;
-                Question.Background = String.Empty;
+                Background = String.Empty;
             }
             
         }
