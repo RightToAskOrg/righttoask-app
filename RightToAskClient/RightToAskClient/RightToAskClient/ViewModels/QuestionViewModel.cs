@@ -809,15 +809,11 @@ namespace RightToAskClient.ViewModels
             Question.Version = successfulSubmission.returnedData;
             ReInitUpdatesAndErrors();
             
-            // TODO: Consider a one-button popup and automatic pop of QuestionDetailPage. 
-            // BuildSignAndUpload... 
-            var popup = new TwoButtonPopup(AppResources.QuestionEditSuccessfulPopupTitle, AppResources.QuestionEditSuccessfulPopupText, AppResources.StayOnCurrentPageButtonText, AppResources.GoHomeButtonText, false);            
-            var popupResult = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+            // Go back to the reading page you came from.
+            var popup = new OneButtonPopup(AppResources.QuestionEditSuccessfulPopupTitle, AppResources.QuestionEditSuccessfulPopupText, AppResources.GoHomeButtonText, false);            
+            _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
 
-            if (popup.HasApproved(popupResult))
-            {
-                await Application.Current.MainPage.Navigation.PopToRootAsync();
-            }
+            await Application.Current.MainPage.Navigation.PopToRootAsync();
         }
 
         private async Task<(bool isValid, string errorMessage, string)> BuildSignAndUploadNewQuestion()
