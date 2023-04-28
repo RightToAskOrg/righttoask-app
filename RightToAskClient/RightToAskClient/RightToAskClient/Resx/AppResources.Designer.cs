@@ -57,6 +57,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string AddBackgroundLaterPlaceholderText {
+            get {
+                return ResourceManager.GetString("AddBackgroundLaterPlaceholderText", resourceCulture);
+            }
+        }
+        
         internal static string AdvancedSearchOptions {
             get {
                 return ResourceManager.GetString("AdvancedSearchOptions", resourceCulture);
@@ -1170,6 +1176,12 @@ namespace RightToAskClient.Resx {
         internal static string EditQuestionButtonHint {
             get {
                 return ResourceManager.GetString("EditQuestionButtonHint", resourceCulture);
+            }
+        }
+        
+        internal static string QuestionEditErrorText {
+            get {
+                return ResourceManager.GetString("QuestionEditErrorText", resourceCulture);
             }
         }
         

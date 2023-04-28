@@ -242,24 +242,6 @@ namespace UnitTests
         }
 
         [Fact]
-        public void ReinitQuestionUpdatesTest()
-        {
-            // arrange
-            vm.Question = TestQuestion;
-            vm.Question.Background = "updatingBackground";
-            bool isValid = vm.Question.ValidateUpdateQuestion();
-
-            // act
-            vm.ReinitQuestionUpdates();
-            vm.Question.Updates.background = vm.Question.Background;
-
-            // assert
-            Assert.True(isValid);
-            Assert.True(!string.IsNullOrEmpty(vm.Question.Background));
-            Assert.True(!string.IsNullOrEmpty(vm.Question.Updates.background));
-        }
-
-        [Fact]
         public void ResetInstanceTest()
         {
             // arrange            

@@ -73,6 +73,8 @@ namespace RightToAskClient.HttpClients
         }
         
         /* Unwinds the double layer of Result<> when the server itself responds with a ServerResult<T> data structure.
+         * TODO - I think this could simply say "if result is null [generate new error]; return result.
+         * TODO** even better, could this simply be 'return await DoGetJsonRequeset...' ?
          */
         public async Task<JOSResult<T>> DoGetResultRequest<T>(string uriString)
         {
@@ -99,8 +101,9 @@ namespace RightToAskClient.HttpClients
         }
 
         // Tin is the type of the thing we post, which is also the input type of this function.
-        // TResponse is the type of the server's response, which we return.
-        public async Task<ServerResult<TResponse>> PostGenericItemAsync<TResponse, TIn>(TIn item, string requestedUri)
+        // TResponse is the type of the server's response, which we assume to be incorporated
+        // into a ServerResult. We check for errors and return.
+        public async Task<JOSResult<TResponse>> PostGenericItemAsync<TResponse, TIn>(TIn item, string requestedUri)
         {
             var uri = new Uri(requestedUri);
             
@@ -113,35 +116,46 @@ namespace RightToAskClient.HttpClients
 
                 if (response is null || !response.IsSuccessStatusCode)
                 {
-                    return new ServerResult<TResponse>
-                    {
-                        Err = "Error connecting to server."+response?.StatusCode+response?.ReasonPhrase
-                    };
+                    return new ErrorResult<TResponse>( "Error connecting to server." + response?.StatusCode + response?.ReasonPhrase );
                 }
                 
                 var responseContent = await response.Content.ReadAsStringAsync();
                 var httpResponse =
-                    JsonSerializer.Deserialize<TResponse>(responseContent, _serializerOptions);
+                    JsonSerializer.Deserialize<ServerResult<TResponse>>(responseContent, _serializerOptions);
 
                 if (httpResponse is null)
                 {
                     Debug.WriteLine(@"\tError saving Item:");
-                    return new ServerResult<TResponse> {Err = "Null response from server:"}; 
+                    return new ErrorResult<TResponse> ("Null response from server:"); 
                 }
 
                 Debug.WriteLine(@"\tItem successfully saved on server.");
-                
-                return new ServerResult<TResponse>
-                {
-                    Ok = httpResponse
-                };
 
+                return httpResponse.ToJOSResult();
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(@"\tERROR {0}", ex.Message);
-                return new ServerResult<TResponse> { Err = "Error connecting to server."+ex.Message};
+                return new ErrorResult<TResponse>(ex.Message);
             }
+        }
+        
+        // For the case when we do not expect any data returned from the server. Use a string because it can be null.
+        // If there is no error, produce an empty JOS Success Result, otherwise a type-less Error result with the
+        // same message. Note that this will throw an exception
+        // if there actually is some data.
+        // FIXME This thows an exception because the call to PostGenericItemAsync<string,TIn>
+        // tries to build a <string> JOSResult with no data.
+        public async Task<JOSResult> PostGenericItemAsync<TIn>(TIn item, string requestedUri)
+        {
+            var result = await PostGenericItemAsync<string, TIn>(item, requestedUri);
+
+            if (result is ErrorResult<string> e)
+            {
+                return new ErrorResult(e.Message);
+            }
+
+            return new SuccessResult();
         }
     }
 }

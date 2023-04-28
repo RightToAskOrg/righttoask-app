@@ -159,11 +159,40 @@ namespace RightToAskClient.HttpClients
             return await SignAndSendDataToServerVerifySignedResponse(newQuestion, AppResources.QuestionErrorTypeDescription, QnUrl,"Error publishing New Question", uid);
         }
 
-        public static async Task<JOSResult<string>> UpdateExistingQuestion(QuestionSendToServer existingQuestion, string uid)
+        public static async Task<JOSResult<string>> UpdateExistingQuestion_Old(QuestionSendToServer existingQuestion, string uid)
         {
-            return await SignAndSendDataToServerVerifySignedResponse(existingQuestion, AppResources.QuestionErrorTypeDescription, EditQnUrl, "Error editing question", uid);
+            return await SignAndSendDataToServerVerifySignedResponse(existingQuestion,
+                AppResources.QuestionErrorTypeDescription, EditQnUrl, "Error editing question", uid);
         }
         
+        /* Returns the version number if OK */
+        public static async Task<JOSResult<string>> UpdateExistingQuestion(QuestionUpdates updates, string uid)
+        {
+            var updatesForServer = new QuestionSendToServer(updates);
+            var signedUserMessage = ClientSignatureGenerationService.SignMessage(updatesForServer, uid);
+            if (string.IsNullOrEmpty(signedUserMessage.signature))
+            {
+                Debug.WriteLine(AppResources.QuestionEditErrorText);
+                return new ErrorResult<string>(AppResources.QuestionEditErrorText);    
+            }
+
+            var serverResponse = await Client.PostGenericItemAsync<SignedString,ClientSignedUnparsed>(signedUserMessage, EditQnUrl);
+            if (serverResponse.Failure)
+            {
+                var error = serverResponse as ErrorResult<SignedString>;
+                return new ErrorResult<string>(error?.Message ?? "Error sending data to server at " + EditQnUrl);
+            }
+
+            // serverResponse.Success. We got a valid server response - now verify the signature.
+            if (!SignatureVerificationService.VerifySignature(serverResponse.Data, ServerPublicKey)) //  
+            {
+                Debug.WriteLine(@"\t Error updating question" + AppResources.QuestionErrorTypeDescription + ": Signature verification failed");
+                return new ErrorResult<string>("Server signature verification failed");
+            }
+
+            return new SuccessResult<string>(serverResponse.Data.message);
+        }
+
         public static async Task<JOSResult> SendPlaintextUpvote(PlainTextVoteOnQuestionCommand voteOnQuestion, string uid)
         {
             return await SignAndSendDataToServerExpectNoResponse(voteOnQuestion, AppResources.QuestionErrorTypeDescription, PlaintextVoteQnUrl, "Error voting on question", uid);
@@ -247,81 +276,21 @@ namespace RightToAskClient.HttpClients
             return new SuccessResult<string>(serverResponse.Data.message);
         }
 
-        /*
-         * Errors in the outer layer represent http errors, (e.g. 404).
-         * These are logged because they represent a problem with the system.
-         * Ditto signature verification.
-         * Errors in the inner layer represent server errors, e.g. UID already taken.
-         * These are returned to the user on the assumption that there's something they
-         * can do.
-         * In some cases, the server returns some information
-         * in the form of a message that is then returned in Result.Ok.
-         * TODO: Probably it would be better if the inner function, PostGenericItemAsync, rolled the two layers of error into
-         * one.
-         */
-        
+        // TODO This isn't necessary.
         private static async Task<JOSResult<TReturn>> SendDataToServerReturnResponse<TUpload,TReturn>(
             TUpload newThing,
             string typeDescription,
             string uri)
         {
-            var httpResponse 
-                = await Client.PostGenericItemAsync<ServerResult<TReturn>, TUpload>(newThing, uri);
-
-            // http errors
-            if (string.IsNullOrEmpty(httpResponse.Err))
-            {
-                // Error responses from the server, 
-                // FIXME This code is wrong when httpResponse.Ok.Ok is null, because the constructor interprets a null 
-                // argument as a non-success result.
-                if (string.IsNullOrEmpty(httpResponse.Ok.Err))
-                {
-                    return new SuccessResult<TReturn>(httpResponse.Ok.Ok);
-                }
-                    
-                Debug.WriteLine(@"\tError sending "+typeDescription+": "+httpResponse.Ok.Err);
-                return new ErrorResult<TReturn>(httpResponse.Ok.Err ?? "");
-            }
-
-            Debug.WriteLine(@"\tError reaching server for sending " +typeDescription+": "+httpResponse.Err);
-            return new ErrorResult<TReturn>(httpResponse.Err ?? "");
+                return await Client.PostGenericItemAsync<TReturn, TUpload>(newThing, uri);
         }
         
-        /*
- * Errors in the outer layer represent http errors, (e.g. 404).
- * These are logged because they represent a problem with the system.
- * Ditto signature verification.
- * Errors in the inner layer represent server errors, e.g. UID already taken.
- * These are returned to the user on the assumption that there's something they
- * can do.
- * In some cases, the server returns some information
- * in the form of a message that is then returned in Result.Ok.
- */
         private static async Task<JOSResult> SendDataToServerExpectNoResponse<TUpload>(
             TUpload newThing,
             string typeDescription,
             string uri)
         {
-            // We don't really expect the ServerResult to be a string - it just needs to be something
-            // that can be null.
-            var httpResponse 
-                = await Client.PostGenericItemAsync<ServerResult<string>, TUpload>(newThing, uri);
-
-            // http errors
-            if (string.IsNullOrEmpty(httpResponse.Err))
-            {
-                // Error responses from the server
-                if (string.IsNullOrEmpty(httpResponse.Ok.Err))
-                {
-                    return new SuccessResult();
-                }
-                    
-                Debug.WriteLine(@"\tError sending "+typeDescription+": "+httpResponse.Ok.Err);
-                return new ErrorResult(httpResponse.Ok.Err ?? "");
-            }
-
-            Debug.WriteLine(@"\tError reaching server for sending " +typeDescription+": "+httpResponse.Err);
-            return new ErrorResult(httpResponse.Err ?? "");
+                return await Client.PostGenericItemAsync<TUpload>(newThing, uri);
         }
         
         // At the moment, this simply passes the information back to the user. We might perhaps want
@@ -329,6 +298,7 @@ namespace RightToAskClient.HttpClients
         // errors from question-upload errors.
         // This may also be much more elegantly implementable using other errors in the JOSResult type, rather than
         // the triple now being returned.
+        // TODO Pretty sure this isn't helping and we should just return the JOSResult.
         public static (bool isValid, string errorMessage, T returnedData) ValidateHttpResponse<T>(JOSResult<T> response, string messageTopic) where T : new()
         {
             if (response.Success)

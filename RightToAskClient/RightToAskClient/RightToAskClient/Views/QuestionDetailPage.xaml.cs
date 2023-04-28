@@ -43,20 +43,17 @@ namespace RightToAskClient.Views
     {
         private QuestionViewModel vm;
 
-        // This is used only in transition from the Metadata page
-        // and can be removed when it is removed.
+        // For use in the detail view of the new question the user is about to post.
         public QuestionDetailPage() : this(QuestionViewModel.Instance)
         {
-            
         }
+        
+        // Detail view of any question, including those downloaded from the server.
         public QuestionDetailPage(QuestionViewModel questionVM)
         {
             InitializeComponent();
             vm = questionVM;
             BindingContext = questionVM;
-            
-            // Reset the updates to blank/zero so that edits can be captured.
-            questionVM.ReinitQuestionUpdates();
             
             questionVM.PopupLabelText = AppResources.QuestionDetailPopupText;
             
@@ -81,13 +78,16 @@ namespace RightToAskClient.Views
                 QuestionTextEditor.Style = disabledEditorStyle;
             }
 
-            // You can add background to your own question.
             var backgroundBlank = string.IsNullOrWhiteSpace(questionVM.Question.Background);
-            var backgroundPermission = questionVM.CanEditBackground;
-            BackgroundEditor.Style = backgroundPermission && backgroundBlank ? normalEditorStyle : disabledEditorStyle;
+            BackgroundEditor.Style = questionVM.IsNewQuestion ? normalEditorStyle : disabledEditorStyle;
             // Don't bother displaying it if it has no content and you can't edit it.
-            BackgroundEditor.IsVisible = backgroundPermission || !backgroundBlank;
-            BackgroundLabel.IsVisible = BackgroundEditor.IsVisible;
+            BackgroundEditor.IsVisible = questionVM.IsNewQuestion || !backgroundBlank;
+            
+            // You can add background to your own question.
+            BackgroundLaterEditor.IsVisible = !questionVM.IsNewQuestion && questionVM.CanEditBackground;
+            
+            BackgroundLabel.IsVisible = BackgroundEditor.IsVisible || BackgroundLaterEditor.IsVisible;
+            
 
             if (questionVM.IsNewQuestion)
             {

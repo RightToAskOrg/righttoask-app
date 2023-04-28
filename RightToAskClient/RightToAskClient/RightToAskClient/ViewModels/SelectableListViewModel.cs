@@ -301,7 +301,9 @@ namespace RightToAskClient.ViewModels
 					break;
 				
 				case NextPageInstructions.QuestionDetailPage:
-					await Shell.Current.GoToAsync(nameof(QuestionDetailPage));
+
+					var questionDetailPage = new QuestionDetailPage();
+					await Shell.Current.Navigation.PushAsync(questionDetailPage);
 					break;
 				
 				case NextPageInstructions.RegisterMPAccount:

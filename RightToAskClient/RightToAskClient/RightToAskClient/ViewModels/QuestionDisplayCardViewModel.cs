@@ -15,8 +15,11 @@ namespace RightToAskClient.ViewModels
         {
             ResponseRecords = questionResponses;
             Question = new Question(question, questionResponses);
+
             QuestionDetailsCommand = new AsyncCommand(async () =>
             {
+                ReInitUpdatesAndErrors();
+
                 var questionDetailPage = new QuestionDetailPage(this);
                 await Application.Current.MainPage.Navigation.PushAsync(questionDetailPage);
             });
