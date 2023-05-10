@@ -1,6 +1,6 @@
-# Right to Ask app
+# Ask Parliament app
 
-This is a very basic start for the RightToAsk app, intended to be used for testing the UI to gather user feedback.
+This is a very basic start for the Ask Parliament app (formerly known as Right To Ask), intended to be used for testing the UI to gather user feedback.
 
 ## Setup Instructions
 On Mac or Windows, you'll need something to compile Xamarin: Visual Studio, VS Code, or JetBrains Rider. Both Android and iOS should work (the latter if you're compiling on a Mac), but UWP is not currently expected to work. You'll need the Xamarin.Essentials and Portable.Bouncycastle Nuget packages.
