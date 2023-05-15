@@ -43,21 +43,25 @@ namespace RightToAskClient
         protected override async void OnStart()
         {
             // ResetAppData(); // Toggle this line in and out as needed instead of resetting the emulator every time
-            
-            // We do not use these values, but for reasons I don't fully understand, the return value seemed to make the
-            // async code actually execute.
-            var MPInitSuccess = await ParliamentData.MPAndOtherData.TryInit();
-            var CommitteeInitSuccess = await CommitteesAndHearingsData.CommitteesData.TryInitialisingFromServer();
-            var signingKeyRetrieved = await ClientSignatureGenerationService.Init();
-            
-            IndividualParticipant.getInstance().Init();
-            
-            if(IndividualParticipant.getInstance().ProfileData.RegistrationInfo.ElectoratesKnown) 
-            {
-                FilterChoices.NeedToUpdateMyMpLists(this);
-            }
-            Current.On<Xamarin.Forms.PlatformConfiguration.Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
 
+            Task.Run(async () =>
+            {
+                // We do not use these values, but for reasons I don't fully understand, the return value seemed to make the
+                // async code actually execute.
+                var MPInitSuccess = await ParliamentData.MPAndOtherData.TryInit();
+                var CommitteeInitSuccess = await CommitteesAndHearingsData.CommitteesData.TryInitialisingFromServer();
+                var signingKeyRetrieved = await ClientSignatureGenerationService.Init();
+
+                IndividualParticipant.getInstance().Init();
+
+                if (IndividualParticipant.getInstance().ProfileData.RegistrationInfo.ElectoratesKnown)
+                {
+                    FilterChoices.NeedToUpdateMyMpLists(this);
+                }
+            });
+
+            Current.On<Xamarin.Forms.PlatformConfiguration.Android>()
+                .UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
         }
 
         protected override void OnSleep()
