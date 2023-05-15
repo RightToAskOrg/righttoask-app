@@ -140,16 +140,11 @@ namespace RightToAskClient.ViewModels
             // of questions from various versions of questionsToDisplay List.
             // I don't *think* this will cause a lock because QuestionsToDisplay
             // ought to be able to be cleared and added to in any order.
-            RefreshCommand = new AsyncCommand(() =>
+            RefreshCommand = new AsyncCommand(async () =>
             {
-                Task.Run(async () =>
-                {
-
                     var questionsToDisplayList = await LoadQuestions();
                     doQuestionDisplayRefresh(questionsToDisplayList);
                     IsRefreshing = false;
-                });
-                return Task.CompletedTask;
             });
             DraftCommand = new AsyncCommand(async () =>
             {
