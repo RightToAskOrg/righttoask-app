@@ -18,13 +18,14 @@ namespace RightToAskClient.Droid
             Xamarin.Forms.Application.Current.On<Xamarin.Forms.PlatformConfiguration.Android>().
                 UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Pan);
             
-            var id = Android.Provider.Settings.Secure.GetString(Android.App.Application.Context.ContentResolver,
+            /* var id = Android.Provider.Settings.Secure.GetString(Android.App.Application.Context.ContentResolver,
                 Android.Provider.Settings.Secure.AndroidId);
             if (XamarinPreferences.shared.Get(Constants.DeviceID, "").IsNullOrEmpty())
             {
                 if (id != null)
                     XamarinPreferences.shared.Set(Constants.DeviceID, id); // save device ID into preference
             }
+            */
         }
 
         /*
