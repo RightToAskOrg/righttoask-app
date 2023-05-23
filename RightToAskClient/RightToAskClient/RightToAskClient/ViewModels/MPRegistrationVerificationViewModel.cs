@@ -139,6 +139,7 @@ namespace RightToAskClient.ViewModels
             (bool isValid, string errorMsg, string hash) validation = RTAClient.ValidateHttpResponse(httpResponse, "Email Validation Request");
             if (validation.isValid)
             {
+                //TODO** This will need to pull the hash out of the 'RequestEmailValidationResult' data structure.
                 _mpVerificationHash = validation.hash;
                 ReportLabelText = AppResources.VerificationCodeSent;
                 IsMsgErrorShown = false;
