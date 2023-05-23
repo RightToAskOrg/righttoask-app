@@ -151,8 +151,7 @@ namespace RightToAskClient.ViewModels
             else
             {
                 // TODO - deal properly with errors e.g. email not known.
-                // ReportLabelText = validation.errorMsg;
-                ReportLabelText = AppResources.EmailNotKnown;
+                ReportLabelText = validation.errorMsg;
                 IsMsgErrorShown = true;
                 IsMsgSuccessShown = false;
             }

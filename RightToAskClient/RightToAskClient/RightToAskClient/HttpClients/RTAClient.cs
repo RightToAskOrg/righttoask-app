@@ -308,7 +308,7 @@ namespace RightToAskClient.HttpClients
             }
             
             // response.Failure
-            var errorMessage = messageTopic + "Server error: ";
+            var errorMessage = messageTopic + ". Server error: ";
             if (response is ErrorResult<T> errorResult)
             {
                 errorMessage += errorResult.Message;
@@ -326,7 +326,7 @@ namespace RightToAskClient.HttpClients
             }
             
             // response.Failure
-            var errorMessage = messageTopic + "Server error: ";
+            var errorMessage = messageTopic + ". Server error: ";
             if (response is ErrorResult<string> errorResult)
             {
                 errorMessage += errorResult.Message;
@@ -344,7 +344,7 @@ namespace RightToAskClient.HttpClients
             }
 
             // response.Failure
-            var errorMessage = messageTopic + "Server error: ";
+            var errorMessage = messageTopic + ". Server error: ";
             if (response is ErrorResult<string> errorResult)
             {
                 errorMessage += errorResult.Message;
