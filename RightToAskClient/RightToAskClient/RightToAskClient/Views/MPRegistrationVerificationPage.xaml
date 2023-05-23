@@ -45,10 +45,10 @@
                 <Grid ColumnDefinitions="3, Auto, *, Auto"
                       Style="{StaticResource SuccessMessageBackgroundStyle}" 
                       IsVisible="{Binding IsMsgSuccessShown}">
-                    <BoxView Grid.Column="0" Color="Green" WidthRequest="3" VerticalOptions="FillAndExpand" Margin="0" />
+                    <BoxView Grid.Column="0" Color="{StaticResource DarkButtonColor}" WidthRequest="3" VerticalOptions="FillAndExpand" Margin="0" />
                     <Image Grid.Column="1" Margin="16, 0"
                            Source="{helpers:ImageResource RightToAskClient.Images.success_48.png}"
-                           BackgroundColor="Green" WidthRequest="24" HeightRequest="24"
+                           BackgroundColor="{StaticResource DarkButtonColor}" WidthRequest="24" HeightRequest="24"
                            xct:CornerRadiusEffect.CornerRadius="12"
                            VerticalOptions="Center" />
                     <Label Grid.Column="2" Text="{Binding ReportLabelText}" Padding="0, 12"

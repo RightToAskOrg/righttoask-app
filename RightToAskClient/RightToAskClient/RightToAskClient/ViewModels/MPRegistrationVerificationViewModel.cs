@@ -122,36 +122,41 @@ namespace RightToAskClient.ViewModels
         
         // methods
         public string RegisterMPReportLabelText { get; } = "";
-        
+
         private async void SendMPRegistrationToServer()
         {
-            _domain = _parliamentaryDomainIndex >= 0  && _parliamentaryDomainIndex < ParliamentaryURICreator.ValidParliamentaryDomains.Count
-                ? ParliamentaryURICreator.ValidParliamentaryDomains[_parliamentaryDomainIndex] : "";
+            _domain = _parliamentaryDomainIndex >= 0 &&
+                      _parliamentaryDomainIndex < ParliamentaryURICreator.ValidParliamentaryDomains.Count
+                ? ParliamentaryURICreator.ValidParliamentaryDomains[_parliamentaryDomainIndex]
+                : "";
             var message = new RequestEmailValidationMessage()
             {
                 why = new EmailValidationReason() { AsMP = !IsStaffer },
-                // name = MPRepresenting.first_name + " " + MPRepresenting.surname +" @"+domain
                 name = Badge.WriteBadgeName(MPRepresenting, _domain)
             };
             var httpResponse = await RTAClient.RequestEmailValidation(
                 IndividualParticipant.getInstance().SignMessage(message),
                 EmailUsername + "@" + _domain);
-            (bool isValid, string errorMsg, RequestEmailValidationResponse response) validation = RTAClient.ValidateHttpResponse(httpResponse, "Email Validation Request");
-            if (validation.isValid)
+
+            if(httpResponse is SuccessResult<RequestEmailValidationResponse> validResponse)
             {
-                //TODO** Check whether Email sent is non-null. If so, this is a new registration and we've sent a PIN.
-                // Otherwise, it's already validated and we need to just print a 'good to go' message.
-                //
-                _mpVerificationHash = validation.response.EmailSent;
-                ReportLabelText = AppResources.VerificationCodeSent;
+                if (validResponse.Data.IsEmailSent)
+                {
+                    _mpVerificationHash = validResponse.Data.EmailSent;
+                    ReportLabelText = AppResources.VerificationCodeSent;
+                }
+                else
+                {
+                    // Use data from validResponse.Data.AlreadyValidated;
+                    ReportLabelText = AppResources.AlreadyValidated;
+                }
                 IsMsgErrorShown = false;
                 IsMsgSuccessShown = true;
-                
             }
-            else
+            else // httpResponse is an error
             {
-                // TODO - deal properly with errors e.g. email not known.
-                ReportLabelText = validation.errorMsg;
+                var httpErrorResponse = httpResponse as ErrorResult<RequestEmailValidationResponse>;
+                ReportLabelText = httpErrorResponse?.Message ?? "Error.";
                 IsMsgErrorShown = true;
                 IsMsgSuccessShown = false;
             }

@@ -521,6 +521,9 @@
   <data name="VerificationCodeSent" xml:space="preserve">
     <value>Verification code has been sent to your email. Please check.</value>
   </data>
+  <data name="AlreadyValidated" xml:space="preserve">
+    <value>You just validated that email! You're automatically registered as an MP.</value>
+  </data>
   <data name="VerifyError" xml:space="preserve">
     <value>Verify code error. Please try again.</value>
   </data>

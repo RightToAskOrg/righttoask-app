@@ -843,6 +843,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string AlreadyValidated {
+            get {
+                return ResourceManager.GetString("AlreadyValidated", resourceCulture);
+            }
+        }
+        
         internal static string VerifyError {
             get {
                 return ResourceManager.GetString("VerifyError", resourceCulture);

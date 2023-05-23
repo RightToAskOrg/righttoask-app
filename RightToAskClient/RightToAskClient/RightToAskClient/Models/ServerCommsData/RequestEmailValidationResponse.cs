@@ -1,3 +1,4 @@
+using System;
 using System.Text.Json.Serialization;
 
 namespace RightToAskClient.Models.ServerCommsData
@@ -11,5 +12,10 @@ namespace RightToAskClient.Models.ServerCommsData
         
         [JsonPropertyName("AlreadyValidated")]
         public string AlreadyValidated { get; set; }
+
+        public bool IsEmailSent => !String.IsNullOrEmpty(EmailSent);
+
+        // Must be one or the other, not both.
+        public bool IsValid => String.IsNullOrEmpty(EmailSent) || String.IsNullOrEmpty(AlreadyValidated);
     }
 }

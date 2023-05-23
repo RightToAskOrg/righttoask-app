@@ -977,7 +977,7 @@
                 <Setter Property="Margin" Value="0, 0, 0,16"/>
             </Style>
             <Style x:Key="SuccessMessageBackgroundStyle" TargetType="Grid">
-                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource GreenBgColorLightMode}, Dark={StaticResource GreenBgColorDarkMode}}"/>
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource LightGreen}, Dark={StaticResource GreenBgColorDarkMode}}"/>
                 <Setter Property="RowSpacing" Value="0"/>
                 <Setter Property="ColumnSpacing" Value="0"/>
                 <Setter Property="Margin" Value="0, 0, 0,16"/>
