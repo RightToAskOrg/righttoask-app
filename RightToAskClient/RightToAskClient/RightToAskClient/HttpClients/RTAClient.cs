@@ -203,7 +203,7 @@ namespace RightToAskClient.HttpClients
             return await SignAndSendDataToServerExpectNoResponse(reportQuestion, AppResources.QuestionErrorTypeDescription, ReportQuestionUrl, "Error reporting on question", uid);
         }
 
-        public static async Task<JOSResult<string>> RequestEmailValidation(ClientSignedUnparsed signedMsg, string email)
+        public static async Task<JOSResult<RequestEmailValidationResponse>> RequestEmailValidation(ClientSignedUnparsed signedMsg, string email)
         {
             var serverSend = new RequestEmailValidationAPICall()
             {
@@ -212,7 +212,8 @@ namespace RightToAskClient.HttpClients
                 signature = signedMsg.signature,
                 user = signedMsg.user,
             };
-            return await SendDataToServerVerifySignedResponse(serverSend, "temp error msg", EmailValidationUrl);
+            return await SendDataToServerReturnResponse<RequestEmailValidationAPICall, RequestEmailValidationResponse>(serverSend, "temp error msg", EmailValidationUrl);
+            // return await SendDataToServerVerifySignedResponse(serverSend, "temp error msg", EmailValidationUrl);
 
         }
 

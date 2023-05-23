@@ -136,11 +136,13 @@ namespace RightToAskClient.ViewModels
             var httpResponse = await RTAClient.RequestEmailValidation(
                 IndividualParticipant.getInstance().SignMessage(message),
                 EmailUsername + "@" + _domain);
-            (bool isValid, string errorMsg, string hash) validation = RTAClient.ValidateHttpResponse(httpResponse, "Email Validation Request");
+            (bool isValid, string errorMsg, RequestEmailValidationResponse response) validation = RTAClient.ValidateHttpResponse(httpResponse, "Email Validation Request");
             if (validation.isValid)
             {
-                //TODO** This will need to pull the hash out of the 'RequestEmailValidationResult' data structure.
-                _mpVerificationHash = validation.hash;
+                //TODO** Check whether Email sent is non-null. If so, this is a new registration and we've sent a PIN.
+                // Otherwise, it's already validated and we need to just print a 'good to go' message.
+                //
+                _mpVerificationHash = validation.response.EmailSent;
                 ReportLabelText = AppResources.VerificationCodeSent;
                 IsMsgErrorShown = false;
                 IsMsgSuccessShown = true;
