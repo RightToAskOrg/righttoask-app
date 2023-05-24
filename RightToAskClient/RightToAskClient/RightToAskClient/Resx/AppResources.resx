@@ -530,6 +530,15 @@
   <data name="VerifySuccess" xml:space="preserve">
     <value>Your email was verified successfully.</value>
   </data>
+  <data name="StafferRegistrationSuccessTitle" xml:space="preserve">
+    <value>Success! MP Staffer registration</value>
+  </data>
+  <data name="MPRegistrationSuccessTitle" xml:space="preserve">
+    <value>Success! MP registration</value>
+  </data>
+  <data name="RegistrationSuccessMessage" xml:space="preserve">
+    <value>You are verified as</value>
+  </data>
   <data name="EmailNotKnown" xml:space="preserve">
     <value>Email is invalid or unknown. Please check.</value>
   </data>

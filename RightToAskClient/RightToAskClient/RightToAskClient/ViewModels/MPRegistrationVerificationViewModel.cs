@@ -6,6 +6,8 @@ using RightToAskClient.HttpClients;
 using RightToAskClient.Models;
 using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Resx;
+using RightToAskClient.Views.Popups;
+using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -102,6 +104,17 @@ namespace RightToAskClient.ViewModels
                     StoreMPRegistration();
                     SaveMPRegistrationToPreferences();
                     MessagingCenter.Send(this, Constants.IsVerifiedMPAccount);
+                    
+                    // Success popup
+                    // This logic isn't perfect because if you were already a staffer but you just registered as an MP, 
+                    // it will say 'staffer.'
+                    var successTitle = IsStaffer
+                        ? AppResources.StafferRegistrationSuccessTitle
+                        : AppResources.MPRegistrationSuccessTitle;
+                    var successPopup = new OneButtonPopup(successTitle, AppResources.RegistrationSuccessMessage +"\n"+ _mpRepresenting, AppResources.OKText);
+                    
+                    _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(successPopup);
+
                     // navigate back to account page
                     if (ReturnToAccountPage)
                     {

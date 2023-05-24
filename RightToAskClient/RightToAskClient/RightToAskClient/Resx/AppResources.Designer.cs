@@ -861,6 +861,24 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string StafferRegistrationSuccessTitle {
+            get {
+                return ResourceManager.GetString("StafferRegistrationSuccessTitle", resourceCulture);
+            }
+        }
+        
+        internal static string MPRegistrationSuccessTitle {
+            get {
+                return ResourceManager.GetString("MPRegistrationSuccessTitle", resourceCulture);
+            }
+        }
+        
+        internal static string RegistrationSuccessMessage {
+            get {
+                return ResourceManager.GetString("RegistrationSuccessMessage", resourceCulture);
+            }
+        }
+        
         internal static string EmailNotKnown {
             get {
                 return ResourceManager.GetString("EmailNotKnown", resourceCulture);
