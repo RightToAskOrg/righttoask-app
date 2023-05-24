@@ -327,6 +327,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string ErrorReportName {
+            get {
+                return ResourceManager.GetString("ErrorReportName", resourceCulture);
+            }
+        }
+        
         internal static string ErrorFindingAddress {
             get {
                 return ResourceManager.GetString("ErrorFindingAddress", resourceCulture);
@@ -996,6 +1002,18 @@ namespace RightToAskClient.Resx {
         internal static string StreetHeaderText {
             get {
                 return ResourceManager.GetString("StreetHeaderText", resourceCulture);
+            }
+        }
+        
+        internal static string SuccessfullyRegisteredAccountText {
+            get {
+                return ResourceManager.GetString("SuccessfullyRegisteredAccountText", resourceCulture);
+            }
+        }
+        
+        internal static string SuccessfullyRegisteredAccountTitle {
+            get {
+                return ResourceManager.GetString("SuccessfullyRegisteredAccountTitle", resourceCulture);
             }
         }
         

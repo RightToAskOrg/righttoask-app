@@ -181,6 +181,8 @@ namespace RightToAskClient.ViewModels
 
                         break;
                 }
+
+                ReportLabelIsVisible = false;
             }
 
 
@@ -314,8 +316,14 @@ namespace RightToAskClient.ViewModels
                 // Now we're registered, we can't change our UID - we can only update the other fields.
                 Title = AppResources.EditYourAccountTitle;
                 PopupLabelText = AppResources.EditAccountPopupText;
-                // pop back to the QuestionDetailsPage after the account is created
+
                 var navigation = Application.Current.MainPage.Navigation;
+                
+                var successPopup = new OneButtonPopup(AppResources.SuccessfullyRegisteredAccountTitle,
+                    AppResources.SuccessfullyRegisteredAccountText, AppResources.OKText);
+                _ = await navigation.ShowPopupAsync(successPopup);
+                
+                // pop back to the QuestionDetailsPage after the account is created
 
                 // remove 3 pages
                 // current - sharing electorate page
@@ -340,6 +348,10 @@ namespace RightToAskClient.ViewModels
                 SavePrivacyOptionsToPreferences();
                 var navigation = Application.Current.MainPage.Navigation;
 
+                var successPopup = new OneButtonPopup(AppResources.SuccessfullyUpdatedAccountTitle,
+                    AppResources.SuccessfullyUpdatedAccountText, AppResources.OKText);
+                _ = await navigation.ShowPopupAsync(successPopup);
+                
                 navigation.RemovePage(navigation.NavigationStack[navigation.NavigationStack.Count - 2]);
                 await navigation.PopAsync();
             }

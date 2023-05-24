@@ -263,6 +263,9 @@
   <data name="EmailTitle" xml:space="preserve">
     <value>Email</value>
   </data>
+  <data name="ErrorReportName" xml:space="preserve">
+    <value>Error Report Label</value>
+  </data>
   <data name="ErrorFindingAddress" xml:space="preserve">
     <value>Error finding address</value>
   </data>
@@ -599,11 +602,17 @@
   <data name="StreetHeaderText" xml:space="preserve">
     <value>Street number and name</value>
   </data>
+  <data name="SuccessfullyRegisteredAccountText" xml:space="preserve">
+    <value>You have an Ask Parliament Account. Now you can write questions, up-vote or down-vote questions, and get them answered! </value>
+  </data>
+  <data name="SuccessfullyRegisteredAccountTitle" xml:space="preserve">
+    <value>Success</value>
+  </data>
   <data name="SuccessfullyUpdatedAccountText" xml:space="preserve">
     <value>Your account details were successfully updated.</value>
   </data>
   <data name="SuccessfullyUpdatedAccountTitle" xml:space="preserve">
-    <value>Account update</value>
+    <value>Account update success</value>
   </data>
   <data name="FailedUpdatedAccountTitle" xml:space="preserve">
     <value>Account update error</value>

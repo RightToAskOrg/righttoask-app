@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using System;
+using Xamarin.Forms;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.CommunityToolkit.Extensions;
 using RightToAskClient.Resx;
@@ -66,7 +67,18 @@ namespace RightToAskClient.ViewModels
         public string ReportLabelText
         {
             get => _reportLabelText;
-            set => SetProperty(ref _reportLabelText, value);
+            set
+            {
+                SetProperty(ref _reportLabelText, value);
+                ReportLabelIsVisible = !String.IsNullOrEmpty(_reportLabelText);
+            }
+        }
+
+        private bool _reportLabelIsVisible;
+        public bool ReportLabelIsVisible
+        {
+            get => _reportLabelIsVisible;
+            set => SetProperty(ref _reportLabelIsVisible, value); 
         }
 
         // commands
