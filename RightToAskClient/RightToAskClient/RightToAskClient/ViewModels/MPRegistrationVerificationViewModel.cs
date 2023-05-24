@@ -6,6 +6,8 @@ using RightToAskClient.HttpClients;
 using RightToAskClient.Models;
 using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Resx;
+using RightToAskClient.Views.Popups;
+using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -102,6 +104,17 @@ namespace RightToAskClient.ViewModels
                     StoreMPRegistration();
                     SaveMPRegistrationToPreferences();
                     MessagingCenter.Send(this, Constants.IsVerifiedMPAccount);
+                    
+                    // Success popup
+                    // This logic isn't perfect because if you were already a staffer but you just registered as an MP, 
+                    // it will say 'staffer.'
+                    var successTitle = IsStaffer
+                        ? AppResources.StafferRegistrationSuccessTitle
+                        : AppResources.MPRegistrationSuccessTitle;
+                    var successPopup = new OneButtonPopup(successTitle, AppResources.RegistrationSuccessMessage +"\n"+ _mpRepresenting, AppResources.OKText);
+                    
+                    _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(successPopup);
+
                     // navigate back to account page
                     if (ReturnToAccountPage)
                     {
@@ -122,34 +135,42 @@ namespace RightToAskClient.ViewModels
         
         // methods
         public string RegisterMPReportLabelText { get; } = "";
-        
+
         private async void SendMPRegistrationToServer()
         {
-            _domain = _parliamentaryDomainIndex >= 0  && _parliamentaryDomainIndex < ParliamentaryURICreator.ValidParliamentaryDomains.Count
-                ? ParliamentaryURICreator.ValidParliamentaryDomains[_parliamentaryDomainIndex] : "";
+            _domain = _parliamentaryDomainIndex >= 0 &&
+                      _parliamentaryDomainIndex < ParliamentaryURICreator.ValidParliamentaryDomains.Count
+                ? ParliamentaryURICreator.ValidParliamentaryDomains[_parliamentaryDomainIndex]
+                : "";
             var message = new RequestEmailValidationMessage()
             {
                 why = new EmailValidationReason() { AsMP = !IsStaffer },
-                // name = MPRepresenting.first_name + " " + MPRepresenting.surname +" @"+domain
                 name = Badge.WriteBadgeName(MPRepresenting, _domain)
             };
             var httpResponse = await RTAClient.RequestEmailValidation(
                 IndividualParticipant.getInstance().SignMessage(message),
                 EmailUsername + "@" + _domain);
-            (bool isValid, string errorMsg, string hash) validation = RTAClient.ValidateHttpResponse(httpResponse, "Email Validation Request");
-            if (validation.isValid)
+
+            if(httpResponse is SuccessResult<RequestEmailValidationResponse> validResponse)
             {
-                _mpVerificationHash = validation.hash;
-                ReportLabelText = AppResources.VerificationCodeSent;
+                if (validResponse.Data.IsEmailSent)
+                {
+                    _mpVerificationHash = validResponse.Data.EmailSent;
+                    ReportLabelText = AppResources.VerificationCodeSent;
+                }
+                else
+                {
+                    // TODO: When we implement email verification for everyone, this case will become relevant.
+                    // Use data from validResponse.Data.AlreadyValidated to update MP registration.
+                    ReportLabelText = AppResources.AlreadyValidated;
+                }
                 IsMsgErrorShown = false;
                 IsMsgSuccessShown = true;
-                
             }
-            else
+            else // httpResponse is an error
             {
-                // TODO - deal properly with errors e.g. email not known.
-                // ReportLabelText = validation.errorMsg;
-                ReportLabelText = AppResources.EmailNotKnown;
+                var httpErrorResponse = httpResponse as ErrorResult<RequestEmailValidationResponse>;
+                ReportLabelText = httpErrorResponse?.Message ?? "Error.";
                 IsMsgErrorShown = true;
                 IsMsgSuccessShown = false;
             }

@@ -63,8 +63,9 @@
                                HorizontalOptions="Start"
                                VerticalOptions="Start" />
                         <Label Text="{Binding NameLabelText}" Style="{StaticResource ErrorLabel}"
+                               IsVisible="{Binding ReportLabelIsVisible}"
                                AutomationProperties.IsInAccessibleTree="True"
-                               AutomationProperties.Name="Name input error"
+                               AutomationProperties.Name="{xct:Translate ErrorReportName}"
                                AutomationProperties.HelpText="{Binding NameLabelText}" />
                     </StackLayout>
 
@@ -101,7 +102,7 @@
                                VerticalOptions="Start" />
                         <Label Text="{Binding ReportLabelText}" Style="{StaticResource ErrorLabel}"
                                AutomationProperties.IsInAccessibleTree="True"
-                               AutomationProperties.Name="Username input error"
+                               AutomationProperties.Name="{xct:Translate ErrorReportName}"
                                AutomationProperties.HelpText="{Binding ReportLabelText}" />
                     </StackLayout>
                 </StackLayout>

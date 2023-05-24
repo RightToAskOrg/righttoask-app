@@ -327,6 +327,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string ErrorReportName {
+            get {
+                return ResourceManager.GetString("ErrorReportName", resourceCulture);
+            }
+        }
+        
         internal static string ErrorFindingAddress {
             get {
                 return ResourceManager.GetString("ErrorFindingAddress", resourceCulture);
@@ -843,6 +849,12 @@ namespace RightToAskClient.Resx {
             }
         }
         
+        internal static string AlreadyValidated {
+            get {
+                return ResourceManager.GetString("AlreadyValidated", resourceCulture);
+            }
+        }
+        
         internal static string VerifyError {
             get {
                 return ResourceManager.GetString("VerifyError", resourceCulture);
@@ -852,6 +864,24 @@ namespace RightToAskClient.Resx {
         internal static string VerifySuccess {
             get {
                 return ResourceManager.GetString("VerifySuccess", resourceCulture);
+            }
+        }
+        
+        internal static string StafferRegistrationSuccessTitle {
+            get {
+                return ResourceManager.GetString("StafferRegistrationSuccessTitle", resourceCulture);
+            }
+        }
+        
+        internal static string MPRegistrationSuccessTitle {
+            get {
+                return ResourceManager.GetString("MPRegistrationSuccessTitle", resourceCulture);
+            }
+        }
+        
+        internal static string RegistrationSuccessMessage {
+            get {
+                return ResourceManager.GetString("RegistrationSuccessMessage", resourceCulture);
             }
         }
         
@@ -972,6 +1002,18 @@ namespace RightToAskClient.Resx {
         internal static string StreetHeaderText {
             get {
                 return ResourceManager.GetString("StreetHeaderText", resourceCulture);
+            }
+        }
+        
+        internal static string SuccessfullyRegisteredAccountText {
+            get {
+                return ResourceManager.GetString("SuccessfullyRegisteredAccountText", resourceCulture);
+            }
+        }
+        
+        internal static string SuccessfullyRegisteredAccountTitle {
+            get {
+                return ResourceManager.GetString("SuccessfullyRegisteredAccountTitle", resourceCulture);
             }
         }
         
