@@ -147,7 +147,8 @@ namespace RightToAskClient.ViewModels
                 }
                 else
                 {
-                    // Use data from validResponse.Data.AlreadyValidated;
+                    // TODO: When we implement email verification for everyone, this case will become relevant.
+                    // Use data from validResponse.Data.AlreadyValidated to update MP registration.
                     ReportLabelText = AppResources.AlreadyValidated;
                 }
                 IsMsgErrorShown = false;
