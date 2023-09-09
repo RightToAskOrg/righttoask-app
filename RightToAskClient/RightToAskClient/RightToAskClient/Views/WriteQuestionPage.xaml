@@ -99,6 +99,7 @@
                         <Editor Placeholder="{xct:Translate DraftQuestionPlaceholderText}"
                                                   VerticalOptions="FillAndExpand"
                                                   HorizontalOptions="FillAndExpand"
+                                                  AutoSize="TextChanges"
                                                   Style="{StaticResource KeyboardEditor}"
                                                   BackgroundColor="Transparent"
                                                   x:Name="KeywordEntry"
