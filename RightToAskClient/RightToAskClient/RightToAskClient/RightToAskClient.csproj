@@ -107,6 +107,7 @@
     <None Remove="Models\" />
     <None Remove="Resources\Fonts\DancingScript-VariableFont_wght.ttf" />
     <None Remove="Resources\Fonts\Roboto-Black.ttf" />
+    <None Remove="Resources\GeoscapeAPIKey.txt" />
     <None Remove="Resources\PublicServerKey" />
     <None Remove="Views\" />
     <None Remove="sqlite-net-pcl" />
@@ -271,6 +272,7 @@
     <EmbeddedResource Include="Images\arrow_forward.png" />
     <EmbeddedResource Include="Resources\Fonts\DancingScript-VariableFont_wght.ttf" />
     <EmbeddedResource Include="Resources\Fonts\Roboto-Black.ttf" />
+    <EmbeddedResource Include="Resources\GeoscapeAPIKey.txt" />
     <EmbeddedResource Include="Resources\VicLegislativeAssemblymembers.csv" />
     <None Remove="Resources\VicLegislativeCouncilmembers.csv" />
     <EmbeddedResource Include="Resources\VicLegislativeCouncilmembers.csv" />
@@ -283,7 +285,6 @@
     <EmbeddedResource Remove="Views\PersonProfilePage.xaml" />
     <EmbeddedResource Remove="Views\ListPage.xaml" />
     <None Remove="Resources\GeoscapeAPIKey" />
-    <EmbeddedResource Include="Resources\GeoscapeAPIKey" />
     <EmbeddedResource Remove="Views\AuthoritiesRTKCategories.xaml" />
     <None Remove="Resources\server.config" />
     <None Remove="Resources\serverconfig.json" />
@@ -296,7 +297,6 @@
     <EmbeddedResource Remove="Views\ExploringPageWithSearchAndPreSelections.xaml" />
     <EmbeddedResource Remove="Views\EmptySelectableListSearchView.xaml" />
     <None Remove="Resources\MPs.json" />
-    <EmbeddedResource Include="Resources\MPs.json" />
     <EmbeddedResource Remove="Views\Popups\InfoPopup.xaml" />
     <EmbeddedResource Remove="Views\MainPage.xaml" />
     <EmbeddedResource Remove="Views\QuestionDraftingPage.xaml" />
