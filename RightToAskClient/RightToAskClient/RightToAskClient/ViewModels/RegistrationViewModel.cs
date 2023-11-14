@@ -11,9 +11,11 @@ using RightToAskClient.Resx;
 using RightToAskClient.Views;
 using RightToAskClient.Views.Controls;
 using RightToAskClient.Views.Popups;
-using Xamarin.CommunityToolkit.Extensions;
-using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Forms;
+using CommunityToolkit.Maui.Extensions;
+using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui;
+using CommunityToolkit.Mvvm.Input;
 
 namespace RightToAskClient.ViewModels
 {
@@ -315,14 +317,14 @@ namespace RightToAskClient.ViewModels
         }
 
 
-        private Accessibility.AccessibilityTrait _continueButtonAccessibilityTrait =
-            Accessibility.AccessibilityTrait.Disabled;
+        //private Accessibility.AccessibilityTrait _continueButtonAccessibilityTrait =
+        //    Accessibility.AccessibilityTrait.Disabled;
 
-        public Accessibility.AccessibilityTrait ContinueButtonAccessibilityTrait
-        {
-            get => _continueButtonAccessibilityTrait;
-            set => SetProperty(ref _continueButtonAccessibilityTrait, value);
-        }
+        //public Accessibility.AccessibilityTrait ContinueButtonAccessibilityTrait
+        //{
+        //    get => _continueButtonAccessibilityTrait;
+        //    set => SetProperty(ref _continueButtonAccessibilityTrait, value);
+        //}
 
         private bool _ableToContinue = false;
 
@@ -332,9 +334,9 @@ namespace RightToAskClient.ViewModels
             set
             {
                 SetProperty(ref _ableToContinue, value);
-                ContinueButtonAccessibilityTrait = _ableToContinue
-                    ? Accessibility.AccessibilityTrait.None
-                    : Accessibility.AccessibilityTrait.Disabled;
+                //ContinueButtonAccessibilityTrait = _ableToContinue
+                //    ? Accessibility.AccessibilityTrait.None
+                //    : Accessibility.AccessibilityTrait.Disabled;
             }
         }
 
@@ -441,7 +443,7 @@ namespace RightToAskClient.ViewModels
 
         private RegistrationViewModel(bool notUsed)
         {
-            ChooseMPToRegisterButtonCommand = new AsyncCommand(async () => { SelectMPForRegistration(); });
+            ChooseMPToRegisterButtonCommand = new AsyncRelayCommand (async () => { SelectMPForRegistration(); });
             DoneButtonCommand = new Command(() => { OnSaveButtonClicked(); });
             EditElectoratesCommand =  new Command(() => { NavigateToFindMPsPage(); });
             UpdateAccountButtonCommand = new Command(() =>
@@ -458,7 +460,7 @@ namespace RightToAskClient.ViewModels
             });
             FollowButtonCommand = new Command(() => { FollowButtonText = "Following not implemented"; });
             DMButtonCommand = new Command(() => { DMButtonText = "DMs not implemented"; });
-            CancelButtonCommand = new AsyncCommand(async () =>
+            CancelButtonCommand = new AsyncRelayCommand (async () =>
             {
                 //await Navigation.PopAsync();
                 await Shell.Current.GoToAsync("..");
@@ -469,11 +471,11 @@ namespace RightToAskClient.ViewModels
             // 
             // Think a bit harder about how people will navigate or understand this:
             // Will they expect to be adding a new stack layer, or popping off old ones?
-            SeeQuestionsButtonCommand = new AsyncCommand(async () =>
+            SeeQuestionsButtonCommand = new AsyncRelayCommand (async () =>
             {
                 await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
             });
-            DoRegistrationCommand = new AsyncCommand(async () =>
+            DoRegistrationCommand = new AsyncRelayCommand (async () =>
             {
                 // var registerAccountPage = new RegisterAccountPage(_registration);
                 // await Application.Current.MainPage.Navigation.PushAsync(registerAccountPage);
@@ -489,14 +491,14 @@ namespace RightToAskClient.ViewModels
         public Command DoneButtonCommand { get; }
         public Command EditElectoratesCommand { get; }
         public Command UpdateAccountButtonCommand { get; }
-        public AsyncCommand ChooseMPToRegisterButtonCommand { get; }
+        public AsyncRelayCommand  ChooseMPToRegisterButtonCommand { get; }
         public Command UpdateMPsButtonCommand { get; }
         public Command RegisterOrgButtonCommand { get; }
         public Command FollowButtonCommand { get; }
         public Command DMButtonCommand { get; }
-        public IAsyncCommand CancelButtonCommand { get; }
-        public IAsyncCommand SeeQuestionsButtonCommand { get; }
-        public IAsyncCommand DoRegistrationCommand { get; }
+        public IAsyncRelayCommand  CancelButtonCommand { get; }
+        public IAsyncRelayCommand  SeeQuestionsButtonCommand { get; }
+        public IAsyncRelayCommand  DoRegistrationCommand { get; }
 
         #region Methods
 
@@ -695,8 +697,8 @@ namespace RightToAskClient.ViewModels
 
         private async void PromptUser(string message)
         {
-            var popup = new OneButtonPopup(message, AppResources.OKText);
-            _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
+            //TODO: var popup = new OneButtonPopup(message, AppResources.OKText);
+          //  _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
         }
 
         #endregion

@@ -6,9 +6,11 @@ using RightToAskClient.Models;
 using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Resx;
 using RightToAskClient.Views.Popups;
-using Xamarin.CommunityToolkit.Extensions;
-using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Forms;
+using CommunityToolkit.Maui.Extensions;
+using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui;
+using CommunityToolkit.Mvvm.Input;
 
 namespace RightToAskClient.ViewModels
 {
@@ -27,8 +29,8 @@ namespace RightToAskClient.ViewModels
     public class ReportQuestionViewModel: BaseViewModel
     {
         public IList<ReportReason> ReasonList { get; private set; }
-        public IAsyncCommand BackCommand { get; }
-        public IAsyncCommand ReportCommand { get; }
+        public IAsyncRelayCommand  BackCommand { get; }
+        public IAsyncRelayCommand  ReportCommand { get; }
         
         private QuestionResponseRecords _responseRecords = new QuestionResponseRecords();
         
@@ -41,11 +43,11 @@ namespace RightToAskClient.ViewModels
 
         public ReportQuestionViewModel()
         {
-            BackCommand = new AsyncCommand(async () =>
+            BackCommand = new AsyncRelayCommand (async () =>
             {
                 await App.Current.MainPage.Navigation.PopAsync();
             });
-            ReportCommand = new AsyncCommand(async () =>
+            ReportCommand = new AsyncRelayCommand (async () =>
             {
                 ReportReason? reportReason = null;
                 foreach (var v in ReasonList)
@@ -62,21 +64,25 @@ namespace RightToAskClient.ViewModels
                 if (success)
                 {
                     _responseRecords.AddReportedQuestion(_questionID);
-                    var popup = new OneButtonPopup(
-                        AppResources.ReportTitle,
+                   // var popup = new OneButtonPopup(
+                   //     AppResources.ReportTitle,
+                   //     AppResources.ReportMessage,
+                   //     AppResources.DoneButtonText);
+                    await Application.Current.MainPage.DisplayAlert(AppResources.ReportTitle,
                         AppResources.ReportMessage,
                         AppResources.DoneButtonText);
-                    _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
                     _command.Execute(true);
                     await App.Current.MainPage.Navigation.PopAsync(); 
                 }
                 else
                 {
-                    var popup = new OneButtonPopup(
-                        AppResources.ReportTitleError,
+                    //var popup = new OneButtonPopup(
+                    //    AppResources.ReportTitleError,
+                    //    AppResources.ReportMessageError,
+                    //    AppResources.OKText);
+                    await Application.Current.MainPage.DisplayAlert(AppResources.ReportTitleError,
                         AppResources.ReportMessageError,
                         AppResources.OKText);
-                    _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
                 }
 
             });

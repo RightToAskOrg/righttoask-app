@@ -4,7 +4,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text.Json;
 using RightToAskClient.Helpers;
-using Xamarin.Forms;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui;
 
 namespace RightToAskClient.Models
 {

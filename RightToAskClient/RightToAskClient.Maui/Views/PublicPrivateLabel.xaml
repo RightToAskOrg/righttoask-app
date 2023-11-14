@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<StackLayout xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="RightToAskClient.Maui.Views.PublicPrivateLabel"
+            
+             x:Name="This">
+    <Frame
+        x:Name="PublicLabel"
+        Style="{StaticResource PublicPrivateLabel}"
+        BackgroundColor="{AppThemeBinding 
+    Light={StaticResource DarkGreen},
+    Dark={StaticResource Primary}}"
+        IsVisible="{Binding IsPublic, Source={x:Reference This}}"
+        Padding="15, 2"
+        CornerRadius="13">
+        <Label Style="{StaticResource PublicPrivateLabelText}"
+               Text="{StaticResource PublicLabel}"
+               TextColor="White" />
+    </Frame>
+
+    <Frame Padding="2" HasShadow="False" HorizontalOptions="FillAndExpand"
+           CornerRadius="13"
+           BackgroundColor="{AppThemeBinding 
+    Light={StaticResource DarkGreen},
+    Dark={StaticResource Primary}}"
+           IsVisible="{Binding IsPublic, Source={x:Reference This}, Converter={StaticResource cnvInvert}}">
+        <Frame
+            x:Name="PrivateLabel"
+            Style="{StaticResource PublicPrivateLabel}"
+            BackgroundColor="{AppThemeBinding Light=White, Dark=Black}">
+            <Label Style="{StaticResource PublicPrivateLabelText}"
+                   Text="{StaticResource PrivateLabel}"
+                   TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark=White}" />
+        </Frame>
+    </Frame>
+
+
+</StackLayout>

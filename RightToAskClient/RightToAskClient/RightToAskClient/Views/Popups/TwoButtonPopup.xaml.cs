@@ -1,8 +1,13 @@
 ﻿using System;
 using RightToAskClient.Models;
 using RightToAskClient.ViewModels;
-using Xamarin.CommunityToolkit.UI.Views;
-using Xamarin.Forms.Xaml;
+using Microsoft.Maui.Controls.Xaml;
+using CommunityToolkit.Maui.Converters;
+using CommunityToolkit.Maui.ImageSources;
+using CommunityToolkit.Maui;
+using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Maui.Layouts;
+using CommunityToolkit.Maui.Views;
 
 namespace RightToAskClient.Views.Popups
 {
@@ -37,16 +42,16 @@ namespace RightToAskClient.Views.Popups
 
         private void DismissPopup(object sender, EventArgs e)
         {
-            Dismiss("cancel");
+            //TODO: Dismiss("cancel");
         }
 
         private void CancelButtonClicked(object sender, EventArgs e)
         {
-            Dismiss("cancel");
+            //TODO: Dismiss("cancel");
         }
         private void ApproveButtonClicked(object sender, EventArgs e)
         {
-            Dismiss("OK");
+            //TODO: Dismiss("OK");
         }
     }
 }

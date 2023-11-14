@@ -1,0 +1,494 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net7.0-android33.0</TargetFrameworks>
+		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
+		<!-- <TargetFrameworks>$(TargetFrameworks);net6.0-tizen</TargetFrameworks> -->
+		<OutputType>Exe</OutputType>
+		<RootNamespace>RightToAskClient.Maui</RootNamespace>
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+		<ImplicitUsings>enable</ImplicitUsings>
+
+		<!-- Display name -->
+		<ApplicationTitle>RightToAskClient.Maui</ApplicationTitle>
+
+		<!-- App Identifier -->
+		<ApplicationId>com.companyname.righttoaskclient.maui</ApplicationId>
+		<ApplicationIdGuid>6a76c8a2-4b53-47c7-b276-39a3c19cf7af</ApplicationIdGuid>
+
+		<!-- Versions -->
+		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationVersion>1</ApplicationVersion>
+
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!-- App Icon -->
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+
+		<!-- Splash Screen -->
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+
+		<!-- Images -->
+		<MauiImage Include="Resources\Images\*" />
+		<MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
+
+		<!-- Custom Fonts -->
+		<MauiFont Include="Resources\Fonts\*" />
+
+		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Models\ServerCommsData\UserSearchResults.cs" />
+	  <Compile Remove="Models\UpdatableOtherUserData.cs" />
+	  <Compile Remove="ViewModels\OtherUserProfileViewModel.cs" />
+	  <Compile Remove="Views\AuthoritiesRTKCategories.xaml.cs" />
+	  <Compile Remove="Views\ExploringPage.xaml.cs" />
+	  <Compile Remove="Views\ExploringPageWithSearch.xaml.cs" />
+	  <Compile Remove="Views\ExploringPageWithSearchAndPreSelections.xaml.cs" />
+	  <Compile Remove="Views\ListPage.xaml.cs" />
+	  <Compile Remove="Views\MainPage.xaml.cs" />
+	  <Compile Remove="Views\PersonProfilePage.xaml.cs" />
+	  <Compile Remove="Views\QuestionDraftingPage.xaml.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Remove="Views\AuthoritiesRTKCategories.xaml" />
+	  <MauiXaml Remove="Views\ExploringPage.xaml" />
+	  <MauiXaml Remove="Views\ExploringPageWithSearch.xaml" />
+	  <MauiXaml Remove="Views\ExploringPageWithSearchAndPreSelections.xaml" />
+	  <MauiXaml Remove="Views\ListPage.xaml" />
+	  <MauiXaml Remove="Views\MainPage.xaml" />
+	  <MauiXaml Remove="Views\MPRegistrationPage.xaml" />
+	  <MauiXaml Remove="Views\PersonProfilePage.xaml" />
+	  <MauiXaml Remove="Views\QuestionDraftingPage.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Images\account_balance_48.png" />
+	  <None Remove="Images\account_edit.png" />
+	  <None Remove="Images\arrow_back_48.png" />
+	  <None Remove="Images\arrow_forward.png" />
+	  <None Remove="Images\arrow_forward_48.png" />
+	  <None Remove="Images\assured_workload_48.png" />
+	  <None Remove="Images\auto_awesome.png" />
+	  <None Remove="Images\book_stack.png" />
+	  <None Remove="Images\calendar_checkmark.png" />
+	  <None Remove="Images\calendar_check_simple.png" />
+	  <None Remove="Images\cancel_48.png" />
+	  <None Remove="Images\checkmark_box.png" />
+	  <None Remove="Images\check_box_48.png" />
+	  <None Remove="Images\clipboard.png" />
+	  <None Remove="Images\close.png" />
+	  <None Remove="Images\closed_book.png" />
+	  <None Remove="Images\close_button.png" />
+	  <None Remove="Images\close_button_dark_48.png" />
+	  <None Remove="Images\collapse.png" />
+	  <None Remove="Images\collapse_48.png" />
+	  <None Remove="Images\collapse_96.png" />
+	  <None Remove="Images\contact_mail_48.png" />
+	  <None Remove="Images\contact_support_48.png" />
+	  <None Remove="Images\cup_of_supplies.png" />
+	  <None Remove="Images\edit.png" />
+	  <None Remove="Images\edit_note_48.png" />
+	  <None Remove="Images\emu-pinkCircle.png" />
+	  <None Remove="Images\emu_75.png" />
+	  <None Remove="Images\emu_tall.PNG" />
+	  <None Remove="Images\error.png" />
+	  <None Remove="Images\error_48.png" />
+	  <None Remove="Images\expand.png" />
+	  <None Remove="Images\expand_48.png" />
+	  <None Remove="Images\expand_96.png" />
+	  <None Remove="Images\expand_circle_down_48.png" />
+	  <None Remove="Images\expand_circle_up_48.png" />
+	  <None Remove="Images\filter_sliders_48.png" />
+	  <None Remove="Images\flags_dark.png" />
+	  <None Remove="Images\flags_filled_dark.png" />
+	  <None Remove="Images\flags_filled_light.png" />
+	  <None Remove="Images\flags_light.png" />
+	  <None Remove="Images\flag_48.png" />
+	  <None Remove="Images\glasses.png" />
+	  <None Remove="Images\half_roo.png" />
+	  <None Remove="Images\help_48.png" />
+	  <None Remove="Images\help_75.png" />
+	  <None Remove="Images\home1.png" />
+	  <None Remove="Images\home2.png" />
+	  <None Remove="Images\home3.png" />
+	  <None Remove="Images\home4.png" />
+	  <None Remove="Images\info_48.png" />
+	  <None Remove="Images\location_pin.png" />
+	  <None Remove="Images\map.png" />
+	  <None Remove="Images\message_bubble.png" />
+	  <None Remove="Images\open_book.png" />
+	  <None Remove="Images\outline_arrow_circle_up_48.png" />
+	  <None Remove="Images\outline_question_answer_48.png" />
+	  <None Remove="Images\pen.png" />
+	  <None Remove="Images\pending_48.png" />
+	  <None Remove="Images\pin.png" />
+	  <None Remove="Images\question_draft.png" />
+	  <None Remove="Images\question_draft_resized.png" />
+	  <None Remove="Images\read_and_upvote.png" />
+	  <None Remove="Images\school_house.png" />
+	  <None Remove="Images\search.png" />
+	  <None Remove="Images\search_75.png" />
+	  <None Remove="Images\Search_Gray.png" />
+	  <None Remove="Images\sentiment_very_dissatisfied.png" />
+	  <None Remove="Images\settings_gear.png" />
+	  <None Remove="Images\share_48.png" />
+	  <None Remove="Images\success_48.png" />
+	  <None Remove="Images\swipe_left_48.png" />
+	  <None Remove="Images\thumb_down_dark.png" />
+	  <None Remove="Images\thumb_down_filled.png" />
+	  <None Remove="Images\thumb_down_light.png" />
+	  <None Remove="Images\thumb_up_48.png" />
+	  <None Remove="Images\thumb_up_dark.png" />
+	  <None Remove="Images\thumb_up_filled.png" />
+	  <None Remove="Images\thumb_up_light.png" />
+	  <None Remove="Images\toolbox_bag.png" />
+	  <None Remove="Images\trash_delete_48.png" />
+	  <None Remove="Images\trending_up_48.png" />
+	  <None Remove="Images\visibility_off.png" />
+	  <None Remove="Images\wireframe_roo_small.png" />
+	  <None Remove="Images\wireframe_roo_smaller.png" />
+	  <None Remove="Images\write_draft.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="Images\account_balance_48.png" />
+	  <EmbeddedResource Include="Images\account_edit.png" />
+	  <EmbeddedResource Include="Images\arrow_back_48.png" />
+	  <EmbeddedResource Include="Images\arrow_forward.png" />
+	  <EmbeddedResource Include="Images\arrow_forward_48.png" />
+	  <EmbeddedResource Include="Images\assured_workload_48.png" />
+	  <EmbeddedResource Include="Images\auto_awesome.png" />
+	  <EmbeddedResource Include="Images\book_stack.png" />
+	  <EmbeddedResource Include="Images\calendar_checkmark.png" />
+	  <EmbeddedResource Include="Images\calendar_check_simple.png" />
+	  <EmbeddedResource Include="Images\cancel_48.png" />
+	  <EmbeddedResource Include="Images\checkmark_box.png" />
+	  <EmbeddedResource Include="Images\check_box_48.png" />
+	  <EmbeddedResource Include="Images\clipboard.png" />
+	  <EmbeddedResource Include="Images\close.png" />
+	  <EmbeddedResource Include="Images\closed_book.png" />
+	  <EmbeddedResource Include="Images\close_button.png" />
+	  <EmbeddedResource Include="Images\close_button_dark_48.png" />
+	  <EmbeddedResource Include="Images\collapse.png" />
+	  <EmbeddedResource Include="Images\collapse_48.png" />
+	  <EmbeddedResource Include="Images\collapse_96.png" />
+	  <EmbeddedResource Include="Images\contact_mail_48.png" />
+	  <EmbeddedResource Include="Images\contact_support_48.png" />
+	  <EmbeddedResource Include="Images\cup_of_supplies.png" />
+	  <EmbeddedResource Include="Images\edit.png" />
+	  <EmbeddedResource Include="Images\edit_note_48.png" />
+	  <EmbeddedResource Include="Images\emu-pinkCircle.png" />
+	  <EmbeddedResource Include="Images\emu_75.png" />
+	  <EmbeddedResource Include="Images\emu_tall.PNG" />
+	  <EmbeddedResource Include="Images\error.png" />
+	  <EmbeddedResource Include="Images\error_48.png" />
+	  <EmbeddedResource Include="Images\expand.png" />
+	  <EmbeddedResource Include="Images\expand_48.png" />
+	  <EmbeddedResource Include="Images\expand_96.png" />
+	  <EmbeddedResource Include="Images\expand_circle_down_48.png" />
+	  <EmbeddedResource Include="Images\expand_circle_up_48.png" />
+	  <EmbeddedResource Include="Images\filter_sliders_48.png" />
+	  <EmbeddedResource Include="Images\flags_dark.png" />
+	  <EmbeddedResource Include="Images\flags_filled_dark.png" />
+	  <EmbeddedResource Include="Images\flags_filled_light.png" />
+	  <EmbeddedResource Include="Images\flags_light.png" />
+	  <EmbeddedResource Include="Images\flag_48.png" />
+	  <EmbeddedResource Include="Images\glasses.png" />
+	  <EmbeddedResource Include="Images\half_roo.png" />
+	  <EmbeddedResource Include="Images\help_48.png" />
+	  <EmbeddedResource Include="Images\help_75.png" />
+	  <EmbeddedResource Include="Images\home1.png" />
+	  <EmbeddedResource Include="Images\home2.png" />
+	  <EmbeddedResource Include="Images\home3.png" />
+	  <EmbeddedResource Include="Images\home4.png" />
+	  <EmbeddedResource Include="Images\info_48.png" />
+	  <EmbeddedResource Include="Images\location_pin.png" />
+	  <EmbeddedResource Include="Images\map.png" />
+	  <EmbeddedResource Include="Images\message_bubble.png" />
+	  <EmbeddedResource Include="Images\open_book.png" />
+	  <EmbeddedResource Include="Images\outline_arrow_circle_up_48.png" />
+	  <EmbeddedResource Include="Images\outline_question_answer_48.png" />
+	  <EmbeddedResource Include="Images\pen.png" />
+	  <EmbeddedResource Include="Images\pending_48.png" />
+	  <EmbeddedResource Include="Images\pin.png" />
+	  <EmbeddedResource Include="Images\question_draft.png" />
+	  <EmbeddedResource Include="Images\question_draft_resized.png" />
+	  <EmbeddedResource Include="Images\read_and_upvote.png" />
+	  <EmbeddedResource Include="Images\school_house.png" />
+	  <EmbeddedResource Include="Images\search.png" />
+	  <EmbeddedResource Include="Images\search_75.png" />
+	  <EmbeddedResource Include="Images\Search_Gray.png" />
+	  <EmbeddedResource Include="Images\sentiment_very_dissatisfied.png" />
+	  <EmbeddedResource Include="Images\settings_gear.png" />
+	  <EmbeddedResource Include="Images\share_48.png" />
+	  <EmbeddedResource Include="Images\success_48.png" />
+	  <EmbeddedResource Include="Images\swipe_left_48.png" />
+	  <EmbeddedResource Include="Images\thumb_down_dark.png" />
+	  <EmbeddedResource Include="Images\thumb_down_filled.png" />
+	  <EmbeddedResource Include="Images\thumb_down_light.png" />
+	  <EmbeddedResource Include="Images\thumb_up_48.png" />
+	  <EmbeddedResource Include="Images\thumb_up_dark.png" />
+	  <EmbeddedResource Include="Images\thumb_up_filled.png" />
+	  <EmbeddedResource Include="Images\thumb_up_light.png" />
+	  <EmbeddedResource Include="Images\toolbox_bag.png" />
+	  <EmbeddedResource Include="Images\trash_delete_48.png" />
+	  <EmbeddedResource Include="Images\trending_up_48.png" />
+	  <EmbeddedResource Include="Images\visibility_off.png" />
+	  <EmbeddedResource Include="Images\wireframe_roo_small.png" />
+	  <EmbeddedResource Include="Images\wireframe_roo_smaller.png" />
+	  <EmbeddedResource Include="Images\write_draft.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="CommunityToolkit.Maui" Version="2.0.0" />
+	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+	  <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Resx\AppResources.Designer.cs">
+	    <DependentUpon>AppResources.resx</DependentUpon>
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	  </Compile>
+	  <Compile Update="Views\AboutPage.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\AccountPage.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\AdvancedSearchFiltersPage.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\AnswerDisplayCard.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\AppShell.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\ClickableListView.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\CodeOfConductPage.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\EmptyCollectionView.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\FindMPsPage.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\HowAnsweredOptionPage.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\HowToPublishPage.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\HowToPublishView.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\LabeledPicker.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\MPRegistrationVerificationPage.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\OtherUserProfilePage.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\Popups\HowToPublishPopup.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\Popups\InfoPopup.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\Popups\OneButtonPopup.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\Popups\QuestionPublishedPopup.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\Popups\ReadingPagePopup.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\Popups\TermAndConditionPopup.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\Popups\TwoButtonPopup.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\PublicPrivateLabel.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\QuestionAnswererPage.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\QuestionAskerPage.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\QuestionBackgroundPage.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\QuestionDetailPage.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\QuestionDisplayCard.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\ReadingPage.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\RegisterAccountPage.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\ReportQuestionPage.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\SelectableListPage.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\ShareElectorateInfoPanel.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\SharingElectorateInfoPage.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\UserAccountInfoView.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Resx\AppResources.resx">
+	    <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
+	    <Generator>ResXFileCodeGenerator</Generator>
+	  </EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Views\AboutPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\AccountPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\AdvancedSearchFiltersPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\AnswerDisplayCard.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\AppShell.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ClickableListView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\CodeOfConductPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\EmptyCollectionView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\EmptySelectableListSearchView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\FindMPsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\HowAnsweredOptionPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\HowToPublishPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\HowToPublishView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\LabeledPicker.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\MPRegistrationVerificationPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\OtherUserProfilePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Popups\HowToPublishPopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Popups\InfoPopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Popups\OneButtonPopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Popups\QuestionPublishedPopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Popups\ReadingPagePopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Popups\TermAndConditionPopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Popups\TwoButtonPopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\PublicPrivateLabel.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\QuestionAnswererPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\QuestionAskerPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\QuestionBackgroundPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\QuestionDetailPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\QuestionDisplayCard.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ReadingPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\RegisterAccountPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ReportQuestionPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\SelectableListPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ShareElectorateInfoPanel.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\SharingElectorateInfoPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\UserAccountInfoView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\WriteQuestionPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
+</Project>

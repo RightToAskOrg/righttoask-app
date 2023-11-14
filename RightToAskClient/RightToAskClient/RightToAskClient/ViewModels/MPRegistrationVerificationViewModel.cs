@@ -7,10 +7,11 @@ using RightToAskClient.Models;
 using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Resx;
 using RightToAskClient.Views.Popups;
-using Xamarin.CommunityToolkit.Extensions;
-using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Essentials;
-using Xamarin.Forms;
+using CommunityToolkit.Maui.Extensions;
+using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui;
+using CommunityToolkit.Mvvm.Input;
 
 namespace RightToAskClient.ViewModels
 {
@@ -96,7 +97,7 @@ namespace RightToAskClient.ViewModels
             });
 
             SendMPVerificationEmailCommand = new Command(() => { SendMPRegistrationToServer(); });
-            SubmitMPRegistrationPinCommand = new AsyncCommand(async () =>
+            SubmitMPRegistrationPinCommand = new AsyncRelayCommand (async () =>
             {
                 var success = await SendMPRegistrationPINToServer();
                 if (success)
@@ -111,9 +112,9 @@ namespace RightToAskClient.ViewModels
                     var successTitle = IsStaffer
                         ? AppResources.StafferRegistrationSuccessTitle
                         : AppResources.MPRegistrationSuccessTitle;
-                    var successPopup = new OneButtonPopup(successTitle, AppResources.RegistrationSuccessMessage +"\n"+ _mpRepresenting, AppResources.OKText);
-                    
-                    _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(successPopup);
+        //            var successPopup = new OneButtonPopup(successTitle, AppResources.RegistrationSuccessMessage +"\n"+ _mpRepresenting, AppResources.OKText);
+
+                    await Application.Current.MainPage.DisplayAlert(successTitle, AppResources.RegistrationSuccessMessage, AppResources.OKText);
 
                     // navigate back to account page
                     if (ReturnToAccountPage)
@@ -128,7 +129,7 @@ namespace RightToAskClient.ViewModels
         
         // commands
         public Command SendMPVerificationEmailCommand { get; }
-        public IAsyncCommand SubmitMPRegistrationPinCommand { get; }
+        public IAsyncRelayCommand  SubmitMPRegistrationPinCommand { get; }
         
         public Command HideErrorLayoutCommand { get; }
         public Command HideSuccessLayoutCommand { get; }

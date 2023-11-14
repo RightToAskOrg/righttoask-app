@@ -2,9 +2,9 @@ using System;
 using System.Linq;
 using RightToAskClient.Helpers;
 using RightToAskClient.ViewModels;
-using Xamarin.Essentials;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+using Microsoft.Maui.Controls.Xaml;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui;
 
 namespace RightToAskClient.Views
 {
@@ -101,7 +101,7 @@ namespace RightToAskClient.Views
             //combine the pin
             var vm = BindingContext as MPRegistrationVerificationViewModel;
             vm.MpRegistrationPin = string.Join("", VerifyCodeEntries.Select(entry => entry.Text));
-            vm.SubmitMPRegistrationPinCommand.ExecuteAsync();
+            vm.SubmitMPRegistrationPinCommand.ExecuteAsync(null);
         }
     }
 }

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:vm="clr-namespace:RightToAskClient.Maui.ViewModels;assembly=RightToAskClient.Maui"
+             xmlns:helpers="clr-namespace:RightToAskClient.Maui.Helpers;assembly=RightToAskClient.Maui"
+             xmlns:controls="clr-namespace:RightToAskClient.Maui.Views.Controls;assembly=RightToAskClient.Maui"
+             x:Class="RightToAskClient.Maui.Views.SelectableListPage"
+            
+             x:DataType="vm:SelectableListViewModel"
+             Title="{Binding TitleText}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{StaticResource SearchButtonText}" 
+                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.search_75.png}"
+                     Clicked="MenuItem_OnClicked"/>
+        <ToolbarItem Text="{StaticResource HomeButtonText}" 
+                     Command="{Binding HomeButtonCommand}" 
+                     x:DataType="vm:BaseViewModel"
+                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.home4.png}"/>
+        <ToolbarItem Command="{Binding InfoPopupCommand}" 
+                     x:DataType="vm:BaseViewModel"
+                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+		<StackLayout HorizontalOptions="Center" 
+                     VerticalOptions="Start">
+            <Frame x:Name="SearchFrame"
+                   Style="{StaticResource AppThemeGreenFrame}" 
+                   Margin="8,8" 
+                   Padding="0" 
+                   BackgroundColor="Transparent"
+                   BorderColor="Transparent"
+                   CornerRadius="5"
+                   HasShadow="False">
+                <StackLayout Style="{StaticResource EditorContainer}"
+                             Padding="0"
+                             VerticalOptions="EndAndExpand">
+                    <Grid ColumnSpacing="8"
+                          RowSpacing="0"
+                          BackgroundColor="{AppThemeBinding 
+                          Light={StaticResource EditorBackground}, 
+                          Dark={StaticResource EditorBackgroundDark}}"
+                          Padding="8,0,8,0"
+                          >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="42" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="24" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="24" />
+                        </Grid.ColumnDefinitions>
+                        <StackLayout
+                            Orientation="Vertical"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            Grid.Row="0"
+                            Grid.Column="0">
+                            <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.Search_Gray.png}"
+                                         Style="{StaticResource SearchIcon}"
+                                         CornerRadius="8"
+                                         SemanticProperties.Hint="{StaticResource SearchButtonText}"
+                                         SemanticProperties.Description="{StaticResource SearchButtonText}">
+                            </ImageButton>
+                        </StackLayout>
+                        <controls:BorderlessEntry Placeholder="{StaticResource SearchBarPlaceholderText}"
+                                                  Text="{Binding Keyword}"
+                                                  VerticalOptions="FillAndExpand"
+                                                  HorizontalOptions="FillAndExpand"
+                                                  Style="{StaticResource SearchEntry}"
+                                                  BackgroundColor="Transparent"
+                                                  x:Name="KeywordEntry"
+                                                  Keyboard="Chat"
+                                                  MaxLength="280"
+                                                  TextChanged="KeywordEntry_OnTextChanged"
+                                                  SemanticProperties.Hint="{StaticResource DraftQuestionPlaceholderText}"
+                                                  Margin="0"
+                                                  Grid.Row="0"
+                                                  Grid.Column="1">
+                        </controls:BorderlessEntry>
+                        <StackLayout
+                            Orientation="Vertical"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            Grid.Row="0"
+                            Grid.Column="2">
+                            <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.close.png}"
+                                         Style="{StaticResource ClearButtonGreen}"
+                                         CornerRadius="8"
+                                         SemanticProperties.Hint="{StaticResource ClearButtonHint}"
+                                         SemanticProperties.Description="{StaticResource ClearButtonDescription}"
+                                         Clicked="ClearButton_OnClicked"
+                                         x:Name="ClearButton">
+                            </ImageButton>
+                        </StackLayout>
+                    </Grid>
+                </StackLayout>
+            </Frame>
+            <Label Text = "{Binding IntroText}" 
+                   Style="{StaticResource Header1}"/>
+            <ScrollView FocusChangeRequested="ParentScrollView_OnFocusChangeRequested">
+                <ListView Margin="8"
+                          ItemsSource="{Binding FilteredSelectableEntities}"
+                          VerticalOptions="FillAndExpand" 
+                          SelectionMode="None" 
+                          HasUnevenRows="True" 
+                          ItemTapped="OnEntity_Selected" 
+                          ItemTemplate="{StaticResource SelectableDataTemplate }"/>
+            </ScrollView>
+            <StackLayout Padding="0,0,8,8">
+                <Button Text="{Binding DoneButtonText}" 
+                        Command="{Binding DoneButtonCommand}" 
+                        Style="{StaticResource DoneButton}" /> 
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

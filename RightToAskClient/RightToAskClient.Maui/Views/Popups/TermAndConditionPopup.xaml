@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xct:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"    
+           xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+           x:Class="RightToAskClient.Maui.Views.Popups.TermAndConditionPopup"         
+           Size="300,160"
+           Color="Transparent">
+    <Frame CornerRadius="5" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="0"
+           BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource BackgroundDarkGray}}">
+        <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent">
+
+            <StackLayout Orientation="Vertical"
+                         VerticalOptions="CenterAndExpand"
+                         HorizontalOptions="CenterAndExpand"
+                         x:Name="MarkdownView"
+                         Margin="16, 0">
+            </StackLayout>
+
+            <StackLayout Padding="0,1,0,0"
+                         BackgroundColor="{AppThemeBinding Light={StaticResource FadedButtonColor}, Dark={StaticResource SeparatorDarkModeColor}}">
+                <!--Acknowledge/Dismiss Button Bottom Right-->
+                <StackLayout
+                    BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource BackgroundDarkGray}}">
+                    <Button Text="{StaticResource AgreeAndContinueButton}" HorizontalOptions="Center"
+                            FontSize="Small"
+                            VerticalOptions="End" Clicked="okButton_Clicked"
+                            SemanticProperties.Hint="{StaticResource TCContinueButtonHint}"
+                            SemanticProperties.Description="{StaticResource AgreeAndContinueButton}"
+                            Style="{StaticResource PopupOKButton}" BackgroundColor="Transparent" />
+                </StackLayout>
+            </StackLayout>
+            
+        </StackLayout>
+    </Frame>
+</xct:Popup>

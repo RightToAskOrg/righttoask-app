@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:vm="clr-namespace:RightToAskClient.Maui.ViewModels"
+           
+             xmlns:local="clr-namespace:RightToAskClient.Maui"
+             xmlns:views="clr-namespace:RightToAskClient.Maui.Views;assembly=RightToAskClient.Maui"
+             xmlns:helpers="clr-namespace:RightToAskClient.Maui.Helpers;assembly=RightToAskClient.Maui"
+             Title="Code of Conduct"
+             x:Class="RightToAskClient.Maui.Views.CodeOfConductPage"
+             Style="{StaticResource SubPage}">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding BackCommand}"
+                            SemanticProperties.Hint="{StaticResource BackHint}"
+                            SemanticProperties.Description="{StaticResource BackDescription}" />
+    </Shell.BackButtonBehavior>
+    <ContentPage.BindingContext>
+        <vm:ReportQuestionViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical"
+                     VerticalOptions="Fill"
+                     HorizontalOptions="Fill">
+            <ScrollView VerticalOptions="FillAndExpand"
+                        HorizontalOptions="Fill">
+                <StackLayout Orientation="Vertical"
+                             VerticalOptions="FillAndExpand"
+                             HorizontalOptions="Fill">
+                    <StackLayout Orientation="Vertical"
+                                 VerticalOptions="FillAndExpand"
+                                 HorizontalOptions="Fill"
+                                 Padding="16"
+                                 x:Name="MarkdownView"/>
+                    <BoxView Style="{StaticResource ButtonSeparator}" />
+                    <Grid 
+                         VerticalOptions="End"
+                         HorizontalOptions="Fill"
+                         Padding="10" ColumnSpacing="20"
+                         RowDefinitions="Auto" ColumnDefinitions="*, *">
+                        <Button Grid.Row="0" Grid.Column="0" Text="{StaticResource DisagreeText}"
+                                SemanticProperties.Hint="{StaticResource DisagreeHint}"
+                                SemanticProperties.Description="{StaticResource DisagreeText}"
+                                Style="{StaticResource OutlineButton}"
+                                Clicked="Disagree_OnClicked"/>
+                        <Button Grid.Row="0" Grid.Column="1" Text="{StaticResource AgreeText}"
+                                SemanticProperties.Hint="{StaticResource AgreeHint}"
+                                SemanticProperties.Description="{StaticResource AgreeText}"
+                                Style="{StaticResource OutlineButton}"
+                                Clicked="Agree_OnClicked"/>
+                    </Grid>
+                </StackLayout>
+            </ScrollView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -2,13 +2,15 @@
 using RightToAskClient.Views;
 using System.Collections.Generic;
 using System.Linq;
-using Xamarin.CommunityToolkit.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using RightToAskClient.Resx;
-using Xamarin.Forms;
 using System.Threading.Tasks;
 using RightToAskClient.Helpers;
 using RightToAskClient.HttpClients;
 using RightToAskClient.Models.ServerCommsData;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui;
+using CommunityToolkit.Mvvm.Input;
 
 namespace RightToAskClient.ViewModels
 {
@@ -202,7 +204,7 @@ namespace RightToAskClient.ViewModels
                       MessagingCenter.Send(this, Constants.GoBackToAdvancedSearchPage);
                   });
             });
-            WrittenByRightToAskUserCommand = new AsyncCommand(async () =>
+            WrittenByRightToAskUserCommand = new AsyncRelayCommand (async () =>
             {
                 _ = SearchUserWrittenByClicked().ContinueWith((_) =>
                   {
@@ -226,7 +228,7 @@ namespace RightToAskClient.ViewModels
                 // ApplyFiltersAndSearch();
                 MessagingCenter.Send(this, Constants.UpdateFilters); // Sends this view model
             });
-            BackCommand = new AsyncCommand(async () =>
+            BackCommand = new AsyncRelayCommand (async () =>
             {
                 SearchCommand.Execute(true);
             });
@@ -234,7 +236,7 @@ namespace RightToAskClient.ViewModels
             {
                 ReinitData();
             });
-            ToDetailsPageCommand = new AsyncCommand(async () =>
+            ToDetailsPageCommand = new AsyncRelayCommand (async () =>
             {
                 await Shell.Current.GoToAsync($"{nameof(QuestionDetailPage)}");
             });
@@ -246,13 +248,13 @@ namespace RightToAskClient.ViewModels
         public Command AnsweringAuthoritiesFilterCommand { get; }
         public Command OtherAnsweringMPsFilterCommand { get; }
         public Command OtherAskingMPsFilterCommand { get; }
-        public AsyncCommand WrittenByRightToAskUserCommand { get; }
+        public AsyncRelayCommand  WrittenByRightToAskUserCommand { get; }
         public Command NotSureCommand { get; }
         public Command SearchCommand { get; }
         public Command ClearSearchCommand { get; }
-        public IAsyncCommand BackCommand { get; }
+        public IAsyncRelayCommand  BackCommand { get; }
         public Command ForceUpdateSizeCommand { get; }
-        public IAsyncCommand ToDetailsPageCommand { get; }
+        public IAsyncRelayCommand  ToDetailsPageCommand { get; }
 
         // helper methods
         public void ReinitData()

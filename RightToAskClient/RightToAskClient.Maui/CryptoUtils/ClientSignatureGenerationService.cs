@@ -1,0 +1,162 @@
+using System;
+using System.Diagnostics;
+using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Threading.Tasks;
+using Org.BouncyCastle.Crypto.Generators;
+using Org.BouncyCastle.Crypto.Parameters;
+using Org.BouncyCastle.Crypto.Signers;
+using Org.BouncyCastle.Security;
+using RightToAskClient.Maui.Models;
+using RightToAskClient.Maui.Models.ServerCommsData;
+
+/* This class generates a local private/public Ed25519 keypair for signing.
+ * Eventually, we'd prefer to store this directly in the Keystore, i.e. never to have the private key
+ * accessible to the app. However, Android keystore reliability may make this unreliable for some phones
+ * - we're investigating.
+ * So regard this implementation as a best-effort use of available tools, with the intention of upgrading
+ * before production.
+ * It may be we eventually do something different for Android and iOS devices.
+ * Also note I (VT) am not an expert in Xamarin secure storage, and have endeavoured to follow the instructions
+ * here: https://docs.microsoft.com/en-us/xamarin/essentials/secure-storage
+ * but the code needs a round of expert review before it is used or copied.
+ * TODO: Note that I have not yet done the iOS platform-specific setups recommended on that page, which seem to relate
+ * only to simulators. We'll need to ask for iOS entitlements for running in a simulator, as described here.
+ * https://docs.microsoft.com/en-us/xamarin/essentials/secure-storage?tabs=ios#platform-implementation-specifics
+ *
+ * Use of private initialiser to deal with asynchrony is based on suggestion here:
+ * https://endjin.com/blog/2020/08/fully-initialize-types-in-constructor-csharp-nullable-async-factory-pattern
+ */
+
+namespace RightToAskClient.Maui.CryptoUtils
+{
+    public static class ClientSignatureGenerationService
+    {
+        private static Ed25519PrivateKeyParameters? _myKeyPair ; 
+
+        private static readonly Ed25519Signer MySigner = new Ed25519Signer();
+
+        public static bool InitSuccessful { get; private set; }
+
+        public static async Task<bool> Init()
+        {
+            var generationResult = await MakeMyKey();
+            if (generationResult.Failure)
+            {
+                return false;
+            }
+            
+            // generationResult.Success
+            _myKeyPair = generationResult.Data;
+            MySigner.Init(true, _myKeyPair);
+            InitSuccessful = true;
+            return true;
+        }
+
+
+        public static string MyPublicKey => Convert.ToBase64String(_myKeyPair?.GeneratePublicKey().GetEncoded() ?? Array.Empty<byte>());
+
+        private static async Task<JOSResult<Ed25519PrivateKeyParameters>> MakeMyKey()
+        {
+            // First see if there's already a stored key. If so, use that.
+            try
+            {
+                var signingKeyAsString = await SecureStorage.GetAsync("signing_key");
+
+                // If there's an existing key, return it.
+                if (!string.IsNullOrEmpty(signingKeyAsString))
+                {
+                    var privateKey = new Ed25519PrivateKeyParameters(Convert.FromBase64String(signingKeyAsString));
+                    
+                    // Successful retrieval of old key.
+                    return new SuccessResult<Ed25519PrivateKeyParameters>(privateKey);
+                }
+            }
+            // If there's an exception, write a debug message and continue through generating a new one.
+            // TODO Note it's not 100% clear that this is the right thing to do if there was an exception
+            // attempting to retrieve one. It's possible we want a more careful examination of whether we
+            // expect a key to be there.
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+
+            // If there isn't already a stored key, generate a new one 
+            var keyPairGenerator = new Ed25519KeyPairGenerator();
+
+            keyPairGenerator.Init(new Ed25519KeyGenerationParameters(new SecureRandom()));
+            var signingKey = keyPairGenerator.GenerateKeyPair().Private as Ed25519PrivateKeyParameters;
+
+            // and store it. 
+            try
+            {
+                var encodedSigningKey = signingKey?.GetEncoded() ?? Array.Empty<byte>();
+                var keyAsString = Convert.ToBase64String(encodedSigningKey);
+                if (!string.IsNullOrEmpty(keyAsString))
+                {
+                    await SecureStorage.SetAsync("signing_key", keyAsString);
+                }
+            }
+            // Better not to try registering a key that you haven't successfully stored for later.
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Error storing signing key" + ex.Message);
+                return new ErrorResult<Ed25519PrivateKeyParameters>("Error storing signing key" + ex.Message);
+            }
+
+            if (signingKey is null)
+            {
+                return new ErrorResult<Ed25519PrivateKeyParameters>("Error generating signing key");
+            }
+            
+            // Successful generation of new key.
+            return new SuccessResult<Ed25519PrivateKeyParameters>(signingKey);
+        }
+
+        public static ClientSignedUnparsed SignMessage<T>(T message, string userId)
+        {
+            var serializerOptions = new JsonSerializerOptions
+            {
+                Converters = { new JsonStringEnumConverter() },
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+                // Needed for serialising tuples.
+                IncludeFields = true
+            };
+            
+            var serializedMessage = "";
+            var sig = "";
+
+            try
+            {
+                serializedMessage = JsonSerializer.Serialize(message, serializerOptions);
+                var messageBytes = Encoding.UTF8.GetBytes(serializedMessage);
+
+                MySigner.BlockUpdate(messageBytes, 0, messageBytes.Length);
+                sig = Convert.ToBase64String(MySigner.GenerateSignature());
+            }
+            catch (JsonException e)
+            {
+                // TODO Deal with Json serialisation problem
+                Debug.WriteLine("Json Exception: " + e.Message);
+            }
+            catch (InvalidOperationException e)
+            {
+                // TODO Something went wrong with signing
+                Debug.WriteLine("Invalid Operation Exception: " + e.Message);
+            }
+            catch (Exception e)
+            {
+                // TODO Something else went wrong
+                Debug.WriteLine("Generic Exception: " + e.Message);
+            }
+
+            return new ClientSignedUnparsed()
+            {
+                message = serializedMessage,
+                signature = sig,
+                user = userId
+            };
+        }
+    }
+}

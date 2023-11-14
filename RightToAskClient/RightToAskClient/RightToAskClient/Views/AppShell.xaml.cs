@@ -2,11 +2,12 @@
 using System.Diagnostics;
 using RightToAskClient.Models;
 using RightToAskClient.ViewModels;
-using Xamarin.Forms;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui;
 
 namespace RightToAskClient.Views
 {
-    public partial class AppShell : Xamarin.Forms.Shell
+    public partial class AppShell : Microsoft.Maui.Controls.Shell
     {
         public AppShell()
         {

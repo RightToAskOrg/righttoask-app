@@ -1,9 +1,10 @@
 ﻿using System;
 using RightToAskClient.ViewModels;
-using Xamarin.Forms;
-using Xamarin.Forms.PlatformConfiguration;
-using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
-using Xamarin.Forms.Xaml;
+using Microsoft.Maui.Controls.PlatformConfiguration;
+using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
+using Microsoft.Maui.Controls.Xaml;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui;
 
 namespace RightToAskClient.Views
 {
@@ -51,7 +52,8 @@ namespace RightToAskClient.Views
             _contentHeight = Content.Height;
             Questions_HeightSet(KeywordEntry.IsFocused);
             
-            if (Device.RuntimePlatform == Device.iOS)
+            // TODO Xamarin.Forms.Device.RuntimePlatform is no longer supported. Use Microsoft.Maui.Devices.DeviceInfo.Platform instead. For more details see https://learn.microsoft.com/en-us/dotnet/maui/migration/forms-projects#device-changes
+                        if (Device.RuntimePlatform == Device.iOS)
             {
                 var safeArea = On<iOS>().SafeAreaInsets();
                 Padding = new Thickness(0, 0, 0, - safeArea.Bottom);
@@ -91,6 +93,7 @@ namespace RightToAskClient.Views
 
         private Double GetKeyboardHeight()
         {
+            // TODO Xamarin.Forms.Device.RuntimePlatform is no longer supported. Use Microsoft.Maui.Devices.DeviceInfo.Platform instead. For more details see https://learn.microsoft.com/en-us/dotnet/maui/migration/forms-projects#device-changes
             if (Device.RuntimePlatform == Device.iOS)
             {
                 var safeArea = On<iOS>().SafeAreaInsets();

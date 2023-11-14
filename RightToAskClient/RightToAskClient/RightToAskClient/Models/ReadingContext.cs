@@ -1,5 +1,5 @@
 using System.Collections.ObjectModel;
-using Xamarin.CommunityToolkit.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace RightToAskClient.Models
 {

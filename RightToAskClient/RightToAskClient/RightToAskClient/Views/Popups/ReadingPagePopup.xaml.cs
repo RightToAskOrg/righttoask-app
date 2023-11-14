@@ -1,7 +1,12 @@
 ﻿using System;
 using RightToAskClient.ViewModels;
-using Xamarin.CommunityToolkit.UI.Views;
-using Xamarin.Forms.Xaml;
+using Microsoft.Maui.Controls.Xaml;
+using CommunityToolkit.Maui.Converters;
+using CommunityToolkit.Maui.ImageSources;
+using CommunityToolkit.Maui;
+using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Maui.Layouts;
+using CommunityToolkit.Maui.Views;
 
 namespace RightToAskClient.Views.Popups
 {
@@ -16,7 +21,7 @@ namespace RightToAskClient.Views.Popups
 
         private void Button_Clicked(object sender, EventArgs e)
         {
-            Dismiss("Dismissed");
+            //TODO: Dismiss("Dismissed");
         }
     }
 }

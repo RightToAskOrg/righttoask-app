@@ -1,8 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
-<Application xmlns="http://xamarin.com/schemas/2014/forms"
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:helpers="clr-namespace:RightToAskClient.Helpers"
              x:Class="RightToAskClient.App">
     <Application.Resources>
@@ -331,15 +331,15 @@
                 <Setter Property="PlaceholderColor" Value="{StaticResource TextColorGray}" />
             </Style>
             <Style x:Key="GreenFrame" TargetType="Frame">
-                <Setter Property="OutlineColor" Value="{StaticResource FrameOutlineColor}" />
+                <Setter Property="BorderColor" Value="{StaticResource FrameOutlineColor}" />
             </Style>
             <Style x:Key="AppThemeGreenFrame" TargetType="Frame">
-                <Setter Property="OutlineColor" Value="{StaticResource FrameOutlineColor}" />
+                <Setter Property="BorderColor" Value="{StaticResource FrameOutlineColor}" />
                 <Setter Property="BackgroundColor"
                         Value="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}" />
             </Style>
             <Style x:Key="InvisibleButtonFrame" TargetType="Frame">
-                <Setter Property="OutlineColor" Value="{StaticResource FrameOutlineColor}" />
+                <Setter Property="BorderColor" Value="{StaticResource FrameOutlineColor}" />
                 <Setter Property="BackgroundColor" Value="{StaticResource FrameColor}" />
                 <Setter Property="HorizontalOptions" Value="FillAndExpand" />
                 <Setter Property="VerticalOptions" Value="FillAndExpand" />

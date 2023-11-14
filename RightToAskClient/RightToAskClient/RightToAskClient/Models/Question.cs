@@ -7,11 +7,12 @@ using System.Linq;
 using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Resx;
 using RightToAskClient.Views.Popups;
-using Xamarin.CommunityToolkit.Converters;
-using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Essentials;
-using Xamarin.Forms;
-using Xamarin.CommunityToolkit.Extensions;
+using CommunityToolkit.Maui.Converters;
+using CommunityToolkit.Maui.Extensions;
+using CommunityToolkit.Mvvm;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace RightToAskClient.Models
 {

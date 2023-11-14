@@ -5,16 +5,17 @@ using RightToAskClient.Models;
 using RightToAskClient.Resx;
 using RightToAskClient.Views;
 using RightToAskClient.Views.Popups;
-using Xamarin.CommunityToolkit.Extensions;
-using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Forms;
-
+using CommunityToolkit.Maui.Extensions;
+using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui;
+using CommunityToolkit.Mvvm.Input;
 namespace RightToAskClient.ViewModels
 {
     public class WriteQuestionViewModel : ReadingPageViewModel
     {
-        public IAsyncCommand BackCommand { get; }
-        // public AsyncCommand RefreshCommand { get; }
+        public IAsyncRelayCommand  BackCommand { get; }
+        // public AsyncRelayCommand  RefreshCommand { get; }
 
         private bool hasQuery = false;
         
@@ -47,26 +48,29 @@ namespace RightToAskClient.ViewModels
         }
 
         // Commands
-        public IAsyncCommand ProceedButtonCommand { get; }
+        public IAsyncRelayCommand  ProceedButtonCommand { get; }
         
         public WriteQuestionViewModel() : base(false, false)
         {
-            BackCommand = new AsyncCommand(async () =>
+            BackCommand = new AsyncRelayCommand (async () =>
             {
-                var popup = new TwoButtonPopup(
-                    AppResources.GoHomePopupTitle, 
-                    AppResources.GoHomePopupText, 
-                    AppResources.CancelButtonText, 
-                    AppResources.GoHomeButtonText, 
-                    false);
-                var popupResult = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
-                if (popup.HasApproved(popupResult))
+                //var popup = new TwoButtonPopup(
+                //    AppResources.GoHomePopupTitle, 
+                //    AppResources.GoHomePopupText, 
+                //    AppResources.CancelButtonText, 
+                //    AppResources.GoHomeButtonText, 
+                //    false);
+                var popupResult = await App.Current.MainPage.DisplayPromptAsync(AppResources.GoHomePopupTitle,
+                    AppResources.GoHomePopupText,
+                    AppResources.GoHomeButtonText,
+                    AppResources.CancelButtonText);
+                if (popupResult == AppResources.GoHomeButtonText)
                 {
                     await App.Current.MainPage.Navigation.PopAsync();
                 }
             });
             
-            RefreshCommand = new AsyncCommand(async () =>
+            RefreshCommand = new AsyncRelayCommand (async () =>
             {
                 var questionsToDisplayList = await LoadQuestions();
                 if (hasQuery)
@@ -90,7 +94,7 @@ namespace RightToAskClient.ViewModels
                 }
             });
             
-            ProceedButtonCommand = new AsyncCommand(async () =>
+            ProceedButtonCommand = new AsyncRelayCommand (async () =>
             {
                 OnSaveButtonClicked();
             });
@@ -118,7 +122,7 @@ namespace RightToAskClient.ViewModels
             FilterChoices = new FilterChoices();
             FilterChoices.SearchKeyword = query;
             hasQuery = true;
-            RefreshCommand.ExecuteAsync();
+            RefreshCommand.ExecuteAsync(null);
         }
         private async void OnSaveButtonClicked()
         {

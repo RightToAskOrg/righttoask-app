@@ -1,15 +1,26 @@
 ﻿using System;
 using RightToAskClient.Resx;
 using Xam.Forms.Markdown;
-using Xamarin.CommunityToolkit.UI.Views;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+using Microsoft.Maui.Controls.Xaml;
+using Microsoft.Maui.Graphics;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui;
+using CommunityToolkit.Maui.Converters;
+using CommunityToolkit.Maui.ImageSources;
+using CommunityToolkit.Maui;
+using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Maui.Layouts;
+using CommunityToolkit.Maui.Views;
 
 namespace RightToAskClient.Views.Popups
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class OneButtonPopup : Popup
+    public partial class OneButtonPopup : ContentPage
     {
+        public OneButtonPopup()
+        {
+
+        }
         public OneButtonPopup(string message, string buttonText)
         {
             initialize("",message, buttonText, false);
@@ -32,7 +43,7 @@ namespace RightToAskClient.Views.Popups
 
         private void okButton_Clicked(object sender, EventArgs e)
         {
-            Dismiss("Dismissed");
+            //TODO: Dismiss("Dismissed");
         }
 
         private void initialize(string title, string message, string buttonText, bool isInfoPopup)
@@ -43,8 +54,9 @@ namespace RightToAskClient.Views.Popups
             mainMessage.Text = message;
             okButton.Text = buttonText;
             EmuImage.IsVisible = isInfoPopup;
-            if(isInfoPopup)
-                EmuAndButtonLayout.SetAppThemeColor(BackgroundColorProperty, Color.White, (Color) Application.Current.Resources["BackgroundDarkGray"]);
+            //TODO:
+           // if (isInfoPopup)
+              //  EmuAndButtonLayout.SetAppThemeColor(BackgroundColorProperty, Colors.White, (Color) Application.Current.Resources["BackgroundDarkGray"]);
         }
     }
 }

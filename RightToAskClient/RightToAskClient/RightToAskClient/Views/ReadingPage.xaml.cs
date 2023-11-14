@@ -2,7 +2,8 @@ using System;
 using RightToAskClient.Models;
 using RightToAskClient.Resx;
 using RightToAskClient.ViewModels;
-using Xamarin.Forms;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui;
 
 namespace RightToAskClient.Views
 {
@@ -53,7 +54,7 @@ namespace RightToAskClient.Views
 
         private void KeywordEntry_OnCompleted(object sender, EventArgs e)
         {
-            GetViewModel().RefreshCommand.ExecuteAsync();
+            GetViewModel().RefreshCommand.ExecuteAsync(null);
         }
 
         private void KeywordEntry_OnTextChanged(object sender, TextChangedEventArgs e)

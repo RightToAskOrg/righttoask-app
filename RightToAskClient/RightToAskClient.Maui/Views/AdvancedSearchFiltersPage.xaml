@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RightToAskClient.Maui.Views.AdvancedSearchFiltersPage"
+             xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:vm="clr-namespace:RightToAskClient.Maui.ViewModels"
+             xmlns:local="clr-namespace:RightToAskClient.Maui"
+             xmlns:views="clr-namespace:RightToAskClient.Maui.Views;assembly=RightToAskClient.Maui"
+             xmlns:helpers="clr-namespace:RightToAskClient.Maui.Helpers;assembly=RightToAskClient.Maui"
+             
+             Title="{Binding Title}"
+             x:DataType="vm:FilterViewModel">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{StaticResource  InfoPopupButtonText}" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
+                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}"/>
+    </ContentPage.ToolbarItems>
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding BackCommand}"
+                            IconOverride="back.png"
+                            SemanticProperties.Hint="{StaticResource  BackHint}"
+                            SemanticProperties.Description="{StaticResource  BackDescription}" />
+    </Shell.BackButtonBehavior>
+        <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                <!--Answered By Frame-->
+                <Frame Style="{StaticResource AppThemeFramePadding}">
+                    <xct:Expander>
+                        <xct:Expander.Header>
+                            <StackLayout Orientation="Vertical">                          
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                <Label Text="{StaticResource  ToBeAnsweredByText}" Style="{StaticResource NestedListLabel}"/>
+                                <Image Source="{helpers:ImageResource RightToAskClient.Images.expand_48.png}"  
+                                       Style="{StaticResource NestedListIcon}">
+                                    <Image.Triggers>
+                                        <DataTrigger TargetType="Image" Binding="{Binding Source={RelativeSource AncestorType={x:Type xct:Expander}}, Path=IsExpanded}" Value="True">
+                                            <Setter Property="Source" Value="{helpers:ImageResource RightToAskClient.Images.collapse_48.png}" />
+                                            <Setter Property="Style" Value="{StaticResource NestedListIcon}"/>
+                                        </DataTrigger>
+                                    </Image.Triggers>
+                                </Image>
+                            </StackLayout>
+                                <StackLayout>
+                                    <BoxView
+                                        Margin="0,8,0,0"
+                                        Style="{StaticResource EntryBorder}" />
+                                </StackLayout>
+                            </StackLayout>  
+                        </xct:Expander.Header>
+                        <xct:Expander.Content>
+                            <StackLayout>
+                                <views:ClickableListView BindingContext="{Binding AnsweringMPsMine}"/>
+                                <views:ClickableListView BindingContext="{Binding AnsweringMPsOther}"/>
+                                <views:ClickableListView BindingContext="{Binding AnsweringAuthorities}"/>
+                                <!-- Not currently functional.
+                                <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="Auto, Auto" RowSpacing="10">
+                                        <Label Grid.Column="0" Text="{StaticResource  IncludeAnsweredQuestions}" Style="{StaticResource NormalText}" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" />
+                                        <CheckBox Grid.Column="1" IsChecked="True" />
+                                        <Label Grid.Row="1" Grid.Column="0" Text="{StaticResource  IncludeUnansweredQuestions}" Style="{StaticResource NormalText}" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" />
+                                        <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="True" />
+                                </Grid>
+                                -->
+                            </StackLayout>
+                        </xct:Expander.Content>
+                    </xct:Expander>
+                </Frame>
+                <!--Raised By Frame-->
+                <Frame Style="{StaticResource AppThemeFramePadding}">
+                    <xct:Expander>
+                        <xct:Expander.Header>
+                            <StackLayout Orientation="Vertical">
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                    <Label Text="{StaticResource  OptionBText4}" Style="{StaticResource NestedListLabel}" />
+                                    <Image Source="{helpers:ImageResource RightToAskClient.Images.expand_48.png}" 
+                                           Style="{StaticResource NestedListIcon}">
+                                        <Image.Triggers>
+                                            <DataTrigger 
+                                                TargetType="Image" 
+                                                Binding="{Binding Source={RelativeSource AncestorType={x:Type xct:Expander}}, Path=IsExpanded}" Value="True">
+                                                <Setter Property="Source" Value="{helpers:ImageResource RightToAskClient.Images.collapse_48.png}" />
+                                                <Setter Property="Style" Value="{StaticResource NestedListIcon}"/>
+                                            </DataTrigger>
+                                        </Image.Triggers>
+                                    </Image>
+                                </StackLayout>
+                                <StackLayout>
+                                    <BoxView
+                                        Margin="0,8,0,0"
+                                        Style="{StaticResource EntryBorder}" />
+                                </StackLayout>
+                            </StackLayout>
+                        </xct:Expander.Header>
+                        <xct:Expander.Content>
+                            <StackLayout>
+                                <views:ClickableListView BindingContext="{Binding AskingMPsMine}"/>
+                                <views:ClickableListView BindingContext="{Binding AskingMPsOther}" />
+                                <views:ClickableListView BindingContext="{Binding Committees}"/>
+                            </StackLayout>
+                        </xct:Expander.Content>
+                    </xct:Expander>
+                </Frame>
+                <StackLayout Orientation="Horizontal">
+                <Button Text="{StaticResource  ResetButtonText}" 
+                        Style="{StaticResource OutlineButton}" 
+                        Margin="8,8,4,8"
+                        Command="{Binding ClearSearchCommand}"/>
+                <Button Text="{StaticResource  FilterButtonText}" 
+                        Style="{StaticResource NormalButton}" 
+                        Margin="4,8,8,8"
+                        Padding="26,0"
+                        Command="{Binding SearchCommand}"/>
+                </StackLayout>
+                <Label Text="{Binding ReportLabelText}"/>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

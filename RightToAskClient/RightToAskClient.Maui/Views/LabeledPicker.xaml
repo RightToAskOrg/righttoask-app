@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<StackLayout
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:extensions="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewModels="clr-namespace:RightToAskClient.Maui.ViewModels;assembly=RightToAskClient.Maui"
+    x:Class="RightToAskClient.Maui.Views.LabeledPicker"
+    x:DataType="viewModels:LabeledPickerViewModel"
+    BackgroundColor="Transparent"
+    VerticalOptions="Start"
+    x:Name="This" HorizontalOptions="Fill">
+    <Label Text="{Binding Title}"
+           Style="{StaticResource SmallGreyHeader}"
+           IsVisible="{Binding ShowTitle}"/>
+    <Grid Margin="0,0,0,8">
+        <BoxView Style="{StaticResource ButtonSeparator}" VerticalOptions="End" />
+
+        <Image Source="expand_48.png"
+               HorizontalOptions="End" VerticalOptions="Center" WidthRequest="10" HeightRequest="10" />
+        <Picker 
+            Title="{Binding Title}" 
+            TitleColor="{StaticResource DarkPurple}"
+            ItemsSource="{Binding Items}"
+            SemanticProperties.Hint="{Binding Title}"
+            SemanticProperties.Description="{Binding Title}"
+            Style="{StaticResource TransparentBgPicker}" HorizontalOptions="FillAndExpand"
+            SelectedIndex="{Binding SelectedIndex}"/>
+    </Grid>
+</StackLayout>

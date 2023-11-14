@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:viewModels="clr-namespace:RightToAskClient.Maui.ViewModels;assembly=RightToAskClient.Maui"
+             xmlns:effects="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:views="clr-namespace:RightToAskClient.Maui.Views;assembly=RightToAskClient.Maui"
+             xmlns:helpers="clr-namespace:RightToAskClient.Maui.Helpers;assembly=RightToAskClient.Maui"
+             x:Class="RightToAskClient.Maui.Views.SharingElectorateInfoPage"
+            
+             x:DataType="viewModels:SharingElectorateInfoViewModel">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding BackCommand}"
+                            SemanticProperties.Hint="{StaticResource BackHint}"
+                            SemanticProperties.Description="{StaticResource BackDescription}" />
+    </Shell.BackButtonBehavior>
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical"
+                     VerticalOptions="Fill"
+                     HorizontalOptions="Fill">
+            <ScrollView VerticalOptions="FillAndExpand" Padding="16">
+
+                <StackLayout Orientation="Vertical"
+                             VerticalOptions="FillAndExpand"
+                             HorizontalOptions="Fill">
+                    <Label Text="{StaticResource SharingElectorateInfoHeaderText}"
+                           Style="{StaticResource SignUpTitle}"
+                           Margin="0, 0, 0, 8"
+                           HorizontalOptions="StartAndExpand" />
+                    <Label Text="{StaticResource SharingElectorateInfoParagraph}"
+                           Style="{StaticResource SignUpBody}"
+                           HorizontalOptions="StartAndExpand" />
+
+                    <!-- TODO: extract to a reusable component -->
+                    <views:LabeledPicker BindingContext="{Binding ElectorateInfo}" />
+
+                    <views:ShareElectorateInfoPanel
+                        Title="{Binding StateOrTerritoryTitle}"
+                        Value="{Binding State}"
+                        IsPublic="{Binding IsStatePublic}"
+                        IsAbleToFinish="{Binding AbleToFinish}" />
+                    <views:ShareElectorateInfoPanel
+                        Title="{StaticResource FederalElectorate}"
+                        Value="{Binding FederalElectorate}"
+                        IsPublic="{Binding IsFederalElectoratePublic}"
+                        IsAbleToFinish="{Binding AbleToFinish}" />
+                    <views:ShareElectorateInfoPanel
+                        Title="{Binding StateOrTerritoryElectorateTitle}"
+                        Value="{Binding StateElectorate}"
+                        IsPublic="{Binding IsStateElectoratePublic}"
+                        IsAbleToFinish="{Binding AbleToFinish}" />
+                </StackLayout>
+            </ScrollView>
+            <BoxView Style="{StaticResource ButtonSeparator}" />
+
+            <StackLayout Orientation="Vertical"
+                         VerticalOptions="End"
+                         HorizontalOptions="Fill"
+                         Padding="16">
+                <Button Text="{StaticResource SaveAndFinish}"
+                        Command="{Binding SaveAndFinishCommand}"
+                        SemanticProperties.Hint="{StaticResource SaveAndFinishHint}"
+                        SemanticProperties.Description="{StaticResource SaveAndFinish}"
+                        Style="{StaticResource NormalButton}"
+                        IsEnabled="{Binding AbleToFinish}" />
+            <Label Text="{Binding ReportLabelText}" Style="{StaticResource ErrorLabel}"
+                   IsVisible="{Binding ReportLabelIsVisible}"
+                AutomationProperties.IsInAccessibleTree="True"
+                AutomationProperties.Name="{StaticResource ErrorReportName}"
+                AutomationProperties.HelpText="{Binding ReportLabelText}" />
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

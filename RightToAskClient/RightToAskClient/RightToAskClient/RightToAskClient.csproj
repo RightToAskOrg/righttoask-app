@@ -1,368 +1,398 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <Langversion>8.0</Langversion>
+    <Langversion>10.0</Langversion>
     <Nullable>enable</Nullable>
-    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+    <TargetFrameworks>net6.0-android31.0</TargetFrameworks>
+    <UseMaui>True</UseMaui>
+	  <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+    <OutputType>Library</OutputType>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <SingleProject>true</SingleProject>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DebugType>portable</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Xam.Forms.MarkdownView" Version="0.6.1-pre" />
-    <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.0" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2337" />
-    <PackageReference Include="System.Net.Http.Json" Version="5.0.0" /> 
-    <PackageReference Include="sqlite-net-pcl" Version="1.7.335" />
-    <PackageReference Include="System.Text.Json" Version="5.0.1" />
-    <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Data\" />
-    <None Remove="Images\account_balance_48.png" />
-    <None Remove="Images\arrow_back_48.png" />
-    <None Remove="Images\arrow_forward_48.png" />
-    <None Remove="Images\assured_workload_48.png" />
-    <None Remove="Images\back.png" />
-    <None Remove="Images\BookStack.png" />
-    <None Remove="Images\book_stack.png" />
-    <None Remove="Images\CalendarCheckmark.png" />
-    <None Remove="Images\CalendarCheckSimple.png" />
-    <None Remove="Images\calendar_checkmark.png" />
-    <None Remove="Images\calendar_check_simple.png" />
-    <None Remove="Images\cancel_48.png" />
-    <None Remove="Images\checkmark_box.png" />
-    <None Remove="Images\check_box_48.png" />
-    <None Remove="Images\Clipboard.png" />
-    <None Remove="Images\ClosedBook.png" />
-    <None Remove="Images\close.png" />
-    <None Remove="Images\closed_book.png" />
-    <None Remove="Images\collapse.png" />
-    <None Remove="Images\collapse_48.png" />
-    <None Remove="Images\collapse_96.png" />
-    <None Remove="Images\contact_mail_48.png" />
-    <None Remove="Images\contact_support_48.png" />
-    <None Remove="Images\CupOfSupplies.png" />
-    <None Remove="Images\cup_of_supplies.png" />
-    <None Remove="Images\edit_note_48.png" />
-    <None Remove="Images\EmuIcon_75.png" />
-    <None Remove="Images\emu_75.png" />
-    <None Remove="Images\Emu_Icon_Tall.PNG" />
-    <None Remove="Images\emu_tall.PNG" />
-    <None Remove="Images\expand.png" />
-    <None Remove="Images\expand_48.png" />
-    <None Remove="Images\expand_96.png" />
-    <None Remove="Images\expand_circle_down_48.png" />
-    <None Remove="Images\expand_circle_up_48.png" />
-    <None Remove="Images\filter_sliders_48.png" />
-    <None Remove="Images\flag_48.png" />
-    <None Remove="Images\glasses.png" />
-    <None Remove="Images\half_roo.png" />
-    <None Remove="Images\help_48.png" />
-    <None Remove="Images\help_75.png" />
-    <None Remove="Images\home1.png" />
-    <None Remove="Images\home2.png" />
-    <None Remove="Images\home3.png" />
-    <None Remove="Images\home4.png" />
-    <None Remove="Images\info_48.png" />
-    <None Remove="Images\LocationPin.png" />
-    <None Remove="Images\location_pin.png" />
-    <None Remove="Images\MessageBubble.png" />
-    <None Remove="Images\message_bubble.png" />
-    <None Remove="Images\OpenBook.png" />
-    <None Remove="Images\open_book.png" />
-    <None Remove="Images\outline_arrow_circle_up_48.png" />
-    <None Remove="Images\outline_question_answer_48.png" />
-    <None Remove="Images\Pen.png" />
-    <None Remove="Images\pending_48.png" />
-    <None Remove="Images\Pin.png" />
-    <None Remove="Images\QuestionDraft.png" />
-    <None Remove="Images\question_draft.png" />
-    <None Remove="Images\question_draft_resized.png" />
-    <None Remove="Images\read_and_upvote.png" />
-    <None Remove="Images\Schoolhouse.png" />
-    <None Remove="Images\school_house.png" />
-    <None Remove="Images\search.png" />
-    <None Remove="Images\search_75.png" />
-    <None Remove="Images\Search_Gray.png" />
-    <None Remove="Images\SettingsGear.png" />
-    <None Remove="Images\settings_gear.png" />
-    <None Remove="Images\share_48.png" />
-    <None Remove="Images\swipe_left_48.png" />
-    <None Remove="Images\thumb_up_48.png" />
-    <None Remove="Images\ToolboxBag.png" />
-    <None Remove="Images\toolbox_bag.png" />
-    <None Remove="Images\trash_delete_48.png" />
-    <None Remove="Images\trending_up_48.png" />
-    <None Remove="Images\wireframe_roo_small.png" />
-    <None Remove="Images\wireframe_roo_smaller.png" />
-    <None Remove="Images\WriteDraft.png" />
-    <None Remove="Images\write_draft.png" />
-    <None Remove="Models\" />
-    <None Remove="Resources\Fonts\DancingScript-VariableFont_wght.ttf" />
-    <None Remove="Resources\Fonts\Roboto-Black.ttf" />
-    <None Remove="Resources\GeoscapeAPIKey.txt" />
-    <None Remove="Resources\PublicServerKey" />
-    <None Remove="Views\" />
-    <None Remove="sqlite-net-pcl" />
-    <None Remove="ViewModels\Registration1ViewModel.cs.old" />
-    <None Remove="App.xaml.cs.old" />
-    <None Remove="CustomControls\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Models\ServerPubKey.cs" />
-    <Compile Remove="Views\SecondPage_old.xaml.cs" />
-    <Compile Remove="Views\FindMyMP.xaml.cs" />
-    <Compile Remove="Views\PickerPage.xaml.cs" />
-    <Compile Remove="Controls\AdvancedSearchControl.cs" />
-    <Compile Remove="Views\PersonProfilePage.xaml.cs" />
-    <Compile Remove="Views\ListPage.xaml.cs" />
-    <Compile Remove="Models\PublicAuthority.cs" />
-    <Compile Remove="HttpClients\TodoItemDatabase.cs" />
-    <Compile Remove="HttpClients\RestService.cs" />
-    <Compile Remove="HttpClients\HttpUtils.cs" />
-    <Compile Remove="HttpClients\ItemManager.cs" />
-    <Compile Remove="HttpClients\IRestService.cs" />
-    <Compile Remove="AsyncLazy.cs" />
-    <Compile Remove="Controls\FramedClickableLabel.cs" />
-    <Compile Remove="Models\MPsInChamber.cs" />
-    <Compile Remove="Models\TodoItem.cs" />
-    <Compile Remove="Views\AuthoritiesRTKCategories.xaml.cs" />
-    <Compile Remove="Views\ListSelection.cs" />
-    <Compile Remove="Controls\FilterDisplayTableView.cs" />
-    <Compile Remove="Models\MPGroupedByChamber.cs" />
-    <Compile Update="Views\Popups\HowToPublishPopup.xaml.cs">
-      <DependentUpon>HowToPublishPopup.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\Popups\OneButtonPopup.xaml.cs">
-      <DependentUpon>OneButtonPopup.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\Popups\ReadingPagePopup.xaml.cs">
-      <DependentUpon>ReadingPagePopup.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\Popups\TwoButtonPopup.xaml.cs">
-      <DependentUpon>TwoButtonPopup.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\Popups\QuestionPublishedPopup.xaml.cs">
-      <DependentUpon>QuestionPublishedPopup.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Remove="Views\ExploringPage.xaml.cs" />
-    <Compile Remove="Views\ExploringPageWithSearch.xaml.cs" />
-    <Compile Remove="Views\ExploringPageWithSearchAndPreSelections.xaml.cs" />
-    <Compile Remove="Views\EmptySelectableListSearchView.xaml.cs" />
-    <Compile Remove="Extensions.cs" />
-    <Compile Remove="Models\UpdatableOtherUserData.cs" />
-    <Compile Remove="ViewModels\OtherUserProfileViewModel.cs" />
-    <Compile Remove="Models\NewQuestionCommand.cs" />
-    <Compile Remove="Models\ServerCommsData\UserSearchResults.cs" />
-    <Compile Remove="Views\MainPage.xaml.cs" />
-    <Compile Remove="ViewModels\MainPageViewModel.cs" />
-    <Compile Remove="Views\QuestionDraftingPage.xaml.cs" />
-    <Compile Update="Views\WriteQuestionPage.xaml.cs">
-      <DependentUpon>AskQuestionPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Remove="CustomControls\**" />
-    <Compile Update="Views\LabeledPicker.xaml.cs">
-      <DependentUpon>LabeledPicker.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Remove="Helpers\StringConverters.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Remove="Views\SecondPage_old.xaml" />
-    <EmbeddedResource Remove="Views\FindMyMP.xaml" />
-    <EmbeddedResource Remove="Views\PickerPage.xaml" />
-    <None Remove="Resources\VicLegislativeAssemblymembers.csv" />
-    <EmbeddedResource Include="Images\account_balance_48.png" />
-    <EmbeddedResource Include="Images\arrow_back_48.png" />
-    <EmbeddedResource Include="Images\arrow_forward_48.png" />
-    <EmbeddedResource Include="Images\assured_workload_48.png" />
-    <EmbeddedResource Include="Images\auto_awesome.png" />
-    <EmbeddedResource Include="Images\book_stack.png" />
-    <EmbeddedResource Include="Images\calendar_checkmark.png" />
-    <EmbeddedResource Include="Images\calendar_check_simple.png" />
-    <EmbeddedResource Include="Images\cancel_48.png" />
-    <EmbeddedResource Include="Images\checkmark_box.png" />
-    <EmbeddedResource Include="Images\check_box_48.png" />
-    <EmbeddedResource Include="Images\clipboard.png" />
-    <EmbeddedResource Include="Images\close.png" />
-    <EmbeddedResource Include="Images\close_button.png" />
-    <EmbeddedResource Include="Images\close_button_dark_48.png" />
-    <EmbeddedResource Include="Images\error_48.png" />
-    <EmbeddedResource Include="Images\success_48.png" />
-    <EmbeddedResource Include="Images\closed_book.png" />
-    <EmbeddedResource Include="Images\collapse.png" />
-    <EmbeddedResource Include="Images\collapse_48.png" />
-    <EmbeddedResource Include="Images\collapse_96.png" />
-    <EmbeddedResource Include="Images\contact_mail_48.png" />
-    <EmbeddedResource Include="Images\contact_support_48.png" />
-    <EmbeddedResource Include="Images\cup_of_supplies.png" />
-    <EmbeddedResource Include="Images\edit.png" />
-    <EmbeddedResource Include="Images\edit_note_48.png" />
-    <EmbeddedResource Include="Images\emu_75.png" />
-    <EmbeddedResource Include="Images\emu_tall.PNG" />
-    <EmbeddedResource Include="Images\error.png" />
-    <EmbeddedResource Include="Images\expand.png" />
-    <EmbeddedResource Include="Images\expand_48.png" />
-    <EmbeddedResource Include="Images\expand_96.png" />
-    <EmbeddedResource Include="Images\expand_circle_down_48.png" />
-    <EmbeddedResource Include="Images\expand_circle_up_48.png" />
-    <EmbeddedResource Include="Images\filter_sliders_48.png" />
-    <EmbeddedResource Include="Images\flag_48.png" />
-    <EmbeddedResource Include="Images\glasses.png" />
-    <EmbeddedResource Include="Images\half_roo.png" />
-    <EmbeddedResource Include="Images\help_48.png" />
-    <EmbeddedResource Include="Images\help_75.png" />
-    <EmbeddedResource Include="Images\home1.png" />
-    <EmbeddedResource Include="Images\home2.png" />
-    <EmbeddedResource Include="Images\home3.png" />
-    <EmbeddedResource Include="Images\home4.png" />
-    <EmbeddedResource Include="Images\info_48.png" />
-    <EmbeddedResource Include="Images\location_pin.png" />
-    <EmbeddedResource Include="Images\message_bubble.png" />
-    <EmbeddedResource Include="Images\open_book.png" />
-    <EmbeddedResource Include="Images\outline_arrow_circle_up_48.png" />
-    <EmbeddedResource Include="Images\outline_question_answer_48.png" />
-    <EmbeddedResource Include="Images\pen.png" />
-    <EmbeddedResource Include="Images\pending_48.png" />
-    <EmbeddedResource Include="Images\pin.png" />
-    <EmbeddedResource Include="Images\question_draft.png" />
-    <EmbeddedResource Include="Images\question_draft_resized.png" />
-    <EmbeddedResource Include="Images\read_and_upvote.png" />
-    <EmbeddedResource Include="Images\school_house.png" />
-    <EmbeddedResource Include="Images\search.png" />
-    <EmbeddedResource Include="Images\search_75.png" />
-    <EmbeddedResource Include="Images\Search_Gray.png" />
-    <EmbeddedResource Include="Images\sentiment_very_dissatisfied.png" />
-    <EmbeddedResource Include="Images\settings_gear.png" />
-    <EmbeddedResource Include="Images\share_48.png" />
-    <EmbeddedResource Include="Images\swipe_left_48.png" />
-    <EmbeddedResource Include="Images\thumb_up_48.png" />
-    <EmbeddedResource Include="Images\toolbox_bag.png" />
-    <EmbeddedResource Include="Images\trash_delete_48.png" />
-    <EmbeddedResource Include="Images\trending_up_48.png" />
-    <EmbeddedResource Include="Images\visibility_off.png" />
-    <EmbeddedResource Include="Images\wireframe_roo_small.png" />
-    <EmbeddedResource Include="Images\wireframe_roo_smaller.png" />
-    <EmbeddedResource Include="Images\write_draft.png" />
-    <EmbeddedResource Include="Images\thumb_up_light.png" />
-    <EmbeddedResource Include="Images\thumb_down_light.png" />
-    <EmbeddedResource Include="Images\thumb_up_dark.png" />
-    <EmbeddedResource Include="Images\thumb_down_dark.png" />
-    <EmbeddedResource Include="Images\thumb_up_filled.png" />
-    <EmbeddedResource Include="Images\thumb_down_filled.png" />
-    <EmbeddedResource Include="Images\flags_light.png" />
-    <EmbeddedResource Include="Images\flags_dark.png" />
-    <EmbeddedResource Include="Images\flags_filled_light.png" />
-    <EmbeddedResource Include="Images\flags_filled_dark.png" />
-    <EmbeddedResource Include="Images\map.png" />
-    <EmbeddedResource Include="Images\account_edit.png" />
-    <EmbeddedResource Include="Images\arrow_forward.png" />
-    <EmbeddedResource Include="Resources\Fonts\DancingScript-VariableFont_wght.ttf" />
-    <EmbeddedResource Include="Resources\Fonts\Roboto-Black.ttf" />
-    <EmbeddedResource Include="Resources\GeoscapeAPIKey.txt" />
-    <EmbeddedResource Include="Resources\VicLegislativeAssemblymembers.csv" />
-    <None Remove="Resources\VicLegislativeCouncilmembers.csv" />
-    <EmbeddedResource Include="Resources\VicLegislativeCouncilmembers.csv" />
-    <None Remove="Resources\StateRepsCSV.csv" />
-    <EmbeddedResource Include="Resources\StateRepsCSV.csv" />
-    <None Remove="Resources\allsenstate.csv" />
-    <EmbeddedResource Include="Resources\allsenstate.csv" />
-    <None Remove="Resources\all-authorities.csv" />
-    <EmbeddedResource Include="Resources\all-authorities.csv" />
-    <EmbeddedResource Remove="Views\PersonProfilePage.xaml" />
-    <EmbeddedResource Remove="Views\ListPage.xaml" />
-    <None Remove="Resources\GeoscapeAPIKey" />
-    <EmbeddedResource Remove="Views\AuthoritiesRTKCategories.xaml" />
-    <None Remove="Resources\server.config" />
-    <None Remove="Resources\serverconfig.json" />
-    <EmbeddedResource Include="Resources\serverconfig.json" />
-    <EmbeddedResource Remove="Views\MPRegistrationPage.xaml" />
-    <None Remove="Images\emu-pinkCircle.png" />
-    <EmbeddedResource Include="Images\emu-pinkCircle.png" />
-    <EmbeddedResource Remove="Views\ExploringPage.xaml" />
-    <EmbeddedResource Remove="Views\ExploringPageWithSearch.xaml" />
-    <EmbeddedResource Remove="Views\ExploringPageWithSearchAndPreSelections.xaml" />
-    <EmbeddedResource Remove="Views\EmptySelectableListSearchView.xaml" />
-    <None Remove="Resources\MPs.json" />
-    <EmbeddedResource Remove="Views\Popups\InfoPopup.xaml" />
-    <EmbeddedResource Remove="Views\MainPage.xaml" />
-    <EmbeddedResource Remove="Views\QuestionDraftingPage.xaml" />
-    <EmbeddedResource Remove="CustomControls\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Xamarin.Essentials">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Microsoft\Xamarin\NuGet\xamarin.essentials\1.6.1\lib\monoandroid10.0\Xamarin.Essentials.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Update="Resx\AppResources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>AppResources.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Views\FindMPsPage.xaml.cs">
-      <DependentUpon>FindMPsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\RegisterAccountPage.xaml.cs">
-      <DependentUpon>RegisterAccountPage.xaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Update="Resx\AppResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\AboutPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\AccountPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\AdvancedSearchFiltersPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\AppShell.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\EmptyCollectionView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\QuestionAnswererPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\HowToPublishPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\HowToPublishView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\OtherUserProfilePage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\QuestionBackgroundPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\QuestionDisplayCard.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\UserAccountInfoView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Popups\InfoPopup.xaml" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+		<PackageReference Include="Xam.Forms.MarkdownView" Version="0.6.1-pre" />
+		<PackageReference Include="sqlite-net-pcl" Version="1.7.335" />
+		<PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
+		<PackageReference Include="System.Net.Http.Json" Version="6.0.1" />
+		<PackageReference Include="System.Text.Json" Version="6.0.8" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="2.0.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Remove="Data\" />
+		<None Remove="Images\account_balance_48.png" />
+		<None Remove="Images\arrow_back_48.png" />
+		<None Remove="Images\arrow_forward_48.png" />
+		<None Remove="Images\assured_workload_48.png" />
+		<None Remove="Images\back.png" />
+		<None Remove="Images\BookStack.png" />
+		<None Remove="Images\book_stack.png" />
+		<None Remove="Images\CalendarCheckmark.png" />
+		<None Remove="Images\CalendarCheckSimple.png" />
+		<None Remove="Images\calendar_checkmark.png" />
+		<None Remove="Images\calendar_check_simple.png" />
+		<None Remove="Images\cancel_48.png" />
+		<None Remove="Images\checkmark_box.png" />
+		<None Remove="Images\check_box_48.png" />
+		<None Remove="Images\Clipboard.png" />
+		<None Remove="Images\ClosedBook.png" />
+		<None Remove="Images\close.png" />
+		<None Remove="Images\closed_book.png" />
+		<None Remove="Images\collapse.png" />
+		<None Remove="Images\collapse_48.png" />
+		<None Remove="Images\collapse_96.png" />
+		<None Remove="Images\contact_mail_48.png" />
+		<None Remove="Images\contact_support_48.png" />
+		<None Remove="Images\CupOfSupplies.png" />
+		<None Remove="Images\cup_of_supplies.png" />
+		<None Remove="Images\edit_note_48.png" />
+		<None Remove="Images\EmuIcon_75.png" />
+		<None Remove="Images\emu_75.png" />
+		<None Remove="Images\Emu_Icon_Tall.PNG" />
+		<None Remove="Images\emu_tall.PNG" />
+		<None Remove="Images\expand.png" />
+		<None Remove="Images\expand_48.png" />
+		<None Remove="Images\expand_96.png" />
+		<None Remove="Images\expand_circle_down_48.png" />
+		<None Remove="Images\expand_circle_up_48.png" />
+		<None Remove="Images\filter_sliders_48.png" />
+		<None Remove="Images\flag_48.png" />
+		<None Remove="Images\glasses.png" />
+		<None Remove="Images\half_roo.png" />
+		<None Remove="Images\help_48.png" />
+		<None Remove="Images\help_75.png" />
+		<None Remove="Images\home1.png" />
+		<None Remove="Images\home2.png" />
+		<None Remove="Images\home3.png" />
+		<None Remove="Images\home4.png" />
+		<None Remove="Images\info_48.png" />
+		<None Remove="Images\LocationPin.png" />
+		<None Remove="Images\location_pin.png" />
+		<None Remove="Images\MessageBubble.png" />
+		<None Remove="Images\message_bubble.png" />
+		<None Remove="Images\OpenBook.png" />
+		<None Remove="Images\open_book.png" />
+		<None Remove="Images\outline_arrow_circle_up_48.png" />
+		<None Remove="Images\outline_question_answer_48.png" />
+		<None Remove="Images\Pen.png" />
+		<None Remove="Images\pending_48.png" />
+		<None Remove="Images\Pin.png" />
+		<None Remove="Images\QuestionDraft.png" />
+		<None Remove="Images\question_draft.png" />
+		<None Remove="Images\question_draft_resized.png" />
+		<None Remove="Images\read_and_upvote.png" />
+		<None Remove="Images\Schoolhouse.png" />
+		<None Remove="Images\school_house.png" />
+		<None Remove="Images\search.png" />
+		<None Remove="Images\search_75.png" />
+		<None Remove="Images\Search_Gray.png" />
+		<None Remove="Images\SettingsGear.png" />
+		<None Remove="Images\settings_gear.png" />
+		<None Remove="Images\share_48.png" />
+		<None Remove="Images\swipe_left_48.png" />
+		<None Remove="Images\thumb_up_48.png" />
+		<None Remove="Images\ToolboxBag.png" />
+		<None Remove="Images\toolbox_bag.png" />
+		<None Remove="Images\trash_delete_48.png" />
+		<None Remove="Images\trending_up_48.png" />
+		<None Remove="Images\wireframe_roo_small.png" />
+		<None Remove="Images\wireframe_roo_smaller.png" />
+		<None Remove="Images\WriteDraft.png" />
+		<None Remove="Images\write_draft.png" />
+		<None Remove="Models\" />
+		<None Remove="Platforms\Android\Resources\drawable\check.png" />
+		<None Remove="Platforms\Android\Resources\drawable\check2x.png" />
+		<None Remove="Platforms\Android\Resources\drawable\plus.png" />
+		<None Remove="Platforms\Android\Resources\mipmap-anydpi-v26\icon.xml" />
+		<None Remove="Platforms\Android\Resources\mipmap-anydpi-v26\icon_round.xml" />
+		<None Remove="Platforms\Android\Resources\mipmap-anydpi-v26\ic_launcher.xml" />
+		<None Remove="Platforms\Android\Resources\mipmap-anydpi-v26\ic_launcher_round.xml" />
+		<None Remove="Platforms\Android\Resources\mipmap-hdpi\icon.png" />
+		<None Remove="Platforms\Android\Resources\mipmap-hdpi\ic_launcher.png" />
+		<None Remove="Platforms\Android\Resources\mipmap-hdpi\ic_launcher_foreground.png" />
+		<None Remove="Platforms\Android\Resources\mipmap-hdpi\ic_launcher_round.png" />
+		<None Remove="Platforms\Android\Resources\mipmap-hdpi\launcher_foreground.png" />
+		<None Remove="Platforms\Android\Resources\mipmap-ldpi\ic_launcher.png" />
+		<None Remove="Platforms\Android\Resources\mipmap-mdpi\icon.png" />
+		<None Remove="Platforms\Android\Resources\mipmap-mdpi\ic_launcher.png" />
+		<None Remove="Platforms\Android\Resources\mipmap-mdpi\ic_launcher_foreground.png" />
+		<None Remove="Platforms\Android\Resources\mipmap-mdpi\ic_launcher_round.png" />
+		<None Remove="Platforms\Android\Resources\mipmap-mdpi\launcher_foreground.png" />
+		<None Remove="Platforms\Android\Resources\mipmap-xhdpi\icon.png" />
+		<None Remove="Platforms\Android\Resources\mipmap-xhdpi\ic_launcher.png" />
+		<None Remove="Platforms\Android\Resources\mipmap-xhdpi\ic_launcher_foreground.png" />
+		<None Remove="Platforms\Android\Resources\mipmap-xhdpi\ic_launcher_round.png" />
+		<None Remove="Platforms\Android\Resources\mipmap-xhdpi\launcher_foreground.png" />
+		<None Remove="Platforms\Android\Resources\mipmap-xxhdpi\icon.png" />
+		<None Remove="Platforms\Android\Resources\mipmap-xxhdpi\ic_launcher.png" />
+		<None Remove="Platforms\Android\Resources\mipmap-xxhdpi\ic_launcher_foreground.png" />
+		<None Remove="Platforms\Android\Resources\mipmap-xxhdpi\ic_launcher_round.png" />
+		<None Remove="Platforms\Android\Resources\mipmap-xxhdpi\launcher_foreground.png" />
+		<None Remove="Platforms\Android\Resources\mipmap-xxxhdpi\icon.png" />
+		<None Remove="Platforms\Android\Resources\mipmap-xxxhdpi\ic_launcher.png" />
+		<None Remove="Platforms\Android\Resources\mipmap-xxxhdpi\ic_launcher_foreground.png" />
+		<None Remove="Platforms\Android\Resources\mipmap-xxxhdpi\ic_launcher_round.png" />
+		<None Remove="Platforms\Android\Resources\mipmap-xxxhdpi\launcher_foreground.png" />
+		<None Remove="Platforms\Android\Resources\values\colors.xml" />
+		<None Remove="Platforms\Android\Resources\values\ic_launcher_background.xml" />
+		<None Remove="Platforms\Android\Resources\values\styles.xml" />
+		<None Remove="Platforms\Android\Resources\xml\auto_backup_rules.xml" />
+		<None Remove="Platforms\Android\Resources\xml\network_security_config.xml" />
+		<None Remove="Resources\Fonts\DancingScript-VariableFont_wght.ttf" />
+		<None Remove="Resources\Fonts\Roboto-Black.ttf" />
+		<None Remove="Resources\GeoscapeAPIKey.txt" />
+		<None Remove="Resources\PublicServerKey" />
+		<None Remove="Views\" />
+		<None Remove="sqlite-net-pcl" />
+		<None Remove="ViewModels\Registration1ViewModel.cs.old" />
+		<None Remove="App.xaml.cs.old" />
+		<None Remove="CustomControls\**" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Remove="Models\ServerPubKey.cs" />
+		<Compile Remove="Platforms\Android\Resources\Resource.designer.cs" />
+		<Compile Remove="Views\SecondPage_old.xaml.cs" />
+		<Compile Remove="Views\FindMyMP.xaml.cs" />
+		<Compile Remove="Views\PickerPage.xaml.cs" />
+		<Compile Remove="Controls\AdvancedSearchControl.cs" />
+		<Compile Remove="Views\PersonProfilePage.xaml.cs" />
+		<Compile Remove="Views\ListPage.xaml.cs" />
+		<Compile Remove="Models\PublicAuthority.cs" />
+		<Compile Remove="HttpClients\TodoItemDatabase.cs" />
+		<Compile Remove="HttpClients\RestService.cs" />
+		<Compile Remove="HttpClients\HttpUtils.cs" />
+		<Compile Remove="HttpClients\ItemManager.cs" />
+		<Compile Remove="HttpClients\IRestService.cs" />
+		<Compile Remove="AsyncLazy.cs" />
+		<Compile Remove="Controls\FramedClickableLabel.cs" />
+		<Compile Remove="Models\MPsInChamber.cs" />
+		<Compile Remove="Models\TodoItem.cs" />
+		<Compile Remove="Views\AuthoritiesRTKCategories.xaml.cs" />
+		<Compile Remove="Views\ListSelection.cs" />
+		<Compile Remove="Controls\FilterDisplayTableView.cs" />
+		<Compile Remove="Models\MPGroupedByChamber.cs" />
+		<Compile Update="Views\Popups\HowToPublishPopup.xaml.cs">
+			<DependentUpon>HowToPublishPopup.xaml</DependentUpon>
+			<SubType>Code</SubType>
+		</Compile>
+		<Compile Update="Views\Popups\OneButtonPopup.xaml.cs">
+			<DependentUpon>OneButtonPopup.xaml</DependentUpon>
+			<SubType>Code</SubType>
+		</Compile>
+		<Compile Update="Views\Popups\ReadingPagePopup.xaml.cs">
+			<DependentUpon>ReadingPagePopup.xaml</DependentUpon>
+			<SubType>Code</SubType>
+		</Compile>
+		<Compile Update="Views\Popups\TwoButtonPopup.xaml.cs">
+			<DependentUpon>TwoButtonPopup.xaml</DependentUpon>
+			<SubType>Code</SubType>
+		</Compile>
+		<Compile Update="Views\Popups\QuestionPublishedPopup.xaml.cs">
+			<DependentUpon>QuestionPublishedPopup.xaml</DependentUpon>
+			<SubType>Code</SubType>
+		</Compile>
+		<Compile Remove="Views\ExploringPage.xaml.cs" />
+		<Compile Remove="Views\ExploringPageWithSearch.xaml.cs" />
+		<Compile Remove="Views\ExploringPageWithSearchAndPreSelections.xaml.cs" />
+		<Compile Remove="Views\EmptySelectableListSearchView.xaml.cs" />
+		<Compile Remove="Extensions.cs" />
+		<Compile Remove="Models\UpdatableOtherUserData.cs" />
+		<Compile Remove="ViewModels\OtherUserProfileViewModel.cs" />
+		<Compile Remove="Models\NewQuestionCommand.cs" />
+		<Compile Remove="Models\ServerCommsData\UserSearchResults.cs" />
+		<Compile Remove="Views\MainPage.xaml.cs" />
+		<Compile Remove="ViewModels\MainPageViewModel.cs" />
+		<Compile Remove="Views\QuestionDraftingPage.xaml.cs" />
+		<Compile Update="Views\WriteQuestionPage.xaml.cs">
+			<DependentUpon>AskQuestionPage.xaml</DependentUpon>
+			<SubType>Code</SubType>
+		</Compile>
+		<Compile Remove="CustomControls\**" />
+		<Compile Update="Views\LabeledPicker.xaml.cs">
+			<DependentUpon>LabeledPicker.xaml</DependentUpon>
+			<SubType>Code</SubType>
+		</Compile>
+		<Compile Remove="Helpers\StringConverters.cs" />
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Remove="Views\SecondPage_old.xaml" />
+		<EmbeddedResource Remove="Views\FindMyMP.xaml" />
+		<EmbeddedResource Remove="Views\PickerPage.xaml" />
+		<None Remove="Resources\VicLegislativeAssemblymembers.csv" />
+		<EmbeddedResource Include="Images\account_balance_48.png" />
+		<EmbeddedResource Include="Images\arrow_back_48.png" />
+		<EmbeddedResource Include="Images\arrow_forward_48.png" />
+		<EmbeddedResource Include="Images\assured_workload_48.png" />
+		<EmbeddedResource Include="Images\auto_awesome.png" />
+		<EmbeddedResource Include="Images\book_stack.png" />
+		<EmbeddedResource Include="Images\calendar_checkmark.png" />
+		<EmbeddedResource Include="Images\calendar_check_simple.png" />
+		<EmbeddedResource Include="Images\cancel_48.png" />
+		<EmbeddedResource Include="Images\checkmark_box.png" />
+		<EmbeddedResource Include="Images\check_box_48.png" />
+		<EmbeddedResource Include="Images\clipboard.png" />
+		<EmbeddedResource Include="Images\close.png" />
+		<EmbeddedResource Include="Images\close_button.png" />
+		<EmbeddedResource Include="Images\close_button_dark_48.png" />
+		<EmbeddedResource Include="Images\error_48.png" />
+		<EmbeddedResource Include="Images\success_48.png" />
+		<EmbeddedResource Include="Images\closed_book.png" />
+		<EmbeddedResource Include="Images\collapse.png" />
+		<EmbeddedResource Include="Images\collapse_48.png" />
+		<EmbeddedResource Include="Images\collapse_96.png" />
+		<EmbeddedResource Include="Images\contact_mail_48.png" />
+		<EmbeddedResource Include="Images\contact_support_48.png" />
+		<EmbeddedResource Include="Images\cup_of_supplies.png" />
+		<EmbeddedResource Include="Images\edit.png" />
+		<EmbeddedResource Include="Images\edit_note_48.png" />
+		<EmbeddedResource Include="Images\emu_75.png" />
+		<EmbeddedResource Include="Images\emu_tall.PNG" />
+		<EmbeddedResource Include="Images\error.png" />
+		<EmbeddedResource Include="Images\expand.png" />
+		<EmbeddedResource Include="Images\expand_48.png" />
+		<EmbeddedResource Include="Images\expand_96.png" />
+		<EmbeddedResource Include="Images\expand_circle_down_48.png" />
+		<EmbeddedResource Include="Images\expand_circle_up_48.png" />
+		<EmbeddedResource Include="Images\filter_sliders_48.png" />
+		<EmbeddedResource Include="Images\flag_48.png" />
+		<EmbeddedResource Include="Images\glasses.png" />
+		<EmbeddedResource Include="Images\half_roo.png" />
+		<EmbeddedResource Include="Images\help_48.png" />
+		<EmbeddedResource Include="Images\help_75.png" />
+		<EmbeddedResource Include="Images\home1.png" />
+		<EmbeddedResource Include="Images\home2.png" />
+		<EmbeddedResource Include="Images\home3.png" />
+		<EmbeddedResource Include="Images\home4.png" />
+		<EmbeddedResource Include="Images\info_48.png" />
+		<EmbeddedResource Include="Images\location_pin.png" />
+		<EmbeddedResource Include="Images\message_bubble.png" />
+		<EmbeddedResource Include="Images\open_book.png" />
+		<EmbeddedResource Include="Images\outline_arrow_circle_up_48.png" />
+		<EmbeddedResource Include="Images\outline_question_answer_48.png" />
+		<EmbeddedResource Include="Images\pen.png" />
+		<EmbeddedResource Include="Images\pending_48.png" />
+		<EmbeddedResource Include="Images\pin.png" />
+		<EmbeddedResource Include="Images\question_draft.png" />
+		<EmbeddedResource Include="Images\question_draft_resized.png" />
+		<EmbeddedResource Include="Images\read_and_upvote.png" />
+		<EmbeddedResource Include="Images\school_house.png" />
+		<EmbeddedResource Include="Images\search.png" />
+		<EmbeddedResource Include="Images\search_75.png" />
+		<EmbeddedResource Include="Images\Search_Gray.png" />
+		<EmbeddedResource Include="Images\sentiment_very_dissatisfied.png" />
+		<EmbeddedResource Include="Images\settings_gear.png" />
+		<EmbeddedResource Include="Images\share_48.png" />
+		<EmbeddedResource Include="Images\swipe_left_48.png" />
+		<EmbeddedResource Include="Images\thumb_up_48.png" />
+		<EmbeddedResource Include="Images\toolbox_bag.png" />
+		<EmbeddedResource Include="Images\trash_delete_48.png" />
+		<EmbeddedResource Include="Images\trending_up_48.png" />
+		<EmbeddedResource Include="Images\visibility_off.png" />
+		<EmbeddedResource Include="Images\wireframe_roo_small.png" />
+		<EmbeddedResource Include="Images\wireframe_roo_smaller.png" />
+		<EmbeddedResource Include="Images\write_draft.png" />
+		<EmbeddedResource Include="Images\thumb_up_light.png" />
+		<EmbeddedResource Include="Images\thumb_down_light.png" />
+		<EmbeddedResource Include="Images\thumb_up_dark.png" />
+		<EmbeddedResource Include="Images\thumb_down_dark.png" />
+		<EmbeddedResource Include="Images\thumb_up_filled.png" />
+		<EmbeddedResource Include="Images\thumb_down_filled.png" />
+		<EmbeddedResource Include="Images\flags_light.png" />
+		<EmbeddedResource Include="Images\flags_dark.png" />
+		<EmbeddedResource Include="Images\flags_filled_light.png" />
+		<EmbeddedResource Include="Images\flags_filled_dark.png" />
+		<EmbeddedResource Include="Images\map.png" />
+		<EmbeddedResource Include="Images\account_edit.png" />
+		<EmbeddedResource Include="Images\arrow_forward.png" />
+		<EmbeddedResource Include="Resources\Fonts\DancingScript-VariableFont_wght.ttf" />
+		<EmbeddedResource Include="Resources\Fonts\Roboto-Black.ttf" />
+		<EmbeddedResource Include="Resources\GeoscapeAPIKey.txt" />
+		<EmbeddedResource Include="Resources\VicLegislativeAssemblymembers.csv" />
+		<None Remove="Resources\VicLegislativeCouncilmembers.csv" />
+		<EmbeddedResource Include="Resources\VicLegislativeCouncilmembers.csv" />
+		<None Remove="Resources\StateRepsCSV.csv" />
+		<EmbeddedResource Include="Resources\StateRepsCSV.csv" />
+		<None Remove="Resources\allsenstate.csv" />
+		<EmbeddedResource Include="Resources\allsenstate.csv" />
+		<None Remove="Resources\all-authorities.csv" />
+		<EmbeddedResource Include="Resources\all-authorities.csv" />
+		<EmbeddedResource Remove="Views\PersonProfilePage.xaml" />
+		<EmbeddedResource Remove="Views\ListPage.xaml" />
+		<None Remove="Resources\GeoscapeAPIKey" />
+		<EmbeddedResource Remove="Views\AuthoritiesRTKCategories.xaml" />
+		<None Remove="Resources\server.config" />
+		<None Remove="Resources\serverconfig.json" />
+		<EmbeddedResource Include="Resources\serverconfig.json" />
+		<EmbeddedResource Remove="Views\MPRegistrationPage.xaml" />
+		<None Remove="Images\emu-pinkCircle.png" />
+		<EmbeddedResource Include="Images\emu-pinkCircle.png" />
+		<EmbeddedResource Remove="Views\ExploringPage.xaml" />
+		<EmbeddedResource Remove="Views\ExploringPageWithSearch.xaml" />
+		<EmbeddedResource Remove="Views\ExploringPageWithSearchAndPreSelections.xaml" />
+		<EmbeddedResource Remove="Views\EmptySelectableListSearchView.xaml" />
+		<None Remove="Resources\MPs.json" />
+		<EmbeddedResource Remove="Views\Popups\InfoPopup.xaml" />
+		<EmbeddedResource Remove="Views\MainPage.xaml" />
+		<EmbeddedResource Remove="Views\QuestionDraftingPage.xaml" />
+		<EmbeddedResource Remove="CustomControls\**" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Update="Resx\AppResources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>AppResources.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Views\FindMPsPage.xaml.cs">
+			<DependentUpon>FindMPsPage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="Views\RegisterAccountPage.xaml.cs">
+			<DependentUpon>RegisterAccountPage.xaml</DependentUpon>
+		</Compile>
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Update="Resx\AppResources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>AppResources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Views\AboutPage.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Views\AccountPage.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Views\AdvancedSearchFiltersPage.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Views\AppShell.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Views\EmptyCollectionView.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Views\QuestionAnswererPage.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Views\HowToPublishPage.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Views\HowToPublishView.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Views\OtherUserProfilePage.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Views\QuestionBackgroundPage.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Views\QuestionDisplayCard.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Views\UserAccountInfoView.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="Views\Popups\InfoPopup.xaml" />
+	</ItemGroup>
 </Project>

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:vm="clr-namespace:RightToAskClient.Maui.ViewModels"
+             xmlns:local="clr-namespace:RightToAskClient.Maui"
+             xmlns:helpers="clr-namespace:RightToAskClient.Maui.Helpers;assembly=RightToAskClient.Maui"
+             x:Class="RightToAskClient.Maui.MainPage"
+             Title="{StaticResource ApplicationTitle}"
+             Shell.FlyoutBehavior="Flyout"
+             x:DataType="vm:MainPageViewModel">
+    <ContentPage.BindingContext>
+        <vm:MainPageViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{StaticResource InfoPopupButtonText}" Command="{Binding InfoPopupCommand}"
+                     x:DataType="vm:BaseViewModel"
+                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}" Priority="0" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="FillAndExpand" Margin="10">
+            <Label Text="{StaticResource MainPageHeadingText}" Style="{StaticResource Header1}"
+                   HorizontalTextAlignment="Center" />
+            <BoxView />
+            <!--Heading Text-->
+            <StackLayout Margin="0" Padding="0,0,0,20" Spacing="0">
+                <Label Text="{StaticResource MainPageSubheader1Text}" Style="{StaticResource CenterSmall}" />
+                <Label Text="{StaticResource MainPageSubheader2Text}" Style="{StaticResource CenterSmall}" />
+                <Label Text="{StaticResource MainPageSubheader3Text}" Style="{StaticResource CenterSmall}" />
+            </StackLayout>
+            <!-- Main buttons Layout-->
+            <Grid ColumnDefinitions="*,2*,*" RowDefinitions="*,*,*,*" HorizontalOptions="FillAndExpand" Padding="0"
+                  RowSpacing="10">
+                <!--Trending Button, which adds 'trending in my electorate' beside it if electorates are known -->
+                <StackLayout Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" HorizontalOptions="Center"
+                             Orientation="Horizontal" Spacing="10" BackgroundColor="Transparent">
+                    <!-- Request everything to be the same width as the search button, to make them match -->
+                    <Frame WidthRequest="{Binding Path=Width, Source={x:Reference SearchFrame}}"
+                           Style="{StaticResource SubtleFrame}" HorizontalOptions="FillAndExpand" Margin="0,0,0,0">
+                        <Grid RowDefinitions="*,*,*">
+                            <Label Grid.Row="0" Text="{DynamicResource TrendingButtonText}"
+                                   Style="{StaticResource Header1}"
+                                   VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="0,10,0,0"
+                                   AutomationProperties.IsInAccessibleTree="True"
+                                   AutomationProperties.Name="{StaticResource MainPageTrendingNowAccessibilityLabelName}"
+                                   AutomationProperties.HelpText="{StaticResource MainPageTrendingNowAccessibilityLabelHelpText}" />
+                            <Image x:Name="trendingImage1" Grid.Row="1"
+                                   Source="{helpers:ImageResource RightToAskClient.Images.trending_up_48.png}"
+                                   WidthRequest="50"
+                                   HorizontalOptions="Center"
+                                   AutomationProperties.IsInAccessibleTree="True"
+                                   AutomationProperties.Name="{StaticResource ReadAndUpvoteImageAccessibilityNameText}"
+                                   AutomationProperties.HelpText="{StaticResource ReadAndUpvoteImageAccessibilityHelpText}" />
+                            <Label Grid.Row="2" Text="{StaticResource ReadAndUpvoteFrameSubtext}"
+                                   Style="{StaticResource StagnantColor}"
+                                   HorizontalOptions="Center" HorizontalTextAlignment="Center" />
+                            <Button Grid.Row="0" Grid.RowSpan="3" Style="{StaticResource TransparentSquareButton}"
+                                    Command="{Binding TrendingNowButtonCommand}" BorderColor="{StaticResource Primary}"
+                                    AutomationProperties.LabeledBy="{x:Reference trendingImage1}" />
+                        </Grid>
+                    </Frame>
+                    <!-- Trending in my Electorate Button-->
+                    <Frame x:Name="myElectorateTrendingButton" IsVisible="{Binding ShowTrendingMyElectorate}"
+                           WidthRequest="{Binding Path=Width, Source={x:Reference SearchFrame}}"
+                           Style="{StaticResource SubtleFrame}" HorizontalOptions="FillAndExpand" Margin="0,0,10,0">
+                        <Grid RowDefinitions="Auto,Auto,Auto">
+                            <Label Grid.Row="0" Style="{StaticResource Header1}"
+                                   Text="{StaticResource InMyElectorateText}" LineBreakMode="WordWrap"
+                                   VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="0,10,0,0"
+                                   AutomationProperties.IsInAccessibleTree="True"
+                                   AutomationProperties.Name="{StaticResource MainPageTrendingNowInMyElectorateAccessibilityLabelName}"
+                                   AutomationProperties.HelpText="{StaticResource MainPageInMyElectorateAccessibilityLabelHelpText}" />
+                            <Image x:Name="trendingImage2" Grid.Row="1"
+                                   Source="{helpers:ImageResource RightToAskClient.Images.trending_up_48.png}"
+                                    WidthRequest="50"
+                                   HorizontalOptions="Center"
+                                   AutomationProperties.IsInAccessibleTree="True"
+                                   AutomationProperties.Name="{StaticResource ReadAndUpvoteImageAccessibilityNameText}"
+                                   AutomationProperties.HelpText="{StaticResource ReadAndUpvoteImageAccessibilityHelpText}" />
+                            <Label Grid.Row="2" Text="{StaticResource ReadAndUpvoteFrameSubtext}"
+                                   Style="{StaticResource StagnantColor}"
+                                   HorizontalOptions="Center" HorizontalTextAlignment="Center" />
+                            <Button Grid.Row="0" Grid.RowSpan="3" Style="{StaticResource TransparentSquareButton}"
+                                    Command="{Binding TrendingNowButtonCommand}" BorderColor="{StaticResource Primary}"
+                                    AutomationProperties.LabeledBy="{x:Reference trendingImage2}" />
+                        </Grid>
+                    </Frame>
+                </StackLayout>
+                <!--Search Button-->
+                <!-- Takes up half the space, but sits in the centre -->
+                <Frame Grid.Column="1" Grid.Row="1" x:Name="SearchFrame" HorizontalOptions="FillAndExpand"
+                       Style="{StaticResource SubtleFrame}">
+                    <Grid RowDefinitions="*,2*">
+                        <Label Grid.Row="0" Text="{StaticResource SearchBarTitle}" Style="{StaticResource Header1}"
+                               Margin="0,10,0,0" />
+                        <Image x:Name="searchImage" Grid.Row="1" Margin="0" HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               Source="{helpers:ImageResource RightToAskClient.Images.search.png}" WidthRequest="50"
+                               
+                               AutomationProperties.IsInAccessibleTree="True"
+                               AutomationProperties.Name="{StaticResource DraftImageAccessibilityNameText}"
+                               AutomationProperties.HelpText="{StaticResource DraftImageAccessibilityHelpText}" />
+                        <Button Grid.Row="0" Grid.RowSpan="2" Style="{StaticResource TransparentSquareButton}"
+                                Command="{Binding AdvancedSearchButtonCommand}" BorderColor="{StaticResource Primary}"
+                                AutomationProperties.LabeledBy="{x:Reference searchImage}" />
+                    </Grid>
+                </Frame>
+                <!-- Write a question button, which adds 'my questions' button if you've written any -->
+                <StackLayout Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" HorizontalOptions="Center"
+                             Orientation="Horizontal" Spacing="10" BackgroundColor="Transparent">
+                    <Frame WidthRequest="{Binding Path=Width, Source={x:Reference SearchFrame}}"
+                           Style="{StaticResource SubtleFrame}" HorizontalOptions="FillAndExpand" Margin="0,0,0,0">
+                        <Grid RowDefinitions="*,*">
+                            <StackLayout Grid.Row="0" Grid.RowSpan="2">
+                                <Label Text="{StaticResource MainPageHeader2Text}" Style="{StaticResource Header1}"
+                                       Margin="0,10,0,0" />
+                                <Image x:Name="draftImage1" Margin="0" HorizontalOptions="Center"
+                                       VerticalOptions="CenterAndExpand"
+                                       Source="{helpers:ImageResource RightToAskClient.Images.half_roo.png}"
+                                       WidthRequest="75"
+                                       AutomationProperties.IsInAccessibleTree="True"
+                                       AutomationProperties.Name="{StaticResource DraftImageAccessibilityNameText}"
+                                       AutomationProperties.HelpText="{StaticResource DraftImageAccessibilityHelpText}" />
+                            </StackLayout>
+                            <Button Grid.Row="0" Grid.RowSpan="2" Style="{StaticResource TransparentSquareButton}"
+                                    Command="{Binding DraftingButtonCommand}" BorderColor="{StaticResource Primary}"
+                                    AutomationProperties.LabeledBy="{x:Reference draftImage1}" />
+                        </Grid>
+                    </Frame>
+                    <!--My Questions Button-->
+                    <Frame WidthRequest="{Binding Path=Width, Source={x:Reference SearchFrame}}"
+                           IsVisible="{Binding ShowMyQuestions}" Style="{StaticResource SubtleFrame}"
+                           HorizontalOptions="FillAndExpand" Margin="0,0,10,0">
+                        <Grid RowDefinitions="*,*">
+                            <StackLayout Grid.Row="0" Grid.RowSpan="2">
+                                <Label Text="{StaticResource MyQuestionsTitleText}" Style="{StaticResource Header1}"
+                                       Margin="0,10,0,0" />
+                                <Image x:Name="draftImage2" Margin="0" HorizontalOptions="Center"
+                                       VerticalOptions="CenterAndExpand"
+                                       Source="{helpers:ImageResource RightToAskClient.Images.half_roo.png}"
+                                       WidthRequest="75"
+                                       AutomationProperties.IsInAccessibleTree="True"
+                                       AutomationProperties.Name="{StaticResource DraftImageAccessibilityNameText}"
+                                       AutomationProperties.HelpText="{StaticResource DraftImageAccessibilityHelpText}" />
+                            </StackLayout>
+                            <Button Grid.Row="0" Grid.RowSpan="2" Style="{StaticResource TransparentSquareButton}"
+                                    Command="{Binding DraftingButtonCommand}" BorderColor="{StaticResource Primary}"
+                                    AutomationProperties.LabeledBy="{x:Reference draftImage2}" />
+                        </Grid>
+                    </Frame>
+                </StackLayout>
+                <!-- Questions for me  -->
+                <Frame Grid.Column="1" Grid.Row="3" IsVisible="{Binding ShowQuestionsForMe}"
+                       WidthRequest="{Binding Path=Width, Source={x:Reference SearchFrame}}"
+                       Style="{StaticResource SubtleFrame}" HorizontalOptions="Center" Margin="0,0,0,0">
+                    <Grid RowDefinitions="*,*">
+                        <StackLayout Grid.Row="0" Grid.RowSpan="2">
+                            <Label Text="{StaticResource QuestionsForMeTitleText}" Style="{StaticResource Header1}"
+                                   Margin="0,10,0,0" />
+                            <Image x:Name="questionsForMe" Margin="0" HorizontalOptions="Center"
+                                   VerticalOptions="CenterAndExpand"
+                                   Source="{helpers:ImageResource RightToAskClient.Images.half_roo.png}"
+                                   WidthRequest="75"
+                                   AutomationProperties.IsInAccessibleTree="True"
+                                   AutomationProperties.Name="{StaticResource DraftImageAccessibilityNameText}"
+                                   AutomationProperties.HelpText="{StaticResource DraftImageAccessibilityHelpText}" />
+                        </StackLayout>
+                        <Button Grid.Row="0" Grid.RowSpan="2" Style="{StaticResource TransparentSquareButton}"
+                                Command="{Binding DraftingButtonCommand}" BorderColor="{StaticResource Primary}"
+                                AutomationProperties.LabeledBy="{x:Reference draftImage2}" />
+                    </Grid>
+                </Frame>
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

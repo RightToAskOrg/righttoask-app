@@ -11,9 +11,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using RightToAskClient.Views.Popups;
-using Xamarin.CommunityToolkit.Extensions;
-using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Forms;
+using CommunityToolkit.Maui.Extensions;
+using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui;
+using CommunityToolkit.Mvvm.Input;
 
 namespace RightToAskClient.ViewModels
 {
@@ -130,8 +132,8 @@ namespace RightToAskClient.ViewModels
             
             if (XamarinPreferences.shared.Get(Constants.ShowFirstTimeReadingPopup, true))
             {
-                // InfoPopupCommand.ExecuteAsync();
-                TCCommand.ExecuteAsync();
+                // InfoPopupCommand.ExecuteAsync(null);
+                TCCommand.ExecuteAsync(null);
                 
             }
             // Note: There is a race condition here, in that it is possible
@@ -140,13 +142,13 @@ namespace RightToAskClient.ViewModels
             // of questions from various versions of questionsToDisplay List.
             // I don't *think* this will cause a lock because QuestionsToDisplay
             // ought to be able to be cleared and added to in any order.
-            RefreshCommand = new AsyncCommand(async () =>
+            RefreshCommand = new AsyncRelayCommand (async () =>
             {
                     var questionsToDisplayList = await LoadQuestions();
                     doQuestionDisplayRefresh(questionsToDisplayList);
                     IsRefreshing = false;
             });
-            DraftCommand = new AsyncCommand(async () =>
+            DraftCommand = new AsyncRelayCommand (async () =>
             {
                 
                 // Check that they are registered - if not, prompt them to get an account.
@@ -163,8 +165,9 @@ namespace RightToAskClient.ViewModels
                     var showHowToPublishPopup = XamarinPreferences.shared.Get(Constants.ShowHowToPublishPopup, true);
                     if (showHowToPublishPopup)
                     {
-                        var popup = new HowToPublishPopup();
-                        if (popup != null) _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                        //TODO:
+                        //var popup = new HowToPublishPopup();
+                        //if (popup != null)  await Application.Current.MainPage.Navigation.PopModalAsync(popup);
 
                         // Only show it once.
                         XamarinPreferences.shared.Set(Constants.ShowHowToPublishPopup, false);
@@ -178,7 +181,7 @@ namespace RightToAskClient.ViewModels
             {
                 ShowSearchFrame = !ShowSearchFrame; // just toggle it
             });
-            ShowFiltersCommand = new AsyncCommand(async () =>
+            ShowFiltersCommand = new AsyncRelayCommand (async () =>
             {
                 var advancedSearchFiltersPage = new AdvancedSearchFiltersPage(FilterChoices);
                 await Application.Current.MainPage.Navigation.PushAsync(advancedSearchFiltersPage);
@@ -196,7 +199,7 @@ namespace RightToAskClient.ViewModels
             // Get the question list for display
             if (needRefresh)
             {
-                RefreshCommand.ExecuteAsync();
+                RefreshCommand.ExecuteAsync(null);
             }
             else
             {
@@ -207,16 +210,16 @@ namespace RightToAskClient.ViewModels
             MessagingCenter.Subscribe<FilterViewModel>(this, Constants.RefreshQuestionList, 
                  (sender) =>
                 {
-                    RefreshCommand.ExecuteAsync();
+                    RefreshCommand.ExecuteAsync(null);
                 });
         }
 
         // commands
-        public AsyncCommand RefreshCommand { get; protected set; }
-        public IAsyncCommand DraftCommand { get; }
+        public AsyncRelayCommand  RefreshCommand { get; protected set; }
+        public IAsyncRelayCommand  DraftCommand { get; }
         public Command SearchToolbarCommand { get; }
         public Command<QuestionDisplayCardViewModel> RemoveQuestionCommand { get; }
-        public IAsyncCommand ShowFiltersCommand { get; }
+        public IAsyncRelayCommand  ShowFiltersCommand { get; }
 
         // Loads the questions, depending on the value of ReadByQuestionWriter.
         protected async Task<List<QuestionDisplayCardViewModel>> LoadQuestions()

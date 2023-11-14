@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+           xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+           xmlns:local="clr-namespace:RightToAskClient.Maui"
+           xmlns:helpers="clr-namespace:RightToAskClient.Maui.Helpers;assembly=RightToAskClient.Maui"
+           x:Class="RightToAskClient.Maui.Views.Popups.OneButtonPopup"
+           WidthRequest="300"
+        HeightRequest="320"
+           BackgroundColor="Transparent">   
+    <Frame CornerRadius="5" 
+           VerticalOptions="FillAndExpand" 
+           HorizontalOptions="FillAndExpand" 
+           Padding="0"
+           BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource BackgroundDarkGray}}">
+        <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent">
+            <ScrollView VerticalOptions="FillAndExpand">
+                <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent">
+                    <Label x:Name="mainTitle" VerticalOptions="StartAndExpand" VerticalTextAlignment="Center"
+                           HorizontalOptions="Center" HorizontalTextAlignment="Center"
+                           Style="{StaticResource PopupHeaderText}" />
+                    <Label x:Name="mainMessage" VerticalOptions="StartAndExpand"
+                       HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource PopupText}" />
+                </StackLayout>
+            </ScrollView>
+            <Grid x:Name="EmuAndButtonLayout"
+                  BackgroundColor="{AppThemeBinding Light={StaticResource FadedButtonColor}, Dark={StaticResource SeparatorDarkModeColor}}"
+                  ColumnDefinitions="*" RowSpacing="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <StackLayout Grid.Row="1" Grid.Column="0" HorizontalOptions="FillAndExpand"
+                             Orientation="Horizontal"
+                             BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource BackgroundDarkGray}}">
+                    <!--Emu Bottom Left-->
+                    <Image x:Name="EmuImage" Source="{helpers:ImageResource RightToAskClient.Images.emu_tall.PNG}"
+                           WidthRequest="100" HeightRequest="100" Rotation="0" VerticalOptions="End"
+                           BackgroundColor="Transparent" />
+                    <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
+                        <!--Acknowledge/Dismiss Button Bottom Right-->
+                        <Button x:Name="okButton" HorizontalOptions="Center" VerticalOptions="CenterAndExpand"
+                                Clicked="okButton_Clicked"
+                                Style="{StaticResource PopupOKButton}" BackgroundColor="Transparent" />
+                    </StackLayout>
+                </StackLayout>
+            </Grid>
+        </StackLayout>
+    </Frame>
+</ContentPage>

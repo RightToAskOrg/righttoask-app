@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 using RightToAskClient.Resx;
 using RightToAskClient.ViewModels;
 using RightToAskClient.Views.Popups;
-using Xamarin.CommunityToolkit.Extensions;
-using Xamarin.Essentials;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+using CommunityToolkit.Maui.Extensions;
+using Microsoft.Maui.Controls.Xaml;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui;
 
 namespace RightToAskClient.Views
 {
@@ -68,9 +68,9 @@ namespace RightToAskClient.Views
                 var alertCancel = AppResources.CancelButtonText;
                 var alertConfirmation = AppResources.NavigateOKText;
 
-                var popup = new TwoButtonPopup(AppResources.NavigationPopupTitle, alertText, alertCancel, alertConfirmation, false);
-                var popupResult = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
-                if (popup.HasApproved(popupResult))
+              //  var popup = new TwoButtonPopup(AppResources.NavigationPopupTitle, alertText, alertCancel, alertConfirmation, false);
+                var popupResult = await Application.Current.MainPage.DisplayPromptAsync(AppResources.NavigationPopupTitle, alertText, alertConfirmation, alertCancel);
+                if (popupResult == alertConfirmation)
                 {
                     var browserDestination = new Uri(destination);
                     await OpenBrowser(browserDestination);

@@ -6,8 +6,7 @@ using System.Text.RegularExpressions;
 using RightToAskClient.Helpers;
 using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Resx;
-using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Essentials;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace RightToAskClient.Models
 {

@@ -8,9 +8,11 @@ using RightToAskClient.Models;
 using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Resx;
 using RightToAskClient.Views.Popups;
-using Xamarin.CommunityToolkit.Extensions;
-using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Forms;
+using CommunityToolkit.Maui.Extensions;
+using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui;
+using CommunityToolkit.Mvvm.Input;
 
 namespace RightToAskClient.ViewModels
 {
@@ -34,8 +36,8 @@ namespace RightToAskClient.ViewModels
 
         private readonly Registration? _registration;
 
-        public IAsyncCommand BackCommand { get; }
-        public IAsyncCommand SaveAndFinishCommand { get; }
+        public IAsyncRelayCommand  BackCommand { get; }
+        public IAsyncRelayCommand  SaveAndFinishCommand { get; }
 
         private bool _ableToFinish;
 
@@ -259,9 +261,9 @@ namespace RightToAskClient.ViewModels
         
         public SharingElectorateInfoViewModel()
         {
-            BackCommand = new AsyncCommand(async () => { await Application.Current.MainPage.Navigation.PopAsync(); });
+            BackCommand = new AsyncRelayCommand (async () => { await Application.Current.MainPage.Navigation.PopAsync(); });
 
-            SaveAndFinishCommand = new AsyncCommand(async () =>
+            SaveAndFinishCommand = new AsyncRelayCommand (async () =>
             {
                 _registration.public_key = ClientSignatureGenerationService.MyPublicKey;
 
@@ -285,7 +287,7 @@ namespace RightToAskClient.ViewModels
                     }
 
                     var popup = new OneButtonPopup(errorMessage, AppResources.OKText);
-                    await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                    await Application.Current.MainPage.Navigation.PushModalAsync(popup);
                 }
             });
 
@@ -319,9 +321,10 @@ namespace RightToAskClient.ViewModels
 
                 var navigation = Application.Current.MainPage.Navigation;
                 
-                var successPopup = new OneButtonPopup(AppResources.SuccessfullyRegisteredAccountTitle,
+              //  var successPopup = new OneButtonPopup(AppResources.SuccessfullyRegisteredAccountTitle,
+               //     AppResources.SuccessfullyRegisteredAccountText, AppResources.OKText);
+                await App.Current.MainPage.DisplayAlert(AppResources.SuccessfullyRegisteredAccountTitle,
                     AppResources.SuccessfullyRegisteredAccountText, AppResources.OKText);
-                _ = await navigation.ShowPopupAsync(successPopup);
                 
                 // pop back to the QuestionDetailsPage after the account is created
 
@@ -350,7 +353,7 @@ namespace RightToAskClient.ViewModels
 
                 var successPopup = new OneButtonPopup(AppResources.SuccessfullyUpdatedAccountTitle,
                     AppResources.SuccessfullyUpdatedAccountText, AppResources.OKText);
-                _ = await navigation.ShowPopupAsync(successPopup);
+                await navigation.PushModalAsync(successPopup);
                 
                 navigation.RemovePage(navigation.NavigationStack[navigation.NavigationStack.Count - 2]);
                 await navigation.PopAsync();

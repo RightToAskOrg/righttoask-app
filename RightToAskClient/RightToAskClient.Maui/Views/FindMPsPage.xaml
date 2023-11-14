@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:vm="clr-namespace:RightToAskClient.Maui.ViewModels;assembly=RightToAskClient.Maui"
+             xmlns:views="clr-namespace:RightToAskClient.Maui.Views;assembly=RightToAskClient.Maui"
+             xmlns:helpers="clr-namespace:RightToAskClient.Maui.Helpers;assembly=RightToAskClient.Maui"
+             x:Class="RightToAskClient.Maui.Views.FindMPsPage"
+            
+             x:DataType="vm:FindMPsViewModel">
+    <ContentPage.BindingContext>
+        <vm:FindMPsViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <ScrollView Margin="0" Padding="0">
+            <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" Spacing="0">
+                <!--<ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"/>-->
+                <!--Label Choice Option Frames-->
+                <Label Text="{StaticResource FindMyElectorateTitle}" Margin="16,16,16,0" FontAttributes="Bold"
+                       FontSize="Large" />
+                <Label Text="{StaticResource FindMyElectorateContentPartOne}" Margin="16,8,16,0" LineHeight="1.5"
+                       FontSize="Medium" />
+                <Label Text="{StaticResource FindMyElectorateContentPartTwo}" Margin="16,8,16,0" LineHeight="1.5"
+                       FontSize="Medium" />
+                <FlexLayout
+                    Direction="Row" JustifyContent="Center" AlignItems="Center" Margin="16,20,16,0">
+                    <StackLayout Orientation="Vertical">
+                        <Button x:Name="SelectEleButton" Clicked="SelectEleButton_OnClicked" Text="Select electorates"
+                                TextColor="{StaticResource ButtonColor}" Command="{Binding KnowElectoratesCommand}"
+                                HorizontalOptions="End" Style="{StaticResource TabButton}" SizeChanged="SelectEleButton_OnSizeChanged"/>
+                        <BoxView x:Name="SelectEleButtonUnderLine" VerticalOptions="End" HeightRequest="2"/>
+                    </StackLayout>
+                    <BoxView WidthRequest="25" BackgroundColor="Transparent" HeightRequest="0"/>
+                    <StackLayout Orientation="Vertical">
+                        <Button x:Name="TypeAddButton" Clicked="TypeAddButton_OnClicked" Text="Enter an address" 
+                                TextColor="{StaticResource MediumDarkShadeOfGray}" Command="{Binding LookupElectoratesCommand}"
+                                HorizontalOptions="End"  Style="{StaticResource TabButton}" SizeChanged="SelectEleButton_OnSizeChanged"/>
+                        <BoxView x:Name="TypeAddButtonUnderLine" VerticalOptions="End" HeightRequest="2" Color="Transparent"/>
+                    </StackLayout>
+                </FlexLayout>
+                <!--Map Display-->
+                <StackLayout x:Name="MapView" Margin="0" Padding="0, 1" WidthRequest="150" 
+                             BackgroundColor="{AppThemeBinding Light={StaticResource FadedButtonColor}, Dark={StaticResource SeparatorDarkModeColor}}">
+                    <Grid Margin="0" Padding="0" >
+                        <!--Webview has default padding in its underlying html that is proving difficult to remove-->
+                        <WebView BackgroundColor="Transparent" Source="{Binding MapURL}" WidthRequest="300" HeightRequest="250" Margin="0" />
+                        <StackLayout IsVisible="{Binding ShowMapFrame, Converter={StaticResource Key=cnvInvert}}"  
+                                     HorizontalOptions="FillAndExpand"
+                                     VerticalOptions="FillAndExpand" 
+                                     BackgroundColor="{StaticResource EditorBackground}">
+                            <StackLayout VerticalOptions="CenterAndExpand">
+                                <Image HeightRequest="30"
+                                       Source="{helpers:ImageResource RightToAskClient.Images.map.png}"
+                                       Style="{StaticResource ListErrorIcon}" 
+                                       Margin="0,0,0,10"/>
+                                <Label Text="{StaticResource MapPlaceholderText}" FontSize="Small"
+                                       FontAttributes="Bold" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center"
+                                       TextColor="Black" VerticalTextAlignment="Center"
+                                       Margin="16,0" />
+                            </StackLayout>
+                        </StackLayout>
+                    </Grid>
+                </StackLayout>
+                <!--Known Electorates Section-->
+                <StackLayout Style="{StaticResource SubtleFrame}" BackgroundColor="{AppThemeBinding Light=White, Dark=Black}"
+                             IsVisible="{Binding ShowKnowElectoratesFrame}">
+                    <StackLayout  Margin="10" >
+                        <!--State Selector/Picker-->
+                        <views:LabeledPicker BindingContext="{Binding StatePickerModel}" />
+
+                        <Label Text="{StaticResource FederalElectorate}" FontSize="Medium"
+                               FontAttributes="Bold" HorizontalOptions="Start" HorizontalTextAlignment="Start"
+                               TextColor="{AppThemeBinding Light=Black, Dark=White}" VerticalTextAlignment="Center"
+                               Margin="0, 5"/>
+                        <views:LabeledPicker BindingContext="{Binding FederalPickerModel}" />
+                        
+                        <Label Text="{StaticResource StateElectorate}" FontSize="Medium"
+                               FontAttributes="Bold" HorizontalOptions="Start" HorizontalTextAlignment="Start"
+                               TextColor="{AppThemeBinding Light=Black, Dark=White}" VerticalTextAlignment="Center"
+                               Margin="0,5"/>
+                        <views:LabeledPicker BindingContext="{Binding StateElectoratePickerModel}" />
+                        
+                        <StackLayout>
+                            <Label Text="{Binding StateInferredElectorateHeader}"
+                                   Style="{StaticResource SmallGreyHeader}"/>
+                            <Grid Margin="0,0,0,8">
+                                <BoxView Style="{StaticResource ButtonSeparator}" VerticalOptions="End" />
+                                <Label Text="{Binding StateInferredElectorate}" Padding="8,8,0,6"
+                                       Style="{StaticResource TransparentBgPicker}" HorizontalOptions="FillAndExpand"
+                                       VerticalOptions="Center" />
+                            </Grid>
+                        </StackLayout>
+                        
+                    </StackLayout>
+                </StackLayout>
+                <!--Address Lookup Stack-->
+                <StackLayout IsVisible="{Binding ShowAddressStack}">
+                    <StackLayout Margin="10" Spacing="0">
+                        <!--State Selector/Picker-->
+                        <views:LabeledPicker BindingContext="{Binding StatePickerModel}" />
+                        <StackLayout>
+                            <Label Text="{StaticResource StreetHeaderText}"
+                                   Style="{StaticResource SmallGreyHeader}" />
+                            <Grid Margin="0,0,0,8">
+                                <BoxView Style="{StaticResource ButtonSeparator}" VerticalOptions="End" />
+                                <Entry Placeholder="{StaticResource StreetHeaderText}"
+                                       Text="{Binding Address.StreetNumberAndName}"
+                                       Style="{StaticResource LeftFrameEntry}"
+                                       PlaceholderColor="{AppThemeBinding Light=Black, Dark=White}"
+                                       TextColor="{AppThemeBinding Light=Black, Dark=White}"
+                                       Margin="0" />
+                            </Grid>
+                        </StackLayout>
+                        <StackLayout>
+                            <Label Text="{StaticResource CitySuburbHeaderText}"
+                                   Style="{StaticResource SmallGreyHeader}"/>
+                            <Grid Margin="0,0,0,8">
+                                <BoxView Style="{StaticResource ButtonSeparator}" VerticalOptions="End" />
+                                <Entry Placeholder="{StaticResource CitySuburbHeaderText}"
+                                       Text="{Binding Address.CityOrSuburb}" Style="{StaticResource LeftFrameEntry}"
+                                       PlaceholderColor="{AppThemeBinding Light=Black, Dark=White}"
+                                       TextColor="{AppThemeBinding Light=Black, Dark=White}"
+                                       Margin="0" />
+                            </Grid>
+                        </StackLayout>
+                        
+                        <StackLayout>
+                            <Label Text="{StaticResource PostcodeHeaderText}"
+                                   Style="{StaticResource SmallGreyHeader}"/>
+                            <Grid Margin="0,0,0,8">
+                                <BoxView Style="{StaticResource ButtonSeparator}" VerticalOptions="End" />
+                                <Entry Placeholder="{StaticResource PostcodeHeaderText}"
+                                       Text="{Binding Address.Postcode}" Style="{StaticResource LeftFrameEntry}"
+                                       PlaceholderColor="{AppThemeBinding Light=Black, Dark=White}"
+                                       TextColor="{AppThemeBinding Light=Black, Dark=White}"
+                                       Margin="0" />
+                            </Grid>
+                        </StackLayout>
+                        <Button Margin="8, 12"
+                            Text="{StaticResource LocateButtonText}" 
+                            Style="{StaticResource OutlineButton}"
+                            Command="{Binding SubmitAddressButtonCommand}" />
+                    </StackLayout>
+                </StackLayout>
+                <BoxView Style="{StaticResource ButtonSeparator}"/>
+                <!--Done Button-->
+                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Margin="16">
+                    <Button Style="{StaticResource NormalButton}"
+                            x:Name="DoneButton"
+                            Text="{StaticResource SaveButtonText}"
+                            Command="{Binding SaveMPsButtonCommand}"
+                            IsEnabled="{Binding EnableFindMPsButton}" />
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

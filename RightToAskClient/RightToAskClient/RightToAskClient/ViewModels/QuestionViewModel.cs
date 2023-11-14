@@ -11,10 +11,11 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using RightToAskClient.Helpers;
 using RightToAskClient.Views.Popups;
-using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Essentials;
-using Xamarin.Forms;
-using Xamarin.CommunityToolkit.Extensions;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Maui.Extensions;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui;
+using CommunityToolkit.Mvvm.Input;
 
 namespace RightToAskClient.ViewModels
 {
@@ -97,19 +98,23 @@ namespace RightToAskClient.ViewModels
         public List<Uri> HansardLinks => Question.HansardLink;
 
         public string QuestionAnswerers =>
-            Extensions.JoinFilter(", ",
-                    string.Join(", ", Question.Filters.SelectedAnsweringMPsNotMine.Select(mp => mp.ShortestName)),
-                    string.Join(", ", Question.Filters.SelectedAnsweringMPsMine.Select(mp => mp.ShortestName)),
-                    string.Join(", ", Question.Filters.SelectedAuthorities.Select(a => a.ShortestName)))
-                .NullToEmptyMessage(IsNewQuestion ? AppResources.HasNotMadeSelection : AppResources.NoSelections);
+            "";
+        //TODO:
+            //Extensions.JoinFilter(", ",
+            //        string.Join(", ", Question.Filters.SelectedAnsweringMPsNotMine.Select(mp => mp.ShortestName)),
+            //        string.Join(", ", Question.Filters.SelectedAnsweringMPsMine.Select(mp => mp.ShortestName)),
+            //        string.Join(", ", Question.Filters.SelectedAuthorities.Select(a => a.ShortestName)))
+            //    .NullToEmptyMessage(IsNewQuestion ? AppResources.HasNotMadeSelection : AppResources.NoSelections);
 
         // The MPs or committee who are meant to ask the question
         public string QuestionAskers =>
-            Extensions.JoinFilter(", ",
-                    string.Join(", ", Question.Filters.SelectedAskingMPsNotMine.Select(mp => mp.ShortestName)),
-                    string.Join(", ", Question.Filters.SelectedAskingMPsMine.Select(mp => mp.ShortestName)),
-                    string.Join(",", Question.Filters.SelectedCommittees.Select(com => com.ShortestName)))
-                .NullToEmptyMessage(IsNewQuestion ? AppResources.HasNotMadeSelection : AppResources.NoSelections);
+                "";
+        //TODO:
+        //Extensions.JoinFilter(", ",
+        //            string.Join(", ", Question.Filters.SelectedAskingMPsNotMine.Select(mp => mp.ShortestName)),
+        //            string.Join(", ", Question.Filters.SelectedAskingMPsMine.Select(mp => mp.ShortestName)),
+        //            string.Join(",", Question.Filters.SelectedCommittees.Select(com => com.ShortestName)))
+        //        .NullToEmptyMessage(IsNewQuestion ? AppResources.HasNotMadeSelection : AppResources.NoSelections);
 
         public bool HasAskers
         {
@@ -321,20 +326,20 @@ namespace RightToAskClient.ViewModels
             SelectButtonText = AppResources.SelectButtonText;
             
             // commands
-            ProceedToReadingPageCommand = new AsyncCommand(async() => 
+            ProceedToReadingPageCommand = new AsyncRelayCommand (async() => 
             {
                 await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
             });
-            QuestionDraftDoneCommand = new AsyncCommand(async () =>
+            QuestionDraftDoneCommand = new AsyncRelayCommand (async () =>
             {
                 await Shell.Current.GoToAsync($"{nameof(QuestionAnswererPage)}");
             });
             // For skipping choices - just navigate forwards
-            LeaveAnswererBlankButtonCommand = new AsyncCommand(async () =>
+            LeaveAnswererBlankButtonCommand = new AsyncRelayCommand (async () =>
             {
                 await Shell.Current.GoToAsync($"{nameof(QuestionAskerPage)}");
             });
-            OtherPublicAuthorityButtonCommand = new AsyncCommand(async () =>
+            OtherPublicAuthorityButtonCommand = new AsyncRelayCommand (async () =>
             {
                 // Question.AnswerInApp = false;
                 // AnswerInApp = false;
@@ -349,7 +354,7 @@ namespace RightToAskClient.ViewModels
             // straight to the Explorer page that lists them.
             // If we don't, go to the page for entering address and finding them.
             // It will pop back to here.
-            AnsweredByMyMPCommand = new AsyncCommand(async () =>
+            AnsweredByMyMPCommand = new AsyncRelayCommand (async () =>
             {
                 // Question.AnswerInApp = true;
                 // AnswerInApp = true;
@@ -361,7 +366,7 @@ namespace RightToAskClient.ViewModels
                         Constants.GoToQuestionDetailPageNext : Constants.GoToAskingPageNext); // Sends this view model
                 });
             });
-            AnsweredByOtherMPCommandOptionB = new AsyncCommand(async () =>
+            AnsweredByOtherMPCommandOptionB = new AsyncRelayCommand (async () =>
             {
                 // Question.AnswerInApp = false;
                 // AnswerInApp = false;
@@ -372,7 +377,7 @@ namespace RightToAskClient.ViewModels
                         Constants.GoToQuestionDetailPageNext : Constants.GoToAskingPageNext); // Sends this view model
                 });
             });
-            UpvoteCommand = new AsyncCommand(async () =>
+            UpvoteCommand = new AsyncRelayCommand (async () =>
             {
                 // First check if they're registered, and offer them the chance to register if not
                 if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
@@ -405,7 +410,7 @@ namespace RightToAskClient.ViewModels
                     }
                 }
             });
-            DownvoteCommand = new AsyncCommand(async () =>
+            DownvoteCommand = new AsyncRelayCommand (async () =>
             {
                 // First check if they're registered, and offer them the chance to register if not
                 if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered) 
@@ -441,7 +446,7 @@ namespace RightToAskClient.ViewModels
             {
                 EditQuestionButton_OnClicked();
             });
-            QuestionSuggesterCommand = new AsyncCommand(async () =>
+            QuestionSuggesterCommand = new AsyncRelayCommand (async () =>
             {
                 var userId = Question.QuestionSuggester;
                 var userToSend = await RTAClient.GetUserById(userId);
@@ -463,27 +468,27 @@ namespace RightToAskClient.ViewModels
                     await Application.Current.MainPage.Navigation.PushAsync(userProfilePage);
                 }
             });
-            BackCommand = new AsyncCommand(async () =>
+            BackCommand = new AsyncRelayCommand (async () =>
             {
                 HomeButtonCommand.Execute(null); // just inherit the functionality of the home button from BaseViewModel
             });
-            OptionACommand = new AsyncCommand(async () =>
+            OptionACommand = new AsyncRelayCommand (async () =>
             {
                 await Shell.Current.GoToAsync($"{nameof(QuestionAskerPage)}");
             });
-            OptionBCommand = new AsyncCommand(async () =>
+            OptionBCommand = new AsyncRelayCommand (async () =>
             {
                 await Shell.Current.GoToAsync($"{nameof(QuestionAskerPage)}");
             });
-            ToHowAnsweredOptionPageCommand = new AsyncCommand(async () =>
+            ToHowAnsweredOptionPageCommand = new AsyncRelayCommand (async () =>
             {
                 await Shell.Current.GoToAsync($"{nameof(HowAnsweredOptionPage)}");
             });
-            ToAnswererPageWithHowAnsweredSelectionCommand = new AsyncCommand(async () =>
+            ToAnswererPageWithHowAnsweredSelectionCommand = new AsyncRelayCommand (async () =>
             {
                 await Shell.Current.GoToAsync($"{nameof(QuestionAnswererPage)}");
             });
-            ShareCommand = new AsyncCommand(async() =>
+            ShareCommand = new AsyncRelayCommand (async() =>
             {
                 await Share.RequestAsync(new ShareTextRequest 
                 {
@@ -492,7 +497,7 @@ namespace RightToAskClient.ViewModels
                     Title = "Share Text"
                 });
             });
-            ReportCommand = new AsyncCommand(async () =>
+            ReportCommand = new AsyncRelayCommand (async () =>
             {
                 if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
                 {
@@ -536,26 +541,26 @@ namespace RightToAskClient.ViewModels
 
         public bool IsVerifiedMpAccount => IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsVerifiedMPAccount;
         public Command NotSureWhoShouldRaiseCommand => _notSureWhoShouldRaiseCommand ??= new Command(NotSureWhoShouldRaiseButtonClicked);
-        public IAsyncCommand ProceedToReadingPageCommand { get; }
-        public IAsyncCommand LeaveAnswererBlankButtonCommand { get; }
-        public IAsyncCommand QuestionDraftDoneCommand { get; }
-        public IAsyncCommand OtherPublicAuthorityButtonCommand { get; }
-        public IAsyncCommand AnsweredByMyMPCommand { get; }
-        // public IAsyncCommand AnsweredByOtherMPCommand { get; }
-        public IAsyncCommand AnsweredByOtherMPCommandOptionB { get; }
-        public IAsyncCommand QuestionSuggesterCommand { get; }
-        public IAsyncCommand BackCommand { get; }
+        public IAsyncRelayCommand  ProceedToReadingPageCommand { get; }
+        public IAsyncRelayCommand  LeaveAnswererBlankButtonCommand { get; }
+        public IAsyncRelayCommand  QuestionDraftDoneCommand { get; }
+        public IAsyncRelayCommand  OtherPublicAuthorityButtonCommand { get; }
+        public IAsyncRelayCommand  AnsweredByMyMPCommand { get; }
+        // public IAsyncRelayCommand  AnsweredByOtherMPCommand { get; }
+        public IAsyncRelayCommand  AnsweredByOtherMPCommandOptionB { get; }
+        public IAsyncRelayCommand  QuestionSuggesterCommand { get; }
+        public IAsyncRelayCommand  BackCommand { get; }
         public Command SaveQuestionCommand { get; }
-        public IAsyncCommand UpvoteCommand { get; }
-        public IAsyncCommand DownvoteCommand { get; }
+        public IAsyncRelayCommand  UpvoteCommand { get; }
+        public IAsyncRelayCommand  DownvoteCommand { get; }
         public Command EditAnswerCommand { get; }
-        public IAsyncCommand OptionACommand { get; }
-        public IAsyncCommand OptionBCommand { get; }
+        public IAsyncRelayCommand  OptionACommand { get; }
+        public IAsyncRelayCommand  OptionBCommand { get; }
         
-        public IAsyncCommand ToAnswererPageWithHowAnsweredSelectionCommand { get; }
-        public IAsyncCommand ToHowAnsweredOptionPageCommand { get; }
-        public IAsyncCommand ShareCommand { get; }
-        public IAsyncCommand ReportCommand { get; }
+        public IAsyncRelayCommand  ToAnswererPageWithHowAnsweredSelectionCommand { get; }
+        public IAsyncRelayCommand  ToHowAnsweredOptionPageCommand { get; }
+        public IAsyncRelayCommand  ShareCommand { get; }
+        public IAsyncRelayCommand  ReportCommand { get; }
         
         public void ClearQuestionDataAddWriter()
         {
@@ -770,7 +775,7 @@ namespace RightToAskClient.ViewModels
             //FIXME update version, just like for edits.
 
             var popup = new QuestionPublishedPopup();
-            _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
+            await Application.Current.MainPage.Navigation.PushModalAsync(popup);
             if (GoHome)
             {
                 Instance.Question.Filters.RemoveAllSelections();
@@ -800,7 +805,8 @@ namespace RightToAskClient.ViewModels
             {
                 var message = successfulSubmission.errorMessage ?? "";
                 var popup2 = new OneButtonPopup(AppResources.EditQuestionErrorText, message, AppResources.OKText);
-                _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup2);
+                await Application.Current.MainPage.DisplayAlert(AppResources.EditQuestionErrorText,
+                    message, AppResources.OKText);
                 // ReportLabelText = "Error editing question: " + successfulSubmission.errorMessage;
                 return;
             }
@@ -811,7 +817,7 @@ namespace RightToAskClient.ViewModels
             
             // Go back to the reading page you came from.
             var popup = new OneButtonPopup(AppResources.QuestionEditSuccessfulPopupTitle, AppResources.QuestionEditSuccessfulPopupText, AppResources.GoHomeButtonText, false);            
-            _ = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+            await App.Current.MainPage.DisplayAlert(AppResources.QuestionEditSuccessfulPopupTitle, AppResources.QuestionEditSuccessfulPopupText, AppResources.GoHomeButtonText);
 
             await Application.Current.MainPage.Navigation.PopToRootAsync();
         }

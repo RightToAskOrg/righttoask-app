@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<xct:Popup xmlns="http://xamarin.com/schemas/2014/forms"
-           xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+<?xml version="1.0" encoding="utf-8" ?>
+<xct:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+           xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
            xmlns:views="clr-namespace:RightToAskClient.Views"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RightToAskClient.Views.Popups.HowToPublishPopup"

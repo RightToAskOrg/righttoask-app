@@ -7,7 +7,6 @@ using Org.BouncyCastle.Asn1.X509.SigI;
 using RightToAskClient.CryptoUtils;
 using RightToAskClient.Helpers;
 using RightToAskClient.Models.ServerCommsData;
-using Xamarin.Essentials;
 
 // This class represents a person who uses the
 // system and is not an MP or org representative.

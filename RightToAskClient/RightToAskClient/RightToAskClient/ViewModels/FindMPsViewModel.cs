@@ -10,9 +10,11 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using RightToAskClient.Helpers;
 using RightToAskClient.Views.Popups;
-using Xamarin.CommunityToolkit.Extensions;
-using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Forms;
+using CommunityToolkit.Maui.Extensions;
+using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui;
+using CommunityToolkit.Mvvm.Input;
 
 namespace RightToAskClient.ViewModels
 {
@@ -57,8 +59,8 @@ namespace RightToAskClient.ViewModels
             set
             {
                 // Make sure all the data in the 'know electorates' frame is refreshed.
-                SetProperty(ref _showKnowElectoratesFrame, value); 
-                OnPropertyChanged("StatePickerTitle"); 
+                SetProperty(ref _showKnowElectoratesFrame, value);
+                OnPropertyChanged("StatePickerTitle");
                 OnPropertyChanged("FederalElectorate");
                 OnPropertyChanged("StateChoosableElectorate");
                 OnPropertyChanged("StateInferredElectorate");
@@ -98,13 +100,13 @@ namespace RightToAskClient.ViewModels
 
         public ObservableCollection<string> AllStateChoosableElectorates { get; } = new ObservableCollection<string>();
 
-        private string _stateChoosableElectorateHeader ;
+        private string _stateChoosableElectorateHeader;
 
         public string StateChoosableElectorateHeader
         {
             get => _stateChoosableElectorateHeader;
             set => SetProperty(ref _stateChoosableElectorateHeader, value);
-            }
+        }
 
         private string _stateChoosableElectorate;
 
@@ -115,13 +117,13 @@ namespace RightToAskClient.ViewModels
         }
 
         private string _stateInferredElectorateHeader;
-        
+
         public string StateInferredElectorateHeader
         {
             get => _stateInferredElectorateHeader;
             set => SetProperty(ref _stateInferredElectorateHeader, value);
         }
-        
+
         private string _stateInferredElectorate = AppResources.LegislativeCouncilText;
 
         public string StateInferredElectorate
@@ -129,7 +131,7 @@ namespace RightToAskClient.ViewModels
             get => _stateInferredElectorate;
             set => SetProperty(ref _stateInferredElectorate, value);
         }
-        
+
         private string _federalElectoratePickerTitle;
         public string FederalElectoratePickerTitle
         {
@@ -143,7 +145,7 @@ namespace RightToAskClient.ViewModels
             get => _mapURL;
             private set => SetProperty(ref _mapURL, value);
         }
-        
+
         private bool _postcodeIsValid;
         public bool PostcodeIsValid
         {
@@ -154,19 +156,22 @@ namespace RightToAskClient.ViewModels
         private bool _stateKnown;
 
         private LabeledPickerViewModel _statePickerModel;
-        public LabeledPickerViewModel StatePickerModel{
+        public LabeledPickerViewModel StatePickerModel
+        {
             get => _statePickerModel;
             set => SetProperty(ref _statePickerModel, value);
         }
-        
+
         private LabeledPickerViewModel _federalPickerModel;
-        public LabeledPickerViewModel FederalPickerModel{
+        public LabeledPickerViewModel FederalPickerModel
+        {
             get => _federalPickerModel;
             set => SetProperty(ref _federalPickerModel, value);
         }
-        
+
         private LabeledPickerViewModel _stateElectoratePickerModel;
-        public LabeledPickerViewModel StateElectoratePickerModel{
+        public LabeledPickerViewModel StateElectoratePickerModel
+        {
             get => _stateElectoratePickerModel;
             set => SetProperty(ref _stateElectoratePickerModel, value);
         }
@@ -176,7 +181,7 @@ namespace RightToAskClient.ViewModels
         // constructor
         public FindMPsViewModel() : this(null)
         {
-            
+
         }
 
         private void InitUILabels(Registration registration)
@@ -193,9 +198,9 @@ namespace RightToAskClient.ViewModels
                 StateChoosableElectorateHeader = $"State Legislative Assembly Electorate: {StateLowerHouseElectorate:F0}";
                 StateChoosableElectorate = "Select: " + StateLowerHouseElectorate;
                 StateInferredElectorateHeader = "State Legislative Council Electorate: ";
-                StateInferredElectorate =  StateUpperHouseElectorate;
+                StateInferredElectorate = StateUpperHouseElectorate;
             }
-            
+
             FederalElectoratePickerTitle = $"Select: {CommonwealthElectorate:F0}";
         }
 
@@ -208,7 +213,7 @@ namespace RightToAskClient.ViewModels
             }
 
             InitUILabels(_registration);
-            
+
             PopupLabelText = AppResources.FindMPsPopupText;
             ShowAddressStack = false;
             ShowKnowElectoratesFrame = false;
@@ -216,12 +221,12 @@ namespace RightToAskClient.ViewModels
 
             _stateKnown = _registration.StateKnown;
             var electorateString = ParliamentData.ConvertGeoscapeElectorateToStandard(
-                _registration.State, 
+                _registration.State,
                 CommonwealthElectorate);
             ShowMapOfElectorate(electorateString);
 
             // commands
-            SaveMPsButtonCommand = new AsyncCommand(async () =>
+            SaveMPsButtonCommand = new AsyncRelayCommand(async () =>
             {
                 if (_signUpFlow)
                 {
@@ -234,14 +239,14 @@ namespace RightToAskClient.ViewModels
                     await App.Current.MainPage.Navigation.PopAsync();
                 }
             });
-            SubmitAddressButtonCommand = new AsyncCommand(async () =>
+            SubmitAddressButtonCommand = new AsyncRelayCommand(async () =>
             {
                 await OnSubmitAddressButton_Clicked();
             });
             // TODO Think about what should happen if the person has made 
             // some choices, then clicks 'skip'.  At the moment, it retains 
             // the choices they made and pops the page.
-            SkipButtonCommand = new AsyncCommand(async () =>
+            SkipButtonCommand = new AsyncRelayCommand(async () =>
             {
                 await Shell.Current.GoToAsync("..");
             });
@@ -267,7 +272,7 @@ namespace RightToAskClient.ViewModels
             });
             KnowElectoratesCommand.Execute(true);
 
-            if(_registration.ElectoratesKnown)
+            if (_registration.ElectoratesKnown)
                 InitialisePickersWithElectorates();
             else
                 InitialisePickers();
@@ -295,7 +300,7 @@ namespace RightToAskClient.ViewModels
                 Title = "Legislative Assembly",
             };
             StateElectoratePickerModel.OnSelectedCallback += OnStateChoosableElectoratePickerSelectedIndexChanged;
-            
+
         }
 
         private void InitialisePickersWithElectorates()
@@ -334,16 +339,16 @@ namespace RightToAskClient.ViewModels
                     ? -1
                     : AllStateChoosableElectorates.IndexOf(stateElectorate),
             };
-            
+
             FederalPickerModel.OnSelectedCallback += OnFederalElectoratePickerSelectedIndexChanged;
             StatePickerModel.OnSelectedCallback += OnStateSelected;
             StateElectoratePickerModel.OnSelectedCallback += OnStateChoosableElectoratePickerSelectedIndexChanged;
         }
 
         // commands
-        public IAsyncCommand SaveMPsButtonCommand { get; }
-        public IAsyncCommand SubmitAddressButtonCommand { get; }
-        public IAsyncCommand SkipButtonCommand { get; }
+        public IAsyncRelayCommand SaveMPsButtonCommand { get; }
+        public IAsyncRelayCommand SubmitAddressButtonCommand { get; }
+        public IAsyncRelayCommand SkipButtonCommand { get; }
         public Command LookupElectoratesCommand { get; }
         public Command KnowElectoratesCommand { get; }
 
@@ -357,13 +362,13 @@ namespace RightToAskClient.ViewModels
                 OneButtonPopup popup;
                 if (title != null)
                 {
-                    popup = new OneButtonPopup(title,message, buttonText);
+                    await Application.Current.MainPage.DisplayAlert(title, message, buttonText);
                 }
                 else
                 {
-                    popup = new OneButtonPopup(message, buttonText);
-                } 
-                _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
+                    await Application.Current.MainPage.DisplayAlert("", message, buttonText);
+                }
+
             }
             catch (Exception e)
             {
@@ -376,21 +381,24 @@ namespace RightToAskClient.ViewModels
             try
             {
                 var popup = new TwoButtonPopup(
-                    AppResources.InvalidPostcodePopupTitle, 
-                    AppResources.InvalidPostcodePopupText, 
-                    AppResources.CancelButtonText, 
-                    AppResources.ImSureButtonText, 
+                    AppResources.InvalidPostcodePopupTitle,
+                    AppResources.InvalidPostcodePopupText,
+                    AppResources.CancelButtonText,
+                    AppResources.ImSureButtonText,
                     false);
-                var popupResult = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
-                return popup.HasApproved(popupResult);
-            } 
+                var popupResult = await Application.Current.MainPage.DisplayPromptAsync(AppResources.InvalidPostcodePopupTitle,
+                    AppResources.InvalidPostcodePopupText,
+                    AppResources.ImSureButtonText,
+                    AppResources.CancelButtonText);
+                return popupResult == AppResources.ImSureButtonText;
+            }
             catch (Exception e)
             {
                 Console.WriteLine(e);
                 return false;
             }
         }
-        
+
         // If we don't even know the person's state, we have no idea so they have to go back and pick;
         // If we know their state but not their Legislative Assembly or Council makeup, we can go on. 
         private async Task OnSubmitAddressButton_Clicked()
@@ -398,13 +406,13 @@ namespace RightToAskClient.ViewModels
             // see if we should prompt first
             int.TryParse(Address.Postcode, out var postcode);
             PostcodeIsValid = Postcode.IsValid(SelectedStateEnum, postcode);
-            
+
             if (!PostcodeIsValid)
             {
                 var popupResult = await ShowTwoButtonPopup(
                     AppResources.InvalidPostcodePopupTitle,
                     AppResources.InvalidPostcodePopupText,
-                    AppResources.CancelButtonText, 
+                    AppResources.CancelButtonText,
                     AppResources.ImSureButtonText);
                 if (popupResult)
                 {
@@ -464,14 +472,14 @@ namespace RightToAskClient.ViewModels
                 electoratePopupTitle = "Electorates Found!";
                 electoratePopupText = ("Federal electorate: " +
                                        CommonwealthElectorate +
-                                       "\nState lower house electorate: " + 
+                                       "\nState lower house electorate: " +
                                        StateLowerHouseElectorate);
 
                 // just save the address all the time now if it returned a valid electorate
                 SaveAddress();
             }
             await ShowOneButtonPopup(electoratePopupTitle, electoratePopupText, AppResources.OKText);
-            
+
             // display the map if we stored the Federal Electorate properly
             if (!string.IsNullOrEmpty(CommonwealthElectorate))
             {
@@ -494,12 +502,12 @@ namespace RightToAskClient.ViewModels
             var state = _registration.SelectedStateAsEnum;
             var electorates = ParliamentData.GetElectoratesFromGeoscapeAddress(state, addressData);
             _registration.Electorates = electorates;
-            
+
             // There really shouldn't be any scenario in which there aren't any electorates here, unless something goes
             // wrong extracting Electorate strings from the Geoscape address.
             if (electorates.Any())
             {
-                CommunicateElectoratesKnown();        
+                CommunicateElectoratesKnown();
             }
         }
 
@@ -526,8 +534,8 @@ namespace RightToAskClient.ViewModels
                 _registration.Electorates
                     = ParliamentData.FindAllRelevantElectorates(state,
                         chosenElectorate, CommonwealthElectorate);
-                (_, _, StateInferredElectorate) 
-                    = ParliamentData.InferOtherChamberInfoGivenOneRegion(SelectedStateEnum, chosenElectorate, 
+                (_, _, StateInferredElectorate)
+                    = ParliamentData.InferOtherChamberInfoGivenOneRegion(SelectedStateEnum, chosenElectorate,
                         CommonwealthElectorate);
             }
             RevealNextStepAndCommunicateIfElectoratesKnown();
@@ -536,10 +544,10 @@ namespace RightToAskClient.ViewModels
         private void OnFederalElectoratePickerSelectedIndexChanged(int value)
         {
             var selectedFederalElectorateIndex = FederalPickerModel.SelectedIndex;
-            if (selectedFederalElectorateIndex >= 0 && selectedFederalElectorateIndex < FederalElectorates.Count && 
+            if (selectedFederalElectorateIndex >= 0 && selectedFederalElectorateIndex < FederalElectorates.Count &&
                 !string.IsNullOrEmpty(FederalElectorates[selectedFederalElectorateIndex]))
             {
-                
+
                 // actually show the map in real time
                 ShowMapFrame = true;
                 ShowMapOfElectorate(FederalElectorates[selectedFederalElectorateIndex]);
@@ -587,14 +595,14 @@ namespace RightToAskClient.ViewModels
                     ? ParliamentData.ListElectoratesInStateUpperHouse(state)
                     : ParliamentData.ListElectoratesInStateLowerHouse(state);
 
-            AllStateChoosableElectorates.Clear();   
-            
+            AllStateChoosableElectorates.Clear();
+
             foreach (var electorate in newChoosableElectorateList)
             {
-                AllStateChoosableElectorates.Add(electorate);   
+                AllStateChoosableElectorates.Add(electorate);
             }
 
-            (StateChoosableElectorateHeader, StateInferredElectorateHeader, StateInferredElectorate) 
+            (StateChoosableElectorateHeader, StateInferredElectorateHeader, StateInferredElectorate)
                     = ParliamentData.InferOtherChamberInfoGivenOneRegion(state, stateElectorate, commElectorate);
         }
 
@@ -603,7 +611,7 @@ namespace RightToAskClient.ViewModels
             if (_registration.ElectoratesKnown)
             {
                 var selectedState = (ParliamentData.StateEnum)Enum.ToObject(typeof(ParliamentData.StateEnum), value);
-                if (selectedState == SelectedStateEnum)  
+                if (selectedState == SelectedStateEnum)
                     return;
             }
 
@@ -617,14 +625,14 @@ namespace RightToAskClient.ViewModels
                     = ParliamentData.InferOtherChamberInfoGivenOneRegion(SelectedStateEnum, "", "");
 
                 FederalElectorates = ParliamentData.HouseOfRepsElectorates(SelectedStateEnum.ToString());
-                if(FederalPickerModel != null)
+                if (FederalPickerModel != null)
                     FederalPickerModel.Items = FederalElectorates;
-                if(StateElectoratePickerModel != null)
+                if (StateElectoratePickerModel != null)
                     StateElectoratePickerModel.Items = AllStateChoosableElectorates.ToList();
                 EnableFindMPsButton = true;
             }
         }
-        
+
         #endregion
 
         /* Many states don't have an upper house, so this just returns ""
@@ -633,26 +641,26 @@ namespace RightToAskClient.ViewModels
         {
             get
             {
-                return ParliamentData.FindOneElectorateGivenPredicate(_registration.Electorates.ToList(), 
+                return ParliamentData.FindOneElectorateGivenPredicate(_registration.Electorates.ToList(),
                     c => ParliamentData.IsUpperHouseChamber(c.chamber));
             }
         }
-		
+
 
         private string CommonwealthElectorate
         {
             get
             {
-                return ParliamentData.FindOneElectorateGivenPredicate(_registration.Electorates.ToList(), 
+                return ParliamentData.FindOneElectorateGivenPredicate(_registration.Electorates.ToList(),
                     chamberPair => chamberPair.chamber == ParliamentData.Chamber.Australian_House_Of_Representatives);
             }
         }
-        
+
         private string State
         {
             get
             {
-                return ParliamentData.FindOneElectorateGivenPredicate(_registration.Electorates.ToList(), 
+                return ParliamentData.FindOneElectorateGivenPredicate(_registration.Electorates.ToList(),
                     chamberPair => chamberPair.chamber == ParliamentData.Chamber.Australian_Senate);
             }
         }
@@ -662,9 +670,9 @@ namespace RightToAskClient.ViewModels
             get
             {
                 return ParliamentData.FindOneElectorateGivenPredicate(_registration.Electorates.ToList(),
-                    chamberPair => ParliamentData.IsLowerHouseChamber(chamberPair.chamber)); 
+                    chamberPair => ParliamentData.IsLowerHouseChamber(chamberPair.chamber));
             }
         }
-        
+
     }
 }

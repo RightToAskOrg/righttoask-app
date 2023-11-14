@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.CompilerServices;
-using Xamarin.Forms;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui;
 
 // Losely based on https://learn.microsoft.com/en-us/xamarin/xamarin-forms/user-interface/button
 // Implements the single version of a toggle button, i.e. one that can be selected once but (at the moment) not

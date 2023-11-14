@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Xamarin.CommunityToolkit.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xunit;
@@ -24,7 +24,7 @@ namespace UnitTests
 
         private void executeAsyncButton(Button button)
         {
-            Task.Run(async () => await ((IAsyncCommand)button.Command).ExecuteAsync()).GetAwaiter().GetResult();
+            Task.Run(async () => await ((IAsyncRelayCommand )button.Command).ExecuteAsync()).GetAwaiter().GetResult();
         }
 
         // This test started crashing at the prompt displayed to choose to save electorates

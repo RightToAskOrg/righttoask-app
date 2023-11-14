@@ -1,8 +1,9 @@
 ﻿using System;
 using RightToAskClient.Resx;
 using RightToAskClient.ViewModels;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+using Microsoft.Maui.Controls.Xaml;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui;
 
 namespace RightToAskClient.Views
 {
@@ -23,13 +24,13 @@ namespace RightToAskClient.Views
         {
             var vm = BindingContext as QuestionViewModel;
             if (MyMpRadioButton.IsChecked)
-                vm.AnsweredByMyMPCommand.ExecuteAsync();
+                vm.AnsweredByMyMPCommand.ExecuteAsync(null);
             if (AnotherMpRadioButton.IsChecked)
-                vm.AnsweredByOtherMPCommandOptionB.ExecuteAsync();
+                vm.AnsweredByOtherMPCommandOptionB.ExecuteAsync(null);
             if (PublicAuthorityRadioButton.IsChecked)
-                vm.OtherPublicAuthorityButtonCommand.ExecuteAsync();
+                vm.OtherPublicAuthorityButtonCommand.ExecuteAsync(null);
             if (DontKnowRadioButton.IsChecked)
-                vm.LeaveAnswererBlankButtonCommand.ExecuteAsync();
+                vm.LeaveAnswererBlankButtonCommand.ExecuteAsync(null);
         }
 
         private void MyMpRadioButton_OnTapped(object sender, EventArgs e)

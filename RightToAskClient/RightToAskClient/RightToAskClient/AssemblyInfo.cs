@@ -1,5 +1,5 @@
 using System.Resources;
-using Xamarin.Forms.Xaml;
+using Microsoft.Maui.Controls.Xaml;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 [assembly: NeutralResourcesLanguage("en-US")]

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Xamarin.Essentials;
 
 namespace RightToAskClient.Helpers
 {

@@ -1,5 +1,4 @@
 ﻿using RightToAskClient.Models.ServerCommsData;
-using Xamarin.Essentials;
 
 namespace RightToAskClient
 {

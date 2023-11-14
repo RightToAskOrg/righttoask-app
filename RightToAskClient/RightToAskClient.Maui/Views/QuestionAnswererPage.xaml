@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:RightToAskClient.Maui.ViewModels"
+             xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="RightToAskClient.Maui.Views.QuestionAnswererPage"
+            
+             Title="{StaticResource WhoShouldAnswerTitle}" 
+             x:DataType="vm:QuestionViewModel">
+    <ContentPage.Content>        
+        <StackLayout VerticalOptions="FillAndExpand">
+            <ScrollView>
+                <StackLayout VerticalOptions="Fill">
+                    <Label Text="{StaticResource AnswerQuestionHeaderText}" Style="{StaticResource Header1}" VerticalOptions="Start" Margin="16, 16, 16, 0"/>
+                    <BoxView Margin="16, 0"/>
+                        <Grid VerticalOptions="StartAndExpand" HorizontalOptions="Fill" RowSpacing="0"
+                          Margin="8, 16" Grid.RowDefinitions="Auto,Auto,Auto,Auto" RadioButtonGroup.GroupName="WhoAnswerOptions">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="28" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <!-- my mp -->
+                        <RadioButton 
+                            Grid.Row="0" Grid.Column="0"
+                            SemanticProperties.Hint="{StaticResource MyMPAnswerExplText}"
+                            SemanticProperties.Description="{StaticResource MyMp}"
+                            VerticalOptions="StartAndExpand"
+                            HorizontalOptions="Fill"
+                            x:Name="MyMpRadioButton"
+                            Style="{StaticResource DefaultRadioButton}"/>
+                        <StackLayout Orientation="Vertical" VerticalOptions="StartAndExpand"
+                                     HorizontalOptions="Fill" Grid.Column="1" Margin="12, 0, 0, 0">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="MyMpRadioButton_OnTapped"/>
+                            </StackLayout.GestureRecognizers>
+                            <Label Text="{StaticResource MyMp}"
+                                   Style="{StaticResource ReportReasonTitle}" />
+                            <Label Text="{StaticResource MyMPAnswerExplText}"
+                                   Style="{StaticResource ReportReasonDetails}"/>
+                        </StackLayout>
+                        
+                        <!-- another mp -->
+                        <RadioButton 
+                            Margin="0, 24, 0,0"
+                            Grid.Row="1" Grid.Column="0"
+                            SemanticProperties.Hint="{StaticResource OtherMPAnswerExplText}"
+                            SemanticProperties.Description="{StaticResource AnotherMPButtonText}"
+                            VerticalOptions="StartAndExpand"
+                            HorizontalOptions="Fill"
+                            x:Name="AnotherMpRadioButton"
+                            Style="{StaticResource DefaultRadioButton}"/>
+                        <StackLayout Orientation="Vertical" VerticalOptions="StartAndExpand"
+                                     HorizontalOptions="Fill" Grid.Row="1" Grid.Column="1" Margin="12, 24, 0, 0">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="AnotherMpRadioButton_OnTapped"/>
+                            </StackLayout.GestureRecognizers>
+                            <Label Text="{StaticResource AnotherMPButtonText}"
+                                   Style="{StaticResource ReportReasonTitle}" />
+                            <Label Text="{StaticResource OtherMPAnswerExplText}"
+                                   Style="{StaticResource ReportReasonDetails}"/>
+                        </StackLayout>
+                        
+                        <!-- a public authority-->
+                        <RadioButton 
+                            Margin="0, 24, 0,0"
+                            Grid.Row="2" Grid.Column="0"
+                            SemanticProperties.Hint="{StaticResource AuthorityAnswerExplText}"
+                            SemanticProperties.Description="{StaticResource PublicAuthority}"
+                            VerticalOptions="StartAndExpand"
+                            HorizontalOptions="Fill"
+                            x:Name="PublicAuthorityRadioButton"
+                            IsVisible="{Binding IsShowPublicAuthority}" 
+                            Style="{StaticResource DefaultRadioButton}"/>
+                        <StackLayout Orientation="Vertical" VerticalOptions="StartAndExpand"
+                                     HorizontalOptions="Fill"  Grid.Row="2" Grid.Column="1" Margin="12, 24, 0, 0"
+                                     IsVisible="{Binding IsShowPublicAuthority}">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="PublicAuthorityRadioButton_OnTapped"/>
+                            </StackLayout.GestureRecognizers>
+                            <Label Text="{StaticResource PublicAuthority}"
+                                   Style="{StaticResource ReportReasonTitle}" />
+                            <Label Text="{StaticResource AuthorityAnswerExplText}"
+                                   Style="{StaticResource ReportReasonDetails}"/>
+                        </StackLayout>
+                        
+                        <!-- dont know -->
+                        <RadioButton 
+                            Margin="0, 24, 0,0"
+                            Grid.Row="3" Grid.Column="0"
+                            SemanticProperties.Hint="{StaticResource LeaveBlankExplText}"
+                            SemanticProperties.Description="{StaticResource DontKnowOption}"
+                            VerticalOptions="StartAndExpand"
+                            HorizontalOptions="Fill"
+                            x:Name="DontKnowRadioButton"
+                            Style="{StaticResource DefaultRadioButton}"/>
+                        <StackLayout Orientation="Vertical" VerticalOptions="StartAndExpand"
+                                     HorizontalOptions="Fill"  Grid.Row="3" Grid.Column="1" Margin="12, 24, 0, 0">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="DontKnowRadioButton_OnTapped"/>
+                            </StackLayout.GestureRecognizers>
+                            <Label Text="{StaticResource DontKnowOption}"
+                                   Style="{StaticResource ReportReasonTitle}" />
+                            <Label Text="{StaticResource LeaveBlankExplText}"
+                                   Style="{StaticResource ReportReasonDetails}"/>
+                        </StackLayout>
+                    </Grid>
+                </StackLayout>
+            </ScrollView>
+            
+            <StackLayout Padding="0, 8" VerticalOptions="EndAndExpand" Margin="0,0,0, 10">
+                <BoxView Style="{StaticResource ButtonSeparator}" Margin="0, 12"/>
+                <Button Text="{StaticResource NextButtonText}" Style="{StaticResource NormalButton}"
+                        Padding="16, 12"
+                        Margin="16, 0"
+                        SemanticProperties.Hint="{StaticResource NextButtonText}"
+                        SemanticProperties.Description="{StaticResource NextButtonText}"
+                        Clicked="NextButton_OnClicked"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

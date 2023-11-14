@@ -2,8 +2,10 @@ using System;
 using RightToAskClient.Models;
 using RightToAskClient.Resx;
 using RightToAskClient.ViewModels;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+using Microsoft.Maui.Controls.Xaml;
+using Microsoft.Maui.Graphics;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui;
 
 /*
  * This page allows a person to find which electorates they live in,
@@ -69,7 +71,7 @@ namespace RightToAskClient.Views
         private void UnHighlightText(Button btn, BoxView bv)
         {
             btn.TextColor = (Color)Application.Current.Resources["MediumDarkShadeOfGray"];
-            bv.Color = Color.Transparent;
+            bv.Color = Colors.Transparent;
         }
 
         private void SelectEleButton_OnSizeChanged(object sender, EventArgs e)

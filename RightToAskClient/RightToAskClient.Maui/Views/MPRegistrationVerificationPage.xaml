@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:vm="clr-namespace:RightToAskClient.Maui.ViewModels"
+             xmlns:local="clr-namespace:RightToAskClient.Maui"
+             xmlns:helpers="clr-namespace:RightToAskClient.Maui.Helpers;assembly=RightToAskClient.Maui"
+             xmlns:controls="clr-namespace:RightToAskClient.Maui.Views.Controls;assembly=RightToAskClient.Maui"
+             
+             x:Class="RightToAskClient.Maui.Views.MPRegistrationVerificationPage"
+             x:DataType="vm:MPRegistrationVerificationViewModel"
+             Shell.FlyoutBehavior="Flyout"
+             Title="{Binding Title}">
+    <ContentPage.BindingContext>
+        <vm:MPRegistrationVerificationViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{StaticResource InfoPopupButtonText}" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
+                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Margin="20, 20, 20, 0" VerticalOptions="FillAndExpand">
+                
+                <!-- error message -->
+                <Grid ColumnDefinitions="3, Auto, *, Auto" 
+                      Style="{StaticResource ErrorMessageBackgroundStyle}" IsVisible="{Binding IsMsgErrorShown}">
+                    <BoxView Grid.Column="0" Color="{StaticResource ColorRed}" WidthRequest="3" VerticalOptions="FillAndExpand" Margin="0" />
+                    <Image Grid.Column="1" Margin="16, 0" Source="{helpers:ImageResource RightToAskClient.Images.error_48.png}"
+                           BackgroundColor="{StaticResource ColorRed}" WidthRequest="24" HeightRequest="24"
+                           VerticalOptions="Center" />
+                    <Label Grid.Column="2" Text="{Binding ReportLabelText}" Padding="0, 12"
+                           VerticalOptions="Center" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                    <ImageButton Grid.Column="3" Source="{ AppThemeBinding Light={helpers:ImageResource RightToAskClient.Images.close_button.png}, Dark={helpers:ImageResource RightToAskClient.Images.close_button_dark_48.png} }"
+                                 Style="{StaticResource ClearButton}"
+                                 BackgroundColor="Transparent"
+                                 VerticalOptions="Start"
+                                 WidthRequest="24" HeightRequest="24"
+                                 SemanticProperties.Hint="{StaticResource ClearButtonHint}"
+                                 SemanticProperties.Description="{StaticResource ClearButtonDescription}"
+                                 Command="{Binding HideErrorLayoutCommand}" Margin="10" />
+                </Grid>
+
+                <!-- successful message -->
+                <Grid ColumnDefinitions="3, Auto, *, Auto"
+                      Style="{StaticResource SuccessMessageBackgroundStyle}" 
+                      IsVisible="{Binding IsMsgSuccessShown}">
+                    <BoxView Grid.Column="0" Color="{StaticResource DarkButtonColor}" WidthRequest="3" VerticalOptions="FillAndExpand" Margin="0" />
+                    <Image Grid.Column="1" Margin="16, 0"
+                           Source="success_48.png"
+                           BackgroundColor="{StaticResource DarkButtonColor}" WidthRequest="24" HeightRequest="24"
+                           VerticalOptions="Center" />
+                    <Label Grid.Column="2" Text="{Binding ReportLabelText}" Padding="0, 12"
+                           VerticalOptions="Center" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                    <ImageButton Grid.Column="3"
+                                 Source="{AppThemeBinding Light={helpers:ImageResource RightToAskClient.Images.close_button.png}, Dark={helpers:ImageResource RightToAskClient.Images.close_button_dark_48.png} }"
+                                 Style="{StaticResource ClearButton}"
+                                 BackgroundColor="Transparent"
+                                 VerticalOptions="Start"
+                                 WidthRequest="24" HeightRequest="24"
+                                 SemanticProperties.Hint="{StaticResource ClearButtonHint}"
+                                 SemanticProperties.Description="{StaticResource ClearButtonDescription}"
+                                 Command="{Binding HideSuccessLayoutCommand}" Margin="10" />
+                </Grid>
+                <FlexLayout Direction="Row" AlignItems="Center" Wrap="Wrap">
+                    <Label Text="You Have Chosen"  Margin="0, 0, 8, 0"/>
+                    <Label Text="{Binding MPRepresenting.ShortestName}" FontAttributes="Bold"/>
+                </FlexLayout>
+                <Grid RowDefinitions="*, *" Margin="0, 10, 0, 0" RadioButtonGroup.GroupName="MpOption">
+                    <FlexLayout Grid.Row="0" Direction="Row" AlignItems="Center" Wrap="Wrap">
+                        <RadioButton x:Name="ThatsMeRadioButton"
+                                     SemanticProperties.Hint="{StaticResource ThatsMe}"
+                                     SemanticProperties.Description="{StaticResource ThatsMe}"
+                                     HorizontalOptions="Fill"
+                                     IsChecked="True"/>
+                        <Label Text="{StaticResource ThatsMe}" VerticalOptions="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="ThatsMeRadioButton_OnTapped"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </FlexLayout>
+                    <FlexLayout Grid.Row="1" Direction="Row" AlignItems="Center" Wrap="Wrap">
+                        <RadioButton x:Name="IAmAStafferRadioButton"
+                                     SemanticProperties.Hint="{StaticResource IAmAStaffer}"
+                                     SemanticProperties.Description="{StaticResource IAmAStaffer}"
+                                     HorizontalOptions="Fill"
+                                     IsChecked="{Binding IsStaffer}"/>
+                                     
+                        <Label Text="{StaticResource IAmAStaffer}" VerticalOptions="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="IAmAStafferRadioButton_OnTapped"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </FlexLayout>
+                </Grid>
+                <Label Text="{StaticResource EmailEntry}" Margin="0, 10, 0, 0" />
+                <FlexLayout Direction="Row" Margin="0, 8, 0, 0" AlignItems="Center" Wrap="Wrap">
+                    <StackLayout>
+                        <controls:BorderlessEntry 
+                            Placeholder="{StaticResource UserName}"
+                            Style="{StaticResource TextInput}"
+                            Text="{Binding EmailUsername}" 
+                            IsTextPredictionEnabled="False"
+                            Keyboard="Chat"/>
+                        <BoxView
+                            Color="{StaticResource Purple}" HeightRequest="1"/>
+                    </StackLayout>
+                    <Label Text="@" HorizontalOptions="Center" Margin="5, 0"/>
+                    <!-- <Picker x:Name="DomainPicker" ItemsSource="models:ParliamentData.Domains"></Picker> -->
+                    <Picker x:Name="DomainPicker"
+                            FontSize="Small"
+                            Title="{StaticResource ChooseParliamentaryEmailDomain}"
+                            TitleColor="{StaticResource DarkPurple}"
+                            SelectedIndex="{Binding ParliamentaryDomainIndex}"
+                            TextColor="{AppThemeBinding Light={StaticResource MediumDarkShadeOfGray}, Dark={StaticResource MediumLightShadeOfGray}}"
+                            HorizontalOptions="End"/>
+                </FlexLayout>
+                
+                <!-- <controls:BorderlessEntry -->
+                <!--     Text="{Binding EmailUsername}" -->
+                <!--     Placeholder="Email" -->
+                <!--     Style="{StaticResource TextInput}"/> -->
+                <!-- <BoxView -->
+                <!--     Color="{StaticResource Purple}"/> -->
+                <!-- <Label Style="{StaticResource SmallGreyText}" FontSize="Small" Text="This is your official address ending with gov.au"/> -->
+                <Button  Margin="0, 10, 0, 0" 
+                         Command ="{Binding SendMPVerificationEmailCommand}" 
+                         Style="{StaticResource NormalButton}" 
+                         Padding="16, 12"
+                         Text="{StaticResource SendVerificationPIN}" 
+                         SemanticProperties.Hint="{StaticResource SendVerificationPINHint}"
+                         SemanticProperties.Description="{StaticResource SendVerificationPIN}"/>
+                <BoxView Style="{StaticResource ButtonSeparator}" Margin="0, 24, 0, 0" />
+                <Label Text="{StaticResource SubmitPINButtonText}" Margin="0, 10, 0, 0" />
+                <FlexLayout x:Name="CodeLayout" AlignItems="Center" JustifyContent="SpaceBetween" Direction="Row" Margin="32, 24,32,16">
+                    <Entry Style="{StaticResource BoxEntry}"
+                            TextChanged="VerifyCodeEntries_OnTextChanged"/>
+                    <Entry Style="{StaticResource BoxEntry}" 
+                           TextChanged="VerifyCodeEntries_OnTextChanged"/>
+                    <Entry Style="{StaticResource BoxEntry}" 
+                           TextChanged="VerifyCodeEntries_OnTextChanged"/>
+                    <Entry Style="{StaticResource BoxEntry}" 
+                           TextChanged="VerifyCodeEntries_OnTextChanged"/>
+                    <Entry Style="{StaticResource BoxEntry}" 
+                           TextChanged="VerifyCodeEntries_OnTextChanged"/>
+                    <Entry Style="{StaticResource BoxEntry}" 
+                           TextChanged="VerifyCodeEntries_OnTextChanged"/>
+                </FlexLayout>
+                
+                <Button Text="{StaticResource Verify}" 
+                        Clicked="SubmitButton_OnClicked"
+                        Style="{StaticResource OutlineButton}" 
+                        SemanticProperties.Hint="{StaticResource VerifyHint}"
+                        SemanticProperties.Description="{StaticResource Verify}"
+                        HorizontalOptions="FillAndExpand" />
+                
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

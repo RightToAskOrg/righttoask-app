@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RightToAskClient.Maui.Views.WriteQuestionPage"
+             x:Name="AskQuestionPageName"
+            
+             xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:vm="clr-namespace:RightToAskClient.Maui.ViewModels"
+             xmlns:views="clr-namespace:RightToAskClient.Maui.Views;assembly=RightToAskClient.Maui"
+             xmlns:helpers="clr-namespace:RightToAskClient.Maui.Helpers;assembly=RightToAskClient.Maui"
+             Title="Write question" 
+             x:DataType="vm:WriteQuestionViewModel"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             ios:Page.UseSafeArea="true"
+             SizeChanged="WriteQuestionPage_OnSizeChanged">
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding BackCommand}"
+                            IconOverride="{helpers:ImageResource RightToAskClient.Images.close.png}"
+                            SemanticProperties.Hint="{StaticResource BackHint}"
+                            SemanticProperties.Description="{StaticResource BackDescription}" />
+    </Shell.BackButtonBehavior>
+    <ContentPage.BindingContext>
+        <vm:WriteQuestionViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <ScrollView VerticalScrollBarVisibility="Never">
+            <StackLayout>
+                <StackLayout x:Name="QuestionsArea"
+                             VerticalOptions="Fill">
+                    <RefreshView IsRefreshing="{Binding IsRefreshing}" VerticalOptions="FillAndExpand"
+                                 Command="{Binding RefreshCommand}">
+                        <CollectionView x:Name="QuestionList"
+                                        ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None"
+                                        SelectedItem="{Binding SelectedQuestion}" VerticalOptions="FillAndExpand">
+                            <CollectionView.Header>
+                                <StackLayout x:Name="HeaderArea" 
+                                             VerticalOptions="StartAndExpand"
+                                             HorizontalOptions="FillAndExpand"
+                                             IsVisible="{Binding ShowHeader}">
+                                    <Label Text="{StaticResource SimilarQuestionsInstructionText}"
+                                           Style="{StaticResource BodyCopyLarge}"
+                                           HorizontalOptions="FillAndExpand"
+                                           VerticalOptions="FillAndExpand" />
+                                </StackLayout>
+
+                            </CollectionView.Header>
+
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="vm:QuestionDisplayCardViewModel">
+                                    <views:QuestionDisplayCard />
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                            <CollectionView.EmptyView>
+                                <StackLayout HorizontalOptions="FillAndExpand"
+                                             VerticalOptions="FillAndExpand"
+                                             Orientation="Vertical">
+                                    <BoxView VerticalOptions="StartAndExpand" Opacity="0" />
+                                    <Image Source="{Binding EmptyViewIcon}"
+                                           Style="{StaticResource ListErrorIcon}"
+                                           />
+                                    <Label Text="{Binding EmptyViewContent}"
+                                           Style="{StaticResource ListErrorText}" />
+                                    <BoxView VerticalOptions="EndAndExpand" Opacity="0" />
+                                </StackLayout>
+                            </CollectionView.EmptyView>
+                        </CollectionView>
+                    </RefreshView>
+                </StackLayout>
+
+                <StackLayout Style="{StaticResource EditorContainer}"
+                             Padding="0"
+                             x:Name="EditorArea"
+                             VerticalOptions="EndAndExpand">
+                    <BoxView Style="{StaticResource EditorSeparator}" />
+                    <Grid ColumnSpacing="8"
+                          RowSpacing="0"
+                          Margin="16, 8, 16, 8"
+                          BackgroundColor="{AppThemeBinding 
+                          Light={StaticResource EditorBackground}, 
+                          Dark={StaticResource EditorBackgroundDark}}"
+                          Padding="0,0,8,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="24" />
+                        </Grid.ColumnDefinitions>
+                        <Editor Placeholder="{StaticResource DraftQuestionPlaceholderText}"
+                                                  VerticalOptions="FillAndExpand"
+                                                  HorizontalOptions="FillAndExpand"
+                                                  AutoSize="TextChanges"
+                                                  Style="{StaticResource KeyboardEditor}"
+                                                  BackgroundColor="Transparent"
+                                                  x:Name="KeywordEntry"
+                                                  Keyboard="Chat"
+                                                  MaxLength="280"
+                                                  Focused="KeywordEntry_FocusedChange"
+                                                  Unfocused="KeywordEntry_FocusedChange"
+                                                  TextChanged="KeywordEntry_OnTextChanged"
+                                                  
+                                                  SemanticProperties.Hint="{StaticResource WriteQuestionEditorHint}"
+                                                  SemanticProperties.Description="{StaticResource WriteQuestionEditorDescription}"
+                                                  Grid.Row="0"
+                                                  Grid.Column="0"
+                                                  Margin="0">
+                        </Editor>
+                        <StackLayout
+                            Orientation="Vertical"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            Grid.Row="0"
+                            Grid.Column="1">
+                            <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.close.png}"
+                                         Style="{StaticResource ClearButton}"
+                                         
+                                         SemanticProperties.Hint="{StaticResource ClearButtonHint}"
+                                         SemanticProperties.Description="{StaticResource ClearButtonDescription}"
+                                         Clicked="ClearButton_OnClicked"
+                                         x:Name="ClearButton">
+                            </ImageButton>
+                        </StackLayout>
+                    </Grid>
+
+                    <FlexLayout AlignItems="Center" JustifyContent="SpaceBetween" Margin="16,0,16,12">
+                        <Button Text="Return home"
+                                Style="{StaticResource EditorProceed}"
+                                Command="{Binding BackCommand}"
+                                SemanticProperties.Hint="{StaticResource ReturnHomeHint}"
+                                SemanticProperties.Description="{StaticResource ReturnHomeButtonDescription}" />
+
+                        <StackLayout Margin="0" HorizontalOptions="End" Orientation="Horizontal">
+                            <Label Text="0/280"
+                                   Padding="8, 0"
+                                   Style="{StaticResource EditorTextNumber}"
+                                   x:Name="EditorTextNumber"
+                                   VerticalOptions="Center" />
+                            <BoxView Color="{StaticResource FadedButtonColor}"
+                                     VerticalOptions="CenterAndExpand"
+                                     HeightRequest="22"
+                                     WidthRequest="2" />
+                            <Button Text="Next" x:Name="EditorProceedButton"
+                                    Padding="8, 0, 16, 0"
+                                    Style="{StaticResource EditorProceed}"
+                                    Command="{Binding ProceedButtonCommand}"
+                                    SemanticProperties.Hint="{StaticResource EditorProceedHint}"
+                                    SemanticProperties.Description="{StaticResource EditorProceedButtonDescription}" />
+                        </StackLayout>
+                    </FlexLayout>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

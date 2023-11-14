@@ -1,9 +1,9 @@
 using System;
 using RightToAskClient.Models;
 using RightToAskClient.ViewModels;
-using Xamarin.Forms;
 using RightToAskClient.Resx;
-using Xamarin.Essentials;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui;
 
 // This sets slightly different things to be visible depending on how we 
 // arrived here.

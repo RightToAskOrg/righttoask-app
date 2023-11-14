@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:RightToAskClient.Maui.Views;assembly=RightToAskClient.Maui"
+             xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:models="clr-namespace:RightToAskClient.Maui.Models;assembly=RightToAskClient.Maui"
+             xmlns:local="clr-namespace:RightToAskClient.Maui"
+             xmlns:vm="clr-namespace:RightToAskClient.Maui.ViewModels"
+             xmlns:helpers="clr-namespace:RightToAskClient.Maui.Helpers;assembly=RightToAskClient.Maui"
+             xmlns:controls="clr-namespace:RightToAskClient.Maui.Views.Controls;assembly=RightToAskClient.Maui"
+             xmlns:system="clr-namespace:System;assembly=netstandard"
+             x:Class="RightToAskClient.Maui.Views.QuestionDetailPage"
+            
+             x:DataType="vm:QuestionViewModel">
+	<ContentPage.ToolbarItems>
+		<ToolbarItem Text="{StaticResource HomeButtonText}" Command="{Binding HomeButtonCommand}"
+		             x:DataType="vm:BaseViewModel"
+		             IconImageSource="{helpers:ImageResource RightToAskClient.Images.home4.png}" />
+		<ToolbarItem Text="{StaticResource InfoPopupButtonText}" Command="{Binding InfoPopupCommand}"
+		             x:DataType="vm:BaseViewModel"
+		             IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}" />
+	</ContentPage.ToolbarItems>
+	<ContentPage.Content>
+		<ScrollView>
+			<StackLayout x:Name="WholePage" Margin="20">
+				<Editor x:Name="QuestionTextEditor" Text="{Binding Question.QuestionText}"
+				        IsReadOnly="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}" />
+				<FlexLayout AlignItems="Center" JustifyContent="SpaceBetween" HorizontalOptions="CenterAndExpand"
+				            Direction="Row" Margin="0" Wrap="Wrap" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
+					<StackLayout Orientation="Horizontal" >
+						<!-- Up-vote button -->
+						<controls:ColorSingleToggleButton 
+						                                  IsBrightened="{Binding Question.AlreadyUpvoted}"
+						                                  Padding="5"
+						                                  HeightRequest="{x:OnPlatform Android=27, iOS=44}"
+						                                  BackgroundColor="Transparent" Command="{Binding UpvoteCommand}"
+						                                  HorizontalOptions="Start"
+						                                  AutomationProperties.IsInAccessibleTree="True"
+						                                  AutomationProperties.Name="{StaticResource QuestionFrameThumbsUpAccessibilityName}"
+						                                  AutomationProperties.HelpText="{StaticResource QuestionFrameThumbsUpAccessibilityText}">
+							<VisualStateManager.VisualStateGroups>
+								<VisualStateGroup Name="BrightenedStates">
+									<VisualState Name="NotBrightened">
+										<VisualState.Setters>
+											<Setter Property="Source" Value="{AppThemeBinding Light={helpers:ImageResource RightToAskClient.Images.thumb_up_light.png}, Dark={helpers:ImageResource RightToAskClient.Images.thumb_up_dark.png} }"/>
+										</VisualState.Setters>
+									</VisualState>
+									<VisualState Name="Brightened">
+										<VisualState.Setters>
+											<Setter Property="Source" Value="{helpers:ImageResource RightToAskClient.Images.thumb_up_filled.png}"/>
+										</VisualState.Setters>
+									</VisualState>
+								</VisualStateGroup>
+							</VisualStateManager.VisualStateGroups>
+						</controls:ColorSingleToggleButton>
+						<Label Text="{Binding UpVotes, StringFormat='{0:F0}'}" Style="{StaticResource NormalText}" Margin="0" Padding="0" VerticalOptions="CenterAndExpand"/>	
+	                    <!-- Down-vote button -->
+	                    <controls:ColorSingleToggleButton 
+	                             BackgroundColor="Transparent" Command="{Binding DownvoteCommand}" Padding="5"
+	                             IsBrightened="{Binding Question.AlreadyDownvoted}"
+	                             HorizontalOptions="Start"
+	                             HeightRequest="{x:OnPlatform Android=27, iOS=44}"
+	                             AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{StaticResource QuestionFrameThumbsDownAccessibilityName}"
+	                             AutomationProperties.HelpText="{StaticResource QuestionFrameThumbsDownAccessibilityText}">
+		                    <VisualStateManager.VisualStateGroups>
+			                    <VisualStateGroup Name="BrightenedStates">
+				                    <VisualState Name="NotBrightened">
+					                    <VisualState.Setters>
+						                    <Setter Property="Source" Value="{AppThemeBinding Light={helpers:ImageResource RightToAskClient.Images.thumb_down_light.png}, Dark={helpers:ImageResource RightToAskClient.Images.thumb_down_dark.png} }"/>
+					                    </VisualState.Setters>
+				                    </VisualState>
+				                    <VisualState Name="Brightened">
+					                    <VisualState.Setters>
+						                    <Setter Property="Source" Value="{helpers:ImageResource RightToAskClient.Images.thumb_down_filled.png}"/>
+					                    </VisualState.Setters>
+				                    </VisualState>
+			                    </VisualStateGroup>
+		                    </VisualStateManager.VisualStateGroups>
+		                    </controls:ColorSingleToggleButton>
+						<Label Text="{Binding DownVotes, StringFormat='{0:F0}'}" Style="{StaticResource NormalText}" Margin="0" Padding="0" VerticalOptions="CenterAndExpand"/>	
+					</StackLayout>
+					<StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
+						<!-- report/flag button -->
+						<controls:ColorSingleToggleButton Padding="5" 
+						                                  IsBrightened="{Binding Question.AlreadyReported}"
+						                                  HeightRequest="{x:OnPlatform Android=27, iOS=44}"
+						                                  IsEnabled="{Binding Question.AlreadyReported, Converter={StaticResource Key=cnvInvert}}"
+						                                  Command="{Binding ReportCommand}"
+						                                  BackgroundColor="Transparent"
+						                                  AutomationProperties.IsInAccessibleTree="True"
+						                                  AutomationProperties.Name="{StaticResource QuestionFrameFlagButtonAccessibilityName}"
+						                                  AutomationProperties.HelpText="{StaticResource QuestionFrameFlagButtonAccessibilityTextRed}" >
+							<VisualStateManager.VisualStateGroups>
+								<VisualStateGroup Name="BrightenedStates">
+									<VisualState Name="NotBrightened">
+										<VisualState.Setters>
+											<Setter Property="Source" Value="{AppThemeBinding Light={helpers:ImageResource RightToAskClient.Images.flags_light.png}, Dark={helpers:ImageResource RightToAskClient.Images.flags_dark.png} }"/>
+										</VisualState.Setters>
+									</VisualState>
+									<VisualState Name="Brightened">
+										<VisualState.Setters>
+											<Setter Property="Source" Value="{AppThemeBinding Light={helpers:ImageResource RightToAskClient.Images.flags_filled_light.png}, Dark={helpers:ImageResource RightToAskClient.Images.flags_filled_dark.png} }"/>
+										</VisualState.Setters>
+									</VisualState>
+								</VisualStateGroup>
+							</VisualStateManager.VisualStateGroups>
+						</controls:ColorSingleToggleButton>
+						<Label Text="{StaticResource ReportDisplayCardButtonText}" Style="{StaticResource QuestionButtonText}" TextColor="{AppThemeBinding Light={StaticResource TextColorGray}, Dark=White}"/>
+					</StackLayout>
+					
+				</FlexLayout>
+				<!-- Answers, visible if there are any -->
+				<Label x:Name="AnswerLabel" Text="{StaticResource AnswerHeaderText}" Style="{StaticResource Header2}" />
+				<StackLayout x:Name="ExistingAnswers"
+				             BindableLayout.ItemsSource="{Binding QuestionAnswers}">
+					<BindableLayout.ItemTemplate >
+						<DataTemplate x:DataType="models:Answer">
+							<views:AnswerDisplayCard />
+						</DataTemplate>
+					</BindableLayout.ItemTemplate>
+				</StackLayout>
+				
+				<Editor x:Name="AnswerEditor" Placeholder="{StaticResource AnswerPlaceholderText}"
+				        Style="{StaticResource NormalEditor}" Completed="Answer_Entered" />
+				<Label Text="{StaticResource WhoShouldAnswerTitle}" Style="{StaticResource Header2}" />
+				<Label Text="{Binding QuestionAnswerers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
+				<StackLayout x:Name="AnswerPermissionCheckbox" Orientation="Horizontal">
+					<Label Text="{StaticResource AnswererPermissions}" Style="{StaticResource Header2}" />
+					<CheckBox x:Name="AnswerCheckBox" 
+					          IsChecked="{Binding OthersCanAddQuestionAnswerers}" 
+					          Style="{StaticResource CheckBoxStyle}"
+					          IsEnabled="{Binding HasAnswerers}"/>
+				</StackLayout>
+				<!--Question Askers/Option B things-->
+				<StackLayout x:Name="RaiseLayout" IsVisible="{Binding IsRaiseLayoutVisible}">
+					<!-- who should raise it -->
+					<Label Text="{StaticResource OptionBText4}" Style="{StaticResource Header2}" />
+					<Label Text="{Binding QuestionAskers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
+					<!-- Ask the user whether they allow other users to add QuestionAskers. (Y/N) -->
+					<StackLayout x:Name="AskerPermissionCheckbox" Orientation="Horizontal">
+						<Label Text="{StaticResource AskerPermissions}" Style="{StaticResource Header2}" />
+						<CheckBox x:Name="RaiseCheckBox" 
+						          IsChecked="{Binding OthersCanAddQuestionAskers}"  
+						          Style="{StaticResource CheckBoxStyle}"
+						          IsEnabled="{Binding HasAskers}"/>
+					</StackLayout>
+				</StackLayout>
+				<!-- question writer -->
+				<StackLayout Orientation="Horizontal">
+					<StackLayout.GestureRecognizers>
+						<TapGestureRecognizer Command="{Binding QuestionSuggesterCommand}" />
+					</StackLayout.GestureRecognizers>
+					<StackLayout Orientation="Vertical">
+						<Label Text="{StaticResource QuestionWriterHeaderText}" Style="{StaticResource Header2}" />
+						<Label x:Name="WriterNameLabel" Text="{Binding Question.QuestionSuggester, StringFormat='{0:F0}'}"
+						       Style="{StaticResource NormalText}" Margin="0, 10, 0, 0"
+						       IsEnabled="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}" />
+					</StackLayout>
+				</StackLayout>
+				<!-- Background -->
+				<!-- At most one editor is visible at once - this visibility is set in the code-behind. -->
+				<StackLayout Orientation="Vertical">
+					<Label x:Name="BackgroundLabel" Text="{StaticResource BackgroundPageTitle}" Style="{StaticResource Header2}" />
+					<!-- Editor for new questions, and for read-only of questions that already have background. -->
+					<Editor x:Name="BackgroundEditor" Placeholder="{StaticResource AddBackgroundPlaceholderText}"
+					        Text="{Binding Background}"
+					        IsReadOnly="{Binding CanEditBackground, Converter={StaticResource Key=cnvInvert}}" />
+					<!-- Editor for adding background later to questions you previously uploaded. -->
+					<Editor x:Name="BackgroundLaterEditor" Placeholder="{StaticResource AddBackgroundLaterPlaceholderText}"
+					        Text="{Binding NewBackground}"
+					        Style="{StaticResource NormalEditor}" />
+				</StackLayout>
+				<!-- Hansard link -->
+			    <StackLayout Orientation="Vertical" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
+				    <Label Text="{StaticResource LinkForAnswerHeaderText}" Style="{StaticResource Header2}"/>
+				    <StackLayout BindableLayout.ItemsSource="{Binding HansardLinks}">
+					    <BindableLayout.ItemTemplate>
+						    <DataTemplate>
+							    <Label x:DataType="system:Uri" Text="{Binding}"
+							           Style="{StaticResource UrlText}">
+								    <Label.GestureRecognizers>
+									    <TapGestureRecognizer Tapped="LinkTapped"/>
+								    </Label.GestureRecognizers>
+							    </Label>
+						    </DataTemplate>
+					    </BindableLayout.ItemTemplate>
+				    </StackLayout>
+				    <Editor x:Name="LinkToAnswerEditor" Placeholder="{StaticResource LinkPlaceholderText}" Completed="Link_Entered"
+				            Style="{StaticResource NormalEditor}" />
+				<Label x:Name="ReportLabel" Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}"/>
+			    </StackLayout>
+				<StackLayout Margin="0,8">
+				    <Button Text="{StaticResource EditQuestionButtonText}" 
+				            Style="{StaticResource NormalButton}"
+				            Command="{Binding EditAnswerCommand}" 
+				            IsEnabled="{Binding HasUpdates}"
+							IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}"
+							SemanticProperties.Hint="{StaticResource EditQuestionButtonHint}"
+				            SemanticProperties.Description="{StaticResource EditQuestionButtonText}"/>
+				    <Button Text="{StaticResource PublishQuestionButtonText}" 
+				            Style="{StaticResource NormalButton}"
+				            Command="{Binding SaveQuestionCommand}" 
+				            IsVisible="{Binding IsNewQuestion}" 
+				            SemanticProperties.Hint="{StaticResource PublishQuestionButtonText}"
+				            SemanticProperties.Description="{StaticResource PublishQuestionButtonText}"/>
+				</StackLayout>
+			</StackLayout>
+	    </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

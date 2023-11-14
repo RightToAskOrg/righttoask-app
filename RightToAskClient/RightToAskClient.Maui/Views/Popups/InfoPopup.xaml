@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- At the moment, this doesn't change anything from the one-button popup. -->
+<popups:OneButtonPopup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+           xmlns:views="clr-namespace:RightToAskClient.Maui.Views;assembly=RightToAskClient.Maui"
+           xmlns:popups="clr-namespace:RightToAskClient.Maui.Views.Popups;assembly=RightToAskClient.Maui"
+           x:Class="RightToAskClient.Maui.Views.InfoPopup"
+           WidthRequest="300"
+            HeightRequest="300"
+           BackgroundColor="Transparent"><!--***NOTE*** xct:Popup uses Color property to set what would normally be the BackgroundColor for most properties-->
+</popups:OneButtonPopup>

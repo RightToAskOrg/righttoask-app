@@ -1,8 +1,6 @@
-﻿using Xamarin.Forms;
-using RightToAskClient.Models;
-using Xamarin.CommunityToolkit.Helpers;
+﻿using RightToAskClient.Models;
+using CommunityToolkit.Maui.Converters;
 using RightToAskClient.Resx;
-using Xamarin.Essentials;
 using System.Text.Json;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -10,8 +8,10 @@ using RightToAskClient.CryptoUtils;
 using RightToAskClient.Helpers;
 using RightToAskClient.Models.ServerCommsData;
 using RightToAskClient.Views;
-using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
-using Application = Xamarin.Forms.Application;
+using Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui;
+using Application = Microsoft.Maui.Controls.Application;
 
 // [assembly: ExportFont("Roboto-Black.ttf", Alias = "AppFont")]
 // [assembly: ExportFont("OpenSans-Regular.ttf", Alias = "AppFont")]
@@ -27,8 +27,9 @@ namespace RightToAskClient
         // built as we step through the question-writing process.
         public App()
         {
-            LocalizationResourceManager.Current.PropertyChanged += (temp, temp2) => AppResources.Culture = LocalizationResourceManager.Current.CurrentCulture;
-            LocalizationResourceManager.Current.Init(AppResources.ResourceManager);
+            //TODO:
+            //LocalizationResourceManager.Current.PropertyChanged += (temp, temp2) => AppResources.Culture = LocalizationResourceManager.Current.CurrentCulture;
+            //LocalizationResourceManager.Current.Init(AppResources.ResourceManager);
             InitializeComponent();
             SetTheStyles();
 
@@ -60,7 +61,7 @@ namespace RightToAskClient
                 }
             });
 
-            Current.On<Xamarin.Forms.PlatformConfiguration.Android>()
+            Current.On<Microsoft.Maui.Controls.PlatformConfiguration.Android>()
                 .UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
         }
 
@@ -96,11 +97,11 @@ namespace RightToAskClient
                 selectedToggle.VerticalOptions = LayoutOptions.Center;
 
                 grid.Children.Add(nameLabel);
-                grid.Children.Add(selectedToggle, 4, 0);
+               //TODO: grid.Children.Add(selectedToggle, 4, 0);
                 Grid.SetColumn(nameLabel, 0);
                 Grid.SetColumnSpan(nameLabel, 4);
 
-                return new Xamarin.Forms.ViewCell { View = grid };
+                return new Microsoft.Maui.Controls.ViewCell { View = grid };
             });
             Resources.Add("SelectableDataTemplate", selectableDataTemplate);
         }

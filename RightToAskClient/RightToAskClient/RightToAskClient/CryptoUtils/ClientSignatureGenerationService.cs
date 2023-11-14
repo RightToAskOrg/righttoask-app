@@ -10,7 +10,6 @@ using Org.BouncyCastle.Crypto.Signers;
 using Org.BouncyCastle.Security;
 using RightToAskClient.Models;
 using RightToAskClient.Models.ServerCommsData;
-using Xamarin.Essentials;
 
 /* This class generates a local private/public Ed25519 keypair for signing.
  * Eventually, we'd prefer to store this directly in the Keystore, i.e. never to have the private key

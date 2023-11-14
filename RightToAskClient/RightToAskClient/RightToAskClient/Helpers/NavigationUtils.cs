@@ -4,8 +4,9 @@ using RightToAskClient.Resx;
 using RightToAskClient.ViewModels;
 using RightToAskClient.Views;
 using RightToAskClient.Views.Popups;
-using Xamarin.CommunityToolkit.Extensions;
-using Xamarin.Forms;
+using CommunityToolkit.Maui.Extensions;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui;
 
 /* This class contains some utilities for popping up and using pages, which may be accessed
  * at any time by the app, for example the pages for finding your MP, which needs to be
@@ -92,14 +93,15 @@ namespace RightToAskClient.Helpers
                 cancelMessage, 
                 AppResources.OKText, 
                 false);
-            var popupResult = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
-            if (popup.HasApproved(popupResult))
-            {
-                var registerAccountFlow = new CodeOfConductPage(registration);
-                await Application.Current.MainPage.Navigation.PushAsync(registerAccountFlow);
-                // var registerAccountPage = new RegisterAccountPage(registration);
-                // await Application.Current.MainPage.Navigation.PushAsync(registerAccountPage);
-            }
+            //TODO:
+            //var popupResult = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
+            //if (popup.HasApproved(popupResult))
+            //{
+            //    var registerAccountFlow = new CodeOfConductPage(registration);
+            //    await Application.Current.MainPage.Navigation.PushAsync(registerAccountFlow);
+            //    // var registerAccountPage = new RegisterAccountPage(registration);
+            //    // await Application.Current.MainPage.Navigation.PushAsync(registerAccountPage);
+            //}
         }
     }
 }

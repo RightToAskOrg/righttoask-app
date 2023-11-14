@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:RightToAskClient.Maui.ViewModels"
+             xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:local="clr-namespace:RightToAskClient"
+             x:Class="RightToAskClient.Maui.Views.ExploringPage" 
+             Title="Select the ones you want">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="HomeButton" Text="{xct:Translate HomeButtonText}" 
+                     IconImageSource="{local:ImageResource RightToAskClient.Images.home4.png}"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+		<StackLayout x:Name="MainLayout" x:FieldModifier="protected" HorizontalOptions="Center" VerticalOptions="Start">
+			<Label x:Name="IntroText" />
+			<ScrollView x:Name="ParentScrollView">
+				<ListView x:Name="AuthorityListView" x:FieldModifier="protected" VerticalOptions="FillAndExpand" SelectionMode="None" HasUnevenRows="True" ItemTapped="OnEntity_Selected"
+					ItemTemplate="{StaticResource SelectableDataTemplate }">
+				</ListView>
+			</ScrollView>	
+			<!-- <Button x:Name="SaveButton" StyleClass="SaveButton" Clicked="DoneButton_OnClicked" /> -->
+			<Button x:Name="DoneButton" Style="{StaticResource DoneButton}" /> 
+		</StackLayout>
+    </ContentPage.Content>
+</ContentPage>

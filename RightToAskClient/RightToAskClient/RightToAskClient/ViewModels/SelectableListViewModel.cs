@@ -7,8 +7,11 @@ using RightToAskClient.Helpers;
 using RightToAskClient.Models;
 using RightToAskClient.Resx;
 using RightToAskClient.Views;
-using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Forms;
+using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui;
+using CommunityToolkit.Mvvm.Input;
+using Extensions = RightToAskClient.Helpers.Extensions;
 
 // xaml code-behind can't be generic, but View Models can be.
 namespace RightToAskClient.ViewModels
@@ -95,7 +98,7 @@ namespace RightToAskClient.ViewModels
 			}
 		}
 
-		public IAsyncCommand DoneButtonCommand { get; }
+		public IAsyncRelayCommand  DoneButtonCommand { get; }
 		public Command SearchToolbarCommand { get; }
 
 		private NextPageInstructions _nextPage = NextPageInstructions.ReadingPage;
@@ -121,7 +124,7 @@ namespace RightToAskClient.ViewModels
 
 			_titleText = "Authorities";
 			PopupLabelText = AppResources.SelectableListAuthoritiesPopupText;
-			DoneButtonCommand = new AsyncCommand(async () =>
+			DoneButtonCommand = new AsyncRelayCommand (async () =>
 			{
 				DoneButton_OnClicked(
 					() => UpdateSelectedList(authorityLists), singleSelection
@@ -137,7 +140,7 @@ namespace RightToAskClient.ViewModels
 
 			_titleText = AppResources.ParticipantText;
 			PopupLabelText = AppResources.ParticipantPopupText;
-			DoneButtonCommand = new AsyncCommand(async () =>
+			DoneButtonCommand = new AsyncRelayCommand (async () =>
 			{
 				DoneButton_OnClicked(
 					() => UpdateSelectedList(participantLists), singleSelection
@@ -153,7 +156,7 @@ namespace RightToAskClient.ViewModels
 
 			_titleText = AppResources.CommitteeText; 
 			PopupLabelText = AppResources.SelectableListCommitteePopupText;
-			DoneButtonCommand = new AsyncCommand(async () =>
+			DoneButtonCommand = new AsyncRelayCommand (async () =>
             {
                 DoneButton_OnClicked(
 	                () => UpdateSelectedList(committeeLists), singleSelection       
@@ -194,7 +197,7 @@ namespace RightToAskClient.ViewModels
 	        
 			_titleText = "Grouped MPs";
 			PopupLabelText = AppResources.SelectableListMPsPopupText;
-			DoneButtonCommand = new AsyncCommand(async () =>
+			DoneButtonCommand = new AsyncRelayCommand (async () =>
             {
                 DoneButton_OnClicked(
 	                () => UpdateSelectedList(mpLists), singleSelection
