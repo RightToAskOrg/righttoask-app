@@ -7,7 +7,7 @@
              xmlns:viewModels="clr-namespace:RightToAskClient.Maui.ViewModels;assembly=RightToAskClient.Maui"
              xmlns:controls="clr-namespace:RightToAskClient.Maui.Views.Controls;assembly=RightToAskClient.Maui"
              x:Class="RightToAskClient.Maui.Views.QuestionDisplayCard"
-            
+              xmlns:strings="clr-namespace:RightToAskClient.Maui.Resx"
              x:DataType="viewModels:QuestionDisplayCardViewModel">
     <ContentView.Content>
         <!-- <StackLayout> -->
@@ -48,19 +48,19 @@
                                 HorizontalOptions="Start"
                                 AutomationProperties.IsInAccessibleTree="True"
                                 AutomationProperties.Name="{StaticResource QuestionFrameThumbsUpAccessibilityName}"
-                                AutomationProperties.HelpText="{StaticResource QuestionFrameThumbsUpAccessibilityText}">
+                                AutomationProperties.HelpText="{x:Static strings:AppResources.QuestionFrameThumbsUpAccessibilityText}">
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup Name="BrightenedStates">
                                         <VisualState Name="NotBrightened">
                                             <VisualState.Setters>
                                                 <Setter Property="Source"
-                                                        Value="{AppThemeBinding Light={helpers:ImageResource RightToAskClient.Images.thumb_up_light.png}, Dark={helpers:ImageResource RightToAskClient.Images.thumb_up_dark.png} }" />
+                                                        Value="{AppThemeBinding Light=thumb_up_light.png, Dark=Images.thumb_up_dark.png }" />
                                             </VisualState.Setters>
                                         </VisualState>
                                         <VisualState Name="Brightened">
                                             <VisualState.Setters>
                                                 <Setter Property="Source"
-                                                        Value="{helpers:ImageResource RightToAskClient.Images.thumb_up_filled.png}" />
+                                                        Value="thumb_up_filled.png" />
                                             </VisualState.Setters>
                                         </VisualState>
                                     </VisualStateGroup>
@@ -78,19 +78,19 @@
                                 IsBrightened="{Binding Question.AlreadyDownvoted}"
                                 AutomationProperties.IsInAccessibleTree="True"
                                 AutomationProperties.Name="{StaticResource QuestionFrameThumbsDownAccessibilityName}"
-                                AutomationProperties.HelpText="{StaticResource QuestionFrameThumbsDownAccessibilityText}">
+                                AutomationProperties.HelpText="{x:Static strings:AppResources.QuestionFrameThumbsDownAccessibilityText}">
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup Name="BrightenedStates">
                                         <VisualState Name="NotBrightened">
                                             <VisualState.Setters>
                                                 <Setter Property="Source"
-                                                        Value="{AppThemeBinding Light={helpers:ImageResource RightToAskClient.Images.thumb_down_light.png}, Dark={helpers:ImageResource RightToAskClient.Images.thumb_down_dark.png} }" />
+                                                        Value="{AppThemeBinding Light=thumb_down_light.png, Dark=Images.thumb_down_dark.png }" />
                                             </VisualState.Setters>
                                         </VisualState>
                                         <VisualState Name="Brightened">
                                             <VisualState.Setters>
                                                 <Setter Property="Source"
-                                                        Value="{helpers:ImageResource RightToAskClient.Images.thumb_down_filled.png}" />
+                                                        Value="thumb_down_filled.png" />
                                             </VisualState.Setters>
                                         </VisualState>
                                     </VisualStateGroup>
@@ -101,35 +101,35 @@
                                    Margin="0"
                                    Padding="0"
                                    TextColor="{AppThemeBinding Light={StaticResource TextColorGray}, Dark=White}" />
-                            <!-- <Label Text="{StaticResource UpvoteDisplayCardButtonText}" -->
+                            <!-- <Label Text="{x:Static strings:AppResources.UpvoteDisplayCardButtonText}" -->
                             <!--        Style="{StaticResource QuestionButtonText}"  -->
                             <!--        TextColor="{AppThemeBinding Light={StaticResource TextColorGray}, Dark=White}"/> -->
                         </StackLayout>
                         <!--Share Button-->
                         <!-- TODO: Commented until better times
                         <StackLayout Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
-                            <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.share_48.png}"
+                            <ImageButton Source="share_48.png"
                                          Padding="5" Command="{Binding ShareCommand}" BackgroundColor="Transparent"
                                          xct:IconTintColorEffect.TintColor="Gray"
                                          AutomationProperties.IsInAccessibleTree="True"
                                          AutomationProperties.Name="{StaticResource QuestionFrameShareButtonAccessibilityName}"
-                                         AutomationProperties.HelpText="{StaticResource QuestionFrameShareButtonAccessibilityText}" />
+                                         AutomationProperties.HelpText="{x:Static strings:AppResources.QuestionFrameShareButtonAccessibilityText}" />
                             <Label Text="Share" Style="{StaticResource QuestionButtonText}" />
                         </StackLayout>
                         -->
                         <!--Answer/Has an Answer Buttons-->
                         <!-- TODO: We will still need a 'has answer' indicator and a 'write an answer' button (for MPs), but do UI design first.
                     <StackLayout Orientation="Horizontal" Grid.Row="2" Grid.Column="2">
-                        <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.account_balance_48.png}" 
+                        <ImageButton Source="account_balance_48.png" 
                                  Padding="5" BackgroundColor="Transparent" IsVisible="{Binding Question.HasAnswer, Converter={StaticResource Key=cnvInvert}}"
                                  xct:IconTintColorEffect.TintColor="Gray"
                                  AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{StaticResource QuestionFrameAnswerButtonAccessibilityName}"
-                                 AutomationProperties.HelpText="{StaticResource QuestionFrameAnswerButtonAccessibilityText}"/>
-                        <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.assured_workload_48.png}" 
+                                 AutomationProperties.HelpText="{x:Static strings:AppResources.QuestionFrameAnswerButtonAccessibilityText}"/>
+                        <ImageButton Source="assured_workload_48.png" 
                                  Padding="5" BackgroundColor="Transparent" IsVisible="{Binding Question.HasAnswer}"
                                  xct:IconTintColorEffect.TintColor="{StaticResource ButtonColor}"
                                  AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{StaticResource QuestionFrameShareButtonAccessibilityName}"
-                                 AutomationProperties.HelpText="{StaticResource QuestionFrameAnswerButtonAccessibilityText}"/>
+                                 AutomationProperties.HelpText="{x:Static strings:AppResources.QuestionFrameAnswerButtonAccessibilityText}"/>
                         <Label Text="Answer" Style="{StaticResource QuestionButtonText}"/>
                     </StackLayout>
                     -->
@@ -137,15 +137,15 @@
                         <StackLayout Orientation="Horizontal">
 
                             <ImageButton
-                                Source="{AppThemeBinding Light={helpers:ImageResource RightToAskClient.Images.flags_light.png}, Dark={helpers:ImageResource RightToAskClient.Images.flags_dark.png} }"
+                                Source="{AppThemeBinding Light=flags_light.png, Dark=Images.flags_dark.png }"
                                 Padding="5"
                                 HeightRequest="{x:OnPlatform Android=27, iOS=44}"
                                 Command="{Binding ReportCommand}"
                                 BackgroundColor="Transparent"
                                 AutomationProperties.IsInAccessibleTree="True"
                                 AutomationProperties.Name="{StaticResource QuestionFrameFlagButtonAccessibilityName}"
-                                AutomationProperties.HelpText="{StaticResource QuestionFrameFlagButtonAccessibilityTextRed}" />
-                            <Label Text="{StaticResource ReportDisplayCardButtonText}"
+                                AutomationProperties.HelpText="{x:Static strings:AppResources.QuestionFrameFlagButtonAccessibilityTextRed}" />
+                            <Label Text="{x:Static strings:AppResources.ReportDisplayCardButtonText}"
                                    Style="{StaticResource QuestionButtonText}"
                                    TextColor="{AppThemeBinding Light={StaticResource TextColorGray}, Dark=White}" />
                         </StackLayout>
@@ -163,16 +163,16 @@
                              VerticalOptions="CenterAndExpand"
                              HorizontalOptions="CenterAndExpand"
                              Padding="16">
-                    <Image Source="{helpers:ImageResource RightToAskClient.Images.visibility_off.png}"
+                    <Image Source="visibility_off.png"
                            WidthRequest="24"
                            HorizontalOptions="CenterAndExpand"
                            VerticalOptions="Center" />
-                    <Label Text="{StaticResource DisplayCardHiddenQuestionTitle}"
+                    <Label Text="{x:Static strings:AppResources.DisplayCardHiddenQuestionTitle}"
                            FontAttributes="Bold"
                            FontSize="16"
                            HorizontalOptions="CenterAndExpand"
                            VerticalOptions="Center" />
-                    <Label Text="{StaticResource DisplayCardHiddenQuestionBody}"
+                    <Label Text="{x:Static strings:AppResources.DisplayCardHiddenQuestionBody}"
                            FontSize="14"
                            HorizontalOptions="CenterAndExpand"
                            VerticalOptions="Center" />

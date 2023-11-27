@@ -697,8 +697,8 @@ namespace RightToAskClient.Maui.ViewModels
 
         private async void PromptUser(string message)
         {
-            //TODO: var popup = new OneButtonPopup(message, AppResources.OKText);
-          //  _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
+            var popup = new OneButtonPopup(message, AppResources.OKText);
+            await Application.Current.MainPage.Navigation.PushModalAsync(popup);
         }
 
         #endregion

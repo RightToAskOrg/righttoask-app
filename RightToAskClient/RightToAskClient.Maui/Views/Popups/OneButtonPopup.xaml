@@ -7,7 +7,7 @@
            xmlns:helpers="clr-namespace:RightToAskClient.Maui.Helpers;assembly=RightToAskClient.Maui"
            x:Class="RightToAskClient.Maui.Views.Popups.OneButtonPopup"
            WidthRequest="300"
-        HeightRequest="320"
+           HeightRequest="320"
            BackgroundColor="Transparent">   
     <Frame CornerRadius="5" 
            VerticalOptions="FillAndExpand" 
@@ -35,7 +35,7 @@
                              Orientation="Horizontal"
                              BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource BackgroundDarkGray}}">
                     <!--Emu Bottom Left-->
-                    <Image x:Name="EmuImage" Source="{helpers:ImageResource RightToAskClient.Images.emu_tall.PNG}"
+                    <Image x:Name="EmuImage" Source="emu_tall.png"
                            WidthRequest="100" HeightRequest="100" Rotation="0" VerticalOptions="End"
                            BackgroundColor="Transparent" />
                     <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">

@@ -10,7 +10,7 @@
              xmlns:helpers="clr-namespace:RightToAskClient.Maui.Helpers;assembly=RightToAskClient.Maui"
              Title="Report Question"
              x:Class="RightToAskClient.Maui.Views.ReportQuestionPage"
-             
+               xmlns:strings="clr-namespace:RightToAskClient.Maui.Resx"
              x:DataType="vm:ReportQuestionViewModel"
              Style="{StaticResource SubPage}"
              ios:Page.UseSafeArea="true">
@@ -77,8 +77,8 @@
 
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding BackCommand}"
-                            SemanticProperties.Hint="{StaticResource BackHint}"
-                            SemanticProperties.Description="{StaticResource BackDescription}" />
+                            SemanticProperties.Hint="{x:Static strings:AppResources.BackHint}"
+                            SemanticProperties.Description="{x:Static strings:AppResources.BackDescription}" />
     </Shell.BackButtonBehavior>
     <ContentPage.BindingContext>
         <vm:ReportQuestionViewModel />
@@ -135,10 +135,10 @@
                          VerticalOptions="End"
                          HorizontalOptions="Fill"
                          Padding="10">
-                <Button Text="{StaticResource ReportSubmit}"
+                <Button Text="{x:Static strings:AppResources.ReportSubmit}"
                         Command="{Binding ReportCommand}"
-                        SemanticProperties.Hint="{StaticResource ReportSubmitHint}"
-                        SemanticProperties.Description="{StaticResource ReportSubmit}"
+                        SemanticProperties.Hint="{x:Static strings:AppResources.ReportSubmitHint}"
+                        SemanticProperties.Description="{x:Static strings:AppResources.ReportSubmit}"
                         Style="{StaticResource NormalButton}"
                         CornerRadius="5"
                         IsEnabled="{Binding IsSelected}" />

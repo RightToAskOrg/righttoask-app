@@ -11,15 +11,15 @@
              xmlns:controls="clr-namespace:RightToAskClient.Maui.Views.Controls;assembly=RightToAskClient.Maui"
              xmlns:system="clr-namespace:System;assembly=netstandard"
              x:Class="RightToAskClient.Maui.Views.QuestionDetailPage"
-            
+              xmlns:strings="clr-namespace:RightToAskClient.Maui.Resx"
              x:DataType="vm:QuestionViewModel">
 	<ContentPage.ToolbarItems>
-		<ToolbarItem Text="{StaticResource HomeButtonText}" Command="{Binding HomeButtonCommand}"
+		<ToolbarItem Text="{x:Static strings:AppResources.HomeButtonText}" Command="{Binding HomeButtonCommand}"
 		             x:DataType="vm:BaseViewModel"
-		             IconImageSource="{helpers:ImageResource RightToAskClient.Images.home4.png}" />
-		<ToolbarItem Text="{StaticResource InfoPopupButtonText}" Command="{Binding InfoPopupCommand}"
+		             IconImageSource="home4.png" />
+		<ToolbarItem Text="{x:Static strings:AppResources.InfoPopupButtonText}" Command="{Binding InfoPopupCommand}"
 		             x:DataType="vm:BaseViewModel"
-		             IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}" />
+		             IconImageSource="help_75.png" />
 	</ContentPage.ToolbarItems>
 	<ContentPage.Content>
 		<ScrollView>
@@ -38,17 +38,17 @@
 						                                  HorizontalOptions="Start"
 						                                  AutomationProperties.IsInAccessibleTree="True"
 						                                  AutomationProperties.Name="{StaticResource QuestionFrameThumbsUpAccessibilityName}"
-						                                  AutomationProperties.HelpText="{StaticResource QuestionFrameThumbsUpAccessibilityText}">
+						                                  AutomationProperties.HelpText="{x:Static strings:AppResources.QuestionFrameThumbsUpAccessibilityText}">
 							<VisualStateManager.VisualStateGroups>
 								<VisualStateGroup Name="BrightenedStates">
 									<VisualState Name="NotBrightened">
 										<VisualState.Setters>
-											<Setter Property="Source" Value="{AppThemeBinding Light={helpers:ImageResource RightToAskClient.Images.thumb_up_light.png}, Dark={helpers:ImageResource RightToAskClient.Images.thumb_up_dark.png} }"/>
+											<Setter Property="Source" Value="{AppThemeBinding Light=thumb_up_light.png, Dark=thumb_up_dark.png }"/>
 										</VisualState.Setters>
 									</VisualState>
 									<VisualState Name="Brightened">
 										<VisualState.Setters>
-											<Setter Property="Source" Value="{helpers:ImageResource RightToAskClient.Images.thumb_up_filled.png}"/>
+											<Setter Property="Source" Value="thumb_up_filled.png"/>
 										</VisualState.Setters>
 									</VisualState>
 								</VisualStateGroup>
@@ -62,17 +62,17 @@
 	                             HorizontalOptions="Start"
 	                             HeightRequest="{x:OnPlatform Android=27, iOS=44}"
 	                             AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{StaticResource QuestionFrameThumbsDownAccessibilityName}"
-	                             AutomationProperties.HelpText="{StaticResource QuestionFrameThumbsDownAccessibilityText}">
+	                             AutomationProperties.HelpText="{x:Static strings:AppResources.QuestionFrameThumbsDownAccessibilityText}">
 		                    <VisualStateManager.VisualStateGroups>
 			                    <VisualStateGroup Name="BrightenedStates">
 				                    <VisualState Name="NotBrightened">
 					                    <VisualState.Setters>
-						                    <Setter Property="Source" Value="{AppThemeBinding Light={helpers:ImageResource RightToAskClient.Images.thumb_down_light.png}, Dark={helpers:ImageResource RightToAskClient.Images.thumb_down_dark.png} }"/>
+						                    <Setter Property="Source" Value="{AppThemeBinding Light=thumb_down_light.png, Dark=Images.thumb_down_dark.png}"/>
 					                    </VisualState.Setters>
 				                    </VisualState>
 				                    <VisualState Name="Brightened">
 					                    <VisualState.Setters>
-						                    <Setter Property="Source" Value="{helpers:ImageResource RightToAskClient.Images.thumb_down_filled.png}"/>
+						                    <Setter Property="Source" Value="thumb_down_filled.png"/>
 					                    </VisualState.Setters>
 				                    </VisualState>
 			                    </VisualStateGroup>
@@ -90,28 +90,28 @@
 						                                  BackgroundColor="Transparent"
 						                                  AutomationProperties.IsInAccessibleTree="True"
 						                                  AutomationProperties.Name="{StaticResource QuestionFrameFlagButtonAccessibilityName}"
-						                                  AutomationProperties.HelpText="{StaticResource QuestionFrameFlagButtonAccessibilityTextRed}" >
+						                                  AutomationProperties.HelpText="{x:Static strings:AppResources.QuestionFrameFlagButtonAccessibilityTextRed}" >
 							<VisualStateManager.VisualStateGroups>
 								<VisualStateGroup Name="BrightenedStates">
 									<VisualState Name="NotBrightened">
 										<VisualState.Setters>
-											<Setter Property="Source" Value="{AppThemeBinding Light={helpers:ImageResource RightToAskClient.Images.flags_light.png}, Dark={helpers:ImageResource RightToAskClient.Images.flags_dark.png} }"/>
+											<Setter Property="Source" Value="{AppThemeBinding Light=flags_light.png, Dark=Images.flags_dark.png }"/>
 										</VisualState.Setters>
 									</VisualState>
 									<VisualState Name="Brightened">
 										<VisualState.Setters>
-											<Setter Property="Source" Value="{AppThemeBinding Light={helpers:ImageResource RightToAskClient.Images.flags_filled_light.png}, Dark={helpers:ImageResource RightToAskClient.Images.flags_filled_dark.png} }"/>
+											<Setter Property="Source" Value="{AppThemeBinding Light=flags_filled_light.png, Dark=Images.flags_filled_dark.png }"/>
 										</VisualState.Setters>
 									</VisualState>
 								</VisualStateGroup>
 							</VisualStateManager.VisualStateGroups>
 						</controls:ColorSingleToggleButton>
-						<Label Text="{StaticResource ReportDisplayCardButtonText}" Style="{StaticResource QuestionButtonText}" TextColor="{AppThemeBinding Light={StaticResource TextColorGray}, Dark=White}"/>
+						<Label Text="{x:Static strings:AppResources.ReportDisplayCardButtonText}" Style="{StaticResource QuestionButtonText}" TextColor="{AppThemeBinding Light={StaticResource TextColorGray}, Dark=White}"/>
 					</StackLayout>
 					
 				</FlexLayout>
 				<!-- Answers, visible if there are any -->
-				<Label x:Name="AnswerLabel" Text="{StaticResource AnswerHeaderText}" Style="{StaticResource Header2}" />
+				<Label x:Name="AnswerLabel" Text="{x:Static strings:AppResources.AnswerHeaderText}" Style="{StaticResource Header2}" />
 				<StackLayout x:Name="ExistingAnswers"
 				             BindableLayout.ItemsSource="{Binding QuestionAnswers}">
 					<BindableLayout.ItemTemplate >
@@ -123,10 +123,10 @@
 				
 				<Editor x:Name="AnswerEditor" Placeholder="{StaticResource AnswerPlaceholderText}"
 				        Style="{StaticResource NormalEditor}" Completed="Answer_Entered" />
-				<Label Text="{StaticResource WhoShouldAnswerTitle}" Style="{StaticResource Header2}" />
+				<Label Text="{x:Static strings:AppResources.WhoShouldAnswerTitle}" Style="{StaticResource Header2}" />
 				<Label Text="{Binding QuestionAnswerers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
 				<StackLayout x:Name="AnswerPermissionCheckbox" Orientation="Horizontal">
-					<Label Text="{StaticResource AnswererPermissions}" Style="{StaticResource Header2}" />
+					<Label Text="{x:Static strings:AppResources.AnswererPermissions}" Style="{StaticResource Header2}" />
 					<CheckBox x:Name="AnswerCheckBox" 
 					          IsChecked="{Binding OthersCanAddQuestionAnswerers}" 
 					          Style="{StaticResource CheckBoxStyle}"
@@ -135,11 +135,11 @@
 				<!--Question Askers/Option B things-->
 				<StackLayout x:Name="RaiseLayout" IsVisible="{Binding IsRaiseLayoutVisible}">
 					<!-- who should raise it -->
-					<Label Text="{StaticResource OptionBText4}" Style="{StaticResource Header2}" />
+					<Label Text="{x:Static strings:AppResources.OptionBText4}" Style="{StaticResource Header2}" />
 					<Label Text="{Binding QuestionAskers, StringFormat='{0:F0}'}" Style="{StaticResource LeftMedium}" />
 					<!-- Ask the user whether they allow other users to add QuestionAskers. (Y/N) -->
 					<StackLayout x:Name="AskerPermissionCheckbox" Orientation="Horizontal">
-						<Label Text="{StaticResource AskerPermissions}" Style="{StaticResource Header2}" />
+						<Label Text="{x:Static strings:AppResources.AskerPermissions}" Style="{StaticResource Header2}" />
 						<CheckBox x:Name="RaiseCheckBox" 
 						          IsChecked="{Binding OthersCanAddQuestionAskers}"  
 						          Style="{StaticResource CheckBoxStyle}"
@@ -152,7 +152,7 @@
 						<TapGestureRecognizer Command="{Binding QuestionSuggesterCommand}" />
 					</StackLayout.GestureRecognizers>
 					<StackLayout Orientation="Vertical">
-						<Label Text="{StaticResource QuestionWriterHeaderText}" Style="{StaticResource Header2}" />
+						<Label Text="{x:Static strings:AppResources.QuestionWriterHeaderText}" Style="{StaticResource Header2}" />
 						<Label x:Name="WriterNameLabel" Text="{Binding Question.QuestionSuggester, StringFormat='{0:F0}'}"
 						       Style="{StaticResource NormalText}" Margin="0, 10, 0, 0"
 						       IsEnabled="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}" />
@@ -161,7 +161,7 @@
 				<!-- Background -->
 				<!-- At most one editor is visible at once - this visibility is set in the code-behind. -->
 				<StackLayout Orientation="Vertical">
-					<Label x:Name="BackgroundLabel" Text="{StaticResource BackgroundPageTitle}" Style="{StaticResource Header2}" />
+					<Label x:Name="BackgroundLabel" Text="{x:Static strings:AppResources.BackgroundPageTitle}" Style="{StaticResource Header2}" />
 					<!-- Editor for new questions, and for read-only of questions that already have background. -->
 					<Editor x:Name="BackgroundEditor" Placeholder="{StaticResource AddBackgroundPlaceholderText}"
 					        Text="{Binding Background}"
@@ -173,7 +173,7 @@
 				</StackLayout>
 				<!-- Hansard link -->
 			    <StackLayout Orientation="Vertical" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
-				    <Label Text="{StaticResource LinkForAnswerHeaderText}" Style="{StaticResource Header2}"/>
+				    <Label Text="{x:Static strings:AppResources.LinkForAnswerHeaderText}" Style="{StaticResource Header2}"/>
 				    <StackLayout BindableLayout.ItemsSource="{Binding HansardLinks}">
 					    <BindableLayout.ItemTemplate>
 						    <DataTemplate>
@@ -191,19 +191,19 @@
 				<Label x:Name="ReportLabel" Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}"/>
 			    </StackLayout>
 				<StackLayout Margin="0,8">
-				    <Button Text="{StaticResource EditQuestionButtonText}" 
+				    <Button Text="{x:Static strings:AppResources.EditQuestionButtonText}" 
 				            Style="{StaticResource NormalButton}"
 				            Command="{Binding EditAnswerCommand}" 
 				            IsEnabled="{Binding HasUpdates}"
 							IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}"
-							SemanticProperties.Hint="{StaticResource EditQuestionButtonHint}"
-				            SemanticProperties.Description="{StaticResource EditQuestionButtonText}"/>
-				    <Button Text="{StaticResource PublishQuestionButtonText}" 
+							SemanticProperties.Hint="{x:Static strings:AppResources.EditQuestionButtonHint}"
+				            SemanticProperties.Description="{x:Static strings:AppResources.EditQuestionButtonText}"/>
+				    <Button Text="{x:Static strings:AppResources.PublishQuestionButtonText}" 
 				            Style="{StaticResource NormalButton}"
 				            Command="{Binding SaveQuestionCommand}" 
 				            IsVisible="{Binding IsNewQuestion}" 
-				            SemanticProperties.Hint="{StaticResource PublishQuestionButtonText}"
-				            SemanticProperties.Description="{StaticResource PublishQuestionButtonText}"/>
+				            SemanticProperties.Hint="{x:Static strings:AppResources.PublishQuestionButtonText}"
+				            SemanticProperties.Description="{x:Static strings:AppResources.PublishQuestionButtonText}"/>
 				</StackLayout>
 			</StackLayout>
 	    </ScrollView>

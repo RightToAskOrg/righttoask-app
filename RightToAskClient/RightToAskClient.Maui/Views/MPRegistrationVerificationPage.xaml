@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:RightToAskClient.Maui"
              xmlns:helpers="clr-namespace:RightToAskClient.Maui.Helpers;assembly=RightToAskClient.Maui"
              xmlns:controls="clr-namespace:RightToAskClient.Maui.Views.Controls;assembly=RightToAskClient.Maui"
-             
+               xmlns:strings="clr-namespace:RightToAskClient.Maui.Resx"
              x:Class="RightToAskClient.Maui.Views.MPRegistrationVerificationPage"
              x:DataType="vm:MPRegistrationVerificationViewModel"
              Shell.FlyoutBehavior="Flyout"
@@ -15,8 +15,8 @@
         <vm:MPRegistrationVerificationViewModel />
     </ContentPage.BindingContext>
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="{StaticResource InfoPopupButtonText}" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
-                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}"/>
+        <ToolbarItem Text="{x:Static strings:AppResources.InfoPopupButtonText}" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
+                     IconImageSource="help_75.png"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ScrollView>
@@ -26,18 +26,18 @@
                 <Grid ColumnDefinitions="3, Auto, *, Auto" 
                       Style="{StaticResource ErrorMessageBackgroundStyle}" IsVisible="{Binding IsMsgErrorShown}">
                     <BoxView Grid.Column="0" Color="{StaticResource ColorRed}" WidthRequest="3" VerticalOptions="FillAndExpand" Margin="0" />
-                    <Image Grid.Column="1" Margin="16, 0" Source="{helpers:ImageResource RightToAskClient.Images.error_48.png}"
+                    <Image Grid.Column="1" Margin="16, 0" Source="error_48.png"
                            BackgroundColor="{StaticResource ColorRed}" WidthRequest="24" HeightRequest="24"
                            VerticalOptions="Center" />
                     <Label Grid.Column="2" Text="{Binding ReportLabelText}" Padding="0, 12"
                            VerticalOptions="Center" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
-                    <ImageButton Grid.Column="3" Source="{ AppThemeBinding Light={helpers:ImageResource RightToAskClient.Images.close_button.png}, Dark={helpers:ImageResource RightToAskClient.Images.close_button_dark_48.png} }"
+                    <ImageButton Grid.Column="3" Source="{ AppThemeBinding Light=close_button.png, Dark=Images.close_button_dark_48.png }"
                                  Style="{StaticResource ClearButton}"
                                  BackgroundColor="Transparent"
                                  VerticalOptions="Start"
                                  WidthRequest="24" HeightRequest="24"
-                                 SemanticProperties.Hint="{StaticResource ClearButtonHint}"
-                                 SemanticProperties.Description="{StaticResource ClearButtonDescription}"
+                                 SemanticProperties.Hint="{x:Static strings:AppResources.ClearButtonHint}"
+                                 SemanticProperties.Description="{x:Static strings:AppResources.ClearButtonDescription}"
                                  Command="{Binding HideErrorLayoutCommand}" Margin="10" />
                 </Grid>
 
@@ -53,13 +53,13 @@
                     <Label Grid.Column="2" Text="{Binding ReportLabelText}" Padding="0, 12"
                            VerticalOptions="Center" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                     <ImageButton Grid.Column="3"
-                                 Source="{AppThemeBinding Light={helpers:ImageResource RightToAskClient.Images.close_button.png}, Dark={helpers:ImageResource RightToAskClient.Images.close_button_dark_48.png} }"
+                                 Source="{AppThemeBinding Light=close_button.png, Dark=Images.close_button_dark_48.png }"
                                  Style="{StaticResource ClearButton}"
                                  BackgroundColor="Transparent"
                                  VerticalOptions="Start"
                                  WidthRequest="24" HeightRequest="24"
-                                 SemanticProperties.Hint="{StaticResource ClearButtonHint}"
-                                 SemanticProperties.Description="{StaticResource ClearButtonDescription}"
+                                 SemanticProperties.Hint="{x:Static strings:AppResources.ClearButtonHint}"
+                                 SemanticProperties.Description="{x:Static strings:AppResources.ClearButtonDescription}"
                                  Command="{Binding HideSuccessLayoutCommand}" Margin="10" />
                 </Grid>
                 <FlexLayout Direction="Row" AlignItems="Center" Wrap="Wrap">
@@ -69,11 +69,11 @@
                 <Grid RowDefinitions="*, *" Margin="0, 10, 0, 0" RadioButtonGroup.GroupName="MpOption">
                     <FlexLayout Grid.Row="0" Direction="Row" AlignItems="Center" Wrap="Wrap">
                         <RadioButton x:Name="ThatsMeRadioButton"
-                                     SemanticProperties.Hint="{StaticResource ThatsMe}"
-                                     SemanticProperties.Description="{StaticResource ThatsMe}"
+                                     SemanticProperties.Hint="{x:Static strings:AppResources.ThatsMe}"
+                                     SemanticProperties.Description="{x:Static strings:AppResources.ThatsMe}"
                                      HorizontalOptions="Fill"
                                      IsChecked="True"/>
-                        <Label Text="{StaticResource ThatsMe}" VerticalOptions="Center">
+                        <Label Text="{x:Static strings:AppResources.ThatsMe}" VerticalOptions="Center">
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="ThatsMeRadioButton_OnTapped"/>
                             </Label.GestureRecognizers>
@@ -81,19 +81,19 @@
                     </FlexLayout>
                     <FlexLayout Grid.Row="1" Direction="Row" AlignItems="Center" Wrap="Wrap">
                         <RadioButton x:Name="IAmAStafferRadioButton"
-                                     SemanticProperties.Hint="{StaticResource IAmAStaffer}"
-                                     SemanticProperties.Description="{StaticResource IAmAStaffer}"
+                                     SemanticProperties.Hint="{x:Static strings:AppResources.IAmAStaffer}"
+                                     SemanticProperties.Description="{x:Static strings:AppResources.IAmAStaffer}"
                                      HorizontalOptions="Fill"
                                      IsChecked="{Binding IsStaffer}"/>
                                      
-                        <Label Text="{StaticResource IAmAStaffer}" VerticalOptions="Center">
+                        <Label Text="{x:Static strings:AppResources.IAmAStaffer}" VerticalOptions="Center">
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="IAmAStafferRadioButton_OnTapped"/>
                             </Label.GestureRecognizers>
                         </Label>
                     </FlexLayout>
                 </Grid>
-                <Label Text="{StaticResource EmailEntry}" Margin="0, 10, 0, 0" />
+                <Label Text="{x:Static strings:AppResources.EmailEntry}" Margin="0, 10, 0, 0" />
                 <FlexLayout Direction="Row" Margin="0, 8, 0, 0" AlignItems="Center" Wrap="Wrap">
                     <StackLayout>
                         <controls:BorderlessEntry 
@@ -127,11 +127,11 @@
                          Command ="{Binding SendMPVerificationEmailCommand}" 
                          Style="{StaticResource NormalButton}" 
                          Padding="16, 12"
-                         Text="{StaticResource SendVerificationPIN}" 
-                         SemanticProperties.Hint="{StaticResource SendVerificationPINHint}"
-                         SemanticProperties.Description="{StaticResource SendVerificationPIN}"/>
+                         Text="{x:Static strings:AppResources.SendVerificationPIN}" 
+                         SemanticProperties.Hint="{x:Static strings:AppResources.SendVerificationPINHint}"
+                         SemanticProperties.Description="{x:Static strings:AppResources.SendVerificationPIN}"/>
                 <BoxView Style="{StaticResource ButtonSeparator}" Margin="0, 24, 0, 0" />
-                <Label Text="{StaticResource SubmitPINButtonText}" Margin="0, 10, 0, 0" />
+                <Label Text="{x:Static strings:AppResources.SubmitPINButtonText}" Margin="0, 10, 0, 0" />
                 <FlexLayout x:Name="CodeLayout" AlignItems="Center" JustifyContent="SpaceBetween" Direction="Row" Margin="32, 24,32,16">
                     <Entry Style="{StaticResource BoxEntry}"
                             TextChanged="VerifyCodeEntries_OnTextChanged"/>
@@ -147,11 +147,11 @@
                            TextChanged="VerifyCodeEntries_OnTextChanged"/>
                 </FlexLayout>
                 
-                <Button Text="{StaticResource Verify}" 
+                <Button Text="{x:Static strings:AppResources.Verify}" 
                         Clicked="SubmitButton_OnClicked"
                         Style="{StaticResource OutlineButton}" 
-                        SemanticProperties.Hint="{StaticResource VerifyHint}"
-                        SemanticProperties.Description="{StaticResource Verify}"
+                        SemanticProperties.Hint="{x:Static strings:AppResources.VerifyHint}"
+                        SemanticProperties.Description="{x:Static strings:AppResources.Verify}"
                         HorizontalOptions="FillAndExpand" />
                 
             </StackLayout>

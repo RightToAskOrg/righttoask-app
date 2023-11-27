@@ -4,20 +4,21 @@
            xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
            x:Class="RightToAskClient.Maui.Views.Popups.QuestionPublishedPopup"
             xmlns:r="RightToAskClient.Maui.Resx"
+             xmlns:strings="clr-namespace:RightToAskClient.Maui.Resx"
            WidthRequest="300"
            HeightRequest="300"
            BackgroundColor="Transparent">
     <Frame CornerRadius="30" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
                BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}">
         <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent">
-            <Label Text="{StaticResource QuestionPublishedPopupText}" 
+            <Label Text="{x:Static strings:AppResources.QuestionPublishedPopupText}" 
                    Style="{StaticResource PopupHeaderText}"/>
-            <Label x:Name="mainMessage" Text="{StaticResource QuestionPublishedPopupDetailText}" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" 
+            <Label x:Name="mainMessage" Text="{x:Static strings:AppResources.QuestionPublishedPopupDetailText}" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" 
                        Style="{StaticResource PopupText}" />
             <Grid ColumnDefinitions="*,*" VerticalOptions="End" BackgroundColor="Transparent">
-                <Button Text="{StaticResource WriteAnotherQuestionButtonText}" Grid.Column="0" 
+                <Button Text="{x:Static strings:AppResources.WriteAnotherQuestionButtonText}" Grid.Column="0" 
                         Clicked="WriteAnotherButtonClicked" Style="{StaticResource PopupCancelButton}" />
-                <Button Text="{StaticResource GoHomeButtonText}" Grid.Column="1" Clicked="GoHomeButtonClicked" 
+                <Button Text="{x:Static strings:AppResources.GoHomeButtonText}" Grid.Column="1" Clicked="GoHomeButtonClicked" 
                         Style = "{StaticResource PopupOKButton}" />
             </Grid>
         </StackLayout>

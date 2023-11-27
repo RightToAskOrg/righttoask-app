@@ -7,7 +7,7 @@
              xmlns:views="clr-namespace:RightToAskClient.Maui.Views;assembly=RightToAskClient.Maui"
              xmlns:helpers="clr-namespace:RightToAskClient.Maui.Helpers;assembly=RightToAskClient.Maui"
              x:Class="RightToAskClient.Maui.Views.FindMPsPage"
-            
+              xmlns:strings="clr-namespace:RightToAskClient.Maui.Resx"
              x:DataType="vm:FindMPsViewModel">
     <ContentPage.BindingContext>
         <vm:FindMPsViewModel />
@@ -17,11 +17,11 @@
             <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" Spacing="0">
                 <!--<ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"/>-->
                 <!--Label Choice Option Frames-->
-                <Label Text="{StaticResource FindMyElectorateTitle}" Margin="16,16,16,0" FontAttributes="Bold"
+                <Label Text="{x:Static strings:AppResources.FindMyElectorateTitle}" Margin="16,16,16,0" FontAttributes="Bold"
                        FontSize="Large" />
-                <Label Text="{StaticResource FindMyElectorateContentPartOne}" Margin="16,8,16,0" LineHeight="1.5"
+                <Label Text="{x:Static strings:AppResources.FindMyElectorateContentPartOne}" Margin="16,8,16,0" LineHeight="1.5"
                        FontSize="Medium" />
-                <Label Text="{StaticResource FindMyElectorateContentPartTwo}" Margin="16,8,16,0" LineHeight="1.5"
+                <Label Text="{x:Static strings:AppResources.FindMyElectorateContentPartTwo}" Margin="16,8,16,0" LineHeight="1.5"
                        FontSize="Medium" />
                 <FlexLayout
                     Direction="Row" JustifyContent="Center" AlignItems="Center" Margin="16,20,16,0">
@@ -51,10 +51,10 @@
                                      BackgroundColor="{StaticResource EditorBackground}">
                             <StackLayout VerticalOptions="CenterAndExpand">
                                 <Image HeightRequest="30"
-                                       Source="{helpers:ImageResource RightToAskClient.Images.map.png}"
+                                       Source="map.png"
                                        Style="{StaticResource ListErrorIcon}" 
                                        Margin="0,0,0,10"/>
-                                <Label Text="{StaticResource MapPlaceholderText}" FontSize="Small"
+                                <Label Text="{x:Static strings:AppResources.MapPlaceholderText}" FontSize="Small"
                                        FontAttributes="Bold" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center"
                                        TextColor="Black" VerticalTextAlignment="Center"
                                        Margin="16,0" />
@@ -69,13 +69,13 @@
                         <!--State Selector/Picker-->
                         <views:LabeledPicker BindingContext="{Binding StatePickerModel}" />
 
-                        <Label Text="{StaticResource FederalElectorate}" FontSize="Medium"
+                        <Label Text="{x:Static strings:AppResources.FederalElectorate}" FontSize="Medium"
                                FontAttributes="Bold" HorizontalOptions="Start" HorizontalTextAlignment="Start"
                                TextColor="{AppThemeBinding Light=Black, Dark=White}" VerticalTextAlignment="Center"
                                Margin="0, 5"/>
                         <views:LabeledPicker BindingContext="{Binding FederalPickerModel}" />
                         
-                        <Label Text="{StaticResource StateElectorate}" FontSize="Medium"
+                        <Label Text="{x:Static strings:AppResources.StateElectorate}" FontSize="Medium"
                                FontAttributes="Bold" HorizontalOptions="Start" HorizontalTextAlignment="Start"
                                TextColor="{AppThemeBinding Light=Black, Dark=White}" VerticalTextAlignment="Center"
                                Margin="0,5"/>
@@ -100,7 +100,7 @@
                         <!--State Selector/Picker-->
                         <views:LabeledPicker BindingContext="{Binding StatePickerModel}" />
                         <StackLayout>
-                            <Label Text="{StaticResource StreetHeaderText}"
+                            <Label Text="{x:Static strings:AppResources.StreetHeaderText}"
                                    Style="{StaticResource SmallGreyHeader}" />
                             <Grid Margin="0,0,0,8">
                                 <BoxView Style="{StaticResource ButtonSeparator}" VerticalOptions="End" />
@@ -113,7 +113,7 @@
                             </Grid>
                         </StackLayout>
                         <StackLayout>
-                            <Label Text="{StaticResource CitySuburbHeaderText}"
+                            <Label Text="{x:Static strings:AppResources.CitySuburbHeaderText}"
                                    Style="{StaticResource SmallGreyHeader}"/>
                             <Grid Margin="0,0,0,8">
                                 <BoxView Style="{StaticResource ButtonSeparator}" VerticalOptions="End" />
@@ -126,7 +126,7 @@
                         </StackLayout>
                         
                         <StackLayout>
-                            <Label Text="{StaticResource PostcodeHeaderText}"
+                            <Label Text="{x:Static strings:AppResources.PostcodeHeaderText}"
                                    Style="{StaticResource SmallGreyHeader}"/>
                             <Grid Margin="0,0,0,8">
                                 <BoxView Style="{StaticResource ButtonSeparator}" VerticalOptions="End" />
@@ -138,7 +138,7 @@
                             </Grid>
                         </StackLayout>
                         <Button Margin="8, 12"
-                            Text="{StaticResource LocateButtonText}" 
+                            Text="{x:Static strings:AppResources.LocateButtonText}" 
                             Style="{StaticResource OutlineButton}"
                             Command="{Binding SubmitAddressButtonCommand}" />
                     </StackLayout>
@@ -148,7 +148,7 @@
                 <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Margin="16">
                     <Button Style="{StaticResource NormalButton}"
                             x:Name="DoneButton"
-                            Text="{StaticResource SaveButtonText}"
+                            Text="{x:Static strings:AppResources.SaveButtonText}"
                             Command="{Binding SaveMPsButtonCommand}"
                             IsEnabled="{Binding EnableFindMPsButton}" />
                 </StackLayout>

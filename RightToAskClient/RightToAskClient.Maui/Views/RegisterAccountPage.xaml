@@ -9,11 +9,11 @@
              xmlns:helpers="clr-namespace:RightToAskClient.Maui.Helpers;assembly=RightToAskClient.Maui"
              xmlns:controls="clr-namespace:RightToAskClient.Maui.Views.Controls;assembly=RightToAskClient.Maui"
              x:Class="RightToAskClient.Maui.Views.RegisterAccountPage"
-            
+              xmlns:strings="clr-namespace:RightToAskClient.Maui.Resx"
              x:DataType="vm:RegistrationViewModel"
              Title="{Binding Title}">
     <Shell.TitleView>
-        <Image Source="{helpers:ImageResource error.png}"
+        <Image Source="error.png"
                HorizontalOptions="Center"
                VerticalOptions="Start" />
     </Shell.TitleView>
@@ -27,7 +27,7 @@
                      HorizontalOptions="Fill">
             <ScrollView VerticalOptions="FillAndExpand" Padding="16">
                 <StackLayout Orientation="Vertical">
-                    <Label Text="{StaticResource AccountTitle}"
+                    <Label Text="{x:Static strings:AppResources.AccountTitle}"
                            Style="{StaticResource RegistrationTitle}"
                            controls:Accessibility.AccessibilityTraits="Header">
                     </Label>
@@ -36,7 +36,7 @@
                         <StackLayout Orientation="Vertical"
                                      Spacing="0">
                             <Label x:Name="NameLabel"
-                                   Text="{StaticResource DisplayNameHeaderText}"
+                                   Text="{x:Static strings:AppResources.DisplayNameHeaderText}"
                                    Style="{StaticResource SmallGreyHeader}"
                                    IsVisible="{Binding DisplayName.Length}" />
                             <controls:BorderlessEntry
@@ -52,10 +52,10 @@
                                 Style="{StaticResource EntryBorder}" />
                         </StackLayout>
                     </ContentView>
-                    <Label Text="{StaticResource NamePrivacyNote}"
+                    <Label Text="{x:Static strings:AppResources.NamePrivacyNote}"
                            Style="{StaticResource TextFieldDescription}" />
                     <StackLayout Orientation="Horizontal" IsVisible="{Binding NameLabelText.Length}">
-                        <Image Source="{helpers:ImageResource RightToAskClient.Images.error.png}"
+                        <Image Source="error.png"
                                
                                WidthRequest="13"
                                HeightRequest="13"
@@ -73,7 +73,7 @@
                                      Spacing="0"
                                      Margin="0,16,0,0">
                             <Label x:Name="UsernameLabel"
-                                   Text="{StaticResource UserNameHeaderText}"
+                                   Text="{x:Static strings:AppResources.UserNameHeaderText}"
                                    Style="{StaticResource SmallGreyHeader}"
                                    IsVisible="{Binding UserId.Length}" />
                             <controls:BorderlessEntry
@@ -89,9 +89,9 @@
                                 Style="{StaticResource EntryBorder}" />
                         </StackLayout>
                     </ContentView>
-                    <Label Text="{StaticResource UsernamePrivacyNote}" Style="{StaticResource TextFieldDescription}" />
+                    <Label Text="{x:Static strings:AppResources.UsernamePrivacyNote}" Style="{StaticResource TextFieldDescription}" />
                     <StackLayout Orientation="Horizontal" IsVisible="{Binding ReportLabelText.Length}">
-                        <Image Source="{helpers:ImageResource RightToAskClient.Images.error.png}"
+                        <Image Source="error.png"
                                
                                WidthRequest="13"
                                HeightRequest="13"
@@ -110,10 +110,10 @@
                          HorizontalOptions="Fill"
                          Padding="16">
                 <Button x:Name="ContinueButton"
-                        Text="{StaticResource Continue}"
+                        Text="{x:Static strings:AppResources.Continue}"
                         Command="{Binding DoneButtonCommand}"
-                        SemanticProperties.Hint="{StaticResource ContinueButtonHint}"
-                        SemanticProperties.Description="{StaticResource ContinueButtonDescription}"
+                        SemanticProperties.Hint="{x:Static strings:AppResources.ContinueButtonHint}"
+                        SemanticProperties.Description="{x:Static strings:AppResources.ContinueButtonDescription}"
                         Margin="0,0,0,16"
                         Style="{StaticResource NormalButton}"
                         CornerRadius="5"

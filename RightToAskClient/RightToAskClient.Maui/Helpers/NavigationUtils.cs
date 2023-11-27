@@ -7,6 +7,7 @@ using RightToAskClient.Maui.Views.Popups;
 using CommunityToolkit.Maui.Extensions;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui;
+using CommunityToolkit.Maui.Views;
 
 /* This class contains some utilities for popping up and using pages, which may be accessed
  * at any time by the app, for example the pages for finding your MP, which needs to be
@@ -94,14 +95,14 @@ namespace RightToAskClient.Maui.Helpers
                 AppResources.OKText, 
                 false);
             //TODO:
-            //var popupResult = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
-            //if (popup.HasApproved(popupResult))
-            //{
-            //    var registerAccountFlow = new CodeOfConductPage(registration);
-            //    await Application.Current.MainPage.Navigation.PushAsync(registerAccountFlow);
-            //    // var registerAccountPage = new RegisterAccountPage(registration);
-            //    // await Application.Current.MainPage.Navigation.PushAsync(registerAccountPage);
-            //}
+            var popupResult = await App.Current.MainPage.ShowPopupAsync(popup);
+            if (popup.HasApproved(popupResult))
+            {
+                var registerAccountFlow = new CodeOfConductPage(registration);
+                await Application.Current.MainPage.Navigation.PushAsync(registerAccountFlow);
+                // var registerAccountPage = new RegisterAccountPage(registration);
+                // await Application.Current.MainPage.Navigation.PushAsync(registerAccountPage);
+            }
         }
     }
 }

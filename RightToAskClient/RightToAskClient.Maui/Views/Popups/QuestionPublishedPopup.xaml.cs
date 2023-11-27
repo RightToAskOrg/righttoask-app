@@ -21,13 +21,13 @@ namespace RightToAskClient.Maui.Views.Popups
         private void WriteAnotherButtonClicked(object sender, EventArgs e)
         {
             QuestionViewModel.Instance.GoHome = false;
-            //TODO: Dismiss("Dismissed");
+            App.Current.MainPage.Navigation.PopModalAsync();
         }
 
         private void GoHomeButtonClicked(object sender, EventArgs e)
         {
             QuestionViewModel.Instance.GoHome = true;
-            //TODO: Dismiss("Dismissed");
+            App.Current.MainPage.Navigation.PopModalAsync();
         }
     }
 }

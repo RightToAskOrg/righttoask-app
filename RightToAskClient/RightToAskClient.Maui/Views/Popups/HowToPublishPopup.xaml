@@ -4,7 +4,7 @@
            xmlns:views="clr-namespace:RightToAskClient.Maui.Views"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RightToAskClient.Maui.Views.Popups.HowToPublishPopup"
-           
+             xmlns:strings="clr-namespace:RightToAskClient.Maui.Resx"
            Size="350,600"
            Color="Transparent">
     <Frame CornerRadius="10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="0" Padding="0"
@@ -13,7 +13,7 @@
             <views:HowToPublishView VerticalOptions="FillAndExpand" Margin="0" Padding="0" BackgroundColor="Transparent"/>
             <!--Ok Button-->
             <Grid ColumnDefinitions="*,*" VerticalOptions="EndAndExpand" BackgroundColor="Transparent" Margin="0" Padding="0">
-                <Button Text="{StaticResource OKText}" Grid.Column="1" Clicked="Button_Clicked" 
+                <Button Text="{x:Static strings:AppResources.OKText}" Grid.Column="1" Clicked="Button_Clicked" 
                         Style="{StaticResource PopupOKButton}" />
             </Grid>
         </StackLayout>

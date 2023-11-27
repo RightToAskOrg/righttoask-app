@@ -7,7 +7,7 @@
              xmlns:vm="clr-namespace:RightToAskClient.Maui.ViewModels"
              xmlns:local="clr-namespace:RightToAskClient.Maui"
              xmlns:helpers="clr-namespace:RightToAskClient.Maui.Helpers;assembly=RightToAskClient.Maui"
-          
+            xmlns:strings="clr-namespace:RightToAskClient.Maui.Resx"
              x:Class="RightToAskClient.Maui.Views.AccountPage"
              x:DataType="vm:RegistrationViewModel"
              Shell.FlyoutBehavior="Flyout"
@@ -16,9 +16,9 @@
         <vm:RegistrationViewModel />
     </ContentPage.BindingContext>
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="{StaticResource InfoPopupButtonText}" Command="{Binding InfoPopupCommand}"
+        <ToolbarItem Text="{x:Static strings:AppResources.InfoPopupButtonText}" Command="{Binding InfoPopupCommand}"
                      x:DataType="vm:BaseViewModel"
-                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}" />
+                     IconImageSource="help_75.png" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <Grid>
@@ -29,20 +29,20 @@
                         <!-- TODO Unfortunately I think this is getting drawn, then made invisible, hence creating a lot of whitespace -->
                         <StackLayout Orientation="Vertical" VerticalOptions="Center">
                             <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                                <Button Text="{StaticResource CompleteAccountCreationButtonText}"
+                                <Button Text="{x:Static strings:AppResources.CompleteAccountCreationButtonText}"
                                         Style="{StaticResource DoneButton}" Command="{Binding DoneButtonCommand}"
                                         HorizontalOptions="Center"
                                         IsVisible="{Binding IsMyAccount, Converter={StaticResource Key=cnvInvert}}" />
                             </StackLayout>
                         </StackLayout>
                         <!-- This button seems redundant because you can tap on the electorates to edit -->
-                        <!-- <Button Text="{StaticResource UpdateMPsButtonText}" Style="{StaticResource DoneButton}" Command="{Binding UpdateMPsButtonCommand}" IsVisible="{Binding IsMyAccount}"/> -->
+                        <!-- <Button Text="{x:Static strings:AppResources.UpdateMPsButtonText}" Style="{StaticResource DoneButton}" Command="{Binding UpdateMPsButtonCommand}" IsVisible="{Binding IsMyAccount}"/> -->
                         <!-- 
                 <Label Text="{Binding RegisteredMP.ShortestName, StringFormat='Registered MP account for {0}'}"
                        IsVisible="{Binding ShowExistingMPRegistrationLabel}" Style="{StaticResource NormalText}" />
                 <Label Text="Verified staffer" IsVisible="{Binding ShowStafferLabel}" Style="{StaticResource NormalText}" /> -->
                         <!-- <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand"> -->
-                        <!--     <Label Text="{StaticResource MPRegistrationOptionText}" Style="{StaticResource NormalText}" -->
+                        <!--     <Label Text="{x:Static strings:AppResources.MPRegistrationOptionText}" Style="{StaticResource NormalText}" -->
                         <!--            VerticalOptions="Center" /> -->
                         <!--     <Button Text="{Binding RegisterMPButtonText}" -->
                         <!--             Command="{Binding ChooseMPToRegisterButtonCommand}" -->
@@ -55,9 +55,9 @@
                                     Command="{Binding ChooseMPToRegisterButtonCommand}"
                                     IsVisible="{Binding ShowRegisterMPButton}" Style="{StaticResource EditorProceed}"
                                     HorizontalOptions="Start"
-                                    SemanticProperties.Hint="{StaticResource RegisterMPButtonHint}"
+                                    SemanticProperties.Hint="{x:Static strings:AppResources.RegisterMPButtonHint}"
                                     SemanticProperties.Description="{Binding RegisterMPButtonText}"/>
-                            <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.arrow_forward.png}"
+                            <ImageButton Source="arrow_forward.png"
                                          BackgroundColor="Transparent" WidthRequest="20" HeightRequest="20" HorizontalOptions="End"/>
                         </FlexLayout>
                         <BoxView Style="{StaticResource ButtonSeparator}"/>
@@ -72,15 +72,15 @@
                 <StackLayout Orientation="Vertical"
                              VerticalOptions="CenterAndExpand"
                              HorizontalOptions="CenterAndExpand">
-                    <Label Text="{StaticResource SignUpTitleText}" Style="{StaticResource SignUpTitle}"/>
-                    <Label Text="{StaticResource SignUpBodyText}" Style="{StaticResource SignUpBody}"/>
+                    <Label Text="{x:Static strings:AppResources.SignUpTitleText}" Style="{StaticResource SignUpTitle}"/>
+                    <Label Text="{x:Static strings:AppResources.SignUpBodyText}" Style="{StaticResource SignUpBody}"/>
                     <StackLayout>
                         <Button Text="Sign up"
                                 Margin="70, 0"
                                 Style="{StaticResource NormalButton}"
                                 Command="{Binding DoRegistrationCommand}"
-                                SemanticProperties.Hint="{StaticResource SignUpButtonHint}"
-                                SemanticProperties.Description="{StaticResource SignUpTitleText}"/>
+                                SemanticProperties.Hint="{x:Static strings:AppResources.SignUpButtonHint}"
+                                SemanticProperties.Description="{x:Static strings:AppResources.SignUpTitleText}"/>
                     </StackLayout>
                 </StackLayout>
             </StackLayout>

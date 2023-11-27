@@ -6,16 +6,16 @@
              xmlns:views="clr-namespace:RightToAskClient.Maui.Views"
              x:Class="RightToAskClient.Maui.Views.OtherUserProfilePage"
              xmlns:local="clr-namespace:RightToAskClient.Maui"
-             
+               xmlns:strings="clr-namespace:RightToAskClient.Maui.Resx"
              xmlns:helpers="clr-namespace:RightToAskClient.Maui.Helpers;assembly=RightToAskClient.Maui">
     <ContentPage.BindingContext>
         <vm:RegistrationViewModel/>
     </ContentPage.BindingContext>
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="{StaticResource HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
-                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.home4.png}"/>
-        <ToolbarItem Text="{StaticResource InfoPopupButtonText}" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
-                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}"/>
+        <ToolbarItem Text="{x:Static strings:AppResources.HomeButtonText}" Command="{Binding HomeButtonCommand}" x:DataType="vm:BaseViewModel"
+                     IconImageSource="home4.png"/>
+        <ToolbarItem Text="{x:Static strings:AppResources.InfoPopupButtonText}" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
+                     IconImageSource="help_75.png"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout Margin="20">

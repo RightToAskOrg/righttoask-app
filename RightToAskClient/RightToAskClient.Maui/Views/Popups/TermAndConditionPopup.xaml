@@ -2,8 +2,11 @@
 <xct:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"    
            xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-           x:Class="RightToAskClient.Maui.Views.Popups.TermAndConditionPopup"         
+           x:Class="RightToAskClient.Maui.Views.Popups.TermAndConditionPopup" 
+           xmlns:local="clr-namespace:RightToAskClient.Maui.Helpers"
+           xmlns:strings="clr-namespace:RightToAskClient.Maui.Resx"
            Size="300,160"
+           CanBeDismissedByTappingOutsideOfPopup="False"
            Color="Transparent">
     <Frame CornerRadius="5" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="0"
            BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource BackgroundDarkGray}}">
@@ -14,22 +17,35 @@
                          HorizontalOptions="CenterAndExpand"
                          x:Name="MarkdownView"
                          Margin="16, 0">
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="By tapping 'Agree and Continue', you agree to our " />
+                            <local:HyperlinkSpan Text="Privacy Policy" Url="https://www.democracydevelopers.org.au/privacy-policy/">
+                            </local:HyperlinkSpan>
+                            <Span Text=" and " />
+                            <local:HyperlinkSpan Text="Terms and Conditions." Url="https://www.democracydevelopers.org.au/terms-conditions">
+                            </local:HyperlinkSpan>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
             </StackLayout>
 
             <StackLayout Padding="0,1,0,0"
                          BackgroundColor="{AppThemeBinding Light={StaticResource FadedButtonColor}, Dark={StaticResource SeparatorDarkModeColor}}">
                 <!--Acknowledge/Dismiss Button Bottom Right-->
-                <StackLayout
+                <StackLayout x:Name="TermsStackLayout"
                     BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource BackgroundDarkGray}}">
-                    <Button Text="{StaticResource AgreeAndContinueButton}" HorizontalOptions="Center"
+                    
+                    <Button Text="{x:Static strings:AppResources.AgreeAndContinueButton}" HorizontalOptions="Center"
                             FontSize="Small"
                             VerticalOptions="End" Clicked="okButton_Clicked"
-                            SemanticProperties.Hint="{StaticResource TCContinueButtonHint}"
-                            SemanticProperties.Description="{StaticResource AgreeAndContinueButton}"
+                            SemanticProperties.Hint="{x:Static strings:AppResources.TCContinueButtonHint}"
+                            SemanticProperties.Description="{x:Static strings:AppResources.AgreeAndContinueButton}"
                             Style="{StaticResource PopupOKButton}" BackgroundColor="Transparent" />
                 </StackLayout>
             </StackLayout>
-            
+
         </StackLayout>
     </Frame>
 </xct:Popup>

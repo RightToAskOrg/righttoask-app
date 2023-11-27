@@ -4,7 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="RightToAskClient.Maui.Views.PublicPrivateLabel"
-            
+              xmlns:strings="clr-namespace:RightToAskClient.Maui.Resx"
              x:Name="This">
     <Frame
         x:Name="PublicLabel"
@@ -16,7 +16,7 @@
         Padding="15, 2"
         CornerRadius="13">
         <Label Style="{StaticResource PublicPrivateLabelText}"
-               Text="{StaticResource PublicLabel}"
+               Text="{x:Static strings:AppResources.PublicLabel}"
                TextColor="White" />
     </Frame>
 
@@ -31,7 +31,7 @@
             Style="{StaticResource PublicPrivateLabel}"
             BackgroundColor="{AppThemeBinding Light=White, Dark=Black}">
             <Label Style="{StaticResource PublicPrivateLabelText}"
-                   Text="{StaticResource PrivateLabel}"
+                   Text="{x:Static strings:AppResources.PrivateLabel}"
                    TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark=White}" />
         </Frame>
     </Frame>

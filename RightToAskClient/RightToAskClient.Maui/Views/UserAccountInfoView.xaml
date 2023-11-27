@@ -8,6 +8,7 @@
              xmlns:helpers="clr-namespace:RightToAskClient.Maui.Helpers;assembly=RightToAskClient.Maui"
              xmlns:views="clr-namespace:RightToAskClient.Maui.Views;assembly=RightToAskClient.Maui"
              x:Class="RightToAskClient.Maui.Views.UserAccountInfoView"
+               xmlns:strings="clr-namespace:RightToAskClient.Maui.Resx"
              x:DataType="vm:RegistrationViewModel">
     <ContentView.Content>
         <StackLayout Orientation="Vertical">
@@ -15,18 +16,18 @@
             <Grid ColumnDefinitions="3, Auto, *, Auto" IsVisible="{Binding IsUpdateErrorShown}"
                   Style="{StaticResource ErrorMessageBackgroundStyle}">
                 <BoxView Grid.Column="0" Color="{StaticResource ColorRed}" WidthRequest="3" VerticalOptions="FillAndExpand" Margin="0" />
-                <Image Grid.Column="1" Margin="16, 0" Source="{helpers:ImageResource RightToAskClient.Images.error_48.png}"
+                <Image Grid.Column="1" Margin="16, 0" Source="error_48.png"
                        BackgroundColor="{StaticResource ColorRed}" WidthRequest="24" HeightRequest="24"
                        VerticalOptions="Center" />
                 <Label Grid.Column="2" Text="{Binding ReportLabelText}" Padding="0, 12"
                        VerticalOptions="Center" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
-                <ImageButton Grid.Column="3" Source="{ AppThemeBinding Light={helpers:ImageResource RightToAskClient.Images.close_button.png}, Dark={helpers:ImageResource RightToAskClient.Images.close_button_dark_48.png} }"
+                <ImageButton Grid.Column="3" Source="{ AppThemeBinding Light=close_button.png, Dark=Images.close_button_dark_48.png }"
                              Style="{StaticResource ClearButton}"
                              BackgroundColor="Transparent"
                              VerticalOptions="Start"
                              WidthRequest="24" HeightRequest="24"
-                             SemanticProperties.Hint="{StaticResource ClearButtonHint}"
-                             SemanticProperties.Description="{StaticResource ClearButtonDescription}"
+                             SemanticProperties.Hint="{x:Static strings:AppResources.ClearButtonHint}"
+                             SemanticProperties.Description="{x:Static strings:AppResources.ClearButtonDescription}"
                              Command="{Binding HideErrorLayoutCommand}" Margin="10" />
             </Grid>
 
@@ -35,19 +36,19 @@
                   Style="{StaticResource SuccessMessageBackgroundStyle}">
                 <BoxView Grid.Column="0" Color="Green" WidthRequest="3" VerticalOptions="FillAndExpand" Margin="0" />
                 <Image Grid.Column="1" Margin="16, 0"
-                       Source="{helpers:ImageResource RightToAskClient.Images.success_48.png}"
+                       Source="success_48.png"
                        BackgroundColor="Green" WidthRequest="24" HeightRequest="24"
                        VerticalOptions="Center" />
                 <Label Grid.Column="2" Text="{Binding ReportLabelText}" Padding="0, 12"
                        VerticalOptions="Center" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                 <ImageButton Grid.Column="3"
-                             Source="{ AppThemeBinding Light={helpers:ImageResource RightToAskClient.Images.close_button.png}, Dark={helpers:ImageResource RightToAskClient.Images.close_button_dark_48.png} }"
+                             Source="{ AppThemeBinding Light=close_button.png, Dark=Images.close_button_dark_48.png }"
                              Style="{StaticResource ClearButton}"
                              BackgroundColor="Transparent"
                              VerticalOptions="Start"
                              WidthRequest="24" HeightRequest="24"
-                             SemanticProperties.Hint="{StaticResource ClearButtonHint}"
-                             SemanticProperties.Description="{StaticResource ClearButtonDescription}"
+                             SemanticProperties.Hint="{x:Static strings:AppResources.ClearButtonHint}"
+                             SemanticProperties.Description="{x:Static strings:AppResources.ClearButtonDescription}"
                              Command="{Binding HideSuccessLayoutCommand}" Margin="10" />
             </Grid>
 
@@ -57,7 +58,7 @@
             <BoxView Style="{StaticResource ButtonSeparator}" IsVisible="{Binding IsVerifiedMPAccount}" />
 
             
-            <Label Text="{StaticResource UserNameHeaderText}"
+            <Label Text="{x:Static strings:AppResources.UserNameHeaderText}"
                    Style="{StaticResource SmallGreyHeader}" />
             <!-- Styled in code-behind according to whether this is permitted edits. -->
             <!-- username -->
@@ -67,7 +68,7 @@
             <BoxView Style="{StaticResource ButtonSeparator}" />
             <!-- name -->
             <Label
-                Text="{StaticResource DisplayNameHeaderText}"
+                Text="{x:Static strings:AppResources.DisplayNameHeaderText}"
                 Style="{StaticResource SmallGreyHeader}" />
             <controls:BorderlessEntry
                 Text="{Binding DisplayName}"
@@ -81,7 +82,7 @@
             <Button Text="{DynamicResource UpdateAccountButtonText}" Command="{Binding UpdateAccountButtonCommand}"
                     Style="{StaticResource OutlineButton}" HorizontalOptions="End"
                     IsVisible="{Binding IsMyAccount}" Margin="0,4,0,0"
-                    SemanticProperties.Hint="{StaticResource UpdateAccountButtonText}"
+                    SemanticProperties.Hint="{x:Static strings:AppResources.UpdateAccountButtonText}"
                     SemanticProperties.Description="{DynamicResource UpdateAccountButtonText}" />
 
             <!-- <Label Text="Verified staffer" IsVisible="{Binding IsVerifiedStafferAccount}" Style="{StaticResource NormalText}" /> -->
@@ -89,12 +90,12 @@
                         Margin="0,12,0,0">
                 <Label Text="{DynamicResource ElectoratesInfoHeaderText}"
                        Style="{StaticResource SmallGreyHeader}" VerticalOptions="Center" />
-                <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.account_edit.png}"
+                <ImageButton Source="account_edit.png"
                              Command="{Binding EditElectoratesCommand}"
                              IsVisible="{Binding IsMyAccount}"
                              BackgroundColor="Transparent" WidthRequest="20" HeightRequest="20" HorizontalOptions="End"
-                             SemanticProperties.Hint="{StaticResource EditElectoratesButtonHint}"
-                             SemanticProperties.Description="{StaticResource EditElectoratesButtonDescription}"/>
+                             SemanticProperties.Hint="{x:Static strings:AppResources.EditElectoratesButtonHint}"
+                             SemanticProperties.Description="{x:Static strings:AppResources.EditElectoratesButtonDescription}"/>
             </FlexLayout>
             <BoxView Style="{StaticResource ButtonSeparator}" Margin="0" />
             <!-- The height request is a kludge because otherwise the CollectionView takes up all the rest of the page -->

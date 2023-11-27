@@ -21,7 +21,7 @@ namespace RightToAskClient.Maui.Views.Popups
 
         private void Button_Clicked(object sender, EventArgs e)
         {
-            //TODO: Dismiss("Dismissed");
+            App.Current.MainPage.Navigation.PopModalAsync();
         }
     }
 }

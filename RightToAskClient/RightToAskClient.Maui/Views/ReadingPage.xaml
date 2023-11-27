@@ -8,18 +8,18 @@
              xmlns:helpers="clr-namespace:RightToAskClient.Maui.Helpers;assembly=RightToAskClient.Maui"
              xmlns:controls="clr-namespace:RightToAskClient.Maui.Views.Controls;assembly=RightToAskClient.Maui"
              x:Class="RightToAskClient.Maui.Views.ReadingPage"
-             
+             xmlns:strings="clr-namespace:RightToAskClient.Maui.Resx"
              x:Name="ReadingPageName"
              Shell.FlyoutBehavior="Flyout"
              Title="{Binding Title}"
              x:DataType="vm:ReadingPageViewModel">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="{StaticResource SearchButtonText}"
-                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.search_75.png}"
+        <ToolbarItem Text="{x:Static strings:AppResources.SearchButtonText}"
+                     IconImageSource="search_75.png"
                      Clicked="MenuItem_OnClicked" />
-        <ToolbarItem Text="{StaticResource InfoPopupButtonText}"
+        <ToolbarItem Text="{x:Static strings:AppResources.InfoPopupButtonText}"
                      Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel"
-                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}" />
+                     IconImageSource="help_75.png" />
     </ContentPage.ToolbarItems>
     <ContentPage.BindingContext>
         <vm:ReadingPageViewModel />
@@ -73,13 +73,13 @@
                                     Grid.Row="0"
                                     Grid.Column="0">
                                     <ImageButton
-                                        Source="{helpers:ImageResource RightToAskClient.Images.Search_Gray.png}"
+                                        Source="search_gray.png"
                                         Style="{StaticResource SearchIcon}"
                                         
-                                        SemanticProperties.Hint="{StaticResource SearchButtonText}"
-                                        SemanticProperties.Description="{StaticResource SearchButtonText}" />
+                                        SemanticProperties.Hint="{x:Static strings:AppResources.SearchButtonText}"
+                                        SemanticProperties.Description="{x:Static strings:AppResources.SearchButtonText}" />
                                 </StackLayout>
-                                <controls:BorderlessEntry Placeholder="{StaticResource SearchBarPlaceholderText}"
+                                <controls:BorderlessEntry Placeholder="{x:Static strings:AppResources.SearchBarPlaceholderText}"
                                                           Text="{Binding Keyword}"
                                                           VerticalOptions="FillAndExpand"
                                                           HorizontalOptions="FillAndExpand"
@@ -90,7 +90,7 @@
                                                           MaxLength="280"
                                                           Completed="KeywordEntry_OnCompleted"
                                                           TextChanged="KeywordEntry_OnTextChanged"
-                                                          SemanticProperties.Hint="{StaticResource DraftQuestionPlaceholderText}"
+                                                          SemanticProperties.Hint="{x:Static strings:AppResources.DraftQuestionPlaceholderText}"
                                                           Margin="0"
                                                           Grid.Row="0"
                                                           Grid.Column="1" />
@@ -100,11 +100,11 @@
                                     HorizontalOptions="Center"
                                     Grid.Row="0"
                                     Grid.Column="2">
-                                    <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.close.png}"
+                                    <ImageButton Source="close.png"
                                                  Style="{StaticResource ClearButtonGreen}"
                                                  
-                                                 SemanticProperties.Hint="{StaticResource ClearButtonHint}"
-                                                 SemanticProperties.Description="{StaticResource ClearButtonDescription}"
+                                                 SemanticProperties.Hint="{x:Static strings:AppResources.ClearButtonHint}"
+                                                 SemanticProperties.Description="{x:Static strings:AppResources.ClearButtonDescription}"
                                                  Clicked="ClearButton_OnClicked"
                                                  x:Name="ClearButton" />
                                 </StackLayout>
@@ -127,7 +127,7 @@
                                     HorizontalOptions="FillAndExpand"
                                     Grid.Row="0"
                                     Grid.Column="0">
-                                    <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.filter_sliders_48.png}"
+                                    <ImageButton Source="filter_sliders_48.png"
                                         x:Name="FilterButton"
                                         Style="{StaticResource ClearButtonGreen}"
                                         
@@ -160,7 +160,7 @@
                                         <SwipeView VerticalOptions="FillAndExpand" BackgroundColor="Transparent">
                                             <SwipeView.RightItems>
                                                 <SwipeItem Text="Dismiss"
-                                                           IconImageSource="{helpers:ImageResource RightToAskClient.Images.trash_delete_48.png}"
+                                                           IconImageSource="trash_delete_48.png"
                                                            BackgroundColor="{StaticResource AlertColor}"
                                                            Command="{Binding Path=BindingContext.RemoveQuestionCommand, Source={x:Reference ReadingPageName}}"
                                                            CommandParameter="{Binding .}" />
@@ -174,7 +174,7 @@
                                                  Padding="0, 100 ,0 ,0">
                                         <Image Source="{Binding ListEmptyViewIcon}"
                                                Style="{StaticResource ListErrorIcon}"/>
-                                        <Label Text="{Binding EmptyViewLabelText}"
+                                        <Label Text="{x:Static strings:AppResources.EmptyFieldMessage}"
                                                Style="{StaticResource ListErrorText}"
                                                VerticalOptions="Start" />
                                     </StackLayout>
@@ -188,16 +188,16 @@
                              VerticalOptions="End"
                              HorizontalOptions="End"
                              Margin="10"
-                             Source="{helpers:ImageResource RightToAskClient.Images.edit.png}"
-                             WidthRequest="70"
-                             HeightRequest="70"
-                             CornerRadius="35"
+                             Source="edit.png"
+                             WidthRequest="110"
+                             HeightRequest="110"
+                             CornerRadius="30"
                              Padding="20"
                              Aspect="AspectFit"
                              BackgroundColor="{StaticResource Purple}"
                              Command="{Binding DraftCommand}"
-                             SemanticProperties.Hint="{StaticResource ReadingPageWriteHint}"
-                             SemanticProperties.Description="{StaticResource ReadingPageWriteDescription}" />
+                             SemanticProperties.Hint="{x:Static strings:AppResources.ReadingPageWriteHint}"
+                             SemanticProperties.Description="{x:Static strings:AppResources.ReadingPageWriteDescription}" />
             </Grid>
         </StackLayout>
     </ContentPage.Content>

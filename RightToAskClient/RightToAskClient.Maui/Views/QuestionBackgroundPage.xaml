@@ -5,7 +5,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RightToAskClient.Maui.Views.QuestionBackgroundPage"
              x:DataType="vm:QuestionViewModel"
-            
+              xmlns:strings="clr-namespace:RightToAskClient.Maui.Resx"
              Title="{StaticResource BackgroundPageTitle}">
     <ContentPage.Content>
         <ScrollView VerticalScrollBarVisibility="Never">
@@ -13,7 +13,7 @@
                 
                 <StackLayout VerticalOptions="Fill">
                     <StackLayout Padding="16, 16, 16, 0">
-                        <Label Text="{StaticResource YouAskTitle}" Style="{StaticResource SmallGreyHeader}"/>
+                        <Label Text="{x:Static strings:AppResources.YouAskTitle}" Style="{StaticResource SmallGreyHeader}"/>
                         <Label Text="{Binding Question.QuestionText}" FontSize="Medium" LineHeight="1.3"/>
                         <BoxView Style="{StaticResource ButtonSeparator}" Margin="0, 8, 0, 0"/>
                     </StackLayout>
@@ -49,8 +49,8 @@
                                 Padding="16, 8"
                                 Style="{StaticResource NormalButton}"
                                 Command="{Binding ToHowAnsweredOptionPageCommand}"
-                                SemanticProperties.Hint="{StaticResource EditorProceedHint}"
-                                SemanticProperties.Description="{StaticResource EditorProceedButtonDescription}" />
+                                SemanticProperties.Hint="{x:Static strings:AppResources.EditorProceedHint}"
+                                SemanticProperties.Description="{x:Static strings:AppResources.EditorProceedButtonDescription}" />
                     </StackLayout>
                 </StackLayout>
             </StackLayout>

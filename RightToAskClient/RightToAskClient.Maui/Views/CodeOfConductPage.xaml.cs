@@ -17,33 +17,27 @@ namespace RightToAskClient.Maui.Views
         {
             InitializeComponent();
         }
-        
+
         public CodeOfConductPage(Registration registration)
         {
             InitializeComponent();
             _registration = registration;
-            //TODO
-            /*
-            var lightTheme = new LightMarkdownTheme();
-            var darkTheme = new DarkMarkdownTheme();
-            // TODO Xamarin.Forms.Device.GetNamedSize is not longer supported. For more details see https://learn.microsoft.com/en-us/dotnet/maui/migration/forms-projects#device-changes
-            lightTheme.Paragraph.FontSize = (float)Device.GetNamedSize(NamedSize.Small, typeof(Label));
-            // TODO Xamarin.Forms.Device.GetNamedSize is not longer supported. For more details see https://learn.microsoft.com/en-us/dotnet/maui/migration/forms-projects#device-changes
-            lightTheme.Heading3.FontSize = (float)Device.GetNamedSize(NamedSize.Medium, typeof(Label));
-            // TODO Xamarin.Forms.Device.GetNamedSize is not longer supported. For more details see https://learn.microsoft.com/en-us/dotnet/maui/migration/forms-projects#device-changes
-            darkTheme.Paragraph.FontSize = (float)Device.GetNamedSize(NamedSize.Small, typeof(Label));
-            // TODO Xamarin.Forms.Device.GetNamedSize is not longer supported. For more details see https://learn.microsoft.com/en-us/dotnet/maui/migration/forms-projects#device-changes
-            darkTheme.Heading3.FontSize = (float)Device.GetNamedSize(NamedSize.Medium, typeof(Label));
-            darkTheme.BackgroundColor = Colors.Black;
-            */
-            //TODO:
+
+            //var lightTheme = new LightMarkdownTheme();
+            //var darkTheme = new DarkMarkdownTheme();
+            //lightTheme.Paragraph.FontSize = (float)Device.GetNamedSize(NamedSize.Small, typeof(Label));
+            //lightTheme.Heading3.FontSize = (float)Device.GetNamedSize(NamedSize.Medium, typeof(Label));
+            //darkTheme.Paragraph.FontSize = (float)Device.GetNamedSize(NamedSize.Small, typeof(Label));
+            //darkTheme.Heading3.FontSize = (float)Device.GetNamedSize(NamedSize.Medium, typeof(Label));
+            //darkTheme.BackgroundColor = Color.Black;
+
             //var mdView = new Xam.Forms.Markdown.MarkdownView();
-           
+
             //mdView.Markdown = AppResources.CodeOfConductCopy;
             //mdView.RelativeUrlHost = "";
-          //TODO:  mdView.SetOnAppTheme<MarkdownTheme>(Xam.Forms.Markdown.MarkdownView.ThemeProperty, lightTheme, darkTheme);
-            
-           //TODO: MarkdownView.Children.Add(new ScrollView() { Content = mdView });
+            //mdView.SetOnAppTheme<MarkdownTheme>(Xam.Forms.Markdown.MarkdownView.ThemeProperty, lightTheme, darkTheme);
+
+            //MarkdownView.Children.Add(new ScrollView() { Content = mdView });
         }
 
         private async void Disagree_OnClicked(object sender, EventArgs e)

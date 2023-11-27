@@ -16,6 +16,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Maui.Views;
 
 namespace RightToAskClient.Maui.ViewModels
 {
@@ -166,8 +167,8 @@ namespace RightToAskClient.Maui.ViewModels
                     if (showHowToPublishPopup)
                     {
                         //TODO:
-                        //var popup = new HowToPublishPopup();
-                        //if (popup != null)  await Application.Current.MainPage.Navigation.PopModalAsync(popup);
+                        var popup = new HowToPublishPopup();
+                        if (popup != null) await Application.Current.MainPage.ShowPopupAsync(popup);
 
                         // Only show it once.
                         XamarinPreferences.shared.Set(Constants.ShowHowToPublishPopup, false);

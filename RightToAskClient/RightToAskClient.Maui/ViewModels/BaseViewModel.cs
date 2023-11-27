@@ -6,6 +6,7 @@ using RightToAskClient.Maui.Views.Popups;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Maui.Views;
 
 namespace RightToAskClient.Maui.ViewModels
 {
@@ -21,25 +22,25 @@ namespace RightToAskClient.Maui.ViewModels
             {
                 var popup = new TwoButtonPopup(AppResources.GoHomePopupTitle, AppResources.GoHomePopupText,
                     AppResources.CancelButtonText, AppResources.GoHomeButtonText, false);
-                //TODO:
-                //var popupResult = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
-                //if (popup.HasApproved(popupResult))
-                //{
-                //    await Application.Current.MainPage.Navigation.PopToRootAsync();
-                //}
+                
+                var popupResult = await Application.Current.MainPage.ShowPopupAsync(popup);
+                if (popup.HasApproved(popupResult))
+                {
+                    await Application.Current.MainPage.Navigation.PopToRootAsync();
+                }
             });
-            //TODO:
-            //InfoPopupCommand = new AsyncRelayCommand(async () =>
-            //{
-            //    //Page.Navigation.ShowPopup(new InfoPopup());
-            //    var popup = new InfoPopup(PopupHeaderText,PopupLabelText, AppResources.OKText);
-            //    _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
-            //});
-            //TCCommand = new AsyncRelayCommand(async () =>
-            //{
-            //    var popup = new TermAndConditionPopup();
-            //    _ = await Application.Current.MainPage.Navigation.ShowPopupAsync(popup);
-            //});
+            
+            InfoPopupCommand = new AsyncRelayCommand(async () =>
+            {
+                //Page.Navigation.ShowPopup(new InfoPopup());
+                var popup = new InfoPopup(PopupHeaderText, PopupLabelText, AppResources.OKText);
+                await Application.Current.MainPage.Navigation.PushModalAsync(popup);
+            });
+            TCCommand = new AsyncRelayCommand(async () =>
+            {
+                var popup = new TermAndConditionPopup();
+                _ = await Application.Current.MainPage.ShowPopupAsync(popup);
+            });
         }
 
         private string _title = string.Empty;

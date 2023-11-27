@@ -6,20 +6,20 @@
              xmlns:helpers="clr-namespace:RightToAskClient.Maui.Helpers;assembly=RightToAskClient.Maui"
              xmlns:controls="clr-namespace:RightToAskClient.Maui.Views.Controls;assembly=RightToAskClient.Maui"
              x:Class="RightToAskClient.Maui.Views.SelectableListPage"
-            
+              xmlns:strings="clr-namespace:RightToAskClient.Maui.Resx"
              x:DataType="vm:SelectableListViewModel"
              Title="{Binding TitleText}">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="{StaticResource SearchButtonText}" 
-                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.search_75.png}"
+        <ToolbarItem Text="{x:Static strings:AppResources.SearchButtonText}" 
+                     IconImageSource="search_75.png"
                      Clicked="MenuItem_OnClicked"/>
-        <ToolbarItem Text="{StaticResource HomeButtonText}" 
+        <ToolbarItem Text="{x:Static strings:AppResources.HomeButtonText}" 
                      Command="{Binding HomeButtonCommand}" 
                      x:DataType="vm:BaseViewModel"
-                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.home4.png}"/>
+                     IconImageSource="home4.png"/>
         <ToolbarItem Command="{Binding InfoPopupCommand}" 
                      x:DataType="vm:BaseViewModel"
-                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}"/>
+                     IconImageSource="help_75.png"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
 		<StackLayout HorizontalOptions="Center" 
@@ -56,11 +56,11 @@
                             HorizontalOptions="Center"
                             Grid.Row="0"
                             Grid.Column="0">
-                            <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.Search_Gray.png}"
+                            <ImageButton Source="Search_Gray.png"
                                          Style="{StaticResource SearchIcon}"
                                          CornerRadius="8"
-                                         SemanticProperties.Hint="{StaticResource SearchButtonText}"
-                                         SemanticProperties.Description="{StaticResource SearchButtonText}">
+                                         SemanticProperties.Hint="{x:Static strings:AppResources.SearchButtonText}"
+                                         SemanticProperties.Description="{x:Static strings:AppResources.SearchButtonText}">
                             </ImageButton>
                         </StackLayout>
                         <controls:BorderlessEntry Placeholder="{StaticResource SearchBarPlaceholderText}"
@@ -73,7 +73,7 @@
                                                   Keyboard="Chat"
                                                   MaxLength="280"
                                                   TextChanged="KeywordEntry_OnTextChanged"
-                                                  SemanticProperties.Hint="{StaticResource DraftQuestionPlaceholderText}"
+                                                  SemanticProperties.Hint="{x:Static strings:AppResources.DraftQuestionPlaceholderText}"
                                                   Margin="0"
                                                   Grid.Row="0"
                                                   Grid.Column="1">
@@ -84,11 +84,11 @@
                             HorizontalOptions="Center"
                             Grid.Row="0"
                             Grid.Column="2">
-                            <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.close.png}"
+                            <ImageButton Source="close.png"
                                          Style="{StaticResource ClearButtonGreen}"
                                          CornerRadius="8"
-                                         SemanticProperties.Hint="{StaticResource ClearButtonHint}"
-                                         SemanticProperties.Description="{StaticResource ClearButtonDescription}"
+                                         SemanticProperties.Hint="{x:Static strings:AppResources.ClearButtonHint}"
+                                         SemanticProperties.Description="{x:Static strings:AppResources.ClearButtonDescription}"
                                          Clicked="ClearButton_OnClicked"
                                          x:Name="ClearButton">
                             </ImageButton>

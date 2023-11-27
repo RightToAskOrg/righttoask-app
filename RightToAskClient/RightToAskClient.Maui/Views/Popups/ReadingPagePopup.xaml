@@ -6,7 +6,7 @@
            xmlns:viewmodels="clr-namespace:RightToAskClient.Maui.ViewModels"
            x:DataType="viewmodels:ReadingPageViewModel"
            x:Class="RightToAskClient.Maui.Views.Popups.ReadingPagePopup"
-          
+            xmlns:strings="clr-namespace:RightToAskClient.Maui.Resx"
            Size="300,300"
            Color="Transparent">
 
@@ -17,10 +17,10 @@
                      BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource WindowBackgroundColorDark}}">
             <StackLayout VerticalOptions="FillAndExpand" BackgroundColor="Transparent">
                 <Label Text="{Binding Heading1}" Style="{StaticResource PopupHeaderText}" />
-                <Label Text="{StaticResource ReadingPageHeader1}" VerticalOptions="Center"
+                <Label Text="{x:Static strings:AppResources.ReadingPageHeader1}" VerticalOptions="Center"
                        VerticalTextAlignment="Center" LineHeight="1.3" Style="{StaticResource PopupText}" />
                 <Grid ColumnDefinitions="*,*" VerticalOptions="EndAndExpand" BackgroundColor="Transparent">
-                    <Button Text="{StaticResource OKText}" Grid.Column="1" Clicked="Button_Clicked" 
+                    <Button Text="{x:Static strings:AppResources.OKText}" Grid.Column="1" Clicked="Button_Clicked" 
                             Style="{StaticResource PopupOKButton}" />
                 </Grid>
             </StackLayout>

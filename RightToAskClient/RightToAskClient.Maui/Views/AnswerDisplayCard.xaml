@@ -21,7 +21,7 @@
                 </Grid>                
                 <Label Text="{Binding AnswerText}" Style="{StaticResource QuestionFrameCardText}" 
                        Grid.Row="1" Grid.Column="0"/>
-                <!--<ImageButton Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Source="{local:ImageResource RightToAskClient.Images.check_box_48.png}" BackgroundColor="Transparent"/>-->
+                <!--<ImageButton Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Source="{local:ImageResource RightToAskClient.Images.check_box_48.png" BackgroundColor="Transparent"/>-->
             </Grid>
         </Frame>
     </ContentView.Content>

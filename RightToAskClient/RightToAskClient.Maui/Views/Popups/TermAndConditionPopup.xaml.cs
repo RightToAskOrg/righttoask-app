@@ -18,9 +18,12 @@ namespace RightToAskClient.Maui.Views.Popups
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TermAndConditionPopup : Popup
     {
+        //TODO: localisation of the terms text will need to be handled at a later point when localisation occurs as the hyperlinks are seperate
+        //and this was left as the MAUI conversion was a lengthy process
         public TermAndConditionPopup()
         {
             InitializeComponent();
+            
             //TODO:
             //var lightTheme = new LightMarkdownTheme();
             //// TODO Xamarin.Forms.Device.GetNamedSize is not longer supported. For more details see https://learn.microsoft.com/en-us/dotnet/maui/migration/forms-projects#device-changes
@@ -47,7 +50,14 @@ namespace RightToAskClient.Maui.Views.Popups
             //{
             //    AutomationProperties.SetHelpText(mdView, AppResources.TermsAndConditionsHelpTextIOS);
             //}
-
+            //if (DeviceInfo.Platform == DevicePlatform.Android)
+            //{
+            //    TermsText.Text = AppResources.TermsAndConditionsHelpTextAndroid;
+            //}
+            //else
+            //{
+            //    TermsText.Text = AppResources.TermsAndConditionsHelpTextIOS;
+            //}
             //mdView.SetOnAppTheme<MarkdownTheme>(Xam.Forms.Markdown.MarkdownView.ThemeProperty, lightTheme, darkTheme);
 
             //MarkdownView.Children.Add(new ScrollView() { Content = mdView });
@@ -56,21 +66,21 @@ namespace RightToAskClient.Maui.Views.Popups
         private void okButton_Clicked(object sender, EventArgs e)
         {
             XamarinPreferences.shared.Set(Constants.ShowFirstTimeReadingPopup, false);
-            //TODO: Dismiss("Dismissed");
+            Close();
         }
 
-        /*
-        private async void PrivacyPolicy_OnTapped(object sender, EventArgs e)
-        {
-            await Browser.OpenAsync(Constants.DDPrivacyPolicyURL,
-                BrowserLaunchMode.SystemPreferred);
-        }
 
-        private async void TermAndCondition_OnTapped(object sender, EventArgs e)
-        {
-            await Browser.OpenAsync(Constants.DDTermsAndConditionsURL,
-                BrowserLaunchMode.SystemPreferred);
-        }
-        */
+        //private async void PrivacyPolicy_OnTapped(object sender, EventArgs e)
+        //{
+        //    await Browser.OpenAsync(Constants.DDPrivacyPolicyURL,
+        //        BrowserLaunchMode.SystemPreferred);
+        //}
+
+        //private async void TermAndCondition_OnTapped(object sender, EventArgs e)
+        //{
+        //    await Browser.OpenAsync(Constants.DDTermsAndConditionsURL,
+        //        BrowserLaunchMode.SystemPreferred);
+        //}
+
     }
 }

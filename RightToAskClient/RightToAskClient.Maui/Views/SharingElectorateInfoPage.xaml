@@ -8,12 +8,12 @@
              xmlns:views="clr-namespace:RightToAskClient.Maui.Views;assembly=RightToAskClient.Maui"
              xmlns:helpers="clr-namespace:RightToAskClient.Maui.Helpers;assembly=RightToAskClient.Maui"
              x:Class="RightToAskClient.Maui.Views.SharingElectorateInfoPage"
-            
+              xmlns:strings="clr-namespace:RightToAskClient.Maui.Resx"
              x:DataType="viewModels:SharingElectorateInfoViewModel">
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding BackCommand}"
-                            SemanticProperties.Hint="{StaticResource BackHint}"
-                            SemanticProperties.Description="{StaticResource BackDescription}" />
+                            SemanticProperties.Hint="{x:Static strings:AppResources.BackHint}"
+                            SemanticProperties.Description="{x:Static strings:AppResources.BackDescription}" />
     </Shell.BackButtonBehavior>
     <ContentPage.Content>
         <StackLayout Orientation="Vertical"
@@ -24,11 +24,11 @@
                 <StackLayout Orientation="Vertical"
                              VerticalOptions="FillAndExpand"
                              HorizontalOptions="Fill">
-                    <Label Text="{StaticResource SharingElectorateInfoHeaderText}"
+                    <Label Text="{x:Static strings:AppResources.SharingElectorateInfoHeaderText}"
                            Style="{StaticResource SignUpTitle}"
                            Margin="0, 0, 0, 8"
                            HorizontalOptions="StartAndExpand" />
-                    <Label Text="{StaticResource SharingElectorateInfoParagraph}"
+                    <Label Text="{x:Static strings:AppResources.SharingElectorateInfoParagraph}"
                            Style="{StaticResource SignUpBody}"
                            HorizontalOptions="StartAndExpand" />
 
@@ -58,10 +58,10 @@
                          VerticalOptions="End"
                          HorizontalOptions="Fill"
                          Padding="16">
-                <Button Text="{StaticResource SaveAndFinish}"
+                <Button Text="{x:Static strings:AppResources.SaveAndFinish}"
                         Command="{Binding SaveAndFinishCommand}"
-                        SemanticProperties.Hint="{StaticResource SaveAndFinishHint}"
-                        SemanticProperties.Description="{StaticResource SaveAndFinish}"
+                        SemanticProperties.Hint="{x:Static strings:AppResources.SaveAndFinishHint}"
+                        SemanticProperties.Description="{x:Static strings:AppResources.SaveAndFinish}"
                         Style="{StaticResource NormalButton}"
                         IsEnabled="{Binding AbleToFinish}" />
             <Label Text="{Binding ReportLabelText}" Style="{StaticResource ErrorLabel}"

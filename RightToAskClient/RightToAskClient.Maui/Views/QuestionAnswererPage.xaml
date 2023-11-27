@@ -4,14 +4,14 @@
              xmlns:vm="clr-namespace:RightToAskClient.Maui.ViewModels"
              xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="RightToAskClient.Maui.Views.QuestionAnswererPage"
-            
+              xmlns:strings="clr-namespace:RightToAskClient.Maui.Resx"
              Title="{StaticResource WhoShouldAnswerTitle}" 
              x:DataType="vm:QuestionViewModel">
     <ContentPage.Content>        
         <StackLayout VerticalOptions="FillAndExpand">
             <ScrollView>
                 <StackLayout VerticalOptions="Fill">
-                    <Label Text="{StaticResource AnswerQuestionHeaderText}" Style="{StaticResource Header1}" VerticalOptions="Start" Margin="16, 16, 16, 0"/>
+                    <Label Text="{x:Static strings:AppResources.AnswerQuestionHeaderText}" Style="{StaticResource Header1}" VerticalOptions="Start" Margin="16, 16, 16, 0"/>
                     <BoxView Margin="16, 0"/>
                         <Grid VerticalOptions="StartAndExpand" HorizontalOptions="Fill" RowSpacing="0"
                           Margin="8, 16" Grid.RowDefinitions="Auto,Auto,Auto,Auto" RadioButtonGroup.GroupName="WhoAnswerOptions">
@@ -22,8 +22,8 @@
                         <!-- my mp -->
                         <RadioButton 
                             Grid.Row="0" Grid.Column="0"
-                            SemanticProperties.Hint="{StaticResource MyMPAnswerExplText}"
-                            SemanticProperties.Description="{StaticResource MyMp}"
+                            SemanticProperties.Hint="{x:Static strings:AppResources.MyMPAnswerExplText}"
+                            SemanticProperties.Description="{x:Static strings:AppResources.MyMp}"
                             VerticalOptions="StartAndExpand"
                             HorizontalOptions="Fill"
                             x:Name="MyMpRadioButton"
@@ -33,9 +33,9 @@
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="MyMpRadioButton_OnTapped"/>
                             </StackLayout.GestureRecognizers>
-                            <Label Text="{StaticResource MyMp}"
+                            <Label Text="{x:Static strings:AppResources.MyMp}"
                                    Style="{StaticResource ReportReasonTitle}" />
-                            <Label Text="{StaticResource MyMPAnswerExplText}"
+                            <Label Text="{x:Static strings:AppResources.MyMPAnswerExplText}"
                                    Style="{StaticResource ReportReasonDetails}"/>
                         </StackLayout>
                         
@@ -43,8 +43,8 @@
                         <RadioButton 
                             Margin="0, 24, 0,0"
                             Grid.Row="1" Grid.Column="0"
-                            SemanticProperties.Hint="{StaticResource OtherMPAnswerExplText}"
-                            SemanticProperties.Description="{StaticResource AnotherMPButtonText}"
+                            SemanticProperties.Hint="{x:Static strings:AppResources.OtherMPAnswerExplText}"
+                            SemanticProperties.Description="{x:Static strings:AppResources.AnotherMPButtonText}"
                             VerticalOptions="StartAndExpand"
                             HorizontalOptions="Fill"
                             x:Name="AnotherMpRadioButton"
@@ -54,9 +54,9 @@
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="AnotherMpRadioButton_OnTapped"/>
                             </StackLayout.GestureRecognizers>
-                            <Label Text="{StaticResource AnotherMPButtonText}"
+                            <Label Text="{x:Static strings:AppResources.AnotherMPButtonText}"
                                    Style="{StaticResource ReportReasonTitle}" />
-                            <Label Text="{StaticResource OtherMPAnswerExplText}"
+                            <Label Text="{x:Static strings:AppResources.OtherMPAnswerExplText}"
                                    Style="{StaticResource ReportReasonDetails}"/>
                         </StackLayout>
                         
@@ -64,8 +64,8 @@
                         <RadioButton 
                             Margin="0, 24, 0,0"
                             Grid.Row="2" Grid.Column="0"
-                            SemanticProperties.Hint="{StaticResource AuthorityAnswerExplText}"
-                            SemanticProperties.Description="{StaticResource PublicAuthority}"
+                            SemanticProperties.Hint="{x:Static strings:AppResources.AuthorityAnswerExplText}"
+                            SemanticProperties.Description="{x:Static strings:AppResources.PublicAuthority}"
                             VerticalOptions="StartAndExpand"
                             HorizontalOptions="Fill"
                             x:Name="PublicAuthorityRadioButton"
@@ -77,9 +77,9 @@
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="PublicAuthorityRadioButton_OnTapped"/>
                             </StackLayout.GestureRecognizers>
-                            <Label Text="{StaticResource PublicAuthority}"
+                            <Label Text="{x:Static strings:AppResources.PublicAuthority}"
                                    Style="{StaticResource ReportReasonTitle}" />
-                            <Label Text="{StaticResource AuthorityAnswerExplText}"
+                            <Label Text="{x:Static strings:AppResources.AuthorityAnswerExplText}"
                                    Style="{StaticResource ReportReasonDetails}"/>
                         </StackLayout>
                         
@@ -87,8 +87,8 @@
                         <RadioButton 
                             Margin="0, 24, 0,0"
                             Grid.Row="3" Grid.Column="0"
-                            SemanticProperties.Hint="{StaticResource LeaveBlankExplText}"
-                            SemanticProperties.Description="{StaticResource DontKnowOption}"
+                            SemanticProperties.Hint="{x:Static strings:AppResources.LeaveBlankExplText}"
+                            SemanticProperties.Description="{x:Static strings:AppResources.DontKnowOption}"
                             VerticalOptions="StartAndExpand"
                             HorizontalOptions="Fill"
                             x:Name="DontKnowRadioButton"
@@ -98,9 +98,9 @@
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="DontKnowRadioButton_OnTapped"/>
                             </StackLayout.GestureRecognizers>
-                            <Label Text="{StaticResource DontKnowOption}"
+                            <Label Text="{x:Static strings:AppResources.DontKnowOption}"
                                    Style="{StaticResource ReportReasonTitle}" />
-                            <Label Text="{StaticResource LeaveBlankExplText}"
+                            <Label Text="{x:Static strings:AppResources.LeaveBlankExplText}"
                                    Style="{StaticResource ReportReasonDetails}"/>
                         </StackLayout>
                     </Grid>
@@ -109,11 +109,11 @@
             
             <StackLayout Padding="0, 8" VerticalOptions="EndAndExpand" Margin="0,0,0, 10">
                 <BoxView Style="{StaticResource ButtonSeparator}" Margin="0, 12"/>
-                <Button Text="{StaticResource NextButtonText}" Style="{StaticResource NormalButton}"
+                <Button Text="{x:Static strings:AppResources.NextButtonText}" Style="{StaticResource NormalButton}"
                         Padding="16, 12"
                         Margin="16, 0"
-                        SemanticProperties.Hint="{StaticResource NextButtonText}"
-                        SemanticProperties.Description="{StaticResource NextButtonText}"
+                        SemanticProperties.Hint="{x:Static strings:AppResources.NextButtonText}"
+                        SemanticProperties.Description="{x:Static strings:AppResources.NextButtonText}"
                         Clicked="NextButton_OnClicked"/>
             </StackLayout>
         </StackLayout>

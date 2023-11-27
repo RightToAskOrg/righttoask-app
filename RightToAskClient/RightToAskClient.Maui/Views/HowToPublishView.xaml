@@ -2,28 +2,28 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             
+               xmlns:strings="clr-namespace:RightToAskClient.Maui.Resx"
              x:Class="RightToAskClient.Maui.Views.HowToPublishView">
   <ContentView.Content>
       <StackLayout Margin="10" VerticalOptions="FillAndExpand" BackgroundColor="Transparent" >
             <Grid RowDefinitions="auto,auto,auto,auto,auto,auto,auto" ColumnDefinitions="auto,*" 
                   BackgroundColor="Transparent" VerticalOptions="FillAndExpand" ColumnSpacing="0" Padding="10" RowSpacing="5">
                 <!--Main Header-->
-                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{StaticResource HowToHeaderText}" Style="{StaticResource Header1}"
+                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{x:Static strings:AppResources.HowToHeaderText}" Style="{StaticResource Header1}"
                        HorizontalOptions="Center" HorizontalTextAlignment="Center" Margin="0,0,0,20"/>
                 <!--Step 1-->
                 <Label Grid.Row="1" Grid.Column="0" VerticalTextAlignment="End" VerticalOptions="Start" HorizontalTextAlignment="Start" Margin="0,2,0,0">
                     <Label.FormattedText>
                         <FormattedString>
-                            <Span Text="{StaticResource HowToStep1Number}"/>
+                            <Span Text="{x:Static strings:AppResources.HowToStep1Number}"/>
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
                 <Label Grid.Row="1" Grid.Column="1" VerticalTextAlignment="End" VerticalOptions="Start" Style="{StaticResource NormalText}" BackgroundColor="Transparent" Margin="0">
                     <Label.FormattedText>
                         <FormattedString>
-                            <Span Text="{StaticResource HowToStep1Bold}" Style="{StaticResource BoldNormalText}"/>
-                            <Span Text="{StaticResource HowToStep1}" />
+                            <Span Text="{x:Static strings:AppResources.HowToStep1Bold}" Style="{StaticResource BoldNormalText}"/>
+                            <Span Text="{x:Static strings:AppResources.HowToStep1}" />
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
@@ -31,33 +31,33 @@
                 <Label Grid.Row="2" Grid.Column="0" VerticalTextAlignment="Center" Margin="0,2,0,0">
                     <Label.FormattedText>
                         <FormattedString>
-                            <Span Text="{StaticResource HowToStep2Number}"/>
+                            <Span Text="{x:Static strings:AppResources.HowToStep2Number}"/>
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
                 <Label Grid.Row="2" Grid.Column="1" VerticalTextAlignment="Center" Style="{StaticResource NormalText}" BackgroundColor="Transparent" Margin="0">
                     <Label.FormattedText>
                         <FormattedString>
-                            <Span Text="{StaticResource HowToStep2Bold1}" Style="{StaticResource BoldNormalText}" /> 
-                            <Span Text="{StaticResource HowToStep2}" />
+                            <Span Text="{x:Static strings:AppResources.HowToStep2Bold1}" Style="{StaticResource BoldNormalText}" /> 
+                            <Span Text="{x:Static strings:AppResources.HowToStep2}" />
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
                 <Grid Grid.Row="3" Grid.Column="1" RowDefinitions="auto,auto"
                       ColumnDefinitions="auto,auto" BackgroundColor="Transparent" Padding="10">
-                    <Label Text="{StaticResource HowToStep2aLetter}" Grid.Row="0" Grid.Column="0" VerticalOptions="Start" VerticalTextAlignment="End" HorizontalTextAlignment="Start"/>
-                    <Label Text="{StaticResource HowToStep2bLetter}" Grid.Row="2" Grid.Column="0" VerticalOptions="Start" VerticalTextAlignment="End" HorizontalTextAlignment="Start"/>
-                    <Label Grid.Row="0" Grid.Column="1" Text="{StaticResource HowToStep2abold}"
+                    <Label Text="{x:Static strings:AppResources.HowToStep2aLetter}" Grid.Row="0" Grid.Column="0" VerticalOptions="Start" VerticalTextAlignment="End" HorizontalTextAlignment="Start"/>
+                    <Label Text="{x:Static strings:AppResources.HowToStep2bLetter}" Grid.Row="2" Grid.Column="0" VerticalOptions="Start" VerticalTextAlignment="End" HorizontalTextAlignment="Start"/>
+                    <Label Grid.Row="0" Grid.Column="1" Text="{x:Static strings:AppResources.HowToStep2abold}"
                            VerticalOptions="Start" Style="{StaticResource BoldNormalText}"/>
-                    <Label Grid.Row="1" Grid.Column="1" Text="{StaticResource HowToStep2a}"
+                    <Label Grid.Row="1" Grid.Column="1" Text="{x:Static strings:AppResources.HowToStep2a}"
                            VerticalOptions="Start" Style="{StaticResource NormalText}"/>
-                    <!-- <Label Grid.Row="2" BackgroundColor="Aqua" Grid.Column="1" VerticalOptions="Start" Text="{StaticResource HowToStep2Or}" Style="{StaticResource NormalText}" />  -->
+                    <!-- <Label Grid.Row="2" BackgroundColor="Aqua" Grid.Column="1" VerticalOptions="Start" Text="{x:Static strings:AppResources.HowToStep2Or}" Style="{StaticResource NormalText}" />  -->
                     <Label Grid.Row="2" Grid.Column="1" VerticalOptions="Start" x:Name="RaisedLabel" Style="{StaticResource NormalText}">
                         <Label.FormattedText>
                             <FormattedString>
-                                <Span Text="{StaticResource HowToStep2b }" Style="{StaticResource NormalText}" /> 
-                                <Span Text="{StaticResource HowToStep2bbold }" Style="{StaticResource BoldNormalText}" />
-                                <Span Text="{StaticResource HowToStep2bend }" Style="{StaticResource NormalText}" />
+                                <Span Text="{x:Static strings:AppResources.HowToStep2b }" Style="{StaticResource NormalText}" /> 
+                                <Span Text="{x:Static strings:AppResources.HowToStep2bbold }" Style="{StaticResource BoldNormalText}" />
+                                <Span Text="{x:Static strings:AppResources.HowToStep2bend }" Style="{StaticResource NormalText}" />
                             </FormattedString>
                     </Label.FormattedText>
                     </Label>
@@ -66,33 +66,33 @@
                 <Label Grid.Row="4" Grid.Column="0" VerticalOptions="Start" VerticalTextAlignment="End" HorizontalTextAlignment="Start" Margin="0,2,0,0">
                     <Label.FormattedText>
                         <FormattedString>
-                            <Span Text="{StaticResource HowToStep3Number}"/>
+                            <Span Text="{x:Static strings:AppResources.HowToStep3Number}"/>
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
                 <Label Grid.Row="4" Grid.Column="1" VerticalOptions="Start" VerticalTextAlignment="End" Style="{StaticResource NormalText}" BackgroundColor="Transparent" Margin="0">
                     <Label.FormattedText>
                         <FormattedString>
-                            <Span Text="{StaticResource HowToStep3Bold}" Style="{StaticResource BoldNormalText}"/>
-                            <Span Text="{StaticResource HowToStep3part2}" Style="{StaticResource NormalText}"/>
+                            <Span Text="{x:Static strings:AppResources.HowToStep3Bold}" Style="{StaticResource BoldNormalText}"/>
+                            <Span Text="{x:Static strings:AppResources.HowToStep3part2}" Style="{StaticResource NormalText}"/>
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
-                <Label Grid.Row="5" Grid.Column="1" Text="{StaticResource HowToStep3}" />
+                <Label Grid.Row="5" Grid.Column="1" Text="{x:Static strings:AppResources.HowToStep3}" />
                 <!--Step 4-->
                 <Label Grid.Row="6" Grid.Column="0" VerticalOptions="Start" VerticalTextAlignment="End" Style="{StaticResource NormalText}" HorizontalTextAlignment="Center" Margin="0,2,0,0">
                     <Label.FormattedText>
                         <FormattedString>
-                            <Span Text="{StaticResource HowToStep4Number}"/>
+                            <Span Text="{x:Static strings:AppResources.HowToStep4Number}"/>
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
                 <Label Grid.Row="6" Grid.Column="1" VerticalOptions="Start" VerticalTextAlignment="End" Style="{StaticResource NormalText}" BackgroundColor="Transparent" Margin="0">
                     <Label.FormattedText>
                         <FormattedString>
-                            <Span Text="{StaticResource HowToStep4}" Style="{StaticResource NormalText}" />
-                            <Span Text="{StaticResource HowToStep4Bold}" Style="{StaticResource BoldNormalText}" />
-                            <Span Text="{StaticResource HowToStep4Part2}" Style="{StaticResource NormalText}" />
+                            <Span Text="{x:Static strings:AppResources.HowToStep4}" Style="{StaticResource NormalText}" />
+                            <Span Text="{x:Static strings:AppResources.HowToStep4Bold}" Style="{StaticResource BoldNormalText}" />
+                            <Span Text="{x:Static strings:AppResources.HowToStep4Part2}" Style="{StaticResource NormalText}" />
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
@@ -100,15 +100,15 @@
                 <Label Grid.Row="7" Grid.Column="0" VerticalOptions="Start" VerticalTextAlignment="End" Style="{StaticResource NormalText}" Margin="0,2,0,0">
                     <Label.FormattedText>
                         <FormattedString>
-                            <Span Text="{StaticResource HowToStep5Number}"/>
+                            <Span Text="{x:Static strings:AppResources.HowToStep5Number}"/>
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
                 <Label Grid.Row="7" Grid.Column="1" VerticalOptions="Start" VerticalTextAlignment="End" Style="{StaticResource NormalText}" BackgroundColor="Transparent" Margin="0">
                     <Label.FormattedText>
                         <FormattedString>
-                            <Span Text="{StaticResource HowToStep5Bold}" Style="{StaticResource BoldNormalText}"/>
-                            <Span Text="{StaticResource HowToStep5}" Style="{StaticResource NormalText}" />
+                            <Span Text="{x:Static strings:AppResources.HowToStep5Bold}" Style="{StaticResource BoldNormalText}"/>
+                            <Span Text="{x:Static strings:AppResources.HowToStep5}" Style="{StaticResource NormalText}" />
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>

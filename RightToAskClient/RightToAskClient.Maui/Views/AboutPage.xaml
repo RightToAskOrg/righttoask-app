@@ -5,7 +5,7 @@
              xmlns:vm="clr-namespace:RightToAskClient.Maui.ViewModels"
              xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:helpers="clr-namespace:RightToAskClient.Maui.Helpers;assembly=RightToAskClient.Maui"
-           
+             xmlns:strings="clr-namespace:RightToAskClient.Maui.Resx"
              x:Class="RightToAskClient.Maui.Views.AboutPage"
              Title="About"
              Shell.FlyoutBehavior="Flyout">
@@ -13,8 +13,8 @@
         <vm:BaseViewModel/>
     </ContentPage.BindingContext>
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="{StaticResource InfoPopupButtonText}" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
-                     IconImageSource="{helpers:ImageResource RightToAskClient.Images.help_75.png}"/>
+        <ToolbarItem Text="{x:Static strings:AppResources.InfoPopupButtonText}" Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel" 
+                     IconImageSource="help_75.png"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
             <WebView x:Name="webView" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 

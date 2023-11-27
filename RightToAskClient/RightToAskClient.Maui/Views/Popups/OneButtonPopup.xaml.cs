@@ -43,7 +43,7 @@ namespace RightToAskClient.Maui.Views.Popups
 
         private void okButton_Clicked(object sender, EventArgs e)
         {
-            //TODO: Dismiss("Dismissed");
+            App.Current.MainPage.Navigation.PopModalAsync();
         }
 
         private void initialize(string title, string message, string buttonText, bool isInfoPopup)

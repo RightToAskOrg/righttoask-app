@@ -16,7 +16,6 @@ using CommunityToolkit.Maui.Extensions;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui;
 using CommunityToolkit.Mvvm.Input;
-
 namespace RightToAskClient.Maui.ViewModels
 {
     public class QuestionViewModel : BaseViewModel
@@ -98,23 +97,19 @@ namespace RightToAskClient.Maui.ViewModels
         public List<Uri> HansardLinks => Question.HansardLink;
 
         public string QuestionAnswerers =>
-            "";
-        //TODO:
-            //Extensions.JoinFilter(", ",
-            //        string.Join(", ", Question.Filters.SelectedAnsweringMPsNotMine.Select(mp => mp.ShortestName)),
-            //        string.Join(", ", Question.Filters.SelectedAnsweringMPsMine.Select(mp => mp.ShortestName)),
-            //        string.Join(", ", Question.Filters.SelectedAuthorities.Select(a => a.ShortestName)))
-            //    .NullToEmptyMessage(IsNewQuestion ? AppResources.HasNotMadeSelection : AppResources.NoSelections);
+           Helpers.Extensions.JoinFilter(", ",
+                   string.Join(", ", Question.Filters.SelectedAnsweringMPsNotMine.Select(mp => mp.ShortestName)),
+                   string.Join(", ", Question.Filters.SelectedAnsweringMPsMine.Select(mp => mp.ShortestName)),
+                   string.Join(", ", Question.Filters.SelectedAuthorities.Select(a => a.ShortestName)))
+               .NullToEmptyMessage(IsNewQuestion ? AppResources.HasNotMadeSelection : AppResources.NoSelections);
 
         // The MPs or committee who are meant to ask the question
         public string QuestionAskers =>
-                "";
-        //TODO:
-        //Extensions.JoinFilter(", ",
-        //            string.Join(", ", Question.Filters.SelectedAskingMPsNotMine.Select(mp => mp.ShortestName)),
-        //            string.Join(", ", Question.Filters.SelectedAskingMPsMine.Select(mp => mp.ShortestName)),
-        //            string.Join(",", Question.Filters.SelectedCommittees.Select(com => com.ShortestName)))
-        //        .NullToEmptyMessage(IsNewQuestion ? AppResources.HasNotMadeSelection : AppResources.NoSelections);
+            Helpers.Extensions.JoinFilter(", ",
+                    string.Join(", ", Question.Filters.SelectedAskingMPsNotMine.Select(mp => mp.ShortestName)),
+                    string.Join(", ", Question.Filters.SelectedAskingMPsMine.Select(mp => mp.ShortestName)),
+                    string.Join(",", Question.Filters.SelectedCommittees.Select(com => com.ShortestName)))
+                .NullToEmptyMessage(IsNewQuestion ? AppResources.HasNotMadeSelection : AppResources.NoSelections);
 
         public bool HasAskers
         {
@@ -144,7 +139,7 @@ namespace RightToAskClient.Maui.ViewModels
                     Question.AddHansardLink(urlResult.Data);
 
                     Updates.NewHansardLinks.Add(new HansardLink(urlResult.Data.OriginalString));
-                        
+
                     ReportLabelText = "";
                     OnPropertyChanged("HansardLink");
                     OnPropertyChanged("HasUpdates");
@@ -180,21 +175,21 @@ namespace RightToAskClient.Maui.ViewModels
 
         // Lists the updates that have occurred since construction.
         public QuestionUpdates Updates { get; protected set; } = new QuestionUpdates();
-        
+
         // Whether this user has updated this question. Used to 
         // determine whether the 'update' button is enabled.
         public bool HasUpdates => Updates.AnyUpdates
             || Question.WhoShouldAnswerTheQuestionPermissions != _initialWhoCanAnswerPermissions
-            || Question.WhoShouldAskTheQuestionPermissions != _initialWhoCanAskPermissions; 
+            || Question.WhoShouldAskTheQuestionPermissions != _initialWhoCanAskPermissions;
 
-    private HowAnsweredOptions _howAnswered = HowAnsweredOptions.DontKnow; 
+        private HowAnsweredOptions _howAnswered = HowAnsweredOptions.DontKnow;
 
         public HowAnsweredOptions HowAnswered
         {
             get => _howAnswered;
             set => SetProperty(ref _howAnswered, value);
         }
-        
+
         public bool IsShowPublicAuthority
         {
             get => _howAnswered != HowAnsweredOptions.InApp;
@@ -214,34 +209,34 @@ namespace RightToAskClient.Maui.ViewModels
             get => _enableAnotherMPShouldRaiseButton;
             set => SetProperty(ref _enableAnotherMPShouldRaiseButton, value);
         }
-        
+
         public bool CanEditBackground
         {
             get
             {
-                var thisUser =  IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid;
+                var thisUser = IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid;
                 var questionWriter = _question.QuestionSuggester;
-                return IsNewQuestion || 
+                return IsNewQuestion ||
                        (!string.IsNullOrEmpty(thisUser) && !string.IsNullOrEmpty(questionWriter) && thisUser == questionWriter) && _question.Background.IsNullOrEmpty();
             }
         }
-        
+
 
         public bool OthersCanAddQuestionAnswerers
         {
-            get => _question.WhoShouldAnswerTheQuestionPermissions == RTAPermissions.Others; 
+            get => _question.WhoShouldAnswerTheQuestionPermissions == RTAPermissions.Others;
             set
             {
                 _question.WhoShouldAnswerTheQuestionPermissions = value ? RTAPermissions.Others : RTAPermissions.WriterOnly;
                 OnPropertyChanged();
                 OnPropertyChanged("HasUpdates");
-            } 
-            
+            }
+
         }
 
         public bool OthersCanAddQuestionAskers
         {
-            get => _question.WhoShouldAskTheQuestionPermissions == RTAPermissions.Others; 
+            get => _question.WhoShouldAskTheQuestionPermissions == RTAPermissions.Others;
             set
             {
                 _question.WhoShouldAskTheQuestionPermissions = value ? RTAPermissions.Others : RTAPermissions.WriterOnly;
@@ -249,7 +244,7 @@ namespace RightToAskClient.Maui.ViewModels
                 OnPropertyChanged("HasUpdates");
             }
         }
-        
+
         private bool _goHome;
         public bool GoHome
         {
@@ -297,7 +292,7 @@ namespace RightToAskClient.Maui.ViewModels
         // total = up + down
         public int UpVotes => (Question.TotalVotes + Question.NetVotes) / 2;
         public int DownVotes => (Question.TotalVotes - Question.NetVotes) / 2;
-        
+
         public string QuestionSuggesterButtonText => QuestionViewModel.Instance.IsNewQuestion ? AppResources.EditProfileButtonText : string.Format(AppResources.ViewOtherUserProfile, QuestionViewModel.Instance.Question.QuestionSuggester);
 
         public void UpdateMPButtons()
@@ -306,9 +301,9 @@ namespace RightToAskClient.Maui.ViewModels
         }
 
         // Used for keeping track of whether permissions need to be updated when editing own question.
-        protected RTAPermissions _initialWhoCanAnswerPermissions=RTAPermissions.NoChange;
+        protected RTAPermissions _initialWhoCanAnswerPermissions = RTAPermissions.NoChange;
 
-        protected RTAPermissions _initialWhoCanAskPermissions=RTAPermissions.NoChange;
+        protected RTAPermissions _initialWhoCanAskPermissions = RTAPermissions.NoChange;
         // constructor
         // Set up empty question
         // Used when we're generating our own question for upload.
@@ -324,28 +319,28 @@ namespace RightToAskClient.Maui.ViewModels
             AnotherUserButtonText = AppResources.AnotherUserButtonText;
             NotSureWhoShouldRaiseButtonText = AppResources.NotSureButtonText;
             SelectButtonText = AppResources.SelectButtonText;
-            
+
             // commands
-            ProceedToReadingPageCommand = new AsyncRelayCommand (async() => 
+            ProceedToReadingPageCommand = new AsyncRelayCommand(async () =>
             {
                 await Shell.Current.GoToAsync($"{nameof(ReadingPage)}");
             });
-            QuestionDraftDoneCommand = new AsyncRelayCommand (async () =>
+            QuestionDraftDoneCommand = new AsyncRelayCommand(async () =>
             {
                 await Shell.Current.GoToAsync($"{nameof(QuestionAnswererPage)}");
             });
             // For skipping choices - just navigate forwards
-            LeaveAnswererBlankButtonCommand = new AsyncRelayCommand (async () =>
+            LeaveAnswererBlankButtonCommand = new AsyncRelayCommand(async () =>
             {
                 await Shell.Current.GoToAsync($"{nameof(QuestionAskerPage)}");
             });
-            OtherPublicAuthorityButtonCommand = new AsyncRelayCommand (async () =>
+            OtherPublicAuthorityButtonCommand = new AsyncRelayCommand(async () =>
             {
                 // Question.AnswerInApp = false;
                 // AnswerInApp = false;
                 var pageToSearchAuthorities
                     = new SelectableListPage(Instance.Question.Filters.AuthorityLists, "Choose authorities");
-                await Shell.Current.Navigation.PushAsync(pageToSearchAuthorities).ContinueWith((_) => 
+                await Shell.Current.Navigation.PushAsync(pageToSearchAuthorities).ContinueWith((_) =>
                 {
                     MessagingCenter.Send(this, Constants.GoToAskingPageNext); // Sends this view model
                 });
@@ -354,7 +349,7 @@ namespace RightToAskClient.Maui.ViewModels
             // straight to the Explorer page that lists them.
             // If we don't, go to the page for entering address and finding them.
             // It will pop back to here.
-            AnsweredByMyMPCommand = new AsyncRelayCommand (async () =>
+            AnsweredByMyMPCommand = new AsyncRelayCommand(async () =>
             {
                 // Question.AnswerInApp = true;
                 // AnswerInApp = true;
@@ -366,7 +361,7 @@ namespace RightToAskClient.Maui.ViewModels
                         Constants.GoToQuestionDetailPageNext : Constants.GoToAskingPageNext); // Sends this view model
                 });
             });
-            AnsweredByOtherMPCommandOptionB = new AsyncRelayCommand (async () =>
+            AnsweredByOtherMPCommandOptionB = new AsyncRelayCommand(async () =>
             {
                 // Question.AnswerInApp = false;
                 // AnswerInApp = false;
@@ -377,7 +372,7 @@ namespace RightToAskClient.Maui.ViewModels
                         Constants.GoToQuestionDetailPageNext : Constants.GoToAskingPageNext); // Sends this view model
                 });
             });
-            UpvoteCommand = new AsyncRelayCommand (async () =>
+            UpvoteCommand = new AsyncRelayCommand(async () =>
             {
                 // First check if they're registered, and offer them the chance to register if not
                 if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
@@ -410,10 +405,10 @@ namespace RightToAskClient.Maui.ViewModels
                     }
                 }
             });
-            DownvoteCommand = new AsyncRelayCommand (async () =>
+            DownvoteCommand = new AsyncRelayCommand(async () =>
             {
                 // First check if they're registered, and offer them the chance to register if not
-                if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered) 
+                if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
                 {
                     await NavigationUtils.DoRegistrationCheck(
                         IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
@@ -446,7 +441,7 @@ namespace RightToAskClient.Maui.ViewModels
             {
                 EditQuestionButton_OnClicked();
             });
-            QuestionSuggesterCommand = new AsyncRelayCommand (async () =>
+            QuestionSuggesterCommand = new AsyncRelayCommand(async () =>
             {
                 var userId = Question.QuestionSuggester;
                 var userToSend = await RTAClient.GetUserById(userId);
@@ -460,7 +455,7 @@ namespace RightToAskClient.Maui.ViewModels
                     ReportLabelText = errorMessage;
                 }
                 // Success
-                else 
+                else
                 {
                     var newReg = new Registration(userToSend.Data);
                     Debug.Assert(newReg.registrationStatus == RegistrationStatus.AnotherPerson);
@@ -468,36 +463,36 @@ namespace RightToAskClient.Maui.ViewModels
                     await Application.Current.MainPage.Navigation.PushAsync(userProfilePage);
                 }
             });
-            BackCommand = new AsyncRelayCommand (async () =>
+            BackCommand = new AsyncRelayCommand(async () =>
             {
                 HomeButtonCommand.Execute(null); // just inherit the functionality of the home button from BaseViewModel
             });
-            OptionACommand = new AsyncRelayCommand (async () =>
+            OptionACommand = new AsyncRelayCommand(async () =>
             {
                 await Shell.Current.GoToAsync($"{nameof(QuestionAskerPage)}");
             });
-            OptionBCommand = new AsyncRelayCommand (async () =>
+            OptionBCommand = new AsyncRelayCommand(async () =>
             {
                 await Shell.Current.GoToAsync($"{nameof(QuestionAskerPage)}");
             });
-            ToHowAnsweredOptionPageCommand = new AsyncRelayCommand (async () =>
+            ToHowAnsweredOptionPageCommand = new AsyncRelayCommand(async () =>
             {
                 await Shell.Current.GoToAsync($"{nameof(HowAnsweredOptionPage)}");
             });
-            ToAnswererPageWithHowAnsweredSelectionCommand = new AsyncRelayCommand (async () =>
+            ToAnswererPageWithHowAnsweredSelectionCommand = new AsyncRelayCommand(async () =>
             {
                 await Shell.Current.GoToAsync($"{nameof(QuestionAnswererPage)}");
             });
-            ShareCommand = new AsyncRelayCommand (async() =>
+            ShareCommand = new AsyncRelayCommand(async () =>
             {
-                await Share.RequestAsync(new ShareTextRequest 
+                await Share.RequestAsync(new ShareTextRequest
                 {
                     // FIXME should this be Instance.?
                     Text = Question.QuestionText,
                     Title = "Share Text"
                 });
             });
-            ReportCommand = new AsyncRelayCommand (async () =>
+            ReportCommand = new AsyncRelayCommand(async () =>
             {
                 if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
                 {
@@ -541,27 +536,27 @@ namespace RightToAskClient.Maui.ViewModels
 
         public bool IsVerifiedMpAccount => IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsVerifiedMPAccount;
         public Command NotSureWhoShouldRaiseCommand => _notSureWhoShouldRaiseCommand ??= new Command(NotSureWhoShouldRaiseButtonClicked);
-        public IAsyncRelayCommand  ProceedToReadingPageCommand { get; }
-        public IAsyncRelayCommand  LeaveAnswererBlankButtonCommand { get; }
-        public IAsyncRelayCommand  QuestionDraftDoneCommand { get; }
-        public IAsyncRelayCommand  OtherPublicAuthorityButtonCommand { get; }
-        public IAsyncRelayCommand  AnsweredByMyMPCommand { get; }
+        public IAsyncRelayCommand ProceedToReadingPageCommand { get; }
+        public IAsyncRelayCommand LeaveAnswererBlankButtonCommand { get; }
+        public IAsyncRelayCommand QuestionDraftDoneCommand { get; }
+        public IAsyncRelayCommand OtherPublicAuthorityButtonCommand { get; }
+        public IAsyncRelayCommand AnsweredByMyMPCommand { get; }
         // public IAsyncRelayCommand  AnsweredByOtherMPCommand { get; }
-        public IAsyncRelayCommand  AnsweredByOtherMPCommandOptionB { get; }
-        public IAsyncRelayCommand  QuestionSuggesterCommand { get; }
-        public IAsyncRelayCommand  BackCommand { get; }
+        public IAsyncRelayCommand AnsweredByOtherMPCommandOptionB { get; }
+        public IAsyncRelayCommand QuestionSuggesterCommand { get; }
+        public IAsyncRelayCommand BackCommand { get; }
         public Command SaveQuestionCommand { get; }
-        public IAsyncRelayCommand  UpvoteCommand { get; }
-        public IAsyncRelayCommand  DownvoteCommand { get; }
+        public IAsyncRelayCommand UpvoteCommand { get; }
+        public IAsyncRelayCommand DownvoteCommand { get; }
         public Command EditAnswerCommand { get; }
-        public IAsyncRelayCommand  OptionACommand { get; }
-        public IAsyncRelayCommand  OptionBCommand { get; }
-        
-        public IAsyncRelayCommand  ToAnswererPageWithHowAnsweredSelectionCommand { get; }
-        public IAsyncRelayCommand  ToHowAnsweredOptionPageCommand { get; }
-        public IAsyncRelayCommand  ShareCommand { get; }
-        public IAsyncRelayCommand  ReportCommand { get; }
-        
+        public IAsyncRelayCommand OptionACommand { get; }
+        public IAsyncRelayCommand OptionBCommand { get; }
+
+        public IAsyncRelayCommand ToAnswererPageWithHowAnsweredSelectionCommand { get; }
+        public IAsyncRelayCommand ToHowAnsweredOptionPageCommand { get; }
+        public IAsyncRelayCommand ShareCommand { get; }
+        public IAsyncRelayCommand ReportCommand { get; }
+
         public void ClearQuestionDataAddWriter()
         {
             // set defaults
@@ -571,7 +566,7 @@ namespace RightToAskClient.Maui.ViewModels
         }
 
         // methods for selecting who will raise your question
-        
+
         // Nobody raises the question - just asking for an answer in the app.
         /*
         private async void OnAnswerInAppButtonClicked()
@@ -672,7 +667,7 @@ namespace RightToAskClient.Maui.ViewModels
                     {
                         PromptForNextStepAndClearQuestionIfNeeded();
                     }
-                }                
+                }
             }
         }
 
@@ -681,7 +676,7 @@ namespace RightToAskClient.Maui.ViewModels
             try
             {
                 if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
-                { 
+                {
                     await NavigationUtils.DoRegistrationCheck(
                         IndividualParticipant.getInstance().ProfileData.RegistrationInfo,
                         AppResources.CancelButtonText);
@@ -696,10 +691,10 @@ namespace RightToAskClient.Maui.ViewModels
             if (IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
             {
                 var validQuestion = Question.ValidateUpdateQuestion();
-                if (validQuestion) 
+                if (validQuestion)
                 {
                     SendQuestionEditToServer();
-                }                
+                }
             }
             else
             {
@@ -727,10 +722,10 @@ namespace RightToAskClient.Maui.ViewModels
 
             var httpResponse = await RTAClient.SendPlaintextUpvote(voteOnQuestion,
                 IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid);
-            (bool isValid, string errorMessage) = RTAClient.ValidateHttpResponse(httpResponse, "Vote upload");  
-            if(!isValid) 
+            (bool isValid, string errorMessage) = RTAClient.ValidateHttpResponse(httpResponse, "Vote upload");
+            if (!isValid)
             {
-                var error =  "Error uploading vote: " + errorMessage;
+                var error = "Error uploading vote: " + errorMessage;
                 ReportLabelText = error;
                 Debug.WriteLine(error);
                 return false;
@@ -738,7 +733,7 @@ namespace RightToAskClient.Maui.ViewModels
 
             return true;
         }
-        
+
         // For uploading a new question
         // This should be called only if the person is already registered.
         // Returns true if the upload was successful; false otherwise.
@@ -749,7 +744,7 @@ namespace RightToAskClient.Maui.ViewModels
             {
                 throw new TriedToUploadWhileNotRegisteredException("Sending up-vote to server.");
             }
-            
+
             // TODO use returnedData to record questionID, version, hash
             (bool isValid, string errorMessage, string returnedData) successfulSubmission =
                 await BuildSignAndUploadNewQuestion();
@@ -762,12 +757,12 @@ namespace RightToAskClient.Maui.ViewModels
 
             return true;
         }
-        
+
         // This is only called if a question has been successfully uploaded. We clear the
         // question data and ask the user if they'd like to write another question with the same
         // filters, or clear them and go home.
-        private async void PromptForNextStepAndClearQuestionIfNeeded() 
-        { 
+        private async void PromptForNextStepAndClearQuestionIfNeeded()
+        {
             // creating a question will add it to their list
             IndividualParticipant.getInstance().HasQuestions = true;
             XamarinPreferences.shared.Set(Constants.HasQuestions, true);
@@ -780,15 +775,15 @@ namespace RightToAskClient.Maui.ViewModels
             {
                 Instance.Question.Filters.RemoveAllSelections();
                 await Application.Current.MainPage.Navigation.PopToRootAsync();
-                    
+
             }
             // Otherwise remain on the question publish page with the opportunity to write a new question.
-            else 
+            else
             {
                 Question.QuestionText = String.Empty;
                 Background = String.Empty;
             }
-            
+
         }
 
         private async void SendQuestionEditToServer()
@@ -798,9 +793,9 @@ namespace RightToAskClient.Maui.ViewModels
             {
                 throw new TriedToUploadWhileNotRegisteredException("Sending up-vote to server.");
             }
-            
+
             var successfulSubmission = await BuildSignAndUploadQuestionUpdates();
-            
+
             if (!successfulSubmission.isValid)
             {
                 var message = successfulSubmission.errorMessage ?? "";
@@ -810,13 +805,13 @@ namespace RightToAskClient.Maui.ViewModels
                 // ReportLabelText = "Error editing question: " + successfulSubmission.errorMessage;
                 return;
             }
-            
+
             // Success - reinitialize question state and make sure we've got the most up to date version.
             Question.Version = successfulSubmission.returnedData;
             ReInitUpdatesAndErrors();
-            
+
             // Go back to the reading page you came from.
-            var popup = new OneButtonPopup(AppResources.QuestionEditSuccessfulPopupTitle, AppResources.QuestionEditSuccessfulPopupText, AppResources.GoHomeButtonText, false);            
+            var popup = new OneButtonPopup(AppResources.QuestionEditSuccessfulPopupTitle, AppResources.QuestionEditSuccessfulPopupText, AppResources.GoHomeButtonText, false);
             await App.Current.MainPage.DisplayAlert(AppResources.QuestionEditSuccessfulPopupTitle, AppResources.QuestionEditSuccessfulPopupText, AppResources.GoHomeButtonText);
 
             await Application.Current.MainPage.Navigation.PopToRootAsync();
@@ -838,7 +833,7 @@ namespace RightToAskClient.Maui.ViewModels
                 doPermissionUpdate(Question.WhoShouldAnswerTheQuestionPermissions, _initialWhoCanAnswerPermissions);
             Updates.WhoShouldAskPermissions =
                 doPermissionUpdate(Question.WhoShouldAskTheQuestionPermissions, _initialWhoCanAskPermissions);
-            
+
             var httpResponse = await RTAClient.UpdateExistingQuestion(
                 Updates,
                 IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid);
@@ -857,19 +852,19 @@ namespace RightToAskClient.Maui.ViewModels
 
         protected void ReInitUpdatesAndErrors()
         {
-                // Empty updatable fields
-                NewAnswer = "";
-                NewBackground = "";
-                NewHansardLink = "";
-                
-                // Keep track of changes to question asking/answering permission.
-                _initialWhoCanAskPermissions = _question.WhoShouldAskTheQuestionPermissions;
-                _initialWhoCanAnswerPermissions = _question.WhoShouldAnswerTheQuestionPermissions;
+            // Empty updatable fields
+            NewAnswer = "";
+            NewBackground = "";
+            NewHansardLink = "";
 
-                // Keep track of other Updates/changes
-                Updates = new QuestionUpdates(Question.QuestionId, Question.Version);
+            // Keep track of changes to question asking/answering permission.
+            _initialWhoCanAskPermissions = _question.WhoShouldAskTheQuestionPermissions;
+            _initialWhoCanAnswerPermissions = _question.WhoShouldAnswerTheQuestionPermissions;
 
-                ReportLabelText = "";
+            // Keep track of other Updates/changes
+            Updates = new QuestionUpdates(Question.QuestionId, Question.Version);
+
+            ReportLabelText = "";
         }
     }
 }

@@ -13,13 +13,14 @@
              x:DataType="vm:WriteQuestionViewModel"
              xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
              ios:Page.UseSafeArea="true"
+               xmlns:strings="clr-namespace:RightToAskClient.Maui.Resx"
              SizeChanged="WriteQuestionPage_OnSizeChanged">
 
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding BackCommand}"
-                            IconOverride="{helpers:ImageResource RightToAskClient.Images.close.png}"
-                            SemanticProperties.Hint="{StaticResource BackHint}"
-                            SemanticProperties.Description="{StaticResource BackDescription}" />
+                            IconOverride="close.png"
+                            SemanticProperties.Hint="{x:Static strings:AppResources.BackHint}"
+                            SemanticProperties.Description="{x:Static strings:AppResources.BackDescription}" />
     </Shell.BackButtonBehavior>
     <ContentPage.BindingContext>
         <vm:WriteQuestionViewModel />
@@ -39,7 +40,7 @@
                                              VerticalOptions="StartAndExpand"
                                              HorizontalOptions="FillAndExpand"
                                              IsVisible="{Binding ShowHeader}">
-                                    <Label Text="{StaticResource SimilarQuestionsInstructionText}"
+                                    <Label Text="{x:Static strings:AppResources.SimilarQuestionsInstructionText}"
                                            Style="{StaticResource BodyCopyLarge}"
                                            HorizontalOptions="FillAndExpand"
                                            VerticalOptions="FillAndExpand" />
@@ -101,8 +102,8 @@
                                                   Unfocused="KeywordEntry_FocusedChange"
                                                   TextChanged="KeywordEntry_OnTextChanged"
                                                   
-                                                  SemanticProperties.Hint="{StaticResource WriteQuestionEditorHint}"
-                                                  SemanticProperties.Description="{StaticResource WriteQuestionEditorDescription}"
+                                                  SemanticProperties.Hint="{x:Static strings:AppResources.WriteQuestionEditorHint}"
+                                                  SemanticProperties.Description="{x:Static strings:AppResources.WriteQuestionEditorDescription}"
                                                   Grid.Row="0"
                                                   Grid.Column="0"
                                                   Margin="0">
@@ -113,11 +114,11 @@
                             HorizontalOptions="Center"
                             Grid.Row="0"
                             Grid.Column="1">
-                            <ImageButton Source="{helpers:ImageResource RightToAskClient.Images.close.png}"
+                            <ImageButton Source="close.png"
                                          Style="{StaticResource ClearButton}"
                                          
-                                         SemanticProperties.Hint="{StaticResource ClearButtonHint}"
-                                         SemanticProperties.Description="{StaticResource ClearButtonDescription}"
+                                         SemanticProperties.Hint="{x:Static strings:AppResources.ClearButtonHint}"
+                                         SemanticProperties.Description="{x:Static strings:AppResources.ClearButtonDescription}"
                                          Clicked="ClearButton_OnClicked"
                                          x:Name="ClearButton">
                             </ImageButton>
@@ -128,8 +129,8 @@
                         <Button Text="Return home"
                                 Style="{StaticResource EditorProceed}"
                                 Command="{Binding BackCommand}"
-                                SemanticProperties.Hint="{StaticResource ReturnHomeHint}"
-                                SemanticProperties.Description="{StaticResource ReturnHomeButtonDescription}" />
+                                SemanticProperties.Hint="{x:Static strings:AppResources.ReturnHomeHint}"
+                                SemanticProperties.Description="{x:Static strings:AppResources.ReturnHomeButtonDescription}" />
 
                         <StackLayout Margin="0" HorizontalOptions="End" Orientation="Horizontal">
                             <Label Text="0/280"
@@ -145,8 +146,8 @@
                                     Padding="8, 0, 16, 0"
                                     Style="{StaticResource EditorProceed}"
                                     Command="{Binding ProceedButtonCommand}"
-                                    SemanticProperties.Hint="{StaticResource EditorProceedHint}"
-                                    SemanticProperties.Description="{StaticResource EditorProceedButtonDescription}" />
+                                    SemanticProperties.Hint="{x:Static strings:AppResources.EditorProceedHint}"
+                                    SemanticProperties.Description="{x:Static strings:AppResources.EditorProceedButtonDescription}" />
                         </StackLayout>
                     </FlexLayout>
                 </StackLayout>

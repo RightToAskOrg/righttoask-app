@@ -100,7 +100,7 @@
 	  <None Remove="Images\cup_of_supplies.png" />
 	  <None Remove="Images\edit.png" />
 	  <None Remove="Images\edit_note_48.png" />
-	  <None Remove="Images\emu-pinkCircle.png" />
+	  <None Remove="Images\emu-pinkcircle.png" />
 	  <None Remove="Images\emu_75.png" />
 	  <None Remove="Images\emu_tall.PNG" />
 	  <None Remove="Images\error.png" />
@@ -163,95 +163,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Include="Images\account_balance_48.png" />
-	  <EmbeddedResource Include="Images\account_edit.png" />
-	  <EmbeddedResource Include="Images\arrow_back_48.png" />
-	  <EmbeddedResource Include="Images\arrow_forward.png" />
-	  <EmbeddedResource Include="Images\arrow_forward_48.png" />
-	  <EmbeddedResource Include="Images\assured_workload_48.png" />
-	  <EmbeddedResource Include="Images\auto_awesome.png" />
-	  <EmbeddedResource Include="Images\book_stack.png" />
-	  <EmbeddedResource Include="Images\calendar_checkmark.png" />
-	  <EmbeddedResource Include="Images\calendar_check_simple.png" />
-	  <EmbeddedResource Include="Images\cancel_48.png" />
-	  <EmbeddedResource Include="Images\checkmark_box.png" />
-	  <EmbeddedResource Include="Images\check_box_48.png" />
-	  <EmbeddedResource Include="Images\clipboard.png" />
-	  <EmbeddedResource Include="Images\close.png" />
-	  <EmbeddedResource Include="Images\closed_book.png" />
-	  <EmbeddedResource Include="Images\close_button.png" />
-	  <EmbeddedResource Include="Images\close_button_dark_48.png" />
-	  <EmbeddedResource Include="Images\collapse.png" />
-	  <EmbeddedResource Include="Images\collapse_48.png" />
-	  <EmbeddedResource Include="Images\collapse_96.png" />
-	  <EmbeddedResource Include="Images\contact_mail_48.png" />
-	  <EmbeddedResource Include="Images\contact_support_48.png" />
-	  <EmbeddedResource Include="Images\cup_of_supplies.png" />
-	  <EmbeddedResource Include="Images\edit.png" />
-	  <EmbeddedResource Include="Images\edit_note_48.png" />
-	  <EmbeddedResource Include="Images\emu-pinkCircle.png" />
-	  <EmbeddedResource Include="Images\emu_75.png" />
-	  <EmbeddedResource Include="Images\emu_tall.PNG" />
-	  <EmbeddedResource Include="Images\error.png" />
-	  <EmbeddedResource Include="Images\error_48.png" />
-	  <EmbeddedResource Include="Images\expand.png" />
-	  <EmbeddedResource Include="Images\expand_48.png" />
-	  <EmbeddedResource Include="Images\expand_96.png" />
-	  <EmbeddedResource Include="Images\expand_circle_down_48.png" />
-	  <EmbeddedResource Include="Images\expand_circle_up_48.png" />
-	  <EmbeddedResource Include="Images\filter_sliders_48.png" />
-	  <EmbeddedResource Include="Images\flags_dark.png" />
-	  <EmbeddedResource Include="Images\flags_filled_dark.png" />
-	  <EmbeddedResource Include="Images\flags_filled_light.png" />
-	  <EmbeddedResource Include="Images\flags_light.png" />
-	  <EmbeddedResource Include="Images\flag_48.png" />
-	  <EmbeddedResource Include="Images\glasses.png" />
-	  <EmbeddedResource Include="Images\half_roo.png" />
-	  <EmbeddedResource Include="Images\help_48.png" />
-	  <EmbeddedResource Include="Images\help_75.png" />
-	  <EmbeddedResource Include="Images\home1.png" />
-	  <EmbeddedResource Include="Images\home2.png" />
-	  <EmbeddedResource Include="Images\home3.png" />
-	  <EmbeddedResource Include="Images\home4.png" />
-	  <EmbeddedResource Include="Images\info_48.png" />
-	  <EmbeddedResource Include="Images\location_pin.png" />
-	  <EmbeddedResource Include="Images\map.png" />
-	  <EmbeddedResource Include="Images\message_bubble.png" />
-	  <EmbeddedResource Include="Images\open_book.png" />
-	  <EmbeddedResource Include="Images\outline_arrow_circle_up_48.png" />
-	  <EmbeddedResource Include="Images\outline_question_answer_48.png" />
-	  <EmbeddedResource Include="Images\pen.png" />
-	  <EmbeddedResource Include="Images\pending_48.png" />
-	  <EmbeddedResource Include="Images\pin.png" />
-	  <EmbeddedResource Include="Images\question_draft.png" />
-	  <EmbeddedResource Include="Images\question_draft_resized.png" />
-	  <EmbeddedResource Include="Images\read_and_upvote.png" />
-	  <EmbeddedResource Include="Images\school_house.png" />
-	  <EmbeddedResource Include="Images\search.png" />
-	  <EmbeddedResource Include="Images\search_75.png" />
-	  <EmbeddedResource Include="Images\Search_Gray.png" />
-	  <EmbeddedResource Include="Images\sentiment_very_dissatisfied.png" />
-	  <EmbeddedResource Include="Images\settings_gear.png" />
-	  <EmbeddedResource Include="Images\share_48.png" />
-	  <EmbeddedResource Include="Images\success_48.png" />
-	  <EmbeddedResource Include="Images\swipe_left_48.png" />
-	  <EmbeddedResource Include="Images\thumb_down_dark.png" />
-	  <EmbeddedResource Include="Images\thumb_down_filled.png" />
-	  <EmbeddedResource Include="Images\thumb_down_light.png" />
-	  <EmbeddedResource Include="Images\thumb_up_48.png" />
-	  <EmbeddedResource Include="Images\thumb_up_dark.png" />
-	  <EmbeddedResource Include="Images\thumb_up_filled.png" />
-	  <EmbeddedResource Include="Images\thumb_up_light.png" />
-	  <EmbeddedResource Include="Images\toolbox_bag.png" />
-	  <EmbeddedResource Include="Images\trash_delete_48.png" />
-	  <EmbeddedResource Include="Images\trending_up_48.png" />
-	  <EmbeddedResource Include="Images\visibility_off.png" />
-	  <EmbeddedResource Include="Images\wireframe_roo_small.png" />
-	  <EmbeddedResource Include="Images\wireframe_roo_smaller.png" />
-	  <EmbeddedResource Include="Images\write_draft.png" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <PackageReference Include="CommunityToolkit.Maui" Version="2.0.0" />
 	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 	  <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
@@ -275,7 +186,7 @@
 	  <Compile Update="Views\AnswerDisplayCard.xaml.cs">
 	    <DependentUpon>%(Filename)</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\AppShell.xaml.cs">
+	  <Compile Update="AppShell.xaml.cs">
 	    <DependentUpon>%(Filename)</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\ClickableListView.xaml.cs">
@@ -390,7 +301,7 @@
 	  <MauiXaml Update="Views\AnswerDisplayCard.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\AppShell.xaml">
+	  <MauiXaml Update="AppShell.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ClickableListView.xaml">
@@ -489,6 +400,10 @@
 	  <MauiXaml Update="Views\WriteQuestionPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Images\" />
 	</ItemGroup>
 
 </Project>
