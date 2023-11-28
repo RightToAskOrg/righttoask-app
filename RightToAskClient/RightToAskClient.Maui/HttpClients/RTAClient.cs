@@ -362,16 +362,16 @@ namespace RightToAskClient.Maui.HttpClients
         private static (string,string) SetUpServerConfig()
         {
             var serialiserOptions = new JsonSerializerOptions();
-            var readResult = FileIO.ReadDataFromStoredJson<ServerConfig>(Constants.ServerConfigFile, serialiserOptions);
-
+            var readResult = Task.Run(async () => await FileIO.ReadDataFromStoredJsonAsync<ServerConfig>(Constants.ServerConfigFile, serialiserOptions));
+            readResult.Wait();
             var url="";
             var key="";
             
             // Set url and public key to empty string if setup file can't be read.
-            if (readResult.Failure)
+            if (readResult.Result.Failure)
             {
                 var errorMessage = "";
-                if (readResult is ErrorResult<ServerConfig> errorResult)
+                if (readResult.Result is ErrorResult<ServerConfig> errorResult)
                 {
                     errorMessage = errorResult.Message;
                 }
@@ -381,7 +381,7 @@ namespace RightToAskClient.Maui.HttpClients
             }
 
             // readResult.Success            
-            var configData = readResult.Data;
+            var configData = readResult.Result.Data;
             
             // Remote server use.
             if (configData.remoteServerUse)

@@ -74,92 +74,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Images\account_balance_48.png" />
-	  <None Remove="Images\account_edit.png" />
-	  <None Remove="Images\arrow_back_48.png" />
-	  <None Remove="Images\arrow_forward.png" />
-	  <None Remove="Images\arrow_forward_48.png" />
-	  <None Remove="Images\assured_workload_48.png" />
-	  <None Remove="Images\auto_awesome.png" />
-	  <None Remove="Images\book_stack.png" />
-	  <None Remove="Images\calendar_checkmark.png" />
-	  <None Remove="Images\calendar_check_simple.png" />
-	  <None Remove="Images\cancel_48.png" />
-	  <None Remove="Images\checkmark_box.png" />
-	  <None Remove="Images\check_box_48.png" />
-	  <None Remove="Images\clipboard.png" />
-	  <None Remove="Images\close.png" />
-	  <None Remove="Images\closed_book.png" />
-	  <None Remove="Images\close_button.png" />
-	  <None Remove="Images\close_button_dark_48.png" />
-	  <None Remove="Images\collapse.png" />
-	  <None Remove="Images\collapse_48.png" />
-	  <None Remove="Images\collapse_96.png" />
-	  <None Remove="Images\contact_mail_48.png" />
-	  <None Remove="Images\contact_support_48.png" />
-	  <None Remove="Images\cup_of_supplies.png" />
-	  <None Remove="Images\edit.png" />
-	  <None Remove="Images\edit_note_48.png" />
-	  <None Remove="Images\emu-pinkcircle.png" />
-	  <None Remove="Images\emu_75.png" />
-	  <None Remove="Images\emu_tall.PNG" />
-	  <None Remove="Images\error.png" />
-	  <None Remove="Images\error_48.png" />
-	  <None Remove="Images\expand.png" />
-	  <None Remove="Images\expand_48.png" />
-	  <None Remove="Images\expand_96.png" />
-	  <None Remove="Images\expand_circle_down_48.png" />
-	  <None Remove="Images\expand_circle_up_48.png" />
-	  <None Remove="Images\filter_sliders_48.png" />
-	  <None Remove="Images\flags_dark.png" />
-	  <None Remove="Images\flags_filled_dark.png" />
-	  <None Remove="Images\flags_filled_light.png" />
-	  <None Remove="Images\flags_light.png" />
-	  <None Remove="Images\flag_48.png" />
-	  <None Remove="Images\glasses.png" />
-	  <None Remove="Images\half_roo.png" />
-	  <None Remove="Images\help_48.png" />
-	  <None Remove="Images\help_75.png" />
-	  <None Remove="Images\home1.png" />
-	  <None Remove="Images\home2.png" />
-	  <None Remove="Images\home3.png" />
-	  <None Remove="Images\home4.png" />
-	  <None Remove="Images\info_48.png" />
-	  <None Remove="Images\location_pin.png" />
-	  <None Remove="Images\map.png" />
-	  <None Remove="Images\message_bubble.png" />
-	  <None Remove="Images\open_book.png" />
-	  <None Remove="Images\outline_arrow_circle_up_48.png" />
-	  <None Remove="Images\outline_question_answer_48.png" />
-	  <None Remove="Images\pen.png" />
-	  <None Remove="Images\pending_48.png" />
-	  <None Remove="Images\pin.png" />
-	  <None Remove="Images\question_draft.png" />
-	  <None Remove="Images\question_draft_resized.png" />
-	  <None Remove="Images\read_and_upvote.png" />
-	  <None Remove="Images\school_house.png" />
-	  <None Remove="Images\search.png" />
-	  <None Remove="Images\search_75.png" />
-	  <None Remove="Images\Search_Gray.png" />
-	  <None Remove="Images\sentiment_very_dissatisfied.png" />
-	  <None Remove="Images\settings_gear.png" />
-	  <None Remove="Images\share_48.png" />
-	  <None Remove="Images\success_48.png" />
-	  <None Remove="Images\swipe_left_48.png" />
-	  <None Remove="Images\thumb_down_dark.png" />
-	  <None Remove="Images\thumb_down_filled.png" />
-	  <None Remove="Images\thumb_down_light.png" />
-	  <None Remove="Images\thumb_up_48.png" />
-	  <None Remove="Images\thumb_up_dark.png" />
-	  <None Remove="Images\thumb_up_filled.png" />
-	  <None Remove="Images\thumb_up_light.png" />
-	  <None Remove="Images\toolbox_bag.png" />
-	  <None Remove="Images\trash_delete_48.png" />
-	  <None Remove="Images\trending_up_48.png" />
-	  <None Remove="Images\visibility_off.png" />
-	  <None Remove="Images\wireframe_roo_small.png" />
-	  <None Remove="Images\wireframe_roo_smaller.png" />
-	  <None Remove="Images\write_draft.png" />
+	  <None Remove="Resources\all-authorities.csv" />
+	  <None Remove="Resources\allsenstate.csv" />
+	  <None Remove="Resources\MPs.json.encrypted.gpg" />
+	  <None Remove="Resources\serverconfig.json" />
+	  <None Remove="Resources\StateRepsCSV.csv" />
+	  <None Remove="Resources\VicLegislativeAssemblymembers.csv" />
+	  <None Remove="Resources\VicLegislativeCouncilmembers.csv" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -400,10 +321,6 @@
 	  <MauiXaml Update="Views\WriteQuestionPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Images\" />
 	</ItemGroup>
 
 </Project>

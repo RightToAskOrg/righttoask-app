@@ -12,8 +12,8 @@ namespace RightToAskClient.Maui
                 .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
-                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                    fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                    fonts.AddFont("DancingScript-VariableFont_wght.ttf", "DanceFont");
+                  //  fonts.AddFont("Roboto-Black.ttf", "AppFont");
                 });
 
             return builder.Build();

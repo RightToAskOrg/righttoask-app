@@ -10,17 +10,18 @@ namespace RightToAskClient.Maui.Helpers
 {
 	public static class FileIO
 	{
-		public static JOSResult<T> ReadDataFromStoredJson<T>(string filename,
+		public static async Task<JOSResult<T>> ReadDataFromStoredJsonAsync<T>(string filename,
 			JsonSerializerOptions jsonSerializerOptions)
 		{
 			T deserializedData;
 
 			try
 			{
-				var streamResult = TryToGetFileStream(filename);
-				if (streamResult.Success)
+				//var streamResult = TryToGetFileStream(filename);
+                Stream streamResult = await FileSystem.Current.OpenAppPackageFileAsync(Constants.ServerConfigFile);
+                if (streamResult.CanRead)
 				{
-					using var sr = new StreamReader(streamResult.Data);
+					using var sr = new StreamReader(streamResult);
 					var dataString = sr.ReadToEnd();
 					deserializedData = (T)JsonSerializer.Deserialize<T>(dataString, jsonSerializerOptions);
 					if (deserializedData is { })
@@ -28,9 +29,9 @@ namespace RightToAskClient.Maui.Helpers
 						return new SuccessResult<T>(deserializedData);
 					}
 				}
-				else if (streamResult is ErrorResult<Stream> error)
+				else
 				{
-					return new ErrorResult<T>(error.Message);
+					return new ErrorResult<T>($"Cannot read file {filename}");
 				}
 
 				// At the moment, this never happens because the two cases above are exhaustive.

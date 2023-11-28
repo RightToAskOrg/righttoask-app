@@ -77,7 +77,7 @@ namespace RightToAskClient.Maui.Models
 		public async Task<bool> TryInit()
 		{
 			// get data from local first
-			var localInitResult = TryInitialisingFromStoredData();
+			var localInitResult = await TryInitialisingFromStoredData();
 
 			// then try getting data from the server.
 			// TODO I believe this makes it wait a long time. Consider *not* awaiting this call.
@@ -116,9 +116,9 @@ namespace RightToAskClient.Maui.Models
 			return IsInitialised;
 		}
 
-		private JOSResult TryInitialisingFromStoredData()
+		private async Task<JOSResult> TryInitialisingFromStoredData()
 		{
-			var readResult = FileIO.ReadDataFromStoredJson<UpdatableParliamentAndMPDataStructure>(Constants.StoredMPDataFile, serializerOptions);
+			var readResult = await FileIO.ReadDataFromStoredJsonAsync<UpdatableParliamentAndMPDataStructure>(Constants.StoredMPDataFile, serializerOptions);
 			if (readResult.Failure)
 			{
 				if (readResult is ErrorResult<UpdatableParliamentAndMPDataStructure> errorResult)

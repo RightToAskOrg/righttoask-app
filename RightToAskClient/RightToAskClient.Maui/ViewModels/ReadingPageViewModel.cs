@@ -310,12 +310,12 @@ namespace RightToAskClient.Maui.ViewModels
             {
                 if (!_successRespond)
                 {
-                    ListEmptyViewIcon = ImageSource.FromResource("RightToAskClient.Images.sentiment_very_dissatisfied.png");
+                    ListEmptyViewIcon = ImageSource.FromResource("sentiment_very_dissatisfied.png");
                     EmptyViewLabelText = AppResources.NoNetwork;
                 }
                 else
                 {
-                    ListEmptyViewIcon = ImageSource.FromResource("RightToAskClient.Images.auto_awesome.png");
+                    ListEmptyViewIcon = ImageSource.FromResource("auto_awesome.png");
                 }
             }
         }
