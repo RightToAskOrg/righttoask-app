@@ -31,25 +31,274 @@
                     <StackLayout Orientation="Vertical"
                                  VerticalOptions="FillAndExpand"
                                  HorizontalOptions="Fill"
-                                 Padding="16"
+                                 Padding="0"
                                  x:Name="MarkdownView"/>
+                    <Label Margin="20,0,20,5">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Democracy demands civil exchange of differing views."></Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Margin="20,5">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontSize="18" FontAttributes="Bold" Text="Behaviour that is encouraged"></Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Margin="20,5">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="We encourage real questions."></Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Margin="40,5">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontAttributes="Bold" Text="* Ask for information">
+                                </Span>
+                                <Span Text=" especially when you think nobody else has noticed that the information isn’t available"></Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Margin="40,5">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontAttributes="Bold" Text="* Ask for explanations">
+                                </Span>
+                                <Span Text=" of decisions, policies or outcomes, especially if you disagree with them"></Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Margin="40,5">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontAttributes="Bold" Text="* Be specific">
+                                </Span>
+                                <Span Text=" - specific questions are much harder to evade"></Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Margin="20,5">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontSize="18" FontAttributes="Bold" Text="Questions that may be removed"></Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Margin="40,5,40,0">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontAttributes="Bold" Text="* Harassment">
+                                </Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Margin="40,0,40,5">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Aggression against a specific individual or group.">
+                                </Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Margin="40,5,40,5">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontAttributes="Bold" Text="* Threatening Violence">
+                                </Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Margin="40,5,40,0">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontAttributes="Bold" Text="* Encouraging harm">
+                                </Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Margin="40,0,40,5">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Encouraging self-harm or harm to others.">
+                                </Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Margin="40,5,40,0">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontAttributes="Bold" Text="* Hate">
+                                </Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Margin="40,0,40,5">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Attacks or threats against an individual or group because of their protected attributes or anything else about the person rather than the political issue.">
+                                </Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Margin="40,5,40,0">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontAttributes="Bold" Text="* Spam">
+                                </Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Margin="40,0,40,5">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Malicious links, fake engagement, or advertisements.">
+                                </Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Margin="40,5,40,0">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontAttributes="Bold" Text="* Personal information">
+                                </Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Margin="40,0,40,5">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Sharing other people’s private information without their consent.">
+                                </Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Margin="40,5,40,0">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontAttributes="Bold" Text="* Defamation">
+                                </Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Margin="40,0,40,5">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Accusations or other defamatory statements.">
+                                </Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Margin="40,5,40,0">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontAttributes="Bold" Text="* Illegal">
+                                </Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Margin="40,0,40,5">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Copyright violation, promotion of criminal activities, money scams etc.">
+                                </Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Margin="40,5,40,20">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontAttributes="Bold" Text="* Not a question">
+                                </Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Margin="20,5">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontSize="18" FontAttributes="Bold" Text="Accounts that may be suspended"></Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Margin="20,10">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Accounts that post questions in any of the above categories may be suspended. Also accounts in the following categories.">
+                                </Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Margin="40,5">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontAttributes="Bold" Text="* Sockpuppet accounts.">
+                                </Span>
+                                <Span Text=" An additional account set up to evade suspension, inflate influence (e.g. by having multiple up- or down-votes on one question), or for other forms of bad behavior. This does not include multiple accounts set up for multiple roles, e.g. a personal account and a professional account."></Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Margin="40,5">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontAttributes="Bold" Text="* Accounts that claim to be someone they’re not.">
+                                </Span>
+                                <Span Text=" Pseudonyms or non-names are fine, but using someone else’s name is not."></Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Margin="40,5">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontAttributes="Bold" Text="* Accounts with a name that violates any of our rules for questions.">
+                                </Span>
+                               </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Margin="20,10">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span  Text="There is no guarantee that suspended accounts will be reinstated.">
+                                </Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Margin="20,10">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span  Text="We are still learning about how people use Right To Ask. These rules may change as we improve our understanding.">
+                                </Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Margin="20,10">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontAttributes="Bold" Text="If you disagree with the code of conduct, you may still read Right To Ask questions freely. To participate actively (including writing questions), click “Agree”.">
+                            </Span>
+                        </FormattedString>
+                    </Label.FormattedText>
+                    </Label>
+                  
                     <BoxView Style="{StaticResource ButtonSeparator}" />
-                    <Grid 
+                        <Grid 
                          VerticalOptions="End"
                          HorizontalOptions="Fill"
                          Padding="10" ColumnSpacing="20"
                          RowDefinitions="Auto" ColumnDefinitions="*, *">
-                        <Button Grid.Row="0" Grid.Column="0" Text="{x:Static strings:AppResources.DisagreeText}"
+                            <Button Grid.Row="0" Grid.Column="0" Text="{x:Static strings:AppResources.DisagreeText}"
                                 SemanticProperties.Hint="{x:Static strings:AppResources.DisagreeHint}"
                                 SemanticProperties.Description="{x:Static strings:AppResources.DisagreeText}"
                                 Style="{StaticResource OutlineButton}"
                                 Clicked="Disagree_OnClicked"/>
-                        <Button Grid.Row="0" Grid.Column="1" Text="{x:Static strings:AppResources.AgreeText}"
+                            <Button Grid.Row="0" Grid.Column="1" Text="{x:Static strings:AppResources.AgreeText}"
                                 SemanticProperties.Hint="{x:Static strings:AppResources.AgreeHint}"
                                 SemanticProperties.Description="{x:Static strings:AppResources.AgreeText}"
                                 Style="{StaticResource OutlineButton}"
                                 Clicked="Agree_OnClicked"/>
-                    </Grid>
+                        </Grid>
                 </StackLayout>
             </ScrollView>
         </StackLayout>

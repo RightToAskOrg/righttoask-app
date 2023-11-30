@@ -29,7 +29,7 @@
             <!-- These are all the same light green -->
             <Color x:Key="FadedButtonColor">#dfdfdf</Color>
             <Color x:Key="SeparatorDarkModeColor">#363636</Color>
-            <Color x:Key="FrameColor">#dfdfdf</Color>
+            <Color x:Key="FrameColor">Transparent</Color>
 
             <!-- Second theme color -->
             <Color x:Key="DarkPurple">#600C82</Color>
@@ -382,6 +382,7 @@
                 <Setter Property="CornerRadius" Value="0" />
                 <Setter Property="Padding" Value="0" />
                 <Setter Property="HasShadow" Value="False" />
+                <Setter Property="BorderColor" Value="Transparent" />
             </Style>
             <Style x:Key="TransparentSwipeView" TargetType="SwipeView">
                 <Setter Property="BackgroundColor" Value="Transparent" />

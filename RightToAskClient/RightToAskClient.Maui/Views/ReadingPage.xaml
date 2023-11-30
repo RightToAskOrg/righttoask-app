@@ -147,7 +147,8 @@
                              IsRefreshing="{Binding IsRefreshing}"
                              Command="{Binding RefreshCommand}">
                     <ScrollView VerticalOptions="FillAndExpand">
-                        <StackLayout><!--Heading text moved inside of the scrollview to have it scroll off the page-->
+                        <StackLayout>
+                            <!--Heading text moved inside of the scrollview to have it scroll off the page-->
                             <CollectionView x:Name="QuestionList"
                                             ItemsSource="{Binding QuestionsToDisplay}"
                                             SelectionMode="None"
@@ -174,7 +175,7 @@
                                                  Padding="0, 100 ,0 ,0">
                                         <Image Source="{Binding ListEmptyViewIcon}"
                                                Style="{StaticResource ListErrorIcon}"/>
-                                        <Label Text="{x:Static strings:AppResources.EmptyFieldMessage}"
+                                        <Label Text="{Binding EmptyViewLabelText}"
                                                Style="{StaticResource ListErrorText}"
                                                VerticalOptions="Start" />
                                     </StackLayout>
@@ -184,20 +185,20 @@
                     </ScrollView>
                 </RefreshView>
                 <ImageButton Grid.Row="1"
-                             Grid.Column="1"
-                             VerticalOptions="End"
-                             HorizontalOptions="End"
-                             Margin="10"
-                             Source="edit.png"
-                             WidthRequest="110"
-                             HeightRequest="110"
-                             CornerRadius="30"
-                             Padding="20"
-                             Aspect="AspectFit"
-                             BackgroundColor="{StaticResource Purple}"
-                             Command="{Binding DraftCommand}"
-                             SemanticProperties.Hint="{x:Static strings:AppResources.ReadingPageWriteHint}"
-                             SemanticProperties.Description="{x:Static strings:AppResources.ReadingPageWriteDescription}" />
+              Grid.Column="1"
+              VerticalOptions="End"
+              HorizontalOptions="End"
+              Margin="10"
+              Source="edit.png"
+              WidthRequest="120"
+              HeightRequest="120"
+              CornerRadius="35"
+              Padding="20"
+              Aspect="AspectFit"
+              BackgroundColor="{StaticResource Purple}"
+              Command="{Binding DraftCommand}"
+              SemanticProperties.Hint="{x:Static strings:AppResources.ReadingPageWriteHint}"
+              SemanticProperties.Description="{x:Static strings:AppResources.ReadingPageWriteDescription}" />
             </Grid>
         </StackLayout>
     </ContentPage.Content>

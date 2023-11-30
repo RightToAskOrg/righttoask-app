@@ -95,7 +95,7 @@ namespace RightToAskClient.Maui.ViewModels
         // Convenient views of things stored in the Question.
         public List<Answer> QuestionAnswers => Question.Answers;
         public List<Uri> HansardLinks => Question.HansardLink;
-
+       
         public string QuestionAnswerers =>
            Helpers.Extensions.JoinFilter(", ",
                    string.Join(", ", Question.Filters.SelectedAnsweringMPsNotMine.Select(mp => mp.ShortestName)),

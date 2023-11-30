@@ -6,6 +6,7 @@ using CommunityToolkit.Maui.Extensions;
 using Microsoft.Maui.Graphics;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui;
+using CommunityToolkit.Maui.Views;
 
 namespace RightToAskClient.Maui.Views
 {
@@ -42,18 +43,16 @@ namespace RightToAskClient.Maui.Views
 
         private async void Disagree_OnClicked(object sender, EventArgs e)
         {
-            //var popup = new TwoButtonPopup(
-            //    "", 
-            //    AppResources.DisagreeCodeOfConductPopText, 
-            //    AppResources.CancelButtonText, 
-            //    AppResources.OKText,  
-            //    false);
-            var popupResult = await App.Current.MainPage.DisplayPromptAsync("", AppResources.DisagreeCodeOfConductPopText, AppResources.OKText,
-                AppResources.CancelButtonText);
-            //var popupResult = await App.Current.MainPage.Navigation.ShowPopupAsync(popup);
-            if (popupResult == AppResources.OKText)
+            var popup = new TwoButtonPopup(
+                "",
+                AppResources.DisagreeCodeOfConductPopText,
+                AppResources.CancelButtonText,
+                AppResources.OKText,
+                false);
+            var popupResult = await App.Current.MainPage.ShowPopupAsync(popup);
+            if (popup.HasApproved(popupResult))
             {
-                await Application.Current.MainPage.Navigation.PopAsync();
+                
             }
         }
         

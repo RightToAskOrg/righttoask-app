@@ -35,23 +35,28 @@ namespace RightToAskClient.Maui.Views.Popups
             mainTitle.IsVisible = popupTitle.Length > 0;
         }
 
+        public bool IsOk = false;
+
         public bool HasApproved(object? value)
         {
-            return value?.ToString() == "OK";
+            return IsOk;
         }
 
         private void DismissPopup(object sender, EventArgs e)
         {
-            App.Current.MainPage.Navigation.PopModalAsync();
+            IsOk = false;
+            Close();
         }
 
         private void CancelButtonClicked(object sender, EventArgs e)
         {
-            App.Current.MainPage.Navigation.PopModalAsync();
+            IsOk = false;
+            Close();
         }
-        private void ApproveButtonClicked(object sender, EventArgs e)
+        private async void ApproveButtonClicked(object sender, EventArgs e)
         {
-            App.Current.MainPage.Navigation.PopModalAsync();
+            IsOk = true;
+            Close();
         }
     }
 }

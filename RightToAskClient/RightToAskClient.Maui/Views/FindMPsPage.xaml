@@ -25,18 +25,18 @@
                        FontSize="Medium" />
                 <FlexLayout
                     Direction="Row" JustifyContent="Center" AlignItems="Center" Margin="16,20,16,0">
-                    <StackLayout Orientation="Vertical">
-                        <Button x:Name="SelectEleButton" Clicked="SelectEleButton_OnClicked" Text="Select electorates"
+                    <StackLayout Orientation="Vertical"  WidthRequest="200">
+                        <Button x:Name="SelectEleButton" HorizontalOptions="Start" Clicked="SelectEleButton_OnClicked" Text="Select electorates"
                                 TextColor="{StaticResource ButtonColor}" Command="{Binding KnowElectoratesCommand}"
-                                HorizontalOptions="End" Style="{StaticResource TabButton}" SizeChanged="SelectEleButton_OnSizeChanged"/>
-                        <BoxView x:Name="SelectEleButtonUnderLine" VerticalOptions="End" HeightRequest="2"/>
+                               Style="{StaticResource TabButton}" SizeChanged="SelectEleButton_OnSizeChanged"/>
+                        <BoxView x:Name="SelectEleButtonUnderLine" HorizontalOptions="Center" WidthRequest="180" VerticalOptions="Center" HeightRequest="2"/>
                     </StackLayout>
                     <BoxView WidthRequest="25" BackgroundColor="Transparent" HeightRequest="0"/>
-                    <StackLayout Orientation="Vertical">
+                    <StackLayout Orientation="Vertical"  WidthRequest="200">
                         <Button x:Name="TypeAddButton" Clicked="TypeAddButton_OnClicked" Text="Enter an address" 
                                 TextColor="{StaticResource MediumDarkShadeOfGray}" Command="{Binding LookupElectoratesCommand}"
-                                HorizontalOptions="End"  Style="{StaticResource TabButton}" SizeChanged="SelectEleButton_OnSizeChanged"/>
-                        <BoxView x:Name="TypeAddButtonUnderLine" VerticalOptions="End" HeightRequest="2" Color="Transparent"/>
+                                HorizontalOptions="Start"  Style="{StaticResource TabButton}" SizeChanged="SelectEleButton_OnSizeChanged"/>
+                        <BoxView x:Name="TypeAddButtonUnderLine" VerticalOptions="End"  WidthRequest="180"  HeightRequest="2" Color="Transparent"/>
                     </StackLayout>
                 </FlexLayout>
                 <!--Map Display-->

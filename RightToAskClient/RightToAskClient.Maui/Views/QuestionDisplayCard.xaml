@@ -7,7 +7,7 @@
              xmlns:viewModels="clr-namespace:RightToAskClient.Maui.ViewModels;assembly=RightToAskClient.Maui"
              xmlns:controls="clr-namespace:RightToAskClient.Maui.Views.Controls;assembly=RightToAskClient.Maui"
              x:Class="RightToAskClient.Maui.Views.QuestionDisplayCard"
-              xmlns:strings="clr-namespace:RightToAskClient.Maui.Resx"
+             xmlns:strings="clr-namespace:RightToAskClient.Maui.Resx"
              x:DataType="viewModels:QuestionDisplayCardViewModel">
     <ContentView.Content>
         <!-- <StackLayout> -->
@@ -36,14 +36,16 @@
                             Style="{StaticResource TransparentSquareButton}"
                             Command="{Binding QuestionDetailsCommand}" BackgroundColor="Transparent" />
                     <!--UpVote Button-->
-                    <FlexLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" AlignItems="Center"
-                                JustifyContent="SpaceBetween" HorizontalOptions="CenterAndExpand"
-                                Direction="Row" Margin="16, 0" Wrap="Wrap">
+                    <FlexLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" AlignItems="Start"
+                                JustifyContent="SpaceBetween" HorizontalOptions="StartAndExpand"
+                                Direction="Row" Margin="6, 0" Wrap="Wrap">
                         <StackLayout Orientation="Horizontal">
                             <controls:ColorSingleToggleButton
                                 IsBrightened="{Binding Question.AlreadyUpvoted}"
                                 Padding="5"
-                                HeightRequest="{x:OnPlatform Android=27, iOS=44}"
+                                
+                                WidthRequest="{x:OnPlatform Android=35, iOS=44}"
+                                HeightRequest="{x:OnPlatform Android=35, iOS=44}"
                                 BackgroundColor="Transparent" Command="{Binding UpvoteCommand}"
                                 HorizontalOptions="Start"
                                 AutomationProperties.IsInAccessibleTree="True"
@@ -72,7 +74,8 @@
                             <!-- Down-vote button -->
                             <controls:ColorSingleToggleButton
                                 Padding="5"
-                                HeightRequest="{x:OnPlatform Android=27, iOS=44}"
+                                HeightRequest="{x:OnPlatform Android=35, iOS=44}"
+                                WidthRequest="{x:OnPlatform Android=35, iOS=44}"
                                 BackgroundColor="Transparent" Command="{Binding DownvoteCommand}"
                                 HorizontalOptions="Start"
                                 IsBrightened="{Binding Question.AlreadyDownvoted}"
@@ -139,7 +142,8 @@
                             <ImageButton
                                 Source="{AppThemeBinding Light=flags_light.png, Dark=Images.flags_dark.png }"
                                 Padding="5"
-                                HeightRequest="{x:OnPlatform Android=27, iOS=44}"
+                                HeightRequest="{x:OnPlatform Android=35, iOS=44}"
+                                WidthRequest="{x:OnPlatform Android=35, iOS=44}"
                                 Command="{Binding ReportCommand}"
                                 BackgroundColor="Transparent"
                                 AutomationProperties.IsInAccessibleTree="True"

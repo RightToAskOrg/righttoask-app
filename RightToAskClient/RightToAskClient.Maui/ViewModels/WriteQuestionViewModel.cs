@@ -23,28 +23,28 @@ namespace RightToAskClient.Maui.ViewModels
         public string EmptyViewContent
         {
             get => _emptyViewContent;
-            set => SetProperty(ref _emptyViewContent, value);
+            set => _emptyViewContent = value;
         }
 
         private ImageSource _emptyViewIcon;
         public ImageSource EmptyViewIcon
         {
             get => _emptyViewIcon;
-            set => SetProperty(ref _emptyViewIcon, value);
+            set => _emptyViewIcon = value;
         }
         
         private bool _showHeader = true;
         public bool ShowHeader
         {
             get => _showHeader;
-            set => SetProperty(ref _showHeader, value);
+            set => _showHeader =  value;
         }
         
         private string _draftQuestion = "";
         public string DraftQuestion
         {
             get => _draftQuestion;
-            set => SetProperty(ref _draftQuestion, value);
+            set => _draftQuestion =  value;
         }
 
         // Commands
@@ -75,7 +75,7 @@ namespace RightToAskClient.Maui.ViewModels
                 var questionsToDisplayList = await LoadQuestions();
                 if (hasQuery)
                 {
-                    doQuestionDisplayRefresh(questionsToDisplayList);
+                    DoQuestionDisplayRefresh(questionsToDisplayList);
                 }
                 IsRefreshing = false;
                 if (QuestionsToDisplay.Count == 0 && hasQuery)
@@ -122,7 +122,7 @@ namespace RightToAskClient.Maui.ViewModels
             FilterChoices = new FilterChoices();
             FilterChoices.SearchKeyword = query;
             hasQuery = true;
-            RefreshCommand.ExecuteAsync(null);
+            RefreshCommand.Execute(null);
         }
         private async void OnSaveButtonClicked()
         {

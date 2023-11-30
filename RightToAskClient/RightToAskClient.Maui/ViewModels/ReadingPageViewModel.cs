@@ -17,25 +17,28 @@ using Microsoft.Maui.Controls;
 using Microsoft.Maui;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Maui.Views;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows.Input;
 
 namespace RightToAskClient.Maui.ViewModels
 {
-    public class ReadingPageViewModel: BaseViewModel
+    public class ReadingPageViewModel : BaseViewModel
     {
         public FilterChoices FilterChoices = new FilterChoices();
-     
+
         // This is static because we want every instance of ReadingPageViewModel to have the same one:
         // if you up-vote a question in one version of the ReadingView, we need the other ReadingPages to
         // see the same change.
         private static QuestionResponseRecords _thisUsersResponsesToQuestions = new QuestionResponseRecords();
-        
+
         // properties
         public Boolean HasFilter
         {
-            get => FilterChoices.SelectedAnsweringMPsNotMine.Count == 0 && 
+            get => FilterChoices.SelectedAnsweringMPsNotMine.Count == 0 &&
                    FilterChoices.SelectedAnsweringMPsMine.Count == 0 &&
-                   FilterChoices.SelectedCommittees.Count == 0 && 
-                   FilterChoices.SelectedAskingMPsMine.Count == 0 && 
+                   FilterChoices.SelectedCommittees.Count == 0 &&
+                   FilterChoices.SelectedAskingMPsMine.Count == 0 &&
                    FilterChoices.SelectedAskingMPsNotMine.Count == 0 &&
                    FilterChoices.SelectedAuthorities.Count == 0 ? true : false;
         }
@@ -74,12 +77,17 @@ namespace RightToAskClient.Maui.ViewModels
             set => SetProperty(ref _questionsToDisplay, value);
         }
 
-        private bool _isRefreshing = true;
+        private bool _isRefreshing = false;
         public bool IsRefreshing
         {
             get => _isRefreshing;
             set => SetProperty(ref _isRefreshing, value);
         }
+        #region INotifyPropertyChanged
+
+      
+
+        #endregion
 
         public string Keyword
         {
@@ -88,9 +96,9 @@ namespace RightToAskClient.Maui.ViewModels
             {
                 FilterChoices.SearchKeyword = value;
             }
-            
+
         }
-        
+
         private string _writerOnlyUid = string.Empty;
         private bool _readByQuestionWriter;
         protected bool _successRespond = true;
@@ -104,25 +112,26 @@ namespace RightToAskClient.Maui.ViewModels
 
         // Parameters for server question searches
         protected readonly Weights SearchWeights;
-        public ReadingPageViewModel(): this(false, true)
+        public ReadingPageViewModel() : this(false, true)
         {
+            Task.Run(async() => await RefreshItemsAsync());
         }
-        
+
         // constructor
         public ReadingPageViewModel(bool readByQuestionWriter, bool needRefresh)
         {
             _readByQuestionWriter = readByQuestionWriter;
-            
+
             // Retrieve previous responses from Preferences, e.g. to display proper coloration on prior up-votes.
             _thisUsersResponsesToQuestions.Init();
-            
+
             // Keyword = FilterChoices.SearchKeyword;
-            
+
             // Default to search weights for main reading page; derived classes can alter this for other priorities.
             SearchWeights = Constants.mainReadingPageWeights;
-            
+
             // If we're already searching for something, show the user what.
-            ShowSearchFrame = !readByQuestionWriter; 
+            ShowSearchFrame = !readByQuestionWriter;
 
             // Reading with a draft question - prompt for upvoting similar questions
             Heading1 = AppResources.FocusSupportInstructionReadingOnly;
@@ -130,12 +139,12 @@ namespace RightToAskClient.Maui.ViewModels
 
             PopupLabelText = AppResources.ReadingPageHeader1;
             PopupHeaderText = Heading1;
-            
+
             if (XamarinPreferences.shared.Get(Constants.ShowFirstTimeReadingPopup, true))
             {
                 // InfoPopupCommand.ExecuteAsync(null);
                 TCCommand.ExecuteAsync(null);
-                
+
             }
             // Note: There is a race condition here, in that it is possible
             // for this command to be executed multiple times simultaneously,
@@ -143,15 +152,12 @@ namespace RightToAskClient.Maui.ViewModels
             // of questions from various versions of questionsToDisplay List.
             // I don't *think* this will cause a lock because QuestionsToDisplay
             // ought to be able to be cleared and added to in any order.
-            RefreshCommand = new AsyncRelayCommand (async () =>
+            RefreshCommand = new AsyncRelayCommand(async () =>
             {
-                    var questionsToDisplayList = await LoadQuestions();
-                    doQuestionDisplayRefresh(questionsToDisplayList);
-                    IsRefreshing = false;
+                await RefreshItemsAsync();
             });
-            DraftCommand = new AsyncRelayCommand (async () =>
+            DraftCommand = new AsyncRelayCommand(async () =>
             {
-                
                 // Check that they are registered - if not, prompt them to get an account.
                 if (!IndividualParticipant.getInstance().ProfileData.RegistrationInfo.IsRegistered)
                 {
@@ -173,7 +179,7 @@ namespace RightToAskClient.Maui.ViewModels
                         // Only show it once.
                         XamarinPreferences.shared.Set(Constants.ShowHowToPublishPopup, false);
                     }
-                    
+
                     // Now let them start drafting.
                     await Shell.Current.GoToAsync($"{nameof(WriteQuestionPage)}");
                 }
@@ -182,7 +188,7 @@ namespace RightToAskClient.Maui.ViewModels
             {
                 ShowSearchFrame = !ShowSearchFrame; // just toggle it
             });
-            ShowFiltersCommand = new AsyncRelayCommand (async () =>
+            ShowFiltersCommand = new AsyncRelayCommand(async () =>
             {
                 var advancedSearchFiltersPage = new AdvancedSearchFiltersPage(FilterChoices);
                 await Application.Current.MainPage.Navigation.PushAsync(advancedSearchFiltersPage);
@@ -195,39 +201,45 @@ namespace RightToAskClient.Maui.ViewModels
                     QuestionsToDisplay.Remove(questionToRemove);
                 }
                 // removeQuestionAddRecord(questionToRemove);
-            }); 
+            });
 
             // Get the question list for display
             if (needRefresh)
             {
-                RefreshCommand.ExecuteAsync(null);
+                //RefreshCommand.Execute(null);
             }
             else
             {
                 IsRefreshing = false;
             }
-            
+
             // Makes the question list refresh when the Advanced Search page has updated search terms.
-            MessagingCenter.Subscribe<FilterViewModel>(this, Constants.RefreshQuestionList, 
+            MessagingCenter.Subscribe<FilterViewModel>(this, Constants.RefreshQuestionList,
                  (sender) =>
                 {
-                    RefreshCommand.ExecuteAsync(null);
+                  //  RefreshCommand.Execute(null);
                 });
         }
-
+        async Task RefreshItemsAsync()
+        {
+            IsRefreshing = true;
+            var questionsToDisplayList = await LoadQuestions();
+            DoQuestionDisplayRefresh(questionsToDisplayList);
+            IsRefreshing = false;
+        }
         // commands
-        public AsyncRelayCommand  RefreshCommand { get; protected set; }
-        public IAsyncRelayCommand  DraftCommand { get; }
+        public ICommand RefreshCommand { get; protected set; }
+        public IAsyncRelayCommand DraftCommand { get; }
         public Command SearchToolbarCommand { get; }
         public Command<QuestionDisplayCardViewModel> RemoveQuestionCommand { get; }
-        public IAsyncRelayCommand  ShowFiltersCommand { get; }
+        public IAsyncRelayCommand ShowFiltersCommand { get; }
 
         // Loads the questions, depending on the value of ReadByQuestionWriter.
         protected async Task<List<QuestionDisplayCardViewModel>> LoadQuestions()
         {
             var serverQuestions = new List<QuestionReceiveFromServer>();
             var questionsToDisplay = new List<QuestionDisplayCardViewModel>();
-            
+
             JOSResult<List<string>> httpResponse;
             if (_readByQuestionWriter)
             {
@@ -239,7 +251,7 @@ namespace RightToAskClient.Maui.ViewModels
                 EmptyViewLabelText = AppResources.EmptyMatchingQuestionCollectionViewString;
                 httpResponse = await GetQuestionListBySearch();
             }
-            
+
             var httpValidation = RTAClient.ValidateHttpResponse(httpResponse, "Server Signature Verification");
             _successRespond = httpValidation.isValid;
             if (!httpValidation.isValid)
@@ -247,10 +259,10 @@ namespace RightToAskClient.Maui.ViewModels
                 ReportLabelText = "Failed to get Question List from server." + httpValidation.errorMessage;
                 return questionsToDisplay;
             }
-            
+
             // httpValidation isValid
             var questionIds = httpResponse.Data;
-            
+
             // loop through the questions
             foreach (var questionId in questionIds)
             {
@@ -293,19 +305,17 @@ namespace RightToAskClient.Maui.ViewModels
                     questionsToDisplay.Add(new QuestionDisplayCardViewModel(serverQuestion, _thisUsersResponsesToQuestions));
                 }
             }
-
+            DoQuestionDisplayRefresh(questionsToDisplay);
             return questionsToDisplay;
         }
 
-        protected void doQuestionDisplayRefresh(List<QuestionDisplayCardViewModel> questions)
+        protected void DoQuestionDisplayRefresh(List<QuestionDisplayCardViewModel> questions)
         {
             QuestionsToDisplay.Clear();
             foreach (var q in questions)
-            {  
-                QuestionsToDisplay.Add(q);
-                
+            {
+                QuestionsToDisplay.Add(q);               
             }
-
             if (QuestionsToDisplay.Count == 0)
             {
                 if (!_successRespond)
@@ -319,12 +329,12 @@ namespace RightToAskClient.Maui.ViewModels
                 }
             }
         }
-        
+
         // Gets the list of question IDs, using 'similarity' material
         private async Task<JOSResult<List<string>>> GetQuestionListBySearch()
         {
             var filters = FilterChoices;
-            
+
             // use the filters to search for similar questions.
             var serverSearchQuery = new WeightedSearchRequest()
             {
@@ -332,13 +342,13 @@ namespace RightToAskClient.Maui.ViewModels
                 page = new QuestionListPage()
                 {
                     from = 0,
-                    to = Constants.DefaultPageSize 
+                    to = Constants.DefaultPageSize
                 },
                 weights = SearchWeights,
                 entity_who_should_answer_the_question = filters.TranscribeQuestionAnswerersForUpload(),
                 mp_who_should_ask_the_question = filters.TranscribeQuestionAskersForUpload()
             };
-            
+
             // Search based on filters and/or search/draft words.
             var scoredList = await RTAClient.GetSortedSimilarQuestionIDs(serverSearchQuery);
 
@@ -357,7 +367,7 @@ namespace RightToAskClient.Maui.ViewModels
             // For the moment, ignore both the token and the individual-question scores.
             return new SuccessResult<List<string>>(scoredList.Data.questions.Select(sq => sq.id).ToList());
         }
-        
+
         private async Task<JOSResult<List<string>>> GetQuestionListByWriter()
         {
             var myUID = IndividualParticipant.getInstance().ProfileData.RegistrationInfo.uid;
@@ -379,4 +389,6 @@ namespace RightToAskClient.Maui.ViewModels
             return new SuccessResult<List<string>>(questionIDs.Data);
         }
     }
+
+    
 }

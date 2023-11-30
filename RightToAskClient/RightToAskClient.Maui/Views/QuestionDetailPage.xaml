@@ -23,9 +23,9 @@
 	</ContentPage.ToolbarItems>
 	<ContentPage.Content>
 		<ScrollView>
-			<StackLayout x:Name="WholePage" Margin="20">
+			<StackLayout x:Name="WholePage" Margin="20" >
 				<Editor x:Name="QuestionTextEditor" Text="{Binding Question.QuestionText}"
-				        IsReadOnly="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}" />
+                        IsReadOnly="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}" />
 				<FlexLayout AlignItems="Center" JustifyContent="SpaceBetween" HorizontalOptions="CenterAndExpand"
 				            Direction="Row" Margin="0" Wrap="Wrap" IsVisible="{Binding IsNewQuestion, Converter={StaticResource Key=cnvInvert}}">
 					<StackLayout Orientation="Horizontal" >
@@ -33,7 +33,8 @@
 						<controls:ColorSingleToggleButton 
 						                                  IsBrightened="{Binding Question.AlreadyUpvoted}"
 						                                  Padding="5"
-						                                  HeightRequest="{x:OnPlatform Android=27, iOS=44}"
+						                                  HeightRequest="{x:OnPlatform Android=35, iOS=44}"
+														  WidthRequest="{x:OnPlatform Android=35, iOS=44}"
 						                                  BackgroundColor="Transparent" Command="{Binding UpvoteCommand}"
 						                                  HorizontalOptions="Start"
 						                                  AutomationProperties.IsInAccessibleTree="True"
@@ -60,7 +61,8 @@
 	                             BackgroundColor="Transparent" Command="{Binding DownvoteCommand}" Padding="5"
 	                             IsBrightened="{Binding Question.AlreadyDownvoted}"
 	                             HorizontalOptions="Start"
-	                             HeightRequest="{x:OnPlatform Android=27, iOS=44}"
+	                             HeightRequest="{x:OnPlatform Android=35, iOS=44}"
+								 WidthRequest="{x:OnPlatform Android=35, iOS=44}"
 	                             AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{StaticResource QuestionFrameThumbsDownAccessibilityName}"
 	                             AutomationProperties.HelpText="{x:Static strings:AppResources.QuestionFrameThumbsDownAccessibilityText}">
 		                    <VisualStateManager.VisualStateGroups>
@@ -84,7 +86,8 @@
 						<!-- report/flag button -->
 						<controls:ColorSingleToggleButton Padding="5" 
 						                                  IsBrightened="{Binding Question.AlreadyReported}"
-						                                  HeightRequest="{x:OnPlatform Android=27, iOS=44}"
+						                                  HeightRequest="{x:OnPlatform Android=35, iOS=44}"
+                                                          WidthRequest="{x:OnPlatform Android=35, iOS=44}"
 						                                  IsEnabled="{Binding Question.AlreadyReported, Converter={StaticResource Key=cnvInvert}}"
 						                                  Command="{Binding ReportCommand}"
 						                                  BackgroundColor="Transparent"
@@ -186,7 +189,7 @@
 						    </DataTemplate>
 					    </BindableLayout.ItemTemplate>
 				    </StackLayout>
-				    <Editor x:Name="LinkToAnswerEditor" Placeholder="{StaticResource LinkPlaceholderText}" Completed="Link_Entered"
+                    <Editor x:Name="LinkToAnswerEditor" Placeholder="{x:Static strings:AppResources.LinkPlaceholderText}" Completed="Link_Entered"
 				            Style="{StaticResource NormalEditor}" />
 				<Label x:Name="ReportLabel" Text="{Binding ReportLabelText}" Style="{StaticResource ReportLabel}"/>
 			    </StackLayout>

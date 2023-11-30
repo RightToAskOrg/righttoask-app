@@ -30,9 +30,9 @@ namespace RightToAskClient.Maui.Views
             }
             
             var vmReadingPage = BindingContext as ReadingPageViewModel;
-            FilterButton.BackgroundColor = vmReadingPage.HasFilter
-                ? (Color)Application.Current.Resources["Primary"]
-                : (Color)Application.Current.Resources["Purple"];
+            //FilterButton.BackgroundColor = vmReadingPage.HasFilter
+            //    ? (Color)Application.Current.Resources["Primary"]
+            //    : (Color)Application.Current.Resources["Purple"];
         }
         
         protected override void OnDisappearing()
@@ -43,8 +43,8 @@ namespace RightToAskClient.Maui.Views
         }
         private void ClearButton_OnClicked(object sender, EventArgs e)
         {
-            KeywordEntry.Text = "";
-            ClearButton.IsVisible = false;
+            //KeywordEntry.Text = "";
+            //ClearButton.IsVisible = false;
         }
 
         private ReadingPageViewModel? GetViewModel()
@@ -54,22 +54,22 @@ namespace RightToAskClient.Maui.Views
 
         private void KeywordEntry_OnCompleted(object sender, EventArgs e)
         {
-            GetViewModel().RefreshCommand.ExecuteAsync(null);
+            GetViewModel().RefreshCommand.Execute(null);
         }
 
         private void KeywordEntry_OnTextChanged(object sender, TextChangedEventArgs e)
         {
             int length = e.NewTextValue.Length;
-            ClearButton.IsVisible = length > 0;
+            //ClearButton.IsVisible = length > 0;
         }
 
         private void MenuItem_OnClicked(object sender, EventArgs e)
         {
-            SearchFrame.IsVisible = !SearchFrame.IsVisible;
-            if (!SearchFrame.IsVisible)
-                KeywordEntry.Unfocus();
-            else
-                KeywordEntry.Focus();
+            //SearchFrame.IsVisible = !SearchFrame.IsVisible;
+            //if (!SearchFrame.IsVisible)
+            //    KeywordEntry.Unfocus();
+            //else
+            //    KeywordEntry.Focus();
         }
     }
 }

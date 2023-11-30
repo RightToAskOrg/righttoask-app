@@ -12,11 +12,11 @@
               xmlns:strings="clr-namespace:RightToAskClient.Maui.Resx"
              x:DataType="vm:RegistrationViewModel"
              Title="{Binding Title}">
-    <Shell.TitleView>
+    <!--<Shell.TitleView>
         <Image Source="error.png"
                HorizontalOptions="Center"
                VerticalOptions="Start" />
-    </Shell.TitleView>
+    </Shell.TitleView>-->
 
     <ContentPage.BindingContext>
         <vm:RegistrationViewModel />
@@ -42,7 +42,7 @@
                             <controls:BorderlessEntry
                                 AutomationProperties.Name="{StaticResource DisplayNamePlaceholderText}"
                                 Text="{Binding DisplayName}"
-                                Placeholder="{StaticResource DisplayNamePlaceholderText}"
+                                Placeholder="{x:Static strings:AppResources.DisplayNamePlaceholderText}"
                                 Style="{StaticResource TextInput}"
                                 Unfocused="NameEntry_OnUnfocused"
                                 Focused="NameEntry_OnFocused" />
@@ -79,7 +79,7 @@
                             <controls:BorderlessEntry
                                 AutomationProperties.Name="{StaticResource UIDPlaceholderText}"
                                 Text="{Binding UserId}"
-                                Placeholder="{StaticResource UIDPlaceholderText}"
+                                Placeholder="{x:Static strings:AppResources.UIDPlaceholderText}"
                                 Style="{StaticResource TextInput}"
                                 Unfocused="UIDEntry_OnUnfocused"
                                 Focused="UIDEntry_OnFocused" />
