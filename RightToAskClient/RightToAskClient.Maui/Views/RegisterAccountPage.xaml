@@ -110,6 +110,7 @@
                          HorizontalOptions="Fill"
                          Padding="16">
                 <Button x:Name="ContinueButton"
+                        HeightRequest="40"
                         Text="{x:Static strings:AppResources.Continue}"
                         Command="{Binding DoneButtonCommand}"
                         SemanticProperties.Hint="{x:Static strings:AppResources.ContinueButtonHint}"

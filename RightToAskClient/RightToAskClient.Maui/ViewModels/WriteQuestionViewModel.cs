@@ -60,11 +60,11 @@ namespace RightToAskClient.Maui.ViewModels
                 //    AppResources.CancelButtonText, 
                 //    AppResources.GoHomeButtonText, 
                 //    false);
-                var popupResult = await App.Current.MainPage.DisplayPromptAsync(AppResources.GoHomePopupTitle,
+                var popupResult = await App.Current.MainPage.DisplayAlert(AppResources.GoHomePopupTitle,
                     AppResources.GoHomePopupText,
                     AppResources.GoHomeButtonText,
                     AppResources.CancelButtonText);
-                if (popupResult == AppResources.GoHomeButtonText)
+                if (popupResult)
                 {
                     await App.Current.MainPage.Navigation.PopAsync();
                 }

@@ -40,12 +40,12 @@
                         Value="{Binding State}"
                         IsPublic="{Binding IsStatePublic}"
                         IsAbleToFinish="{Binding AbleToFinish}" />
-                    <views:ShareElectorateInfoPanel
-                        Title="{StaticResource FederalElectorate}"
+                  <views:ShareElectorateInfoPanel
+                        Title="{x:Static strings:AppResources.FederalElectorate}"
                         Value="{Binding FederalElectorate}"
                         IsPublic="{Binding IsFederalElectoratePublic}"
                         IsAbleToFinish="{Binding AbleToFinish}" />
-                    <views:ShareElectorateInfoPanel
+                   <views:ShareElectorateInfoPanel
                         Title="{Binding StateOrTerritoryElectorateTitle}"
                         Value="{Binding StateElectorate}"
                         IsPublic="{Binding IsStateElectoratePublic}"
@@ -64,10 +64,10 @@
                         SemanticProperties.Description="{x:Static strings:AppResources.SaveAndFinish}"
                         Style="{StaticResource NormalButton}"
                         IsEnabled="{Binding AbleToFinish}" />
-            <Label Text="{Binding ReportLabelText}" Style="{StaticResource ErrorLabel}"
+                <Label Text="{Binding ReportLabelText}" Style="{StaticResource ErrorLabel}"
                    IsVisible="{Binding ReportLabelIsVisible}"
                 AutomationProperties.IsInAccessibleTree="True"
-                AutomationProperties.Name="{StaticResource ErrorReportName}"
+                AutomationProperties.Name="{x:Static strings:AppResources.ErrorReportName}"
                 AutomationProperties.HelpText="{Binding ReportLabelText}" />
             </StackLayout>
         </StackLayout>

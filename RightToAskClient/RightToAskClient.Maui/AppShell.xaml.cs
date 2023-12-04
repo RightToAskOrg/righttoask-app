@@ -25,6 +25,7 @@ namespace RightToAskClient.Maui.Views
             Routing.RegisterRoute(nameof(SelectableListPage), typeof(SelectableListPage));
             Routing.RegisterRoute(nameof(ReportQuestionPage), typeof(ReportQuestionPage));
             Routing.RegisterRoute(nameof(CodeOfConductPage), typeof(CodeOfConductPage));
+            Routing.RegisterRoute(nameof(WriteQuestionPage), typeof(WriteQuestionPage));
             // Routing.RegisterRoute(nameof(FindMPsPage), typeof(FindMPsPage));
         }
 

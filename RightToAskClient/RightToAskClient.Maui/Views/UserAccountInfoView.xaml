@@ -79,9 +79,9 @@
             <BoxView Style="{StaticResource ButtonSeparator}" />
 
             <!-- update button -->
-            <Button Text="{DynamicResource UpdateAccountButtonText}" Command="{Binding UpdateAccountButtonCommand}"
+            <Button Text="{x:Static strings:AppResources.UpdateAccountButtonText}" Command="{Binding UpdateAccountButtonCommand}"
                     Style="{StaticResource OutlineButton}" HorizontalOptions="End"
-                    IsVisible="{Binding IsMyAccount}" Margin="0,4,0,0"
+                    IsVisible="{Binding IsMyAccount}" Margin="0,4,0,0" 
                     SemanticProperties.Hint="{x:Static strings:AppResources.UpdateAccountButtonText}"
                     SemanticProperties.Description="{DynamicResource UpdateAccountButtonText}" />
 

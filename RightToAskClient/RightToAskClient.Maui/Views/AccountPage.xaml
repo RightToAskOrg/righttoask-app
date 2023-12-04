@@ -54,7 +54,7 @@
                             <Button Text="{Binding RegisterMPButtonText}"
                                     Command="{Binding ChooseMPToRegisterButtonCommand}"
                                     IsVisible="{Binding ShowRegisterMPButton}" Style="{StaticResource EditorProceed}"
-                                    HorizontalOptions="Start"
+                                    HorizontalOptions="Start" HeightRequest="80"
                                     SemanticProperties.Hint="{x:Static strings:AppResources.RegisterMPButtonHint}"
                                     SemanticProperties.Description="{Binding RegisterMPButtonText}"/>
                             <ImageButton Source="arrow_forward.png"

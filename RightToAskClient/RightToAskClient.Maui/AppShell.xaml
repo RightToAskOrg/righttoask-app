@@ -92,10 +92,10 @@
     <FlyoutItem Title="Account" FlyoutIcon="info_48.png">
         <ShellContent Route="Account" ContentTemplate="{DataTemplate local:AccountPage}" />
     </FlyoutItem>
-    <FlyoutItem Title="How To">
+    <FlyoutItem Title="How To" FlyoutIcon="edit_note_48.png">
         <ShellContent Route="HowToPublishPage" ContentTemplate="{DataTemplate local:HowToPublishPage}" />
     </FlyoutItem>
-    <FlyoutItem Title="About" FlyoutIcon="emu_75.png">
+    <FlyoutItem Title="About" FlyoutIcon="expand_48.png">
         <ShellContent Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />
     </FlyoutItem>
 

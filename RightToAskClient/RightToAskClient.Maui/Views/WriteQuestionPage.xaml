@@ -28,11 +28,11 @@
     <ContentPage.Content>
         <ScrollView VerticalScrollBarVisibility="Never">
             <StackLayout>
-                <StackLayout x:Name="QuestionsArea"
+                <StackLayout x:Name="QuestionsArea" HeightRequest="500"
                              VerticalOptions="Fill">
                     <RefreshView IsRefreshing="{Binding IsRefreshing}" VerticalOptions="FillAndExpand"
                                  Command="{Binding RefreshCommand}">
-                        <CollectionView x:Name="QuestionList"
+                        <CollectionView x:Name="QuestionList" 
                                         ItemsSource="{Binding QuestionsToDisplay}" SelectionMode="None"
                                         SelectedItem="{Binding SelectedQuestion}" VerticalOptions="FillAndExpand">
                             <CollectionView.Header>
@@ -54,8 +54,8 @@
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
                             <CollectionView.EmptyView>
-                                <StackLayout HorizontalOptions="FillAndExpand"
-                                             VerticalOptions="FillAndExpand"
+                                <StackLayout HorizontalOptions="StartAndExpand"
+                                             VerticalOptions="StartAndExpand"
                                              Orientation="Vertical">
                                     <BoxView VerticalOptions="StartAndExpand" Opacity="0" />
                                     <Image Source="{Binding EmptyViewIcon}"
@@ -101,7 +101,7 @@
                                                   Focused="KeywordEntry_FocusedChange"
                                                   Unfocused="KeywordEntry_FocusedChange"
                                                   TextChanged="KeywordEntry_OnTextChanged"
-                                                  
+                                                  HeightRequest="100"
                                                   SemanticProperties.Hint="{x:Static strings:AppResources.WriteQuestionEditorHint}"
                                                   SemanticProperties.Description="{x:Static strings:AppResources.WriteQuestionEditorDescription}"
                                                   Grid.Row="0"
@@ -125,7 +125,7 @@
                         </StackLayout>
                     </Grid>
 
-                    <FlexLayout AlignItems="Center" JustifyContent="SpaceBetween" Margin="16,0,16,12">
+                    <FlexLayout AlignItems="Center" JustifyContent="SpaceBetween" Margin="16,0,16,18" HeightRequest="25">
                         <Button Text="Return home"
                                 Style="{StaticResource EditorProceed}"
                                 Command="{Binding BackCommand}"

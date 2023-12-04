@@ -8,7 +8,7 @@
            x:Class="RightToAskClient.Maui.Views.Popups.OneButtonPopup"
            WidthRequest="300"
            HeightRequest="320"
-           BackgroundColor="Transparent">   
+           BackgroundColor="Transparent">
     <Frame CornerRadius="5" 
            VerticalOptions="FillAndExpand" 
            HorizontalOptions="FillAndExpand" 
@@ -16,12 +16,13 @@
            BackgroundColor="{AppThemeBinding Light={StaticResource WindowBackgroundColor}, Dark={StaticResource BackgroundDarkGray}}">
         <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent">
             <ScrollView VerticalOptions="FillAndExpand">
-                <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent">
+                <StackLayout  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent">
                     <Label x:Name="mainTitle" VerticalOptions="StartAndExpand" VerticalTextAlignment="Center"
                            HorizontalOptions="Center" HorizontalTextAlignment="Center"
+                           LineBreakMode="WordWrap" HeightRequest="100"
                            Style="{StaticResource PopupHeaderText}" />
-                    <Label x:Name="mainMessage" VerticalOptions="StartAndExpand"
-                       HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource PopupText}" />
+                    <Label HeightRequest="200" x:Name="mainMessage" VerticalOptions="StartAndExpand"
+                       HorizontalOptions="Center" LineBreakMode="WordWrap" HorizontalTextAlignment="Center" Style="{StaticResource PopupText}" />
                 </StackLayout>
             </ScrollView>
             <Grid x:Name="EmuAndButtonLayout"
@@ -38,12 +39,9 @@
                     <Image x:Name="EmuImage" Source="emu_tall.png"
                            WidthRequest="100" HeightRequest="100" Rotation="0" VerticalOptions="End"
                            BackgroundColor="Transparent" />
-                    <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
-                        <!--Acknowledge/Dismiss Button Bottom Right-->
-                        <Button x:Name="okButton" HorizontalOptions="Center" VerticalOptions="CenterAndExpand"
-                                Clicked="okButton_Clicked"
+                    <!--Acknowledge/Dismiss Button Bottom Right-->
+                    <Button Command="{Binding OkButtonCommand}" x:Name="okButton"  HorizontalOptions="End" VerticalOptions="CenterAndExpand"
                                 Style="{StaticResource PopupOKButton}" BackgroundColor="Transparent" />
-                    </StackLayout>
                 </StackLayout>
             </Grid>
         </StackLayout>

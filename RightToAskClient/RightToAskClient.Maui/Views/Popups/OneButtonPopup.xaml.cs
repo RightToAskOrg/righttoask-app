@@ -11,16 +11,22 @@ using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Layouts;
 using CommunityToolkit.Maui.Views;
+using CommunityToolkit.Mvvm.Input;
 
 namespace RightToAskClient.Maui.Views.Popups
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class OneButtonPopup : ContentPage
     {
+        public IAsyncRelayCommand OkButtonCommand { get; }
         public OneButtonPopup()
         {
-
+            OkButtonCommand = new AsyncRelayCommand(async () =>
+            {
+                await App.Current.MainPage.Navigation.PopModalAsync();
+            });
         }
+
         public OneButtonPopup(string message, string buttonText)
         {
             initialize("",message, buttonText, false);
@@ -39,11 +45,6 @@ namespace RightToAskClient.Maui.Views.Popups
         public OneButtonPopup(string title, string message, string buttonText, bool isInfoPopup)
         {
             initialize(title, message, buttonText, true);
-        }
-
-        private void okButton_Clicked(object sender, EventArgs e)
-        {
-            App.Current.MainPage.Navigation.PopModalAsync();
         }
 
         private void initialize(string title, string message, string buttonText, bool isInfoPopup)

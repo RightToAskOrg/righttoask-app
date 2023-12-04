@@ -148,6 +148,7 @@
                 <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Margin="16">
                     <Button Style="{StaticResource NormalButton}"
                             x:Name="DoneButton"
+                            HeightRequest="40"
                             Text="{x:Static strings:AppResources.SaveButtonText}"
                             Command="{Binding SaveMPsButtonCommand}"
                             IsEnabled="{Binding EnableFindMPsButton}" />

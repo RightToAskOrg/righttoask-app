@@ -239,7 +239,7 @@
        ApplyToDerivedTypes="True">
                 <Setter Property="TextColor"
             Value="{AppThemeBinding Light={StaticResource Purple}, Dark={StaticResource DarkModePurple}}" />
-                <Setter Property="FontSize" Value="14" />
+                <Setter Property="FontSize" Value="20" />
                 <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=White, Dark=Black}" />
             </Style>
             <Style x:Key="PopupCancelButton" BasedOn="{StaticResource PopupButton}" TargetType="Button"

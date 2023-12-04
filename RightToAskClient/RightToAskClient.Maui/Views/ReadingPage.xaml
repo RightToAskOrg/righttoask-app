@@ -14,12 +14,12 @@
              Title="{Binding Title}"
              x:DataType="vm:ReadingPageViewModel">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="{x:Static strings:AppResources.SearchButtonText}"
+        <!--<ToolbarItem Text="{x:Static strings:AppResources.SearchButtonText}"
                      IconImageSource="search_75.png"
-                     Clicked="MenuItem_OnClicked" />
-        <ToolbarItem Text="{x:Static strings:AppResources.InfoPopupButtonText}"
+                     Clicked="MenuItem_OnClicked" />-->
+        <!--<ToolbarItem Text="{x:Static strings:AppResources.InfoPopupButtonText}"
                      Command="{Binding InfoPopupCommand}" x:DataType="vm:BaseViewModel"
-                     IconImageSource="help_75.png" />
+                     IconImageSource="help_75.png" />-->
     </ContentPage.ToolbarItems>
     <ContentPage.BindingContext>
         <vm:ReadingPageViewModel />
