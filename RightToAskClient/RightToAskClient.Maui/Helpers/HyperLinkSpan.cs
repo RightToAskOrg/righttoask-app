@@ -1,5 +1,4 @@
-﻿using Android.Content.Res;
-using RightToAskClient.Maui.Resx;
+﻿using RightToAskClient.Maui.Resx;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace RightToAskClient.Maui.Helpers
 {
-    //https://learn.microsoft.com/en-us/dotnet/maui/user-interface/controls/label?view=net-maui-8.0#create-a-hyperlink
     public class HyperlinkSpan : Span
     {
         public static readonly BindableProperty UrlProperty =
