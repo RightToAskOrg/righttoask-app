@@ -12,10 +12,11 @@
     <ContentView.Content>
         <!-- <StackLayout> -->
         <Grid>
-            <StackLayout Style="{StaticResource AppThemeFrame}"
+            <StackLayout 
                          Padding="5"
                          VerticalOptions="FillAndExpand"
-                         IsVisible="{Binding Question.AlreadyReported, Converter={StaticResource Key=cnvInvert}}">
+                         IsVisible="{Binding Question.AlreadyReported, Converter={StaticResource Key=cnvInvert}}"
+                         Style="{DynamicResource AppThemeFrame}" >
                 <Grid ColumnDefinitions="2*,*,*" Padding="0" Margin="0"
                       BackgroundColor="Transparent" RowSpacing="0" ColumnSpacing="0">
                     <Grid.RowDefinitions>
@@ -26,14 +27,14 @@
                     <Grid ColumnDefinitions="*,auto" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
                         <Label Margin="16, 0, 16, 0" Grid.Row="0" Grid.Column="0"
                                Text="{Binding QuestionAnswerers, StringFormat='To: {0}'}"
-                               Style="{StaticResource QuestionFrameCardText}"
+                               Style="{DynamicResource QuestionFrameCardText}"
                                FontAttributes="Bold" />
                     </Grid>
                     <Label Margin="16, 0, 16, 0" Text="{Binding Question.QuestionText, Mode=OneWay}"
-                           Style="{StaticResource QuestionFrameCardText}" Grid.Row="1" Grid.Column="0"
+                           Style="{DynamicResource QuestionFrameCardText}" Grid.Row="1" Grid.Column="0"
                            Grid.ColumnSpan="3" />
                     <Button Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="3"
-                            Style="{StaticResource TransparentSquareButton}"
+                            Style="{DynamicResource TransparentSquareButton}"
                             Command="{Binding QuestionDetailsCommand}" BackgroundColor="Transparent" />
                     <!--UpVote Button-->
                     <FlexLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" AlignItems="Start"
@@ -49,7 +50,7 @@
                                 BackgroundColor="Transparent" Command="{Binding UpvoteCommand}"
                                 HorizontalOptions="Start"
                                 AutomationProperties.IsInAccessibleTree="True"
-                                AutomationProperties.Name="{StaticResource QuestionFrameThumbsUpAccessibilityName}"
+                                AutomationProperties.Name="{DynamicResource QuestionFrameThumbsUpAccessibilityName}"
                                 AutomationProperties.HelpText="{x:Static strings:AppResources.QuestionFrameThumbsUpAccessibilityText}">
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup Name="BrightenedStates">
@@ -69,7 +70,7 @@
                                 </VisualStateManager.VisualStateGroups>
                             </controls:ColorSingleToggleButton>
                             <Label Text="{Binding UpVotes, StringFormat='{0:F0}'}"
-                                   Style="{StaticResource QuestionButtonText}" Margin="0" Padding="0"
+                                   Style="{DynamicResource QuestionButtonText}" Margin="0" Padding="0"
                                    TextColor="{AppThemeBinding Light={StaticResource TextColorGray}, Dark=White}" />
                             <!-- Down-vote button -->
                             <controls:ColorSingleToggleButton
@@ -80,7 +81,7 @@
                                 HorizontalOptions="Start"
                                 IsBrightened="{Binding Question.AlreadyDownvoted}"
                                 AutomationProperties.IsInAccessibleTree="True"
-                                AutomationProperties.Name="{StaticResource QuestionFrameThumbsDownAccessibilityName}"
+                                AutomationProperties.Name="{DynamicResource QuestionFrameThumbsDownAccessibilityName}"
                                 AutomationProperties.HelpText="{x:Static strings:AppResources.QuestionFrameThumbsDownAccessibilityText}">
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup Name="BrightenedStates">
@@ -100,13 +101,13 @@
                                 </VisualStateManager.VisualStateGroups>
                             </controls:ColorSingleToggleButton>
                             <Label Text="{Binding DownVotes, StringFormat='{0:F0}'}"
-                                   Style="{StaticResource QuestionButtonText}"
+                                   Style="{DynamicResource QuestionButtonText}"
                                    Margin="0"
                                    Padding="0"
                                    TextColor="{AppThemeBinding Light={StaticResource TextColorGray}, Dark=White}" />
                             <!-- <Label Text="{x:Static strings:AppResources.UpvoteDisplayCardButtonText}" -->
-                            <!--        Style="{StaticResource QuestionButtonText}"  -->
-                            <!--        TextColor="{AppThemeBinding Light={StaticResource TextColorGray}, Dark=White}"/> -->
+                            <!--        Style="{DynamicResource QuestionButtonText}"  -->
+                            <!--        TextColor="{AppThemeBinding Light={DynamicResource TextColorGray}, Dark=White}"/> -->
                         </StackLayout>
                         <!--Share Button-->
                         <!-- TODO: Commented until better times
@@ -115,25 +116,25 @@
                                          Padding="5" Command="{Binding ShareCommand}" BackgroundColor="Transparent"
                                          xct:IconTintColorEffect.TintColor="Gray"
                                          AutomationProperties.IsInAccessibleTree="True"
-                                         AutomationProperties.Name="{StaticResource QuestionFrameShareButtonAccessibilityName}"
+                                         AutomationProperties.Name="{DynamicResource QuestionFrameShareButtonAccessibilityName}"
                                          AutomationProperties.HelpText="{x:Static strings:AppResources.QuestionFrameShareButtonAccessibilityText}" />
-                            <Label Text="Share" Style="{StaticResource QuestionButtonText}" />
+                            <Label Text="Share" Style="{DynamicResource QuestionButtonText}" />
                         </StackLayout>
                         -->
                         <!--Answer/Has an Answer Buttons-->
                         <!-- TODO: We will still need a 'has answer' indicator and a 'write an answer' button (for MPs), but do UI design first.
                     <StackLayout Orientation="Horizontal" Grid.Row="2" Grid.Column="2">
                         <ImageButton Source="account_balance_48.png" 
-                                 Padding="5" BackgroundColor="Transparent" IsVisible="{Binding Question.HasAnswer, Converter={StaticResource Key=cnvInvert}}"
+                                 Padding="5" BackgroundColor="Transparent" IsVisible="{Binding Question.HasAnswer, Converter={DynamicResource Key=cnvInvert}}"
                                  xct:IconTintColorEffect.TintColor="Gray"
-                                 AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{StaticResource QuestionFrameAnswerButtonAccessibilityName}"
+                                 AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{DynamicResource QuestionFrameAnswerButtonAccessibilityName}"
                                  AutomationProperties.HelpText="{x:Static strings:AppResources.QuestionFrameAnswerButtonAccessibilityText}"/>
                         <ImageButton Source="assured_workload_48.png" 
                                  Padding="5" BackgroundColor="Transparent" IsVisible="{Binding Question.HasAnswer}"
-                                 xct:IconTintColorEffect.TintColor="{StaticResource ButtonColor}"
-                                 AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{StaticResource QuestionFrameShareButtonAccessibilityName}"
+                                 xct:IconTintColorEffect.TintColor="{DynamicResource ButtonColor}"
+                                 AutomationProperties.IsInAccessibleTree="True" AutomationProperties.Name="{DynamicResource QuestionFrameShareButtonAccessibilityName}"
                                  AutomationProperties.HelpText="{x:Static strings:AppResources.QuestionFrameAnswerButtonAccessibilityText}"/>
-                        <Label Text="Answer" Style="{StaticResource QuestionButtonText}"/>
+                        <Label Text="Answer" Style="{DynamicResource QuestionButtonText}"/>
                     </StackLayout>
                     -->
                         <!--Report/Flag Button-->
@@ -147,16 +148,16 @@
                                 Command="{Binding ReportCommand}"
                                 BackgroundColor="Transparent"
                                 AutomationProperties.IsInAccessibleTree="True"
-                                AutomationProperties.Name="{StaticResource QuestionFrameFlagButtonAccessibilityName}"
+                                AutomationProperties.Name="{DynamicResource QuestionFrameFlagButtonAccessibilityName}"
                                 AutomationProperties.HelpText="{x:Static strings:AppResources.QuestionFrameFlagButtonAccessibilityTextRed}" />
                             <Label Text="{x:Static strings:AppResources.ReportDisplayCardButtonText}"
-                                   Style="{StaticResource QuestionButtonText}"
+                                   Style="{DynamicResource QuestionButtonText}"
                                    TextColor="{AppThemeBinding Light={StaticResource TextColorGray}, Dark=White}" />
                         </StackLayout>
                     </FlexLayout>
 
                 </Grid>
-                <BoxView Style="{StaticResource Separator}" Margin="0,6,0,0" />
+                <BoxView Style="{DynamicResource Separator}" Margin="0,6,0,0" />
             </StackLayout>
             <!-- </StackLayout> -->
             <StackLayout BackgroundColor="{AppThemeBinding Light=White, Dark=Black}"
@@ -181,7 +182,7 @@
                            HorizontalOptions="CenterAndExpand"
                            VerticalOptions="Center" />
                 </StackLayout>
-                <BoxView Style="{StaticResource Separator}"
+                <BoxView Style="{DynamicResource Separator}"
                          VerticalOptions="End" />
             </StackLayout>
         </Grid>
